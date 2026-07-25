@@ -47,24 +47,26 @@ const megaGroups = [
         { to: "/reviews", label: "Reviews" },
         { to: "/top-lists", label: "Top Lists" },
         { to: "/editorial", label: "Editorial" },
+        { to: "/authors", label: "Our Writers" },
       ]},
       { title: "Guides", links: [
         { to: "/guides", label: "All Guides" },
-        { to: "/guides/beginner", label: "Beginner's Guide" },
+        { to: "/article/beginner-guide-modern-shonen", label: "Beginner's Guide to Shonen" },
         { to: "/watch-order", label: "Watch Order" },
         { to: "/timeline", label: "Anime Timeline" },
         { to: "/recommendations", label: "Recommendations" },
       ]},
-      { title: "Culture", links: [
+      { title: "Must-read deep dives", links: [
+        { to: "/article/why-frieren-won-2024", label: "Why Frieren Won the Year" },
+        { to: "/article/review-jujutsu-kaisen-s2", label: "Jujutsu Kaisen S2 Review" },
+        { to: "/article/one-piece-wano-recap", label: "The Complete Wano Recap" },
+        { to: "/article/top-10-anime-2026", label: "10 Best Anime Right Now" },
         { to: "/quotes", label: "Quotes" },
-        { to: "/facts", label: "Facts" },
         { to: "/soundtracks", label: "Soundtracks" },
-        { to: "/openings", label: "Openings" },
-        { to: "/wallpapers", label: "Wallpapers" },
-        { to: "/events", label: "Events & Cons" },
       ]},
     ],
   },
+
   {
     label: "Studios",
     icon: Building2,

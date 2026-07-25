@@ -45,7 +45,7 @@ function CharacterPage() {
               <p className="mt-2 text-lg text-muted-foreground">{c.role}</p>
               <p className="mt-4 leading-relaxed">{c.bio}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {c.personality.map(p => <span key={p} className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs text-accent">{p}</span>)}
+                {c.personality.map((p: string) => <span key={p} className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs text-accent">{p}</span>)}
               </div>
             </div>
           </div>
@@ -56,13 +56,13 @@ function CharacterPage() {
         <Block title="Powers & abilities"><p className="leading-relaxed">{c.power}</p></Block>
         <Block title="Arcs featured">
           <ul className="grid gap-2 sm:grid-cols-2">
-            {c.arcs.map(a => (<li key={a} className="rounded-lg border border-border/60 bg-card/50 p-3">{a}</li>))}
+            {c.arcs.map((a: string) => (<li key={a} className="rounded-lg border border-border/60 bg-card/50 p-3">{a}</li>))}
           </ul>
         </Block>
         {c.quotes.length > 0 && (
           <Block title="Iconic quotes">
             <div className="space-y-3">
-              {c.quotes.map((q,i)=>(<blockquote key={i} className="border-l-2 pl-4 py-1 italic text-lg" style={{ borderColor: c.accent }}>"{q}"</blockquote>))}
+              {c.quotes.map((q: string, i: number) =>(<blockquote key={i} className="border-l-2 pl-4 py-1 italic text-lg" style={{ borderColor: c.accent }}>"{q}"</blockquote>))}
             </div>
           </Block>
         )}

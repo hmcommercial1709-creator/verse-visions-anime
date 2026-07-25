@@ -66,7 +66,7 @@ function ArticlePage() {
         </div>
 
         <div className="prose prose-invert max-w-none mt-8 space-y-6 text-lg leading-relaxed">
-          {a.body.map((p, i) => (<p key={i}>{p}</p>))}
+          {a.body.map((p: string, i: number) => (<p key={i}>{p}</p>))}
         </div>
 
         <AdSlot placement="inline" />

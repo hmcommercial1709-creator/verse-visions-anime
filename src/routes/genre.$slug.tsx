@@ -51,7 +51,7 @@ function GenrePage() {
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
         <div className="my-8 flex flex-wrap gap-2">
-          {genre.hallmarks.map(h => (
+          {genre.hallmarks.map((h: string) => (
             <span key={h} className="rounded-full border border-border bg-card/50 px-4 py-1.5 text-sm">{h}</span>
           ))}
         </div>

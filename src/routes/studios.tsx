@@ -1,0 +1,34 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { studios } from "@/data/studios";
+import { Breadcrumbs } from "@/components/ui-bits";
+
+export const Route = createFileRoute("/studios")({
+  head: () => ({
+    meta: [
+      { title: "Anime Studios — The Studios Behind the Medium · AnimeVerse" },
+      { name: "description", content: "MAPPA, ufotable, Madhouse, Bones, Toei, Pierrot — the studios shaping modern anime." },
+      { property: "og:title", content: "Anime Studios · AnimeVerse" },
+      { property: "og:description", content: "Every major studio, profiled." },
+    ],
+    links: [{ rel: "canonical", href: "/studios" }],
+  }),
+  component: () => (
+    <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">
+      <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Studios" }]} />
+      <h1 className="font-display text-5xl font-bold">Anime studios</h1>
+      <p className="mt-3 max-w-2xl text-lg text-muted-foreground">The names on the credit reel. The teams doing the actual work.</p>
+      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {studios.map(s => (
+          <Link key={s.slug} to="/studio/$slug" params={{ slug: s.slug }} className="rounded-2xl border border-border/60 p-6 hover:border-primary/60 card-hover hover:!card-hover-active"
+            style={{ background: `linear-gradient(135deg, ${s.accent}18, transparent 70%)` }}>
+            <div className="flex items-center justify-between">
+              <div className="font-display text-2xl font-bold">{s.name}</div>
+              <div className="text-xs text-muted-foreground">est. {s.founded}</div>
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">{s.blurb}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  ),
+});

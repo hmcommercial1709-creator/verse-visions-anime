@@ -4,9 +4,16 @@ import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { articles } from "@/data/articles";
 import { AnimeCard, AnimePoster } from "@/components/anime-card";
-import { AdSlot } from "@/components/ad-slot";
+import { AdSlot, HeaderBannerAd, StickySidebarAd } from "@/components/ad-slot";
 import { Section, StatPill } from "@/components/ui-bits";
-import { Sparkles, TrendingUp, Flame, Star, ArrowRight, Play, Clock, Award } from "lucide-react";
+import { HeroSlider } from "@/components/hero-slider";
+import { FranchiseHubs } from "@/components/franchise-hubs";
+import { EngagementWidget } from "@/components/engagement-poll";
+import { LatestEpisodesSection } from "@/components/episode-streaming";
+import { InfiniteArticleFeed } from "@/components/article-feed";
+import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
+
+const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,54 +29,48 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const featured = animes.find(a => a.slug === "frieren") ?? animes[0];
+  const featuredArticles = articles.slice(0, 4);
+  const hubs = HUB_SLUGS.map((s) => animes.find((a) => a.slug === s)).filter((a): a is (typeof animes)[number] => Boolean(a));
+  const streamingPicks = animes.filter((a) => a.status === "Ongoing").slice(0, 5);
   const trending = animes.slice(0, 6);
-  const newReleases = animes.filter(a => a.year >= 2022);
-  const classics = animes.filter(a => a.year < 2015);
-  const editorPicks = articles.slice(0, 3);
-  const topRated = [...animes].sort((a,b) => b.rating - a.rating).slice(0, 8);
+  const newReleases = animes.filter((a) => a.year >= 2022);
+  const classics = animes.filter((a) => a.year < 2015);
+  const topRated = [...animes].sort((a, b) => b.rating - a.rating).slice(0, 8);
 
   return (
     <div>
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0" style={{ background: featured.cover }}>
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0),rgba(0,0,0,.6))]" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 lg:px-6 pt-16 pb-24 lg:pt-24 lg:pb-32">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-primary mb-4">
-            <Sparkles className="h-3 w-3" /> Editor's Featured
-          </div>
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight max-w-4xl leading-[1.02]">
-            {featured.title}
-            <span className="block text-gradient mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold">
-              {featured.tagline}
-            </span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-foreground/85 leading-relaxed">
-            {featured.synopsis}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/anime/$slug" params={{ slug: featured.slug }} className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 font-semibold text-primary-foreground glow-primary hover:brightness-110">
-              <Play className="h-4 w-4" /> Read the deep-dive
-            </Link>
-            <Link to="/browse" className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/40 backdrop-blur px-5 py-3 font-medium hover:bg-secondary">
-              Browse the library <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+      <HeaderBannerAd />
 
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
-            <StatPill label="Series covered" value="120+" />
-            <StatPill label="Genres" value={String(genres.length)} />
-            <StatPill label="Studios" value={String(studios.length)} />
-            <StatPill label="Editors" value="5" />
-          </div>
-        </div>
-      </section>
+      <HeroSlider items={featuredArticles} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <AdSlot placement="top" label="Leaderboard · 970×90" />
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <StatPill label="Series covered" value={`${animes.length}+`} />
+          <StatPill label="Genres" value={String(genres.length)} />
+          <StatPill label="Studios" value={String(studios.length)} />
+          <StatPill label="Long reads" value={String(articles.length)} />
+        </div>
+
+        {/* FRANCHISE HUBS */}
+        <Section
+          eyebrow="Franchise hubs"
+          title="Deep coverage, one series at a time"
+          subtitle="Lore, power scaling, watch orders, and episode reviews — switch tabs without leaving the page."
+          action={<Link to="/browse" className="text-sm text-primary hover:underline flex items-center gap-1">All franchises <ArrowRight className="h-3 w-3" /></Link>}
+        >
+          <FranchiseHubs items={hubs} />
+        </Section>
+
+        {/* LATEST EPISODES + STREAMING */}
+        <Section
+          eyebrow="Currently airing"
+          title="Latest episodes & where to watch"
+          subtitle="Pick a series, jump to an episode recap, and switch between official streaming platforms."
+        >
+          <LatestEpisodesSection items={streamingPicks} />
+        </Section>
+
+        <AdSlot placement="between" label="Native · Sponsored" />
 
         {/* TRENDING NOW */}
         <Section
@@ -81,6 +82,15 @@ function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {trending.map((a) => <AnimeCard key={a.slug} anime={a} size="md" />)}
           </div>
+        </Section>
+
+        {/* ENGAGEMENT */}
+        <Section
+          eyebrow="Join in"
+          title="Vote, argue, find your sorcerer"
+          subtitle="Two quick interactions our readers keep coming back for."
+        >
+          <EngagementWidget />
         </Section>
 
         {/* GENRE MOSAIC */}
@@ -104,8 +114,6 @@ function Home() {
           </div>
         </Section>
 
-        <AdSlot placement="between" label="Native · Sponsored" />
-
         {/* TOP RATED */}
         <Section
           eyebrow="Reader-rated"
@@ -117,22 +125,16 @@ function Home() {
           </div>
         </Section>
 
-        {/* EDITORIAL */}
-        <Section eyebrow="Editorial" title="From the writers' room" subtitle="Reviews, essays, and guides that go past the first episode." action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">All editorial <ArrowRight className="h-3 w-3" /></Link>}>
-          <div className="grid gap-6 md:grid-cols-3">
-            {editorPicks.map((a) => (
-              <Link key={a.slug} to="/article/$slug" params={{ slug: a.slug }} className="group rounded-2xl overflow-hidden border border-border/60 bg-card/40 card-hover hover:!card-hover-active">
-                <div className="h-40" style={{ background: a.cover }} />
-                <div className="p-5">
-                  <div className="text-[10px] uppercase tracking-[0.22em] text-primary font-semibold">{a.tag}</div>
-                  <h3 className="mt-2 font-display text-xl font-bold group-hover:text-gradient">{a.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{a.excerpt}</p>
-                  <div className="mt-4 text-xs text-muted-foreground flex items-center gap-2">
-                    <Clock className="h-3 w-3" /> {a.date}
-                  </div>
-                </div>
-              </Link>
-            ))}
+        {/* EDITORIAL FEED — infinite scroll */}
+        <Section
+          eyebrow="Editorial"
+          title="From the writers' room"
+          subtitle="Reviews, essays, and guides that go past the first episode — keep scrolling for more."
+          action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">All editorial <ArrowRight className="h-3 w-3" /></Link>}
+        >
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+            <InfiniteArticleFeed items={articles} />
+            <StickySidebarAd />
           </div>
         </Section>
 

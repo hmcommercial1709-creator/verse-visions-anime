@@ -1,6 +1,19 @@
-type Placement = "top" | "hero" | "inline" | "between" | "sidebar" | "footer" | "sticky-mobile" | "native" | "video" | "affiliate";
+import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
-// Reusable, clean ad placeholders. Wire real ad code into `data-slot`.
+type Placement =
+  | "top"
+  | "hero"
+  | "inline"
+  | "between"
+  | "sidebar"
+  | "footer"
+  | "sticky-mobile"
+  | "native"
+  | "video"
+  | "affiliate";
+
+// Reusable, clean ad placeholders. Wire real ad code into `data-ad-slot`.
 export function AdSlot({ placement = "inline", label }: { placement?: Placement; label?: string }) {
   const heights: Record<Placement, string> = {
     top: "h-24",
@@ -25,7 +38,103 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
   );
 }
 
-export function AffiliateBox({ title, subtitle, price, cta = "View Deal" }: { title: string; subtitle: string; price?: string; cta?: string }) {
+/** Responsive header leaderboard that sits directly under the sticky nav. */
+export function HeaderBannerAd() {
+  return (
+    <div className="sticky top-[68px] z-30 border-y border-border/50 bg-background/85 backdrop-blur-md">
+      <div className="mx-auto max-w-7xl px-4 py-2 lg:px-6">
+        <div
+          data-ad-slot="header-banner"
+          aria-label="advertisement"
+          className="grid h-16 w-full place-items-center rounded-lg border border-dashed border-border/70 bg-secondary/25 text-[10px] uppercase tracking-[0.24em] text-muted-foreground/70 sm:h-[90px]"
+        >
+          Header Banner · 728×90 / 320×50
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** In-article native unit, designed to read as part of the flow. */
+export function InArticleAd({ index = 1 }: { index?: number }) {
+  return (
+    <aside
+      data-ad-slot="in-article"
+      aria-label="advertisement"
+      className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+    >
+      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+        <span>Sponsored</span>
+        <span className="font-mono opacity-60">slot {index}</span>
+      </div>
+      <div className="grid h-32 place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground/60">
+        Native In-Article Unit
+      </div>
+    </aside>
+  );
+}
+
+/** Desktop sidebar unit that stays in view while the reader scrolls. */
+export function StickySidebarAd({ label = "Sidebar · 300×600" }: { label?: string }) {
+  return (
+    <div className="sticky top-28 hidden lg:block">
+      <div
+        data-ad-slot="sticky-sidebar"
+        aria-label="advertisement"
+        className="grid h-[600px] w-full place-items-center rounded-2xl border border-dashed border-border/70 bg-secondary/25 text-[10px] uppercase tracking-[0.24em] text-muted-foreground/70"
+      >
+        {label}
+      </div>
+    </div>
+  );
+}
+
+/** Mobile-only bottom anchor banner with a dismiss control. */
+export function MobileAnchorAd() {
+  const [closed, setClosed] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setReady(true), 600);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  if (closed || !ready) return null;
+
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 lg:hidden">
+      <div className="relative border-t border-border/60 bg-background/95 backdrop-blur-md px-3 pb-[env(safe-area-inset-bottom)] pt-2">
+        <button
+          type="button"
+          onClick={() => setClosed(true)}
+          aria-label="Close advertisement"
+          className="absolute -top-3 right-3 grid h-7 w-7 place-items-center rounded-full border border-border bg-card text-muted-foreground shadow-lg"
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
+        <div
+          data-ad-slot="mobile-anchor"
+          aria-label="advertisement"
+          className="grid h-12 w-full place-items-center rounded-lg border border-dashed border-border/70 bg-secondary/30 text-[10px] uppercase tracking-[0.24em] text-muted-foreground/70"
+        >
+          Anchor Banner · 320×50
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function AffiliateBox({
+  title,
+  subtitle,
+  price,
+  cta = "View Deal",
+}: {
+  title: string;
+  subtitle: string;
+  price?: string;
+  cta?: string;
+}) {
   return (
     <div className="rounded-xl border border-border bg-card p-4">
       <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Affiliate</div>

@@ -3,6 +3,8 @@ import { getCharacter, characters } from "@/data/characters";
 import { getAnime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
+import { recommendCharacters, characterAnimeRecs } from "@/lib/recommendations";
+import { AnimeRecRail, CharacterRecRail } from "@/components/recommendations";
 
 export const Route = createFileRoute("/character/$slug")({
   loader: ({ params }) => {
@@ -30,6 +32,8 @@ function CharacterPage() {
   const { character: c } = Route.useLoaderData();
   const anime = getAnime(c.anime);
   const related = characters.filter(x => x.anime === c.anime && x.slug !== c.slug);
+  const charRecs = recommendCharacters(c.slug, 4);
+  const animeRecs = characterAnimeRecs(c.slug, 4);
 
   return (
     <div>
@@ -79,6 +83,16 @@ function CharacterPage() {
             </div>
           </Block>
         )}
+        <CharacterRecRail
+          items={charRecs}
+          eyebrow="You might also like"
+          title={`Characters with ${c.name}'s energy`}
+        />
+        <AnimeRecRail
+          items={animeRecs}
+          eyebrow="Continue exploring"
+          title={anime ? `If you liked ${anime.title}` : "You might enjoy"}
+        />
       </div>
     </div>
   );

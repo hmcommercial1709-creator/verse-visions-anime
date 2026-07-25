@@ -4,6 +4,8 @@ import { getAnime } from "@/data/animes";
 import type { Anime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
+import { recommendAnime } from "@/lib/recommendations";
+import { AnimeRecRail } from "@/components/recommendations";
 import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/anime/$slug/episode/$num")({
@@ -52,6 +54,7 @@ function EpisodePage() {
   const idx = siblings.findIndex((s) => s.number === ep.number);
   const prev = idx > 0 ? siblings[idx - 1] : null;
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+  const animeRecs = recommendAnime(anime.slug, 4);
 
   return (
     <article>
@@ -196,6 +199,12 @@ function EpisodePage() {
             </Link>
           ) : <div />}
         </div>
+
+        <AnimeRecRail
+          items={animeRecs}
+          eyebrow="Continue exploring"
+          title={`If ${anime.title} is your lane…`}
+        />
       </div>
     </article>
   );

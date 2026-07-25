@@ -56,6 +56,7 @@ function AnimeDetail() {
   const studio = getStudio(anime.studio);
   const eps = episodesFor(anime.slug);
   const similar = anime.similar.map((s: string) => animes.find(a => a.slug === s)).filter(Boolean) as typeof animes;
+  const alsoEnjoyed = recommendAnime(anime.slug, 4).filter((a) => !anime.similar.includes(a.slug));
 
   return (
     <article>

@@ -199,6 +199,12 @@ function EpisodePage() {
             </Link>
           ) : <div />}
         </div>
+
+        <AnimeRecRail
+          items={animeRecs}
+          eyebrow="Continue exploring"
+          title={`If ${anime.title} is your lane…`}
+        />
       </div>
     </article>
   );

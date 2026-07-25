@@ -54,6 +54,7 @@ import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
+import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime.$slug.episode.$num'
 
 const WatchOrderRoute = WatchOrderRouteImport.update({
   id: '/watch-order',
@@ -280,6 +281,11 @@ const AnimeSlugRoute = AnimeSlugRouteImport.update({
   path: '/anime/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
+  id: '/episode/$num',
+  path: '/episode/$num',
+  getParentRoute: () => AnimeSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -322,11 +328,12 @@ export interface FileRoutesByFullPath {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
-  '/anime/$slug': typeof AnimeSlugRoute
+  '/anime/$slug': typeof AnimeSlugRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
+  '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -369,11 +376,12 @@ export interface FileRoutesByTo {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
-  '/anime/$slug': typeof AnimeSlugRoute
+  '/anime/$slug': typeof AnimeSlugRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
+  '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -417,11 +425,12 @@ export interface FileRoutesById {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
-  '/anime/$slug': typeof AnimeSlugRoute
+  '/anime/$slug': typeof AnimeSlugRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
+  '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -471,6 +480,7 @@ export interface FileRouteTypes {
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
+    | '/anime/$slug/episode/$num'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -518,6 +528,7 @@ export interface FileRouteTypes {
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
+    | '/anime/$slug/episode/$num'
   id:
     | '__root__'
     | '/'
@@ -565,6 +576,7 @@ export interface FileRouteTypes {
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
+    | '/anime/$slug/episode/$num'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -608,7 +620,7 @@ export interface RootRouteChildren {
   UpcomingRoute: typeof UpcomingRoute
   WallpapersRoute: typeof WallpapersRoute
   WatchOrderRoute: typeof WatchOrderRoute
-  AnimeSlugRoute: typeof AnimeSlugRoute
+  AnimeSlugRoute: typeof AnimeSlugRouteWithChildren
   ArticleSlugRoute: typeof ArticleSlugRoute
   CharacterSlugRoute: typeof CharacterSlugRoute
   GenreSlugRoute: typeof GenreSlugRoute
@@ -932,8 +944,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnimeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anime/$slug/episode/$num': {
+      id: '/anime/$slug/episode/$num'
+      path: '/episode/$num'
+      fullPath: '/anime/$slug/episode/$num'
+      preLoaderRoute: typeof AnimeSlugEpisodeNumRouteImport
+      parentRoute: typeof AnimeSlugRoute
+    }
   }
 }
+
+interface AnimeSlugRouteChildren {
+  AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
+}
+
+const AnimeSlugRouteChildren: AnimeSlugRouteChildren = {
+  AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,
+}
+
+const AnimeSlugRouteWithChildren = AnimeSlugRoute._addFileChildren(
+  AnimeSlugRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -976,7 +1007,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpcomingRoute: UpcomingRoute,
   WallpapersRoute: WallpapersRoute,
   WatchOrderRoute: WatchOrderRoute,
-  AnimeSlugRoute: AnimeSlugRoute,
+  AnimeSlugRoute: AnimeSlugRouteWithChildren,
   ArticleSlugRoute: ArticleSlugRoute,
   CharacterSlugRoute: CharacterSlugRoute,
   GenreSlugRoute: GenreSlugRoute,
@@ -985,13 +1016,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

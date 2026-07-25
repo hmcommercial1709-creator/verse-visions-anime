@@ -125,7 +125,7 @@ export function SiteHeader() {
               <div className="font-display text-lg font-bold tracking-tight">
                 Anime<span className="text-gradient">Verse</span>
               </div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">est. 2016</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">The anime authority</div>
             </div>
           </Link>
 

@@ -16,22 +16,30 @@ import { Route as TrendingRouteImport } from './routes/trending'
 import { Route as TopListsRouteImport } from './routes/top-lists'
 import { Route as TopRouteImport } from './routes/top'
 import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudiosRouteImport } from './routes/studios'
 import { Route as StreamingRouteImport } from './routes/streaming'
 import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as SoundtracksRouteImport } from './routes/soundtracks'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as OpeningsRouteImport } from './routes/openings'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as NewReleasesRouteImport } from './routes/new-releases'
 import { Route as MerchRouteImport } from './routes/merch'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as GenresRouteImport } from './routes/genres'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FactsRouteImport } from './routes/facts'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as EditorialRouteImport } from './routes/editorial'
+import { Route as DmcaRouteImport } from './routes/dmca'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CompletedRouteImport } from './routes/completed'
 import { Route as ClassicRouteImport } from './routes/classic'
@@ -82,6 +90,11 @@ const TimelineRoute = TimelineRouteImport.update({
   path: '/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudiosRoute = StudiosRouteImport.update({
   id: '/studios',
   path: '/studios',
@@ -102,6 +115,16 @@ const SoundtracksRoute = SoundtracksRouteImport.update({
   path: '/soundtracks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapPageRoute = SitemapPageRouteImport.update({
+  id: '/sitemap-page',
+  path: '/sitemap-page',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
@@ -115,6 +138,11 @@ const RecommendationsRoute = RecommendationsRouteImport.update({
 const QuotesRoute = QuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpeningsRoute = OpeningsRouteImport.update({
@@ -147,6 +175,11 @@ const GenresRoute = GenresRouteImport.update({
   path: '/genres',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FactsRoute = FactsRouteImport.update({
   id: '/facts',
   path: '/facts',
@@ -157,9 +190,24 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
+  id: '/editorial-policy',
+  path: '/editorial-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EditorialRoute = EditorialRouteImport.update({
   id: '/editorial',
   path: '/editorial',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DmcaRoute = DmcaRouteImport.update({
+  id: '/dmca',
+  path: '/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -243,22 +291,30 @@ export interface FileRoutesByFullPath {
   '/classic': typeof ClassicRoute
   '/completed': typeof CompletedRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/dmca': typeof DmcaRoute
   '/editorial': typeof EditorialRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
   '/facts': typeof FactsRoute
+  '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/privacy': typeof PrivacyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/sitemap-page': typeof SitemapPageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
+  '/terms': typeof TermsRoute
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
@@ -282,22 +338,30 @@ export interface FileRoutesByTo {
   '/classic': typeof ClassicRoute
   '/completed': typeof CompletedRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/dmca': typeof DmcaRoute
   '/editorial': typeof EditorialRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
   '/facts': typeof FactsRoute
+  '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/privacy': typeof PrivacyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/sitemap-page': typeof SitemapPageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
+  '/terms': typeof TermsRoute
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
@@ -322,22 +386,30 @@ export interface FileRoutesById {
   '/classic': typeof ClassicRoute
   '/completed': typeof CompletedRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/dmca': typeof DmcaRoute
   '/editorial': typeof EditorialRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
   '/facts': typeof FactsRoute
+  '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/privacy': typeof PrivacyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/sitemap-page': typeof SitemapPageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
+  '/terms': typeof TermsRoute
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
@@ -363,22 +435,30 @@ export interface FileRouteTypes {
     | '/classic'
     | '/completed'
     | '/contact'
+    | '/cookies'
+    | '/dmca'
     | '/editorial'
+    | '/editorial-policy'
     | '/events'
     | '/facts'
+    | '/faq'
     | '/genres'
     | '/guides'
     | '/merch'
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/privacy'
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/sitemap-page'
+    | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
     | '/streaming'
     | '/studios'
+    | '/terms'
     | '/timeline'
     | '/top'
     | '/top-lists'
@@ -402,22 +482,30 @@ export interface FileRouteTypes {
     | '/classic'
     | '/completed'
     | '/contact'
+    | '/cookies'
+    | '/dmca'
     | '/editorial'
+    | '/editorial-policy'
     | '/events'
     | '/facts'
+    | '/faq'
     | '/genres'
     | '/guides'
     | '/merch'
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/privacy'
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/sitemap-page'
+    | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
     | '/streaming'
     | '/studios'
+    | '/terms'
     | '/timeline'
     | '/top'
     | '/top-lists'
@@ -441,22 +529,30 @@ export interface FileRouteTypes {
     | '/classic'
     | '/completed'
     | '/contact'
+    | '/cookies'
+    | '/dmca'
     | '/editorial'
+    | '/editorial-policy'
     | '/events'
     | '/facts'
+    | '/faq'
     | '/genres'
     | '/guides'
     | '/merch'
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/privacy'
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/sitemap-page'
+    | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
     | '/streaming'
     | '/studios'
+    | '/terms'
     | '/timeline'
     | '/top'
     | '/top-lists'
@@ -481,22 +577,30 @@ export interface RootRouteChildren {
   ClassicRoute: typeof ClassicRoute
   CompletedRoute: typeof CompletedRoute
   ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
+  DmcaRoute: typeof DmcaRoute
   EditorialRoute: typeof EditorialRoute
+  EditorialPolicyRoute: typeof EditorialPolicyRoute
   EventsRoute: typeof EventsRoute
   FactsRoute: typeof FactsRoute
+  FaqRoute: typeof FaqRoute
   GenresRoute: typeof GenresRoute
   GuidesRoute: typeof GuidesRoute
   MerchRoute: typeof MerchRoute
   NewReleasesRoute: typeof NewReleasesRoute
   NewsRoute: typeof NewsRoute
   OpeningsRoute: typeof OpeningsRoute
+  PrivacyRoute: typeof PrivacyRoute
   QuotesRoute: typeof QuotesRoute
   RecommendationsRoute: typeof RecommendationsRoute
   ReviewsRoute: typeof ReviewsRoute
+  SitemapPageRoute: typeof SitemapPageRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
   StatisticsRoute: typeof StatisticsRoute
   StreamingRoute: typeof StreamingRoute
   StudiosRoute: typeof StudiosRoute
+  TermsRoute: typeof TermsRoute
   TimelineRoute: typeof TimelineRoute
   TopRoute: typeof TopRoute
   TopListsRoute: typeof TopListsRoute
@@ -562,6 +666,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimelineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/studios': {
       id: '/studios'
       path: '/studios'
@@ -590,6 +701,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SoundtracksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-page': {
+      id: '/sitemap-page'
+      path: '/sitemap-page'
+      fullPath: '/sitemap-page'
+      preLoaderRoute: typeof SitemapPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reviews': {
       id: '/reviews'
       path: '/reviews'
@@ -609,6 +734,13 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/quotes'
       preLoaderRoute: typeof QuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/openings': {
@@ -653,6 +785,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GenresRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/facts': {
       id: '/facts'
       path: '/facts'
@@ -667,11 +806,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/editorial-policy': {
+      id: '/editorial-policy'
+      path: '/editorial-policy'
+      fullPath: '/editorial-policy'
+      preLoaderRoute: typeof EditorialPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/editorial': {
       id: '/editorial'
       path: '/editorial'
       fullPath: '/editorial'
       preLoaderRoute: typeof EditorialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dmca': {
+      id: '/dmca'
+      path: '/dmca'
+      fullPath: '/dmca'
+      preLoaderRoute: typeof DmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -785,22 +945,30 @@ const rootRouteChildren: RootRouteChildren = {
   ClassicRoute: ClassicRoute,
   CompletedRoute: CompletedRoute,
   ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
+  DmcaRoute: DmcaRoute,
   EditorialRoute: EditorialRoute,
+  EditorialPolicyRoute: EditorialPolicyRoute,
   EventsRoute: EventsRoute,
   FactsRoute: FactsRoute,
+  FaqRoute: FaqRoute,
   GenresRoute: GenresRoute,
   GuidesRoute: GuidesRoute,
   MerchRoute: MerchRoute,
   NewReleasesRoute: NewReleasesRoute,
   NewsRoute: NewsRoute,
   OpeningsRoute: OpeningsRoute,
+  PrivacyRoute: PrivacyRoute,
   QuotesRoute: QuotesRoute,
   RecommendationsRoute: RecommendationsRoute,
   ReviewsRoute: ReviewsRoute,
+  SitemapPageRoute: SitemapPageRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,
   StatisticsRoute: StatisticsRoute,
   StreamingRoute: StreamingRoute,
   StudiosRoute: StudiosRoute,
+  TermsRoute: TermsRoute,
   TimelineRoute: TimelineRoute,
   TopRoute: TopRoute,
   TopListsRoute: TopListsRoute,
@@ -817,3 +985,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

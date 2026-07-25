@@ -43,8 +43,9 @@ export type WithMeta<T> = T & {
   imageAttribution?: string;
 };
 
-export function isPublished<T extends { publicationStatus?: PublicationStatus }>(item: T): boolean {
-  return (item.publicationStatus ?? "published") === "published";
+export function isPublished(item: { publicationStatus?: PublicationStatus } | Record<string, unknown>): boolean {
+  const status = (item as { publicationStatus?: PublicationStatus }).publicationStatus;
+  return (status ?? "published") === "published";
 }
 
 // ---------------------------------------------------------------------

@@ -1,0 +1,236 @@
+import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Search, Menu, X, Sparkles, Flame, Compass, Tv, BookOpen, Users, Building2, ChevronDown } from "lucide-react";
+import { SearchDialog } from "./search-dialog";
+import { genres } from "@/data/genres";
+import { studios } from "@/data/studios";
+import { animes } from "@/data/animes";
+
+const megaGroups = [
+  {
+    label: "Browse",
+    icon: Compass,
+    columns: [
+      { title: "Discovery", links: [
+        { to: "/browse", label: "All Anime" },
+        { to: "/trending", label: "Trending" },
+        { to: "/top", label: "Top 100" },
+        { to: "/upcoming", label: "Upcoming" },
+        { to: "/new-releases", label: "New Releases" },
+        { to: "/completed", label: "Completed" },
+      ]},
+      { title: "By format", links: [
+        { to: "/movies", label: "Movies" },
+        { to: "/seasons", label: "Seasons" },
+        { to: "/classic", label: "Classic" },
+        { to: "/kids", label: "Kids & Family" },
+      ]},
+      { title: "Popular", links: animes.slice(0, 6).map(a => ({ to: `/anime/${a.slug}`, label: a.title })) },
+    ],
+  },
+  {
+    label: "Genres",
+    icon: Sparkles,
+    columns: [
+      { title: "Action & Adventure", links: ["action","adventure","fantasy","shonen","mecha","sci-fi"].map(s => ({ to:`/genre/${s}`, label: genres.find(g=>g.slug===s)?.name || s })) },
+      { title: "Story & Feels", links: ["drama","romance","slice-of-life","comedy","family","school"].map(s => ({ to:`/genre/${s}`, label: genres.find(g=>g.slug===s)?.name || s })) },
+      { title: "Dark & Cerebral", links: ["mystery","psychological","horror","supernatural","historical","isekai"].map(s => ({ to:`/genre/${s}`, label: genres.find(g=>g.slug===s)?.name || s })) },
+    ],
+  },
+  {
+    label: "Editorial",
+    icon: BookOpen,
+    columns: [
+      { title: "News & Reviews", links: [
+        { to: "/news", label: "News" },
+        { to: "/reviews", label: "Reviews" },
+        { to: "/top-lists", label: "Top Lists" },
+        { to: "/editorial", label: "Editorial" },
+      ]},
+      { title: "Guides", links: [
+        { to: "/guides", label: "All Guides" },
+        { to: "/guides/beginner", label: "Beginner's Guide" },
+        { to: "/watch-order", label: "Watch Order" },
+        { to: "/timeline", label: "Anime Timeline" },
+        { to: "/recommendations", label: "Recommendations" },
+      ]},
+      { title: "Culture", links: [
+        { to: "/quotes", label: "Quotes" },
+        { to: "/facts", label: "Facts" },
+        { to: "/soundtracks", label: "Soundtracks" },
+        { to: "/openings", label: "Openings" },
+        { to: "/wallpapers", label: "Wallpapers" },
+        { to: "/events", label: "Events & Cons" },
+      ]},
+    ],
+  },
+  {
+    label: "Studios",
+    icon: Building2,
+    columns: [
+      { title: "Studios", links: studios.slice(0,6).map(s => ({ to: `/studio/${s.slug}`, label: s.name })) },
+      { title: "Streaming", links: [
+        { to: "/streaming", label: "Streaming Platforms" },
+        { to: "/awards", label: "Anime Awards" },
+        { to: "/statistics", label: "Statistics" },
+      ]},
+      { title: "Merch", links: [
+        { to: "/merch", label: "Merchandise" },
+        { to: "/collectibles", label: "Collectibles" },
+      ]},
+    ],
+  },
+];
+
+export function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  return (
+    <>
+      <header
+        className={`sticky top-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? "backdrop-blur-xl bg-background/75 border-b border-border/60"
+            : "backdrop-blur-sm bg-background/30"
+        }`}
+        onMouseLeave={() => setOpenMenu(null)}
+      >
+        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 lg:px-6">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
+            <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent glow-primary">
+              <Flame className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <div className="leading-none">
+              <div className="font-display text-lg font-bold tracking-tight">
+                Anime<span className="text-gradient">Verse</span>
+              </div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">est. 2016</div>
+            </div>
+          </Link>
+
+          <nav className="hidden lg:flex items-center gap-1 ml-4">
+            {megaGroups.map((g) => (
+              <button
+                key={g.label}
+                onMouseEnter={() => setOpenMenu(g.label)}
+                onClick={() => setOpenMenu(openMenu === g.label ? null : g.label)}
+                className={`flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  openMenu === g.label ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                }`}
+              >
+                <g.icon className="h-3.5 w-3.5" />
+                {g.label}
+                <ChevronDown className="h-3 w-3 opacity-70" />
+              </button>
+            ))}
+            <Link to="/characters" className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 flex items-center gap-1.5">
+              <Users className="h-3.5 w-3.5" /> Characters
+            </Link>
+            <Link to="/news" className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 flex items-center gap-1.5">
+              <Tv className="h-3.5 w-3.5" /> News
+            </Link>
+          </nav>
+
+          <div className="ml-auto flex items-center gap-2">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="hidden md:flex items-center gap-2 rounded-lg border border-border/60 bg-secondary/50 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:border-primary/60 transition-colors min-w-[240px]"
+            >
+              <Search className="h-4 w-4" />
+              <span>Search anime, characters…</span>
+              <span className="ml-auto rounded border border-border/60 px-1.5 py-0.5 text-[10px] font-mono">⌘K</span>
+            </button>
+            <button onClick={() => setSearchOpen(true)} className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground">
+              <Search className="h-5 w-5" />
+            </button>
+            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)}>
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mega menu */}
+        {openMenu && (
+          <div className="absolute inset-x-0 top-full hidden lg:block" onMouseEnter={() => {}}>
+            <div className="mx-auto max-w-7xl px-4 lg:px-6 pb-6">
+              <div className="rounded-2xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-2xl p-6">
+                <div className="grid grid-cols-3 gap-8">
+                  {megaGroups.find(g => g.label === openMenu)!.columns.map((col) => (
+                    <div key={col.title}>
+                      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-3">{col.title}</div>
+                      <ul className="space-y-1.5">
+                        {col.links.map((l) => (
+                          <li key={l.to}>
+                            <Link
+                              to={l.to}
+                              onClick={() => setOpenMenu(null)}
+                              className="block text-sm text-foreground/90 hover:text-primary transition-colors"
+                            >
+                              {l.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="absolute inset-0 bg-background/80 backdrop-blur" onClick={() => setMobileOpen(false)} />
+          <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
+            <div className="flex items-center justify-between mb-6">
+              <span className="font-display text-lg font-bold">Menu</span>
+              <button onClick={() => setMobileOpen(false)} className="rounded-md p-2"><X className="h-5 w-5" /></button>
+            </div>
+            <nav className="space-y-6">
+              {megaGroups.map((g) => (
+                <div key={g.label}>
+                  <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">{g.label}</div>
+                  <ul className="space-y-1.5">
+                    {g.columns.flatMap(c => c.links).slice(0, 8).map((l) => (
+                      <li key={l.to}>
+                        <Link to={l.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm">
+                          {l.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </nav>
+          </div>
+        </div>
+      )}
+
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+    </>
+  );
+}

@@ -41,7 +41,7 @@ export const Route = createFileRoute("/article/$slug")({
 function ArticlePage() {
   const { article: a } = Route.useLoaderData();
   const author = getAuthor(a.author);
-  const related = a.related.map(s => getAnime(s)).filter(Boolean) as ReturnType<typeof getAnime>[];
+  const related = a.related.map((s: string) => getAnime(s)).filter(Boolean) as ReturnType<typeof getAnime>[];
   const more = articles.filter(x => x.slug !== a.slug && x.section === a.section).slice(0, 3);
 
   return (

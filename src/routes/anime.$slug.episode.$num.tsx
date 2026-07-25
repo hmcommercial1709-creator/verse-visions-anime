@@ -46,7 +46,8 @@ export const Route = createFileRoute("/anime/$slug/episode/$num")({
 });
 
 function EpisodePage() {
-  const { ep, anime } = Route.useLoaderData();
+  const data = Route.useLoaderData() as { ep: Episode; anime: Anime };
+  const { ep, anime } = data;
   const siblings = episodesFor(anime.slug);
   const idx = siblings.findIndex((s) => s.number === ep.number);
   const prev = idx > 0 ? siblings[idx - 1] : null;

@@ -3,6 +3,7 @@ import { getAnime, animes } from "@/data/animes";
 import { getGenre } from "@/data/genres";
 import { getStudio } from "@/data/studios";
 import { charactersByAnime, characters } from "@/data/characters";
+import { episodesFor } from "@/data/episodes";
 import { Breadcrumbs, Section } from "@/components/ui-bits";
 import { AdSlot, AffiliateBox } from "@/components/ad-slot";
 import { AnimeCard } from "@/components/anime-card";
@@ -51,6 +52,7 @@ function AnimeDetail() {
   const { anime } = Route.useLoaderData();
   const cast = charactersByAnime(anime.slug);
   const studio = getStudio(anime.studio);
+  const eps = episodesFor(anime.slug);
   const similar = anime.similar.map((s: string) => animes.find(a => a.slug === s)).filter(Boolean) as typeof animes;
 
   return (
@@ -145,6 +147,26 @@ function AnimeDetail() {
               ))}
             </ol>
           </SectionBlock>
+
+          {/* Episode guides */}
+          {eps.length > 0 && (
+            <SectionBlock id="episodes" title={<span className="flex items-center gap-2"><Tv className="h-5 w-5 text-primary" /> Episode guides</span>}>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {eps.map((e) => (
+                  <Link
+                    key={e.number}
+                    to="/anime/$slug/episode/$num"
+                    params={{ slug: anime.slug, num: String(e.number) }}
+                    className="group rounded-xl border border-border/60 bg-card/50 p-4 hover:border-primary/60"
+                  >
+                    <div className="text-xs uppercase tracking-[0.2em] text-primary">Episode {e.number} · {e.arc}</div>
+                    <div className="mt-1 font-display text-lg font-bold group-hover:text-gradient">{e.title}</div>
+                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{e.synopsis}</p>
+                  </Link>
+                ))}
+              </div>
+            </SectionBlock>
+          )}
 
           {/* Characters */}
           {cast.length > 0 && (

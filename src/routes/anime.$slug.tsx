@@ -7,6 +7,8 @@ import { episodesFor } from "@/data/episodes";
 import { Breadcrumbs, Section } from "@/components/ui-bits";
 import { AdSlot, AffiliateBox } from "@/components/ad-slot";
 import { AnimeCard } from "@/components/anime-card";
+import { recommendAnime } from "@/lib/recommendations";
+import { AnimeRecRail } from "@/components/recommendations";
 import { Star, Calendar, Tv, Building2, Award, Play, Music, Users, HelpCircle, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/anime/$slug")({

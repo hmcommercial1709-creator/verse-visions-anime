@@ -982,7 +982,7 @@ export const animes: Anime[] = [
     rating: 8.6,
     popularity: 25,
     studio: "bones",
-    genres: ["action", "comedy", "supernatural", "coming-of-age", "school"],
+    genres: ["action", "comedy", "supernatural", "school"],
     characters: ["shigeo-kageyama"],
     tagline: "Being kind matters more than being powerful.",
     synopsis:

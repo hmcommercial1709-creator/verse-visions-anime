@@ -9,6 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StudiosRouteImport } from './routes/studios'
+import { Route as GenresRouteImport } from './routes/genres'
+import { Route as CharactersRouteImport } from './routes/characters'
+import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
@@ -16,6 +20,26 @@ import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 
+const StudiosRoute = StudiosRouteImport.update({
+  id: '/studios',
+  path: '/studios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GenresRoute = GenresRouteImport.update({
+  id: '/genres',
+  path: '/genres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharactersRoute = CharactersRouteImport.update({
+  id: '/characters',
+  path: '/characters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrowseRoute = BrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,6 +73,10 @@ const AnimeSlugRoute = AnimeSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/characters': typeof CharactersRoute
+  '/genres': typeof GenresRoute
+  '/studios': typeof StudiosRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
@@ -57,6 +85,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/characters': typeof CharactersRoute
+  '/genres': typeof GenresRoute
+  '/studios': typeof StudiosRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
@@ -66,6 +98,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/characters': typeof CharactersRoute
+  '/genres': typeof GenresRoute
+  '/studios': typeof StudiosRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
@@ -76,6 +112,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/browse'
+    | '/characters'
+    | '/genres'
+    | '/studios'
     | '/anime/$slug'
     | '/article/$slug'
     | '/character/$slug'
@@ -84,6 +124,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/browse'
+    | '/characters'
+    | '/genres'
+    | '/studios'
     | '/anime/$slug'
     | '/article/$slug'
     | '/character/$slug'
@@ -92,6 +136,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/browse'
+    | '/characters'
+    | '/genres'
+    | '/studios'
     | '/anime/$slug'
     | '/article/$slug'
     | '/character/$slug'
@@ -101,6 +149,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrowseRoute: typeof BrowseRoute
+  CharactersRoute: typeof CharactersRoute
+  GenresRoute: typeof GenresRoute
+  StudiosRoute: typeof StudiosRoute
   AnimeSlugRoute: typeof AnimeSlugRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   CharacterSlugRoute: typeof CharacterSlugRoute
@@ -110,6 +162,34 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/studios': {
+      id: '/studios'
+      path: '/studios'
+      fullPath: '/studios'
+      preLoaderRoute: typeof StudiosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/genres': {
+      id: '/genres'
+      path: '/genres'
+      fullPath: '/genres'
+      preLoaderRoute: typeof GenresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/characters': {
+      id: '/characters'
+      path: '/characters'
+      fullPath: '/characters'
+      preLoaderRoute: typeof CharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browse': {
+      id: '/browse'
+      path: '/browse'
+      fullPath: '/browse'
+      preLoaderRoute: typeof BrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -157,6 +237,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrowseRoute: BrowseRoute,
+  CharactersRoute: CharactersRoute,
+  GenresRoute: GenresRoute,
+  StudiosRoute: StudiosRoute,
   AnimeSlugRoute: AnimeSlugRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   CharacterSlugRoute: CharacterSlugRoute,

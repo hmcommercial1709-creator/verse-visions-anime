@@ -32,6 +32,8 @@ function CharacterPage() {
   const { character: c } = Route.useLoaderData();
   const anime = getAnime(c.anime);
   const related = characters.filter(x => x.anime === c.anime && x.slug !== c.slug);
+  const charRecs = recommendCharacters(c.slug, 4);
+  const animeRecs = characterAnimeRecs(c.slug, 4);
 
   return (
     <div>

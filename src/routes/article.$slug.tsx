@@ -75,31 +75,17 @@ function ArticlePage() {
 
         <AdSlot placement="inline" />
 
-        {related.length > 0 && (
-          <div className="my-12">
-            <h2 className="font-display text-2xl font-bold mb-4">Related anime</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {related.map(r => r && <AnimeCard key={r.slug} anime={r} size="sm" />)}
-            </div>
-          </div>
-        )}
+        <AnimeRecRail
+          items={relatedAnime}
+          eyebrow="Related anime"
+          title="Anime featured in this piece"
+        />
 
-        {more.length > 0 && (
-          <div className="my-12">
-            <h2 className="font-display text-2xl font-bold mb-4">More in {a.section}</h2>
-            <div className="grid gap-3 md:grid-cols-3">
-              {more.map(m => (
-                <Link key={m.slug} to="/article/$slug" params={{ slug: m.slug }} className="rounded-xl border border-border/60 overflow-hidden bg-card/40 hover:border-primary/60">
-                  <div className="h-24" style={{ background: m.cover }} />
-                  <div className="p-4">
-                    <div className="font-semibold line-clamp-2">{m.title}</div>
-                    <div className="text-xs text-muted-foreground mt-1">{m.date}</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <ArticleRecRail
+          items={articleRail}
+          eyebrow="Readers also enjoyed"
+          title={alsoEnjoyed.length > 0 ? "More like this" : `More in ${a.section}`}
+        />
       </div>
     </div>
   );

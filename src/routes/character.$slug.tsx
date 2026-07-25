@@ -3,6 +3,8 @@ import { getCharacter, characters } from "@/data/characters";
 import { getAnime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
+import { recommendCharacters, characterAnimeRecs } from "@/lib/recommendations";
+import { AnimeRecRail, CharacterRecRail } from "@/components/recommendations";
 
 export const Route = createFileRoute("/character/$slug")({
   loader: ({ params }) => {

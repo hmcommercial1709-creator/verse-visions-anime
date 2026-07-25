@@ -9,38 +9,887 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WatchOrderRouteImport } from './routes/watch-order'
+import { Route as WallpapersRouteImport } from './routes/wallpapers'
+import { Route as UpcomingRouteImport } from './routes/upcoming'
+import { Route as TrendingRouteImport } from './routes/trending'
+import { Route as TopListsRouteImport } from './routes/top-lists'
+import { Route as TopRouteImport } from './routes/top'
+import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as StudiosRouteImport } from './routes/studios'
+import { Route as StreamingRouteImport } from './routes/streaming'
+import { Route as StatisticsRouteImport } from './routes/statistics'
+import { Route as SoundtracksRouteImport } from './routes/soundtracks'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
+import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as OpeningsRouteImport } from './routes/openings'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as NewReleasesRouteImport } from './routes/new-releases'
+import { Route as MerchRouteImport } from './routes/merch'
+import { Route as GuidesRouteImport } from './routes/guides'
+import { Route as GenresRouteImport } from './routes/genres'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FactsRouteImport } from './routes/facts'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
+import { Route as EditorialRouteImport } from './routes/editorial'
+import { Route as DmcaRouteImport } from './routes/dmca'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CompletedRouteImport } from './routes/completed'
+import { Route as ClassicRouteImport } from './routes/classic'
+import { Route as CharactersRouteImport } from './routes/characters'
+import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as AwardsRouteImport } from './routes/awards'
+import { Route as AuthorsRouteImport } from './routes/authors'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
+import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
+import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 
+const WatchOrderRoute = WatchOrderRouteImport.update({
+  id: '/watch-order',
+  path: '/watch-order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WallpapersRoute = WallpapersRouteImport.update({
+  id: '/wallpapers',
+  path: '/wallpapers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UpcomingRoute = UpcomingRouteImport.update({
+  id: '/upcoming',
+  path: '/upcoming',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrendingRoute = TrendingRouteImport.update({
+  id: '/trending',
+  path: '/trending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopListsRoute = TopListsRouteImport.update({
+  id: '/top-lists',
+  path: '/top-lists',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopRoute = TopRouteImport.update({
+  id: '/top',
+  path: '/top',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TimelineRoute = TimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudiosRoute = StudiosRouteImport.update({
+  id: '/studios',
+  path: '/studios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StreamingRoute = StreamingRouteImport.update({
+  id: '/streaming',
+  path: '/streaming',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatisticsRoute = StatisticsRouteImport.update({
+  id: '/statistics',
+  path: '/statistics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoundtracksRoute = SoundtracksRouteImport.update({
+  id: '/soundtracks',
+  path: '/soundtracks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapPageRoute = SitemapPageRouteImport.update({
+  id: '/sitemap-page',
+  path: '/sitemap-page',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendationsRoute = RecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesRoute = QuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpeningsRoute = OpeningsRouteImport.update({
+  id: '/openings',
+  path: '/openings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewReleasesRoute = NewReleasesRouteImport.update({
+  id: '/new-releases',
+  path: '/new-releases',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MerchRoute = MerchRouteImport.update({
+  id: '/merch',
+  path: '/merch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesRoute = GuidesRouteImport.update({
+  id: '/guides',
+  path: '/guides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GenresRoute = GenresRouteImport.update({
+  id: '/genres',
+  path: '/genres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactsRoute = FactsRouteImport.update({
+  id: '/facts',
+  path: '/facts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
+  id: '/editorial-policy',
+  path: '/editorial-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialRoute = EditorialRouteImport.update({
+  id: '/editorial',
+  path: '/editorial',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DmcaRoute = DmcaRouteImport.update({
+  id: '/dmca',
+  path: '/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompletedRoute = CompletedRouteImport.update({
+  id: '/completed',
+  path: '/completed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClassicRoute = ClassicRouteImport.update({
+  id: '/classic',
+  path: '/classic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharactersRoute = CharactersRouteImport.update({
+  id: '/characters',
+  path: '/characters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrowseRoute = BrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AwardsRoute = AwardsRouteImport.update({
+  id: '/awards',
+  path: '/awards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthorsRoute = AuthorsRouteImport.update({
+  id: '/authors',
+  path: '/authors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioSlugRoute = StudioSlugRouteImport.update({
+  id: '/studio/$slug',
+  path: '/studio/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GenreSlugRoute = GenreSlugRouteImport.update({
+  id: '/genre/$slug',
+  path: '/genre/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharacterSlugRoute = CharacterSlugRouteImport.update({
+  id: '/character/$slug',
+  path: '/character/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnimeSlugRoute = AnimeSlugRouteImport.update({
+  id: '/anime/$slug',
+  path: '/anime/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/authors': typeof AuthorsRoute
+  '/awards': typeof AwardsRoute
+  '/browse': typeof BrowseRoute
+  '/characters': typeof CharactersRoute
+  '/classic': typeof ClassicRoute
+  '/completed': typeof CompletedRoute
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/dmca': typeof DmcaRoute
+  '/editorial': typeof EditorialRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
+  '/events': typeof EventsRoute
+  '/facts': typeof FactsRoute
+  '/faq': typeof FaqRoute
+  '/genres': typeof GenresRoute
+  '/guides': typeof GuidesRoute
+  '/merch': typeof MerchRoute
+  '/new-releases': typeof NewReleasesRoute
+  '/news': typeof NewsRoute
+  '/openings': typeof OpeningsRoute
+  '/privacy': typeof PrivacyRoute
+  '/quotes': typeof QuotesRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/reviews': typeof ReviewsRoute
+  '/sitemap-page': typeof SitemapPageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/soundtracks': typeof SoundtracksRoute
+  '/statistics': typeof StatisticsRoute
+  '/streaming': typeof StreamingRoute
+  '/studios': typeof StudiosRoute
+  '/terms': typeof TermsRoute
+  '/timeline': typeof TimelineRoute
+  '/top': typeof TopRoute
+  '/top-lists': typeof TopListsRoute
+  '/trending': typeof TrendingRoute
+  '/upcoming': typeof UpcomingRoute
+  '/wallpapers': typeof WallpapersRoute
+  '/watch-order': typeof WatchOrderRoute
+  '/anime/$slug': typeof AnimeSlugRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/character/$slug': typeof CharacterSlugRoute
+  '/genre/$slug': typeof GenreSlugRoute
+  '/studio/$slug': typeof StudioSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/authors': typeof AuthorsRoute
+  '/awards': typeof AwardsRoute
+  '/browse': typeof BrowseRoute
+  '/characters': typeof CharactersRoute
+  '/classic': typeof ClassicRoute
+  '/completed': typeof CompletedRoute
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/dmca': typeof DmcaRoute
+  '/editorial': typeof EditorialRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
+  '/events': typeof EventsRoute
+  '/facts': typeof FactsRoute
+  '/faq': typeof FaqRoute
+  '/genres': typeof GenresRoute
+  '/guides': typeof GuidesRoute
+  '/merch': typeof MerchRoute
+  '/new-releases': typeof NewReleasesRoute
+  '/news': typeof NewsRoute
+  '/openings': typeof OpeningsRoute
+  '/privacy': typeof PrivacyRoute
+  '/quotes': typeof QuotesRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/reviews': typeof ReviewsRoute
+  '/sitemap-page': typeof SitemapPageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/soundtracks': typeof SoundtracksRoute
+  '/statistics': typeof StatisticsRoute
+  '/streaming': typeof StreamingRoute
+  '/studios': typeof StudiosRoute
+  '/terms': typeof TermsRoute
+  '/timeline': typeof TimelineRoute
+  '/top': typeof TopRoute
+  '/top-lists': typeof TopListsRoute
+  '/trending': typeof TrendingRoute
+  '/upcoming': typeof UpcomingRoute
+  '/wallpapers': typeof WallpapersRoute
+  '/watch-order': typeof WatchOrderRoute
+  '/anime/$slug': typeof AnimeSlugRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/character/$slug': typeof CharacterSlugRoute
+  '/genre/$slug': typeof GenreSlugRoute
+  '/studio/$slug': typeof StudioSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/authors': typeof AuthorsRoute
+  '/awards': typeof AwardsRoute
+  '/browse': typeof BrowseRoute
+  '/characters': typeof CharactersRoute
+  '/classic': typeof ClassicRoute
+  '/completed': typeof CompletedRoute
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/dmca': typeof DmcaRoute
+  '/editorial': typeof EditorialRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
+  '/events': typeof EventsRoute
+  '/facts': typeof FactsRoute
+  '/faq': typeof FaqRoute
+  '/genres': typeof GenresRoute
+  '/guides': typeof GuidesRoute
+  '/merch': typeof MerchRoute
+  '/new-releases': typeof NewReleasesRoute
+  '/news': typeof NewsRoute
+  '/openings': typeof OpeningsRoute
+  '/privacy': typeof PrivacyRoute
+  '/quotes': typeof QuotesRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/reviews': typeof ReviewsRoute
+  '/sitemap-page': typeof SitemapPageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/soundtracks': typeof SoundtracksRoute
+  '/statistics': typeof StatisticsRoute
+  '/streaming': typeof StreamingRoute
+  '/studios': typeof StudiosRoute
+  '/terms': typeof TermsRoute
+  '/timeline': typeof TimelineRoute
+  '/top': typeof TopRoute
+  '/top-lists': typeof TopListsRoute
+  '/trending': typeof TrendingRoute
+  '/upcoming': typeof UpcomingRoute
+  '/wallpapers': typeof WallpapersRoute
+  '/watch-order': typeof WatchOrderRoute
+  '/anime/$slug': typeof AnimeSlugRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/character/$slug': typeof CharacterSlugRoute
+  '/genre/$slug': typeof GenreSlugRoute
+  '/studio/$slug': typeof StudioSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/authors'
+    | '/awards'
+    | '/browse'
+    | '/characters'
+    | '/classic'
+    | '/completed'
+    | '/contact'
+    | '/cookies'
+    | '/dmca'
+    | '/editorial'
+    | '/editorial-policy'
+    | '/events'
+    | '/facts'
+    | '/faq'
+    | '/genres'
+    | '/guides'
+    | '/merch'
+    | '/new-releases'
+    | '/news'
+    | '/openings'
+    | '/privacy'
+    | '/quotes'
+    | '/recommendations'
+    | '/reviews'
+    | '/sitemap-page'
+    | '/sitemap.xml'
+    | '/soundtracks'
+    | '/statistics'
+    | '/streaming'
+    | '/studios'
+    | '/terms'
+    | '/timeline'
+    | '/top'
+    | '/top-lists'
+    | '/trending'
+    | '/upcoming'
+    | '/wallpapers'
+    | '/watch-order'
+    | '/anime/$slug'
+    | '/article/$slug'
+    | '/character/$slug'
+    | '/genre/$slug'
+    | '/studio/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/authors'
+    | '/awards'
+    | '/browse'
+    | '/characters'
+    | '/classic'
+    | '/completed'
+    | '/contact'
+    | '/cookies'
+    | '/dmca'
+    | '/editorial'
+    | '/editorial-policy'
+    | '/events'
+    | '/facts'
+    | '/faq'
+    | '/genres'
+    | '/guides'
+    | '/merch'
+    | '/new-releases'
+    | '/news'
+    | '/openings'
+    | '/privacy'
+    | '/quotes'
+    | '/recommendations'
+    | '/reviews'
+    | '/sitemap-page'
+    | '/sitemap.xml'
+    | '/soundtracks'
+    | '/statistics'
+    | '/streaming'
+    | '/studios'
+    | '/terms'
+    | '/timeline'
+    | '/top'
+    | '/top-lists'
+    | '/trending'
+    | '/upcoming'
+    | '/wallpapers'
+    | '/watch-order'
+    | '/anime/$slug'
+    | '/article/$slug'
+    | '/character/$slug'
+    | '/genre/$slug'
+    | '/studio/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/authors'
+    | '/awards'
+    | '/browse'
+    | '/characters'
+    | '/classic'
+    | '/completed'
+    | '/contact'
+    | '/cookies'
+    | '/dmca'
+    | '/editorial'
+    | '/editorial-policy'
+    | '/events'
+    | '/facts'
+    | '/faq'
+    | '/genres'
+    | '/guides'
+    | '/merch'
+    | '/new-releases'
+    | '/news'
+    | '/openings'
+    | '/privacy'
+    | '/quotes'
+    | '/recommendations'
+    | '/reviews'
+    | '/sitemap-page'
+    | '/sitemap.xml'
+    | '/soundtracks'
+    | '/statistics'
+    | '/streaming'
+    | '/studios'
+    | '/terms'
+    | '/timeline'
+    | '/top'
+    | '/top-lists'
+    | '/trending'
+    | '/upcoming'
+    | '/wallpapers'
+    | '/watch-order'
+    | '/anime/$slug'
+    | '/article/$slug'
+    | '/character/$slug'
+    | '/genre/$slug'
+    | '/studio/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AuthorsRoute: typeof AuthorsRoute
+  AwardsRoute: typeof AwardsRoute
+  BrowseRoute: typeof BrowseRoute
+  CharactersRoute: typeof CharactersRoute
+  ClassicRoute: typeof ClassicRoute
+  CompletedRoute: typeof CompletedRoute
+  ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
+  DmcaRoute: typeof DmcaRoute
+  EditorialRoute: typeof EditorialRoute
+  EditorialPolicyRoute: typeof EditorialPolicyRoute
+  EventsRoute: typeof EventsRoute
+  FactsRoute: typeof FactsRoute
+  FaqRoute: typeof FaqRoute
+  GenresRoute: typeof GenresRoute
+  GuidesRoute: typeof GuidesRoute
+  MerchRoute: typeof MerchRoute
+  NewReleasesRoute: typeof NewReleasesRoute
+  NewsRoute: typeof NewsRoute
+  OpeningsRoute: typeof OpeningsRoute
+  PrivacyRoute: typeof PrivacyRoute
+  QuotesRoute: typeof QuotesRoute
+  RecommendationsRoute: typeof RecommendationsRoute
+  ReviewsRoute: typeof ReviewsRoute
+  SitemapPageRoute: typeof SitemapPageRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SoundtracksRoute: typeof SoundtracksRoute
+  StatisticsRoute: typeof StatisticsRoute
+  StreamingRoute: typeof StreamingRoute
+  StudiosRoute: typeof StudiosRoute
+  TermsRoute: typeof TermsRoute
+  TimelineRoute: typeof TimelineRoute
+  TopRoute: typeof TopRoute
+  TopListsRoute: typeof TopListsRoute
+  TrendingRoute: typeof TrendingRoute
+  UpcomingRoute: typeof UpcomingRoute
+  WallpapersRoute: typeof WallpapersRoute
+  WatchOrderRoute: typeof WatchOrderRoute
+  AnimeSlugRoute: typeof AnimeSlugRoute
+  ArticleSlugRoute: typeof ArticleSlugRoute
+  CharacterSlugRoute: typeof CharacterSlugRoute
+  GenreSlugRoute: typeof GenreSlugRoute
+  StudioSlugRoute: typeof StudioSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/watch-order': {
+      id: '/watch-order'
+      path: '/watch-order'
+      fullPath: '/watch-order'
+      preLoaderRoute: typeof WatchOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wallpapers': {
+      id: '/wallpapers'
+      path: '/wallpapers'
+      fullPath: '/wallpapers'
+      preLoaderRoute: typeof WallpapersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upcoming': {
+      id: '/upcoming'
+      path: '/upcoming'
+      fullPath: '/upcoming'
+      preLoaderRoute: typeof UpcomingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trending': {
+      id: '/trending'
+      path: '/trending'
+      fullPath: '/trending'
+      preLoaderRoute: typeof TrendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top-lists': {
+      id: '/top-lists'
+      path: '/top-lists'
+      fullPath: '/top-lists'
+      preLoaderRoute: typeof TopListsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top': {
+      id: '/top'
+      path: '/top'
+      fullPath: '/top'
+      preLoaderRoute: typeof TopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/timeline': {
+      id: '/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studios': {
+      id: '/studios'
+      path: '/studios'
+      fullPath: '/studios'
+      preLoaderRoute: typeof StudiosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/streaming': {
+      id: '/streaming'
+      path: '/streaming'
+      fullPath: '/streaming'
+      preLoaderRoute: typeof StreamingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/statistics': {
+      id: '/statistics'
+      path: '/statistics'
+      fullPath: '/statistics'
+      preLoaderRoute: typeof StatisticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soundtracks': {
+      id: '/soundtracks'
+      path: '/soundtracks'
+      fullPath: '/soundtracks'
+      preLoaderRoute: typeof SoundtracksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-page': {
+      id: '/sitemap-page'
+      path: '/sitemap-page'
+      fullPath: '/sitemap-page'
+      preLoaderRoute: typeof SitemapPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendations': {
+      id: '/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes': {
+      id: '/quotes'
+      path: '/quotes'
+      fullPath: '/quotes'
+      preLoaderRoute: typeof QuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/openings': {
+      id: '/openings'
+      path: '/openings'
+      fullPath: '/openings'
+      preLoaderRoute: typeof OpeningsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-releases': {
+      id: '/new-releases'
+      path: '/new-releases'
+      fullPath: '/new-releases'
+      preLoaderRoute: typeof NewReleasesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/merch': {
+      id: '/merch'
+      path: '/merch'
+      fullPath: '/merch'
+      preLoaderRoute: typeof MerchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides': {
+      id: '/guides'
+      path: '/guides'
+      fullPath: '/guides'
+      preLoaderRoute: typeof GuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/genres': {
+      id: '/genres'
+      path: '/genres'
+      fullPath: '/genres'
+      preLoaderRoute: typeof GenresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/facts': {
+      id: '/facts'
+      path: '/facts'
+      fullPath: '/facts'
+      preLoaderRoute: typeof FactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial-policy': {
+      id: '/editorial-policy'
+      path: '/editorial-policy'
+      fullPath: '/editorial-policy'
+      preLoaderRoute: typeof EditorialPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial': {
+      id: '/editorial'
+      path: '/editorial'
+      fullPath: '/editorial'
+      preLoaderRoute: typeof EditorialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dmca': {
+      id: '/dmca'
+      path: '/dmca'
+      fullPath: '/dmca'
+      preLoaderRoute: typeof DmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/completed': {
+      id: '/completed'
+      path: '/completed'
+      fullPath: '/completed'
+      preLoaderRoute: typeof CompletedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/classic': {
+      id: '/classic'
+      path: '/classic'
+      fullPath: '/classic'
+      preLoaderRoute: typeof ClassicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/characters': {
+      id: '/characters'
+      path: '/characters'
+      fullPath: '/characters'
+      preLoaderRoute: typeof CharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browse': {
+      id: '/browse'
+      path: '/browse'
+      fullPath: '/browse'
+      preLoaderRoute: typeof BrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/awards': {
+      id: '/awards'
+      path: '/awards'
+      fullPath: '/awards'
+      preLoaderRoute: typeof AwardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/authors': {
+      id: '/authors'
+      path: '/authors'
+      fullPath: '/authors'
+      preLoaderRoute: typeof AuthorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +897,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio/$slug': {
+      id: '/studio/$slug'
+      path: '/studio/$slug'
+      fullPath: '/studio/$slug'
+      preLoaderRoute: typeof StudioSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/genre/$slug': {
+      id: '/genre/$slug'
+      path: '/genre/$slug'
+      fullPath: '/genre/$slug'
+      preLoaderRoute: typeof GenreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/character/$slug': {
+      id: '/character/$slug'
+      path: '/character/$slug'
+      fullPath: '/character/$slug'
+      preLoaderRoute: typeof CharacterSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anime/$slug': {
+      id: '/anime/$slug'
+      path: '/anime/$slug'
+      fullPath: '/anime/$slug'
+      preLoaderRoute: typeof AnimeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AuthorsRoute: AuthorsRoute,
+  AwardsRoute: AwardsRoute,
+  BrowseRoute: BrowseRoute,
+  CharactersRoute: CharactersRoute,
+  ClassicRoute: ClassicRoute,
+  CompletedRoute: CompletedRoute,
+  ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
+  DmcaRoute: DmcaRoute,
+  EditorialRoute: EditorialRoute,
+  EditorialPolicyRoute: EditorialPolicyRoute,
+  EventsRoute: EventsRoute,
+  FactsRoute: FactsRoute,
+  FaqRoute: FaqRoute,
+  GenresRoute: GenresRoute,
+  GuidesRoute: GuidesRoute,
+  MerchRoute: MerchRoute,
+  NewReleasesRoute: NewReleasesRoute,
+  NewsRoute: NewsRoute,
+  OpeningsRoute: OpeningsRoute,
+  PrivacyRoute: PrivacyRoute,
+  QuotesRoute: QuotesRoute,
+  RecommendationsRoute: RecommendationsRoute,
+  ReviewsRoute: ReviewsRoute,
+  SitemapPageRoute: SitemapPageRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SoundtracksRoute: SoundtracksRoute,
+  StatisticsRoute: StatisticsRoute,
+  StreamingRoute: StreamingRoute,
+  StudiosRoute: StudiosRoute,
+  TermsRoute: TermsRoute,
+  TimelineRoute: TimelineRoute,
+  TopRoute: TopRoute,
+  TopListsRoute: TopListsRoute,
+  TrendingRoute: TrendingRoute,
+  UpcomingRoute: UpcomingRoute,
+  WallpapersRoute: WallpapersRoute,
+  WatchOrderRoute: WatchOrderRoute,
+  AnimeSlugRoute: AnimeSlugRoute,
+  ArticleSlugRoute: ArticleSlugRoute,
+  CharacterSlugRoute: CharacterSlugRoute,
+  GenreSlugRoute: GenreSlugRoute,
+  StudioSlugRoute: StudioSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

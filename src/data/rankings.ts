@@ -58,4 +58,18 @@ export const rankings: Ranking[] = [
     ],
     updatedAt: "2026-02-14",
   },
+  {
+    slug: "best-action-entry-points",
+    title: "Best Action Anime for Newcomers",
+    summary: "Editor's picks for someone starting the action/shonen genre in 2026.",
+    category: "anime",
+    entries: [
+      { animeSlug: "demon-slayer", title: "Demon Slayer", note: "The clearest modern showcase of what ufotable can do; short arcs, high production floor." },
+      { animeSlug: "my-hero-academia", title: "My Hero Academia", note: "A structured shonen with a beginning, middle, and now an announced ending." },
+      { animeSlug: "jujutsu-kaisen", title: "Jujutsu Kaisen", note: "Combat choreography as its own thesis." },
+      { animeSlug: "one-punch-man", title: "One-Punch Man", note: "A one-season entry point; watch Madhouse's S1 first." },
+    ],
+    updatedAt: "2026-07-25",
+  },
 ];
+

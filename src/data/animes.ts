@@ -713,7 +713,552 @@ export const animes: Anime[] = [
     ],
     similar: ["frieren", "demon-slayer", "haikyuu", "the-apothecary-diaries"],
   },
+  {
+    slug: "dragon-ball-z",
+    title: "Dragon Ball Z",
+    japaneseTitle: "ドラゴンボールZ",
+    year: 1989,
+    status: "Completed",
+    episodes: 291,
+    seasons: 9,
+    rating: 8.2,
+    popularity: 5,
+    studio: "toei",
+    genres: ["action", "adventure", "shonen", "supernatural"],
+    characters: ["goku", "vegeta"],
+    tagline: "The tournament arc that defined the genre.",
+    synopsis:
+      "The direct continuation of Akira Toriyama's Dragon Ball follows Son Goku into adulthood as invaders from his home planet, androids from a broken future, and a pink child-god of destruction turn Earth into the setting for successively larger tournaments of power. Dragon Ball Z did not invent the escalating power scale, but it standardized every convention modern shonen still runs on.",
+    cover: g("#f97316", "#facc15"),
+    accent: "#f97316",
+    arcs: [
+      { title: "Saiyan Saga", episodes: "1–35", summary: "Raditz's arrival reframes Goku's origin, and the Saiyan invasion forces Earth's fighters into a losing battle that reshapes the franchise's stakes." },
+      { title: "Frieza Saga", episodes: "36–107", summary: "The Namek arc, and the fight most fans point to as anime's template for the multi-episode boss battle." },
+      { title: "Cell Saga", episodes: "108–194", summary: "Androids, a bug-shaped bio-weapon, and the Cell Games — the arc that hands the story briefly to Gohan." },
+      { title: "Buu Saga", episodes: "195–291", summary: "Fusion, gods of destruction implied at the edges, and a farewell that Dragon Ball Super would later re-open." },
+    ],
+    watchOrder: ["Dragon Ball (1986)", "Dragon Ball Z (1989)", "Dragon Ball Z: Kai (recut, 2009)", "Dragon Ball Super (2015)"],
+    powerSystem:
+      "Ki is a life-energy that can be shaped into projectiles, flight, and defensive barriers. Saiyan biology allows exponential recovery after near-death — the Zenkai boost — and cosmetic transformations (Super Saiyan and its tiers) multiply base ki output.",
+    worldBuilding:
+      "Earth sits inside a hierarchical cosmology of Kais, gods, and afterlife bureaucracy. The Saiyans are the remnant of a mercenary race, and the Namekians a spiritual civilization that created the Dragon Balls themselves.",
+    themes: ["Escalation as narrative rhythm", "Fatherhood and inheritance", "Rivalry as growth", "Sacrifice"],
+    quotes: [
+      { line: "I am the hope of the universe.", character: "Son Goku" },
+    ],
+    facts: [
+      "Dragon Ball Z: Kai is a recut that trims filler and re-scores much of the original run.",
+      "Toriyama sketched Frieza's final form based on a request for the 'simplest possible' silhouette.",
+    ],
+    awards: ["Anime Grand Prix — Best TV Anime (multiple years)"],
+    soundtrack: [
+      { title: "Cha-La Head-Cha-La", artist: "Hironobu Kageyama", type: "OP" },
+      { title: "Detekoi Tobikiri Zenkai Power!", artist: "MANNA", type: "ED" },
+    ],
+    voiceActors: [
+      { role: "Son Goku", jp: "Masako Nozawa", en: "Sean Schemmel" },
+      { role: "Vegeta", jp: "Ryō Horikawa", en: "Christopher Sabat" },
+    ],
+    faq: [
+      { q: "Should I watch Z or Kai first?", a: "Kai is the trimmer, better-paced version for a first watch. The original Z is the definitive artifact if you want the full 1990s presentation." },
+      { q: "Do I need to watch Dragon Ball first?", a: "Not strictly, but the original series does a lot of the character work Z assumes." },
+    ],
+    similar: ["one-piece", "naruto", "yu-yu-hakusho", "hunter-x-hunter"],
+  },
+  {
+    slug: "bleach",
+    title: "Bleach",
+    japaneseTitle: "ブリーチ",
+    year: 2004,
+    status: "Ongoing",
+    episodes: "?",
+    seasons: 4,
+    rating: 8.3,
+    popularity: 12,
+    studio: "pierrot",
+    genres: ["action", "supernatural", "shonen"],
+    characters: ["ichigo-kurosaki"],
+    tagline: "A substitute soul reaper and the war he keeps inheriting.",
+    synopsis:
+      "Ichigo Kurosaki inherits the powers of a Soul Reaper by accident and quickly finds himself standing between the living world, the Soul Society, and the Hollows that hunt souls in between. Tite Kubo's series is built around swords, ceremony, and the slow reveal that every faction has been at war with itself for centuries.",
+    cover: g("#0ea5e9", "#1e293b"),
+    accent: "#0ea5e9",
+    arcs: [
+      { title: "Substitute Soul Reaper", episodes: "1–20", summary: "Ichigo learns what he is, meets the Soul Society's rules, and picks up his first real fight." },
+      { title: "Soul Society", episodes: "21–63", summary: "A rescue mission turns into a coup. The Gotei 13 is introduced properly, and Aizen's betrayal reframes the entire series." },
+      { title: "Arrancar / Hueco Mundo", episodes: "110–213", summary: "The Espada arrive and the war moves into Aizen's territory." },
+      { title: "Thousand-Year Blood War", episodes: "TYBW anime, 2022–", summary: "The Quincy invasion — the manga's final arc, adapted for the first time by Studio Pierrot's 2022 revival." },
+    ],
+    watchOrder: ["Bleach (2004–2012)", "Bleach: Thousand-Year Blood War (2022– )"],
+    powerSystem:
+      "Every combatant channels spiritual pressure (reiatsu) through a named weapon (zanpakuto) that unfolds into two additional forms — Shikai and Bankai — each with its own rules. Enemy factions have their own systems: Hollows, Arrancar, Quincy, and Fullbring, all mapped to the same underlying spirit economy.",
+    worldBuilding:
+      "The world is split across three planes — Living World, Soul Society, and Hueco Mundo — governed by parallel bureaucracies. The Gotei 13, the Central 46, and the Royal Guard sit above the visible plot for most of the series.",
+    themes: ["Duty vs. loyalty", "Betrayal from within", "Inherited responsibility", "The named weapon as identity"],
+    quotes: [
+      { line: "If it were me, I would have chosen a world in which she lived.", character: "Ichigo Kurosaki" },
+    ],
+    facts: [
+      "The 2022 Thousand-Year Blood War adaptation followed a ten-year gap in the anime.",
+      "Kubo's early drafts imagined the Soul Society as a Meiji-era Japan analog, a look preserved in the final design.",
+    ],
+    awards: [],
+    soundtrack: [
+      { title: "*~Asterisk~", artist: "Orange Range", type: "OP" },
+      { title: "Life is Like a Boat", artist: "Rie fu", type: "ED" },
+    ],
+    voiceActors: [
+      { role: "Ichigo Kurosaki", jp: "Masakazu Morita", en: "Johnny Yong Bosch" },
+    ],
+    faq: [
+      { q: "Where does the original anime stop?", a: "It stops mid-Fullbring in 2012. The Thousand-Year Blood War anime picks up the final arc from the manga." },
+      { q: "Can I skip the filler?", a: "Community filler guides are extensive for Bleach; the Bount and Zanpakuto Rebellion arcs are commonly skipped." },
+    ],
+    similar: ["naruto", "jujutsu-kaisen", "yu-yu-hakusho"],
+  },
+  {
+    slug: "my-hero-academia",
+    title: "My Hero Academia",
+    japaneseTitle: "僕のヒーローアカデミア",
+    year: 2016,
+    status: "Ongoing",
+    episodes: "?",
+    seasons: 7,
+    rating: 8.0,
+    popularity: 8,
+    studio: "bones",
+    genres: ["action", "shonen", "school", "supernatural"],
+    characters: ["izuku-midoriya", "katsuki-bakugo"],
+    tagline: "A quirkless boy inherits the greatest hero's power.",
+    synopsis:
+      "In a world where 80% of humanity is born with a superpower called a Quirk, Izuku Midoriya is not. Kohei Horikoshi's series follows Midoriya from the moment the world's greatest hero picks him as a successor, through his years at U.A. High, and into a full-scale war with a villain organization built out of the society hero culture failed.",
+    cover: g("#22c55e", "#0f172a"),
+    accent: "#22c55e",
+    arcs: [
+      { title: "U.A. Sports Festival", episodes: "S2", summary: "The show's version of a tournament arc, used less for winners than for defining every student's public identity." },
+      { title: "Hideout Raid", episodes: "S3", summary: "The League of Villains rescue that removes All Might from the board and reshapes the series." },
+      { title: "Overhaul", episodes: "S4", summary: "The yakuza arc — a darker, more contained story with lasting consequences for Deku and Mirio." },
+      { title: "Paranormal Liberation War", episodes: "S6", summary: "The full-scale confrontation between the Hero Public Safety Commission and Shigaraki's coalition." },
+    ],
+    watchOrder: ["My Hero Academia (S1–S7)", "Films: Two Heroes, Heroes Rising, World Heroes' Mission"],
+    powerSystem:
+      "Quirks are inherited, mutation-style superpowers, each with a personal cost and a hard ceiling. One For All, Midoriya's inherited power, is the rare Quirk that grows across generations of users.",
+    worldBuilding:
+      "Hero work is a regulated industry. U.A. is one of several hero schools, and the Hero Public Safety Commission runs licensing, rankings, and the political fallout when a top hero falls.",
+    themes: ["Inheritance", "The cost of a hero economy", "Rivalry as growth", "What society owes its 'quirkless'"],
+    quotes: [
+      { line: "You can become a hero.", character: "All Might" },
+    ],
+    facts: [
+      "Studio Bones has animated every season of the main series since 2016.",
+      "The manga concluded in 2024; the anime's final season has been announced to complete the story.",
+    ],
+    awards: ["Sugoi Japan Award — Manga (2017)"],
+    soundtrack: [
+      { title: "The Day", artist: "Porno Graffitti", type: "OP" },
+      { title: "Peace Sign", artist: "Kenshi Yonezu", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Izuku Midoriya", jp: "Daiki Yamashita", en: "Justin Briner" },
+      { role: "Katsuki Bakugo", jp: "Nobuhiko Okamoto", en: "Clifford Chapin" },
+    ],
+    faq: [
+      { q: "Are the movies canon?", a: "The films are side-stories written by Horikoshi but sit outside the main manga timeline." },
+      { q: "Is the anime finished?", a: "The final season is confirmed. The manga completed in 2024." },
+    ],
+    similar: ["jujutsu-kaisen", "naruto", "black-clover"],
+  },
+  {
+    slug: "jojos-bizarre-adventure",
+    title: "JoJo's Bizarre Adventure",
+    japaneseTitle: "ジョジョの奇妙な冒険",
+    year: 2012,
+    status: "Ongoing",
+    episodes: "?",
+    seasons: 6,
+    rating: 8.5,
+    popularity: 15,
+    studio: "david-production",
+    genres: ["action", "adventure", "supernatural", "shonen"],
+    characters: ["jotaro-kujo", "dio-brando"],
+    tagline: "Every generation inherits the fight, and the pose.",
+    synopsis:
+      "Hirohiko Araki's multigenerational saga follows the Joestar family across a century of feuds with an immortal enemy and the strange powers — first Hamon, later Stands — the bloodline develops to fight him. Each part changes protagonist, setting, and genre, but keeps the same operatic sense of style.",
+    cover: g("#a855f7", "#facc15"),
+    accent: "#a855f7",
+    arcs: [
+      { title: "Phantom Blood", episodes: "1–9", summary: "Victorian England, the origin of DIO, and the Hamon breathing style." },
+      { title: "Battle Tendency", episodes: "10–26", summary: "Joseph Joestar, the Pillar Men, and one of the funniest tonal shifts in shonen." },
+      { title: "Stardust Crusaders", episodes: "27–74", summary: "The Stand system is introduced; Jotaro leads a road-trip across Asia to end DIO." },
+      { title: "Diamond is Unbreakable", episodes: "75–113", summary: "A small-town serial-killer mystery framed as a Stand story." },
+      { title: "Golden Wind", episodes: "114–152", summary: "Italian mafia, betrayal, and one of the tightest ensemble arcs in the franchise." },
+      { title: "Stone Ocean", episodes: "153–190", summary: "Part 6, a prison arc that ends the original continuity." },
+    ],
+    watchOrder: ["JoJo's Bizarre Adventure (2012)", "Stardust Crusaders (2014)", "Diamond is Unbreakable (2016)", "Golden Wind (2018)", "Stone Ocean (2021)"],
+    powerSystem:
+      "Parts 1–2 use Hamon, a sunlight-based breathing technique. From Part 3 onward, the series runs on Stands — manifested spirit powers unique to each user, with hard rules and named after music references.",
+    worldBuilding:
+      "A single family bloodline threads through Victorian occultism, WWII-era Nazi archaeology, 1980s Japan, 2000s Italian organized crime, and a Florida women's prison — all connected by the Joestar star birthmark and the shadow of DIO.",
+    themes: ["Inheritance", "Style as substance", "Fate and bloodline", "Rules-based supernatural combat"],
+    quotes: [
+      { line: "Yare yare daze.", character: "Jotaro Kujo" },
+    ],
+    facts: [
+      "David Production has animated every part of the David-era anime since 2012.",
+      "Araki's musical references are so extensive that Stand names have been altered in some Western releases for licensing.",
+    ],
+    awards: ["Shogakukan Manga Award — General (1993)"],
+    soundtrack: [
+      { title: "Sono Chi no Sadame", artist: "Hiroaki 'Tommy' Tominaga", type: "OP" },
+      { title: "Roundabout", artist: "Yes", type: "ED" },
+    ],
+    voiceActors: [
+      { role: "Jotaro Kujo", jp: "Daisuke Ono", en: "Matthew Mercer" },
+      { role: "DIO", jp: "Takehito Koyasu", en: "Patrick Seitz" },
+    ],
+    faq: [
+      { q: "Do I have to start with Part 1?", a: "Yes. Every later part assumes you know the Joestar/DIO backstory." },
+      { q: "Where is Part 7?", a: "Steel Ball Run has not yet been animated as of 2026." },
+    ],
+    similar: ["hunter-x-hunter", "yu-yu-hakusho", "dragon-ball-z"],
+  },
+  {
+    slug: "one-punch-man",
+    title: "One-Punch Man",
+    japaneseTitle: "ワンパンマン",
+    year: 2015,
+    status: "Ongoing",
+    episodes: "?",
+    seasons: 2,
+    rating: 8.5,
+    popularity: 20,
+    studio: "madhouse",
+    genres: ["action", "comedy", "supernatural"],
+    characters: ["saitama"],
+    tagline: "A hero for fun who wins in one hit.",
+    synopsis:
+      "Saitama is a hero so overpowered that no fight lasts more than a punch. ONE and Yusuke Murata's series is a satire of the power-fantasy shonen genre — its real drama is what happens to a man who solved his own premise on page one.",
+    cover: g("#facc15", "#ef4444"),
+    accent: "#facc15",
+    arcs: [
+      { title: "Saitama Introduction", episodes: "S1 E1–3", summary: "The premise is set: a bald man in a jumpsuit ends every fight instantly." },
+      { title: "Hero Association", episodes: "S1 E4–12", summary: "The show introduces the ranked-hero bureaucracy and Genos as Saitama's disciple." },
+      { title: "Monster Association", episodes: "S2", summary: "Garou, the Hero Hunter, becomes the counter-thesis to Saitama's boredom." },
+    ],
+    watchOrder: ["One-Punch Man Season 1 (2015)", "One-Punch Man Season 2 (2019)"],
+    powerSystem:
+      "There isn't one in the traditional sense — that's the joke. Every other character has strict rules, ranks, and cybernetic upgrades; Saitama alone breaks the ceiling.",
+    worldBuilding:
+      "The Hero Association ranks its members S–C-Class and dispatches them against a global bestiary of monsters. Cities are named A through Z, and the destruction economy runs the plot as much as any villain.",
+    themes: ["The cost of unmatched power", "Bureaucracy vs heroism", "Discipleship"],
+    quotes: [
+      { line: "I'm just a guy who's a hero for fun.", character: "Saitama" },
+    ],
+    facts: [
+      "Season 1 was animated by Madhouse; Season 2 moved to J.C.Staff.",
+      "The original webcomic by ONE predates Mob Psycho 100 and remains freely readable in Japanese.",
+    ],
+    awards: ["Sugoi Japan Award — Manga (2015)"],
+    soundtrack: [
+      { title: "THE HERO !!", artist: "JAM Project", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Saitama", jp: "Makoto Furukawa", en: "Max Mittelman" },
+    ],
+    faq: [
+      { q: "Is Season 2 worth watching?", a: "Yes, but expect a visible drop in animation quality from the Madhouse-produced first season." },
+      { q: "Should I read the webcomic or the manga?", a: "Murata's manga is the polished version. ONE's webcomic is a rougher, faster draft of the same story." },
+    ],
+    similar: ["mob-psycho-100", "jujutsu-kaisen"],
+  },
+  {
+    slug: "mob-psycho-100",
+    title: "Mob Psycho 100",
+    japaneseTitle: "モブサイコ100",
+    year: 2016,
+    status: "Completed",
+    episodes: 37,
+    seasons: 3,
+    rating: 8.6,
+    popularity: 25,
+    studio: "bones",
+    genres: ["action", "comedy", "supernatural", "school"],
+    characters: ["shigeo-kageyama"],
+    tagline: "Being kind matters more than being powerful.",
+    synopsis:
+      "Shigeo 'Mob' Kageyama is one of the strongest psychics alive and spends most of his middle-school years trying to become a normal teenager. ONE's second major series is the counter-thesis to One-Punch Man — a story about a boy who can level a city and chooses, every day, not to.",
+    cover: g("#c026d3", "#0f172a"),
+    accent: "#c026d3",
+    arcs: [
+      { title: "Claw Introduction", episodes: "S1", summary: "The evil-psychic organization Claw is revealed, and Mob's brother's storyline begins." },
+      { title: "Separation", episodes: "S2", summary: "Reigen loses Mob's trust — the emotional low point that reframes their entire relationship." },
+      { title: "≥100% Confession", episodes: "S3", summary: "The final season, and one of the most tonally consistent shonen endings of the decade." },
+    ],
+    watchOrder: ["Mob Psycho 100 (2016)", "Mob Psycho 100 II (2019)", "Mob Psycho 100 III (2022)"],
+    powerSystem:
+      "Psychic ability (esper power) is measured in percentages of emotional pressure. Mob's abilities scale with suppressed feeling; when he reaches 100%, the environment answers.",
+    worldBuilding:
+      "A contemporary Japan overlaid with a secret ecology of spirits, psychic conmen, and organized esper crime.",
+    themes: ["Restraint as strength", "Mentorship without expertise", "Adolescence as loss of control"],
+    quotes: [],
+    facts: [
+      "Studio Bones assigned Yuzuru Tachikawa to direct, whose fluid pencil style became one of the show's signatures.",
+      "The manga and anime finished within months of each other, an unusually clean landing for a shonen series.",
+    ],
+    awards: ["Crunchyroll Anime Award — Best Animation (2020)"],
+    soundtrack: [
+      { title: "99", artist: "Mob Choir", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Shigeo Kageyama", jp: "Setsuo Ito", en: "Kyle McCarley" },
+    ],
+    faq: [
+      { q: "Do I need to watch One-Punch Man first?", a: "No. The two ONE adaptations share a writer, not a universe." },
+      { q: "Is it appropriate for younger viewers?", a: "Mostly yes — some psychic violence, but no adult content." },
+    ],
+    similar: ["one-punch-man", "jujutsu-kaisen"],
+  },
+  {
+    slug: "haikyuu",
+    title: "Haikyuu!!",
+    japaneseTitle: "ハイキュー!!",
+    year: 2014,
+    status: "Completed",
+    episodes: 85,
+    seasons: 4,
+    rating: 8.7,
+    popularity: 10,
+    studio: "production-ig",
+    genres: ["sports", "drama", "school", "shonen"],
+    characters: ["hinata-shoyo"],
+    tagline: "A small player, a big net, and a team learning to fly.",
+    synopsis:
+      "Shoyo Hinata, short even by his generation's standards, joins Karasuno High's volleyball club with one goal: to jump higher than anyone else on the court. Haruichi Furudate's series is one of the most technically respected sports anime ever produced, and Production I.G's adaptation treats every rally like a fight scene.",
+    cover: g("#ea580c", "#0f172a"),
+    accent: "#ea580c",
+    arcs: [
+      { title: "Interhigh Preliminaries", episodes: "S1", summary: "The Karasuno vs. Aoba Johsai rivalry begins; the show establishes its core cast." },
+      { title: "Spring Tournament Qualifiers", episodes: "S2", summary: "Karasuno vs. Shiratorizawa — the arc that made 'Karasuno' a household word for sports-anime fans." },
+      { title: "Spring Tournament", episodes: "S4", summary: "The Nekoma match, the Inarizaki match, and the final push toward nationals." },
+    ],
+    watchOrder: ["Haikyuu!! (S1–S4)", "Haikyuu!! The Movie: Battle of the Garbage Dump (2024)"],
+    powerSystem:
+      "None — it's a sports anime. Instead, Furudate stacks position roles (setter, libero, ace, middle blocker) and pattern reads that operate like techniques in a shonen fight.",
+    worldBuilding:
+      "Japanese high-school volleyball, taken seriously enough to name specific tournaments (Interhigh, Spring High) and to build multi-season arcs around specific rival schools.",
+    themes: ["Team as unit", "Small talent vs. big talent", "The rival across the net", "Practice as identity"],
+    quotes: [
+      { line: "The ball hasn't dropped yet.", character: "Ittetsu Takeda" },
+    ],
+    facts: [
+      "The final chapter of the manga aired within a season of the S4 finale.",
+      "The 2024 Dumpster Battle film is the first of two planned theatrical continuations of the anime.",
+    ],
+    awards: ["Kodansha Manga Award — Shonen (2016)"],
+    soundtrack: [
+      { title: "Imagination", artist: "SPYAIR", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Shoyo Hinata", jp: "Ayumu Murase", en: "Bryson Baugus" },
+    ],
+    faq: [
+      { q: "Do I need to know volleyball rules?", a: "No — the show teaches you as it plays." },
+      { q: "Is it finished?", a: "The TV series ended in 2020; the story continues in two theatrical films." },
+    ],
+    similar: ["blue-lock", "slam-dunk", "kurokos-basketball"],
+  },
+  {
+    slug: "blue-lock",
+    title: "Blue Lock",
+    japaneseTitle: "ブルーロック",
+    year: 2022,
+    status: "Ongoing",
+    episodes: "?",
+    seasons: 2,
+    rating: 8.0,
+    popularity: 30,
+    studio: "eight-bit",
+    genres: ["sports", "drama", "shonen"],
+    characters: ["yoichi-isagi"],
+    tagline: "300 strikers, one project, one selfish egoist to save Japan.",
+    synopsis:
+      "Muneyuki Kaneshiro and Yusuke Nomura's series traps 300 of Japan's most promising strikers in a single facility and asks them to eliminate each other into a single, perfectly selfish World Cup goalscorer. The premise is antithetical to traditional sports-anime team ethics, and that friction is the point.",
+    cover: g("#0ea5e9", "#0f172a"),
+    accent: "#0ea5e9",
+    arcs: [
+      { title: "First Selection", episodes: "S1 E1–14", summary: "The Blue Lock facility, the elimination format, and the ranking system are introduced." },
+      { title: "Second Selection", episodes: "S1 E15–24", summary: "Team formations and rivalry structures crystallize; Isagi's spatial awareness becomes the show's central metaphor." },
+      { title: "Neo Egoist League", episodes: "S2", summary: "The surviving strikers are matched with foreign clubs and pro coaches." },
+    ],
+    watchOrder: ["Blue Lock Season 1 (2022)", "Blue Lock: Episode Nagi (2024 film)", "Blue Lock Season 2 (2024)"],
+    powerSystem:
+      "None — but the series treats spatial awareness, ego, and 'weapons' (a striker's signature technique) as if they were.",
+    worldBuilding:
+      "A near-future Japan whose football federation has authorized an extralegal training facility to manufacture a single World-Cup-winning striker.",
+    themes: ["Ego vs. team", "Scarcity as motivation", "Talent hierarchy"],
+    quotes: [],
+    facts: [
+      "Eight Bit's adaptation debuted the same year Japan reached the World Cup round of 16 — a coincidence the marketing leaned into.",
+      "The Episode Nagi film re-tells early arcs from the perspective of a supporting character.",
+    ],
+    awards: ["Kodansha Manga Award — Shonen (2021)"],
+    soundtrack: [
+      { title: "Chaos ga Kiwamaru", artist: "Unison Square Garden", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Yoichi Isagi", jp: "Kazuki Ura" },
+    ],
+    faq: [
+      { q: "Do I need to watch Episode Nagi?", a: "No — it's a companion film, not a prerequisite for Season 2." },
+      { q: "Is it beginner-friendly?", a: "Yes. The series explains its rules explicitly every arc." },
+    ],
+    similar: ["haikyuu", "kurokos-basketball"],
+  },
+  {
+    slug: "black-clover",
+    title: "Black Clover",
+    japaneseTitle: "ブラッククローバー",
+    year: 2017,
+    status: "Completed",
+    episodes: 170,
+    seasons: 4,
+    rating: 8.1,
+    popularity: 22,
+    studio: "pierrot",
+    genres: ["action", "fantasy", "magic", "shonen"],
+    characters: ["asta"],
+    tagline: "The one boy in a world of mages who was born without magic.",
+    synopsis:
+      "Yūki Tabata's series follows Asta, an orphan born with no mana in a kingdom where magic is identity, and Yuno, his rival and best friend, as they both work toward the title of Wizard King. The TV anime ran 170 episodes to the Spade Kingdom raid; the film Sword of the Wizard King continues the story.",
+    cover: g("#16a34a", "#0f172a"),
+    accent: "#16a34a",
+    arcs: [
+      { title: "Magic Knights Entrance", episodes: "1–13", summary: "Asta joins the Black Bulls; the guild-culture premise is established." },
+      { title: "Eye of the Midnight Sun", episodes: "39–83", summary: "The elf revival plot begins; long-buried grudges reshape the Clover Kingdom." },
+      { title: "Spade Kingdom Raid", episodes: "158–170", summary: "The TV series' final arc, ending on a bridge to the Sword of the Wizard King film." },
+    ],
+    watchOrder: ["Black Clover TV (2017–2021)", "Black Clover: Sword of the Wizard King (2023)"],
+    powerSystem:
+      "Every citizen of the Clover Kingdom is born with mana and receives a grimoire attuned to their affinity. Asta's anti-magic weapons are the exception the whole plot revolves around.",
+    worldBuilding:
+      "A Clover Kingdom divided into nine Magic Knight squads, each with its own culture, ranked by public performance and quietly gatekept by nobility.",
+    themes: ["Effort vs. talent", "Rivalry as motivation", "Class mobility"],
+    quotes: [],
+    facts: [
+      "The anime is one of Pierrot's longest continuous productions of the 2010s.",
+      "Sword of the Wizard King is a canon continuation, not a side story.",
+    ],
+    awards: [],
+    soundtrack: [
+      { title: "Haruka Mirai", artist: "Kankaku Piero", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Asta", jp: "Gakuto Kajiwara", en: "Dallas Reid" },
+    ],
+    faq: [
+      { q: "Is the anime over?", a: "The TV series ended in 2021; the story continues in the 2023 film and in the ongoing manga." },
+      { q: "Does Asta ever get magic?", a: "No — his weapons cut magic, which is the entire premise." },
+    ],
+    similar: ["my-hero-academia", "naruto", "fairy-tail"],
+  },
+  {
+    slug: "dr-stone",
+    title: "Dr. Stone",
+    japaneseTitle: "ドクターストーン",
+    year: 2019,
+    status: "Ongoing",
+    episodes: "?",
+    seasons: 4,
+    rating: 8.3,
+    popularity: 28,
+    studio: "tms",
+    genres: ["adventure", "sci-fi", "shonen"],
+    characters: ["senku-ishigami"],
+    tagline: "Rebuilding civilization from zero, one experiment at a time.",
+    synopsis:
+      "Riichiro Inagaki and Boichi's series opens with every human on Earth turned to stone. Thousands of years later, high-school genius Senku Ishigami wakes up and starts rebuilding civilization from first principles. The show is a shonen wrapper around a science-history procedural.",
+    cover: g("#22c55e", "#0f172a"),
+    accent: "#22c55e",
+    arcs: [
+      { title: "Stone World", episodes: "S1", summary: "The Kingdom of Science is founded; Senku's method — cite the recipe, then build the tool — is established." },
+      { title: "Stone Wars", episodes: "S2", summary: "The Empire of Might is confronted; the show introduces its long-term antagonist framework." },
+      { title: "New World", episodes: "S3", summary: "A trans-Pacific voyage; the show becomes an adventure travelogue." },
+      { title: "Science Future", episodes: "S4", summary: "The final season, adapting the manga's endgame." },
+    ],
+    watchOrder: ["Dr. Stone (2019)", "Stone Wars (2021)", "New World (2023)", "Science Future (2024)"],
+    powerSystem:
+      "Real chemistry, mostly. The show cites sources on-screen and takes visible liberties only with time-to-manufacture.",
+    worldBuilding:
+      "A post-petrification Earth in which the ruins of modern civilization are archaeological. Different survivor communities represent different attitudes toward what humanity was and should become.",
+    themes: ["Science as narrative", "Progress vs. force", "Communal knowledge"],
+    quotes: [],
+    facts: [
+      "TMS Entertainment has produced every season; Boichi's art style has driven the show's distinctive character designs.",
+      "The Japanese chemistry consultant on the anime is credited by name in the closing sequence.",
+    ],
+    awards: ["Shogakukan Manga Award — Shonen (2018)"],
+    soundtrack: [
+      { title: "Good Morning World!", artist: "BURNOUT SYNDROMES", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Senku Ishigami", jp: "Yusuke Kobayashi", en: "Aaron Dismuke" },
+    ],
+    faq: [
+      { q: "Is the science real?", a: "Mostly yes. The show cites its sources; the manga has a technical adviser." },
+      { q: "Do I need a science background?", a: "No — Senku's job is to explain the recipe to you before he cooks it." },
+    ],
+    similar: ["hunter-x-hunter", "frieren"],
+  },
+  {
+    slug: "yu-yu-hakusho",
+    title: "Yu Yu Hakusho",
+    japaneseTitle: "幽☆遊☆白書",
+    year: 1992,
+    status: "Completed",
+    episodes: 112,
+    seasons: 4,
+    rating: 8.5,
+    popularity: 40,
+    studio: "pierrot",
+    genres: ["action", "supernatural", "shonen"],
+    characters: ["yusuke-urameshi"],
+    tagline: "A delinquent detective for the spirit world.",
+    synopsis:
+      "Yoshihiro Togashi's series follows Yusuke Urameshi, a teenage delinquent who dies saving a child in the first episode and comes back as Spirit World's official detective. Yu Yu Hakusho ran between Togashi's two masterworks — Slam Dunk-era shonen structure with the tournament rigor Hunter × Hunter would later inherit.",
+    cover: g("#166534", "#0f172a"),
+    accent: "#22c55e",
+    arcs: [
+      { title: "Spirit Detective", episodes: "1–25", summary: "The premise is established; Yusuke assembles his team." },
+      { title: "Dark Tournament", episodes: "26–66", summary: "The arc most fans still call the template for the modern shonen tournament." },
+      { title: "Chapter Black", episodes: "67–94", summary: "Sensui's arc, the moral tone shift that would echo into Hunter × Hunter." },
+      { title: "Three Kings", episodes: "95–112", summary: "The Demon World finale — divisive at release, better regarded now." },
+    ],
+    watchOrder: ["Yu Yu Hakusho (1992)"],
+    powerSystem:
+      "Spirit energy (reiki, yōki) manifests through named techniques — Spirit Gun, Fists of the Mortal Flame — with strict rules and drawbacks that later became genre-standard.",
+    worldBuilding:
+      "A three-tier cosmology: Human World, Spirit World bureaucracy, and Demon World. Every arc reframes which of the three is the real problem.",
+    themes: ["Rehabilitation", "Rivalry as brotherhood", "The tournament as moral test"],
+    quotes: [],
+    facts: [
+      "Togashi's health issues during the Three Kings arc shaped the compressed final stretch.",
+      "The show received a live-action Netflix adaptation in 2023.",
+    ],
+    awards: ["Shogakukan Manga Award — Shonen (1994)"],
+    soundtrack: [
+      { title: "Smile Bomb", artist: "Matsuko Mawatari", type: "OP" },
+    ],
+    voiceActors: [
+      { role: "Yusuke Urameshi", jp: "Nozomu Sasaki", en: "Justin Cook" },
+    ],
+    faq: [
+      { q: "Is it available in English?", a: "Yes. The Funimation dub is the reference version for most Western fans." },
+      { q: "Do I need to watch the movies?", a: "No — the theatrical films are optional side stories." },
+    ],
+    similar: ["hunter-x-hunter", "bleach", "jojos-bizarre-adventure"],
+  },
 ];
+
 
 export const getAnime = (slug: string) => animes.find((a) => a.slug === slug);
 export const listAnime = () => animes;

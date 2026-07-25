@@ -50,7 +50,11 @@ export const characterRelationships: CharacterRelationship[] = [
     kind: "romantic-interest",
     note: "Her early crush deepens into a decade-long commitment the show treats with more weight than most shonen romances.",
   },
+  { from: "goku", to: "vegeta", kind: "rival", note: "Started as invader vs. defender; hardened into anime's most influential rivalry." },
+  { from: "izuku-midoriya", to: "katsuki-bakugo", kind: "rival", note: "Childhood friends turned rivals; Bakugo's arc mirrors Deku's from the opposite side." },
+  { from: "jotaro-kujo", to: "dio-brando", kind: "enemy", note: "The generational Joestar–Brando feud, resolved in Stardust Crusaders." },
 ];
+
 
 export function relationshipsFor(characterSlug: string) {
   return characterRelationships.filter(

@@ -20,11 +20,12 @@ const megaGroups = [
         { to: "/completed", label: "Completed" },
       ]},
       { title: "By format", links: [
-        { to: "/movies", label: "Movies" },
-        { to: "/seasons", label: "Seasons" },
-        { to: "/classic", label: "Classic" },
-        { to: "/kids", label: "Kids & Family" },
+        { to: "/classic", label: "Classic & Retro" },
+        { to: "/timeline", label: "Anime Timeline" },
+        { to: "/watch-order", label: "Watch Orders" },
+        { to: "/genre/family", label: "Kids & Family" },
       ]},
+
       { title: "Popular", links: animes.slice(0, 6).map(a => ({ to: `/anime/${a.slug}`, label: a.title })) },
     ],
   },

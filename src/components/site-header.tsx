@@ -71,18 +71,23 @@ const megaGroups = [
     label: "Studios",
     icon: Building2,
     columns: [
-      { title: "Studios", links: studios.slice(0,6).map(s => ({ to: `/studio/${s.slug}`, label: s.name })) },
+      { title: "Studios", links: [{ to: "/studios", label: "All Studios" }, ...studios.slice(0,5).map(s => ({ to: `/studio/${s.slug}`, label: s.name }))] },
       { title: "Streaming", links: [
         { to: "/streaming", label: "Streaming Platforms" },
         { to: "/awards", label: "Anime Awards" },
         { to: "/statistics", label: "Statistics" },
+        { to: "/events", label: "Events & Cons" },
       ]},
-      { title: "Merch", links: [
-        { to: "/merch", label: "Merchandise" },
-        { to: "/collectibles", label: "Collectibles" },
+      { title: "AnimeVerse", links: [
+        { to: "/about", label: "About Us" },
+        { to: "/contact", label: "Contact Us" },
+        { to: "/editorial-policy", label: "Editorial Policy" },
+        { to: "/merch", label: "Merch & Wallpapers" },
+        { to: "/faq", label: "FAQ" },
       ]},
     ],
   },
+
 ];
 
 export function SiteHeader() {

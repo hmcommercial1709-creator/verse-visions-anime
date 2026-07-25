@@ -4,6 +4,8 @@ import { getAnime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AnimeCard } from "@/components/anime-card";
 import { AdSlot } from "@/components/ad-slot";
+import { recommendArticles, articleAnimeRecs } from "@/lib/recommendations";
+import { ArticleRecRail, AnimeRecRail } from "@/components/recommendations";
 
 export const Route = createFileRoute("/article/$slug")({
   loader: ({ params }) => {

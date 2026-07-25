@@ -1,12 +1,13 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { getEpisode, episodesFor } from "@/data/episodes";
+import { getEpisode, episodesFor, type Episode } from "@/data/episodes";
 import { getAnime } from "@/data/animes";
+import type { Anime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
 import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/anime/$slug/episode/$num")({
-  loader: ({ params }) => {
+  loader: ({ params }): { ep: Episode; anime: Anime } => {
     const number = parseInt(params.num, 10);
     const ep = getEpisode(params.slug, number);
     const anime = getAnime(params.slug);

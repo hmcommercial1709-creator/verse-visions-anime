@@ -83,6 +83,16 @@ function CharacterPage() {
             </div>
           </Block>
         )}
+        <CharacterRecRail
+          items={charRecs}
+          eyebrow="You might also like"
+          title={`Characters with ${c.name}'s energy`}
+        />
+        <AnimeRecRail
+          items={animeRecs}
+          eyebrow="Continue exploring"
+          title={anime ? `If you liked ${anime.title}` : "You might enjoy"}
+        />
       </div>
     </div>
   );

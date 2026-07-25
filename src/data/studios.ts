@@ -25,6 +25,28 @@ export const studios: Studio[] = [
   { slug: "a1-pictures", name: "A-1 Pictures", founded: 2005, country: "Japan", accent: "#7c5cff",
     blurb: "Prolific studio behind Sword Art Online, Kaguya-sama, 86, and Solo Leveling.",
     notable: ["solo-leveling"] },
+  { slug: "production-ig", name: "Production I.G", founded: 1987, country: "Japan", accent: "#f97316",
+    blurb: "One of the industry's most technically consistent studios. Home of Ghost in the Shell, Psycho-Pass, and the Haikyuu!! adaptations that redefined how sports anime moves.",
+    notable: ["haikyuu"] },
+  { slug: "david-production", name: "David Production", founded: 2007, country: "Japan", accent: "#a855f7",
+    blurb: "The studio that took on JoJo's Bizarre Adventure when nobody else would, and turned it into one of anime's most stylistically distinct long-runners.",
+    notable: ["jojos-bizarre-adventure"] },
+  { slug: "eight-bit", name: "Eight Bit", founded: 2008, country: "Japan", accent: "#0ea5e9",
+    blurb: "Best known internationally for That Time I Got Reincarnated as a Slime and the Blue Lock adaptation.",
+    notable: ["blue-lock"] },
+  { slug: "olm", name: "OLM, Inc.", founded: 1994, country: "Japan", accent: "#facc15",
+    blurb: "The long-running production house behind the Pokémon anime and a wide variety of family and shonen titles.",
+    notable: [] },
+  { slug: "gallop", name: "Studio Gallop", founded: 1978, country: "Japan", accent: "#f59e0b",
+    blurb: "A veteran studio whose catalog is anchored by the Yu-Gi-Oh! Duel Monsters series.",
+    notable: [] },
+  { slug: "tms", name: "TMS Entertainment", founded: 1946, country: "Japan", accent: "#22c55e",
+    blurb: "One of Japan's oldest animation houses. Producer of Detective Conan, Lupin III, and the Dr. Stone adaptation.",
+    notable: ["dr-stone"] },
+  { slug: "jc-staff", name: "J.C.Staff", founded: 1986, country: "Japan", accent: "#ec4899",
+    blurb: "Prolific studio behind Toradora, Food Wars, and One-Punch Man Season 2.",
+    notable: [] },
 ];
 
 export const getStudio = (slug: string) => studios.find((s) => s.slug === slug);
+

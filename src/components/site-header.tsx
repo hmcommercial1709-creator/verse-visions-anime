@@ -170,6 +170,30 @@ export function SiteHeader() {
           </div>
         </div>
 
+        {/* Quick genre filter strip */}
+        <div className="border-t border-border/40 bg-background/40">
+          <div className="mx-auto flex max-w-7xl items-center gap-2 overflow-x-auto px-4 py-2 lg:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <Link
+              to="/browse"
+              className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+            >
+              All anime
+            </Link>
+            {genres.slice(0, 14).map((g) => (
+              <Link
+                key={g.slug}
+                to="/genre/$slug"
+                params={{ slug: g.slug }}
+                className="shrink-0 rounded-full border border-border/60 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+              >
+                {g.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+
+
         {/* Mega menu */}
         {openMenu && (
           <div className="absolute inset-x-0 top-full hidden lg:block" onMouseEnter={() => {}}>

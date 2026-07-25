@@ -41,16 +41,17 @@ const footerCols = [
     { to: "/events", label: "Events" },
     { to: "/streaming", label: "Streaming" },
   ]},
-  { title: "About", links: [
-    { to: "/about", label: "About AnimeVerse" },
-    { to: "/contact", label: "Contact" },
+  { title: "About & Legal", links: [
+    { to: "/about", label: "About Us" },
+    { to: "/contact", label: "Contact Us" },
     { to: "/faq", label: "FAQ" },
     { to: "/privacy", label: "Privacy Policy" },
     { to: "/terms", label: "Terms of Service" },
     { to: "/cookies", label: "Cookie Policy" },
-    { to: "/dmca", label: "DMCA" },
+    { to: "/dmca", label: "DMCA & Copyright" },
     { to: "/sitemap-page", label: "HTML Sitemap" },
   ]},
+
 ];
 
 export function SiteFooter() {

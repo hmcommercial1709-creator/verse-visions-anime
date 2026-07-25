@@ -54,6 +54,7 @@ function EpisodePage() {
   const idx = siblings.findIndex((s) => s.number === ep.number);
   const prev = idx > 0 ? siblings[idx - 1] : null;
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
+  const animeRecs = recommendAnime(anime.slug, 4);
 
   return (
     <article>

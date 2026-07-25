@@ -300,6 +300,12 @@ function AnimeDetail() {
               </div>
             </SectionBlock>
           )}
+
+          <AnimeRecRail
+            items={alsoEnjoyed}
+            eyebrow="Readers also enjoyed"
+            title={`If you liked ${anime.title}…`}
+          />
         </div>
 
         {/* SIDEBAR */}

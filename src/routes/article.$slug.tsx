@@ -111,6 +111,8 @@ function ArticlePage() {
   return (
     <div>
       <ReadingProgressBar />
+      <HeaderBannerAd />
+
 
       <section className="relative">
         <div className="h-64 lg:h-80" style={{ background: a.cover }}>

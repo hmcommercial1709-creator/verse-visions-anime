@@ -230,8 +230,8 @@ function ArticlePage() {
               ))}
             </div>
 
-            {/* Guaranteed end-of-article AdSense unit (InArticle_Ad_2) */}
-            <InArticleAd index={2} unitId="av-article-end" adId="InArticle_Ad_2" />
+            {/* End-of-article native unit */}
+            <InArticleAd index={99} unitId="av-article-end" adId="InArticle_Ad_End" />
 
             <AnimeRecRail items={relatedAnime} eyebrow="Related anime" title="Anime featured in this piece" />
 
@@ -240,6 +240,9 @@ function ArticlePage() {
               eyebrow="Readers also enjoyed"
               title={alsoEnjoyed.length > 0 ? "More like this" : `More in ${a.section}`}
             />
+
+            {/* Post-article banner (Post_Content_Ad) */}
+            <PostContentAd />
           </article>
 
           <aside className="hidden space-y-6 lg:block">

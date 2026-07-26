@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ExternalLink, MonitorPlay, Play, Server } from "lucide-react";
+import { Download, ExternalLink, MonitorPlay, Play, Server } from "lucide-react";
 import type { Anime } from "@/data/animes";
 import { episodesFor } from "@/data/episodes";
+import { UnlockCountdownModal, useUnlockCountdown } from "@/components/unlock-countdown";
 
 /**
  * Latest episodes + "where to watch" switcher.

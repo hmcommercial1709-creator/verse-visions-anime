@@ -63,7 +63,12 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 </div>
               </div>
             </Link>
-            {i > 0 && (i + 1) % PAGE === 0 && <InArticleAd index={Math.ceil((i + 1) / PAGE)} />}
+            {i > 0 && (i + 1) % PAGE === 0 && (
+              <InArticleAd
+                index={Math.ceil((i + 1) / PAGE)}
+                unitId={`av-feed-${a.slug}-${Math.ceil((i + 1) / PAGE)}`}
+              />
+            )}
           </div>
         ))}
       </div>

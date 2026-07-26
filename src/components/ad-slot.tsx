@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 
 type Placement =
   | "top"
@@ -56,10 +57,19 @@ export function HeaderBannerAd() {
 }
 
 /** In-article native unit, designed to read as part of the flow. */
-export function InArticleAd({ index = 1 }: { index?: number }) {
+export function InArticleAd({ index = 1, unitId }: { index?: number; unitId?: string }) {
+  const autoId = useAdUnitId("av-inarticle");
+  const id = unitId ?? autoId;
+  const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLElement>();
+
   return (
     <aside
+      ref={ref}
+      id={id}
       data-ad-slot="in-article"
+      data-ad-unit-id={id}
+      data-ad-refresh={refreshKey}
+      data-ad-viewable={viewable ? "true" : "false"}
       aria-label="advertisement"
       className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
@@ -67,7 +77,10 @@ export function InArticleAd({ index = 1 }: { index?: number }) {
         <span>Sponsored</span>
         <span className="font-mono opacity-60">slot {index}</span>
       </div>
-      <div className="grid h-32 place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground/60">
+      <div
+        key={refreshKey}
+        className="grid h-32 place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground/60"
+      >
         Native In-Article Unit
       </div>
     </aside>
@@ -75,15 +88,24 @@ export function InArticleAd({ index = 1 }: { index?: number }) {
 }
 
 /** Desktop sidebar unit that stays in view while the reader scrolls. */
-export function StickySidebarAd({ label = "Sidebar · 300×600" }: { label?: string }) {
+export function StickySidebarAd({ label = "Sidebar · 300×600", unitId }: { label?: string; unitId?: string }) {
+  const autoId = useAdUnitId("av-sidebar");
+  const id = unitId ?? autoId;
+  const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLDivElement>();
+
   return (
     <div className="sticky top-28 hidden lg:block">
       <div
+        ref={ref}
+        id={id}
         data-ad-slot="sticky-sidebar"
+        data-ad-unit-id={id}
+        data-ad-refresh={refreshKey}
+        data-ad-viewable={viewable ? "true" : "false"}
         aria-label="advertisement"
         className="grid h-[600px] w-full place-items-center rounded-2xl border border-dashed border-border/70 bg-secondary/25 text-[10px] uppercase tracking-[0.24em] text-muted-foreground/70"
       >
-        {label}
+        <span key={refreshKey}>{label}</span>
       </div>
     </div>
   );

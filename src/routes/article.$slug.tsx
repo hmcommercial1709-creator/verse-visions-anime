@@ -1,7 +1,15 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getArticle, articles, getAuthor } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { AdSlot, InArticleAd, StickySidebarAd } from "@/components/ad-slot";
+import {
+  AdSlot,
+  BelowTitleAd,
+  HeaderBannerAd,
+  InArticleAd,
+  PostContentAd,
+  StickySidebarAd,
+} from "@/components/ad-slot";
+import { planInArticleAds } from "@/lib/ads-layout";
 import { recommendArticles, articleAnimeRecs } from "@/lib/recommendations";
 import { ArticleRecRail, AnimeRecRail } from "@/components/recommendations";
 import { ReadingProgressBar } from "@/components/reading-progress";
@@ -97,10 +105,15 @@ function ArticlePage() {
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
   const merchProducts = productsForContext(loreAnime, a.title);
+  // In-body native units land every 4 paragraphs; slot 1 is the guaranteed
+  // above-the-fold unit, so the body plan starts at InArticle_Ad_2.
+  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { startAt: 2 });
 
   return (
     <div>
       <ReadingProgressBar />
+      <HeaderBannerAd />
+
 
       <section className="relative">
         <div className="h-64 lg:h-80" style={{ background: a.cover }}>
@@ -141,6 +154,9 @@ function ArticlePage() {
               </div>
             </div>
 
+            {/* Below-title billboard (Below_Title_Ad) */}
+            <BelowTitleAd />
+
             {/* Mobile TOC */}
             <div className="mt-6 lg:hidden">
               <TableOfContents sections={sections} />
@@ -152,9 +168,24 @@ function ArticlePage() {
             <div className="prose prose-invert mt-8 max-w-none text-lg leading-relaxed">
               {sections.map((s, i) => (
                 <section key={s.id} id={s.id} className="scroll-mt-28">
-                  {s.paragraphs.map((p, j) => (
-                    <p key={j} className="mb-6">{p}</p>
-                  ))}
+                  {s.paragraphs.map((p, j) => {
+                    const ad = adPlan.get(`${i}:${j}`);
+                    return (
+                      <div key={j}>
+                        <p className="mb-6">{p}</p>
+                        {/* Native unit injected every 4 paragraphs */}
+                        {ad && (
+                          <div className="not-prose">
+                            <InArticleAd
+                              index={ad.index}
+                              unitId={`av-article-${i}-${j}`}
+                              adId={ad.adId}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
 
                   {/* Contextual internal link card, woven into the flow */}
                   {inlineLinks[i] && i % 2 === 1 && (
@@ -171,16 +202,6 @@ function ArticlePage() {
                     </aside>
                   )}
 
-                  {/* Native ad every third section */}
-                  {(i + 1) % 2 === 0 && (
-                    <div className="not-prose">
-                      <InArticleAd
-                        index={(i + 1) / 2 + 2}
-                        unitId={`av-article-${i + 1}`}
-                        adId={`InArticle_Ad_Body_${(i + 1) / 2}`}
-                      />
-                    </div>
-                  )}
 
                   {/* Embedded merchandise + manga affiliate widget */}
                   {i === 2 && (
@@ -212,8 +233,8 @@ function ArticlePage() {
               ))}
             </div>
 
-            {/* Guaranteed end-of-article AdSense unit (InArticle_Ad_2) */}
-            <InArticleAd index={2} unitId="av-article-end" adId="InArticle_Ad_2" />
+            {/* End-of-article native unit */}
+            <InArticleAd index={99} unitId="av-article-end" adId="InArticle_Ad_End" />
 
             <AnimeRecRail items={relatedAnime} eyebrow="Related anime" title="Anime featured in this piece" />
 
@@ -222,6 +243,9 @@ function ArticlePage() {
               eyebrow="Readers also enjoyed"
               title={alsoEnjoyed.length > 0 ? "More like this" : `More in ${a.section}`}
             />
+
+            {/* Post-article banner (Post_Content_Ad) */}
+            <PostContentAd />
           </article>
 
           <aside className="hidden space-y-6 lg:block">

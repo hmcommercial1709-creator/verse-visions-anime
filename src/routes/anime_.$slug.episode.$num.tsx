@@ -3,7 +3,8 @@ import { getEpisode, episodesFor, type Episode } from "@/data/episodes";
 import { getAnime } from "@/data/animes";
 import type { Anime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { InArticleAd, StickySidebarAd } from "@/components/ad-slot";
+import { BelowTitleAd, HeaderBannerAd, InArticleAd, PostContentAd, StickySidebarAd } from "@/components/ad-slot";
+import { planInArticleAds } from "@/lib/ads-layout";
 import {
   AffiliateProductWidget,
   InlineAffiliateCard,
@@ -61,9 +62,12 @@ function EpisodePage() {
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const animeRecs = recommendAnime(anime.slug, 4);
   const merch = productsForContext(anime, anime.title);
+  // Native units injected every 4 recap paragraphs (slot 1 is above the fold).
+  const recapAdPlan = planInArticleAds([ep.recap.length], { startAt: 2, max: 2 });
 
   return (
     <article>
+      <HeaderBannerAd />
       <section className="relative overflow-hidden">
         <div className="absolute inset-0" style={{ background: anime.cover }}>
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />
@@ -89,6 +93,9 @@ function EpisodePage() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-6">
 
         <div className="min-w-0 max-w-3xl">
+        {/* Below-title billboard (Below_Title_Ad) */}
+        <BelowTitleAd />
+
         <InArticleAd
           index={1}
           unitId={`av-ep-${anime.slug}-${ep.number}-top`}
@@ -97,14 +104,16 @@ function EpisodePage() {
 
         <Block title="Recap">
           <div className="prose prose-invert max-w-none space-y-5 text-lg leading-relaxed">
-            {ep.recap.map((p, i) => (
+            {ep.recap.map((p, i) => {
+              const ad = recapAdPlan.get(`0:${i}`);
+              return (
               <div key={i}>
                 <p>{p}</p>
-                {i === 2 && (
+                {ad && (
                   <InArticleAd
-                    index={3}
-                    unitId={`av-ep-${anime.slug}-${ep.number}-recap`}
-                    adId="InArticle_Ad_Body_1"
+                    index={ad.index}
+                    unitId={`av-ep-${anime.slug}-${ep.number}-recap-${i}`}
+                    adId={ad.adId}
                   />
                 )}
                 {i === 4 && merch[0] && (
@@ -114,7 +123,8 @@ function EpisodePage() {
                   />
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         </Block>
 
@@ -149,11 +159,6 @@ function EpisodePage() {
           </div>
         </Block>
 
-        <InArticleAd
-          index={2}
-          unitId={`av-ep-${anime.slug}-${ep.number}-mid`}
-          adId="InArticle_Ad_2"
-        />
 
         <AffiliateProductWidget
           products={merch}
@@ -246,6 +251,9 @@ function EpisodePage() {
           eyebrow="Continue exploring"
           title={`If ${anime.title} is your lane…`}
         />
+
+        {/* Post-article banner (Post_Content_Ad) */}
+        <PostContentAd />
         </div>
 
         <aside className="hidden lg:block">

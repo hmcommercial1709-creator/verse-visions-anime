@@ -154,7 +154,37 @@ const coreArticles: Article[] = [
     related: ["spy-x-family"] },
 ];
 
+/** Legacy `section` → navigation category fallback. */
+const SECTION_CATEGORY: Record<Article["section"], CategorySlug> = {
+  news: "news",
+  reviews: "reviews",
+  guides: "gaming-guides",
+  "top-lists": "gaming-guides",
+  editorial: "action",
+};
+
+export const categoryForArticle = (a: Article): CategorySlug =>
+  a.category ?? SECTION_CATEGORY[a.section];
+
+/** Every published editorial item, newest first. */
+export const articles: Article[] = [...coreArticles, ...extraArticles].sort((a, b) =>
+  b.date.localeCompare(a.date),
+);
+
 export const getArticle = (slug: string) => articles.find((a) => a.slug === slug);
 export const listArticles = (section?: Article["section"]) =>
   section ? articles.filter((a) => a.section === section) : articles;
+export const listByCategory = (category: CategorySlug) =>
+  articles.filter((a) => categoryForArticle(a) === category);
+export const articleTags = (a: Article): string[] => a.tags ?? [a.tag.toLowerCase()];
+export const listByTag = (tag: string) =>
+  articles.filter((a) => articleTags(a).includes(tag.toLowerCase()));
+/** All tags across the catalogue, most used first. */
+export const allTags = (): { tag: string; count: number }[] => {
+  const counts = new Map<string, number>();
+  for (const a of articles) for (const t of articleTags(a)) counts.set(t, (counts.get(t) ?? 0) + 1);
+  return [...counts.entries()]
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((x, y) => y.count - x.count || x.tag.localeCompare(y.tag));
+};
 export const getAuthor = (slug: string) => authors.find((a) => a.slug === slug);

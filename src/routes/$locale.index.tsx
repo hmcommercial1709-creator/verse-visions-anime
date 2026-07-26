@@ -23,7 +23,7 @@ export const Route = createFileRoute("/$locale/")({
         },
         { property: "og:type", content: "website" },
         { property: "og:url", content: `${SITE_URL}/${locale.code}` },
-        { property: "og:locale", content: locale.hreflang },
+        { property: "og:locale", content: locale.hrefLang },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale.code}` },

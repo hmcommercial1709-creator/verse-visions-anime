@@ -73,7 +73,7 @@ export function hreflangLinks(pathname: string) {
   return [
     ...LOCALES.map((l) => ({
       rel: "alternate",
-      hrefLang: l.hreflang,
+      hrefLang: l.hrefLang,
       href: `${SITE_URL}${localizePath(base, l.code)}`,
     })),
     { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}${base}` },
@@ -94,7 +94,7 @@ export function useLocaleDocumentSync() {
   const locale = useLocale();
   useEffect(() => {
     const el = document.documentElement;
-    el.lang = locale.hreflang;
+    el.lang = locale.hrefLang;
     el.dir = locale.dir;
     try {
       localStorage.setItem(LOCALE_STORAGE_KEY, locale.code);

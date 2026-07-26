@@ -13,7 +13,7 @@ export function LocalizedEditionNotice({ locale: code, path }: { locale: string;
   const cleanPath = path.replace(/\/+$/, "") || "/";
 
   return (
-    <div dir={locale.dir} lang={locale.hreflang} className="mx-auto max-w-3xl px-4 py-16 lg:px-6">
+    <div dir={locale.dir} lang={locale.hrefLang} className="mx-auto max-w-3xl px-4 py-16 lg:px-6">
       <div className="rounded-2xl border border-border/60 bg-card/50 p-8 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent">

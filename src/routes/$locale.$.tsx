@@ -21,7 +21,7 @@ export const Route = createFileRoute("/$locale/$")({
         { property: "og:description", content: `${locale.english} edition of this AnimeVerse page.` },
         { property: "og:type", content: "website" },
         { property: "og:url", content: `${SITE_URL}/${locale.code}${path}` },
-        { property: "og:locale", content: locale.hreflang },
+        { property: "og:locale", content: locale.hrefLang },
         { name: "robots", content: "noindex, follow" },
       ],
       links: [

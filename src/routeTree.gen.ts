@@ -59,6 +59,7 @@ import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
+import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
@@ -314,6 +315,11 @@ const CharacterSlugRoute = CharacterSlugRouteImport.update({
   path: '/character/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategorySlugRoute = CategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArticleSlugRoute = ArticleSlugRouteImport.update({
   id: '/article/$slug',
   path: '/article/$slug',
@@ -385,6 +391,7 @@ export interface FileRoutesByFullPath {
   '/$locale/$': typeof LocaleSplatRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
@@ -441,6 +448,7 @@ export interface FileRoutesByTo {
   '/$locale/$': typeof LocaleSplatRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
@@ -498,6 +506,7 @@ export interface FileRoutesById {
   '/$locale/$': typeof LocaleSplatRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
@@ -556,6 +565,7 @@ export interface FileRouteTypes {
     | '/$locale/$'
     | '/anime/$slug'
     | '/article/$slug'
+    | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
@@ -612,6 +622,7 @@ export interface FileRouteTypes {
     | '/$locale/$'
     | '/anime/$slug'
     | '/article/$slug'
+    | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
@@ -668,6 +679,7 @@ export interface FileRouteTypes {
     | '/$locale/$'
     | '/anime/$slug'
     | '/article/$slug'
+    | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
@@ -725,6 +737,7 @@ export interface RootRouteChildren {
   LocaleSplatRoute: typeof LocaleSplatRoute
   AnimeSlugRoute: typeof AnimeSlugRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
+  CategorySlugRoute: typeof CategorySlugRoute
   CharacterSlugRoute: typeof CharacterSlugRoute
   GenreSlugRoute: typeof GenreSlugRoute
   StudioSlugRoute: typeof StudioSlugRoute
@@ -1084,6 +1097,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CharacterSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/category/$slug': {
+      id: '/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/article/$slug': {
       id: '/article/$slug'
       path: '/article/$slug'
@@ -1165,6 +1185,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleSplatRoute: LocaleSplatRoute,
   AnimeSlugRoute: AnimeSlugRoute,
   ArticleSlugRoute: ArticleSlugRoute,
+  CategorySlugRoute: CategorySlugRoute,
   CharacterSlugRoute: CharacterSlugRoute,
   GenreSlugRoute: GenreSlugRoute,
   StudioSlugRoute: StudioSlugRoute,

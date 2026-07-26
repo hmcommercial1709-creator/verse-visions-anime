@@ -3,7 +3,8 @@ import { getEpisode, episodesFor, type Episode } from "@/data/episodes";
 import { getAnime } from "@/data/animes";
 import type { Anime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { InArticleAd, StickySidebarAd } from "@/components/ad-slot";
+import { BelowTitleAd, InArticleAd, PostContentAd, StickySidebarAd } from "@/components/ad-slot";
+import { planInArticleAds } from "@/lib/ads-layout";
 import {
   AffiliateProductWidget,
   InlineAffiliateCard,

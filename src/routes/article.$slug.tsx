@@ -376,6 +376,13 @@ function ArticlePage() {
               ))}
             </div>
 
+            {/* Auto-generated internal link network (dead links pruned) */}
+            <InternalLinkNetwork
+              className="mt-8"
+              path={`/article/${a.slug}`}
+              topics={[...articleTags(a), categoryForArticle(a), a.section]}
+            />
+
             {/* Post-article banner (Post_Content_Ad) */}
             <PostContentAd />
 

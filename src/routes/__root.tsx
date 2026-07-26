@@ -109,10 +109,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
     scripts: [
       {
-        src: "https://quge5.com/88/tag.min.js",
-        async: true,
-        "data-zone": "263877",
-        "data-cfasync": "false",
+        children:
+          "(function(s){s.dataset.zone='11411597',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))",
       },
       {
         async: true,

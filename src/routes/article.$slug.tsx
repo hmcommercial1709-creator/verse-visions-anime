@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { getArticle, articles, getAuthor } from "@/data/articles";
+import { getArticle, articles, getAuthor, articleParagraphs } from "@/data/articles";
+import type { ArticleBlock } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
   AdSlot,
@@ -15,16 +16,76 @@ import { ArticleRecRail, AnimeRecRail } from "@/components/recommendations";
 import { ReadingProgressBar } from "@/components/reading-progress";
 import { TableOfContents } from "@/components/table-of-contents";
 import { Spoiler } from "@/components/spoiler";
-import { deriveSections, readingLabel, wordCount } from "@/lib/reading";
+import { ComparisonTable } from "@/components/comparison-table";
+import { ArticlePoll } from "@/components/article-poll";
+import { deriveSections, readingLabel, slugifyHeading, wordCount } from "@/lib/reading";
 import { getAnime } from "@/data/animes";
-import { Clock, FileText } from "lucide-react";
+import { ArrowRight, Clock, FileText } from "lucide-react";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 import {
   AffiliateProductWidget,
+  InlineAffiliateCard,
   StickyAffiliateRail,
   productsForContext,
 } from "@/components/affiliate-products";
 import { VipUpgradeCard } from "@/components/vip-banner";
+
+/** Renders an editor-authored rich block inside the article body. */
+function ArticleBlockView({ block }: { block: ArticleBlock }) {
+  if (block.type === "table") {
+    return <ComparisonTable columns={block.columns} rows={block.rows} caption={block.caption} />;
+  }
+  if (block.type === "poll") {
+    return <ArticlePoll question={block.question} options={block.options} />;
+  }
+  if (block.type === "link") {
+    return (
+      <aside className="not-prose my-8 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Read next</div>
+        <Link to={block.to} className="mt-1.5 flex items-start gap-2 font-display text-lg font-bold hover:text-gradient">
+          <span>{block.label}</span>
+          <ArrowRight className="mt-1 h-4 w-4 shrink-0" />
+        </Link>
+        {block.note && <p className="mt-1 text-sm text-muted-foreground">{block.note}</p>}
+      </aside>
+    );
+  }
+  if (block.type === "spoiler") {
+    return (
+      <div className="not-prose my-8">
+        {block.heading && (
+          <h3 className="mb-2 font-display text-xl font-bold">{block.heading}</h3>
+        )}
+        <Spoiler level={block.level ?? "major"} scope={block.scope}>
+          <div className="space-y-3 text-base leading-relaxed text-muted-foreground">
+            {block.paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+        </Spoiler>
+      </div>
+    );
+  }
+  return (
+    <div className="not-prose my-8">
+      <InlineAffiliateCard
+        product={{
+          id: "editorial-affiliate",
+          kind: "figure",
+          title: block.title,
+          subtitle: `${block.subtitle} · ${block.offer}`,
+          price: block.price,
+          rating: 4.9,
+          retailer: block.retailer,
+          href: block.href,
+          cta: block.cta,
+        }}
+        note={block.note}
+      />
+    </div>
+  );
+}
+
 
 export const Route = createFileRoute("/article/$slug")({
   loader: ({ params }) => {

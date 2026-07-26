@@ -9,6 +9,7 @@ import { AdSlot, AffiliateBox } from "@/components/ad-slot";
 import { AnimeCard } from "@/components/anime-card";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
+import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { Star, Calendar, Tv, Building2, Award, Play, Music, Users, HelpCircle, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/anime/$slug")({
@@ -29,8 +30,10 @@ export const Route = createFileRoute("/anime/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: absoluteUrl(`/anime/${a.slug}`) },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/anime/${a.slug}` }],
+      links: [{ rel: "canonical", href: absoluteUrl(`/anime/${a.slug}`) }],
       scripts: [{
         type: "application/ld+json",
         children: JSON.stringify({
@@ -43,7 +46,24 @@ export const Route = createFileRoute("/anime/$slug")({
           numberOfSeasons: a.seasons,
           aggregateRating: { "@type": "AggregateRating", ratingValue: a.rating, bestRating: 10, ratingCount: 4200 },
           genre: a.genres,
+          url: absoluteUrl(`/anime/${a.slug}`),
         }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(breadcrumbSchema([
+          { path: "/", name: "Home" },
+          { path: "/browse", name: "Anime" },
+          { name: a.title },
+        ])),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(faqSchema([
+          { q: `How many episodes does ${a.title} have?`, a: `${a.title} runs for ${a.episodes} episodes across ${a.seasons} season(s).` },
+          { q: `What is the best watch order for ${a.title}?`, a: `Our watch-order section breaks down both the release order and the chronological order for ${a.title}, including which filler you can safely skip.` },
+          { q: `Is ${a.title} worth watching?`, a: `${a.title} holds a ${a.rating.toFixed(1)}/10 editorial score at AnimeVerse. ${a.tagline}` },
+        ])),
       }],
     };
   },

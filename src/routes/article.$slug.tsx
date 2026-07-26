@@ -10,6 +10,7 @@ import { Spoiler } from "@/components/spoiler";
 import { deriveSections, readingLabel, wordCount } from "@/lib/reading";
 import { getAnime } from "@/data/animes";
 import { Clock, FileText } from "lucide-react";
+import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 import {
   AffiliateProductWidget,
   StickyAffiliateRail,
@@ -33,8 +34,10 @@ export const Route = createFileRoute("/article/$slug")({
         { property: "og:title", content: a.title },
         { property: "og:description", content: a.excerpt },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: absoluteUrl(`/article/${a.slug}`) },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/article/${a.slug}` }],
+      links: [{ rel: "canonical", href: absoluteUrl(`/article/${a.slug}`) }],
       scripts: [
         {
           type: "application/ld+json",
@@ -44,6 +47,8 @@ export const Route = createFileRoute("/article/$slug")({
             headline: a.title,
             description: a.excerpt,
             datePublished: a.date,
+            dateModified: a.date,
+            mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/article/${a.slug}`) },
             articleSection: a.section,
             wordCount: wordCount(a.body),
             author: { "@type": "Person", name: getAuthor(a.author)?.name },
@@ -52,25 +57,28 @@ export const Route = createFileRoute("/article/$slug")({
         },
         {
           type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: `How long does it take to read "${a.title}"?`,
-                acceptedAnswer: { "@type": "Answer", text: `About ${readingLabel(a.body)} at an average reading pace.` },
-              },
-              {
-                "@type": "Question",
-                name: "Does this article contain spoilers?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Any major plot details are placed behind clearly labelled spoiler gates you can choose to open.",
-                },
-              },
-            ],
-          }),
+          children: JSON.stringify(faqSchema([
+            {
+              q: `How long does it take to read "${a.title}"?`,
+              a: `About ${readingLabel(a.body)} at an average reading pace.`,
+            },
+            {
+              q: "Does this article contain spoilers?",
+              a: "Any major plot details are placed behind clearly labelled spoiler gates you can choose to open.",
+            },
+            {
+              q: "Who wrote this analysis?",
+              a: `${getAuthor(a.author)?.name ?? "The AnimeVerse editorial team"} wrote and fact-checked this piece for AnimeVerse.`,
+            },
+          ])),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(breadcrumbSchema([
+            { path: "/", name: "Home" },
+            { path: "/editorial", name: "Editorial" },
+            { name: a.title },
+          ])),
         },
       ],
     };

@@ -2,6 +2,7 @@ import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getCharacter, characters } from "@/data/characters";
 import { getAnime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
+import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { AdSlot } from "@/components/ad-slot";
 import { recommendCharacters, characterAnimeRecs } from "@/lib/recommendations";
 import { AnimeRecRail, CharacterRecRail } from "@/components/recommendations";
@@ -21,8 +22,41 @@ export const Route = createFileRoute("/character/$slug")({
         { name: "description", content: `${c.name} from ${c.anime}: full biography, personality, arcs, quotes, and power analysis.` },
         { property: "og:title", content: `${c.name} · Character Guide` },
         { property: "og:description", content: c.bio },
+        { property: "og:type", content: "profile" },
+        { property: "og:url", content: absoluteUrl(`/character/${c.slug}`) },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/character/${c.slug}` }],
+      links: [{ rel: "canonical", href: absoluteUrl(`/character/${c.slug}`) }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: c.name,
+            description: c.bio,
+            jobTitle: c.role,
+            url: absoluteUrl(`/character/${c.slug}`),
+            knowsAbout: c.arcs,
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(breadcrumbSchema([
+            { path: "/", name: "Home" },
+            { path: "/characters", name: "Characters" },
+            { name: c.name },
+          ])),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(faqSchema([
+            { q: `Who is ${c.name}?`, a: c.bio },
+            { q: `What are ${c.name}'s powers and abilities?`, a: c.power },
+            { q: `Which arcs does ${c.name} appear in?`, a: `${c.name} features prominently in ${c.arcs.join(", ")}.` },
+          ])),
+        },
+      ],
     };
   },
   component: CharacterPage,

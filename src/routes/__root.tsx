@@ -15,6 +15,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileAnchorAd } from "@/components/ad-slot";
 import { useLocaleDocumentSync } from "@/lib/i18n";
+import { VipMembershipBanner } from "@/components/vip-banner";
 
 
 function NotFoundComponent() {

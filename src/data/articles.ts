@@ -1,3 +1,5 @@
+import type { CategorySlug } from "./categories";
+
 /**
  * Rich in-body blocks an editor can drop between paragraphs of a
  * section-authored article. Rendered by src/routes/article.$slug.tsx.
@@ -33,6 +35,10 @@ export type ArticleSection = {
 export type Article = {
   slug: string;
   section: "news" | "reviews" | "guides" | "top-lists" | "editorial";
+  /** Navigation category (see src/data/categories.ts). Falls back to `section`. */
+  category?: CategorySlug;
+  /** Free-form topical tags surfaced on detail pages and archive filters. */
+  tags?: string[];
   title: string;
   excerpt: string;
   author: string; // slug
@@ -52,6 +58,7 @@ export const articleParagraphs = (a: Article): string[] =>
 import { gojoLimitlessArticle } from "./article-gojo-limitless";
 import { shibuyaIncidentArticle } from "./article-shibuya-incident";
 import { sorcererFamiliesArticle } from "./article-sorcerer-families";
+import { extraArticles } from "./articles-extra";
 
 const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
 
@@ -62,9 +69,11 @@ export const authors = [
   { slug: "juno-park", name: "Juno Park", role: "Features Writer", bio: "Juno covers manhwa-to-anime crossover, idol shows, and everything the algorithm underrates." },
   { slug: "marcus-oduya", name: "Marcus Oduya", role: "News Reporter", bio: "Marcus files the daily beat on studios, licensing, and international streaming." },
   { slug: "hana-mori", name: "Hana Mori", role: "Guides Editor", bio: "Hana writes the watch orders, glossaries, and beginner explainers that get bookmarked." },
+  { slug: "kenji-arata", name: "Kenji Arata", role: "Esports & Competitive Editor", bio: "Kenji covers competitive scenes, coaching and the sports anime that get training right. Former team analyst." },
+  { slug: "lina-vasquez", name: "Lina Vasquez", role: "RPG & Systems Editor", bio: "Lina writes about progression systems, party theory and worldbuilding that survives a spreadsheet." },
 ];
 
-export const articles: Article[] = [
+const coreArticles: Article[] = [
   gojoLimitlessArticle,
   shibuyaIncidentArticle,
   sorcererFamiliesArticle,
@@ -146,7 +155,37 @@ export const articles: Article[] = [
     related: ["spy-x-family"] },
 ];
 
+/** Legacy `section` → navigation category fallback. */
+const SECTION_CATEGORY: Record<Article["section"], CategorySlug> = {
+  news: "news",
+  reviews: "reviews",
+  guides: "gaming-guides",
+  "top-lists": "gaming-guides",
+  editorial: "action",
+};
+
+export const categoryForArticle = (a: Article): CategorySlug =>
+  a.category ?? SECTION_CATEGORY[a.section];
+
+/** Every published editorial item, newest first. */
+export const articles: Article[] = [...coreArticles, ...extraArticles].sort((a, b) =>
+  b.date.localeCompare(a.date),
+);
+
 export const getArticle = (slug: string) => articles.find((a) => a.slug === slug);
 export const listArticles = (section?: Article["section"]) =>
   section ? articles.filter((a) => a.section === section) : articles;
+export const listByCategory = (category: CategorySlug) =>
+  articles.filter((a) => categoryForArticle(a) === category);
+export const articleTags = (a: Article): string[] => a.tags ?? [a.tag.toLowerCase()];
+export const listByTag = (tag: string) =>
+  articles.filter((a) => articleTags(a).includes(tag.toLowerCase()));
+/** All tags across the catalogue, most used first. */
+export const allTags = (): { tag: string; count: number }[] => {
+  const counts = new Map<string, number>();
+  for (const a of articles) for (const t of articleTags(a)) counts.set(t, (counts.get(t) ?? 0) + 1);
+  return [...counts.entries()]
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((x, y) => y.count - x.count || x.tag.localeCompare(y.tag));
+};
 export const getAuthor = (slug: string) => authors.find((a) => a.slug === slug);

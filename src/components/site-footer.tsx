@@ -25,6 +25,7 @@ const footerCols = [
     { to: "/genre/sci-fi", label: "Sci-Fi" },
   ]},
   { title: "Editorial", links: [
+    { to: "/blog", label: "Blog Archive" },
     { to: "/news", label: "News" },
     { to: "/reviews", label: "Reviews" },
     { to: "/manga-spoilers", label: "Manga Spoilers" },
@@ -32,6 +33,15 @@ const footerCols = [
     { to: "/guides", label: "Anime Guides" },
     { to: "/authors", label: "Authors" },
     { to: "/editorial-policy", label: "Editorial Policy" },
+  ]},
+  { title: "Categories", links: [
+    { to: "/category/action", label: "Action" },
+    { to: "/category/rpg", label: "RPG" },
+    { to: "/category/strategy", label: "Strategy" },
+    { to: "/category/esports", label: "Esports" },
+    { to: "/category/gaming-guides", label: "Gaming Guides" },
+    { to: "/category/reviews", label: "Reviews" },
+    { to: "/category/news", label: "News" },
   ]},
   { title: "Culture", links: [
     { to: "/quotes", label: "Quotes" },

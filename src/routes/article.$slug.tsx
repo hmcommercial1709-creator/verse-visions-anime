@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { getArticle, articles, getAuthor, articleParagraphs } from "@/data/articles";
+import { getArticle, articles, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
+import { ArticleComments } from "@/components/article-comments";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
@@ -354,9 +355,34 @@ function ArticlePage() {
               title={alsoEnjoyed.length > 0 ? "More like this" : `More in ${a.section}`}
             />
 
+            {/* Topical tags → category hub + tag-based discovery */}
+            <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-border/60 pt-6">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Tags</span>
+              <Link
+                to="/category/$slug"
+                params={{ slug: categoryForArticle(a) }}
+                className="rounded-full border border-primary/50 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary"
+              >
+                {categoryForArticle(a)}
+              </Link>
+              {articleTags(a).map((t) => (
+                <Link
+                  key={t}
+                  to="/blog"
+                  className="rounded-full border border-border/60 px-3 py-1.5 text-xs text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                >
+                  #{t}
+                </Link>
+              ))}
+            </div>
+
             {/* Post-article banner (Post_Content_Ad) */}
             <PostContentAd />
+
+            {/* Reader discussion */}
+            <ArticleComments slug={a.slug} />
           </article>
+
 
           <aside className="hidden space-y-6 lg:block">
             <StickySidebarAd />

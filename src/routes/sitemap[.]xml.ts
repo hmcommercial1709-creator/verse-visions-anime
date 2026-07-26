@@ -8,6 +8,7 @@ import {
   allGenres,
   allStudios,
 } from "@/lib/content-registry";
+import { categorySlugs } from "@/data/categories";
 
 const BASE_URL = "https://gamecastle.store";
 
@@ -39,6 +40,7 @@ const STATIC_ROUTES: SitemapEntry[] = [
   ].map((path) => ({ path, changefreq: "daily" as const, priority: "0.9" })),
   // Editorial hubs
   ...[
+    "/blog",
     "/news",
     "/reviews",
     "/guides",
@@ -82,6 +84,8 @@ function dynamicEntries(): SitemapEntry[] {
     entries.push({ path: `/article/${a.slug}`, changefreq: "weekly", priority: "0.8" });
   for (const c of publishedCharacters())
     entries.push({ path: `/character/${c.slug}`, changefreq: "monthly", priority: "0.7" });
+  for (const slug of categorySlugs())
+    entries.push({ path: `/category/${slug}`, changefreq: "daily", priority: "0.8" });
   for (const g of allGenres())
     entries.push({ path: `/genre/${g.slug}`, changefreq: "weekly", priority: "0.7" });
   for (const s of allStudios())

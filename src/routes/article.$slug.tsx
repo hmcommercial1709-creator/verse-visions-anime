@@ -208,8 +208,10 @@ function ArticlePage() {
             />
           </article>
 
-          <aside className="hidden lg:block">
+          <aside className="hidden space-y-6 lg:block">
             <StickySidebarAd />
+            <VipUpgradeCard />
+            <StickyAffiliateRail products={merchProducts} />
           </aside>
         </div>
       </div>

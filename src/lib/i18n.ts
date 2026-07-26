@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 export type LocaleCode =
-  | "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id";
+  | "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id" | "hi" | "zh";
 
 export interface Locale {
   code: LocaleCode;

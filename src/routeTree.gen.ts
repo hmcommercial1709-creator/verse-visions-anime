@@ -50,6 +50,7 @@ import { Route as CompletedRouteImport } from './routes/completed'
 import { Route as ClassicRouteImport } from './routes/classic'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AuthorsRouteImport } from './routes/authors'
 import { Route as AboutRouteImport } from './routes/about'
@@ -268,6 +269,11 @@ const BrowseRoute = BrowseRouteImport.update({
   path: '/browse',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AwardsRoute = AwardsRouteImport.update({
   id: '/awards',
   path: '/awards',
@@ -334,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
   '/characters': typeof CharactersRoute
   '/classic': typeof ClassicRoute
@@ -389,6 +396,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
   '/characters': typeof CharactersRoute
   '/classic': typeof ClassicRoute
@@ -445,6 +453,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
   '/characters': typeof CharactersRoute
   '/classic': typeof ClassicRoute
@@ -502,6 +511,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/awards'
+    | '/blog'
     | '/browse'
     | '/characters'
     | '/classic'
@@ -557,6 +567,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/awards'
+    | '/blog'
     | '/browse'
     | '/characters'
     | '/classic'
@@ -612,6 +623,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/awards'
+    | '/blog'
     | '/browse'
     | '/characters'
     | '/classic'
@@ -668,6 +680,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthorsRoute: typeof AuthorsRoute
   AwardsRoute: typeof AwardsRoute
+  BlogRoute: typeof BlogRoute
   BrowseRoute: typeof BrowseRoute
   CharactersRoute: typeof CharactersRoute
   ClassicRoute: typeof ClassicRoute
@@ -1008,6 +1021,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/awards': {
       id: '/awards'
       path: '/awards'
@@ -1100,6 +1120,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthorsRoute: AuthorsRoute,
   AwardsRoute: AwardsRoute,
+  BlogRoute: BlogRoute,
   BrowseRoute: BrowseRoute,
   CharactersRoute: CharactersRoute,
   ClassicRoute: ClassicRoute,

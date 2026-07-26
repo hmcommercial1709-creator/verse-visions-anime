@@ -75,10 +75,10 @@ export function hreflangLinks(pathname: string) {
   return [
     ...LOCALES.map((l) => ({
       rel: "alternate",
-      hrefLang: l.hrefLang,
+      hreflang: l.hrefLang,
       href: `${SITE_URL}${localizePath(base, l.code)}`,
     })),
-    { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}${base}` },
+    { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}${base}` },
   ];
 }
 

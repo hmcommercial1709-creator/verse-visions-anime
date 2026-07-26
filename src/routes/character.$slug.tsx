@@ -3,7 +3,9 @@ import { getCharacter, characters } from "@/data/characters";
 import { getAnime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
-import { AdSlot } from "@/components/ad-slot";
+import { AdSlot, HeaderBannerAd, PostContentAd } from "@/components/ad-slot";
+import { CharacterLiveData } from "@/components/live-data";
+import { ArticleComments } from "@/components/article-comments";
 import { recommendCharacters, characterAnimeRecs } from "@/lib/recommendations";
 import { AnimeRecRail, CharacterRecRail } from "@/components/recommendations";
 
@@ -71,6 +73,7 @@ function CharacterPage() {
 
   return (
     <div>
+      <HeaderBannerAd />
       <section className="relative overflow-hidden">
         <div className="absolute inset-0" style={{ background: `radial-gradient(700px 500px at 20% 10%, ${c.accent}77, transparent 60%)` }} />
         <div className="relative mx-auto max-w-5xl px-4 lg:px-6 py-14">
@@ -104,6 +107,25 @@ function CharacterPage() {
             </div>
           </Block>
         )}
+        <CharacterLiveData name={c.name} />
+
+        <Block title="Trivia & notes">
+          <ul className="space-y-2 text-sm">
+            <li className="rounded-lg border border-border/60 bg-card/50 p-3">
+              {c.name} is billed as {c.role.toLowerCase()} and is most closely associated with the
+              {" "}{c.arcs[0]} arc.
+            </li>
+            <li className="rounded-lg border border-border/60 bg-card/50 p-3">
+              Defining traits our editors keep coming back to: {c.personality.join(", ").toLowerCase()}.
+            </li>
+            {c.affiliation && (
+              <li className="rounded-lg border border-border/60 bg-card/50 p-3">
+                Affiliation: {c.affiliation}{c.age ? ` · Age across the series: ${c.age}` : ""}.
+              </li>
+            )}
+          </ul>
+        </Block>
+
         <AdSlot placement="between" />
         {related.length > 0 && (
           <Block title="Related characters">
@@ -117,6 +139,8 @@ function CharacterPage() {
             </div>
           </Block>
         )}
+        <ArticleComments slug={`character-${c.slug}`} />
+
         <CharacterRecRail
           items={charRecs}
           eyebrow="You might also like"
@@ -127,6 +151,7 @@ function CharacterPage() {
           eyebrow="Continue exploring"
           title={anime ? `If you liked ${anime.title}` : "You might enjoy"}
         />
+        <PostContentAd />
       </div>
     </div>
   );

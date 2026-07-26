@@ -12,6 +12,9 @@ import {
 } from "@/components/affiliate-products";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
+import { ArticleComments } from "@/components/article-comments";
+import { VideoEmbed } from "@/components/media";
+import { backdropFor } from "@/lib/media";
 import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/anime_/$slug/episode/$num")({
@@ -103,6 +106,15 @@ function EpisodePage() {
           unitId={`av-ep-${anime.slug}-${ep.number}-top`}
           adId="InArticle_Ad_1"
         />
+
+        <Block title="Watch the episode preview">
+          <VideoEmbed
+            art={backdropFor(anime.slug)}
+            title={`${anime.title} Episode ${ep.number} — ${ep.title}`}
+            subtitle={`${ep.arc} · ${ep.runtime}`}
+            searchQuery={anime.slug}
+          />
+        </Block>
 
         <Block title="Recap">
           <div className="prose prose-invert max-w-none space-y-5 text-lg leading-relaxed">
@@ -247,6 +259,38 @@ function EpisodePage() {
             </Link>
           ) : <div />}
         </div>
+
+        <Block title="Characters in this episode">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {ep.characterDevelopment.map((c, i) => (
+              <div key={i} className="rounded-xl border border-border/60 bg-card/50 p-4">
+                <div className="font-semibold">{c.character}</div>
+                <p className="mt-1 text-sm text-muted-foreground">{c.note}</p>
+              </div>
+            ))}
+          </div>
+        </Block>
+
+        {next && (
+          <Block title="Next episode preview">
+            <div className="rounded-2xl border border-primary/40 bg-primary/5 p-5">
+              <div className="text-xs uppercase tracking-[0.22em] text-primary">
+                Up next · Episode {next.number}
+              </div>
+              <h3 className="mt-1 font-display text-xl font-bold">{next.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-foreground/85">{next.synopsis}</p>
+              <Link
+                to="/anime/$slug/episode/$num"
+                params={{ slug: anime.slug, num: String(next.number) }}
+                className="mt-4 inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+              >
+                Read the Episode {next.number} deep-dive
+              </Link>
+            </div>
+          </Block>
+        )}
+
+        <ArticleComments slug={`episode-${anime.slug}-${ep.number}`} />
 
         <AnimeRecRail
           items={animeRecs}

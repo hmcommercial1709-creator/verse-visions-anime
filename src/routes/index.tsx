@@ -19,6 +19,9 @@ import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
 
+const HOME_OG_IMAGE =
+  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e9cd417b-e16a-4090-b662-44bab1f1acea/id-preview-1f3f96cb--de879c4f-dc90-4b0b-beba-7d068ab16cd3.lovable.app-1784963580036.png";
+
 const HERO_SLUGS = ["one-piece", "jujutsu-kaisen", "solo-leveling", "demon-slayer", "attack-on-titan"];
 
 const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];

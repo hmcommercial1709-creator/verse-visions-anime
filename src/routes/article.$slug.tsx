@@ -151,6 +151,9 @@ function ArticlePage() {
               </div>
             </div>
 
+            {/* Below-title billboard (Below_Title_Ad) */}
+            <BelowTitleAd />
+
             {/* Mobile TOC */}
             <div className="mt-6 lg:hidden">
               <TableOfContents sections={sections} />
@@ -162,9 +165,24 @@ function ArticlePage() {
             <div className="prose prose-invert mt-8 max-w-none text-lg leading-relaxed">
               {sections.map((s, i) => (
                 <section key={s.id} id={s.id} className="scroll-mt-28">
-                  {s.paragraphs.map((p, j) => (
-                    <p key={j} className="mb-6">{p}</p>
-                  ))}
+                  {s.paragraphs.map((p, j) => {
+                    const ad = adPlan.get(`${i}:${j}`);
+                    return (
+                      <div key={j}>
+                        <p className="mb-6">{p}</p>
+                        {/* Native unit injected every 4 paragraphs */}
+                        {ad && (
+                          <div className="not-prose">
+                            <InArticleAd
+                              index={ad.index}
+                              unitId={`av-article-${i}-${j}`}
+                              adId={ad.adId}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
 
                   {/* Contextual internal link card, woven into the flow */}
                   {inlineLinks[i] && i % 2 === 1 && (
@@ -181,16 +199,6 @@ function ArticlePage() {
                     </aside>
                   )}
 
-                  {/* Native ad every third section */}
-                  {(i + 1) % 2 === 0 && (
-                    <div className="not-prose">
-                      <InArticleAd
-                        index={(i + 1) / 2 + 2}
-                        unitId={`av-article-${i + 1}`}
-                        adId={`InArticle_Ad_Body_${(i + 1) / 2}`}
-                      />
-                    </div>
-                  )}
 
                   {/* Embedded merchandise + manga affiliate widget */}
                   {i === 2 && (

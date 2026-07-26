@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileAnchorAd } from "@/components/ad-slot";
+import { useLocaleDocumentSync } from "@/lib/i18n";
 
 
 function NotFoundComponent() {
@@ -141,6 +142,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useLocaleDocumentSync();
 
   return (
     <QueryClientProvider client={queryClient}>

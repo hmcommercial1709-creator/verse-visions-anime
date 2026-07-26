@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, Menu, X, Sparkles, Flame, Compass, Tv, BookOpen, Users, Building2, ChevronDown } from "lucide-react";
 import { SearchDialog } from "./search-dialog";
+import { LanguageSelector } from "./language-selector";
 import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { animes } from "@/data/animes";
@@ -172,6 +173,7 @@ export function SiteHeader() {
             <button onClick={() => setSearchOpen(true)} className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground">
               <Search className="h-5 w-5" />
             </button>
+            <LanguageSelector variant="header" />
             <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)}>
               <Menu className="h-5 w-5" />
             </button>

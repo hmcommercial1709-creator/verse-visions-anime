@@ -1,6 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getArticle, articles, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
 import { ArticleComments } from "@/components/article-comments";
+import { InternalLinkNetwork } from "@/components/internal-link-network";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
@@ -375,6 +376,13 @@ function ArticlePage() {
                 </Link>
               ))}
             </div>
+
+            {/* Auto-generated internal link network (dead links pruned) */}
+            <InternalLinkNetwork
+              className="mt-8"
+              path={`/article/${a.slug}`}
+              topics={[...articleTags(a), categoryForArticle(a), a.section]}
+            />
 
             {/* Post-article banner (Post_Content_Ad) */}
             <PostContentAd />

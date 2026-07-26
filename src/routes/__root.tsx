@@ -15,6 +15,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileAnchorAd } from "@/components/ad-slot";
 import { useLocaleDocumentSync } from "@/lib/i18n";
+import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
 
 
 function NotFoundComponent() {
@@ -123,10 +124,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         crossOrigin: "anonymous",
       },
 
-      {
-        children:
-          "(function(s){s.dataset.zone='11411597',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))",
-      },
 
 
 
@@ -190,6 +187,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   useLocaleDocumentSync();
+  useNonIntrusiveAdPolicy();
 
   return (
     <QueryClientProvider client={queryClient}>

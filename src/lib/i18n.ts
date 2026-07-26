@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 export type LocaleCode =
-  | "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id";
+  | "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id" | "hi" | "zh";
 
 export interface Locale {
   code: LocaleCode;
@@ -28,6 +28,8 @@ export const LOCALES: Locale[] = [
   { code: "tr", label: "Türkçe",     short: "TR", english: "Turkish",    dir: "ltr", hrefLang: "tr" },
   { code: "ja", label: "日本語",       short: "JA", english: "Japanese",   dir: "ltr", hrefLang: "ja" },
   { code: "id", label: "Indonesia",  short: "ID", english: "Indonesian", dir: "ltr", hrefLang: "id" },
+  { code: "hi", label: "हिन्दी",       short: "HI", english: "Hindi",      dir: "ltr", hrefLang: "hi" },
+  { code: "zh", label: "中文",         short: "ZH", english: "Chinese",    dir: "ltr", hrefLang: "zh" },
 ];
 
 export const DEFAULT_LOCALE: LocaleCode = "en";

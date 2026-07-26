@@ -3,6 +3,15 @@ import { useEffect, useState } from "react";
 import { Search, Menu, X, Sparkles, Flame, Compass, Tv, BookOpen, Users, Building2, ChevronDown } from "lucide-react";
 import { SearchDialog } from "./search-dialog";
 import { LanguageSelector } from "./language-selector";
+import { useUi, type UiKey } from "@/lib/i18n-ui";
+
+/** Mega-menu label → translation key, so top nav follows the chosen language. */
+const NAV_KEYS: Record<string, UiKey> = {
+  Browse: "browse",
+  Genres: "genres",
+  Editorial: "editorial",
+  Studios: "studios",
+};
 import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { animes } from "@/data/animes";
@@ -116,6 +125,7 @@ export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const t = useUi();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -169,7 +179,7 @@ export function SiteHeader() {
                 }`}
               >
                 <g.icon className="h-3.5 w-3.5" />
-                {g.label}
+                {NAV_KEYS[g.label] ? t(NAV_KEYS[g.label]) : g.label}
                 <ChevronDown className="h-3 w-3 opacity-70" />
               </button>
             ))}
@@ -188,7 +198,7 @@ export function SiteHeader() {
               className="hidden md:flex items-center gap-2 rounded-lg border border-border/60 bg-secondary/50 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:border-primary/60 transition-colors min-w-[240px]"
             >
               <Search className="h-4 w-4" />
-              <span>Search anime, characters…</span>
+              <span>{t("search")}…</span>
               <span className="ml-auto rounded border border-border/60 px-1.5 py-0.5 text-[10px] font-mono">⌘K</span>
             </button>
             <button onClick={() => setSearchOpen(true)} className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground">
@@ -196,7 +206,7 @@ export function SiteHeader() {
             </button>
             <LanguageSelector variant="header" />
             <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)}>
-              <Menu className="h-5 w-5" />
+              <Menu className="h-5 w-5" aria-label={t("menu")} />
             </button>
           </div>
         </div>

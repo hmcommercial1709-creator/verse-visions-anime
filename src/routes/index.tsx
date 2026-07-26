@@ -19,6 +19,9 @@ import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
 
+const HOME_OG_IMAGE =
+  "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e9cd417b-e16a-4090-b662-44bab1f1acea/id-preview-1f3f96cb--de879c4f-dc90-4b0b-beba-7d068ab16cd3.lovable.app-1784963580036.png";
+
 const HERO_SLUGS = ["one-piece", "jujutsu-kaisen", "solo-leveling", "demon-slayer", "attack-on-titan"];
 
 const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];
@@ -27,12 +30,16 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },
-      { name: "description", content: "Discover the best anime with AnimeVerse: reviews, character deep-dives, watch orders, studio profiles, and long-form editorial from a fan-led editorial team." },
-      { property: "og:title", content: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },
-      { property: "og:description", content: "Discover the best anime with AnimeVerse: reviews, character deep-dives, watch orders, studio profiles, and long-form editorial from a fan-led editorial team." },
+      { title: "AnimeVerse | Ultimate Anime Hub, Guides, and Character Database" },
+      { name: "description", content: "Explore the ultimate anime universe with daily updates, character guides, interactive tools, and massive gaming content. Join millions of fans worldwide for free!" },
+      { property: "og:title", content: "AnimeVerse | The Ultimate Anime & Gaming Authority" },
+      { property: "og:description", content: "Discover breaking anime news, guides, and interactive tools. Join millions of global fans today!" },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/` },
+      { property: "og:image", content: HOME_OG_IMAGE },
+      { name: "twitter:title", content: "AnimeVerse | Global Anime & Gaming Hub" },
+      { name: "twitter:description", content: "Your ultimate destination for anime guides, character databases, and gaming tools." },
+      { name: "twitter:image", content: HOME_OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/` }, ...hreflangLinks("/")],
   }),

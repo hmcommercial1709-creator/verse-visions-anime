@@ -22,6 +22,7 @@ const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },
       { name: "description", content: "Discover the best anime with AnimeVerse: reviews, character deep-dives, watch orders, studio profiles, and long-form editorial from a fan-led editorial team." },
       { property: "og:title", content: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },

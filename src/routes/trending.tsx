@@ -8,12 +8,15 @@ import { TrendingUp } from "lucide-react";
 export const Route = createFileRoute("/trending")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/trending" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Trending Anime This Week — What Everyone Is Watching · AnimeVerse" },
       { name: "description", content: "The anime dominating streaming charts, social discussion, and our editors' group chat this week." },
       { property: "og:title", content: "Trending Anime · AnimeVerse" },
       { property: "og:description", content: "Live pulse of what fans are watching." },
     ],
-    links: [{ rel: "canonical", href: "/trending" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/trending" }],
   }),
   component: () => {
     const list = [...animes].sort((a,b) => a.popularity - b.popularity);

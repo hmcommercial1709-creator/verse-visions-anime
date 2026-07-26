@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/openings")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/openings" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "The Best Anime Openings & Endings · AnimeVerse" },
       { name: "description", content: "The OPs and EDs that made you not skip the intro. Ranked, annotated, and constantly updated." },
       { property: "og:title", content: "Anime Openings · AnimeVerse" },
       { property: "og:description", content: "The best OPs and EDs." },
     ],
-    links: [{ rel: "canonical", href: "/openings" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/openings" }],
   }),
   component: () => {
     const list = animes.flatMap(a => a.soundtrack.filter(s => s.type === "OP" || s.type === "ED").map(s => ({ ...s, anime: a.title, accent: a.accent })));

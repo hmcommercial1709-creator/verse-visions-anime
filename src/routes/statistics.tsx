@@ -8,12 +8,15 @@ import { Breadcrumbs, StatPill } from "@/components/ui-bits";
 export const Route = createFileRoute("/statistics")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/statistics" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Statistics — Industry Numbers · AnimeVerse" },
       { name: "description", content: "The state of the anime industry in numbers: library size, ratings, studio output, and viewership trends." },
       { property: "og:title", content: "Anime Statistics · AnimeVerse" },
       { property: "og:description", content: "The industry in numbers." },
     ],
-    links: [{ rel: "canonical", href: "/statistics" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/statistics" }],
   }),
   component: () => {
     const avg = (animes.reduce((s,a) => s + a.rating, 0) / animes.length).toFixed(2);

@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/facts")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/facts" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Fun Facts, Hidden Details & Easter Eggs · AnimeVerse" },
       { name: "description", content: "Trivia, hidden references, and behind-the-scenes production notes from your favorite anime." },
       { property: "og:title", content: "Anime Facts & Easter Eggs · AnimeVerse" },
       { property: "og:description", content: "Trivia and hidden details." },
     ],
-    links: [{ rel: "canonical", href: "/facts" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/facts" }],
   }),
   component: () => {
     const all = animes.flatMap(a => a.facts.map(f => ({ fact: f, title: a.title, slug: a.slug })));

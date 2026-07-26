@@ -11,7 +11,10 @@ export const Route = createFileRoute("/studio/$slug")({
     return { studio };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData) return { meta: [
+      { property: "og:url", content: `https://gamecastle.store/studio/${s.slug}` },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     const s = loaderData.studio;
     return {
       meta: [
@@ -20,7 +23,7 @@ export const Route = createFileRoute("/studio/$slug")({
         { property: "og:title", content: `${s.name} — Anime Studio · AnimeVerse` },
         { property: "og:description", content: s.blurb },
       ],
-      links: [{ rel: "canonical", href: `/studio/${s.slug}` }],
+      links: [{ rel: "canonical", href: `https://gamecastle.store/studio/${s.slug}` }],
     };
   },
   component: StudioPage,

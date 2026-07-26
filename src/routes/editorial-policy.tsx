@@ -3,11 +3,14 @@ import { Breadcrumbs } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/editorial-policy")({
   head: () => ({ meta: [
+      { property: "og:url", content: "https://gamecastle.store/editorial-policy" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     { title: "Editorial Policy · AnimeVerse" },
     { name: "description", content: "How AnimeVerse's editorial team works: reviews, corrections, and affiliate disclosures." },
     { property: "og:title", content: "Editorial Policy · AnimeVerse" },
     { property: "og:description", content: "How we edit and score." },
-  ], links: [{ rel: "canonical", href: "/editorial-policy" }] }),
+  ], links: [{ rel: "canonical", href: "https://gamecastle.store/editorial-policy" }] }),
   component: () => (
     <div className="mx-auto max-w-3xl px-4 lg:px-6 py-12">
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Editorial Policy" }]} />

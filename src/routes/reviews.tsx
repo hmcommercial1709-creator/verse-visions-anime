@@ -6,12 +6,15 @@ import { AdSlot } from "@/components/ad-slot";
 export const Route = createFileRoute("/reviews")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/reviews" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Reviews — Deep-Dive Editorial · AnimeVerse" },
       { name: "description", content: "Long-form anime reviews from the AnimeVerse editorial team. No spoilers above the fold, no hedging below it." },
       { property: "og:title", content: "Anime Reviews · AnimeVerse" },
       { property: "og:description", content: "Long-form editorial reviews." },
     ],
-    links: [{ rel: "canonical", href: "/reviews" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/reviews" }],
   }),
   component: () => {
     const list = listArticles("reviews");

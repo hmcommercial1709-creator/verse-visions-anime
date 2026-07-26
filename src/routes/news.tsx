@@ -11,6 +11,7 @@ const META = "The latest anime news — studios, licensing, streaming, and indus
 export const Route = createFileRoute("/news")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/news" },
       { title: `${TITLE} · AnimeVerse` },
       { name: "description", content: META },
       { property: "og:title", content: `${TITLE} · AnimeVerse` },
@@ -18,7 +19,7 @@ export const Route = createFileRoute("/news")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/news" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/news" }],
   }),
   component: NewsIndex,
 });

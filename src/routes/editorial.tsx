@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/editorial")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/editorial" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Editorial — Essays and Deep-Dives · AnimeVerse" },
       { name: "description", content: "Long-form essays and analysis from the AnimeVerse editorial team." },
       { property: "og:title", content: "Editorial · AnimeVerse" },
       { property: "og:description", content: "Essays and analysis." },
     ],
-    links: [{ rel: "canonical", href: "/editorial" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/editorial" }],
   }),
   component: () => {
     const list = listArticles("editorial");

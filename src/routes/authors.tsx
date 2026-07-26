@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/authors")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/authors" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "The AnimeVerse Editorial Team · AnimeVerse" },
       { name: "description", content: "Meet the writers and editors behind AnimeVerse. Fifteen combined years covering the anime industry." },
       { property: "og:title", content: "AnimeVerse Editorial Team" },
       { property: "og:description", content: "Meet the AnimeVerse writers." },
     ],
-    links: [{ rel: "canonical", href: "/authors" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/authors" }],
   }),
   component: () => (
     <div className="mx-auto max-w-5xl px-4 lg:px-6 py-10">

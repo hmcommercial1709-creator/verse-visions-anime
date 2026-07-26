@@ -12,12 +12,15 @@ const awards = [
 export const Route = createFileRoute("/awards")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/awards" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Awards — Complete History · AnimeVerse" },
       { name: "description", content: "Every Anime of the Year winner and major industry award, tracked year by year." },
       { property: "og:title", content: "Anime Awards · AnimeVerse" },
       { property: "og:description", content: "AOTY winners across the years." },
     ],
-    links: [{ rel: "canonical", href: "/awards" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/awards" }],
   }),
   component: () => (
     <div className="mx-auto max-w-3xl px-4 lg:px-6 py-10">

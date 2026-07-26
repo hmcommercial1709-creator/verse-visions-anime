@@ -12,6 +12,7 @@ export const Route = createFileRoute("/$locale/$")({
     const path = `/${params._splat ?? ""}`;
     return {
       meta: [
+      { name: "twitter:card", content: "summary_large_image" },
         { title: `AnimeVerse ${locale.english} — ${path}` },
         {
           name: "description",

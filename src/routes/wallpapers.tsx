@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/wallpapers")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/wallpapers" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Wallpapers — 4K Backgrounds Gallery · AnimeVerse" },
       { name: "description", content: "High-resolution anime wallpapers for desktop and mobile — curated by series and mood." },
       { property: "og:title", content: "Anime Wallpapers · AnimeVerse" },
       { property: "og:description", content: "4K anime backgrounds gallery." },
     ],
-    links: [{ rel: "canonical", href: "/wallpapers" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/wallpapers" }],
   }),
   component: () => (
     <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">

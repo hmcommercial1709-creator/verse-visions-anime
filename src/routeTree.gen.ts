@@ -24,8 +24,12 @@ import { Route as StreamingRouteImport } from './routes/streaming'
 import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as SoundtracksRouteImport } from './routes/soundtracks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SitemapTaxonomyDotxmlRouteImport } from './routes/sitemap-taxonomy[.]xml'
 import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
+import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
+import { Route as SitemapCharactersDotxmlRouteImport } from './routes/sitemap-characters[.]xml'
+import { Route as SitemapArticlesDotxmlRouteImport } from './routes/sitemap-articles[.]xml'
 import { Route as SitemapAnimeDotxmlRouteImport } from './routes/sitemap-anime[.]xml'
 import { Route as SeasonalRouteImport } from './routes/seasonal'
 import { Route as ReviewsRouteImport } from './routes/reviews'
@@ -144,6 +148,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapTaxonomyDotxmlRoute = SitemapTaxonomyDotxmlRouteImport.update({
+  id: '/sitemap-taxonomy.xml',
+  path: '/sitemap-taxonomy.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
   id: '/sitemap-pages.xml',
   path: '/sitemap-pages.xml',
@@ -152,6 +161,21 @@ const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
 const SitemapPageRoute = SitemapPageRouteImport.update({
   id: '/sitemap-page',
   path: '/sitemap-page',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapEpisodesDotxmlRoute = SitemapEpisodesDotxmlRouteImport.update({
+  id: '/sitemap-episodes.xml',
+  path: '/sitemap-episodes.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCharactersDotxmlRoute = SitemapCharactersDotxmlRouteImport.update({
+  id: '/sitemap-characters.xml',
+  path: '/sitemap-characters.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapArticlesDotxmlRoute = SitemapArticlesDotxmlRouteImport.update({
+  id: '/sitemap-articles.xml',
+  path: '/sitemap-articles.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapAnimeDotxmlRoute = SitemapAnimeDotxmlRouteImport.update({
@@ -399,8 +423,12 @@ export interface FileRoutesByFullPath {
   '/reviews': typeof ReviewsRoute
   '/seasonal': typeof SeasonalRoute
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
+  '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
+  '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
+  '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
+  '/sitemap-taxonomy.xml': typeof SitemapTaxonomyDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
@@ -460,8 +488,12 @@ export interface FileRoutesByTo {
   '/reviews': typeof ReviewsRoute
   '/seasonal': typeof SeasonalRoute
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
+  '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
+  '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
+  '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
+  '/sitemap-taxonomy.xml': typeof SitemapTaxonomyDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
@@ -522,8 +554,12 @@ export interface FileRoutesById {
   '/reviews': typeof ReviewsRoute
   '/seasonal': typeof SeasonalRoute
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
+  '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
+  '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
+  '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
+  '/sitemap-taxonomy.xml': typeof SitemapTaxonomyDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
@@ -585,8 +621,12 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/seasonal'
     | '/sitemap-anime.xml'
+    | '/sitemap-articles.xml'
+    | '/sitemap-characters.xml'
+    | '/sitemap-episodes.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
+    | '/sitemap-taxonomy.xml'
     | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
@@ -646,8 +686,12 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/seasonal'
     | '/sitemap-anime.xml'
+    | '/sitemap-articles.xml'
+    | '/sitemap-characters.xml'
+    | '/sitemap-episodes.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
+    | '/sitemap-taxonomy.xml'
     | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
@@ -707,8 +751,12 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/seasonal'
     | '/sitemap-anime.xml'
+    | '/sitemap-articles.xml'
+    | '/sitemap-characters.xml'
+    | '/sitemap-episodes.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
+    | '/sitemap-taxonomy.xml'
     | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
@@ -769,8 +817,12 @@ export interface RootRouteChildren {
   ReviewsRoute: typeof ReviewsRoute
   SeasonalRoute: typeof SeasonalRoute
   SitemapAnimeDotxmlRoute: typeof SitemapAnimeDotxmlRoute
+  SitemapArticlesDotxmlRoute: typeof SitemapArticlesDotxmlRoute
+  SitemapCharactersDotxmlRoute: typeof SitemapCharactersDotxmlRoute
+  SitemapEpisodesDotxmlRoute: typeof SitemapEpisodesDotxmlRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapPagesDotxmlRoute: typeof SitemapPagesDotxmlRoute
+  SitemapTaxonomyDotxmlRoute: typeof SitemapTaxonomyDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
   StatisticsRoute: typeof StatisticsRoute
@@ -904,6 +956,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap-taxonomy.xml': {
+      id: '/sitemap-taxonomy.xml'
+      path: '/sitemap-taxonomy.xml'
+      fullPath: '/sitemap-taxonomy.xml'
+      preLoaderRoute: typeof SitemapTaxonomyDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap-pages.xml': {
       id: '/sitemap-pages.xml'
       path: '/sitemap-pages.xml'
@@ -916,6 +975,27 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-page'
       fullPath: '/sitemap-page'
       preLoaderRoute: typeof SitemapPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-episodes.xml': {
+      id: '/sitemap-episodes.xml'
+      path: '/sitemap-episodes.xml'
+      fullPath: '/sitemap-episodes.xml'
+      preLoaderRoute: typeof SitemapEpisodesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-characters.xml': {
+      id: '/sitemap-characters.xml'
+      path: '/sitemap-characters.xml'
+      fullPath: '/sitemap-characters.xml'
+      preLoaderRoute: typeof SitemapCharactersDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-articles.xml': {
+      id: '/sitemap-articles.xml'
+      path: '/sitemap-articles.xml'
+      fullPath: '/sitemap-articles.xml'
+      preLoaderRoute: typeof SitemapArticlesDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap-anime.xml': {
@@ -1249,8 +1329,12 @@ const rootRouteChildren: RootRouteChildren = {
   ReviewsRoute: ReviewsRoute,
   SeasonalRoute: SeasonalRoute,
   SitemapAnimeDotxmlRoute: SitemapAnimeDotxmlRoute,
+  SitemapArticlesDotxmlRoute: SitemapArticlesDotxmlRoute,
+  SitemapCharactersDotxmlRoute: SitemapCharactersDotxmlRoute,
+  SitemapEpisodesDotxmlRoute: SitemapEpisodesDotxmlRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapPagesDotxmlRoute: SitemapPagesDotxmlRoute,
+  SitemapTaxonomyDotxmlRoute: SitemapTaxonomyDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,
   StatisticsRoute: StatisticsRoute,

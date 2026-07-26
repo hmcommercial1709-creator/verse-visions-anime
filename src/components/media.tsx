@@ -109,10 +109,10 @@ export function VideoEmbed({
             allowFullScreen
           />
         ) : (
-
           <>
             <MediaImage art={art} alt={artAlt(title)} ratio="16/9" className="absolute inset-0 h-full w-full" overlay />
-            {youtubeId ? (
+            {videoId ? (
+
               <button
                 type="button"
                 onClick={() => setPlaying(true)}

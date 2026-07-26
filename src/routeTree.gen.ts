@@ -26,6 +26,7 @@ import { Route as SoundtracksRouteImport } from './routes/soundtracks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
+import { Route as SitemapAnimeDotxmlRouteImport } from './routes/sitemap-anime[.]xml'
 import { Route as SeasonalRouteImport } from './routes/seasonal'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
@@ -151,6 +152,11 @@ const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
 const SitemapPageRoute = SitemapPageRouteImport.update({
   id: '/sitemap-page',
   path: '/sitemap-page',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapAnimeDotxmlRoute = SitemapAnimeDotxmlRouteImport.update({
+  id: '/sitemap-anime.xml',
+  path: '/sitemap-anime.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SeasonalRoute = SeasonalRouteImport.update({
@@ -392,6 +398,7 @@ export interface FileRoutesByFullPath {
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
   '/seasonal': typeof SeasonalRoute
+  '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -452,6 +459,7 @@ export interface FileRoutesByTo {
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
   '/seasonal': typeof SeasonalRoute
+  '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -513,6 +521,7 @@ export interface FileRoutesById {
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
   '/seasonal': typeof SeasonalRoute
+  '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -575,6 +584,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/reviews'
     | '/seasonal'
+    | '/sitemap-anime.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap.xml'
@@ -635,6 +645,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/reviews'
     | '/seasonal'
+    | '/sitemap-anime.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap.xml'
@@ -695,6 +706,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/reviews'
     | '/seasonal'
+    | '/sitemap-anime.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap.xml'
@@ -756,6 +768,7 @@ export interface RootRouteChildren {
   RecommendationsRoute: typeof RecommendationsRoute
   ReviewsRoute: typeof ReviewsRoute
   SeasonalRoute: typeof SeasonalRoute
+  SitemapAnimeDotxmlRoute: typeof SitemapAnimeDotxmlRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapPagesDotxmlRoute: typeof SitemapPagesDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -903,6 +916,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-page'
       fullPath: '/sitemap-page'
       preLoaderRoute: typeof SitemapPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-anime.xml': {
+      id: '/sitemap-anime.xml'
+      path: '/sitemap-anime.xml'
+      fullPath: '/sitemap-anime.xml'
+      preLoaderRoute: typeof SitemapAnimeDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/seasonal': {
@@ -1228,6 +1248,7 @@ const rootRouteChildren: RootRouteChildren = {
   RecommendationsRoute: RecommendationsRoute,
   ReviewsRoute: ReviewsRoute,
   SeasonalRoute: SeasonalRoute,
+  SitemapAnimeDotxmlRoute: SitemapAnimeDotxmlRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapPagesDotxmlRoute: SitemapPagesDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

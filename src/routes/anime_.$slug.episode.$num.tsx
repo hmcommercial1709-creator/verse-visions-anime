@@ -23,14 +23,14 @@ export const Route = createFileRoute("/anime_/$slug/episode/$num")({
     return { ep, anime };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [
-      { property: "og:url", content: `https://gamecastle.store/anime/${anime.slug}/episode/${ep.number}` },
-      { name: "twitter:card", content: "summary_large_image" },{ title: "Not found" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData) return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     const { ep, anime } = loaderData;
     const title = `${anime.title} Episode ${ep.number}: ${ep.title} — Recap & Analysis · AnimeVerse`;
     const desc = ep.synopsis;
     return {
       meta: [
+        { property: "og:url", content: `https://gamecastle.store/anime/${anime.slug}/episode/${ep.number}` },
+        { name: "twitter:card", content: "summary_large_image" },
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },

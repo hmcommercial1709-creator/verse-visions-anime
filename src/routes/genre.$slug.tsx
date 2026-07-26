@@ -12,15 +12,15 @@ export const Route = createFileRoute("/genre/$slug")({
     return { genre };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [
-      { property: "og:url", content: `https://gamecastle.store/genre/${g.slug}` },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },{ title: "Not found" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData) return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     const g = loaderData.genre;
     const title = `Best ${g.name} Anime — Rankings, Reviews & Guides · AnimeVerse`;
     const desc = `The complete AnimeVerse guide to ${g.name} anime: the defining shows, why the genre works, and where to start.`;
     return {
       meta: [
+        { property: "og:url", content: `https://gamecastle.store/genre/${g.slug}` },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },

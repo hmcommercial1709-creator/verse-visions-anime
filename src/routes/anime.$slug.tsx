@@ -10,6 +10,11 @@ import { AnimeCard } from "@/components/anime-card";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
+import { AnimeLiveData } from "@/components/live-data";
+import { UserReviews } from "@/components/user-reviews";
+import { ArticleComments } from "@/components/article-comments";
+import { VideoEmbed } from "@/components/media";
+import { artFor } from "@/lib/media";
 import { Star, Calendar, Tv, Building2, Award, Play, Music, Users, HelpCircle, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/anime/$slug")({
@@ -131,6 +136,9 @@ function AnimeDetail() {
           </SectionBlock>
 
           <AdSlot placement="inline" />
+
+          {/* Live release schedule, cast gallery + episode directory */}
+          <AnimeLiveData title={anime.title} year={anime.year} slug={anime.slug} />
 
           {/* Story arcs */}
           <SectionBlock id="arcs" title="Every arc, explained">
@@ -304,6 +312,10 @@ function AnimeDetail() {
               ))}
             </div>
           </SectionBlock>
+
+          {/* Reader reviews + discussion */}
+          <UserReviews slug={anime.slug} title={anime.title} editorialScore={anime.rating} />
+          <ArticleComments slug={`anime-${anime.slug}`} />
 
           {/* Conclusion */}
           <SectionBlock id="conclusion" title="Conclusion">

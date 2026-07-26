@@ -25,6 +25,7 @@ import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as SoundtracksRouteImport } from './routes/soundtracks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
+import { Route as SeasonalRouteImport } from './routes/seasonal'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as QuotesRouteImport } from './routes/quotes'
@@ -144,6 +145,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SitemapPageRoute = SitemapPageRouteImport.update({
   id: '/sitemap-page',
   path: '/sitemap-page',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeasonalRoute = SeasonalRouteImport.update({
+  id: '/seasonal',
+  path: '/seasonal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReviewsRoute = ReviewsRouteImport.update({
@@ -379,6 +385,7 @@ export interface FileRoutesByFullPath {
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/seasonal': typeof SeasonalRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
@@ -437,6 +444,7 @@ export interface FileRoutesByTo {
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/seasonal': typeof SeasonalRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
@@ -496,6 +504,7 @@ export interface FileRoutesById {
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/seasonal': typeof SeasonalRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
@@ -556,6 +565,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/seasonal'
     | '/sitemap-page'
     | '/sitemap.xml'
     | '/soundtracks'
@@ -614,6 +624,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/seasonal'
     | '/sitemap-page'
     | '/sitemap.xml'
     | '/soundtracks'
@@ -672,6 +683,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/seasonal'
     | '/sitemap-page'
     | '/sitemap.xml'
     | '/soundtracks'
@@ -731,6 +743,7 @@ export interface RootRouteChildren {
   QuotesRoute: typeof QuotesRoute
   RecommendationsRoute: typeof RecommendationsRoute
   ReviewsRoute: typeof ReviewsRoute
+  SeasonalRoute: typeof SeasonalRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
@@ -870,6 +883,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-page'
       fullPath: '/sitemap-page'
       preLoaderRoute: typeof SitemapPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seasonal': {
+      id: '/seasonal'
+      path: '/seasonal'
+      fullPath: '/seasonal'
+      preLoaderRoute: typeof SeasonalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reviews': {
@@ -1187,6 +1207,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuotesRoute: QuotesRoute,
   RecommendationsRoute: RecommendationsRoute,
   ReviewsRoute: ReviewsRoute,
+  SeasonalRoute: SeasonalRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,

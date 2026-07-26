@@ -90,6 +90,9 @@ function EpisodePage() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-6">
 
         <div className="min-w-0 max-w-3xl">
+        {/* Below-title billboard (Below_Title_Ad) */}
+        <BelowTitleAd />
+
         <InArticleAd
           index={1}
           unitId={`av-ep-${anime.slug}-${ep.number}-top`}

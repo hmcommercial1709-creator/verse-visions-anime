@@ -15,7 +15,7 @@ import { AnimeRecRail } from "@/components/recommendations";
 import { ArticleComments } from "@/components/article-comments";
 import { VideoEmbed } from "@/components/media";
 import { backdropFor } from "@/lib/media";
-import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Clock, Download, Play } from "lucide-react";
 
 export const Route = createFileRoute("/anime_/$slug/episode/$num")({
   loader: ({ params }): { ep: Episode; anime: Anime } => {
@@ -92,8 +92,28 @@ function EpisodePage() {
             <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {ep.airDate}</span>
             <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {ep.runtime}</span>
           </div>
+
+          {/* Primary actions */}
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:max-w-2xl">
+            <a
+              href="#episode-preview"
+              className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-primary px-6 py-4 text-base font-bold text-primary-foreground glow-primary transition-transform hover:scale-[1.02] hover:brightness-110"
+            >
+              <Play className="h-5 w-5 fill-current" /> Play / Stream
+            </a>
+            <Link
+              to="/streaming"
+              className="inline-flex items-center justify-center gap-2.5 rounded-2xl border border-accent/50 bg-accent/10 px-6 py-4 text-base font-bold text-accent backdrop-blur transition-colors hover:bg-accent/20"
+            >
+              <Download className="h-5 w-5" /> Download options
+            </Link>
+          </div>
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            AnimeVerse links to official streaming platforms only — 1080p and 4K where available.
+          </p>
         </div>
       </section>
+
 
       <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-6">
 
@@ -107,6 +127,7 @@ function EpisodePage() {
           adId="InArticle_Ad_1"
         />
 
+        <div id="episode-preview" className="scroll-mt-24" />
         <Block title="Watch the episode preview">
           <VideoEmbed
             art={backdropFor(anime.slug)}

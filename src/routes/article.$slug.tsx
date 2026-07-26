@@ -119,7 +119,7 @@ export const Route = createFileRoute("/article/$slug")({
             dateModified: a.date,
             mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/article/${a.slug}`) },
             articleSection: a.section,
-            wordCount: wordCount(paragraphs),
+            wordCount: wordCount(articleParagraphs(a)),
             author: { "@type": "Person", name: getAuthor(a.author)?.name },
             publisher: { "@type": "Organization", name: "AnimeVerse" },
           }),
@@ -129,7 +129,7 @@ export const Route = createFileRoute("/article/$slug")({
           children: JSON.stringify(faqSchema([
             {
               q: `How long does it take to read "${a.title}"?`,
-              a: `About ${readingLabel(paragraphs)} at an average reading pace.`,
+              a: `About ${readingLabel(articleParagraphs(a))} at an average reading pace.`,
             },
             {
               q: "Does this article contain spoilers?",

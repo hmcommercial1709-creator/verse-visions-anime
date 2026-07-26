@@ -41,7 +41,18 @@ export const Route = createFileRoute("/")({
       { name: "twitter:description", content: "Your ultimate destination for anime guides, character databases, and gaming tools." },
       { name: "twitter:image", content: HOME_OG_IMAGE },
     ],
-    links: [{ rel: "canonical", href: `${SITE_URL}/` }, ...hreflangLinks("/")],
+    links: [
+      { rel: "canonical", href: `${SITE_URL}/` },
+      ...hreflangLinks("/"),
+      // LCP hero poster — preloaded so the first paint has the image already in flight.
+      {
+        rel: "preload",
+        as: "image",
+        href: posterFor(HERO_SLUGS[0]).src,
+        imagesrcset: posterFor(HERO_SLUGS[0]).srcSet,
+        fetchpriority: "high",
+      },
+    ],
   }),
   component: Home,
 });

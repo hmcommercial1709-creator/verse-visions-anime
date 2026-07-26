@@ -229,12 +229,15 @@ function ArticlePage() {
             <div className="prose prose-invert mt-8 max-w-none text-lg leading-relaxed">
               {sections.map((s, i) => (
                 <section key={s.id} id={s.id} className="scroll-mt-28">
+                  {authored && (
+                    <h2 className="mb-4 mt-10 font-display text-2xl font-bold lg:text-3xl">{s.heading}</h2>
+                  )}
                   {s.paragraphs.map((p, j) => {
                     const ad = adPlan.get(`${i}:${j}`);
                     return (
                       <div key={j}>
                         <p className="mb-6">{p}</p>
-                        {/* Native unit injected every 4 paragraphs */}
+                        {/* Native unit injected every few paragraphs */}
                         {ad && (
                           <div className="not-prose">
                             <InArticleAd
@@ -248,8 +251,13 @@ function ArticlePage() {
                     );
                   })}
 
+                  {/* Editor-authored rich blocks: tables, spoilers, links, affiliate, poll */}
+                  {s.blocks?.map((block, bi) => (
+                    <ArticleBlockView key={bi} block={block} />
+                  ))}
+
                   {/* Contextual internal link card, woven into the flow */}
-                  {inlineLinks[i] && i % 2 === 1 && (
+                  {!authored && inlineLinks[i] && i % 2 === 1 && (
                     <aside className="my-8 not-prose rounded-2xl border border-primary/30 bg-primary/5 p-4">
                       <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Read next</div>
                       <Link
@@ -265,7 +273,7 @@ function ArticlePage() {
 
 
                   {/* Embedded merchandise + manga affiliate widget */}
-                  {i === 2 && (
+                  {!authored && i === 2 && (
                     <AffiliateProductWidget
                       products={merchProducts}
                       title={`Featured Merchandise & Manga${loreAnime ? ` · ${loreAnime.title}` : ""}`}
@@ -273,7 +281,7 @@ function ArticlePage() {
                   )}
 
                   {/* Spoiler / lore accordion mid-article */}
-                  {i === 1 && loreAnime && (
+                  {!authored && i === 1 && loreAnime && (
                     <div className="not-prose">
                       <Spoiler level="major" scope={loreAnime.title}>
                         <div className="space-y-2 text-base">

@@ -39,33 +39,83 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
   );
 }
 
+/**
+ * Standard Google AdSense container. Renders the `<ins class="adsbygoogle">`
+ * element with a stable DOM id and a reserved box so the unit never shifts
+ * layout (CLS = 0) before or after the ad script fills it.
+ */
+export function AdSenseContainer({
+  id,
+  slot,
+  minHeight,
+  format = "auto",
+  className = "",
+  label,
+}: {
+  id: string;
+  slot?: string;
+  minHeight: number;
+  format?: string;
+  className?: string;
+  label?: string;
+}) {
+  return (
+    <div
+      className={`relative w-full overflow-hidden ${className}`}
+      style={{ minHeight, height: minHeight, contain: "layout size" }}
+      aria-label="advertisement"
+      role="complementary"
+    >
+      <ins
+        id={id}
+        className="adsbygoogle block h-full w-full"
+        style={{ display: "block", width: "100%", height: "100%" }}
+        data-ad-client={AD_CLIENT}
+        data-ad-slot={slot ?? id}
+        data-ad-format={format}
+        data-full-width-responsive="true"
+      />
+      <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground/60">
+        {label ?? id}
+      </span>
+    </div>
+  );
+}
+
 /** Responsive header leaderboard that sits directly under the sticky nav. */
 export function HeaderBannerAd() {
   return (
     <div className="sticky top-[68px] z-30 border-y border-border/50 bg-background/85 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 py-2 lg:px-6">
-        <div
-          data-ad-slot="header-banner"
-          aria-label="advertisement"
-          className="grid h-16 w-full place-items-center rounded-lg border border-dashed border-border/70 bg-secondary/25 text-[10px] uppercase tracking-[0.24em] text-muted-foreground/70 sm:h-[90px]"
-        >
-          Header Banner · 728×90 / 320×50
-        </div>
+        <AdSenseContainer
+          id="Header_Ad"
+          minHeight={90}
+          label="Header_Ad · 728×90 / 320×50"
+          className="rounded-lg border border-dashed border-border/70 bg-secondary/25"
+        />
       </div>
     </div>
   );
 }
 
 /** In-article native unit, designed to read as part of the flow. */
-export function InArticleAd({ index = 1, unitId }: { index?: number; unitId?: string }) {
+export function InArticleAd({
+  index = 1,
+  unitId,
+  adId,
+}: {
+  index?: number;
+  unitId?: string;
+  adId?: string;
+}) {
   const autoId = useAdUnitId("av-inarticle");
   const id = unitId ?? autoId;
+  const containerId = adId ?? `InArticle_Ad_${index}`;
   const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLElement>();
 
   return (
     <aside
       ref={ref}
-      id={id}
       data-ad-slot="in-article"
       data-ad-unit-id={id}
       data-ad-refresh={refreshKey}
@@ -77,18 +127,28 @@ export function InArticleAd({ index = 1, unitId }: { index?: number; unitId?: st
         <span>Sponsored</span>
         <span className="font-mono opacity-60">slot {index}</span>
       </div>
-      <div
+      <AdSenseContainer
         key={refreshKey}
-        className="grid h-32 place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground/60"
-      >
-        Native In-Article Unit
-      </div>
+        id={containerId}
+        slot={id}
+        minHeight={128}
+        format="fluid"
+        label={`${containerId} · native`}
+      />
     </aside>
   );
 }
 
 /** Desktop sidebar unit that stays in view while the reader scrolls. */
-export function StickySidebarAd({ label = "Sidebar · 300×600", unitId }: { label?: string; unitId?: string }) {
+export function StickySidebarAd({
+  label = "Sidebar_Sticky_Ad · 300×600",
+  unitId,
+  adId = "Sidebar_Sticky_Ad",
+}: {
+  label?: string;
+  unitId?: string;
+  adId?: string;
+}) {
   const autoId = useAdUnitId("av-sidebar");
   const id = unitId ?? autoId;
   const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLDivElement>();
@@ -97,19 +157,26 @@ export function StickySidebarAd({ label = "Sidebar · 300×600", unitId }: { lab
     <div className="sticky top-28 hidden lg:block">
       <div
         ref={ref}
-        id={id}
         data-ad-slot="sticky-sidebar"
         data-ad-unit-id={id}
         data-ad-refresh={refreshKey}
         data-ad-viewable={viewable ? "true" : "false"}
         aria-label="advertisement"
-        className="grid h-[600px] w-full place-items-center rounded-2xl border border-dashed border-border/70 bg-secondary/25 text-[10px] uppercase tracking-[0.24em] text-muted-foreground/70"
       >
-        <span key={refreshKey}>{label}</span>
+        <AdSenseContainer
+          key={refreshKey}
+          id={adId}
+          slot={id}
+          minHeight={600}
+          format="vertical"
+          label={label}
+          className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+        />
       </div>
     </div>
   );
 }
+
 
 /** Mobile-only bottom anchor banner with a dismiss control. */
 export function MobileAnchorAd() {

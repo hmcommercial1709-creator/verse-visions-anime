@@ -12,12 +12,14 @@ const STATIC_PATHS = [
   "/", "/browse", "/trending", "/top", "/upcoming", "/new-releases", "/completed", "/classic",
   "/genres", "/studios", "/characters",
   "/news", "/reviews", "/guides", "/top-lists", "/editorial", "/authors",
+  "/manga-spoilers", "/power-scaling",
   "/watch-order", "/timeline", "/recommendations",
   "/quotes", "/facts", "/soundtracks", "/openings", "/wallpapers",
   "/merch", "/events", "/streaming", "/awards", "/statistics",
   "/about", "/contact", "/faq",
-  "/privacy", "/terms", "/cookies", "/dmca", "/editorial-policy", "/sitemap-page",
+  "/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy", "/sitemap-page",
 ];
+
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {

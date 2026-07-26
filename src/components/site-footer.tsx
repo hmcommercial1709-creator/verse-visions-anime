@@ -5,6 +5,8 @@ import { LanguageSelector } from "./language-selector";
 const footerCols = [
   { title: "Discover", links: [
     { to: "/browse", label: "Browse Anime" },
+    { to: "/explore", label: "Explore & Filter" },
+    { to: "/seasonal", label: "Seasonal Anime" },
     { to: "/trending", label: "Trending" },
     { to: "/top", label: "Top 100" },
     { to: "/top-rated", label: "Top Rated" },

@@ -24,6 +24,8 @@ const STATIC_ROUTES: SitemapEntry[] = [
   // Collection / browse hubs
   ...[
     "/browse",
+    "/explore",
+    "/seasonal",
     "/trending",
     "/top",
     "/top-rated",

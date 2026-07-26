@@ -25,6 +25,7 @@ import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as SoundtracksRouteImport } from './routes/soundtracks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
+import { Route as SeasonalRouteImport } from './routes/seasonal'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as QuotesRouteImport } from './routes/quotes'
@@ -40,6 +41,7 @@ import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as GenresRouteImport } from './routes/genres'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FactsRouteImport } from './routes/facts'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as EditorialRouteImport } from './routes/editorial'
@@ -145,6 +147,11 @@ const SitemapPageRoute = SitemapPageRouteImport.update({
   path: '/sitemap-page',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SeasonalRoute = SeasonalRouteImport.update({
+  id: '/seasonal',
+  path: '/seasonal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
@@ -218,6 +225,11 @@ const FaqRoute = FaqRouteImport.update({
 const FactsRoute = FactsRouteImport.update({
   id: '/facts',
   path: '/facts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -357,6 +369,7 @@ export interface FileRoutesByFullPath {
   '/editorial': typeof EditorialRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
@@ -372,6 +385,7 @@ export interface FileRoutesByFullPath {
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/seasonal': typeof SeasonalRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
@@ -414,6 +428,7 @@ export interface FileRoutesByTo {
   '/editorial': typeof EditorialRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
@@ -429,6 +444,7 @@ export interface FileRoutesByTo {
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/seasonal': typeof SeasonalRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
@@ -472,6 +488,7 @@ export interface FileRoutesById {
   '/editorial': typeof EditorialRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
@@ -487,6 +504,7 @@ export interface FileRoutesById {
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
+  '/seasonal': typeof SeasonalRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
@@ -531,6 +549,7 @@ export interface FileRouteTypes {
     | '/editorial'
     | '/editorial-policy'
     | '/events'
+    | '/explore'
     | '/facts'
     | '/faq'
     | '/genres'
@@ -546,6 +565,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/seasonal'
     | '/sitemap-page'
     | '/sitemap.xml'
     | '/soundtracks'
@@ -588,6 +608,7 @@ export interface FileRouteTypes {
     | '/editorial'
     | '/editorial-policy'
     | '/events'
+    | '/explore'
     | '/facts'
     | '/faq'
     | '/genres'
@@ -603,6 +624,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/seasonal'
     | '/sitemap-page'
     | '/sitemap.xml'
     | '/soundtracks'
@@ -645,6 +667,7 @@ export interface FileRouteTypes {
     | '/editorial'
     | '/editorial-policy'
     | '/events'
+    | '/explore'
     | '/facts'
     | '/faq'
     | '/genres'
@@ -660,6 +683,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/recommendations'
     | '/reviews'
+    | '/seasonal'
     | '/sitemap-page'
     | '/sitemap.xml'
     | '/soundtracks'
@@ -703,6 +727,7 @@ export interface RootRouteChildren {
   EditorialRoute: typeof EditorialRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
   EventsRoute: typeof EventsRoute
+  ExploreRoute: typeof ExploreRoute
   FactsRoute: typeof FactsRoute
   FaqRoute: typeof FaqRoute
   GenresRoute: typeof GenresRoute
@@ -718,6 +743,7 @@ export interface RootRouteChildren {
   QuotesRoute: typeof QuotesRoute
   RecommendationsRoute: typeof RecommendationsRoute
   ReviewsRoute: typeof ReviewsRoute
+  SeasonalRoute: typeof SeasonalRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
@@ -859,6 +885,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapPageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seasonal': {
+      id: '/seasonal'
+      path: '/seasonal'
+      fullPath: '/seasonal'
+      preLoaderRoute: typeof SeasonalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reviews': {
       id: '/reviews'
       path: '/reviews'
@@ -962,6 +995,13 @@ declare module '@tanstack/react-router' {
       path: '/facts'
       fullPath: '/facts'
       preLoaderRoute: typeof FactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -1151,6 +1191,7 @@ const rootRouteChildren: RootRouteChildren = {
   EditorialRoute: EditorialRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
   EventsRoute: EventsRoute,
+  ExploreRoute: ExploreRoute,
   FactsRoute: FactsRoute,
   FaqRoute: FaqRoute,
   GenresRoute: GenresRoute,
@@ -1166,6 +1207,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuotesRoute: QuotesRoute,
   RecommendationsRoute: RecommendationsRoute,
   ReviewsRoute: ReviewsRoute,
+  SeasonalRoute: SeasonalRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,

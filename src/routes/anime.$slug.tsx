@@ -10,6 +10,11 @@ import { AnimeCard } from "@/components/anime-card";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
+import { AnimeLiveData } from "@/components/live-data";
+import { UserReviews } from "@/components/user-reviews";
+import { ArticleComments } from "@/components/article-comments";
+import { VideoEmbed } from "@/components/media";
+import { backdropFor } from "@/lib/media";
 import { Star, Calendar, Tv, Building2, Award, Play, Music, Users, HelpCircle, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/anime/$slug")({
@@ -125,12 +130,25 @@ function AnimeDetail() {
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6 grid gap-10 lg:grid-cols-[1fr_320px] mt-10">
         <div className="min-w-0">
+          {/* Trailer */}
+          <SectionBlock id="trailer" title="Official trailer">
+            <VideoEmbed
+              art={backdropFor(anime.slug)}
+              title={`${anime.title} — official trailer`}
+              subtitle={anime.tagline}
+              searchQuery={anime.slug}
+            />
+          </SectionBlock>
+
           {/* Overview */}
           <SectionBlock id="overview" title="Overview">
             <p className="text-lg leading-relaxed text-foreground/90">{anime.synopsis}</p>
           </SectionBlock>
 
           <AdSlot placement="inline" />
+
+          {/* Live release schedule, cast gallery + episode directory */}
+          <AnimeLiveData title={anime.title} year={anime.year} slug={anime.slug} />
 
           {/* Story arcs */}
           <SectionBlock id="arcs" title="Every arc, explained">
@@ -304,6 +322,10 @@ function AnimeDetail() {
               ))}
             </div>
           </SectionBlock>
+
+          {/* Reader reviews + discussion */}
+          <UserReviews slug={anime.slug} title={anime.title} editorialScore={anime.rating} />
+          <ArticleComments slug={`anime-${anime.slug}`} />
 
           {/* Conclusion */}
           <SectionBlock id="conclusion" title="Conclusion">

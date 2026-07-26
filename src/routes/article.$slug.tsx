@@ -29,6 +29,12 @@ import {
   productsForContext,
 } from "@/components/affiliate-products";
 import { VipUpgradeCard } from "@/components/vip-banner";
+import { MediaImage, SectionHeaderImage, VideoEmbed } from "@/components/media";
+import { backdropFor, backdrops, artAlt, type MediaArt } from "@/lib/media";
+
+/** Resolves a block's named artwork, falling back to a deterministic backdrop. */
+const namedArt = (name: string): MediaArt =>
+  (backdrops as Record<string, MediaArt>)[name] ?? backdropFor(name);
 
 /** Renders an editor-authored rich block inside the article body. */
 function ArticleBlockView({ block }: { block: ArticleBlock }) {
@@ -48,6 +54,26 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
         </Link>
         {block.note && <p className="mt-1 text-sm text-muted-foreground">{block.note}</p>}
       </aside>
+    );
+  }
+  if (block.type === "image") {
+    return (
+      <div className="not-prose">
+        <SectionHeaderImage art={namedArt(block.art)} caption={block.caption} />
+      </div>
+    );
+  }
+  if (block.type === "video") {
+    return (
+      <div className="not-prose my-8">
+        <VideoEmbed
+          art={namedArt(block.art)}
+          title={block.title}
+          subtitle={block.subtitle}
+          youtubeId={block.youtubeId}
+          searchQuery={block.searchQuery}
+        />
+      </div>
     );
   }
   if (block.type === "spoiler") {
@@ -187,7 +213,16 @@ function ArticlePage() {
 
 
       <section className="relative">
-        <div className="h-64 lg:h-80" style={{ background: a.cover }}>
+        <div className="relative h-64 lg:h-80" style={{ background: a.cover }}>
+          <MediaImage
+            art={backdropFor(a.slug, [a.title, a.tag])}
+            alt={artAlt(a.title)}
+            ratio="16/9"
+            className="absolute inset-0 h-full w-full"
+            sizes="100vw"
+            priority
+            overlay={false}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         </div>
       </section>

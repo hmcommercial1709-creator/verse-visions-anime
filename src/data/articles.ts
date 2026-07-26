@@ -17,7 +17,11 @@ export type ArticleBlock =
       retailer: string;
       note?: string;
     }
-  | { type: "poll"; question: string; options: string[] };
+  | { type: "poll"; question: string; options: string[] }
+  /** Illustrated section header. `art` names a key from src/lib/media. */
+  | { type: "image"; art: string; caption: string }
+  /** Responsive trailer/clip card. Omit `youtubeId` for an official-channel facade. */
+  | { type: "video"; art: string; title: string; subtitle?: string; youtubeId?: string; searchQuery?: string };
 
 /** Editor-authored section with its own heading, TOC entry and optional blocks. */
 export type ArticleSection = {

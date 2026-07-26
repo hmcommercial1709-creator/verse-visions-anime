@@ -14,6 +14,8 @@ const megaGroups = [
     columns: [
       { title: "Discovery", links: [
         { to: "/browse", label: "All Anime" },
+        { to: "/explore", label: "Explore & Filter" },
+        { to: "/seasonal", label: "Seasonal" },
         { to: "/trending", label: "Trending" },
         { to: "/top", label: "Top 100" },
         { to: "/top-rated", label: "Top Rated" },

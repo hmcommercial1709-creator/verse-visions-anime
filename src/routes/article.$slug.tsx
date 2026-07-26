@@ -156,7 +156,7 @@ function ArticlePage() {
                   {/* Native ad every third section */}
                   {i > 0 && (i + 1) % 3 === 0 && (
                     <div className="not-prose">
-                      <InArticleAd index={Math.ceil((i + 1) / 3)} />
+                      <InArticleAd index={Math.ceil((i + 1) / 3)} unitId={`av-article-${i + 1}`} />}
                     </div>
                   )}
 

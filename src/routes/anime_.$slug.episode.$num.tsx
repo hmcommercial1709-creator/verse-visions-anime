@@ -67,6 +67,7 @@ function EpisodePage() {
 
   return (
     <article>
+      <HeaderBannerAd />
       <section className="relative overflow-hidden">
         <div className="absolute inset-0" style={{ background: anime.cover }}>
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />

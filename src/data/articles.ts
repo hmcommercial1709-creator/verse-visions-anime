@@ -1,3 +1,31 @@
+/**
+ * Rich in-body blocks an editor can drop between paragraphs of a
+ * section-authored article. Rendered by src/routes/article.$slug.tsx.
+ */
+export type ArticleBlock =
+  | { type: "table"; caption?: string; columns: string[]; rows: string[][] }
+  | { type: "spoiler"; scope: string; level?: "minor" | "major" | "ending"; heading?: string; paragraphs: string[] }
+  | { type: "link"; label: string; to: string; note?: string }
+  | {
+      type: "affiliate";
+      title: string;
+      subtitle: string;
+      price: string;
+      offer: string;
+      cta: string;
+      href: string;
+      retailer: string;
+      note?: string;
+    }
+  | { type: "poll"; question: string; options: string[] };
+
+/** Editor-authored section with its own heading, TOC entry and optional blocks. */
+export type ArticleSection = {
+  heading: string;
+  paragraphs: string[];
+  blocks?: ArticleBlock[];
+};
+
 export type Article = {
   slug: string;
   section: "news" | "reviews" | "guides" | "top-lists" | "editorial";
@@ -8,10 +36,17 @@ export type Article = {
   tag: string;
   cover: string;
   body: string[];
+  /** When present, replaces the auto-derived sections with editorial ones. */
+  sections?: ArticleSection[];
   related: string[]; // slugs of anime
 };
 
+/** Flat paragraph list for reading-time, word count and schema. */
+export const articleParagraphs = (a: Article): string[] =>
+  a.sections && a.sections.length > 0 ? a.sections.flatMap((s) => [s.heading, ...s.paragraphs]) : a.body;
+
 const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
+
 
 export const authors = [
   { slug: "aiko-tanaka", name: "Aiko Tanaka", role: "Editor-in-Chief", bio: "Ten years covering the Japanese animation industry. Formerly Anime News Network, Otaquest, and a permanent seat at Anime Expo." },

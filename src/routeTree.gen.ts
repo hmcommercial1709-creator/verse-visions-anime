@@ -13,6 +13,7 @@ import { Route as WatchOrderRouteImport } from './routes/watch-order'
 import { Route as WallpapersRouteImport } from './routes/wallpapers'
 import { Route as UpcomingRouteImport } from './routes/upcoming'
 import { Route as TrendingRouteImport } from './routes/trending'
+import { Route as TopRatedRouteImport } from './routes/top-rated'
 import { Route as TopListsRouteImport } from './routes/top-lists'
 import { Route as TopRouteImport } from './routes/top'
 import { Route as TimelineRouteImport } from './routes/timeline'
@@ -80,6 +81,11 @@ const UpcomingRoute = UpcomingRouteImport.update({
 const TrendingRoute = TrendingRouteImport.update({
   id: '/trending',
   path: '/trending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopRatedRoute = TopRatedRouteImport.update({
+  id: '/top-rated',
+  path: '/top-rated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TopListsRoute = TopListsRouteImport.update({
@@ -364,6 +370,7 @@ export interface FileRoutesByFullPath {
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
+  '/top-rated': typeof TopRatedRoute
   '/trending': typeof TrendingRoute
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
@@ -418,6 +425,7 @@ export interface FileRoutesByTo {
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
+  '/top-rated': typeof TopRatedRoute
   '/trending': typeof TrendingRoute
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
@@ -473,6 +481,7 @@ export interface FileRoutesById {
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
+  '/top-rated': typeof TopRatedRoute
   '/trending': typeof TrendingRoute
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
@@ -529,6 +538,7 @@ export interface FileRouteTypes {
     | '/timeline'
     | '/top'
     | '/top-lists'
+    | '/top-rated'
     | '/trending'
     | '/upcoming'
     | '/wallpapers'
@@ -583,6 +593,7 @@ export interface FileRouteTypes {
     | '/timeline'
     | '/top'
     | '/top-lists'
+    | '/top-rated'
     | '/trending'
     | '/upcoming'
     | '/wallpapers'
@@ -637,6 +648,7 @@ export interface FileRouteTypes {
     | '/timeline'
     | '/top'
     | '/top-lists'
+    | '/top-rated'
     | '/trending'
     | '/upcoming'
     | '/wallpapers'
@@ -692,6 +704,7 @@ export interface RootRouteChildren {
   TimelineRoute: typeof TimelineRoute
   TopRoute: typeof TopRoute
   TopListsRoute: typeof TopListsRoute
+  TopRatedRoute: typeof TopRatedRoute
   TrendingRoute: typeof TrendingRoute
   UpcomingRoute: typeof UpcomingRoute
   WallpapersRoute: typeof WallpapersRoute
@@ -734,6 +747,13 @@ declare module '@tanstack/react-router' {
       path: '/trending'
       fullPath: '/trending'
       preLoaderRoute: typeof TrendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top-rated': {
+      id: '/top-rated'
+      path: '/top-rated'
+      fullPath: '/top-rated'
+      preLoaderRoute: typeof TopRatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/top-lists': {
@@ -1116,6 +1136,7 @@ const rootRouteChildren: RootRouteChildren = {
   TimelineRoute: TimelineRoute,
   TopRoute: TopRoute,
   TopListsRoute: TopListsRoute,
+  TopRatedRoute: TopRatedRoute,
   TrendingRoute: TrendingRoute,
   UpcomingRoute: UpcomingRoute,
   WallpapersRoute: WallpapersRoute,

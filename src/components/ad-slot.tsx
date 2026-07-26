@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 import { adTargetingAttributes, useGeoTarget } from "@/lib/geo-targeting";
 
-/** Replace with the live publisher ID before going live on AdSense. */
-export const AD_CLIENT = "ca-pub-0000000000000000";
+/** Live AdSense publisher ID (loaded globally from the root route <head>). */
+export const AD_CLIENT = "ca-pub-6422431093727588";
+
 
 
 type Placement =
@@ -65,6 +66,41 @@ export function AdSenseContainer({
   label?: string;
 }) {
   const geo = useGeoTarget();
+  const insRef = useRef<HTMLModElement | null>(null);
+  const [filled, setFilled] = useState(false);
+
+  // Hand the freshly mounted <ins> to the globally loaded AdSense script.
+  useEffect(() => {
+    const node = insRef.current;
+    if (!node) return;
+    let cancelled = false;
+
+    try {
+      const w = window as unknown as { adsbygoogle?: unknown[] };
+      w.adsbygoogle = w.adsbygoogle || [];
+      w.adsbygoogle.push({});
+    } catch {
+      /* script blocked or not yet available — box stays reserved, no CLS */
+    }
+
+    // Swap the placeholder label out once Google fills the unit.
+    const observer =
+      typeof MutationObserver !== "undefined"
+        ? new MutationObserver(() => {
+            if (cancelled) return;
+            if (node.getAttribute("data-ad-status") === "filled" || node.firstElementChild) {
+              setFilled(true);
+            }
+          })
+        : null;
+    observer?.observe(node, { attributes: true, childList: true, attributeFilter: ["data-ad-status"] });
+
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+    };
+  }, [id, slot]);
+
   return (
     <div
       className={`relative w-full overflow-hidden ${className}`}
@@ -73,6 +109,7 @@ export function AdSenseContainer({
       role="complementary"
     >
       <ins
+        ref={insRef}
         id={id}
         className="adsbygoogle block h-full w-full"
         style={{ display: "block", width: "100%", height: "100%" }}
@@ -82,12 +119,15 @@ export function AdSenseContainer({
         data-full-width-responsive="true"
         {...adTargetingAttributes(geo, id)}
       />
-      <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground/60">
-        {label ?? id}
-      </span>
+      {!filled && (
+        <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground/60">
+          {label ?? id}
+        </span>
+      )}
     </div>
   );
 }
+
 
 /**
  * Wraps any AdSense container with its own independent viewability-gated

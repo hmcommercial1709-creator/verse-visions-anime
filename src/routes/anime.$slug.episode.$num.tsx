@@ -246,6 +246,11 @@ function EpisodePage() {
           eyebrow="Continue exploring"
           title={`If ${anime.title} is your lane…`}
         />
+        </div>
+
+        <aside className="hidden lg:block">
+          <StickySidebarAd unitId={`av-ep-${anime.slug}-${ep.number}-rail`} />
+        </aside>
       </div>
     </article>
   );

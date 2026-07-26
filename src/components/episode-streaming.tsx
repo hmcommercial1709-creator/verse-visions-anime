@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { Download, ExternalLink, MonitorPlay, Play, Server } from "lucide-react";
 import type { Anime } from "@/data/animes";
 import { episodesFor } from "@/data/episodes";
-import { UnlockCountdownModal, useUnlockCountdown } from "@/components/unlock-countdown";
 
 /**
  * Latest episodes + "where to watch" switcher.
@@ -19,7 +18,6 @@ const PROVIDERS = [
 export function LatestEpisodesSection({ items }: { items: Anime[] }) {
   const [activeAnime, setActiveAnime] = useState(items[0]?.slug ?? "");
   const [provider, setProvider] = useState<string>(PROVIDERS[0].id);
-  const unlock = useUnlockCountdown();
 
   const anime = items.find((a) => a.slug === activeAnime) ?? items[0];
   if (!anime) return null;
@@ -120,34 +118,21 @@ export function LatestEpisodesSection({ items }: { items: Anime[] }) {
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={() =>
-              unlock.open({
-                kind: "stream",
-                label: `Watch ${anime.title} on ${activeProvider.label}`,
-                detail: `${activeProvider.quality} · official server`,
-                href: activeProvider.url,
-              })
-            }
+          <a
+            href={activeProvider.url}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground hover:brightness-110"
           >
             <Play className="h-4 w-4" /> Watch on {activeProvider.label}
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              unlock.open({
-                kind: "wallpaper",
-                label: `${anime.title} — HD Wallpaper Pack`,
-                detail: "4K & mobile key art, editorial gallery",
-                href: `/anime/${anime.slug}`,
-              })
-            }
+          </a>
+          <Link
+            to="/anime/$slug"
+            params={{ slug: anime.slug }}
             className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-4 py-2 text-xs font-semibold text-primary hover:bg-primary/20"
           >
-            <Download className="h-3.5 w-3.5" /> Download HD wallpapers
-          </button>
+            <Download className="h-3.5 w-3.5" /> HD wallpapers
+          </Link>
           <Link
             to="/streaming"
             className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-border px-4 py-2 text-xs text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -156,8 +141,6 @@ export function LatestEpisodesSection({ items }: { items: Anime[] }) {
           </Link>
         </div>
       </div>
-
-      <UnlockCountdownModal target={unlock.target} onClose={unlock.close} />
     </div>
   );
 }

@@ -160,6 +160,14 @@ function ArticlePage() {
                     </div>
                   )}
 
+                  {/* Embedded merchandise + manga affiliate widget */}
+                  {i === 2 && (
+                    <AffiliateProductWidget
+                      products={merchProducts}
+                      title={`Featured Merchandise & Manga${loreAnime ? ` · ${loreAnime.title}` : ""}`}
+                    />
+                  )}
+
                   {/* Spoiler / lore accordion mid-article */}
                   {i === 1 && loreAnime && (
                     <div className="not-prose">

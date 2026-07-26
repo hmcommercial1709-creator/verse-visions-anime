@@ -112,8 +112,9 @@ function DmcaPage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">7. Related documents</h2>
           <p className="mt-3">
-            See our <Link to="/terms" className="text-primary hover:underline">Terms of Service</Link>,{" "}
-            <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>, and{" "}
+            See our <Link to="/terms-of-service" className="text-primary hover:underline">Terms of Service</Link>,{" "}
+            <Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>, and{" "}
+
             <Link to="/editorial-policy" className="text-primary hover:underline">Editorial Policy</Link>.
           </p>
         </section>

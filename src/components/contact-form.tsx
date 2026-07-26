@@ -175,7 +175,7 @@ export function ContactForm() {
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs text-muted-foreground">
-          We use your details only to reply. See our <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>.
+          We use your details only to reply. See our <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
         </p>
         <button
           type="submit"

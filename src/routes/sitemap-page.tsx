@@ -24,7 +24,7 @@ export const Route = createFileRoute("/sitemap-page")({
         <Section title="Characters">{characters.map(c => <Item key={c.slug} to="/character/$slug" params={{ slug: c.slug }}>{c.name}</Item>)}</Section>
         <Section title="Articles">{articles.map(a => <Item key={a.slug} to="/article/$slug" params={{ slug: a.slug }}>{a.title}</Item>)}</Section>
         <Section title="Pages">
-          {["/","/browse","/trending","/top","/upcoming","/new-releases","/completed","/classic","/news","/reviews","/guides","/top-lists","/editorial","/authors","/watch-order","/timeline","/recommendations","/quotes","/facts","/soundtracks","/openings","/wallpapers","/merch","/events","/streaming","/awards","/statistics","/about","/contact","/faq","/privacy","/terms","/cookies","/dmca","/editorial-policy"].map(p => (
+          {["/","/browse","/trending","/top","/upcoming","/new-releases","/completed","/classic","/news","/reviews","/guides","/top-lists","/editorial","/authors","/manga-spoilers","/power-scaling","/watch-order","/timeline","/recommendations","/quotes","/facts","/soundtracks","/openings","/wallpapers","/merch","/events","/streaming","/awards","/statistics","/about","/contact","/faq","/privacy-policy","/terms-of-service","/cookies","/dmca","/editorial-policy"].map(p => (
             <li key={p}><Link to={p} className="text-sm text-foreground/85 hover:text-primary">{p}</Link></li>
           ))}
         </Section>

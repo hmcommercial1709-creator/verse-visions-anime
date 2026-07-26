@@ -16,6 +16,7 @@ import { Route as TrendingRouteImport } from './routes/trending'
 import { Route as TopListsRouteImport } from './routes/top-lists'
 import { Route as TopRouteImport } from './routes/top'
 import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudiosRouteImport } from './routes/studios'
 import { Route as StreamingRouteImport } from './routes/streaming'
@@ -26,11 +27,14 @@ import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PowerScalingRouteImport } from './routes/power-scaling'
 import { Route as OpeningsRouteImport } from './routes/openings'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as NewReleasesRouteImport } from './routes/new-releases'
 import { Route as MerchRouteImport } from './routes/merch'
+import { Route as MangaSpoilersRouteImport } from './routes/manga-spoilers'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as GenresRouteImport } from './routes/genres'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -93,6 +97,11 @@ const TimelineRoute = TimelineRouteImport.update({
   path: '/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -143,9 +152,19 @@ const QuotesRoute = QuotesRouteImport.update({
   path: '/quotes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PowerScalingRoute = PowerScalingRouteImport.update({
+  id: '/power-scaling',
+  path: '/power-scaling',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpeningsRoute = OpeningsRouteImport.update({
@@ -166,6 +185,11 @@ const NewReleasesRoute = NewReleasesRouteImport.update({
 const MerchRoute = MerchRouteImport.update({
   id: '/merch',
   path: '/merch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MangaSpoilersRoute = MangaSpoilersRouteImport.update({
+  id: '/manga-spoilers',
+  path: '/manga-spoilers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesRoute = GuidesRouteImport.update({
@@ -318,11 +342,14 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
+  '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/power-scaling': typeof PowerScalingRoute
   '/privacy': typeof PrivacyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
@@ -333,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
@@ -368,11 +396,14 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
+  '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/power-scaling': typeof PowerScalingRoute
   '/privacy': typeof PrivacyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
@@ -383,6 +414,7 @@ export interface FileRoutesByTo {
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
@@ -419,11 +451,14 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
+  '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/power-scaling': typeof PowerScalingRoute
   '/privacy': typeof PrivacyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
@@ -434,6 +469,7 @@ export interface FileRoutesById {
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/timeline': typeof TimelineRoute
   '/top': typeof TopRoute
   '/top-lists': typeof TopListsRoute
@@ -471,11 +507,14 @@ export interface FileRouteTypes {
     | '/faq'
     | '/genres'
     | '/guides'
+    | '/manga-spoilers'
     | '/merch'
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/power-scaling'
     | '/privacy'
+    | '/privacy-policy'
     | '/quotes'
     | '/recommendations'
     | '/reviews'
@@ -486,6 +525,7 @@ export interface FileRouteTypes {
     | '/streaming'
     | '/studios'
     | '/terms'
+    | '/terms-of-service'
     | '/timeline'
     | '/top'
     | '/top-lists'
@@ -521,11 +561,14 @@ export interface FileRouteTypes {
     | '/faq'
     | '/genres'
     | '/guides'
+    | '/manga-spoilers'
     | '/merch'
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/power-scaling'
     | '/privacy'
+    | '/privacy-policy'
     | '/quotes'
     | '/recommendations'
     | '/reviews'
@@ -536,6 +579,7 @@ export interface FileRouteTypes {
     | '/streaming'
     | '/studios'
     | '/terms'
+    | '/terms-of-service'
     | '/timeline'
     | '/top'
     | '/top-lists'
@@ -571,11 +615,14 @@ export interface FileRouteTypes {
     | '/faq'
     | '/genres'
     | '/guides'
+    | '/manga-spoilers'
     | '/merch'
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/power-scaling'
     | '/privacy'
+    | '/privacy-policy'
     | '/quotes'
     | '/recommendations'
     | '/reviews'
@@ -586,6 +633,7 @@ export interface FileRouteTypes {
     | '/streaming'
     | '/studios'
     | '/terms'
+    | '/terms-of-service'
     | '/timeline'
     | '/top'
     | '/top-lists'
@@ -622,11 +670,14 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   GenresRoute: typeof GenresRoute
   GuidesRoute: typeof GuidesRoute
+  MangaSpoilersRoute: typeof MangaSpoilersRoute
   MerchRoute: typeof MerchRoute
   NewReleasesRoute: typeof NewReleasesRoute
   NewsRoute: typeof NewsRoute
   OpeningsRoute: typeof OpeningsRoute
+  PowerScalingRoute: typeof PowerScalingRoute
   PrivacyRoute: typeof PrivacyRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   QuotesRoute: typeof QuotesRoute
   RecommendationsRoute: typeof RecommendationsRoute
   ReviewsRoute: typeof ReviewsRoute
@@ -637,6 +688,7 @@ export interface RootRouteChildren {
   StreamingRoute: typeof StreamingRoute
   StudiosRoute: typeof StudiosRoute
   TermsRoute: typeof TermsRoute
+  TermsOfServiceRoute: typeof TermsOfServiceRoute
   TimelineRoute: typeof TimelineRoute
   TopRoute: typeof TopRoute
   TopListsRoute: typeof TopListsRoute
@@ -703,6 +755,13 @@ declare module '@tanstack/react-router' {
       path: '/timeline'
       fullPath: '/timeline'
       preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -775,11 +834,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/power-scaling': {
+      id: '/power-scaling'
+      path: '/power-scaling'
+      fullPath: '/power-scaling'
+      preLoaderRoute: typeof PowerScalingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/openings': {
@@ -808,6 +881,13 @@ declare module '@tanstack/react-router' {
       path: '/merch'
       fullPath: '/merch'
       preLoaderRoute: typeof MerchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manga-spoilers': {
+      id: '/manga-spoilers'
+      path: '/manga-spoilers'
+      fullPath: '/manga-spoilers'
+      preLoaderRoute: typeof MangaSpoilersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guides': {
@@ -1014,11 +1094,14 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   GenresRoute: GenresRoute,
   GuidesRoute: GuidesRoute,
+  MangaSpoilersRoute: MangaSpoilersRoute,
   MerchRoute: MerchRoute,
   NewReleasesRoute: NewReleasesRoute,
   NewsRoute: NewsRoute,
   OpeningsRoute: OpeningsRoute,
+  PowerScalingRoute: PowerScalingRoute,
   PrivacyRoute: PrivacyRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   QuotesRoute: QuotesRoute,
   RecommendationsRoute: RecommendationsRoute,
   ReviewsRoute: ReviewsRoute,
@@ -1029,6 +1112,7 @@ const rootRouteChildren: RootRouteChildren = {
   StreamingRoute: StreamingRoute,
   StudiosRoute: StudiosRoute,
   TermsRoute: TermsRoute,
+  TermsOfServiceRoute: TermsOfServiceRoute,
   TimelineRoute: TimelineRoute,
   TopRoute: TopRoute,
   TopListsRoute: TopListsRoute,

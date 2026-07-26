@@ -26,9 +26,9 @@ const footerCols = [
   { title: "Editorial", links: [
     { to: "/news", label: "News" },
     { to: "/reviews", label: "Reviews" },
-    { to: "/top-lists", label: "Top Lists" },
-    { to: "/guides", label: "Guides" },
-    { to: "/editorial", label: "Editorial" },
+    { to: "/manga-spoilers", label: "Manga Spoilers" },
+    { to: "/power-scaling", label: "Power Scaling" },
+    { to: "/guides", label: "Anime Guides" },
     { to: "/authors", label: "Authors" },
     { to: "/editorial-policy", label: "Editorial Policy" },
   ]},
@@ -44,16 +44,17 @@ const footerCols = [
   ]},
   { title: "About & Legal", links: [
     { to: "/about", label: "About Us" },
-    { to: "/contact", label: "Contact Us" },
+    { to: "/contact", label: "Contact" },
     { to: "/faq", label: "FAQ" },
-    { to: "/privacy", label: "Privacy Policy" },
-    { to: "/terms", label: "Terms of Service" },
+    { to: "/privacy-policy", label: "Privacy Policy" },
+    { to: "/terms-of-service", label: "Terms of Service" },
     { to: "/cookies", label: "Cookie Policy" },
     { to: "/dmca", label: "DMCA & Copyright" },
     { to: "/sitemap-page", label: "HTML Sitemap" },
   ]},
 
 ];
+
 
 export function SiteFooter() {
   return (
@@ -124,11 +125,12 @@ export function SiteFooter() {
           <div className="flex flex-wrap gap-4">
             <Link to="/about" className="hover:text-primary">About</Link>
             <Link to="/contact" className="hover:text-primary">Contact</Link>
-            <Link to="/privacy" className="hover:text-primary">Privacy</Link>
-            <Link to="/terms" className="hover:text-primary">Terms</Link>
+            <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
+            <Link to="/terms-of-service" className="hover:text-primary">Terms of Service</Link>
             <Link to="/cookies" className="hover:text-primary">Cookies</Link>
             <Link to="/dmca" className="hover:text-primary">DMCA</Link>
           </div>
+
         </div>
 
       </div>

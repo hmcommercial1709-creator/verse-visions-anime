@@ -50,13 +50,15 @@ const megaGroups = [
         { to: "/editorial", label: "Editorial" },
         { to: "/authors", label: "Our Writers" },
       ]},
-      { title: "Guides", links: [
-        { to: "/guides", label: "All Guides" },
-        { to: "/article/beginner-guide-modern-shonen", label: "Beginner's Guide to Shonen" },
+      { title: "Hubs", links: [
+        { to: "/guides", label: "Anime Guides" },
+        { to: "/manga-spoilers", label: "Manga Spoilers" },
+        { to: "/power-scaling", label: "Power Scaling" },
+        { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
         { to: "/watch-order", label: "Watch Order" },
-        { to: "/timeline", label: "Anime Timeline" },
         { to: "/recommendations", label: "Recommendations" },
       ]},
+
       { title: "Must-read deep dives", links: [
         { to: "/article/why-frieren-won-2024", label: "Why Frieren Won the Year" },
         { to: "/article/review-jujutsu-kaisen-s2", label: "Jujutsu Kaisen S2 Review" },
@@ -81,15 +83,26 @@ const megaGroups = [
       ]},
       { title: "AnimeVerse", links: [
         { to: "/about", label: "About Us" },
-        { to: "/contact", label: "Contact Us" },
+        { to: "/contact", label: "Contact" },
         { to: "/editorial-policy", label: "Editorial Policy" },
-        { to: "/merch", label: "Merch & Wallpapers" },
+        { to: "/privacy-policy", label: "Privacy Policy" },
+        { to: "/terms-of-service", label: "Terms of Service" },
         { to: "/faq", label: "FAQ" },
       ]},
+
     ],
   },
 
 ];
+
+/** Direct category hubs surfaced in the main navigation. */
+const categoryHubs = [
+  { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
+  { to: "/manga-spoilers", label: "Manga Spoilers" },
+  { to: "/power-scaling", label: "Power Scaling" },
+  { to: "/guides", label: "Anime Guides" },
+];
+
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -153,13 +166,14 @@ export function SiteHeader() {
                 <ChevronDown className="h-3 w-3 opacity-70" />
               </button>
             ))}
-            <Link to="/characters" className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 flex items-center gap-1.5">
+            <Link to="/characters" className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5">
               <Users className="h-3.5 w-3.5" /> Characters
             </Link>
-            <Link to="/news" className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 flex items-center gap-1.5">
+            <Link to="/news" className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5">
               <Tv className="h-3.5 w-3.5" /> News
             </Link>
           </nav>
+
 
           <div className="ml-auto flex items-center gap-2">
             <button
@@ -180,15 +194,26 @@ export function SiteHeader() {
           </div>
         </div>
 
-        {/* Quick genre filter strip */}
+        {/* Category hubs + quick genre filter strip */}
         <div className="border-t border-border/40 bg-background/40">
           <div className="mx-auto flex max-w-7xl items-center gap-2 overflow-x-auto px-4 py-2 lg:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {categoryHubs.map((h) => (
+              <Link
+                key={h.to}
+                to={h.to}
+                className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+              >
+                {h.label}
+              </Link>
+            ))}
+            <span className="h-4 w-px shrink-0 bg-border/70" aria-hidden="true" />
             <Link
               to="/browse"
-              className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+              className="shrink-0 rounded-full border border-border/60 px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
             >
               All anime
             </Link>
+
             {genres.slice(0, 14).map((g) => (
               <Link
                 key={g.slug}
@@ -245,6 +270,18 @@ export function SiteHeader() {
               <button onClick={() => setMobileOpen(false)} className="rounded-md p-2"><X className="h-5 w-5" /></button>
             </div>
             <nav className="space-y-6">
+              <div>
+                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Category hubs</div>
+                <ul className="space-y-1.5">
+                  {categoryHubs.map((h) => (
+                    <li key={h.to}>
+                      <Link to={h.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm font-semibold text-primary">
+                        {h.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               {megaGroups.map((g) => (
                 <div key={g.label}>
                   <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">{g.label}</div>
@@ -259,7 +296,25 @@ export function SiteHeader() {
                   </ul>
                 </div>
               ))}
+              <div>
+                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">About &amp; legal</div>
+                <ul className="space-y-1.5">
+                  {[
+                    { to: "/about", label: "About Us" },
+                    { to: "/contact", label: "Contact" },
+                    { to: "/privacy-policy", label: "Privacy Policy" },
+                    { to: "/terms-of-service", label: "Terms of Service" },
+                  ].map((l) => (
+                    <li key={l.to}>
+                      <Link to={l.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </nav>
+
           </div>
         </div>
       )}

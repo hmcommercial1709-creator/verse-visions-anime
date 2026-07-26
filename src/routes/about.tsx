@@ -98,7 +98,34 @@ function AboutPage() {
       </section>
 
       <section className="mt-12">
-        <h2 className="font-display text-2xl font-bold">The editorial team</h2>
+        <h2 className="font-display text-2xl font-bold">Our power-scaling methodology</h2>
+        <p className="mt-2 text-muted-foreground">
+          Strength debates are the most fun and the most abused corner of anime writing, so ours run on
+          rules rather than volume.
+        </p>
+        <ol className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/85">
+          <li><strong>1. Feats before opinions.</strong> Every ranking starts from an action shown in canon, cited to an episode or chapter.</li>
+          <li><strong>2. Mechanics over ceilings.</strong> A technique's stated costs, conditions and counters decide matchups more often than its maximum output.</li>
+          <li><strong>3. Hype is evidence, not proof.</strong> In-universe claims raise a ceiling; a contradicting feat always outranks them.</li>
+          <li><strong>4. Cross-series verdicts are labelled speculative.</strong> Different authors write to different internal rules, and we say so.</li>
+        </ol>
+        <p className="mt-4 text-sm text-muted-foreground">
+          The full framework, including our destruction tiers, lives on the{" "}
+          <Link to="/power-scaling" className="text-primary hover:underline">power scaling hub</Link>.
+        </p>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="font-display text-2xl font-bold">The lore research team</h2>
+        <p className="mt-2 text-muted-foreground">
+          Our researchers build the timelines, arc maps and relationship charts behind every hub, working
+          from broadcast episodes, published manga volumes, credited staff lists and publisher
+          announcements. Manga-ahead material is always gated on our{" "}
+          <Link to="/manga-spoilers" className="text-primary hover:underline">manga spoilers hub</Link>.
+        </p>
+        <h3 className="mt-8 font-display text-xl font-bold">The editorial team</h3>
+        <p className="mt-2 text-muted-foreground">Every article carries a byline. These are the people behind them.</p>
+
         <p className="mt-2 text-muted-foreground">Every article carries a byline. These are the people behind them.</p>
         <div className="mt-5 space-y-3">
           {authors.map((a) => (

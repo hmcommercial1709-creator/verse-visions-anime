@@ -26,6 +26,15 @@ export const gojoLimitlessArticle: Article = {
         "There is a second reason this matters beyond trivia. Jujutsu Kaisen is a series about specialists — sorcerers whose entire value is one narrow, inherited, often awkward technique — and Limitless is the outlier that appears to break that premise by being good at everything. It does not. It is a single principle applied at three settings plus a domain, and every one of those settings has a cost, a tell, and a category of attack it cannot answer. Read that way, Gojo stops being a plot device and becomes the best-designed problem in the story: the reason every villain has to be smart instead of strong.",
         "One editorial note before we start. This guide is written to be safe for anime-only readers. Everything in the main body stays within material adapted through the Shibuya Incident arc. Where a point genuinely requires later manga developments, it lives inside a labelled spoiler gate that you have to open deliberately.",
       ],
+      blocks: [
+        {
+          type: "video",
+          art: "limitless",
+          title: "Limitless in Motion: How Infinity Is Animated",
+          subtitle: "AnimeVerse screening room - watch how the animation sells unresolvable distance",
+          searchQuery: "jujutsu kaisen gojo infinity scene official",
+        },
+      ],
     },
     {
       heading: "What 'Limitless' Actually Manipulates: Space, Not Force",
@@ -100,6 +109,11 @@ export const gojoLimitlessArticle: Article = {
         "There is one more reason Purple matters to a scaling discussion. Because it operates through erasure rather than impact, ordinary durability arguments do not apply to defending against it. The counterplay is not toughness — it is not being there, or being something that erasure does not fully resolve.",
       ],
       blocks: [
+        {
+          type: "image",
+          art: "energy",
+          caption: "Original AnimeVerse illustration: convergent and divergent cursed energy collapsing into an imaginary-mass core.",
+        },
         {
           type: "link",
           label: "Read our full Shibuya Incident Timeline & World Impact Analysis",

@@ -26,6 +26,13 @@ export const sorcererFamiliesArticle: Article = {
         "This guide covers each family's history, its inherited technique, its political weight and its material arsenal, then compares them directly. Everything in the main body stays within material adapted through the Shibuya Incident arc, so anime-only readers can read it safely. Where clan politics matter to later developments, the discussion stays general.",
         "One clarification worth making up front: the three families are not equals, and they never have been. They are three different answers to the same question — how do you make power inheritable? — and each answer has produced a very different institution, with a different failure mode.",
       ],
+      blocks: [
+        {
+          type: "image",
+          art: "clans",
+          caption: "Original AnimeVerse illustration: three inherited crests, three very different kinds of power.",
+        },
+      ],
     },
     {
       heading: "The Comparison at a Glance",
@@ -100,6 +107,15 @@ export const sorcererFamiliesArticle: Article = {
         "The Zenin arsenal is the deepest material asset in the series. The clan maintains a vault of cursed tools spanning the entire grade ladder, up to and including special-grade weaponry capable of nullifying cursed techniques on contact. This is doctrine rather than hoarding: the family's answer to a member born without a useful technique is to hand them equipment, and its answer to a member born without cursed energy at all is to test whether raw physical talent plus the right weapon can substitute for sorcery entirely.",
         "That last policy produces the series' most damning indictment of the house. A member born with a heavenly restriction — no cursed energy whatsoever, in exchange for a physical ceiling far beyond any ordinary human — is treated as an embarrassment rather than an asset, despite being demonstrably capable of killing special-grade opponents with tools alone. The clan's contempt for him, and his subsequent decision to sell his own son to another great family for money, is the arc of Zenin logic taken to its conclusion.",
         "The Zenin failure mode is brutality. A house that ranks its children by usefulness manufactures enemies inside its own walls, and the series repeatedly shows the results: talented members who leave, powerful members who refuse to help, and heirs who would rather see the family destroyed than inherit it. The strongest military house in jujutsu society is also the one most reliably sabotaged from within.",
+      ],
+      blocks: [
+        {
+          type: "video",
+          art: "energy",
+          title: "Inherited Techniques on Screen",
+          subtitle: "How the adaptation stages clan techniques differently from freeform sorcery",
+          searchQuery: "jujutsu kaisen zenin clan official clip",
+        },
       ],
     },
     {

@@ -26,6 +26,13 @@ export const shibuyaIncidentArticle: Article = {
         "This guide reconstructs the night in sequence, identifies what each battle actually contributed to the outcome, and then analyses the consequences — political, institutional, and personal — that carry into everything after. The main body is safe for anime-only readers: it covers material adapted through the Shibuya Incident arc and nothing beyond it. Post-Shibuya manga developments are quarantined inside a labelled gate you have to open on purpose.",
         "One framing note. The Shibuya Incident is frequently described as the arc where the heroes lose. That is imprecise. They lose the objective, comprehensively, but several individual engagements are won, and a number of the antagonists' assets are destroyed in the process. Understanding which column each fight belongs in is the difference between reading Shibuya as a mood and reading it as a plot.",
       ],
+      blocks: [
+        {
+          type: "image",
+          art: "shibuya",
+          caption: "Original AnimeVerse key visual: a sealed metropolitan station at the hour the curtain drops.",
+        },
+      ],
     },
     {
       heading: "The Setup: What the Antagonists Actually Needed",
@@ -164,6 +171,13 @@ export const shibuyaIncidentArticle: Article = {
         "The strategic accounting is bleak. The coalition loses assets it can afford to lose; the sorcerers lose the one person who guaranteed their safety, several of their most capable operatives, and any remaining claim that jujutsu society can keep the supernatural out of public view. The antagonists' broader project — the one that governs everything after this arc — exits Shibuya with no meaningful obstacle in front of it.",
       ],
       blocks: [
+        {
+          type: "video",
+          art: "city",
+          title: "Shibuya Arc: Editors Trailer Breakdown",
+          subtitle: "What the promotional cut foreshadows about the arc's turning point",
+          searchQuery: "jujutsu kaisen shibuya incident arc official trailer",
+        },
         {
           type: "poll",
           question: "Which Shibuya battle was the most impactful?",

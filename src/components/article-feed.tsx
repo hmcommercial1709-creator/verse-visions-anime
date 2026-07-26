@@ -1,4 +1,6 @@
 import { articleParagraphs } from "@/data/articles";
+import { MediaImage } from "@/components/media";
+import { backdropFor, artAlt } from "@/lib/media";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Clock, Loader2 } from "lucide-react";
@@ -56,7 +58,15 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
               params={{ slug: a.slug }}
               className="group grid gap-4 rounded-2xl border border-border/60 bg-card/40 p-4 card-hover hover:!card-hover-active hover:border-primary/50 sm:grid-cols-[200px_minmax(0,1fr)]"
             >
-              <div className="h-32 rounded-xl sm:h-full" style={{ background: a.cover }} />
+              <MediaImage
+                art={backdropFor(a.slug, [a.title, a.tag])}
+                alt={artAlt(a.title)}
+                ratio="16/9"
+                className="h-32 rounded-xl sm:h-full"
+                sizes="(min-width: 640px) 200px, 100vw"
+                gradient={a.cover}
+                overlay={false}
+              />
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em]">
                   <span className="font-semibold text-primary">{a.tag}</span>

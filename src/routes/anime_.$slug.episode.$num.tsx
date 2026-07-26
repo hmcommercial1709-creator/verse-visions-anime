@@ -15,7 +15,7 @@ import { AnimeRecRail } from "@/components/recommendations";
 import { ArticleComments } from "@/components/article-comments";
 import { VideoEmbed } from "@/components/media";
 import { backdropFor } from "@/lib/media";
-import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Clock, Download, Play } from "lucide-react";
 
 export const Route = createFileRoute("/anime_/$slug/episode/$num")({
   loader: ({ params }): { ep: Episode; anime: Anime } => {
@@ -127,6 +127,7 @@ function EpisodePage() {
           adId="InArticle_Ad_1"
         />
 
+        <div id="episode-preview" className="scroll-mt-24" />
         <Block title="Watch the episode preview">
           <VideoEmbed
             art={backdropFor(anime.slug)}

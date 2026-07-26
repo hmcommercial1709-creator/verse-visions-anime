@@ -109,7 +109,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" },
       { rel: "preconnect", href: "https://pagead2.googlesyndication.com" },
       { rel: "dns-prefetch", href: "https://googleads.g.doubleclick.net" },
+      { rel: "sitemap", type: "application/xml", title: "Sitemap", href: "https://gamecastle.store/sitemap.xml" },
+      { rel: "alternate", type: "application/rss+xml", title: "AnimeVerse RSS Feed", href: "https://gamecastle.store/rss.xml" },
     ],
+
 
     scripts: [
       {

@@ -1,3 +1,5 @@
+import type { CategorySlug } from "./categories";
+
 /**
  * Rich in-body blocks an editor can drop between paragraphs of a
  * section-authored article. Rendered by src/routes/article.$slug.tsx.

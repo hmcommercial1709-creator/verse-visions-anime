@@ -19,6 +19,7 @@ const PROVIDERS = [
 export function LatestEpisodesSection({ items }: { items: Anime[] }) {
   const [activeAnime, setActiveAnime] = useState(items[0]?.slug ?? "");
   const [provider, setProvider] = useState<string>(PROVIDERS[0].id);
+  const unlock = useUnlockCountdown();
 
   const anime = items.find((a) => a.slug === activeAnime) ?? items[0];
   if (!anime) return null;

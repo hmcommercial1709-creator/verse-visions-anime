@@ -95,6 +95,15 @@ const megaGroups = [
 
 ];
 
+/** Direct category hubs surfaced in the main navigation. */
+const categoryHubs = [
+  { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
+  { to: "/manga-spoilers", label: "Manga Spoilers" },
+  { to: "/power-scaling", label: "Power Scaling" },
+  { to: "/guides", label: "Anime Guides" },
+];
+
+
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -185,15 +194,26 @@ export function SiteHeader() {
           </div>
         </div>
 
-        {/* Quick genre filter strip */}
+        {/* Category hubs + quick genre filter strip */}
         <div className="border-t border-border/40 bg-background/40">
           <div className="mx-auto flex max-w-7xl items-center gap-2 overflow-x-auto px-4 py-2 lg:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {categoryHubs.map((h) => (
+              <Link
+                key={h.to}
+                to={h.to}
+                className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+              >
+                {h.label}
+              </Link>
+            ))}
+            <span className="h-4 w-px shrink-0 bg-border/70" aria-hidden="true" />
             <Link
               to="/browse"
-              className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+              className="shrink-0 rounded-full border border-border/60 px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
             >
               All anime
             </Link>
+
             {genres.slice(0, 14).map((g) => (
               <Link
                 key={g.slug}

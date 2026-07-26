@@ -7,6 +7,8 @@ import { AnimeCard, AnimePoster } from "@/components/anime-card";
 import { AdSlot, HeaderBannerAd, StickySidebarAd } from "@/components/ad-slot";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
+import { AnimeHero } from "@/components/anime-hero";
+import { EpisodeGrid } from "@/components/episode-grid";
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
 import { LatestEpisodesSection } from "@/components/episode-streaming";
@@ -16,6 +18,8 @@ import { backdrops, backdropFor, posterFor, artAlt } from "@/lib/media";
 import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
+
+const HERO_SLUGS = ["one-piece", "jujutsu-kaisen", "solo-leveling", "demon-slayer", "attack-on-titan"];
 
 const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];
 
@@ -53,6 +57,10 @@ function Home() {
     return picked;
   };
 
+  const heroPicks = take(
+    HERO_SLUGS.map((s) => animes.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
+    HERO_SLUGS.length,
+  );
   const hubs = take(
     HUB_SLUGS.map((s) => animes.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
     HUB_SLUGS.length,
@@ -74,7 +82,7 @@ function Home() {
     <div>
       <HeaderBannerAd />
 
-      <HeroSlider items={featuredArticles} />
+      <AnimeHero items={heroPicks} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -100,7 +108,10 @@ function Home() {
           title="Latest episodes & where to watch"
           subtitle="Pick a series, jump to an episode recap, and switch between official streaming platforms."
         >
-          <LatestEpisodesSection items={streamingPicks} />
+          <EpisodeGrid limit={8} />
+          <div className="mt-6">
+            <LatestEpisodesSection items={streamingPicks} />
+          </div>
         </Section>
 
         {/* FEATURED VIDEO TRAILER */}
@@ -197,6 +208,16 @@ function Home() {
         >
           <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {topRated.map((a) => <AnimePoster key={a.slug} anime={a} />)}
+          </div>
+        </Section>
+
+        <Section
+          eyebrow="Featured deep-dives"
+          title="This week's long reads"
+          subtitle="Editor-picked essays worth the full scroll."
+        >
+          <div className="overflow-hidden rounded-3xl border border-border/60">
+            <HeroSlider items={featuredArticles} />
           </div>
         </Section>
 

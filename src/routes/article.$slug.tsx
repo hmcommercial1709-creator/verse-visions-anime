@@ -10,6 +10,12 @@ import { Spoiler } from "@/components/spoiler";
 import { deriveSections, readingLabel, wordCount } from "@/lib/reading";
 import { getAnime } from "@/data/animes";
 import { Clock, FileText } from "lucide-react";
+import {
+  AffiliateProductWidget,
+  StickyAffiliateRail,
+  productsForContext,
+} from "@/components/affiliate-products";
+import { VipUpgradeCard } from "@/components/vip-banner";
 
 export const Route = createFileRoute("/article/$slug")({
   loader: ({ params }) => {

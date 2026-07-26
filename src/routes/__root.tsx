@@ -84,7 +84,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },
       { name: "description", content: "Discover the best anime with AnimeVerse: reviews, character deep-dives, watch orders, studio profiles, and long-form editorial from a fan-led editorial team." },
-      { name: "monetag", content: "348a180a6837274a1caffc015dd1769f" },
       { name: "author", content: "AnimeVerse Editorial" },
       { property: "og:site_name", content: "AnimeVerse" },
       { property: "og:type", content: "website" },
@@ -108,10 +107,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
 
     scripts: [
-      {
-        children:
-          "(function(s){s.dataset.zone='11411597',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))",
-      },
       {
         async: true,
         src: "https://www.googletagmanager.com/gtag/js?id=G-LETSF76JTN",

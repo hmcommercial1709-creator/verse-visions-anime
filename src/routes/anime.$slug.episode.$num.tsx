@@ -87,11 +87,37 @@ function EpisodePage() {
       </section>
 
       <div className="mx-auto max-w-3xl px-4 lg:px-6">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-6">
+        <div className="min-w-0 max-w-3xl">
+        <InArticleAd
+          index={1}
+          unitId={`av-ep-${anime.slug}-${ep.number}-top`}
+          adId="InArticle_Ad_1"
+        />
+
         <Block title="Recap">
           <div className="prose prose-invert max-w-none space-y-5 text-lg leading-relaxed">
-            {ep.recap.map((p, i) => <p key={i}>{p}</p>)}
+            {ep.recap.map((p, i) => (
+              <div key={i}>
+                <p>{p}</p>
+                {i === 2 && (
+                  <InArticleAd
+                    index={3}
+                    unitId={`av-ep-${anime.slug}-${ep.number}-recap`}
+                    adId="InArticle_Ad_Body_1"
+                  />
+                )}
+                {i === 4 && merch[0] && (
+                  <InlineAffiliateCard
+                    product={merch[0]}
+                    note={`Collector pick for readers following the ${ep.arc}.`}
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </Block>
+
 
         <Block title="Major events">
           <ul className="space-y-2">

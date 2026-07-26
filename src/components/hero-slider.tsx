@@ -1,3 +1,4 @@
+import { articleParagraphs } from "@/data/articles";
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, Sparkles } from "lucide-react";
@@ -40,10 +41,10 @@ export function HeroSlider({ items }: { items: Article[] }) {
                 <Sparkles className="h-3 w-3" /> Featured deep-dive
               </span>
               <span className="rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 font-semibold text-primary">
-                {readingLabel(active.body)}
+                {readingLabel(articleParagraphs(active))}
               </span>
               <span className="rounded-full border border-border/60 bg-background/40 px-2.5 py-1 text-muted-foreground">
-                {wordCount(active.body).toLocaleString()} words
+                {wordCount(articleParagraphs(active)).toLocaleString()} words
               </span>
             </div>
 
@@ -117,7 +118,7 @@ export function HeroSlider({ items }: { items: Article[] }) {
                   <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">{it.tag}</div>
                   <div className="mt-1 line-clamp-2 text-sm font-semibold">{it.title}</div>
                   <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                    <Clock className="h-3 w-3" /> {readingLabel(it.body)}
+                    <Clock className="h-3 w-3" /> {readingLabel(articleParagraphs(it))}
                   </div>
                 </button>
               </li>

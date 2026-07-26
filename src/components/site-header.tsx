@@ -270,6 +270,18 @@ export function SiteHeader() {
               <button onClick={() => setMobileOpen(false)} className="rounded-md p-2"><X className="h-5 w-5" /></button>
             </div>
             <nav className="space-y-6">
+              <div>
+                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Category hubs</div>
+                <ul className="space-y-1.5">
+                  {categoryHubs.map((h) => (
+                    <li key={h.to}>
+                      <Link to={h.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm font-semibold text-primary">
+                        {h.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               {megaGroups.map((g) => (
                 <div key={g.label}>
                   <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">{g.label}</div>
@@ -284,7 +296,25 @@ export function SiteHeader() {
                   </ul>
                 </div>
               ))}
+              <div>
+                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">About &amp; legal</div>
+                <ul className="space-y-1.5">
+                  {[
+                    { to: "/about", label: "About Us" },
+                    { to: "/contact", label: "Contact" },
+                    { to: "/privacy-policy", label: "Privacy Policy" },
+                    { to: "/terms-of-service", label: "Terms of Service" },
+                  ].map((l) => (
+                    <li key={l.to}>
+                      <Link to={l.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </nav>
+
           </div>
         </div>
       )}

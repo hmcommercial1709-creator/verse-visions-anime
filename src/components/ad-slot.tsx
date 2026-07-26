@@ -63,6 +63,7 @@ export function AdSenseContainer({
   className?: string;
   label?: string;
 }) {
+  const geo = useGeoTarget();
   return (
     <div
       className={`relative w-full overflow-hidden ${className}`}
@@ -78,10 +79,55 @@ export function AdSenseContainer({
         data-ad-slot={slot ?? id}
         data-ad-format={format}
         data-full-width-responsive="true"
+        {...adTargetingAttributes(geo, id)}
       />
       <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground/60">
         {label ?? id}
       </span>
+    </div>
+  );
+}
+
+/**
+ * Wraps any AdSense container with its own independent viewability-gated
+ * refresh cycle (45s of accumulated in-view time, paused off-screen/off-tab).
+ */
+function RefreshingUnit({
+  slotKind,
+  adId,
+  prefix,
+  minHeight,
+  format,
+  label,
+  className,
+}: {
+  slotKind: string;
+  adId: string;
+  prefix: string;
+  minHeight: number;
+  format?: string;
+  label?: string;
+  className?: string;
+}) {
+  const unitId = useAdUnitId(prefix);
+  const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLDivElement>();
+  return (
+    <div
+      ref={ref}
+      data-ad-slot={slotKind}
+      data-ad-unit-id={unitId}
+      data-ad-refresh={refreshKey}
+      data-ad-viewable={viewable ? "true" : "false"}
+    >
+      <AdSenseContainer
+        key={refreshKey}
+        id={adId}
+        slot={unitId}
+        minHeight={minHeight}
+        format={format}
+        label={label}
+        className={className}
+      />
     </div>
   );
 }
@@ -91,13 +137,48 @@ export function HeaderBannerAd() {
   return (
     <div className="sticky top-[68px] z-30 border-y border-border/50 bg-background/85 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 py-2 lg:px-6">
-        <AdSenseContainer
-          id="Header_Ad"
+        <RefreshingUnit
+          slotKind="header"
+          adId="Header_Ad"
+          prefix="av-header"
           minHeight={90}
           label="Header_Ad · 728×90 / 320×50"
           className="rounded-lg border border-dashed border-border/70 bg-secondary/25"
         />
       </div>
+    </div>
+  );
+}
+
+/** Billboard directly beneath the article title / byline block. */
+export function BelowTitleAd() {
+  return (
+    <div className="my-6">
+      <RefreshingUnit
+        slotKind="below-title"
+        adId="Below_Title_Ad"
+        prefix="av-below-title"
+        minHeight={100}
+        label="Below_Title_Ad · 970×90 / 336×100"
+        className="rounded-xl border border-dashed border-border/70 bg-secondary/25"
+      />
+    </div>
+  );
+}
+
+/** Post-article / pre-footer banner. */
+export function PostContentAd() {
+  return (
+    <div className="mt-12">
+      <div className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">Advertisement</div>
+      <RefreshingUnit
+        slotKind="post-content"
+        adId="Post_Content_Ad"
+        prefix="av-post-content"
+        minHeight={250}
+        label="Post_Content_Ad · 970×250 / 336×280"
+        className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+      />
     </div>
   );
 }

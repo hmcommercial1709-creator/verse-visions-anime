@@ -3,7 +3,12 @@ import { getEpisode, episodesFor, type Episode } from "@/data/episodes";
 import { getAnime } from "@/data/animes";
 import type { Anime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { AdSlot } from "@/components/ad-slot";
+import { InArticleAd, StickySidebarAd } from "@/components/ad-slot";
+import {
+  AffiliateProductWidget,
+  InlineAffiliateCard,
+  productsForContext,
+} from "@/components/affiliate-products";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
 import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";

@@ -10,6 +10,12 @@ import { Spoiler } from "@/components/spoiler";
 import { deriveSections, readingLabel, wordCount } from "@/lib/reading";
 import { getAnime } from "@/data/animes";
 import { Clock, FileText } from "lucide-react";
+import {
+  AffiliateProductWidget,
+  StickyAffiliateRail,
+  productsForContext,
+} from "@/components/affiliate-products";
+import { VipUpgradeCard } from "@/components/vip-banner";
 
 export const Route = createFileRoute("/article/$slug")({
   loader: ({ params }) => {
@@ -82,6 +88,7 @@ function ArticlePage() {
   const articleRail = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
+  const merchProducts = productsForContext(loreAnime, a.title);
 
   return (
     <div>
@@ -160,6 +167,14 @@ function ArticlePage() {
                     </div>
                   )}
 
+                  {/* Embedded merchandise + manga affiliate widget */}
+                  {i === 2 && (
+                    <AffiliateProductWidget
+                      products={merchProducts}
+                      title={`Featured Merchandise & Manga${loreAnime ? ` · ${loreAnime.title}` : ""}`}
+                    />
+                  )}
+
                   {/* Spoiler / lore accordion mid-article */}
                   {i === 1 && loreAnime && (
                     <div className="not-prose">
@@ -193,8 +208,10 @@ function ArticlePage() {
             />
           </article>
 
-          <aside className="hidden lg:block">
+          <aside className="hidden space-y-6 lg:block">
             <StickySidebarAd />
+            <VipUpgradeCard />
+            <StickyAffiliateRail products={merchProducts} />
           </aside>
         </div>
       </div>

@@ -15,6 +15,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileAnchorAd } from "@/components/ad-slot";
 import { useLocaleDocumentSync } from "@/lib/i18n";
+import { VipMembershipBanner } from "@/components/vip-banner";
 
 
 function NotFoundComponent() {
@@ -147,6 +148,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen flex flex-col">
+        <VipMembershipBanner />
         <SiteHeader />
         <main className="flex-1">
           <Outlet />

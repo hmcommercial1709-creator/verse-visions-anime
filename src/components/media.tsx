@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Play, Film, ImageIcon } from "lucide-react";
 import type { MediaArt } from "@/lib/media";
 import { artAlt } from "@/lib/media";
+import { trailerFor } from "@/data/trailers";
+
 import { cn } from "@/lib/utils";
 
 type Ratio = "16/9" | "2/3" | "3/1" | "4/3";
@@ -89,23 +91,28 @@ export function VideoEmbed({
 }) {
   const [playing, setPlaying] = useState(false);
   const query = encodeURIComponent(searchQuery ?? `${title} official trailer`);
+  // Fall back to a verified official trailer when the block doesn't name one,
+  // so the card mounts a real player instead of an off-site search link.
+  const videoId = youtubeId ?? trailerFor(searchQuery) ?? trailerFor(title);
 
   return (
     <figure className={cn("overflow-hidden rounded-2xl border border-border/60 bg-card/40", className)}>
       <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-        {playing && youtubeId ? (
+        {playing && videoId ? (
           <iframe
-            className="absolute inset-0 h-full w-full"
-            src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+            className="absolute inset-0 h-full w-full border-0"
+            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
             title={title}
             loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
             allowFullScreen
           />
         ) : (
           <>
             <MediaImage art={art} alt={artAlt(title)} ratio="16/9" className="absolute inset-0 h-full w-full" overlay />
-            {youtubeId ? (
+            {videoId ? (
+
               <button
                 type="button"
                 onClick={() => setPlaying(true)}

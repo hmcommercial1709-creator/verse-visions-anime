@@ -35,13 +35,39 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const featuredArticles = articles.slice(0, 4);
-  const hubs = HUB_SLUGS.map((s) => animes.find((a) => a.slug === s)).filter((a): a is (typeof animes)[number] => Boolean(a));
-  const streamingPicks = animes.filter((a) => a.status === "Ongoing").slice(0, 5);
-  const trending = animes.slice(0, 6);
-  const newReleases = animes.filter((a) => a.year >= 2022);
-  const classics = animes.filter((a) => a.year < 2015);
-  const topRated = [...animes].sort((a, b) => b.rating - a.rating).slice(0, 8);
+  /**
+   * Every rail below draws from a shared pool and removes what it takes, so no
+   * anime card and no article card is ever rendered twice on this page.
+   */
+  type Anime = (typeof animes)[number];
+  const claimed = new Set<string>();
+  const take = (pool: Anime[], count: number) => {
+    const picked: Anime[] = [];
+    for (const a of pool) {
+      if (picked.length >= count) break;
+      if (claimed.has(a.slug)) continue;
+      claimed.add(a.slug);
+      picked.push(a);
+    }
+    return picked;
+  };
+
+  const hubs = take(
+    HUB_SLUGS.map((s) => animes.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
+    HUB_SLUGS.length,
+  );
+  const streamingPicks = take(animes.filter((a) => a.status === "Ongoing"), 4);
+  const trending = take(animes, 6);
+  const topRated = take([...animes].sort((a, b) => b.rating - a.rating), 6);
+  const newReleases = take(animes.filter((a) => a.year >= 2022), 3);
+  const classics = take(animes.filter((a) => a.year < 2015), 3);
+
+  // Articles: hero slides, the screening-room list and the editorial feed never overlap.
+  const uniqueArticles = articles.filter((a, i) => articles.findIndex((b) => b.slug === a.slug) === i);
+  const featuredArticles = uniqueArticles.slice(0, 4);
+  const spotlightArticles = uniqueArticles.slice(4, 7);
+  const feedArticles = uniqueArticles.slice(7);
+
 
   return (
     <div>

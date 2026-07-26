@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 
+/** Replace with the live publisher ID before going live on AdSense. */
+export const AD_CLIENT = "ca-pub-0000000000000000";
+
+
 type Placement =
   | "top"
   | "hero"

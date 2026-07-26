@@ -9,7 +9,7 @@ const VIEWABLE_RATIO = 0.5;
 let seq = 0;
 /** Stable, unique DOM id per mounted ad unit (survives re-renders). */
 export function useAdUnitId(prefix: string) {
-  const ref = useRef<string>();
+  const ref = useRef<string | null>(null);
   if (!ref.current) ref.current = `${prefix}-${++seq}`;
   return ref.current;
 }

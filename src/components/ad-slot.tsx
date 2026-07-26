@@ -287,10 +287,12 @@ export function MobileAnchorAd() {
         >
           <X className="h-3.5 w-3.5" />
         </button>
-        <AdSenseContainer
-          id="Mobile_Anchor_Ad"
+        <RefreshingUnit
+          slotKind="sticky-anchor"
+          adId="Mobile_Sticky_Anchor"
+          prefix="av-anchor"
           minHeight={50}
-          label="Mobile_Anchor_Ad · 320×50"
+          label="Mobile_Sticky_Anchor · 320×50"
           className="rounded-lg border border-dashed border-border/70 bg-secondary/30"
         />
 

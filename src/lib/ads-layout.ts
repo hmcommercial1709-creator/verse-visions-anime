@@ -20,14 +20,24 @@ export interface AdPlanEntry {
 /**
  * Given the paragraph counts of each section, returns a lookup of
  * `${sectionIndex}:${paragraphIndex}` → ad slot to render after that paragraph.
- * Ads land every `interval` paragraphs, never as the very last element.
+ *
+ * Long bodies get a unit every 3–4 paragraphs. Shorter bodies tighten the
+ * spacing (min 2 paragraphs) so the density target is still met, and an ad is
+ * never rendered after the final paragraph.
  */
 export function planInArticleAds(
   paragraphCounts: number[],
-  { interval = AD_PARAGRAPH_INTERVAL, startAt = 1, max = 6 }: { interval?: number; startAt?: number; max?: number } = {},
+  {
+    interval,
+    startAt = 1,
+    max = 6,
+  }: { interval?: number; startAt?: number; max?: number } = {},
 ): Map<string, AdPlanEntry> {
   const plan = new Map<string, AdPlanEntry>();
   const total = paragraphCounts.reduce((sum, n) => sum + n, 0);
+  const step =
+    interval ??
+    Math.min(AD_PARAGRAPH_INTERVAL, Math.max(2, Math.round(total / (Math.min(max, 3) + 1))));
   let paragraph = 0;
   let placed = 0;
 
@@ -36,7 +46,7 @@ export function planInArticleAds(
       paragraph += 1;
       const isLast = paragraph === total;
       if (isLast || placed >= max) continue;
-      if (paragraph % interval !== 0) continue;
+      if (paragraph % step !== 0) continue;
       placed += 1;
       const ordinal = startAt + placed - 1;
       const adId =

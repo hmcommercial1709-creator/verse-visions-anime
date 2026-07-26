@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 
 type Placement =
   | "top"

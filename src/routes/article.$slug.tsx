@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/ui-bits";
 import {
   AdSlot,
   BelowTitleAd,
+  HeaderBannerAd,
   InArticleAd,
   PostContentAd,
   StickySidebarAd,

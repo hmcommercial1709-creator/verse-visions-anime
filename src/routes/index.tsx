@@ -11,8 +11,11 @@ import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
 import { LatestEpisodesSection } from "@/components/episode-streaming";
 import { InfiniteArticleFeed } from "@/components/article-feed";
+import { MediaImage, VideoEmbed } from "@/components/media";
+import { backdrops, backdropFor, artAlt } from "@/lib/media";
 import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
+
 
 const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];
 
@@ -73,7 +76,49 @@ function Home() {
           <LatestEpisodesSection items={streamingPicks} />
         </Section>
 
+        {/* FEATURED VIDEO TRAILER */}
+        <Section
+          eyebrow="Screening room"
+          title="Featured video: this season's must-watch cut"
+          subtitle="Our editors' pick of the trailer worth breaking down frame by frame — plus the reads that go deeper."
+        >
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+            <VideoEmbed
+              art={backdrops.trailer}
+              title="AnimeVerse Screening Room — Season Trailer Breakdown"
+              subtitle="Editors' cut · animation direction, sakuga highlights, and what the framing spoils"
+              searchQuery="jujutsu kaisen official trailer"
+            />
+            <div className="space-y-3">
+              {featuredArticles.slice(0, 3).map((a) => (
+                <Link
+                  key={a.slug}
+                  to="/article/$slug"
+                  params={{ slug: a.slug }}
+                  className="group grid grid-cols-[96px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-border/60 bg-card/40 p-3 hover:border-primary/50"
+                >
+                  <MediaImage
+                    art={backdropFor(a.slug, [a.title, a.tag])}
+                    alt={artAlt(a.title)}
+                    ratio="16/9"
+                    className="rounded-lg"
+                    sizes="96px"
+                    overlay={false}
+                  />
+                  <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">{a.tag}</span>
+                    <span className="mt-1 block font-display text-sm font-bold leading-snug group-hover:text-gradient">
+                      {a.title}
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </Section>
+
         <AdSlot placement="between" label="Native · Sponsored" />
+
 
         {/* TRENDING NOW */}
         <Section

@@ -46,6 +46,8 @@ export const articleParagraphs = (a: Article): string[] =>
   a.sections && a.sections.length > 0 ? a.sections.flatMap((s) => [s.heading, ...s.paragraphs]) : a.body;
 
 import { gojoLimitlessArticle } from "./article-gojo-limitless";
+import { shibuyaIncidentArticle } from "./article-shibuya-incident";
+import { sorcererFamiliesArticle } from "./article-sorcerer-families";
 
 const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
 
@@ -60,6 +62,8 @@ export const authors = [
 
 export const articles: Article[] = [
   gojoLimitlessArticle,
+  shibuyaIncidentArticle,
+  sorcererFamiliesArticle,
   { slug: "why-frieren-won-2024", section: "editorial", title: "Why Frieren Won the Year: A Long Answer to a Short Question",
     excerpt: "The 2024 Anime of the Year didn't win because it was flashy. It won because it took the medium seriously.",
     author: "aiko-tanaka", date: "2026-03-14", tag: "Editorial",

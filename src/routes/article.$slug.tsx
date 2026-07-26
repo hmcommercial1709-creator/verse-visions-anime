@@ -104,6 +104,9 @@ function ArticlePage() {
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
   const merchProducts = productsForContext(loreAnime, a.title);
+  // In-body native units land every 4 paragraphs; slot 1 is the guaranteed
+  // above-the-fold unit, so the body plan starts at InArticle_Ad_2.
+  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { startAt: 2 });
 
   return (
     <div>

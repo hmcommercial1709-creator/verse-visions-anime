@@ -20,16 +20,21 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
   const done = count >= items.length;
 
   const loadMore = useCallback(() => {
-    setLoading(true);
-    window.setTimeout(() => {
-      setCount((c) => Math.min(c + PAGE, items.length));
-      setLoading(false);
-    }, 250);
+    setLoading((busy) => {
+      if (busy) return busy;
+      window.setTimeout(() => {
+        setCount((c) => Math.min(c + PAGE, items.length));
+        setLoading(false);
+      }, 250);
+      return true;
+    });
   }, [items.length]);
 
+  // Re-observed after every batch so a sentinel that stays in view keeps
+  // requesting the next page (and its freshly injected ad units).
   useEffect(() => {
     const node = sentinel.current;
-    if (!node || done) return;
+    if (!node || done || loading) return;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) loadMore();
@@ -38,7 +43,7 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [done, loadMore]);
+  }, [done, loading, count, loadMore]);
 
   return (
     <div>

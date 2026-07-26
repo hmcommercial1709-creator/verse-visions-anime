@@ -1,7 +1,14 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getArticle, articles, getAuthor } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { AdSlot, InArticleAd, StickySidebarAd } from "@/components/ad-slot";
+import {
+  AdSlot,
+  BelowTitleAd,
+  InArticleAd,
+  PostContentAd,
+  StickySidebarAd,
+} from "@/components/ad-slot";
+import { planInArticleAds } from "@/lib/ads-layout";
 import { recommendArticles, articleAnimeRecs } from "@/lib/recommendations";
 import { ArticleRecRail, AnimeRecRail } from "@/components/recommendations";
 import { ReadingProgressBar } from "@/components/reading-progress";

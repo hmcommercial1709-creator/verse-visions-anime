@@ -128,7 +128,7 @@ function CategoryPage() {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
           <div className="min-w-0">
             <div className="max-w-3xl space-y-4 text-base leading-relaxed text-muted-foreground">
-              {category.intro.map((p, i) => (
+              {(category.intro as string[]).map((p: string, i: number) => (
                 <p key={i}>{p}</p>
               ))}
             </div>

@@ -79,7 +79,7 @@ export function UnlockCountdownModal({
         </div>
 
         <div className="px-6 py-5">
-          <InArticleAd index={1} unitId={`av-unlock-${target.kind}`} />
+          <InArticleAd index={1} unitId={`av-unlock-${target.kind}`} adId={`InArticle_Ad_Unlock_${target.kind}`} />
 
           <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-secondary">
             <div

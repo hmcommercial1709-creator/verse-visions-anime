@@ -1,6 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getArticle, articles, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
 import { ArticleComments } from "@/components/article-comments";
+import { InternalLinkNetwork } from "@/components/internal-link-network";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {

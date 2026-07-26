@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Gauge, ListOrdered, Tv } from "lucide-react";
+import { MediaImage } from "@/components/media";
+import { backdropFor, artAlt } from "@/lib/media";
 import type { Anime } from "@/data/animes";
 import { episodesFor } from "@/data/episodes";
 
@@ -21,6 +23,14 @@ function Hub({ anime }: { anime: Anime }) {
   return (
     <article className="overflow-hidden rounded-2xl border border-border/60 bg-card/40">
       <div className="relative h-28" style={{ background: anime.cover }}>
+        <MediaImage
+          art={backdropFor(anime.slug, [anime.title, ...anime.genres])}
+          alt={artAlt(anime.title)}
+          ratio="3/1"
+          className="absolute inset-0 h-full w-full"
+          sizes="(min-width: 1024px) 420px, 100vw"
+          overlay={false}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-card/95 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 p-4">
           <div className="min-w-0">

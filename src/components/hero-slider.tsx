@@ -1,4 +1,6 @@
 import { articleParagraphs } from "@/data/articles";
+import { MediaImage } from "@/components/media";
+import { backdropFor, artAlt } from "@/lib/media";
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, Sparkles } from "lucide-react";
@@ -29,6 +31,15 @@ export function HeroSlider({ items }: { items: Article[] }) {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="absolute inset-0 transition-[background] duration-700" style={{ background: active.cover }}>
+        <MediaImage
+          art={backdropFor(active.slug, [active.title, active.tag])}
+          alt={artAlt(active.title)}
+          ratio="16/9"
+          className="absolute inset-0 h-full w-full"
+          sizes="100vw"
+          priority
+          overlay={false}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/40" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_15%,transparent,rgba(0,0,0,.65))]" />
       </div>

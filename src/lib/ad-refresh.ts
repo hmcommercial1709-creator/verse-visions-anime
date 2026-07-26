@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 /** Minimum / maximum refresh interval (ms) — jittered per slot. */
 const MIN_MS = 45_000;
@@ -6,12 +6,10 @@ const MAX_MS = 60_000;
 /** How much of the unit must be on screen to count as viewable (IAB-style). */
 const VIEWABLE_RATIO = 0.5;
 
-let seq = 0;
-/** Stable, unique DOM id per mounted ad unit (survives re-renders). */
+/** Stable, unique, SSR-safe DOM id per mounted ad unit. */
 export function useAdUnitId(prefix: string) {
-  const ref = useRef<string | null>(null);
-  if (!ref.current) ref.current = `${prefix}-${++seq}`;
-  return ref.current;
+  const reactId = useId().replace(/[^a-zA-Z0-9]/g, "");
+  return `${prefix}-${reactId}`;
 }
 
 interface Options {

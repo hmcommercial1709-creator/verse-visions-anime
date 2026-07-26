@@ -122,7 +122,16 @@ function EpisodePage() {
           </div>
         </Block>
 
-        <AdSlot placement="inline" />
+        <InArticleAd
+          index={2}
+          unitId={`av-ep-${anime.slug}-${ep.number}-mid`}
+          adId="InArticle_Ad_2"
+        />
+
+        <AffiliateProductWidget
+          products={merch}
+          title={`Featured Merchandise & Manga · ${anime.title}`}
+        />
 
         <Block title="Best moments">
           <ul className="space-y-2">

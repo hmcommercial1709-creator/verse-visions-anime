@@ -348,6 +348,12 @@ function AnimeDetail() {
             eyebrow="Readers also enjoyed"
             title={`If you liked ${anime.title}…`}
           />
+
+          <InternalLinkNetwork
+            className="mt-8"
+            path={`/anime/${anime.slug}`}
+            topics={[...(anime.genres ?? []), anime.title, (anime as { studio?: string }).studio ?? ""]}
+          />
         </div>
 
         {/* SIDEBAR */}

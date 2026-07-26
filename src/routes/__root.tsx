@@ -88,6 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "AnimeVerse" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "monetag", content: "348a180a6837274a1caffc015dd1769f" },
       { name: "theme-color", content: "#12081b" },
       { property: "og:title", content: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },
       { name: "twitter:title", content: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },
@@ -121,6 +122,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
         crossOrigin: "anonymous",
       },
+
+      {
+        children:
+          "(function(s){s.dataset.zone='11411597',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))",
+      },
+
+
 
       {
         type: "application/ld+json",

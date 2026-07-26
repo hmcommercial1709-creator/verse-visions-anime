@@ -62,6 +62,8 @@ function EpisodePage() {
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const animeRecs = recommendAnime(anime.slug, 4);
   const merch = productsForContext(anime, anime.title);
+  // Native units injected every 4 recap paragraphs (slot 1 is above the fold).
+  const recapAdPlan = planInArticleAds([ep.recap.length], { startAt: 2, max: 2 });
 
   return (
     <article>

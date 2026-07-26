@@ -39,6 +39,7 @@ const STATIC_ROUTES: SitemapEntry[] = [
   ].map((path) => ({ path, changefreq: "daily" as const, priority: "0.9" })),
   // Editorial hubs
   ...[
+    "/blog",
     "/news",
     "/reviews",
     "/guides",

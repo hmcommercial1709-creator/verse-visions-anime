@@ -9,6 +9,7 @@ import { AdSlot, AffiliateBox } from "@/components/ad-slot";
 import { AnimeCard } from "@/components/anime-card";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
+import { InternalLinkNetwork } from "@/components/internal-link-network";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { AnimeLiveData } from "@/components/live-data";
 import { UserReviews } from "@/components/user-reviews";

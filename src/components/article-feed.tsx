@@ -4,6 +4,8 @@ import { Clock, Loader2 } from "lucide-react";
 import type { Article } from "@/data/articles";
 import { readingLabel } from "@/lib/reading";
 import { InArticleAd } from "@/components/ad-slot";
+import { InlineAffiliateCard, productsForContext } from "@/components/affiliate-products";
+import { getAnime } from "@/data/animes";
 
 const PAGE = 4;
 
@@ -63,6 +65,7 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 </div>
               </div>
             </Link>
+            {/* Ad unit auto-injected between content blocks as batches load */}
             {i > 0 && (i + 1) % PAGE === 0 && (
               <InArticleAd
                 index={Math.ceil((i + 1) / PAGE)}
@@ -70,6 +73,14 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 adId={`InArticle_Ad_Feed_${Math.ceil((i + 1) / PAGE)}`}
               />
             )}
+
+            {/* Affiliate card woven between feed sections */}
+            {i > 0 && (i + 1) % (PAGE * 2) === 0 && (() => {
+              const product = productsForContext(getAnime(a.related?.[0] ?? ""), a.title)[
+                (Math.ceil((i + 1) / (PAGE * 2)) - 1) % 3
+              ];
+              return product ? <InlineAffiliateCard product={product} /> : null;
+            })()}
           </div>
         ))}
       </div>

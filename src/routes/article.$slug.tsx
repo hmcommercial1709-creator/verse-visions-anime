@@ -28,7 +28,6 @@ import {
   StickyAffiliateRail,
   productsForContext,
 } from "@/components/affiliate-products";
-import { VipUpgradeCard } from "@/components/vip-banner";
 import { MediaImage, SectionHeaderImage, VideoEmbed } from "@/components/media";
 import { backdropFor, backdrops, artAlt, type MediaArt } from "@/lib/media";
 
@@ -361,7 +360,6 @@ function ArticlePage() {
 
           <aside className="hidden space-y-6 lg:block">
             <StickySidebarAd />
-            <VipUpgradeCard />
             <StickyAffiliateRail products={merchProducts} />
           </aside>
         </div>

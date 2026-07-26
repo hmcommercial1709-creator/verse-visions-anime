@@ -40,6 +40,7 @@ import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as GenresRouteImport } from './routes/genres'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FactsRouteImport } from './routes/facts'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as EditorialRouteImport } from './routes/editorial'
@@ -220,6 +221,11 @@ const FactsRoute = FactsRouteImport.update({
   path: '/facts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -357,6 +363,7 @@ export interface FileRoutesByFullPath {
   '/editorial': typeof EditorialRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
@@ -414,6 +421,7 @@ export interface FileRoutesByTo {
   '/editorial': typeof EditorialRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
@@ -472,6 +480,7 @@ export interface FileRoutesById {
   '/editorial': typeof EditorialRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/events': typeof EventsRoute
+  '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
@@ -531,6 +540,7 @@ export interface FileRouteTypes {
     | '/editorial'
     | '/editorial-policy'
     | '/events'
+    | '/explore'
     | '/facts'
     | '/faq'
     | '/genres'
@@ -588,6 +598,7 @@ export interface FileRouteTypes {
     | '/editorial'
     | '/editorial-policy'
     | '/events'
+    | '/explore'
     | '/facts'
     | '/faq'
     | '/genres'
@@ -645,6 +656,7 @@ export interface FileRouteTypes {
     | '/editorial'
     | '/editorial-policy'
     | '/events'
+    | '/explore'
     | '/facts'
     | '/faq'
     | '/genres'
@@ -703,6 +715,7 @@ export interface RootRouteChildren {
   EditorialRoute: typeof EditorialRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
   EventsRoute: typeof EventsRoute
+  ExploreRoute: typeof ExploreRoute
   FactsRoute: typeof FactsRoute
   FaqRoute: typeof FaqRoute
   GenresRoute: typeof GenresRoute
@@ -964,6 +977,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FactsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
@@ -1151,6 +1171,7 @@ const rootRouteChildren: RootRouteChildren = {
   EditorialRoute: EditorialRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
   EventsRoute: EventsRoute,
+  ExploreRoute: ExploreRoute,
   FactsRoute: FactsRoute,
   FaqRoute: FaqRoute,
   GenresRoute: GenresRoute,

@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/genres")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/genres" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "All Anime Genres — Complete Directory · AnimeVerse" },
       { name: "description", content: "Browse every anime genre we cover: action, adventure, romance, isekai, psychological, mecha, slice-of-life and more." },
       { property: "og:title", content: "Anime Genres · AnimeVerse" },
       { property: "og:description", content: "Every mood, every night." },
     ],
-    links: [{ rel: "canonical", href: "/genres" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/genres" }],
   }),
   component: () => (
     <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">

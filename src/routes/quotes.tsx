@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/quotes")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/quotes" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "The Best Anime Quotes of All Time · AnimeVerse" },
       { name: "description", content: "The most iconic anime quotes ever spoken — annotated by character, arc, and cultural weight." },
       { property: "og:title", content: "Anime Quotes · AnimeVerse" },
       { property: "og:description", content: "Iconic lines from every era of anime." },
     ],
-    links: [{ rel: "canonical", href: "/quotes" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/quotes" }],
   }),
   component: () => {
     const all = animes.flatMap(a => a.quotes.map(q => ({ ...q, anime: a.title, slug: a.slug, accent: a.accent })));

@@ -13,12 +13,15 @@ const platforms = [
 export const Route = createFileRoute("/streaming")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/streaming" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Where to Watch Anime — Streaming Platforms Guide · AnimeVerse" },
       { name: "description", content: "Compare anime streaming services: what's on Crunchyroll, Netflix, HIDIVE, Max, and Prime Video." },
       { property: "og:title", content: "Anime Streaming Platforms · AnimeVerse" },
       { property: "og:description", content: "Where to watch, compared." },
     ],
-    links: [{ rel: "canonical", href: "/streaming" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/streaming" }],
   }),
   component: () => (
     <div className="mx-auto max-w-4xl px-4 lg:px-6 py-10">

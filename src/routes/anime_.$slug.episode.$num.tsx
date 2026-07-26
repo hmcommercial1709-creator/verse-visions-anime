@@ -29,13 +29,15 @@ export const Route = createFileRoute("/anime_/$slug/episode/$num")({
     const desc = ep.synopsis;
     return {
       meta: [
+        { property: "og:url", content: `https://gamecastle.store/anime/${anime.slug}/episode/${ep.number}` },
+        { name: "twitter:card", content: "summary_large_image" },
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
       ],
-      links: [{ rel: "canonical", href: `/anime/${anime.slug}/episode/${ep.number}` }],
+      links: [{ rel: "canonical", href: `https://gamecastle.store/anime/${anime.slug}/episode/${ep.number}` }],
       scripts: [{
         type: "application/ld+json",
         children: JSON.stringify({

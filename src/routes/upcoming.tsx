@@ -6,12 +6,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/upcoming")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/upcoming" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Upcoming Anime — Release Calendar · AnimeVerse" },
       { name: "description", content: "Every anime with a confirmed release window: new seasons, sequels, and adaptations." },
       { property: "og:title", content: "Upcoming Anime · AnimeVerse" },
       { property: "og:description", content: "What's next on the schedule." },
     ],
-    links: [{ rel: "canonical", href: "/upcoming" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/upcoming" }],
   }),
   component: () => {
     const list = animes.filter(a => a.status === "Upcoming" || a.status === "Ongoing");

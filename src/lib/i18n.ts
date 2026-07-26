@@ -31,7 +31,7 @@ export const LOCALES: Locale[] = [
 ];
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
-export const SITE_URL = "https://verse-visions-anime.lovable.app";
+export const SITE_URL = "https://gamecastle.store";
 export const LOCALE_STORAGE_KEY = "animeverse.locale";
 
 const BY_CODE = new Map(LOCALES.map((l) => [l.code, l]));

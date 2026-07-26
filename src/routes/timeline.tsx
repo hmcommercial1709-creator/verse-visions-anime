@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/timeline")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/timeline" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Timeline — A History of the Medium · AnimeVerse" },
       { name: "description", content: "The most important anime series year by year, from the 1990s to now." },
       { property: "og:title", content: "Anime Timeline · AnimeVerse" },
       { property: "og:description", content: "A visual history of anime." },
     ],
-    links: [{ rel: "canonical", href: "/timeline" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/timeline" }],
   }),
   component: () => {
     const byYear = [...animes].sort((a,b) => a.year - b.year);

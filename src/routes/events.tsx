@@ -13,12 +13,15 @@ const events = [
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/events" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Events & Conventions 2026 · AnimeVerse" },
       { name: "description", content: "Anime conventions, expos, and industry events happening around the world in 2026." },
       { property: "og:title", content: "Anime Events · AnimeVerse" },
       { property: "og:description", content: "Cons and events worldwide." },
     ],
-    links: [{ rel: "canonical", href: "/events" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/events" }],
   }),
   component: () => (
     <div className="mx-auto max-w-4xl px-4 lg:px-6 py-10">

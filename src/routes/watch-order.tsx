@@ -6,12 +6,15 @@ import { AdSlot } from "@/components/ad-slot";
 export const Route = createFileRoute("/watch-order")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/watch-order" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "The Ultimate Anime Watch Order Guide · AnimeVerse" },
       { name: "description", content: "Every long-running anime with a canonical, filler-aware watch order. Naruto, One Piece, Fate, and more." },
       { property: "og:title", content: "Anime Watch Order Guide · AnimeVerse" },
       { property: "og:description", content: "Never watch a series in the wrong order again." },
     ],
-    links: [{ rel: "canonical", href: "/watch-order" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/watch-order" }],
   }),
   component: () => (
     <div className="mx-auto max-w-4xl px-4 lg:px-6 py-10">

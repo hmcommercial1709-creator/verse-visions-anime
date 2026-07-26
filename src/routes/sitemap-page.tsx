@@ -8,11 +8,14 @@ import { Breadcrumbs } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/sitemap-page")({
   head: () => ({ meta: [
+      { property: "og:url", content: "https://gamecastle.store/sitemap-page" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     { title: "HTML Sitemap · AnimeVerse" },
     { name: "description", content: "Every page on AnimeVerse, organized by section." },
     { property: "og:title", content: "Sitemap · AnimeVerse" },
     { property: "og:description", content: "All pages on AnimeVerse." },
-  ], links: [{ rel: "canonical", href: "/sitemap-page" }] }),
+  ], links: [{ rel: "canonical", href: "https://gamecastle.store/sitemap-page" }] }),
   component: () => (
     <div className="mx-auto max-w-5xl px-4 lg:px-6 py-10">
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Sitemap" }]} />

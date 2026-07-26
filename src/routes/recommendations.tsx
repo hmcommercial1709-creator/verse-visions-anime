@@ -6,12 +6,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/recommendations")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/recommendations" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Recommendations — What to Watch Next · AnimeVerse" },
       { name: "description", content: "Handpicked recommendations. Tell us what you liked; we'll tell you what to watch next." },
       { property: "og:title", content: "Anime Recommendations · AnimeVerse" },
       { property: "og:description", content: "Handpicked next-watch suggestions." },
     ],
-    links: [{ rel: "canonical", href: "/recommendations" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/recommendations" }],
   }),
   component: () => (
     <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">

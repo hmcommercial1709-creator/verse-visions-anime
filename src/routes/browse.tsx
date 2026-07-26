@@ -10,12 +10,15 @@ import { Filter } from "lucide-react";
 export const Route = createFileRoute("/browse")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/browse" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Browse All Anime — Filter by Genre, Year & Studio · AnimeVerse" },
       { name: "description", content: "Explore the AnimeVerse library. Filter anime by genre, year, studio, status and rating to find your next series." },
       { property: "og:title", content: "Browse All Anime · AnimeVerse" },
       { property: "og:description", content: "The AnimeVerse anime library. Filter, sort, and discover." },
     ],
-    links: [{ rel: "canonical", href: "/browse" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/browse" }],
   }),
   component: Browse,
 });

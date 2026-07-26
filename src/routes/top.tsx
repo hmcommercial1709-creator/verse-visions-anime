@@ -7,12 +7,15 @@ import { AdSlot } from "@/components/ad-slot";
 export const Route = createFileRoute("/top")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/top" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Top 100 Anime of All Time — Ranked · AnimeVerse" },
       { name: "description", content: "The best anime ever made, ranked by our editorial team and community rating." },
       { property: "og:title", content: "Top 100 Anime · AnimeVerse" },
       { property: "og:description", content: "The definitive ranking." },
     ],
-    links: [{ rel: "canonical", href: "/top" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/top" }],
   }),
   component: () => {
     const list = [...animes].sort((a,b) => b.rating - a.rating);

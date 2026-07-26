@@ -6,12 +6,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/classic")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/classic" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Classic Anime — The Series That Built the Medium · AnimeVerse" },
       { name: "description", content: "Landmark anime you should watch at least once: the shows that shaped everything that followed." },
       { property: "og:title", content: "Classic Anime · AnimeVerse" },
       { property: "og:description", content: "The greats. The foundation." },
     ],
-    links: [{ rel: "canonical", href: "/classic" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/classic" }],
   }),
   component: () => {
     const list = animes.filter(a => a.year < 2015);

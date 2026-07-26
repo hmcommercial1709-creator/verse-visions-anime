@@ -3,11 +3,14 @@ import { Breadcrumbs } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/cookies")({
   head: () => ({ meta: [
+      { property: "og:url", content: "https://gamecastle.store/cookies" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     { title: "Cookie Policy · AnimeVerse" },
     { name: "description", content: "What cookies AnimeVerse uses and how to opt out." },
     { property: "og:title", content: "Cookie Policy · AnimeVerse" },
     { property: "og:description", content: "Cookie practices." },
-  ], links: [{ rel: "canonical", href: "/cookies" }] }),
+  ], links: [{ rel: "canonical", href: "https://gamecastle.store/cookies" }] }),
   component: () => (
     <div className="mx-auto max-w-3xl px-4 lg:px-6 py-12">
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Cookies" }]} />

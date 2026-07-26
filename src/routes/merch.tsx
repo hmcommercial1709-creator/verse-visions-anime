@@ -5,12 +5,15 @@ import { AffiliateBox, AdSlot } from "@/components/ad-slot";
 export const Route = createFileRoute("/merch")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/merch" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Merchandise — Figures, Manga & Collectibles · AnimeVerse" },
       { name: "description", content: "The best places to buy authentic anime merchandise: figures, manga, Blu-rays, apparel, and collectibles." },
       { property: "og:title", content: "Anime Merchandise · AnimeVerse" },
       { property: "og:description", content: "Figures, manga, Blu-ray and more." },
     ],
-    links: [{ rel: "canonical", href: "/merch" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/merch" }],
   }),
   component: () => (
     <div className="mx-auto max-w-6xl px-4 lg:px-6 py-10">

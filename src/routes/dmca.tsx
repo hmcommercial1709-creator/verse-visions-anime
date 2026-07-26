@@ -5,7 +5,7 @@ import { AlertTriangle } from "lucide-react";
 const TITLE = "DMCA & Copyright Notice — AnimeVerse Takedown Process";
 const DESC =
   "How to submit a DMCA takedown notice or counter-notice to AnimeVerse, what our designated agent needs, and our policy on fair-use commentary and repeat infringement.";
-const URL = "https://verse-visions-anime.lovable.app/dmca";
+const URL = "https://gamecastle.store/dmca";
 const UPDATED = "July 2026";
 
 export const Route = createFileRoute("/dmca")({

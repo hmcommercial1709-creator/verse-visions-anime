@@ -6,12 +6,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/completed")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/completed" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Completed Anime — Series You Can Binge · AnimeVerse" },
       { name: "description", content: "Fully finished anime series with definitive endings. Perfect for a weekend binge." },
       { property: "og:title", content: "Completed Anime · AnimeVerse" },
       { property: "og:description", content: "Fully finished. Ready to binge." },
     ],
-    links: [{ rel: "canonical", href: "/completed" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/completed" }],
   }),
   component: () => {
     const list = animes.filter(a => a.status === "Completed");

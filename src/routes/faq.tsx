@@ -11,11 +11,14 @@ const faqs = [
 
 export const Route = createFileRoute("/faq")({
   head: () => ({ meta: [
+      { property: "og:url", content: "https://gamecastle.store/faq" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     { title: "AnimeVerse FAQ · AnimeVerse" },
     { name: "description", content: "Frequently asked questions about AnimeVerse: coverage, contributions, and the newsletter." },
     { property: "og:title", content: "FAQ · AnimeVerse" },
     { property: "og:description", content: "Frequently asked questions." },
-  ], links: [{ rel: "canonical", href: "/faq" }],
+  ], links: [{ rel: "canonical", href: "https://gamecastle.store/faq" }],
     scripts: [{ type: "application/ld+json", children: JSON.stringify({
       "@context": "https://schema.org", "@type": "FAQPage",
       mainEntity: faqs.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),

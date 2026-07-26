@@ -125,16 +125,36 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "AnimeVerse",
-          url: "/",
-          potentialAction: {
-            "@type": "SearchAction",
-            target: "/search?q={query}",
-            "query-input": "required name=query",
-          },
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://gamecastle.store/#organization",
+              name: "AnimeVerse",
+              url: "https://gamecastle.store/",
+              description:
+                "AnimeVerse is an independent anime editorial publication covering reviews, character deep-dives, watch orders, studio profiles and long-form analysis.",
+              email: "editors@animeverse.example",
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://gamecastle.store/#website",
+              name: "AnimeVerse",
+              url: "https://gamecastle.store/",
+              inLanguage: "en",
+              publisher: { "@id": "https://gamecastle.store/#organization" },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: "https://gamecastle.store/browse?q={query}",
+                },
+                "query-input": "required name=query",
+              },
+            },
+          ],
         }),
       },
+
     ],
 
   }),

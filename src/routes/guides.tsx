@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/guides")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/guides" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Guides — Watch Orders, Beginner Guides & Deep-Dives · AnimeVerse" },
       { name: "description", content: "The AnimeVerse library of watch orders, beginner guides, character breakdowns, and long-form deep-dives." },
       { property: "og:title", content: "Anime Guides · AnimeVerse" },
       { property: "og:description", content: "Watch orders and beginner guides." },
     ],
-    links: [{ rel: "canonical", href: "/guides" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/guides" }],
   }),
   component: () => {
     const list = listArticles("guides");

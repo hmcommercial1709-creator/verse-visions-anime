@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/studios")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/studios" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Studios — The Studios Behind the Medium · AnimeVerse" },
       { name: "description", content: "MAPPA, ufotable, Madhouse, Bones, Toei, Pierrot — the studios shaping modern anime." },
       { property: "og:title", content: "Anime Studios · AnimeVerse" },
       { property: "og:description", content: "Every major studio, profiled." },
     ],
-    links: [{ rel: "canonical", href: "/studios" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/studios" }],
   }),
   component: () => (
     <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">

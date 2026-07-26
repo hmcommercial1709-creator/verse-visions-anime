@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/soundtracks")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/soundtracks" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "The Best Anime Soundtracks & OSTs · AnimeVerse" },
       { name: "description", content: "The scores that made anime hit harder — from Yoko Kanno to Hiroyuki Sawano to Kensuke Ushio." },
       { property: "og:title", content: "Anime Soundtracks · AnimeVerse" },
       { property: "og:description", content: "OSTs that defined the medium." },
     ],
-    links: [{ rel: "canonical", href: "/soundtracks" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/soundtracks" }],
   }),
   component: () => {
     const tracks = animes.flatMap(a => a.soundtrack.filter(s => s.type === "OST").map(s => ({ ...s, anime: a.title, accent: a.accent })));

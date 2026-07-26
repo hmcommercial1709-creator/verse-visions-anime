@@ -5,12 +5,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/top-lists")({
   head: () => ({
     meta: [
+      { property: "og:url", content: "https://gamecastle.store/top-lists" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Anime Top Lists — Rankings & Best-Ofs · AnimeVerse" },
       { name: "description", content: "The best anime by genre, decade, and mood. Curated top-lists from the AnimeVerse editorial team." },
       { property: "og:title", content: "Anime Top Lists · AnimeVerse" },
       { property: "og:description", content: "Rankings and best-ofs." },
     ],
-    links: [{ rel: "canonical", href: "/top-lists" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/top-lists" }],
   }),
   component: () => {
     const list = listArticles("top-lists");

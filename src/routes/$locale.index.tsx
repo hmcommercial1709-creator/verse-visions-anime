@@ -11,6 +11,7 @@ export const Route = createFileRoute("/$locale/")({
     const locale = getLocale(params.locale);
     return {
       meta: [
+      { name: "twitter:card", content: "summary_large_image" },
         { title: `AnimeVerse — ${locale.english} edition` },
         {
           name: "description",

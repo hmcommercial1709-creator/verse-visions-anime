@@ -18,12 +18,15 @@ export const Route = createFileRoute("/genre/$slug")({
     const desc = `The complete AnimeVerse guide to ${g.name} anime: the defining shows, why the genre works, and where to start.`;
     return {
       meta: [
+        { property: "og:url", content: `https://gamecastle.store/genre/${g.slug}` },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
       ],
-      links: [{ rel: "canonical", href: `/genre/${g.slug}` }],
+      links: [{ rel: "canonical", href: `https://gamecastle.store/genre/${g.slug}` }],
     };
   },
   component: GenrePage,

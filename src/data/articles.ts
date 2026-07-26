@@ -68,9 +68,11 @@ export const authors = [
   { slug: "juno-park", name: "Juno Park", role: "Features Writer", bio: "Juno covers manhwa-to-anime crossover, idol shows, and everything the algorithm underrates." },
   { slug: "marcus-oduya", name: "Marcus Oduya", role: "News Reporter", bio: "Marcus files the daily beat on studios, licensing, and international streaming." },
   { slug: "hana-mori", name: "Hana Mori", role: "Guides Editor", bio: "Hana writes the watch orders, glossaries, and beginner explainers that get bookmarked." },
+  { slug: "kenji-arata", name: "Kenji Arata", role: "Esports & Competitive Editor", bio: "Kenji covers competitive scenes, coaching and the sports anime that get training right. Former team analyst." },
+  { slug: "lina-vasquez", name: "Lina Vasquez", role: "RPG & Systems Editor", bio: "Lina writes about progression systems, party theory and worldbuilding that survives a spreadsheet." },
 ];
 
-export const articles: Article[] = [
+const coreArticles: Article[] = [
   gojoLimitlessArticle,
   shibuyaIncidentArticle,
   sorcererFamiliesArticle,

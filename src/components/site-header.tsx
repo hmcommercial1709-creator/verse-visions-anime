@@ -16,6 +16,7 @@ const megaGroups = [
         { to: "/browse", label: "All Anime" },
         { to: "/trending", label: "Trending" },
         { to: "/top", label: "Top 100" },
+        { to: "/top-rated", label: "Top Rated" },
         { to: "/upcoming", label: "Upcoming" },
         { to: "/new-releases", label: "New Releases" },
         { to: "/completed", label: "Completed" },

@@ -8,6 +8,7 @@ import {
   allGenres,
   allStudios,
 } from "@/lib/content-registry";
+import { categorySlugs } from "@/data/categories";
 
 const BASE_URL = "https://gamecastle.store";
 

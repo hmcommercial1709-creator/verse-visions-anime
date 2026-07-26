@@ -101,14 +101,16 @@ function EpisodePage() {
 
         <Block title="Recap">
           <div className="prose prose-invert max-w-none space-y-5 text-lg leading-relaxed">
-            {ep.recap.map((p, i) => (
+            {ep.recap.map((p, i) => {
+              const ad = recapAdPlan.get(`0:${i}`);
+              return (
               <div key={i}>
                 <p>{p}</p>
-                {i === 2 && (
+                {ad && (
                   <InArticleAd
-                    index={3}
-                    unitId={`av-ep-${anime.slug}-${ep.number}-recap`}
-                    adId="InArticle_Ad_Body_1"
+                    index={ad.index}
+                    unitId={`av-ep-${anime.slug}-${ep.number}-recap-${i}`}
+                    adId={ad.adId}
                   />
                 )}
                 {i === 4 && merch[0] && (
@@ -118,7 +120,8 @@ function EpisodePage() {
                   />
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         </Block>
 

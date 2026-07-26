@@ -12,7 +12,7 @@ import { EngagementWidget } from "@/components/engagement-poll";
 import { LatestEpisodesSection } from "@/components/episode-streaming";
 import { InfiniteArticleFeed } from "@/components/article-feed";
 import { MediaImage, VideoEmbed } from "@/components/media";
-import { backdrops, backdropFor, artAlt } from "@/lib/media";
+import { backdrops, backdropFor, posterFor, artAlt } from "@/lib/media";
 import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
@@ -238,7 +238,14 @@ function Home() {
             <div className="space-y-3">
               {newReleases.map((a) => (
                 <Link key={a.slug} to="/anime/$slug" params={{ slug: a.slug }} className="flex gap-3 rounded-xl border border-border/60 p-3 hover:border-primary/60 bg-card/40">
-                  <div className="h-16 w-12 shrink-0 rounded" style={{ background: a.cover }} />
+                  <MediaImage
+                    art={posterFor(a.slug, [a.title])}
+                    alt={artAlt(a.title, "poster")}
+                    ratio="2/3"
+                    className="h-16 w-12 shrink-0 rounded"
+                    sizes="48px"
+                    overlay={false}
+                  />
                   <div className="min-w-0 flex-1">
                     <div className="font-semibold truncate">{a.title}</div>
                     <div className="text-xs text-muted-foreground line-clamp-2">{a.tagline}</div>
@@ -257,7 +264,14 @@ function Home() {
             <div className="space-y-3">
               {classics.map((a) => (
                 <Link key={a.slug} to="/anime/$slug" params={{ slug: a.slug }} className="flex gap-3 rounded-xl border border-border/60 p-3 hover:border-primary/60 bg-card/40">
-                  <div className="h-16 w-12 shrink-0 rounded" style={{ background: a.cover }} />
+                  <MediaImage
+                    art={posterFor(a.slug, [a.title])}
+                    alt={artAlt(a.title, "poster")}
+                    ratio="2/3"
+                    className="h-16 w-12 shrink-0 rounded"
+                    sizes="48px"
+                    overlay={false}
+                  />
                   <div className="min-w-0 flex-1">
                     <div className="font-semibold truncate">{a.title}</div>
                     <div className="text-xs text-muted-foreground line-clamp-2">{a.tagline}</div>

@@ -255,6 +255,9 @@ function EpisodePage() {
           eyebrow="Continue exploring"
           title={`If ${anime.title} is your lane…`}
         />
+
+        {/* Post-article banner (Post_Content_Ad) */}
+        <PostContentAd />
         </div>
 
         <aside className="hidden lg:block">

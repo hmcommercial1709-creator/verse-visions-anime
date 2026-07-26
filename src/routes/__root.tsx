@@ -109,9 +109,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
     scripts: [
       {
+        src: "https://quge5.com/88/tag.min.js",
+        async: true,
+        "data-zone": "263877",
+        "data-cfasync": "false",
+      },
+      {
         async: true,
         src: "https://www.googletagmanager.com/gtag/js?id=G-LETSF76JTN",
       },
+
       {
         children:
           "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-LETSF76JTN');",

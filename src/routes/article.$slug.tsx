@@ -178,7 +178,7 @@ function ArticlePage() {
   const merchProducts = productsForContext(loreAnime, a.title);
   // In-body native units land every 4 paragraphs; slot 1 is the guaranteed
   // above-the-fold unit, so the body plan starts at InArticle_Ad_2.
-  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { startAt: 2 });
+  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { startAt: 2, max: 2 });
 
   return (
     <div>
@@ -311,9 +311,6 @@ function ArticlePage() {
                 </section>
               ))}
             </div>
-
-            {/* End-of-article native unit */}
-            <InArticleAd index={99} unitId="av-article-end" adId="InArticle_Ad_End" />
 
             <AnimeRecRail items={relatedAnime} eyebrow="Related anime" title="Anime featured in this piece" />
 

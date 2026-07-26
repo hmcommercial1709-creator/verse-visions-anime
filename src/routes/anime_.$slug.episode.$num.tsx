@@ -159,11 +159,6 @@ function EpisodePage() {
           </div>
         </Block>
 
-        <InArticleAd
-          index={4}
-          unitId={`av-ep-${anime.slug}-${ep.number}-mid`}
-          adId="InArticle_Ad_Body_1"
-        />
 
         <AffiliateProductWidget
           products={merch}

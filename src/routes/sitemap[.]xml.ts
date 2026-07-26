@@ -84,6 +84,8 @@ function dynamicEntries(): SitemapEntry[] {
     entries.push({ path: `/article/${a.slug}`, changefreq: "weekly", priority: "0.8" });
   for (const c of publishedCharacters())
     entries.push({ path: `/character/${c.slug}`, changefreq: "monthly", priority: "0.7" });
+  for (const slug of categorySlugs())
+    entries.push({ path: `/category/${slug}`, changefreq: "daily", priority: "0.8" });
   for (const g of allGenres())
     entries.push({ path: `/genre/${g.slug}`, changefreq: "weekly", priority: "0.7" });
   for (const s of allStudios())

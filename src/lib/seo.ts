@@ -2,7 +2,7 @@
  * Shared SEO helpers for dynamic, high-volume routes.
  * Canonicals and og:url must be absolute and self-referencing.
  */
-export const SITE_URL = "https://verse-visions-anime.lovable.app";
+export const SITE_URL = "https://gamecastle.store";
 export const SITE_NAME = "AnimeVerse";
 
 export function absoluteUrl(path: string) {

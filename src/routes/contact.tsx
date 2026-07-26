@@ -15,10 +15,10 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://verse-visions-anime.lovable.app/contact" },
+      { property: "og:url", content: "https://gamecastle.store/contact" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://verse-visions-anime.lovable.app/contact" }],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/contact" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/contact")({
           "@type": "ContactPage",
           name: TITLE,
           description: DESC,
-          url: "https://verse-visions-anime.lovable.app/contact",
+          url: "https://gamecastle.store/contact",
         }),
       },
     ],

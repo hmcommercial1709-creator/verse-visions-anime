@@ -6,7 +6,7 @@ import { ShieldCheck, PenLine, Scale, Users } from "lucide-react";
 const TITLE = "About AnimeVerse — Our Anime Editorial Team & Analysis Mission";
 const DESC =
   "Meet the AnimeVerse editorial team and read how we research, review, and analyse anime: independent long-form criticism, watch orders, and franchise deep dives written by humans.";
-const URL = "https://verse-visions-anime.lovable.app/about";
+const URL = "https://gamecastle.store/about";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/about")({
           publisher: {
             "@type": "Organization",
             name: "AnimeVerse",
-            url: "https://verse-visions-anime.lovable.app/",
+            url: "https://gamecastle.store/",
             employee: authors.map((a) => ({ "@type": "Person", name: a.name, jobTitle: a.role })),
           },
         }),

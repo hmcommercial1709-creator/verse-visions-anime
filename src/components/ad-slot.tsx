@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 import { adTargetingAttributes, useGeoTarget } from "@/lib/geo-targeting";
 
-/** Replace with the live publisher ID before going live on AdSense. */
-export const AD_CLIENT = "ca-pub-0000000000000000";
+/** Live AdSense publisher ID (loaded globally from the root route <head>). */
+export const AD_CLIENT = "ca-pub-6422431093727588";
+
 
 
 type Placement =

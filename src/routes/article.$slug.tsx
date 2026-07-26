@@ -146,6 +146,9 @@ function ArticlePage() {
               <TableOfContents sections={sections} />
             </div>
 
+            {/* Guaranteed top-of-article AdSense unit (InArticle_Ad_1) */}
+            <InArticleAd index={1} unitId="av-article-top" adId="InArticle_Ad_1" />
+
             <div className="prose prose-invert mt-8 max-w-none text-lg leading-relaxed">
               {sections.map((s, i) => (
                 <section key={s.id} id={s.id} className="scroll-mt-28">
@@ -171,7 +174,11 @@ function ArticlePage() {
                   {/* Native ad every third section */}
                   {(i + 1) % 2 === 0 && (
                     <div className="not-prose">
-                      <InArticleAd index={(i + 1) / 2} unitId={`av-article-${i + 1}`} />
+                      <InArticleAd
+                        index={(i + 1) / 2 + 2}
+                        unitId={`av-article-${i + 1}`}
+                        adId={`InArticle_Ad_Body_${(i + 1) / 2}`}
+                      />
                     </div>
                   )}
 
@@ -205,7 +212,8 @@ function ArticlePage() {
               ))}
             </div>
 
-            <AdSlot placement="inline" />
+            {/* Guaranteed end-of-article AdSense unit (InArticle_Ad_2) */}
+            <InArticleAd index={2} unitId="av-article-end" adId="InArticle_Ad_2" />
 
             <AnimeRecRail items={relatedAnime} eyebrow="Related anime" title="Anime featured in this piece" />
 

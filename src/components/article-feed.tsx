@@ -1,3 +1,4 @@
+import { articleParagraphs } from "@/data/articles";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Clock, Loader2 } from "lucide-react";
@@ -60,7 +61,7 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em]">
                   <span className="font-semibold text-primary">{a.tag}</span>
                   <span className="rounded-full border border-border/60 px-2 py-0.5 text-muted-foreground">
-                    {readingLabel(a.body)}
+                    {readingLabel(articleParagraphs(a))}
                   </span>
                 </div>
                 <h3 className="mt-2 font-display text-xl font-bold group-hover:text-gradient">{a.title}</h3>

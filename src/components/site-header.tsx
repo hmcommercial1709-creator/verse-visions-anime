@@ -20,11 +20,12 @@ const megaGroups = [
         { to: "/completed", label: "Completed" },
       ]},
       { title: "By format", links: [
-        { to: "/movies", label: "Movies" },
-        { to: "/seasons", label: "Seasons" },
-        { to: "/classic", label: "Classic" },
-        { to: "/kids", label: "Kids & Family" },
+        { to: "/classic", label: "Classic & Retro" },
+        { to: "/timeline", label: "Anime Timeline" },
+        { to: "/watch-order", label: "Watch Orders" },
+        { to: "/genre/family", label: "Kids & Family" },
       ]},
+
       { title: "Popular", links: animes.slice(0, 6).map(a => ({ to: `/anime/${a.slug}`, label: a.title })) },
     ],
   },
@@ -46,40 +47,47 @@ const megaGroups = [
         { to: "/reviews", label: "Reviews" },
         { to: "/top-lists", label: "Top Lists" },
         { to: "/editorial", label: "Editorial" },
+        { to: "/authors", label: "Our Writers" },
       ]},
       { title: "Guides", links: [
         { to: "/guides", label: "All Guides" },
-        { to: "/guides/beginner", label: "Beginner's Guide" },
+        { to: "/article/beginner-guide-modern-shonen", label: "Beginner's Guide to Shonen" },
         { to: "/watch-order", label: "Watch Order" },
         { to: "/timeline", label: "Anime Timeline" },
         { to: "/recommendations", label: "Recommendations" },
       ]},
-      { title: "Culture", links: [
+      { title: "Must-read deep dives", links: [
+        { to: "/article/why-frieren-won-2024", label: "Why Frieren Won the Year" },
+        { to: "/article/review-jujutsu-kaisen-s2", label: "Jujutsu Kaisen S2 Review" },
+        { to: "/article/one-piece-wano-recap", label: "The Complete Wano Recap" },
+        { to: "/article/top-10-anime-2026", label: "10 Best Anime Right Now" },
         { to: "/quotes", label: "Quotes" },
-        { to: "/facts", label: "Facts" },
         { to: "/soundtracks", label: "Soundtracks" },
-        { to: "/openings", label: "Openings" },
-        { to: "/wallpapers", label: "Wallpapers" },
-        { to: "/events", label: "Events & Cons" },
       ]},
     ],
   },
+
   {
     label: "Studios",
     icon: Building2,
     columns: [
-      { title: "Studios", links: studios.slice(0,6).map(s => ({ to: `/studio/${s.slug}`, label: s.name })) },
+      { title: "Studios", links: [{ to: "/studios", label: "All Studios" }, ...studios.slice(0,5).map(s => ({ to: `/studio/${s.slug}`, label: s.name }))] },
       { title: "Streaming", links: [
         { to: "/streaming", label: "Streaming Platforms" },
         { to: "/awards", label: "Anime Awards" },
         { to: "/statistics", label: "Statistics" },
+        { to: "/events", label: "Events & Cons" },
       ]},
-      { title: "Merch", links: [
-        { to: "/merch", label: "Merchandise" },
-        { to: "/collectibles", label: "Collectibles" },
+      { title: "AnimeVerse", links: [
+        { to: "/about", label: "About Us" },
+        { to: "/contact", label: "Contact Us" },
+        { to: "/editorial-policy", label: "Editorial Policy" },
+        { to: "/merch", label: "Merch & Wallpapers" },
+        { to: "/faq", label: "FAQ" },
       ]},
     ],
   },
+
 ];
 
 export function SiteHeader() {

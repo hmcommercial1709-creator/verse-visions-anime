@@ -41,16 +41,17 @@ const footerCols = [
     { to: "/events", label: "Events" },
     { to: "/streaming", label: "Streaming" },
   ]},
-  { title: "About", links: [
-    { to: "/about", label: "About AnimeVerse" },
-    { to: "/contact", label: "Contact" },
+  { title: "About & Legal", links: [
+    { to: "/about", label: "About Us" },
+    { to: "/contact", label: "Contact Us" },
     { to: "/faq", label: "FAQ" },
     { to: "/privacy", label: "Privacy Policy" },
     { to: "/terms", label: "Terms of Service" },
     { to: "/cookies", label: "Cookie Policy" },
-    { to: "/dmca", label: "DMCA" },
+    { to: "/dmca", label: "DMCA & Copyright" },
     { to: "/sitemap-page", label: "HTML Sitemap" },
   ]},
+
 ];
 
 export function SiteFooter() {
@@ -114,14 +115,17 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-border/60 pt-6 text-xs text-muted-foreground">
-          <div>© {new Date().getFullYear()} AnimeVerse Media. All illustrations, titles, and trademarks belong to their respective owners.</div>
-          <div className="flex gap-4">
-            <Link to="/privacy">Privacy</Link>
-            <Link to="/terms">Terms</Link>
-            <Link to="/cookies">Cookies</Link>
-            <Link to="/dmca">DMCA</Link>
+          <div>© {new Date().getFullYear()} AnimeVerse Media. AnimeVerse does not host or stream episodes. All illustrations, titles, and trademarks belong to their respective owners.</div>
+          <div className="flex flex-wrap gap-4">
+            <Link to="/about" className="hover:text-primary">About</Link>
+            <Link to="/contact" className="hover:text-primary">Contact</Link>
+            <Link to="/privacy" className="hover:text-primary">Privacy</Link>
+            <Link to="/terms" className="hover:text-primary">Terms</Link>
+            <Link to="/cookies" className="hover:text-primary">Cookies</Link>
+            <Link to="/dmca" className="hover:text-primary">DMCA</Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

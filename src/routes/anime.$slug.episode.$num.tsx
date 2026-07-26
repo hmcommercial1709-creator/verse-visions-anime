@@ -86,8 +86,8 @@ function EpisodePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-3xl px-4 lg:px-6">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-6">
+
         <div className="min-w-0 max-w-3xl">
         <InArticleAd
           index={1}

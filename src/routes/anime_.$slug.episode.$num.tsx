@@ -13,7 +13,7 @@ import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
 import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
 
-export const Route = createFileRoute("/anime/$slug/episode/$num")({
+export const Route = createFileRoute("/anime_/$slug/episode/$num")({
   loader: ({ params }): { ep: Episode; anime: Anime } => {
     const number = parseInt(params.num, 10);
     const ep = getEpisode(params.slug, number);

@@ -82,6 +82,7 @@ function ArticlePage() {
   const articleRail = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
+  const merchProducts = productsForContext(loreAnime, a.title);
 
   return (
     <div>

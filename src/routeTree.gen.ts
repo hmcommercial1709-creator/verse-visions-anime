@@ -22,7 +22,6 @@ import { Route as StudiosRouteImport } from './routes/studios'
 import { Route as StreamingRouteImport } from './routes/streaming'
 import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as SoundtracksRouteImport } from './routes/soundtracks'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
@@ -125,11 +124,6 @@ const StatisticsRoute = StatisticsRouteImport.update({
 const SoundtracksRoute = SoundtracksRouteImport.update({
   id: '/soundtracks',
   path: '/soundtracks',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapPageRoute = SitemapPageRouteImport.update({
@@ -354,7 +348,6 @@ export interface FileRoutesByFullPath {
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap-page': typeof SitemapPageRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
   '/streaming': typeof StreamingRoute
@@ -408,7 +401,6 @@ export interface FileRoutesByTo {
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap-page': typeof SitemapPageRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
   '/streaming': typeof StreamingRoute
@@ -463,7 +455,6 @@ export interface FileRoutesById {
   '/recommendations': typeof RecommendationsRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap-page': typeof SitemapPageRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
   '/streaming': typeof StreamingRoute
@@ -519,7 +510,6 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/reviews'
     | '/sitemap-page'
-    | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
     | '/streaming'
@@ -573,7 +563,6 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/reviews'
     | '/sitemap-page'
-    | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
     | '/streaming'
@@ -627,7 +616,6 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/reviews'
     | '/sitemap-page'
-    | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
     | '/streaming'
@@ -682,7 +670,6 @@ export interface RootRouteChildren {
   RecommendationsRoute: typeof RecommendationsRoute
   ReviewsRoute: typeof ReviewsRoute
   SitemapPageRoute: typeof SitemapPageRoute
-  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
   StatisticsRoute: typeof StatisticsRoute
   StreamingRoute: typeof StreamingRoute
@@ -797,13 +784,6 @@ declare module '@tanstack/react-router' {
       path: '/soundtracks'
       fullPath: '/soundtracks'
       preLoaderRoute: typeof SoundtracksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap-page': {
@@ -1106,7 +1086,6 @@ const rootRouteChildren: RootRouteChildren = {
   RecommendationsRoute: RecommendationsRoute,
   ReviewsRoute: ReviewsRoute,
   SitemapPageRoute: SitemapPageRoute,
-  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,
   StatisticsRoute: StatisticsRoute,
   StreamingRoute: StreamingRoute,
@@ -1132,3 +1111,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

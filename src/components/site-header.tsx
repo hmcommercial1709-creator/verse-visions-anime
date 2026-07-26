@@ -50,13 +50,15 @@ const megaGroups = [
         { to: "/editorial", label: "Editorial" },
         { to: "/authors", label: "Our Writers" },
       ]},
-      { title: "Guides", links: [
-        { to: "/guides", label: "All Guides" },
-        { to: "/article/beginner-guide-modern-shonen", label: "Beginner's Guide to Shonen" },
+      { title: "Hubs", links: [
+        { to: "/guides", label: "Anime Guides" },
+        { to: "/manga-spoilers", label: "Manga Spoilers" },
+        { to: "/power-scaling", label: "Power Scaling" },
+        { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
         { to: "/watch-order", label: "Watch Order" },
-        { to: "/timeline", label: "Anime Timeline" },
         { to: "/recommendations", label: "Recommendations" },
       ]},
+
       { title: "Must-read deep dives", links: [
         { to: "/article/why-frieren-won-2024", label: "Why Frieren Won the Year" },
         { to: "/article/review-jujutsu-kaisen-s2", label: "Jujutsu Kaisen S2 Review" },
@@ -81,11 +83,13 @@ const megaGroups = [
       ]},
       { title: "AnimeVerse", links: [
         { to: "/about", label: "About Us" },
-        { to: "/contact", label: "Contact Us" },
+        { to: "/contact", label: "Contact" },
         { to: "/editorial-policy", label: "Editorial Policy" },
-        { to: "/merch", label: "Merch & Wallpapers" },
+        { to: "/privacy-policy", label: "Privacy Policy" },
+        { to: "/terms-of-service", label: "Terms of Service" },
         { to: "/faq", label: "FAQ" },
       ]},
+
     ],
   },
 

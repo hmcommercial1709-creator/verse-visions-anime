@@ -116,7 +116,7 @@ function Home() {
               searchQuery="jujutsu kaisen official trailer"
             />
             <div className="space-y-3">
-              {featuredArticles.slice(0, 3).map((a) => (
+              {spotlightArticles.map((a) => (
                 <Link
                   key={a.slug}
                   to="/article/$slug"
@@ -207,7 +207,7 @@ function Home() {
           action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">All editorial <ArrowRight className="h-3 w-3" /></Link>}
         >
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-            <InfiniteArticleFeed items={articles} />
+            <InfiniteArticleFeed items={feedArticles} />
             <StickySidebarAd />
           </div>
         </Section>
@@ -236,7 +236,7 @@ function Home() {
           <div>
             <div className="flex items-center gap-2 mb-4"><TrendingUp className="h-4 w-4 text-accent" /><h3 className="font-display text-2xl font-bold">New this era</h3></div>
             <div className="space-y-3">
-              {newReleases.slice(0, 4).map((a) => (
+              {newReleases.map((a) => (
                 <Link key={a.slug} to="/anime/$slug" params={{ slug: a.slug }} className="flex gap-3 rounded-xl border border-border/60 p-3 hover:border-primary/60 bg-card/40">
                   <div className="h-16 w-12 shrink-0 rounded" style={{ background: a.cover }} />
                   <div className="min-w-0 flex-1">

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Play, Film, ImageIcon } from "lucide-react";
 import type { MediaArt } from "@/lib/media";
 import { artAlt } from "@/lib/media";
+import { trailerFor } from "@/data/trailers";
+
 import { cn } from "@/lib/utils";
 
 type Ratio = "16/9" | "2/3" | "3/1" | "4/3";

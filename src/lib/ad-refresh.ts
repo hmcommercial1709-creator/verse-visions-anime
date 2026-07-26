@@ -33,7 +33,7 @@ export function useViewableAdRefresh<T extends HTMLElement>({ enabled = true, in
   const ref = useRef<T | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [viewable, setViewable] = useState(false);
-  const period = useRef(intervalMs ?? MIN_MS + Math.floor(Math.random() * (MAX_MS - MIN_MS)));
+  const period = useRef(intervalMs ?? BASE_MS + Math.floor(Math.random() * JITTER_MS));
 
   // Track viewability of the slot itself.
   useEffect(() => {
@@ -65,7 +65,7 @@ export function useViewableAdRefresh<T extends HTMLElement>({ enabled = true, in
     const id = window.setInterval(() => {
       setRefreshKey((k) => k + 1);
       // Re-jitter so multiple slots never refresh in lockstep.
-      period.current = MIN_MS + Math.floor(Math.random() * (MAX_MS - MIN_MS));
+      period.current = BASE_MS + Math.floor(Math.random() * JITTER_MS);
     }, period.current);
     return () => window.clearInterval(id);
   }, [active]);

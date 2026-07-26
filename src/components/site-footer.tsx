@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Flame, Twitter, Youtube, Twitch, Rss } from "lucide-react";
+import { LanguageSelector } from "./language-selector";
 
 const footerCols = [
   { title: "Discover", links: [
@@ -93,6 +94,10 @@ export function SiteFooter() {
             <p className="text-sm text-muted-foreground leading-relaxed">
               The independent home for anime reviews, guides, and culture. Written by fans, edited like a magazine.
             </p>
+            <div className="mt-4">
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Language</p>
+              <LanguageSelector variant="footer" align="start" />
+            </div>
             <div className="mt-4 flex gap-2 text-muted-foreground">
               <a href="#" aria-label="Twitter" className="rounded-md p-2 hover:bg-secondary hover:text-foreground"><Twitter className="h-4 w-4" /></a>
               <a href="#" aria-label="YouTube" className="rounded-md p-2 hover:bg-secondary hover:text-foreground"><Youtube className="h-4 w-4" /></a>

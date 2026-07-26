@@ -12,6 +12,7 @@ import { EngagementWidget } from "@/components/engagement-poll";
 import { LatestEpisodesSection } from "@/components/episode-streaming";
 import { InfiniteArticleFeed } from "@/components/article-feed";
 import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
+import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
 const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];
 
@@ -23,7 +24,9 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "AnimeVerse — The Home of Anime Reviews, Guides & Culture" },
       { property: "og:description", content: "Discover the best anime with AnimeVerse: reviews, character deep-dives, watch orders, studio profiles, and long-form editorial from a fan-led editorial team." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }, ...hreflangLinks("/")],
   }),
   component: Home,
 });

@@ -49,11 +49,13 @@ import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AuthorsRouteImport } from './routes/authors'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
+import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime.$slug.episode.$num'
 
 const WatchOrderRoute = WatchOrderRouteImport.update({
@@ -256,6 +258,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/$locale/',
+  path: '/$locale/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudioSlugRoute = StudioSlugRouteImport.update({
   id: '/studio/$slug',
   path: '/studio/$slug',
@@ -279,6 +286,11 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
 const AnimeSlugRoute = AnimeSlugRouteImport.update({
   id: '/anime/$slug',
   path: '/anime/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleSplatRoute = LocaleSplatRouteImport.update({
+  id: '/$locale/$',
+  path: '/$locale/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
@@ -328,11 +340,13 @@ export interface FileRoutesByFullPath {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
+  '/$locale/$': typeof LocaleSplatRoute
   '/anime/$slug': typeof AnimeSlugRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesByTo {
@@ -376,11 +390,13 @@ export interface FileRoutesByTo {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
+  '/$locale/$': typeof LocaleSplatRoute
   '/anime/$slug': typeof AnimeSlugRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
+  '/$locale': typeof LocaleIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesById {
@@ -425,11 +441,13 @@ export interface FileRoutesById {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
+  '/$locale/$': typeof LocaleSplatRoute
   '/anime/$slug': typeof AnimeSlugRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/studio/$slug': typeof StudioSlugRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRouteTypes {
@@ -475,11 +493,13 @@ export interface FileRouteTypes {
     | '/upcoming'
     | '/wallpapers'
     | '/watch-order'
+    | '/$locale/$'
     | '/anime/$slug'
     | '/article/$slug'
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
+    | '/$locale/'
     | '/anime/$slug/episode/$num'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -523,11 +543,13 @@ export interface FileRouteTypes {
     | '/upcoming'
     | '/wallpapers'
     | '/watch-order'
+    | '/$locale/$'
     | '/anime/$slug'
     | '/article/$slug'
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
+    | '/$locale'
     | '/anime/$slug/episode/$num'
   id:
     | '__root__'
@@ -571,11 +593,13 @@ export interface FileRouteTypes {
     | '/upcoming'
     | '/wallpapers'
     | '/watch-order'
+    | '/$locale/$'
     | '/anime/$slug'
     | '/article/$slug'
     | '/character/$slug'
     | '/genre/$slug'
     | '/studio/$slug'
+    | '/$locale/'
     | '/anime/$slug/episode/$num'
   fileRoutesById: FileRoutesById
 }
@@ -620,11 +644,13 @@ export interface RootRouteChildren {
   UpcomingRoute: typeof UpcomingRoute
   WallpapersRoute: typeof WallpapersRoute
   WatchOrderRoute: typeof WatchOrderRoute
+  LocaleSplatRoute: typeof LocaleSplatRoute
   AnimeSlugRoute: typeof AnimeSlugRouteWithChildren
   ArticleSlugRoute: typeof ArticleSlugRoute
   CharacterSlugRoute: typeof CharacterSlugRoute
   GenreSlugRoute: typeof GenreSlugRoute
   StudioSlugRoute: typeof StudioSlugRoute
+  LocaleIndexRoute: typeof LocaleIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -909,6 +935,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/$locale'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/studio/$slug': {
       id: '/studio/$slug'
       path: '/studio/$slug'
@@ -942,6 +975,13 @@ declare module '@tanstack/react-router' {
       path: '/anime/$slug'
       fullPath: '/anime/$slug'
       preLoaderRoute: typeof AnimeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/$': {
+      id: '/$locale/$'
+      path: '/$locale/$'
+      fullPath: '/$locale/$'
+      preLoaderRoute: typeof LocaleSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anime/$slug/episode/$num': {
@@ -1007,11 +1047,13 @@ const rootRouteChildren: RootRouteChildren = {
   UpcomingRoute: UpcomingRoute,
   WallpapersRoute: WallpapersRoute,
   WatchOrderRoute: WatchOrderRoute,
+  LocaleSplatRoute: LocaleSplatRoute,
   AnimeSlugRoute: AnimeSlugRouteWithChildren,
   ArticleSlugRoute: ArticleSlugRoute,
   CharacterSlugRoute: CharacterSlugRoute,
   GenreSlugRoute: GenreSlugRoute,
   StudioSlugRoute: StudioSlugRoute,
+  LocaleIndexRoute: LocaleIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

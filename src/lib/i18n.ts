@@ -14,20 +14,20 @@ export interface Locale {
   english: string;
   dir: "ltr" | "rtl";
   /** BCP-47 value used for hreflang + <html lang> */
-  hreflang: string;
+  hrefLang: string;
 }
 
 export const LOCALES: Locale[] = [
-  { code: "en", label: "English",    short: "EN", english: "English",    dir: "ltr", hreflang: "en" },
-  { code: "ar", label: "العربية",     short: "AR", english: "Arabic",     dir: "rtl", hreflang: "ar" },
-  { code: "es", label: "Español",    short: "ES", english: "Spanish",    dir: "ltr", hreflang: "es" },
-  { code: "fr", label: "Français",   short: "FR", english: "French",     dir: "ltr", hreflang: "fr" },
-  { code: "de", label: "Deutsch",    short: "DE", english: "German",     dir: "ltr", hreflang: "de" },
-  { code: "pt", label: "Português",  short: "PT", english: "Portuguese", dir: "ltr", hreflang: "pt" },
-  { code: "it", label: "Italiano",   short: "IT", english: "Italian",    dir: "ltr", hreflang: "it" },
-  { code: "tr", label: "Türkçe",     short: "TR", english: "Turkish",    dir: "ltr", hreflang: "tr" },
-  { code: "ja", label: "日本語",       short: "JA", english: "Japanese",   dir: "ltr", hreflang: "ja" },
-  { code: "id", label: "Indonesia",  short: "ID", english: "Indonesian", dir: "ltr", hreflang: "id" },
+  { code: "en", label: "English",    short: "EN", english: "English",    dir: "ltr", hrefLang: "en" },
+  { code: "ar", label: "العربية",     short: "AR", english: "Arabic",     dir: "rtl", hrefLang: "ar" },
+  { code: "es", label: "Español",    short: "ES", english: "Spanish",    dir: "ltr", hrefLang: "es" },
+  { code: "fr", label: "Français",   short: "FR", english: "French",     dir: "ltr", hrefLang: "fr" },
+  { code: "de", label: "Deutsch",    short: "DE", english: "German",     dir: "ltr", hrefLang: "de" },
+  { code: "pt", label: "Português",  short: "PT", english: "Portuguese", dir: "ltr", hrefLang: "pt" },
+  { code: "it", label: "Italiano",   short: "IT", english: "Italian",    dir: "ltr", hrefLang: "it" },
+  { code: "tr", label: "Türkçe",     short: "TR", english: "Turkish",    dir: "ltr", hrefLang: "tr" },
+  { code: "ja", label: "日本語",       short: "JA", english: "Japanese",   dir: "ltr", hrefLang: "ja" },
+  { code: "id", label: "Indonesia",  short: "ID", english: "Indonesian", dir: "ltr", hrefLang: "id" },
 ];
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
@@ -73,10 +73,10 @@ export function hreflangLinks(pathname: string) {
   return [
     ...LOCALES.map((l) => ({
       rel: "alternate",
-      hreflang: l.hreflang,
+      hrefLang: l.hreflang,
       href: `${SITE_URL}${localizePath(base, l.code)}`,
     })),
-    { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}${base}` },
+    { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}${base}` },
   ];
 }
 

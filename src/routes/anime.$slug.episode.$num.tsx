@@ -60,6 +60,7 @@ function EpisodePage() {
   const prev = idx > 0 ? siblings[idx - 1] : null;
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const animeRecs = recommendAnime(anime.slug, 4);
+  const merch = productsForContext(anime, anime.title);
 
   return (
     <article>

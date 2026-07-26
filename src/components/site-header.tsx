@@ -174,8 +174,8 @@ export function SiteHeader() {
             <Link to="/characters" className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5">
               <Users className="h-3.5 w-3.5" /> Characters
             </Link>
-            <Link to="/news" className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5">
-              <Tv className="h-3.5 w-3.5" /> News
+            <Link to="/blog" className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5">
+              <Tv className="h-3.5 w-3.5" /> Blog
             </Link>
           </nav>
 

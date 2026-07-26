@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getArticle, articles, getAuthor, articleParagraphs } from "@/data/articles";
-import type { ArticleBlock } from "@/data/articles";
+import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
   AdSlot,
@@ -119,7 +119,7 @@ export const Route = createFileRoute("/article/$slug")({
             dateModified: a.date,
             mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/article/${a.slug}`) },
             articleSection: a.section,
-            wordCount: wordCount(a.body),
+            wordCount: wordCount(paragraphs),
             author: { "@type": "Person", name: getAuthor(a.author)?.name },
             publisher: { "@type": "Organization", name: "AnimeVerse" },
           }),
@@ -129,7 +129,7 @@ export const Route = createFileRoute("/article/$slug")({
           children: JSON.stringify(faqSchema([
             {
               q: `How long does it take to read "${a.title}"?`,
-              a: `About ${readingLabel(a.body)} at an average reading pace.`,
+              a: `About ${readingLabel(paragraphs)} at an average reading pace.`,
             },
             {
               q: "Does this article contain spoilers?",
@@ -162,7 +162,7 @@ function ArticlePage() {
   const authored = Boolean(a.sections && a.sections.length > 0);
   const sections: { id: string; heading: string; paragraphs: string[]; blocks?: ArticleBlock[] }[] =
     authored
-      ? a.sections!.map((s, i) => ({
+      ? (a.sections as ArticleSection[]).map((s: ArticleSection, i: number) => ({
           id: slugifyHeading(s.heading, i),
           heading: s.heading,
           paragraphs: s.paragraphs,
@@ -217,10 +217,10 @@ function ArticlePage() {
               </div>
               <div className="flex shrink-0 flex-wrap justify-end gap-1.5 text-[11px]">
                 <span className="flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 font-semibold text-primary">
-                  <Clock className="h-3 w-3" /> {readingLabel(a.body)}
+                  <Clock className="h-3 w-3" /> {readingLabel(paragraphs)}
                 </span>
                 <span className="flex items-center gap-1 rounded-full border border-border/60 px-2.5 py-1 text-muted-foreground">
-                  <FileText className="h-3 w-3" /> {wordCount(a.body).toLocaleString()} words
+                  <FileText className="h-3 w-3" /> {wordCount(paragraphs).toLocaleString()} words
                 </span>
               </div>
             </div>

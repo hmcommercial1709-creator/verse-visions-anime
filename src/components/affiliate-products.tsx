@@ -159,3 +159,39 @@ export function StickyAffiliateRail({
     </div>
   );
 }
+
+/**
+ * Compact single-product card for weaving directly into long-form paragraph
+ * flow. Reads as part of the editorial rather than as a banner.
+ */
+export function InlineAffiliateCard({ product, note }: { product: AffiliateProduct; note?: string }) {
+  const { label, Icon } = KIND_META[product.kind];
+  return (
+    <aside
+      data-affiliate-widget="inline"
+      className="not-prose my-8 flex flex-col gap-3 rounded-2xl border border-primary/25 bg-primary/[0.04] p-4 sm:flex-row sm:items-center"
+    >
+      <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
+        <Icon className="h-6 w-6" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          {label} · Affiliate
+        </div>
+        <div className="mt-0.5 text-sm font-semibold">{product.title}</div>
+        <p className="mt-0.5 text-xs text-muted-foreground">{note ?? product.subtitle}</p>
+      </div>
+      <div className="flex shrink-0 items-center gap-3">
+        <span className="font-display text-lg font-bold text-primary">{product.price}</span>
+        <a
+          href={product.href}
+          target="_blank"
+          rel="nofollow sponsored noopener"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-3 py-2 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+        >
+          {product.cta ?? "View Deal"} <ExternalLink className="h-3 w-3" />
+        </a>
+      </div>
+    </aside>
+  );
+}

@@ -4,6 +4,8 @@ import { Clock, Loader2 } from "lucide-react";
 import type { Article } from "@/data/articles";
 import { readingLabel } from "@/lib/reading";
 import { InArticleAd } from "@/components/ad-slot";
+import { InlineAffiliateCard, productsForContext } from "@/components/affiliate-products";
+import { getAnime } from "@/data/animes";
 
 const PAGE = 4;
 
@@ -18,16 +20,21 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
   const done = count >= items.length;
 
   const loadMore = useCallback(() => {
-    setLoading(true);
-    window.setTimeout(() => {
-      setCount((c) => Math.min(c + PAGE, items.length));
-      setLoading(false);
-    }, 250);
+    setLoading((busy) => {
+      if (busy) return busy;
+      window.setTimeout(() => {
+        setCount((c) => Math.min(c + PAGE, items.length));
+        setLoading(false);
+      }, 250);
+      return true;
+    });
   }, [items.length]);
 
+  // Re-observed after every batch so a sentinel that stays in view keeps
+  // requesting the next page (and its freshly injected ad units).
   useEffect(() => {
     const node = sentinel.current;
-    if (!node || done) return;
+    if (!node || done || loading) return;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) loadMore();
@@ -36,7 +43,7 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [done, loadMore]);
+  }, [done, loading, count, loadMore]);
 
   return (
     <div>
@@ -63,6 +70,7 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 </div>
               </div>
             </Link>
+            {/* Ad unit auto-injected between content blocks as batches load */}
             {i > 0 && (i + 1) % PAGE === 0 && (
               <InArticleAd
                 index={Math.ceil((i + 1) / PAGE)}
@@ -70,6 +78,14 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 adId={`InArticle_Ad_Feed_${Math.ceil((i + 1) / PAGE)}`}
               />
             )}
+
+            {/* Affiliate card woven between feed sections */}
+            {i > 0 && (i + 1) % (PAGE * 2) === 0 && (() => {
+              const product = productsForContext(getAnime(a.related?.[0] ?? ""), a.title)[
+                (Math.ceil((i + 1) / (PAGE * 2)) - 1) % 3
+              ];
+              return product ? <InlineAffiliateCard product={product} /> : null;
+            })()}
           </div>
         ))}
       </div>

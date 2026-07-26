@@ -1,8 +1,11 @@
 import { useEffect, useId, useRef, useState } from "react";
 
-/** Minimum / maximum refresh interval (ms) — jittered per slot. */
-const MIN_MS = 45_000;
-const MAX_MS = 60_000;
+/**
+ * Refresh cadence: 45s of accumulated viewable time per slot, plus a tiny
+ * jitter so several units on one page never call for creative in lockstep.
+ */
+const BASE_MS = 45_000;
+const JITTER_MS = 2_000;
 /** How much of the unit must be on screen to count as viewable (IAB-style). */
 const VIEWABLE_RATIO = 0.5;
 
@@ -30,7 +33,7 @@ export function useViewableAdRefresh<T extends HTMLElement>({ enabled = true, in
   const ref = useRef<T | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [viewable, setViewable] = useState(false);
-  const period = useRef(intervalMs ?? MIN_MS + Math.floor(Math.random() * (MAX_MS - MIN_MS)));
+  const period = useRef(intervalMs ?? BASE_MS + Math.floor(Math.random() * JITTER_MS));
 
   // Track viewability of the slot itself.
   useEffect(() => {
@@ -62,7 +65,7 @@ export function useViewableAdRefresh<T extends HTMLElement>({ enabled = true, in
     const id = window.setInterval(() => {
       setRefreshKey((k) => k + 1);
       // Re-jitter so multiple slots never refresh in lockstep.
-      period.current = MIN_MS + Math.floor(Math.random() * (MAX_MS - MIN_MS));
+      period.current = BASE_MS + Math.floor(Math.random() * JITTER_MS);
     }, period.current);
     return () => window.clearInterval(id);
   }, [active]);

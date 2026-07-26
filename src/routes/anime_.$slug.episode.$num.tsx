@@ -3,12 +3,17 @@ import { getEpisode, episodesFor, type Episode } from "@/data/episodes";
 import { getAnime } from "@/data/animes";
 import type { Anime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { AdSlot } from "@/components/ad-slot";
+import { InArticleAd, StickySidebarAd } from "@/components/ad-slot";
+import {
+  AffiliateProductWidget,
+  InlineAffiliateCard,
+  productsForContext,
+} from "@/components/affiliate-products";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
 import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
 
-export const Route = createFileRoute("/anime/$slug/episode/$num")({
+export const Route = createFileRoute("/anime_/$slug/episode/$num")({
   loader: ({ params }): { ep: Episode; anime: Anime } => {
     const number = parseInt(params.num, 10);
     const ep = getEpisode(params.slug, number);
@@ -55,6 +60,7 @@ function EpisodePage() {
   const prev = idx > 0 ? siblings[idx - 1] : null;
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const animeRecs = recommendAnime(anime.slug, 4);
+  const merch = productsForContext(anime, anime.title);
 
   return (
     <article>
@@ -80,12 +86,38 @@ function EpisodePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-3xl px-4 lg:px-6">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:px-6">
+
+        <div className="min-w-0 max-w-3xl">
+        <InArticleAd
+          index={1}
+          unitId={`av-ep-${anime.slug}-${ep.number}-top`}
+          adId="InArticle_Ad_1"
+        />
+
         <Block title="Recap">
           <div className="prose prose-invert max-w-none space-y-5 text-lg leading-relaxed">
-            {ep.recap.map((p, i) => <p key={i}>{p}</p>)}
+            {ep.recap.map((p, i) => (
+              <div key={i}>
+                <p>{p}</p>
+                {i === 2 && (
+                  <InArticleAd
+                    index={3}
+                    unitId={`av-ep-${anime.slug}-${ep.number}-recap`}
+                    adId="InArticle_Ad_Body_1"
+                  />
+                )}
+                {i === 4 && merch[0] && (
+                  <InlineAffiliateCard
+                    product={merch[0]}
+                    note={`Collector pick for readers following the ${ep.arc}.`}
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </Block>
+
 
         <Block title="Major events">
           <ul className="space-y-2">
@@ -117,7 +149,16 @@ function EpisodePage() {
           </div>
         </Block>
 
-        <AdSlot placement="inline" />
+        <InArticleAd
+          index={2}
+          unitId={`av-ep-${anime.slug}-${ep.number}-mid`}
+          adId="InArticle_Ad_2"
+        />
+
+        <AffiliateProductWidget
+          products={merch}
+          title={`Featured Merchandise & Manga · ${anime.title}`}
+        />
 
         <Block title="Best moments">
           <ul className="space-y-2">
@@ -205,6 +246,11 @@ function EpisodePage() {
           eyebrow="Continue exploring"
           title={`If ${anime.title} is your lane…`}
         />
+        </div>
+
+        <aside className="hidden lg:block">
+          <StickySidebarAd unitId={`av-ep-${anime.slug}-${ep.number}-rail`} />
+        </aside>
       </div>
     </article>
   );

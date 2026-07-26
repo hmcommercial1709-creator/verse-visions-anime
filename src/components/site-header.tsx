@@ -98,10 +98,14 @@ const megaGroups = [
 
 /** Direct category hubs surfaced in the main navigation. */
 const categoryHubs = [
-  { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
-  { to: "/manga-spoilers", label: "Manga Spoilers" },
-  { to: "/power-scaling", label: "Power Scaling" },
-  { to: "/guides", label: "Anime Guides" },
+  { to: "/category/action", label: "Action" },
+  { to: "/category/rpg", label: "RPG" },
+  { to: "/category/strategy", label: "Strategy" },
+  { to: "/category/esports", label: "Esports" },
+  { to: "/category/gaming-guides", label: "Gaming Guides" },
+  { to: "/category/reviews", label: "Reviews" },
+  { to: "/category/news", label: "News" },
+  { to: "/blog", label: "All Articles" },
 ];
 
 

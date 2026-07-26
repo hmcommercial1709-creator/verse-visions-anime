@@ -205,13 +205,13 @@ export function MobileAnchorAd() {
         >
           <X className="h-3.5 w-3.5" />
         </button>
-        <div
-          data-ad-slot="mobile-anchor"
-          aria-label="advertisement"
-          className="grid h-12 w-full place-items-center rounded-lg border border-dashed border-border/70 bg-secondary/30 text-[10px] uppercase tracking-[0.24em] text-muted-foreground/70"
-        >
-          Anchor Banner · 320×50
-        </div>
+        <AdSenseContainer
+          id="Mobile_Anchor_Ad"
+          minHeight={50}
+          label="Mobile_Anchor_Ad · 320×50"
+          className="rounded-lg border border-dashed border-border/70 bg-secondary/30"
+        />
+
       </div>
     </div>
   );

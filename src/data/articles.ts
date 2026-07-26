@@ -33,6 +33,10 @@ export type ArticleSection = {
 export type Article = {
   slug: string;
   section: "news" | "reviews" | "guides" | "top-lists" | "editorial";
+  /** Navigation category (see src/data/categories.ts). Falls back to `section`. */
+  category?: CategorySlug;
+  /** Free-form topical tags surfaced on detail pages and archive filters. */
+  tags?: string[];
   title: string;
   excerpt: string;
   author: string; // slug

@@ -67,11 +67,12 @@ export function enforceNonIntrusiveAds(): () => void {
   if (typeof window === "undefined") return () => {};
 
   const sweep = (root: ParentNode) => {
-    root.querySelectorAll?.("body > div, body > iframe, body > section, div, section").forEach((node) => {
+    root.querySelectorAll?.("body > div, body > iframe, body > section").forEach((node) => {
       const el = node as HTMLElement;
       if (isFakeOverlay(el)) el.remove();
     });
   };
+
 
   const observer = new MutationObserver((records) => {
     for (const record of records) {

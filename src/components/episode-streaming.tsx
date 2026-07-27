@@ -81,7 +81,7 @@ export function LatestEpisodesSection({ items }: { items: Anime[] }) {
                 ) : (
                   <span
                     key={n}
-                    className="grid h-10 place-items-center rounded-lg border border-border/60 font-mono text-xs text-muted-foreground/70"
+                    className="grid h-10 place-items-center rounded-lg border border-border/60 font-mono text-xs text-muted-foreground"
                   >
                     {n}
                   </span>

@@ -37,7 +37,7 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
   return (
     <div
       data-ad-slot={placement}
-      className={`w-full ${heights[placement]} rounded-xl border border-dashed border-border/70 bg-secondary/30 grid place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground/70`}
+      className={`w-full ${heights[placement]} rounded-xl border border-dashed border-border/70 bg-secondary/30 grid place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground`}
       aria-label="advertisement"
     >
       {label ?? `Ad Slot · ${placement}`}
@@ -130,7 +130,7 @@ export function AdSenseContainer({
         {...adTargetingAttributes(geo, id)}
       />
       {!filled && (
-        <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground/60">
+        <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
           {label ?? id}
         </span>
       )}
@@ -207,7 +207,7 @@ export function MultiplexAd({
 }) {
   return (
     <section className={`mt-12 ${className}`} aria-label="Sponsored recommendations">
-      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span>{title}</span>
         <span>Advertisement</span>
       </div>
@@ -288,7 +288,7 @@ export function InFeedAd({
       aria-label="advertisement"
       className="my-5 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
-      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span>{label}</span>
         <span className="font-mono opacity-60">in-feed {index}</span>
       </div>
@@ -337,7 +337,7 @@ export function VideoAd({
       aria-label="advertisement"
       className="my-6 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
-      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span>{title}</span>
         <span>Advertisement</span>
       </div>
@@ -393,7 +393,7 @@ export function BelowTitleAd() {
 export function PostContentAd() {
   return (
     <div className="mt-12">
-      <div className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">Advertisement</div>
+      <div className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Advertisement</div>
       <RefreshingUnit
         slotKind="post-content"
         adId="Post_Content_Ad"
@@ -431,7 +431,7 @@ export function InArticleAd({
       aria-label="advertisement"
       className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
-      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span>Sponsored</span>
         <span className="font-mono opacity-60">slot {index}</span>
       </div>

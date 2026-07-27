@@ -184,7 +184,7 @@ function Home() {
           eyebrow="What people are watching"
           title="Trending this week"
           subtitle="The shows dominating discussion, streaming charts, and our editors' group chat."
-          action={<Link to="/trending" className="text-sm text-primary hover:underline flex items-center gap-1">See all <ArrowRight className="h-3 w-3" /></Link>}
+          action={<Link to="/trending" className="text-sm text-primary hover:underline flex items-center gap-1">See all trending anime <ArrowRight className="h-3 w-3" /></Link>}
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {trending.map((a) => <AnimeCard key={a.slug} anime={a} size="md" />)}

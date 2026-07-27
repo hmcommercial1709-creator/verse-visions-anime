@@ -93,6 +93,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "monetag", content: "348a180a6837274a1caffc015dd1769f" },
+      { name: "google-adsense-account", content: "ca-pub-6422431093727588" },
+
       { name: "theme-color", content: "#12081b" },
       { property: "og:title", content: "AnimeVerse | The Ultimate Anime & Gaming Authority" },
       { name: "twitter:title", content: "AnimeVerse | Global Anime & Gaming Hub" },

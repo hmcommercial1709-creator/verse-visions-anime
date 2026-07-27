@@ -3,7 +3,7 @@ import { getCharacter, characters } from "@/data/characters";
 import { getAnime } from "@/data/animes";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
-import { AdSlot, HeaderBannerAd, PostContentAd } from "@/components/ad-slot";
+import { AdSlot, HeaderBannerAd, MultiplexAd, PostContentAd } from "@/components/ad-slot";
 import { CharacterLiveData } from "@/components/live-data";
 import { ArticleComments } from "@/components/article-comments";
 import { recommendCharacters, characterAnimeRecs } from "@/lib/recommendations";
@@ -152,6 +152,7 @@ function CharacterPage() {
           title={anime ? `If you liked ${anime.title}` : "You might enjoy"}
         />
         <PostContentAd />
+        <MultiplexAd />
       </div>
     </div>
   );

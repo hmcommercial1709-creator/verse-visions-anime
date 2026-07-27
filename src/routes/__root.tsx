@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileAnchorAd } from "@/components/ad-slot";
+import { DeferredScripts } from "@/components/deferred-scripts";
 import { useLocaleDocumentSync } from "@/lib/i18n";
 import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
 
@@ -106,7 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://gamecastle.store" },
       { rel: "preconnect", href: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" },
       { rel: "preconnect", href: "https://pagead2.googlesyndication.com" },
       { rel: "dns-prefetch", href: "https://googleads.g.doubleclick.net" },
       { rel: "sitemap", type: "application/xml", title: "Sitemap", href: "https://gamecastle.store/sitemap.xml" },
@@ -115,25 +116,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 
     scripts: [
-      {
-        async: true,
-        src: "https://www.googletagmanager.com/gtag/js?id=G-LETSF76JTN",
-      },
-
-      {
-        children:
-          "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-LETSF76JTN');",
-      },
-      {
-        async: true,
-        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
-        crossOrigin: "anonymous",
-      },
-      {
-        type: "module",
-        src: "https://static.cloudflareinsights.com/beacon.min.js",
-        "data-cf-beacon": '{"token": "c56a7a14c83d442c9d5e830751558e64"}',
-      },
+      // Analytics + ad tags are injected on idle by <DeferredScripts /> so they
+      // never block first paint.
 
 
 
@@ -210,6 +194,7 @@ function RootComponent() {
         <SiteFooter />
         <div className="h-16 lg:hidden" aria-hidden />
         <MobileAnchorAd />
+        <DeferredScripts />
       </div>
     </QueryClientProvider>
 

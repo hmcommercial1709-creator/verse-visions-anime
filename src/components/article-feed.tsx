@@ -6,7 +6,7 @@ import { Link } from "@tanstack/react-router";
 import { Clock, Loader2 } from "lucide-react";
 import type { Article } from "@/data/articles";
 import { readingLabel } from "@/lib/reading";
-import { InArticleAd } from "@/components/ad-slot";
+import { InFeedAd, VideoAd } from "@/components/ad-slot";
 import { InlineAffiliateCard, productsForContext } from "@/components/affiliate-products";
 import { getAnime } from "@/data/animes";
 

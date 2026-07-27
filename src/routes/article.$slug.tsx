@@ -303,7 +303,15 @@ function ArticlePage() {
                     <ArticleBlockView key={bi} block={block} />
                   ))}
 
+                  {/* Mid-article outstream video unit (viewable impression, no click needed) */}
+                  {i === 1 && (
+                    <div className="not-prose">
+                      <VideoAd index={1} unitId="av-article-video" adId="Video_Ad_Article_1" />
+                    </div>
+                  )}
+
                   {/* Contextual internal link card, woven into the flow */}
+
                   {!authored && inlineLinks[i] && i % 2 === 1 && (
                     <aside className="my-8 not-prose rounded-2xl border border-primary/30 bg-primary/5 p-4">
                       <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Read next</div>

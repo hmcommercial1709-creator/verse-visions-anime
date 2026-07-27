@@ -55,15 +55,20 @@ export function AdSenseContainer({
   slot,
   minHeight,
   format = "auto",
+  layout,
   className = "",
   label,
+  /** Fluid units (in-article, multiplex) must be allowed to grow. */
+  fluidHeight = false,
 }: {
   id: string;
   slot?: string;
   minHeight: number;
   format?: string;
+  layout?: string;
   className?: string;
   label?: string;
+  fluidHeight?: boolean;
 }) {
   const geo = useGeoTarget();
   const insRef = useRef<HTMLModElement | null>(null);
@@ -104,18 +109,23 @@ export function AdSenseContainer({
   return (
     <div
       className={`relative w-full overflow-hidden ${className}`}
-      style={{ minHeight, height: minHeight, contain: "layout size" }}
+      style={
+        fluidHeight
+          ? { minHeight, contain: "layout" }
+          : { minHeight, height: minHeight, contain: "layout size" }
+      }
       aria-label="advertisement"
       role="complementary"
     >
       <ins
         ref={insRef}
         id={id}
-        className="adsbygoogle block h-full w-full"
-        style={{ display: "block", width: "100%", height: "100%" }}
+        className="adsbygoogle block w-full"
+        style={{ display: "block", width: "100%", ...(fluidHeight ? {} : { height: "100%" }) }}
         data-ad-client={AD_CLIENT}
         data-ad-slot={slot ?? id}
         data-ad-format={format}
+        {...(layout ? { "data-ad-layout": layout } : {})}
         data-full-width-responsive="true"
         {...adTargetingAttributes(geo, id)}
       />
@@ -127,6 +137,7 @@ export function AdSenseContainer({
     </div>
   );
 }
+
 
 
 /**

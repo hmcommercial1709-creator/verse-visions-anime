@@ -133,7 +133,7 @@ function Home() {
           </div>
         </Section>
 
-<LazySection minHeight={620}>
+        <LazySection minHeight={620}>
           {/* FEATURED VIDEO TRAILER */}
           <Section
             eyebrow="Screening room"
@@ -191,7 +191,7 @@ function Home() {
           </div>
         </Section>
 
-<LazySection minHeight={520}>
+        <LazySection minHeight={520}>
           {/* ENGAGEMENT */}
           <Section
             eyebrow="Join in"
@@ -200,7 +200,7 @@ function Home() {
           >
             <EngagementWidget />
           </Section>
-</LazySection>
+        </LazySection>
 
         {/* GENRE MOSAIC */}
         <Section eyebrow="Every mood, every night" title="Browse by genre" subtitle="From tournament arcs to quiet grief, the medium is bigger than any single door.">
@@ -244,7 +244,7 @@ function Home() {
           </div>
         </Section>
 
-<LazySection minHeight={900}>
+        <LazySection minHeight={900}>
           {/* EDITORIAL FEED — infinite scroll */}
           <Section
             eyebrow="Editorial"
@@ -257,7 +257,7 @@ function Home() {
               <StickySidebarAd />
             </div>
           </Section>
-</LazySection>
+        </LazySection>
 
         {/* STUDIOS */}
         <Section eyebrow="The people behind the frames" title="Studios shaping the medium">

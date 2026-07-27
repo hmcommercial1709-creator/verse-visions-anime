@@ -12,6 +12,8 @@ import {
   PostContentAd,
   MultiplexAd,
   StickySidebarAd,
+  VideoAd,
+
 } from "@/components/ad-slot";
 import { planInArticleAds } from "@/lib/ads-layout";
 import { recommendArticles, articleAnimeRecs } from "@/lib/recommendations";

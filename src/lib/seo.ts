@@ -46,3 +46,34 @@ export function canonicalMeta(path: string) {
     meta: { property: "og:url", content: url },
   };
 }
+
+/** CollectionPage JSON-LD for listing/hub routes. */
+export function collectionSchema(opts: {
+  path: string;
+  name: string;
+  description: string;
+  items?: { path: string; name: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: opts.name,
+    description: opts.description,
+    url: absoluteUrl(opts.path),
+    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+    ...(opts.items && opts.items.length > 0
+      ? {
+          mainEntity: {
+            "@type": "ItemList",
+            numberOfItems: opts.items.length,
+            itemListElement: opts.items.map((it, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: it.name,
+              url: absoluteUrl(it.path),
+            })),
+          },
+        }
+      : {}),
+  };
+}

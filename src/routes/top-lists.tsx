@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { listArticles } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 
@@ -14,6 +15,12 @@ export const Route = createFileRoute("/top-lists")({
       { property: "og:description", content: "Rankings and best-ofs." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/top-lists" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/top-lists", name: 'Anime Top Lists & Rankings', description: 'Curated anime rankings and best-of lists by genre, decade and mood.' })),
+      },
+    ],
   }),
   component: () => {
     const list = listArticles("top-lists");

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { characters } from "@/data/characters";
 import { Breadcrumbs } from "@/components/ui-bits";
 
@@ -14,6 +15,12 @@ export const Route = createFileRoute("/characters")({
       { property: "og:description", content: "Browse the AnimeVerse character directory." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/characters" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/characters", name: 'Anime Character Directory', description: 'Biographies, powers, relationships and quotes for every major anime character.' })),
+      },
+    ],
   }),
   component: () => {
     return (

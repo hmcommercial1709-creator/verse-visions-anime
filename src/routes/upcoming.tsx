@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { animes } from "@/data/animes";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
@@ -15,6 +16,12 @@ export const Route = createFileRoute("/upcoming")({
       { property: "og:description", content: "What's next on the schedule." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/upcoming" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/upcoming", name: 'Upcoming Anime Release Calendar', description: 'Every anime with a confirmed release window: new seasons, sequels and adaptations.' })),
+      },
+    ],
   }),
   component: () => {
     const list = animes.filter(a => a.status === "Upcoming" || a.status === "Ongoing");

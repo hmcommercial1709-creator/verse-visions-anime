@@ -192,8 +192,6 @@ function RootComponent() {
           <Outlet />
         </main>
         <SiteFooter />
-        <div className="h-16 lg:hidden" aria-hidden />
-        <MobileAnchorAd />
         <DeferredScripts />
       </div>
     </QueryClientProvider>

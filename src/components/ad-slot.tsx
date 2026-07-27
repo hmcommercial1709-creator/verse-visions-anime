@@ -176,7 +176,7 @@ function RefreshingUnit({
 /** Responsive header leaderboard that sits directly under the sticky nav. */
 export function HeaderBannerAd() {
   return (
-    <div className="sticky top-[68px] z-30 border-y border-border/50 bg-background/85 backdrop-blur-md">
+    <div className="border-y border-border/50 bg-background/85">
       <div className="mx-auto max-w-7xl px-4 py-2 lg:px-6">
         <RefreshingUnit
           slotKind="header"

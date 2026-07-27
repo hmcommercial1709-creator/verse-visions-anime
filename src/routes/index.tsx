@@ -4,7 +4,7 @@ import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { articles } from "@/data/articles";
 import { AnimeCard, AnimePoster } from "@/components/anime-card";
-import { AdSlot, HeaderBannerAd, StickySidebarAd } from "@/components/ad-slot";
+import { AdSlot, HeaderBannerAd, MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { AnimeHero } from "@/components/anime-hero";
@@ -257,7 +257,9 @@ function Home() {
               <StickySidebarAd />
             </div>
           </Section>
+          <MultiplexAd title="More from AnimeVerse" />
         </LazySection>
+
 
         {/* STUDIOS */}
         <Section eyebrow="The people behind the frames" title="Studios shaping the medium">

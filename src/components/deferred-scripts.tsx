@@ -21,11 +21,9 @@ const TAGS: Tag[] = [
     inline:
       "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-LETSF76JTN');",
   },
-  {
-    id: "adsense",
-    src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
-    crossOrigin: "anonymous",
-  },
+  // NOTE: the AdSense loader is intentionally NOT here — it ships in the
+  // document head (src/routes/__root.tsx) so Auto Ads can run on every page.
+
   {
     id: "cf-beacon",
     type: "module",

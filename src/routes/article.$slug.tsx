@@ -10,6 +10,7 @@ import {
   HeaderBannerAd,
   InArticleAd,
   PostContentAd,
+  MultiplexAd,
   StickySidebarAd,
 } from "@/components/ad-slot";
 import { planInArticleAds } from "@/lib/ads-layout";
@@ -386,6 +387,7 @@ function ArticlePage() {
 
             {/* Post-article banner (Post_Content_Ad) */}
             <PostContentAd />
+            <MultiplexAd />
 
             {/* Reader discussion */}
             <ArticleComments slug={a.slug} />

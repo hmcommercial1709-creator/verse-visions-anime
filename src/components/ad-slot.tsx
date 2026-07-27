@@ -55,15 +55,20 @@ export function AdSenseContainer({
   slot,
   minHeight,
   format = "auto",
+  layout,
   className = "",
   label,
+  /** Fluid units (in-article, multiplex) must be allowed to grow. */
+  fluidHeight = false,
 }: {
   id: string;
   slot?: string;
   minHeight: number;
   format?: string;
+  layout?: string;
   className?: string;
   label?: string;
+  fluidHeight?: boolean;
 }) {
   const geo = useGeoTarget();
   const insRef = useRef<HTMLModElement | null>(null);
@@ -104,18 +109,23 @@ export function AdSenseContainer({
   return (
     <div
       className={`relative w-full overflow-hidden ${className}`}
-      style={{ minHeight, height: minHeight, contain: "layout size" }}
+      style={
+        fluidHeight
+          ? { minHeight, contain: "layout" }
+          : { minHeight, height: minHeight, contain: "layout size" }
+      }
       aria-label="advertisement"
       role="complementary"
     >
       <ins
         ref={insRef}
         id={id}
-        className="adsbygoogle block h-full w-full"
-        style={{ display: "block", width: "100%", height: "100%" }}
+        className="adsbygoogle block w-full"
+        style={{ display: "block", width: "100%", ...(fluidHeight ? {} : { height: "100%" }) }}
         data-ad-client={AD_CLIENT}
         data-ad-slot={slot ?? id}
         data-ad-format={format}
+        {...(layout ? { "data-ad-layout": layout } : {})}
         data-full-width-responsive="true"
         {...adTargetingAttributes(geo, id)}
       />
@@ -129,6 +139,7 @@ export function AdSenseContainer({
 }
 
 
+
 /**
  * Wraps any AdSense container with its own independent viewability-gated
  * refresh cycle (45s of accumulated in-view time, paused off-screen/off-tab).
@@ -139,6 +150,8 @@ function RefreshingUnit({
   prefix,
   minHeight,
   format,
+  layout,
+  fluidHeight,
   label,
   className,
 }: {
@@ -147,6 +160,8 @@ function RefreshingUnit({
   prefix: string;
   minHeight: number;
   format?: string;
+  layout?: string;
+  fluidHeight?: boolean;
   label?: string;
   className?: string;
 }) {
@@ -166,12 +181,82 @@ function RefreshingUnit({
         slot={unitId}
         minHeight={minHeight}
         format={format}
+        layout={layout}
+        fluidHeight={fluidHeight}
         label={label}
         className={className}
       />
     </div>
   );
 }
+
+/**
+ * Multiplex / "matched content" grid — high-yield recirculation unit meant to
+ * sit at the end of long pages, below the article body or feed.
+ */
+export function MultiplexAd({
+  adId = "Multiplex_Ad",
+  prefix = "av-multiplex",
+  title = "You may also like",
+  className = "",
+}: {
+  adId?: string;
+  prefix?: string;
+  title?: string;
+  className?: string;
+}) {
+  return (
+    <section className={`mt-12 ${className}`} aria-label="Sponsored recommendations">
+      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+        <span>{title}</span>
+        <span>Advertisement</span>
+      </div>
+      <RefreshingUnit
+        slotKind="multiplex"
+        adId={adId}
+        prefix={prefix}
+        minHeight={320}
+        format="autorelaxed"
+        fluidHeight
+        label={`${adId} · matched content`}
+        className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+      />
+    </section>
+  );
+}
+
+/**
+ * Generic responsive display unit for grid/listing pages. Google picks the
+ * best size within the reserved box, so the layout never shifts.
+ */
+export function DisplayAd({
+  adId,
+  prefix = "av-display",
+  minHeight = 280,
+  label,
+  className = "",
+}: {
+  adId: string;
+  prefix?: string;
+  minHeight?: number;
+  label?: string;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <RefreshingUnit
+        slotKind="display"
+        adId={adId}
+        prefix={prefix}
+        minHeight={minHeight}
+        format="auto"
+        label={label ?? `${adId} · responsive`}
+        className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+      />
+    </div>
+  );
+}
+
 
 /** Responsive header leaderboard that sits directly under the sticky nav. */
 export function HeaderBannerAd() {
@@ -257,10 +342,13 @@ export function InArticleAd({
         key={refreshKey}
         id={containerId}
         slot={id}
-        minHeight={128}
+        minHeight={200}
         format="fluid"
+        layout="in-article"
+        fluidHeight
         label={`${containerId} · native`}
       />
+
     </aside>
   );
 }

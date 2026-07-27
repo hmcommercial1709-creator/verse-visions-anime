@@ -93,6 +93,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "monetag", content: "348a180a6837274a1caffc015dd1769f" },
+      { name: "google-adsense-account", content: "ca-pub-6422431093727588" },
+
       { name: "theme-color", content: "#12081b" },
       { property: "og:title", content: "AnimeVerse | The Ultimate Anime & Gaming Authority" },
       { name: "twitter:title", content: "AnimeVerse | Global Anime & Gaming Hub" },
@@ -115,8 +117,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 
     scripts: [
-      // Analytics + ad tags are injected on idle by <DeferredScripts /> so they
-      // never block first paint.
+      // Global AdSense loader (Auto Ads). Loaded from the document head so
+      // Google can place auto-ads on every page; `async` keeps it off the
+      // critical path. All other third-party tags are injected on idle by
+      // <DeferredScripts />.
+      {
+        async: true,
+        crossOrigin: "anonymous",
+        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
+      },
+
 
 
 

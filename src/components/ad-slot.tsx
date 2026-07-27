@@ -342,10 +342,13 @@ export function InArticleAd({
         key={refreshKey}
         id={containerId}
         slot={id}
-        minHeight={128}
+        minHeight={200}
         format="fluid"
+        layout="in-article"
+        fluidHeight
         label={`${containerId} · native`}
       />
+
     </aside>
   );
 }

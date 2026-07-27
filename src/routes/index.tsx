@@ -250,7 +250,7 @@ function Home() {
             eyebrow="Editorial"
             title="From the writers' room"
             subtitle="Reviews, essays, and guides that go past the first episode — keep scrolling for more."
-            action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">All editorial <ArrowRight className="h-3 w-3" /></Link>}
+            action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">Read all editorial features <ArrowRight className="h-3 w-3" /></Link>}
           >
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
               <InfiniteArticleFeed items={feedArticles} />

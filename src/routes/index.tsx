@@ -13,6 +13,7 @@ import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
 import { LatestEpisodesSection } from "@/components/episode-streaming";
 import { InfiniteArticleFeed } from "@/components/article-feed";
+import { LazySection } from "@/components/lazy-section";
 import { MediaImage, VideoEmbed } from "@/components/media";
 import { backdrops, backdropFor, posterFor, artAlt } from "@/lib/media";
 import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
@@ -132,48 +133,50 @@ function Home() {
           </div>
         </Section>
 
-        {/* FEATURED VIDEO TRAILER */}
-        <Section
-          eyebrow="Screening room"
-          title="Featured video: this season's must-watch cut"
-          subtitle="Our editors' pick of the trailer worth breaking down frame by frame — plus the reads that go deeper."
-        >
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-            <VideoEmbed
-              art={backdrops.trailer}
-              title="AnimeVerse Screening Room — Season Trailer Breakdown"
-              subtitle="Editors' cut · animation direction, sakuga highlights, and what the framing spoils"
-              searchQuery="jujutsu kaisen official trailer"
-            />
-            <div className="space-y-3">
-              {spotlightArticles.map((a) => (
-                <Link
-                  key={a.slug}
-                  to="/article/$slug"
-                  params={{ slug: a.slug }}
-                  className="group grid grid-cols-[96px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-border/60 bg-card/40 p-3 hover:border-primary/50"
-                >
-                  <MediaImage
-                    art={backdropFor(a.slug, [a.title, a.tag])}
-                    alt={artAlt(a.title)}
-                    ratio="16/9"
-                    className="rounded-lg"
-                    sizes="96px"
-                    overlay={false}
-                  />
-                  <span className="min-w-0">
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">{a.tag}</span>
-                    <span className="mt-1 block font-display text-sm font-bold leading-snug group-hover:text-gradient">
-                      {a.title}
+<LazySection minHeight={620}>
+          {/* FEATURED VIDEO TRAILER */}
+          <Section
+            eyebrow="Screening room"
+            title="Featured video: this season's must-watch cut"
+            subtitle="Our editors' pick of the trailer worth breaking down frame by frame — plus the reads that go deeper."
+          >
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+              <VideoEmbed
+                art={backdrops.trailer}
+                title="AnimeVerse Screening Room — Season Trailer Breakdown"
+                subtitle="Editors' cut · animation direction, sakuga highlights, and what the framing spoils"
+                searchQuery="jujutsu kaisen official trailer"
+              />
+              <div className="space-y-3">
+                {spotlightArticles.map((a) => (
+                  <Link
+                    key={a.slug}
+                    to="/article/$slug"
+                    params={{ slug: a.slug }}
+                    className="group grid grid-cols-[96px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-border/60 bg-card/40 p-3 hover:border-primary/50"
+                  >
+                    <MediaImage
+                      art={backdropFor(a.slug, [a.title, a.tag])}
+                      alt={artAlt(a.title)}
+                      ratio="16/9"
+                      className="rounded-lg"
+                      sizes="96px"
+                      overlay={false}
+                    />
+                    <span className="min-w-0">
+                      <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">{a.tag}</span>
+                      <span className="mt-1 block font-display text-sm font-bold leading-snug group-hover:text-gradient">
+                        {a.title}
+                      </span>
                     </span>
-                  </span>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        </Section>
+          </Section>
 
-        <AdSlot placement="between" label="Native · Sponsored" />
+          <AdSlot placement="between"
+</LazySection> label="Native · Sponsored" />
 
 
         {/* TRENDING NOW */}
@@ -188,14 +191,16 @@ function Home() {
           </div>
         </Section>
 
-        {/* ENGAGEMENT */}
-        <Section
-          eyebrow="Join in"
-          title="Vote, argue, find your sorcerer"
-          subtitle="Two quick interactions our readers keep coming back for."
-        >
-          <EngagementWidget />
-        </Section>
+<LazySection minHeight={520}>
+          {/* ENGAGEMENT */}
+          <Section
+            eyebrow="Join in"
+            title="Vote, argue, find your sorcerer"
+            subtitle="Two quick interactions our readers keep coming back for."
+          >
+            <EngagementWidget />
+          </Section>
+</LazySection>
 
         {/* GENRE MOSAIC */}
         <Section eyebrow="Every mood, every night" title="Browse by genre" subtitle="From tournament arcs to quiet grief, the medium is bigger than any single door.">
@@ -239,18 +244,20 @@ function Home() {
           </div>
         </Section>
 
-        {/* EDITORIAL FEED — infinite scroll */}
-        <Section
-          eyebrow="Editorial"
-          title="From the writers' room"
-          subtitle="Reviews, essays, and guides that go past the first episode — keep scrolling for more."
-          action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">All editorial <ArrowRight className="h-3 w-3" /></Link>}
-        >
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-            <InfiniteArticleFeed items={feedArticles} />
-            <StickySidebarAd />
-          </div>
-        </Section>
+<LazySection minHeight={900}>
+          {/* EDITORIAL FEED — infinite scroll */}
+          <Section
+            eyebrow="Editorial"
+            title="From the writers' room"
+            subtitle="Reviews, essays, and guides that go past the first episode — keep scrolling for more."
+            action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">All editorial <ArrowRight className="h-3 w-3" /></Link>}
+          >
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+              <InfiniteArticleFeed items={feedArticles} />
+              <StickySidebarAd />
+            </div>
+          </Section>
+</LazySection>
 
         {/* STUDIOS */}
         <Section eyebrow="The people behind the frames" title="Studios shaping the medium">

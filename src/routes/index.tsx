@@ -257,7 +257,9 @@ function Home() {
               <StickySidebarAd />
             </div>
           </Section>
+          <MultiplexAd title="More from AnimeVerse" />
         </LazySection>
+
 
         {/* STUDIOS */}
         <Section eyebrow="The people behind the frames" title="Studios shaping the medium">

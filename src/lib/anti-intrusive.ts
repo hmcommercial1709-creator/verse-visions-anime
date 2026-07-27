@@ -1,17 +1,18 @@
 import { useEffect } from "react";
 
 /**
- * Deceptive-overlay guard (client-side).
+ * No-popup ad policy (client-side).
  *
- * Scope is intentionally narrow: our monetization networks (Google AdSense and
- * Monetag) run completely untouched — including Monetag popunders, interstitials
- * and push-notification prompts configured from their dashboard.
+ * Monetization is strictly in-page: display, in-feed, in-article and video
+ * units. Anything that leaves the page flow is blocked:
+ *  - popups / popunders (`window.open` from third-party scripts)
+ *  - full-screen interstitial or screen-hugging foreign overlays
+ *  - push-notification permission prompts
+ *  - deceptive creatives ("Your download is ready", fake virus alerts)
  *
- * The only thing removed is *fake* UI: overlays that impersonate the site or the
- * browser ("Your download is ready", "Click Allow to continue", fake virus /
- * system alerts, fake close buttons). Those are not real ad formats, they are
- * scam creatives, and they hurt both users and account standing.
+ * AdSense in-page units and our own UI are never touched.
  */
+
 
 /** Elements the app itself owns and must never be removed. */
 const OWNED_SELECTOR =

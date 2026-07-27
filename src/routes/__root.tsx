@@ -129,6 +129,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
         crossOrigin: "anonymous",
       },
+      {
+        type: "module",
+        src: "https://static.cloudflareinsights.com/beacon.min.js",
+        "data-cf-beacon": '{"token": "c56a7a14c83d442c9d5e830751558e64"}',
+      },
 
 
 

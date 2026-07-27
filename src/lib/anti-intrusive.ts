@@ -1,44 +1,39 @@
 import { useEffect } from "react";
 
 /**
- * Anti-intrusive ad policy enforcement (client-side).
+ * Deceptive-overlay guard (client-side).
  *
- * Guarantees, regardless of what any third-party tag tries to do:
- *  - no popunders / pop-ups: window.open is neutralised unless the call comes
- *    from a real user gesture on a first-party link;
- *  - no full-screen interstitials or screen-blockers: fixed/absolute overlays
- *    that cover most of the viewport and are not owned by the app are removed;
- *  - no injected ad-network scripts from hosts outside the allowlist.
+ * Scope is intentionally narrow: our monetization networks (Google AdSense and
+ * Monetag) run completely untouched — including Monetag popunders, interstitials
+ * and push-notification prompts configured from their dashboard.
  *
- * Everything first-party (AdSense in-page units, GA4) keeps working. Removing
- * blockers instead of hiding them keeps Core Web Vitals clean (no CLS, no
- * long-lived layers blocking INP).
+ * The only thing removed is *fake* UI: overlays that impersonate the site or the
+ * browser ("Your download is ready", "Click Allow to continue", fake virus /
+ * system alerts, fake close buttons). Those are not real ad formats, they are
+ * scam creatives, and they hurt both users and account standing.
  */
 
-/** Script hosts allowed to load. Anything else is blocked before it runs. */
-const ALLOWED_SCRIPT_HOSTS = [
-  "googletagmanager.com",
-  "google-analytics.com",
-  "googlesyndication.com",
-  "doubleclick.net",
-  "gstatic.com",
-  "youtube.com",
-  "youtube-nocookie.com",
-  "ytimg.com",
-];
-
 /** Elements the app itself owns and must never be removed. */
-const OWNED_SELECTOR = "[data-app-overlay], [data-radix-portal], [data-sonner-toaster], [data-ad-slot], ins.adsbygoogle";
+const OWNED_SELECTOR =
+  "[data-app-overlay], [data-radix-portal], [data-sonner-toaster], [data-ad-slot], ins.adsbygoogle";
 
-function hostAllowed(src: string): boolean {
-  try {
-    const { hostname } = new URL(src, window.location.href);
-    if (hostname === window.location.hostname) return true;
-    return ALLOWED_SCRIPT_HOSTS.some((h) => hostname === h || hostname.endsWith(`.${h}`));
-  } catch {
-    return false;
-  }
-}
+/**
+ * Text signatures of deceptive creatives. Matched case-insensitively against the
+ * overlay's own text. Legitimate ad creatives never say these things in the
+ * page's own DOM (real ads live inside cross-origin iframes we cannot read).
+ */
+const DECEPTIVE_PATTERNS: RegExp[] = [
+  /your\s+download\s+(is\s+)?ready/i,
+  /download\s+(is\s+)?ready/i,
+  /(file|video)\s+is\s+ready/i,
+  /click\s+(here\s+)?(to\s+)?(allow|continue|download)/i,
+  /press\s+["“]?allow["”]?/i,
+  /(your\s+)?(pc|device|phone|system)\s+is\s+infected/i,
+  /virus\s+detected/i,
+  /(win|won)\s+a\s+(free\s+)?(prize|iphone|gift)/i,
+  /you\s+are\s+the\s+winner/i,
+  /update\s+your\s+(flash|player|browser)/i,
+];
 
 /** True when the node lives outside the React app root (i.e. injected by a third party). */
 function isForeign(el: HTMLElement): boolean {
@@ -46,77 +41,35 @@ function isForeign(el: HTMLElement): boolean {
   return !appRoot || !appRoot.contains(el);
 }
 
-function isScreenBlocker(el: HTMLElement): boolean {
+/**
+ * A fake overlay = third-party, visible, floating/covering layer whose *own*
+ * readable text matches a known scam pattern. Anything without that text is left
+ * alone so real network creatives keep serving.
+ */
+function isFakeOverlay(el: HTMLElement): boolean {
   if (el.closest(OWNED_SELECTOR)) return false;
+  if (!isForeign(el)) return false;
+
   const style = window.getComputedStyle(el);
   if (style.position !== "fixed" && style.position !== "absolute") return false;
-  if (style.visibility === "hidden" || style.display === "none") return false;
-  const rect = el.getBoundingClientRect();
-  const coversViewport =
-    rect.width >= window.innerWidth * 0.85 && rect.height >= window.innerHeight * 0.7;
-  const highLayer = Number(style.zIndex || 0) >= 2147483000;
-  if (coversViewport && (highLayer || style.position === "fixed")) return true;
+  if (style.visibility === "hidden" || style.display === "none" || style.opacity === "0") return false;
 
-  // Floating / anchor banners and fake notification prompts: third-party fixed
-  // elements glued to a viewport edge. App-owned UI is never touched.
-  if (style.position !== "fixed" || !isForeign(el)) return false;
-  if (rect.width < 40 || rect.height < 20) return false;
-  const nearBottom = window.innerHeight - rect.bottom <= 8;
-  const nearTop = rect.top <= 8;
-  const nearSide = rect.left <= 8 || window.innerWidth - rect.right <= 8;
-  return nearBottom || nearSide || (nearTop && rect.height <= window.innerHeight * 0.4);
+  const rect = el.getBoundingClientRect();
+  if (rect.width < 80 || rect.height < 40) return false;
+
+  const text = (el.textContent ?? "").slice(0, 600);
+  if (!text.trim()) return false;
+
+  return DECEPTIVE_PATTERNS.some((re) => re.test(text));
 }
 
 export function enforceNonIntrusiveAds(): () => void {
   if (typeof window === "undefined") return () => {};
 
-  // 1. Block pop-ups / popunders that are not a direct first-party user action.
-  const nativeOpen = window.open.bind(window);
-  let gestureUntil = 0;
-  const markGesture = (e: Event) => {
-    const target = e.target as HTMLElement | null;
-    if (target?.closest("a[target='_blank'], [data-allow-popup]")) gestureUntil = Date.now() + 800;
-  };
-  document.addEventListener("click", markGesture, true);
-  window.open = ((...args: Parameters<typeof window.open>) => {
-    if (Date.now() < gestureUntil) return nativeOpen(...args);
-    return null;
-  }) as typeof window.open;
-
-  // 1b. Never let anything raise a push-notification permission prompt, and
-  //     neutralise fake "your download is ready" style system notifications.
-  let restoreNotification: (() => void) | undefined;
-  const N = (window as unknown as { Notification?: typeof Notification }).Notification;
-  if (N && typeof N.requestPermission === "function") {
-    const nativeRequest = N.requestPermission.bind(N);
-    N.requestPermission = ((cb?: NotificationPermissionCallback) => {
-      cb?.("denied");
-      return Promise.resolve("denied" as NotificationPermission);
-    }) as typeof Notification.requestPermission;
-    restoreNotification = () => {
-      N.requestPermission = nativeRequest;
-    };
-  }
-
-  let restorePush: (() => void) | undefined;
-  const pushProto = (window as unknown as { PushManager?: { prototype?: PushManager } }).PushManager?.prototype;
-  if (pushProto?.subscribe) {
-    const nativeSubscribe = pushProto.subscribe;
-    pushProto.subscribe = (() => Promise.reject(new Error("Push subscriptions are disabled"))) as typeof pushProto.subscribe;
-    restorePush = () => {
-      pushProto.subscribe = nativeSubscribe;
-    };
-  }
-
-  // 2. Remove injected scripts from non-allowlisted hosts + screen blockers.
   const sweep = (root: ParentNode) => {
-    root.querySelectorAll?.("script[src]").forEach((node) => {
-      const src = (node as HTMLScriptElement).src;
-      if (src && !hostAllowed(src)) node.remove();
-    });
-    root.querySelectorAll?.("body > div, body > iframe, body > section").forEach((node) => {
+    root.querySelectorAll?.("body > div, body > iframe, body > section, div, section").forEach((node) => {
       const el = node as HTMLElement;
-      if (isScreenBlocker(el)) el.remove();
+      if (isFakeOverlay(el)) el.remove();
     });
   };
 
@@ -124,14 +77,7 @@ export function enforceNonIntrusiveAds(): () => void {
     for (const record of records) {
       record.addedNodes.forEach((node) => {
         if (!(node instanceof HTMLElement)) return;
-        if (node.tagName === "SCRIPT") {
-          const src = (node as HTMLScriptElement).src;
-          if (src && !hostAllowed(src)) {
-            node.remove();
-            return;
-          }
-        }
-        if (isScreenBlocker(node)) {
+        if (isFakeOverlay(node)) {
           node.remove();
           return;
         }
@@ -142,13 +88,7 @@ export function enforceNonIntrusiveAds(): () => void {
   observer.observe(document.documentElement, { childList: true, subtree: true });
   sweep(document);
 
-  return () => {
-    observer.disconnect();
-    document.removeEventListener("click", markGesture, true);
-    window.open = nativeOpen;
-    restoreNotification?.();
-    restorePush?.();
-  };
+  return () => observer.disconnect();
 }
 
 /** Mount once, at the app root. */

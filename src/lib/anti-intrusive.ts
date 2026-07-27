@@ -46,10 +46,19 @@ function isScreenBlocker(el: HTMLElement): boolean {
   if (style.position !== "fixed" && style.position !== "absolute") return false;
   if (style.visibility === "hidden" || style.display === "none") return false;
   const rect = el.getBoundingClientRect();
+  if (rect.width < 40 || rect.height < 20) return false;
   const coversViewport =
     rect.width >= window.innerWidth * 0.85 && rect.height >= window.innerHeight * 0.7;
   const highLayer = Number(style.zIndex || 0) >= 2147483000;
-  return coversViewport && (highLayer || style.position === "fixed");
+  if (coversViewport && (highLayer || style.position === "fixed")) return true;
+
+  // Floating / anchor banners: any third-party fixed element glued to an edge
+  // of the viewport (bottom bars, side stickies, notification-style toasts).
+  if (style.position !== "fixed") return false;
+  const nearBottom = window.innerHeight - rect.bottom <= 8;
+  const nearTop = rect.top <= 8;
+  const nearSide = rect.left <= 8 || window.innerWidth - rect.right <= 8;
+  return nearBottom || nearSide || (nearTop && rect.height <= window.innerHeight * 0.4);
 }
 
 export function enforceNonIntrusiveAds(): () => void {

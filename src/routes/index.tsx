@@ -32,7 +32,7 @@ export const Route = createFileRoute("/")({
     meta: [
       { name: "twitter:card", content: "summary_large_image" },
       { title: "AnimeVerse | Ultimate Anime Hub, Guides, and Character Database" },
-      { name: "description", content: "Explore the ultimate anime universe with daily updates, character guides, interactive tools, and massive gaming content. Join millions of fans worldwide for free!" },
+      { name: "description", content: "Anime reviews, character deep-dives, watch orders, episode recaps and seasonal guides — updated daily by the AnimeVerse editorial team." },
       { property: "og:title", content: "AnimeVerse | The Ultimate Anime & Gaming Authority" },
       { property: "og:description", content: "Discover breaking anime news, guides, and interactive tools. Join millions of global fans today!" },
       { property: "og:type", content: "website" },

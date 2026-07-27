@@ -115,8 +115,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 
     scripts: [
-      // Analytics + ad tags are injected on idle by <DeferredScripts /> so they
-      // never block first paint.
+      // Global AdSense loader (Auto Ads). Loaded from the document head so
+      // Google can place auto-ads on every page; `async` keeps it off the
+      // critical path. All other third-party tags are injected on idle by
+      // <DeferredScripts />.
+      {
+        async: true,
+        crossOrigin: "anonymous",
+        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
+      },
+
 
 
 

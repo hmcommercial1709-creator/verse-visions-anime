@@ -40,21 +40,27 @@ function hostAllowed(src: string): boolean {
   }
 }
 
+/** True when the node lives outside the React app root (i.e. injected by a third party). */
+function isForeign(el: HTMLElement): boolean {
+  const appRoot = document.getElementById("root") ?? document.querySelector("main")?.parentElement;
+  return !appRoot || !appRoot.contains(el);
+}
+
 function isScreenBlocker(el: HTMLElement): boolean {
   if (el.closest(OWNED_SELECTOR)) return false;
   const style = window.getComputedStyle(el);
   if (style.position !== "fixed" && style.position !== "absolute") return false;
   if (style.visibility === "hidden" || style.display === "none") return false;
   const rect = el.getBoundingClientRect();
-  if (rect.width < 40 || rect.height < 20) return false;
   const coversViewport =
     rect.width >= window.innerWidth * 0.85 && rect.height >= window.innerHeight * 0.7;
   const highLayer = Number(style.zIndex || 0) >= 2147483000;
   if (coversViewport && (highLayer || style.position === "fixed")) return true;
 
-  // Floating / anchor banners: any third-party fixed element glued to an edge
-  // of the viewport (bottom bars, side stickies, notification-style toasts).
-  if (style.position !== "fixed") return false;
+  // Floating / anchor banners and fake notification prompts: third-party fixed
+  // elements glued to a viewport edge. App-owned UI is never touched.
+  if (style.position !== "fixed" || !isForeign(el)) return false;
+  if (rect.width < 40 || rect.height < 20) return false;
   const nearBottom = window.innerHeight - rect.bottom <= 8;
   const nearTop = rect.top <= 8;
   const nearSide = rect.left <= 8 || window.innerWidth - rect.right <= 8;

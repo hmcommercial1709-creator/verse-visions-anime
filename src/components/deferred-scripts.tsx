@@ -24,6 +24,14 @@ const TAGS: Tag[] = [
   // NOTE: the AdSense loader is intentionally NOT here — it ships in the
   // document head (src/routes/__root.tsx) so Auto Ads can run on every page.
 
+  // Monetag — clean OnClick tag (zone 11411597). Replaces the old MultiTag
+  // (zone 11410812), which was what served the Vignette / interstitial popup.
+  {
+    id: "monetag-onclick",
+    src: "https://fpyf8.com/88/tag.min.js",
+    attrs: { "data-zone": "11411597", "data-cfasync": "false" },
+  },
+
   {
     id: "cf-beacon",
     type: "module",
@@ -31,6 +39,7 @@ const TAGS: Tag[] = [
     attrs: { "data-cf-beacon": '{"token": "c56a7a14c83d442c9d5e830751558e64"}' },
   },
 ];
+
 
 function injectAll() {
   for (const tag of TAGS) {

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { studios } from "@/data/studios";
 import { Breadcrumbs } from "@/components/ui-bits";
 
@@ -14,6 +15,12 @@ export const Route = createFileRoute("/studios")({
       { property: "og:description", content: "Every major studio, profiled." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/studios" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/studios", name: 'Anime Studio Profiles', description: "Histories, notable works and staff behind the world's leading anime studios." })),
+      },
+    ],
   }),
   component: () => (
     <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">

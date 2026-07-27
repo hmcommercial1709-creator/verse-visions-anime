@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { listArticles } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
@@ -15,6 +16,12 @@ export const Route = createFileRoute("/reviews")({
       { property: "og:description", content: "Long-form editorial reviews." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/reviews" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/reviews", name: 'Anime Reviews', description: 'Long-form anime reviews from the AnimeVerse editorial team.' })),
+      },
+    ],
   }),
   component: () => {
     const list = listArticles("reviews");

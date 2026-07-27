@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { listArticles } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 
@@ -14,6 +15,12 @@ export const Route = createFileRoute("/editorial")({
       { property: "og:description", content: "Essays and analysis." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/editorial" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/editorial", name: 'AnimeVerse Editorial', description: "Essays, analysis and features from the AnimeVerse writers' room." })),
+      },
+    ],
   }),
   component: () => {
     const list = listArticles("editorial");

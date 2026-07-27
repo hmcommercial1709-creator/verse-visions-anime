@@ -36,7 +36,7 @@ export function AnimeCard({ anime, size = "md" }: { anime: Anime; size?: "sm" | 
           {anime.rating.toFixed(1)}
         </div>
         <div className="absolute inset-x-0 bottom-0 p-3">
-          <div className="text-[10px] uppercase tracking-[0.18em] text-white/70">{anime.year} · {anime.studio}</div>
+          <div className="text-[10px] uppercase tracking-[0.18em] text-white/90">{anime.year} · {anime.studio}</div>
           <div className="font-display text-lg font-bold text-white leading-tight group-hover:text-gradient">
             {anime.title}
           </div>
@@ -60,7 +60,7 @@ export function AnimePoster({ anime }: { anime: Anime }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-2.5">
-          <div className="text-[9px] uppercase tracking-widest text-white/70">{anime.year}</div>
+          <div className="text-[9px] uppercase tracking-widest text-white/90">{anime.year}</div>
           <div className="font-display text-sm font-bold text-white leading-tight line-clamp-2">{anime.title}</div>
         </div>
       </div>

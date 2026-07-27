@@ -44,6 +44,7 @@ import { Route as NewsRouteImport } from './routes/news'
 import { Route as NewReleasesRouteImport } from './routes/new-releases'
 import { Route as MerchRouteImport } from './routes/merch'
 import { Route as MangaSpoilersRouteImport } from './routes/manga-spoilers'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as GenresRouteImport } from './routes/genres'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -249,6 +250,11 @@ const MangaSpoilersRoute = MangaSpoilersRouteImport.update({
   path: '/manga-spoilers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesRoute = GuidesRouteImport.update({
   id: '/guides',
   path: '/guides',
@@ -416,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
@@ -482,6 +489,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
@@ -549,6 +557,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
   '/new-releases': typeof NewReleasesRoute
@@ -617,6 +626,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/genres'
     | '/guides'
+    | '/llms.txt'
     | '/manga-spoilers'
     | '/merch'
     | '/new-releases'
@@ -683,6 +693,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/genres'
     | '/guides'
+    | '/llms.txt'
     | '/manga-spoilers'
     | '/merch'
     | '/new-releases'
@@ -749,6 +760,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/genres'
     | '/guides'
+    | '/llms.txt'
     | '/manga-spoilers'
     | '/merch'
     | '/new-releases'
@@ -816,6 +828,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   GenresRoute: typeof GenresRoute
   GuidesRoute: typeof GuidesRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   MangaSpoilersRoute: typeof MangaSpoilersRoute
   MerchRoute: typeof MerchRoute
   NewReleasesRoute: typeof NewReleasesRoute
@@ -1109,6 +1122,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MangaSpoilersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides': {
       id: '/guides'
       path: '/guides'
@@ -1336,6 +1356,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   GenresRoute: GenresRoute,
   GuidesRoute: GuidesRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   MangaSpoilersRoute: MangaSpoilersRoute,
   MerchRoute: MerchRoute,
   NewReleasesRoute: NewReleasesRoute,

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { useState, useMemo } from "react";
 import { animes } from "@/data/animes";
 import { genres } from "@/data/genres";
@@ -19,6 +20,12 @@ export const Route = createFileRoute("/browse")({
       { property: "og:description", content: "The AnimeVerse anime library. Filter, sort, and discover." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/browse" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/browse", name: 'All Anime — AnimeVerse Library', description: 'Filter the full AnimeVerse anime library by genre, year, studio, status and rating.' })),
+      },
+    ],
   }),
   component: Browse,
 });

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { genres } from "@/data/genres";
 import { Breadcrumbs } from "@/components/ui-bits";
 
@@ -14,6 +15,12 @@ export const Route = createFileRoute("/genres")({
       { property: "og:description", content: "Every mood, every night." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/genres" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/genres", name: 'Anime Genres Directory', description: 'Every anime genre covered by AnimeVerse, from action and isekai to slice-of-life.' })),
+      },
+    ],
   }),
   component: () => (
     <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">

@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://gamecastle.store/sitemap.xml
+
+# AI assistants: machine-readable site guide
+# https://gamecastle.store/llms.txt

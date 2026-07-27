@@ -32,7 +32,7 @@ export const Route = createFileRoute("/")({
     meta: [
       { name: "twitter:card", content: "summary_large_image" },
       { title: "AnimeVerse | Ultimate Anime Hub, Guides, and Character Database" },
-      { name: "description", content: "Explore the ultimate anime universe with daily updates, character guides, interactive tools, and massive gaming content. Join millions of fans worldwide for free!" },
+      { name: "description", content: "Anime reviews, character deep-dives, watch orders, episode recaps and seasonal guides — updated daily by the AnimeVerse editorial team." },
       { property: "og:title", content: "AnimeVerse | The Ultimate Anime & Gaming Authority" },
       { property: "og:description", content: "Discover breaking anime news, guides, and interactive tools. Join millions of global fans today!" },
       { property: "og:type", content: "website" },
@@ -116,7 +116,7 @@ function Home() {
           eyebrow="Franchise hubs"
           title="Deep coverage, one series at a time"
           subtitle="Lore, power scaling, watch orders, and episode reviews — switch tabs without leaving the page."
-          action={<Link to="/browse" className="text-sm text-primary hover:underline flex items-center gap-1">All franchises <ArrowRight className="h-3 w-3" /></Link>}
+          action={<Link to="/browse" className="text-sm text-primary hover:underline flex items-center gap-1">Browse all anime franchises <ArrowRight className="h-3 w-3" /></Link>}
         >
           <FranchiseHubs items={hubs} />
         </Section>
@@ -184,7 +184,7 @@ function Home() {
           eyebrow="What people are watching"
           title="Trending this week"
           subtitle="The shows dominating discussion, streaming charts, and our editors' group chat."
-          action={<Link to="/trending" className="text-sm text-primary hover:underline flex items-center gap-1">See all <ArrowRight className="h-3 w-3" /></Link>}
+          action={<Link to="/trending" className="text-sm text-primary hover:underline flex items-center gap-1">See all trending anime <ArrowRight className="h-3 w-3" /></Link>}
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {trending.map((a) => <AnimeCard key={a.slug} anime={a} size="md" />)}
@@ -250,7 +250,7 @@ function Home() {
             eyebrow="Editorial"
             title="From the writers' room"
             subtitle="Reviews, essays, and guides that go past the first episode — keep scrolling for more."
-            action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">All editorial <ArrowRight className="h-3 w-3" /></Link>}
+            action={<Link to="/editorial" className="text-sm text-primary hover:underline flex items-center gap-1">Read all editorial features <ArrowRight className="h-3 w-3" /></Link>}
           >
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
               <InfiniteArticleFeed items={feedArticles} />

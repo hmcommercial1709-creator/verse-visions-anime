@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { collectionSchema } from "@/lib/seo";
 import { animes } from "@/data/animes";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
@@ -17,6 +18,12 @@ export const Route = createFileRoute("/trending")({
       { property: "og:description", content: "Live pulse of what fans are watching." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/trending" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(collectionSchema({ path: "/trending", name: 'Trending Anime This Week', description: 'The anime dominating streaming charts and community discussion right now.' })),
+      },
+    ],
   }),
   component: () => {
     const list = [...animes].sort((a,b) => a.popularity - b.popularity);

@@ -8,7 +8,8 @@ import {
 } from "@/data/articles";
 import { categories, getCategory } from "@/data/categories";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { HeaderBannerAd, InArticleAd, PostContentAd, StickySidebarAd } from "@/components/ad-slot";
+import { HeaderBannerAd, InArticleAd, PostContentAd,
+  MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
 import { MediaImage } from "@/components/media";
 import { backdropFor, artAlt } from "@/lib/media";
 import { readingLabel } from "@/lib/reading";
@@ -180,6 +181,7 @@ function CategoryPage() {
             </div>
 
             <PostContentAd />
+            <MultiplexAd />
           </div>
 
           <aside className="hidden lg:block">

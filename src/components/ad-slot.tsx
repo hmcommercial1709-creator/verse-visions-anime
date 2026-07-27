@@ -257,6 +257,103 @@ export function DisplayAd({
   );
 }
 
+/**
+ * In-feed native unit. Uses Google's fluid in-feed layout so the creative
+ * adopts the surrounding card styling and reads as part of the list — the
+ * highest-yield format for scroll-heavy feeds. Impressions register on view.
+ */
+export function InFeedAd({
+  index = 1,
+  unitId,
+  adId,
+  label = "Sponsored",
+}: {
+  index?: number;
+  unitId?: string;
+  adId?: string;
+  label?: string;
+}) {
+  const autoId = useAdUnitId("av-infeed");
+  const id = unitId ?? autoId;
+  const containerId = adId ?? `InFeed_Ad_${index}`;
+  const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLElement>();
+
+  return (
+    <aside
+      ref={ref}
+      data-ad-slot="in-feed"
+      data-ad-unit-id={id}
+      data-ad-refresh={refreshKey}
+      data-ad-viewable={viewable ? "true" : "false"}
+      aria-label="advertisement"
+      className="my-5 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+    >
+      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+        <span>{label}</span>
+        <span className="font-mono opacity-60">in-feed {index}</span>
+      </div>
+      <AdSenseContainer
+        key={refreshKey}
+        id={containerId}
+        slot={id}
+        minHeight={220}
+        format="fluid"
+        layout="in-article"
+        fluidHeight
+        label={`${containerId} · in-feed`}
+      />
+    </aside>
+  );
+}
+
+/**
+ * Outstream / in-content video unit. Reserves a 16:9-ish box so Google's video
+ * demand can fill it without shifting the layout; counts a viewable impression
+ * as soon as it scrolls into view — no click required.
+ */
+export function VideoAd({
+  index = 1,
+  unitId,
+  adId,
+  title = "Featured video",
+}: {
+  index?: number;
+  unitId?: string;
+  adId?: string;
+  title?: string;
+}) {
+  const autoId = useAdUnitId("av-video");
+  const id = unitId ?? autoId;
+  const containerId = adId ?? `Video_Ad_${index}`;
+  const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLElement>();
+
+  return (
+    <aside
+      ref={ref}
+      data-ad-slot="video"
+      data-ad-unit-id={id}
+      data-ad-refresh={refreshKey}
+      data-ad-viewable={viewable ? "true" : "false"}
+      aria-label="advertisement"
+      className="my-6 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+    >
+      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+        <span>{title}</span>
+        <span>Advertisement</span>
+      </div>
+      <AdSenseContainer
+        key={refreshKey}
+        id={containerId}
+        slot={id}
+        minHeight={280}
+        format="auto"
+        label={`${containerId} · video`}
+      />
+    </aside>
+  );
+}
+
+
 
 /** Responsive header leaderboard that sits directly under the sticky nav. */
 export function HeaderBannerAd() {

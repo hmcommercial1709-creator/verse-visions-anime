@@ -43,11 +43,12 @@ function isForeign(el: HTMLElement): boolean {
 }
 
 /**
- * A fake overlay = third-party, visible, floating/covering layer whose *own*
- * readable text matches a known scam pattern. Anything without that text is left
- * alone so real network creatives keep serving.
+ * Intrusive overlay = third-party, visible, floating layer that either covers a
+ * large share of the viewport (interstitial), hugs a viewport edge (floating
+ * banner), or carries deceptive scam text. In-page AdSense units are never
+ * positioned this way, so they are unaffected.
  */
-function isFakeOverlay(el: HTMLElement): boolean {
+function isIntrusiveOverlay(el: HTMLElement): boolean {
   if (el.closest(OWNED_SELECTOR)) return false;
   if (!isForeign(el)) return false;
 
@@ -58,28 +59,65 @@ function isFakeOverlay(el: HTMLElement): boolean {
   const rect = el.getBoundingClientRect();
   if (rect.width < 80 || rect.height < 40) return false;
 
-  const text = (el.textContent ?? "").slice(0, 600);
-  if (!text.trim()) return false;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
 
-  return DECEPTIVE_PATTERNS.some((re) => re.test(text));
+  // Full-screen / large interstitial.
+  if (rect.width >= vw * 0.75 && rect.height >= vh * 0.6) return true;
+
+  // Screen-hugging floating banner (anchored to an edge, fixed position).
+  if (style.position === "fixed") {
+    const hugsBottom = vh - rect.bottom <= 4;
+    const hugsTop = rect.top <= 4;
+    const wide = rect.width >= vw * 0.6;
+    if (wide && (hugsBottom || hugsTop)) return true;
+  }
+
+  const text = (el.textContent ?? "").slice(0, 600);
+  if (text.trim() && DECEPTIVE_PATTERNS.some((re) => re.test(text))) return true;
+
+  return false;
 }
 
 export function enforceNonIntrusiveAds(): () => void {
   if (typeof window === "undefined") return () => {};
 
+  // 1. Kill popups / popunders. The app never calls window.open itself, so any
+  //    call is third-party ad code trying to open a new tab or window.
+  const originalOpen = window.open;
+  try {
+    Object.defineProperty(window, "open", {
+      configurable: true,
+      writable: true,
+      value: () => null,
+    });
+  } catch {
+    /* locked down by the browser — nothing else to do */
+  }
+
+  // 2. Block push-notification permission prompts (a popup format, not in-page).
+  const originalRequest = typeof Notification !== "undefined" ? Notification.requestPermission : undefined;
+  if (originalRequest) {
+    try {
+      Notification.requestPermission = (() => Promise.resolve("denied")) as typeof Notification.requestPermission;
+    } catch {
+      /* ignore */
+    }
+  }
+
+  // 3. Sweep intrusive overlays out of the DOM as they appear.
   const sweep = (root: ParentNode) => {
     root.querySelectorAll?.("body > div, body > iframe, body > section").forEach((node) => {
       const el = node as HTMLElement;
-      if (isFakeOverlay(el)) el.remove();
+      if (isIntrusiveOverlay(el)) el.remove();
     });
   };
-
 
   const observer = new MutationObserver((records) => {
     for (const record of records) {
       record.addedNodes.forEach((node) => {
         if (!(node instanceof HTMLElement)) return;
-        if (isFakeOverlay(node)) {
+        if (isIntrusiveOverlay(node)) {
           node.remove();
           return;
         }
@@ -90,7 +128,15 @@ export function enforceNonIntrusiveAds(): () => void {
   observer.observe(document.documentElement, { childList: true, subtree: true });
   sweep(document);
 
-  return () => observer.disconnect();
+  return () => {
+    observer.disconnect();
+    try {
+      Object.defineProperty(window, "open", { configurable: true, writable: true, value: originalOpen });
+      if (originalRequest) Notification.requestPermission = originalRequest;
+    } catch {
+      /* ignore */
+    }
+  };
 }
 
 /** Mount once, at the app root. */

@@ -40,6 +40,12 @@ function hostAllowed(src: string): boolean {
   }
 }
 
+/** True when the node lives outside the React app root (i.e. injected by a third party). */
+function isForeign(el: HTMLElement): boolean {
+  const appRoot = document.getElementById("root") ?? document.querySelector("main")?.parentElement;
+  return !appRoot || !appRoot.contains(el);
+}
+
 function isScreenBlocker(el: HTMLElement): boolean {
   if (el.closest(OWNED_SELECTOR)) return false;
   const style = window.getComputedStyle(el);
@@ -49,7 +55,16 @@ function isScreenBlocker(el: HTMLElement): boolean {
   const coversViewport =
     rect.width >= window.innerWidth * 0.85 && rect.height >= window.innerHeight * 0.7;
   const highLayer = Number(style.zIndex || 0) >= 2147483000;
-  return coversViewport && (highLayer || style.position === "fixed");
+  if (coversViewport && (highLayer || style.position === "fixed")) return true;
+
+  // Floating / anchor banners and fake notification prompts: third-party fixed
+  // elements glued to a viewport edge. App-owned UI is never touched.
+  if (style.position !== "fixed" || !isForeign(el)) return false;
+  if (rect.width < 40 || rect.height < 20) return false;
+  const nearBottom = window.innerHeight - rect.bottom <= 8;
+  const nearTop = rect.top <= 8;
+  const nearSide = rect.left <= 8 || window.innerWidth - rect.right <= 8;
+  return nearBottom || nearSide || (nearTop && rect.height <= window.innerHeight * 0.4);
 }
 
 export function enforceNonIntrusiveAds(): () => void {
@@ -67,6 +82,31 @@ export function enforceNonIntrusiveAds(): () => void {
     if (Date.now() < gestureUntil) return nativeOpen(...args);
     return null;
   }) as typeof window.open;
+
+  // 1b. Never let anything raise a push-notification permission prompt, and
+  //     neutralise fake "your download is ready" style system notifications.
+  let restoreNotification: (() => void) | undefined;
+  const N = (window as unknown as { Notification?: typeof Notification }).Notification;
+  if (N && typeof N.requestPermission === "function") {
+    const nativeRequest = N.requestPermission.bind(N);
+    N.requestPermission = ((cb?: NotificationPermissionCallback) => {
+      cb?.("denied");
+      return Promise.resolve("denied" as NotificationPermission);
+    }) as typeof Notification.requestPermission;
+    restoreNotification = () => {
+      N.requestPermission = nativeRequest;
+    };
+  }
+
+  let restorePush: (() => void) | undefined;
+  const pushProto = (window as unknown as { PushManager?: { prototype?: PushManager } }).PushManager?.prototype;
+  if (pushProto?.subscribe) {
+    const nativeSubscribe = pushProto.subscribe;
+    pushProto.subscribe = (() => Promise.reject(new Error("Push subscriptions are disabled"))) as typeof pushProto.subscribe;
+    restorePush = () => {
+      pushProto.subscribe = nativeSubscribe;
+    };
+  }
 
   // 2. Remove injected scripts from non-allowlisted hosts + screen blockers.
   const sweep = (root: ParentNode) => {
@@ -106,6 +146,8 @@ export function enforceNonIntrusiveAds(): () => void {
     observer.disconnect();
     document.removeEventListener("click", markGesture, true);
     window.open = nativeOpen;
+    restoreNotification?.();
+    restorePush?.();
   };
 }
 

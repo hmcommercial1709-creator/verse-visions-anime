@@ -13,7 +13,6 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { MobileAnchorAd } from "@/components/ad-slot";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { useLocaleDocumentSync } from "@/lib/i18n";
 import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
@@ -192,8 +191,6 @@ function RootComponent() {
           <Outlet />
         </main>
         <SiteFooter />
-        <div className="h-16 lg:hidden" aria-hidden />
-        <MobileAnchorAd />
         <DeferredScripts />
       </div>
     </QueryClientProvider>

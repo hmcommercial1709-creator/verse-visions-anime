@@ -176,7 +176,7 @@ function RefreshingUnit({
 /** Responsive header leaderboard that sits directly under the sticky nav. */
 export function HeaderBannerAd() {
   return (
-    <div className="sticky top-[68px] z-30 border-y border-border/50 bg-background/85 backdrop-blur-md">
+    <div className="border-y border-border/50 bg-background/85">
       <div className="mx-auto max-w-7xl px-4 py-2 lg:px-6">
         <RefreshingUnit
           slotKind="header"
@@ -304,41 +304,13 @@ export function StickySidebarAd({
 }
 
 
-/** Mobile-only bottom anchor banner with a dismiss control. */
+/**
+ * Deprecated: floating/anchor ad banners are disabled site-wide by the
+ * anti-intrusive ad policy. Kept as a no-op so old imports never re-introduce
+ * a screen-hugging overlay.
+ */
 export function MobileAnchorAd() {
-  const [closed, setClosed] = useState(false);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const t = window.setTimeout(() => setReady(true), 600);
-    return () => window.clearTimeout(t);
-  }, []);
-
-  if (closed || !ready) return null;
-
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-40 lg:hidden">
-      <div className="relative border-t border-border/60 bg-background/95 backdrop-blur-md px-3 pb-[env(safe-area-inset-bottom)] pt-2">
-        <button
-          type="button"
-          onClick={() => setClosed(true)}
-          aria-label="Close advertisement"
-          className="absolute -top-3 right-3 grid h-7 w-7 place-items-center rounded-full border border-border bg-card text-muted-foreground shadow-lg"
-        >
-          <X className="h-3.5 w-3.5" />
-        </button>
-        <RefreshingUnit
-          slotKind="sticky-anchor"
-          adId="Mobile_Sticky_Anchor"
-          prefix="av-anchor"
-          minHeight={50}
-          label="Mobile_Sticky_Anchor · 320×50"
-          className="rounded-lg border border-dashed border-border/70 bg-secondary/30"
-        />
-
-      </div>
-    </div>
-  );
+  return null;
 }
 
 export function AffiliateBox({

@@ -116,7 +116,7 @@ function Home() {
           eyebrow="Franchise hubs"
           title="Deep coverage, one series at a time"
           subtitle="Lore, power scaling, watch orders, and episode reviews — switch tabs without leaving the page."
-          action={<Link to="/browse" className="text-sm text-primary hover:underline flex items-center gap-1">All franchises <ArrowRight className="h-3 w-3" /></Link>}
+          action={<Link to="/browse" className="text-sm text-primary hover:underline flex items-center gap-1">Browse all anime franchises <ArrowRight className="h-3 w-3" /></Link>}
         >
           <FranchiseHubs items={hubs} />
         </Section>

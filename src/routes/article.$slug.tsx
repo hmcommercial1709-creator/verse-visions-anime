@@ -206,7 +206,7 @@ function ArticlePage() {
   const merchProducts = productsForContext(loreAnime, a.title);
   // In-body native units land every 4 paragraphs; slot 1 is the guaranteed
   // above-the-fold unit, so the body plan starts at InArticle_Ad_2.
-  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { startAt: 2, max: 2 });
+  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { interval: 3, startAt: 2, max: 6 });
 
   return (
     <div>

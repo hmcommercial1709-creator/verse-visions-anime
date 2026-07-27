@@ -81,14 +81,21 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 </div>
               </div>
             </Link>
-            {/* Ad unit auto-injected between content blocks as batches load */}
-            {i > 0 && (i + 1) % PAGE === 0 && (
-              <InArticleAd
-                index={Math.ceil((i + 1) / PAGE)}
-                unitId={`av-feed-${a.slug}-${Math.ceil((i + 1) / PAGE)}`}
-                adId={`InArticle_Ad_Feed_${Math.ceil((i + 1) / PAGE)}`}
+            {/* Dense in-feed monetization: a viewable native unit after every
+                2nd card, upgraded to a video unit on every 6th card. */}
+            {(i + 1) % 6 === 0 ? (
+              <VideoAd
+                index={Math.ceil((i + 1) / 6)}
+                unitId={`av-feed-video-${a.slug}`}
+                adId={`Video_Ad_Feed_${Math.ceil((i + 1) / 6)}`}
               />
-            )}
+            ) : (i + 1) % 2 === 0 ? (
+              <InFeedAd
+                index={Math.ceil((i + 1) / 2)}
+                unitId={`av-feed-${a.slug}-${Math.ceil((i + 1) / 2)}`}
+                adId={`InFeed_Ad_Feed_${Math.ceil((i + 1) / 2)}`}
+              />
+            ) : null}
 
             {/* Affiliate card woven between feed sections */}
             {i > 0 && (i + 1) % (PAGE * 2) === 0 && (() => {
@@ -97,6 +104,7 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
               ];
               return product ? <InlineAffiliateCard product={product} /> : null;
             })()}
+
           </div>
         ))}
       </div>

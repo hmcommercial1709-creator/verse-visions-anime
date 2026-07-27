@@ -174,9 +174,9 @@ function Home() {
               </div>
             </div>
           </Section>
+        </LazySection>
 
-          <AdSlot placement="between"
-</LazySection> label="Native · Sponsored" />
+        <AdSlot placement="between" label="Native · Sponsored" />
 
 
         {/* TRENDING NOW */}

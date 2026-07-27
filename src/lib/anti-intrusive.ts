@@ -68,6 +68,31 @@ export function enforceNonIntrusiveAds(): () => void {
     return null;
   }) as typeof window.open;
 
+  // 1b. Never let anything raise a push-notification permission prompt, and
+  //     neutralise fake "your download is ready" style system notifications.
+  let restoreNotification: (() => void) | undefined;
+  const N = (window as unknown as { Notification?: typeof Notification }).Notification;
+  if (N && typeof N.requestPermission === "function") {
+    const nativeRequest = N.requestPermission.bind(N);
+    N.requestPermission = ((cb?: NotificationPermissionCallback) => {
+      cb?.("denied");
+      return Promise.resolve("denied" as NotificationPermission);
+    }) as typeof Notification.requestPermission;
+    restoreNotification = () => {
+      N.requestPermission = nativeRequest;
+    };
+  }
+
+  let restorePush: (() => void) | undefined;
+  const pushProto = (window as unknown as { PushManager?: { prototype?: PushManager } }).PushManager?.prototype;
+  if (pushProto?.subscribe) {
+    const nativeSubscribe = pushProto.subscribe;
+    pushProto.subscribe = (() => Promise.reject(new Error("Push subscriptions are disabled"))) as typeof pushProto.subscribe;
+    restorePush = () => {
+      pushProto.subscribe = nativeSubscribe;
+    };
+  }
+
   // 2. Remove injected scripts from non-allowlisted hosts + screen blockers.
   const sweep = (root: ParentNode) => {
     root.querySelectorAll?.("script[src]").forEach((node) => {

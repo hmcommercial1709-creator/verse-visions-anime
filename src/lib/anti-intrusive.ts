@@ -146,6 +146,8 @@ export function enforceNonIntrusiveAds(): () => void {
     observer.disconnect();
     document.removeEventListener("click", markGesture, true);
     window.open = nativeOpen;
+    restoreNotification?.();
+    restorePush?.();
   };
 }
 

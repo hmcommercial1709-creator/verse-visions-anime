@@ -37,7 +37,7 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
   return (
     <div
       data-ad-slot={placement}
-      className={`w-full ${heights[placement]} rounded-xl border border-dashed border-border/70 bg-secondary/30 grid place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground`}
+      className={`w-full ${heights[placement]} rounded-xl border border-dashed border-border/70 bg-ad-surface grid place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground`}
       aria-label="advertisement"
     >
       {label ?? `Ad Slot · ${placement}`}
@@ -108,11 +108,11 @@ export function AdSenseContainer({
 
   return (
     <div
-      className={`relative w-full overflow-hidden ${className}`}
+      className={`relative w-full overflow-hidden bg-ad-surface ${className}`}
       style={
         fluidHeight
-          ? { minHeight, contain: "layout" }
-          : { minHeight, height: minHeight, contain: "layout size" }
+          ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
+          : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
       }
       aria-label="advertisement"
       role="complementary"
@@ -219,7 +219,7 @@ export function MultiplexAd({
         format="autorelaxed"
         fluidHeight
         label={`${adId} · matched content`}
-        className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
       />
     </section>
   );
@@ -251,7 +251,7 @@ export function DisplayAd({
         minHeight={minHeight}
         format="auto"
         label={label ?? `${adId} · responsive`}
-        className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
       />
     </div>
   );
@@ -366,7 +366,7 @@ export function HeaderBannerAd() {
           prefix="av-header"
           minHeight={90}
           label="Header_Ad · 728×90 / 320×50"
-          className="rounded-lg border border-dashed border-border/70 bg-secondary/25"
+          className="rounded-lg border border-dashed border-border/70 bg-ad-surface"
         />
       </div>
     </div>
@@ -383,7 +383,7 @@ export function BelowTitleAd() {
         prefix="av-below-title"
         minHeight={100}
         label="Below_Title_Ad · 970×90 / 336×100"
-        className="rounded-xl border border-dashed border-border/70 bg-secondary/25"
+        className="rounded-xl border border-dashed border-border/70 bg-ad-surface"
       />
     </div>
   );
@@ -400,7 +400,7 @@ export function PostContentAd() {
         prefix="av-post-content"
         minHeight={250}
         label="Post_Content_Ad · 970×250 / 336×280"
-        className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
       />
     </div>
   );
@@ -481,7 +481,7 @@ export function StickySidebarAd({
           minHeight={600}
           format="vertical"
           label={label}
-          className="rounded-2xl border border-dashed border-border/70 bg-secondary/25"
+          className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
         />
       </div>
     </div>

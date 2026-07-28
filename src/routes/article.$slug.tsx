@@ -6,6 +6,7 @@ import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
   AdSlot,
+  DisplayAd,
   BelowTitleAd,
   HeaderBannerAd,
   InArticleAd,
@@ -64,6 +65,13 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
     return (
       <div className="not-prose">
         <SectionHeaderImage art={namedArt(block.art)} caption={block.caption} />
+        {/* Ad between the image section and the paragraphs that follow it. */}
+        <DisplayAd
+          adId={`Image_Break_Ad_${block.art}`}
+          prefix="av-image-break"
+          minHeight={250}
+          className="my-6"
+        />
       </div>
     );
   }

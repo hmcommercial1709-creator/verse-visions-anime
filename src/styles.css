@@ -33,12 +33,16 @@
   --color-neon: var(--neon);
   --color-magenta: var(--magenta);
   --color-gold: var(--gold);
+  --color-ad-surface: var(--ad-surface);
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
   --radius: 0.875rem;
+  /* Ad container surface — matches the dark theme so unfilled/loading
+     units never flash a white box. */
+  --ad-surface: #0d0b1a;
   /* Deep cinematic dark theme */
   --background: oklch(0.14 0.03 275);
   --foreground: oklch(0.97 0.01 275);

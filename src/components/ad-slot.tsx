@@ -117,20 +117,35 @@ export function AdSenseContainer({
     };
   }, [id, slot, pathname]);
 
+  // Collapse entirely if nothing filled within 2s: no border, no background,
+  // no reserved height, no label — the slot simply disappears.
+  const [expired, setExpired] = useState(false);
+  useEffect(() => {
+    setExpired(false);
+    const timer = window.setTimeout(() => setExpired(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [id, slot, pathname]);
+
+  const collapsed = expired && !filled;
 
   return (
     <div
-      className={`relative w-full overflow-hidden bg-ad-surface ${className}`}
+      className={`relative w-full overflow-hidden ${filled ? `bg-ad-surface ${className}` : ""}`}
       style={
-        fluidHeight
-          ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
-          : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
+        collapsed
+          ? { display: "none" }
+          : filled
+            ? fluidHeight
+              ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
+              : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
+            : { minHeight, height: fluidHeight ? undefined : minHeight, contain: "layout", background: "transparent" }
       }
       aria-label="advertisement"
       role="complementary"
       data-ad-filled={filled ? "true" : "false"}
       data-ad-label={label ?? id}
     >
+
       <ins
         ref={insRef}
         id={id}

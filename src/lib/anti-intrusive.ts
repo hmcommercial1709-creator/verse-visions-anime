@@ -36,6 +36,27 @@ const DECEPTIVE_PATTERNS: RegExp[] = [
   /update\s+your\s+(flash|player|browser)/i,
 ];
 
+/** Ad networks we intentionally run, including Monetag's vignette banner. */
+const ALLOWED_AD_HOSTS = [
+  "nap5k.com",
+  "n6wxm.com",
+  "thubanoa.com",
+  "fpyf8.com",
+  "monetag.com",
+  "googlesyndication.com",
+  "doubleclick.net",
+];
+
+/** True when the overlay is creative from one of our own configured networks. */
+function isAllowedNetwork(el: HTMLElement): boolean {
+  const nodes = [el, ...Array.from(el.querySelectorAll("iframe, img, a, script"))] as HTMLElement[];
+  return nodes.some((n) => {
+    const src = n.getAttribute?.("src") ?? n.getAttribute?.("href") ?? "";
+    const id = n.id ?? "";
+    return ALLOWED_AD_HOSTS.some((h) => src.includes(h)) || /monetag|vignette/i.test(id);
+  });
+}
+
 /** True when the node lives outside the React app root (i.e. injected by a third party). */
 function isForeign(el: HTMLElement): boolean {
   const appRoot = document.getElementById("root") ?? document.querySelector("main")?.parentElement;
@@ -51,6 +72,14 @@ function isForeign(el: HTMLElement): boolean {
 function isIntrusiveOverlay(el: HTMLElement): boolean {
   if (el.closest(OWNED_SELECTOR)) return false;
   if (!isForeign(el)) return false;
+
+  const text0 = (el.textContent ?? "").slice(0, 600);
+  const deceptive = text0.trim() !== "" && DECEPTIVE_PATTERNS.some((re) => re.test(text0));
+  // Creative from a network we configured ourselves (e.g. the Monetag vignette
+  // banner) is allowed through unless it carries deceptive scam copy.
+  if (!deceptive && isAllowedNetwork(el)) return false;
+
+
 
   const style = window.getComputedStyle(el);
   if (style.position !== "fixed" && style.position !== "absolute") return false;

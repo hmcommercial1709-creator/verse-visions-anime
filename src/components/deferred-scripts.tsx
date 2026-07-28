@@ -24,13 +24,10 @@ const TAGS: Tag[] = [
   // NOTE: the AdSense loader is intentionally NOT here — it ships in the
   // document head (src/routes/__root.tsx) so Auto Ads can run on every page.
 
-  // Monetag — clean OnClick tag (zone 11411597). Replaces the old MultiTag
-  // (zone 11410812), which was what served the Vignette / interstitial popup.
-  {
-    id: "monetag-onclick",
-    src: "https://fpyf8.com/88/tag.min.js",
-    attrs: { "data-zone": "11411597", "data-cfasync": "false" },
-  },
+  // NOTE: no global Monetag tag here. OnClick / Popunder / Vignette formats are
+  // banned site-wide. Monetag now serves ONLY through in-page banner/native
+  // zones rendered inside <MonetagSlot> containers (src/lib/monetag.ts).
+
 
   {
     id: "cf-beacon",

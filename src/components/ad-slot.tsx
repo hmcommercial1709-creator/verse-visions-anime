@@ -176,13 +176,14 @@ function RotatingUnit({
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [fallback, setFallback] = useState(false);
 
-  // Give AdSense ~4s to fill; otherwise hand the box to Monetag.
+  // Give AdSense ~2s to fill; otherwise mount the Monetag banner inline in the
+  // very same reserved block (never an overlay).
   useEffect(() => {
     setFallback(false);
     const timer = window.setTimeout(() => {
       const node = wrapRef.current?.querySelector("[data-ad-filled]");
       if (node?.getAttribute("data-ad-filled") !== "true") setFallback(true);
-    }, 4000);
+    }, 2000);
     return () => window.clearTimeout(timer);
   }, [id, slot, refreshKey]);
 

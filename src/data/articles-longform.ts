@@ -117,7 +117,7 @@ const drafts: Draft[] = [
         heading: "Where to Go Next",
         paragraphs: [
           "If the war-tragedy register is what hooked you, Vinland Saga is the obvious follow-up and shares a director's eye for consequence. If the tactical problem-solving was the draw, Hunter x Hunter's Chimera Ant arc scratches the same itch at greater length.",
-          "For the full catalogue path, the series hub at [/anime/attack-on-titan](/anime/attack-on-titan) has the episode index, character files and streaming availability, and our [power-scaling hub](/power-scaling) covers the Titan shifter hierarchy in isolation.",
+          "For the full catalogue path, the series hub at [Attack on Titan series hub](/anime/attack-on-titan) has the episode index, character files and streaming availability, and our [power-scaling hub](/power-scaling) covers the Titan shifter hierarchy in isolation.",
         ],
         blocks: [
           {
@@ -200,7 +200,7 @@ const drafts: Draft[] = [
         heading: "The Argument We Expect to Get Wrong",
         paragraphs: [
           "The most contested placement is Giyu over Mitsuri, and we will defend it on technique breadth rather than raw statistics. The second is Muichiro at six, which will look low to anyone weighting potential and high to anyone weighting completed fights.",
-          "The series hub at [/anime/demon-slayer](/anime/demon-slayer) carries the full breathing-style index, arc summaries and character files if you want to build your own ranking from the raw feats.",
+          "The series hub at [Demon Slayer series hub](/anime/demon-slayer) carries the full breathing-style index, arc summaries and character files if you want to build your own ranking from the raw feats.",
         ],
         blocks: [
           {
@@ -270,7 +270,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Four rules have held for the entire run: one fruit per person, seawater disables, the fruit reincarnates after death, and Haki bypasses intangibility. Every apparent exception has an in-world mechanism attached rather than a hand-wave.",
           "That consistency is why fan theorising about One Piece functions like reverse-engineering rather than guessing. The system is closed enough to reason inside.",
-          "New readers should start at the series hub [/anime/one-piece](/anime/one-piece) for the arc index, or with the entry guide in our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen).",
+          "New readers should start at the series hub [One Piece series hub](/anime/one-piece) for the arc index, or with the entry guide in our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen).",
         ],
       },
     ],
@@ -334,7 +334,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Nen ages well because it is a system of trade-offs rather than tiers. A weaker character with a better contract beats a stronger one on a regular basis, and the audience can verify the logic afterwards.",
           "It also produces the medium's best non-combat tension. Auction rules, card games and information brokerage all run on the same mechanics as the fights.",
-          "Start at the series hub [/anime/hunter-x-hunter](/anime/hunter-x-hunter) for the arc index, or read our [best action anime of the decade](/article/best-action-anime-of-the-decade-ranked) ranking for where it lands against its peers.",
+          "Start at the series hub [Hunter x Hunter series hub](/anime/hunter-x-hunter) for the arc index, or read our [best action anime of the decade](/article/best-action-anime-of-the-decade-ranked) ranking for where it lands against its peers.",
         ],
       },
     ],
@@ -391,7 +391,7 @@ const drafts: Draft[] = [
         heading: "Where the List Goes Next",
         paragraphs: [
           "We revise this ranking every six months as new seasons air, and reader nominations decide two of the twenty-five slots. Send us the sequence you think we missed.",
-          "The full audio-visual hub lives at [/openings](/openings), and the soundtrack companion piece is at [/soundtracks](/soundtracks).",
+          "The full audio-visual hub lives at [openings hub](/openings), and the soundtrack companion piece is at [soundtracks hub](/soundtracks).",
         ],
       },
     ],
@@ -447,7 +447,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "The system's weakest point is the late-game currency curve: once the protagonist's income outpaces any purchasable upgrade, the shop stops being a decision and becomes flavour text. Good RPGs solve this with prestige sinks; the story solves it by escalating the threat instead.",
           "The second strain is information asymmetry. The audience only knows what the interface displays, which makes some victories feel handed down rather than earned.",
-          "None of that stops the loop from being one of the most efficiently designed in modern anime. The series hub at [/anime/solo-leveling](/anime/solo-leveling) collects the episode guides and character files.",
+          "None of that stops the loop from being one of the most efficiently designed in modern anime. The series hub at [Solo Leveling series hub](/anime/solo-leveling) collects the episode guides and character files.",
         ],
       },
     ],
@@ -490,7 +490,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Three lessons transfer. First, if your protagonist cannot lose, give them something to want that violence does not obtain. Second, invest in a supporting cast whose losses are permanent. Third, keep the comedy sincere — mockery ages badly, affection does not.",
           "Solo Leveling takes the opposite route, escalating the world so the protagonist can stay threatened; our [progression breakdown](/article/solo-leveling-progression-system-breakdown) covers how that scales.",
-          "The series hub is at [/anime/one-punch-man](/anime/one-punch-man) with episode notes and the S-Class file.",
+          "The series hub is at [One Punch Man series hub](/anime/one-punch-man) with episode notes and the S-Class file.",
         ],
         blocks: [
           {
@@ -521,7 +521,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "A season preview is a risk assessment, not a ranking. Three things predict whether a show lands: the studio's current concurrent workload, whether the series director has shipped a full cour before, and how much finished source material exists.",
           "Anything failing two of those three is a gamble regardless of how good the promotional art looks. We flag them rather than hide them.",
-          "The live simulcast grid lives at [/seasonal](/seasonal), and the airing calendar updates weekly.",
+          "The live simulcast grid lives at [seasonal simulcast grid](/seasonal), and the airing calendar updates weekly.",
         ],
         blocks: [
           { type: "image", art: "trailer", caption: "Original AnimeVerse artwork for the seasonal preview." },
@@ -540,7 +540,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Original projects are where the season's surprises come from, and two of this spring's originals have veteran series composers attached to first-time directors — historically a strong combination.",
           "The riskiest entries are the ongoing-manga adaptations announced with a broadcast date less than a year out. Watch the episode 4-6 window: that is where schedule pressure first shows in the linework.",
-          "We publish a mid-season check-in that revisits every call on this page. The archive is at [/news](/news).",
+          "We publish a mid-season check-in that revisits every call on this page. The archive is at [news archive](/news).",
         ],
         blocks: [
           {
@@ -596,7 +596,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "9.2/10. The first cour is close to flawless; the exam arc trades some of the melancholy for structure, which is a fair exchange but a noticeable one.",
           "Watch it weekly rather than bingeing. The show's central subject is the passage of time, and a seven-day gap between episodes is, unusually, part of the experience.",
-          "The series hub is at [/anime/frieren](/anime/frieren) and the wider reviews archive is at [/reviews](/reviews).",
+          "The series hub is at [Frieren series hub](/anime/frieren) and the wider reviews archive is at [reviews archive](/reviews).",
         ],
         blocks: [
           {
@@ -657,7 +657,7 @@ const drafts: Draft[] = [
         heading: "What Other Genres Should Copy",
         paragraphs: [
           "Publish your rules early, keep them fixed, and let the audience do the maths. Every genre benefits from it, and the shows that ignore it end up explaining their own climaxes.",
-          "The sports hub lives at [/anime/haikyuu](/anime/haikyuu), and our [Hashira ranking](/article/demon-slayer-hashira-ranked) shows the same scoring discipline applied to a battle series.",
+          "The sports hub lives at [Haikyuu series hub](/anime/haikyuu), and our [Hashira ranking](/article/demon-slayer-hashira-ranked) shows the same scoring discipline applied to a battle series.",
         ],
       },
     ],
@@ -700,7 +700,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "The film continuation is the real test. The Reze arc is the source's most tonally balanced stretch, and it needs the comedy to work as hard as the horror.",
           "Our reporting on the theatrical rollout is in the [Reze arc preview](/article/chainsaw-man-reze-arc-preview), which covers the release footprint.",
-          "8.5/10 for the television run. The series hub at [/anime/chainsaw-man](/anime/chainsaw-man) has the episode index.",
+          "8.5/10 for the television run. The series hub at [Chainsaw Man series hub](/anime/chainsaw-man) has the episode index.",
         ],
         blocks: [
           {
@@ -787,7 +787,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Subscription pricing across the major anime platforms is close enough that it should rarely decide your choice. Catalogue depth, simulcast timing and regional availability vary far more, and those are the variables worth comparing.",
           "The single biggest differentiator is back-catalogue licensing. Two services can both carry this season's headline show while differing wildly on the twenty-year-old series you actually want next.",
-          "Our live availability data per title sits on each series hub — for example [/anime/one-piece](/anime/one-piece) — and the aggregate view is at [/streaming](/streaming).",
+          "Our live availability data per title sits on each series hub — for example [One Piece series hub](/anime/one-piece) — and the aggregate view is at [streaming hub](/streaming).",
         ],
         blocks: [
           { type: "image", art: "spy-x-family", caption: "Original AnimeVerse artwork for the streaming comparison." },

@@ -168,10 +168,23 @@ function BlogArchive() {
             ) : (
               <>
                 <div className="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {slice.map((a) => (
-                    <ArticleGridCard key={a.slug} a={a} />
+                  {slice.map((a, i) => (
+                    <Fragment key={a.slug}>
+                      <ArticleGridCard a={a} />
+                      {/* Native ad card woven between article cards; flows as a
+                          normal grid cell so it stays responsive on all sizes. */}
+                      {i < slice.length - 1 && (i + 1) % 3 === 0 && (
+                        <DisplayAd
+                          adId={`Blog_Grid_Ad_${current}_${i + 1}`}
+                          prefix="av-blog-grid"
+                          minHeight={280}
+                          label="Sponsored"
+                        />
+                      )}
+                    </Fragment>
                   ))}
                 </div>
+
                 {/* In-feed responsive unit, below the fold and outside the grid flow */}
                 <InArticleAd index={2} unitId="av-blog-infeed" adId="InArticle_Ad_2" />
               </>

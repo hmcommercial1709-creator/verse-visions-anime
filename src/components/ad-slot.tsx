@@ -93,91 +93,20 @@ export function AdSenseContainer({
   fluidHeight?: boolean;
 }) {
   const geo = useGeoTarget();
-  const insRef = useRef<HTMLModElement | null>(null);
-  const [filled, setFilled] = useState(false);
-  // Re-push on every route change so client-side navigation always fills.
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-
-  // Hand the freshly mounted <ins> to the globally loaded AdSense script.
-  useEffect(() => {
-    const node = insRef.current;
-    if (!node) return;
-    let cancelled = false;
-
-    try {
-      const w = window as unknown as { adsbygoogle?: unknown[] };
-      w.adsbygoogle = w.adsbygoogle || [];
-      if (node.getAttribute("data-adsbygoogle-status") !== "done") {
-        w.adsbygoogle.push({});
-      }
-    } catch {
-      /* script blocked or not yet available — box stays reserved, no CLS */
-    }
-
-    // Swap the placeholder label out once Google fills the unit.
-    const observer =
-      typeof MutationObserver !== "undefined"
-        ? new MutationObserver(() => {
-            if (cancelled) return;
-            if (node.getAttribute("data-ad-status") === "filled" || node.firstElementChild) {
-              setFilled(true);
-            }
-          })
-        : null;
-    observer?.observe(node, { attributes: true, childList: true, attributeFilter: ["data-ad-status"] });
-
-    return () => {
-      cancelled = true;
-      observer?.disconnect();
-    };
-  }, [id, slot, pathname]);
-
-  // Collapse entirely if nothing filled within 2s: no border, no background,
-  // no reserved height, no label — the slot simply disappears.
-  const [expired, setExpired] = useState(false);
-  useEffect(() => {
-    setExpired(false);
-    const timer = window.setTimeout(() => setExpired(true), 2000);
-    return () => window.clearTimeout(timer);
-  }, [id, slot, pathname]);
-
-  const collapsed = expired && !filled;
-
   return (
-    <div
-      className={`relative w-full overflow-hidden ${filled ? `bg-ad-surface ${className}` : ""}`}
-      style={
-        collapsed
-          ? { display: "none" }
-          : filled
-            ? fluidHeight
-              ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
-              : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
-            : { minHeight, height: fluidHeight ? undefined : minHeight, contain: "layout", background: "transparent", border: "none" }
-      }
-      aria-label="advertisement"
-      role="complementary"
-      data-ad-filled={filled ? "true" : "false"}
-      data-ad-collapsed={collapsed ? "true" : "false"}
-      data-ad-label={label ?? id}
-    >
-
-
-      <ins
-        ref={insRef}
-        id={id}
-        className="adsbygoogle block w-full"
-        style={{ display: "block", width: "100%", ...(fluidHeight ? {} : { height: "100%" }) }}
-        data-ad-client={AD_CLIENT}
-        data-ad-slot={slot ?? "auto"}
-        data-ad-format={format}
-        {...(layout ? { "data-ad-layout": layout } : {})}
-        data-full-width-responsive="true"
-        {...adTargetingAttributes(geo, id)}
-      />
-    </div>
+    <AdsenseUnit
+      id={id}
+      slot={slot ?? "auto"}
+      minHeight={minHeight}
+      format={format}
+      layout={layout}
+      fluidHeight={fluidHeight}
+      className={className}
+      extraAttrs={{ ...adTargetingAttributes(geo, id), "data-ad-label": label ?? id }}
+    />
   );
 }
+
 
 
 

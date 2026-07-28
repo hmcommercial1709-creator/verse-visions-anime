@@ -12,20 +12,21 @@ export { AD_CLIENT };
  * pages keep compiling and no layout wrapper has to be touched.
  */
 
-const NoAd = () => null;
+type AnyAdProps = Record<string, unknown>;
+const NoAd = (_props: AnyAdProps) => null;
 
-export const AdSlot: (props?: unknown) => null = NoAd;
-export const AdSenseContainer: (props?: unknown) => null = NoAd;
-export const MultiplexAd: (props?: unknown) => null = NoAd;
-export const DisplayAd: (props?: unknown) => null = NoAd;
-export const InFeedAd: (props?: unknown) => null = NoAd;
-export const VideoAd: (props?: unknown) => null = NoAd;
-export const HeaderBannerAd: (props?: unknown) => null = NoAd;
-export const BelowTitleAd: (props?: unknown) => null = NoAd;
-export const PostContentAd: (props?: unknown) => null = NoAd;
-export const InArticleAd: (props?: unknown) => null = NoAd;
-export const StickySidebarAd: (props?: unknown) => null = NoAd;
-export const MobileAnchorAd: (props?: unknown) => null = NoAd;
+export const AdSlot: (props: AnyAdProps) => null = NoAd;
+export const AdSenseContainer: (props: AnyAdProps) => null = NoAd;
+export const MultiplexAd: (props: AnyAdProps) => null = NoAd;
+export const DisplayAd: (props: AnyAdProps) => null = NoAd;
+export const InFeedAd: (props: AnyAdProps) => null = NoAd;
+export const VideoAd: (props: AnyAdProps) => null = NoAd;
+export const HeaderBannerAd: (props: AnyAdProps) => null = NoAd;
+export const BelowTitleAd: (props: AnyAdProps) => null = NoAd;
+export const PostContentAd: (props: AnyAdProps) => null = NoAd;
+export const InArticleAd: (props: AnyAdProps) => null = NoAd;
+export const StickySidebarAd: (props: AnyAdProps) => null = NoAd;
+export const MobileAnchorAd: (props: AnyAdProps) => null = NoAd;
 
 /** Editorial affiliate card — real content, not an ad placeholder. */
 export function AffiliateBox({

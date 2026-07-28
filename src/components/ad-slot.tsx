@@ -148,12 +148,10 @@ export function AdSenseContainer({
 
 
 /**
- * Network-rotating unit: serves AdSense on even refresh ticks and a Monetag
- * in-page banner/native zone on odd ticks (when zones are configured). Both
- * render inside the same reserved box, so rotation never shifts layout.
+ * Ad unit renderer. AdSense fills the reserved box directly; Monetag serves
+ * through its global in-page tag, so no per-slot wrapper is needed.
  */
 function RotatingUnit({
-  refreshKey,
   id,
   slot,
   minHeight,
@@ -163,7 +161,7 @@ function RotatingUnit({
   label,
   className,
 }: {
-  refreshKey: number;
+  refreshKey?: number;
   id: string;
   slot?: string;
   minHeight: number;
@@ -173,10 +171,6 @@ function RotatingUnit({
   label?: string;
   className?: string;
 }) {
-  const zone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
-  if (zone) {
-    return <MonetagSlot zone={zone} minHeight={minHeight} label={label} className={className} />;
-  }
   return (
     <AdSenseContainer
       id={id}
@@ -218,43 +212,30 @@ function RefreshingUnit({
 }) {
   const unitId = useAdUnitId(prefix);
   const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLDivElement>();
-  // Rotate networks between refresh cycles: AdSense on even ticks, a Monetag
-  // banner/native zone on odd ticks (only when in-page zones are configured).
-  const monetagZone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
   return (
     <div
       ref={ref}
       data-ad-slot={slotKind}
       data-ad-unit-id={unitId}
       data-ad-refresh={refreshKey}
-      data-ad-network={monetagZone ? "monetag" : "adsense"}
+      data-ad-network="adsense"
       data-ad-viewable={viewable ? "true" : "false"}
     >
-      {monetagZone ? (
-        <MonetagSlot
-          key={`monetag-${refreshKey}`}
-          zone={monetagZone}
-          minHeight={minHeight}
-          label={label}
-          className={className}
-        />
-      ) : (
-        <RotatingUnit
-          key={refreshKey}
-          refreshKey={refreshKey}
-          id={adId}
-          slot={unitId}
-          minHeight={minHeight}
-          format={format}
-          layout={layout}
-          fluidHeight={fluidHeight}
-          label={label}
-          className={className}
-        />
-      )}
+      <RotatingUnit
+        key={refreshKey}
+        id={adId}
+        slot={unitId}
+        minHeight={minHeight}
+        format={format}
+        layout={layout}
+        fluidHeight={fluidHeight}
+        label={label}
+        className={className}
+      />
     </div>
   );
 }
+
 
 
 /**

@@ -6,6 +6,7 @@ import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
   AdSlot,
+  DisplayAd,
   BelowTitleAd,
   HeaderBannerAd,
   InArticleAd,

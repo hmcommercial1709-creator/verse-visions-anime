@@ -3,6 +3,8 @@ import { X } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 import { adTargetingAttributes, useGeoTarget } from "@/lib/geo-targeting";
+import { MonetagSlot } from "@/components/monetag-slot";
+import { pickMonetagZone } from "@/lib/monetag";
 
 /** Live AdSense publisher ID (loaded globally from the root route <head>). */
 export const AD_CLIENT = "ca-pub-6422431093727588";
@@ -146,8 +148,9 @@ export function AdSenseContainer({
 
 
 /**
- * Ad unit renderer. AdSense fills the reserved box directly; Monetag serves
- * through its global in-page tag, so no per-slot wrapper is needed.
+ * Ad unit renderer. AdSense gets first look at the reserved box; if it comes
+ * back unfilled after a short grace period, a Monetag in-page banner zone
+ * takes over the same box so no slot is ever left empty (CPM on every view).
  */
 function RotatingUnit({
   id,
@@ -158,6 +161,7 @@ function RotatingUnit({
   fluidHeight,
   label,
   className,
+  refreshKey = 0,
 }: {
   refreshKey?: number;
   id: string;
@@ -169,17 +173,38 @@ function RotatingUnit({
   label?: string;
   className?: string;
 }) {
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const [fallback, setFallback] = useState(false);
+
+  // Give AdSense ~4s to fill; otherwise hand the box to Monetag.
+  useEffect(() => {
+    setFallback(false);
+    const timer = window.setTimeout(() => {
+      const node = wrapRef.current?.querySelector("[data-ad-filled]");
+      if (node?.getAttribute("data-ad-filled") !== "true") setFallback(true);
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [id, slot, refreshKey]);
+
+  const zone = pickMonetagZone(refreshKey + id.length);
+
+  if (fallback && zone) {
+    return <MonetagSlot zone={zone} minHeight={minHeight} className={className} />;
+  }
+
   return (
-    <AdSenseContainer
-      id={id}
-      slot={slot}
-      minHeight={minHeight}
-      format={format}
-      layout={layout}
-      fluidHeight={fluidHeight}
-      label={label}
-      className={className}
-    />
+    <div ref={wrapRef}>
+      <AdSenseContainer
+        id={id}
+        slot={slot}
+        minHeight={minHeight}
+        format={format}
+        layout={layout}
+        fluidHeight={fluidHeight}
+        label={label}
+        className={className}
+      />
+    </div>
   );
 }
 

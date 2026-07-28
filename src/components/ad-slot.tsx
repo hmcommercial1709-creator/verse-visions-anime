@@ -176,28 +176,43 @@ function RefreshingUnit({
 }) {
   const unitId = useAdUnitId(prefix);
   const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLDivElement>();
+  // Rotate networks between refresh cycles: AdSense on even ticks, a Monetag
+  // banner/native zone on odd ticks (only when in-page zones are configured).
+  const monetagZone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
   return (
     <div
       ref={ref}
       data-ad-slot={slotKind}
       data-ad-unit-id={unitId}
       data-ad-refresh={refreshKey}
+      data-ad-network={monetagZone ? "monetag" : "adsense"}
       data-ad-viewable={viewable ? "true" : "false"}
     >
-      <AdSenseContainer
-        key={refreshKey}
-        id={adId}
-        slot={unitId}
-        minHeight={minHeight}
-        format={format}
-        layout={layout}
-        fluidHeight={fluidHeight}
-        label={label}
-        className={className}
-      />
+      {monetagZone ? (
+        <MonetagSlot
+          key={`monetag-${refreshKey}`}
+          zone={monetagZone}
+          minHeight={Math.max(minHeight, 250)}
+          label={label}
+          className={className}
+        />
+      ) : (
+        <AdSenseContainer
+          key={refreshKey}
+          id={adId}
+          slot={unitId}
+          minHeight={Math.max(minHeight, 250)}
+          format={format}
+          layout={layout}
+          fluidHeight={fluidHeight}
+          label={label}
+          className={className}
+        />
+      )}
     </div>
   );
 }
+
 
 /**
  * Multiplex / "matched content" grid — high-yield recirculation unit meant to

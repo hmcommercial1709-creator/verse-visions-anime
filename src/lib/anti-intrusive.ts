@@ -36,6 +36,27 @@ const DECEPTIVE_PATTERNS: RegExp[] = [
   /update\s+your\s+(flash|player|browser)/i,
 ];
 
+/** Ad networks we intentionally run, including Monetag's vignette banner. */
+const ALLOWED_AD_HOSTS = [
+  "nap5k.com",
+  "n6wxm.com",
+  "thubanoa.com",
+  "fpyf8.com",
+  "monetag.com",
+  "googlesyndication.com",
+  "doubleclick.net",
+];
+
+/** True when the overlay is creative from one of our own configured networks. */
+function isAllowedNetwork(el: HTMLElement): boolean {
+  const nodes = [el, ...Array.from(el.querySelectorAll("iframe, img, a, script"))] as HTMLElement[];
+  return nodes.some((n) => {
+    const src = n.getAttribute?.("src") ?? n.getAttribute?.("href") ?? "";
+    const id = n.id ?? "";
+    return ALLOWED_AD_HOSTS.some((h) => src.includes(h)) || /monetag|vignette/i.test(id);
+  });
+}
+
 /** True when the node lives outside the React app root (i.e. injected by a third party). */
 function isForeign(el: HTMLElement): boolean {
   const appRoot = document.getElementById("root") ?? document.querySelector("main")?.parentElement;

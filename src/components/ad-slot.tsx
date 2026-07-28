@@ -228,7 +228,7 @@ export function MultiplexAd({
         format="autorelaxed"
         fluidHeight
         label={`${adId} · matched content`}
-        className="rounded-2xl bg-ad-surface"
+        className="rounded-2xl"
       />
     </section>
 
@@ -261,7 +261,7 @@ export function DisplayAd({
         minHeight={minHeight}
         format="auto"
         label={label ?? `${adId} · responsive`}
-        className="rounded-2xl bg-ad-surface"
+        className="rounded-2xl"
       />
     </div>
   );
@@ -373,7 +373,7 @@ export function HeaderBannerAd() {
           prefix="av-header"
           minHeight={90}
           label="Header_Ad · 728×90 / 320×50"
-          className="rounded-lg bg-ad-surface"
+          className="rounded-lg"
         />
       </div>
     </div>
@@ -390,7 +390,7 @@ export function BelowTitleAd() {
         prefix="av-below-title"
         minHeight={100}
         label="Below_Title_Ad · 970×90 / 336×100"
-        className="rounded-xl bg-ad-surface"
+        className="rounded-xl"
       />
     </div>
   );
@@ -407,7 +407,7 @@ export function PostContentAd() {
         prefix="av-post-content"
         minHeight={250}
         label="Post_Content_Ad · 970×250 / 336×280"
-        className="rounded-2xl bg-ad-surface"
+        className="rounded-2xl"
       />
     </div>
   );
@@ -486,7 +486,7 @@ export function StickySidebarAd({
           minHeight={600}
           format="vertical"
           label={label}
-          className="rounded-2xl bg-ad-surface"
+          className="rounded-2xl"
         />
       </div>
     </div>

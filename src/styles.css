@@ -190,8 +190,14 @@ ins.adsbygoogle[data-ad-status="unfilled"] {
 }
 /* Container-level collapse: any reserved ad box that never filled takes up
    no space and shows no chrome. */
-[data-ad-filled="false"][data-ad-collapsed="true"] {
+[data-ad-filled="false"][data-ad-collapsed="true"],
+.ad-container:empty {
   display: none !important;
+}
+.ad-container[data-ad-filled="false"] {
+  background: transparent !important;
+  border: none !important;
+  min-height: 0 !important;
 }
 
 

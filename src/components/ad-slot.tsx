@@ -342,7 +342,7 @@ export function DisplayAd({
         minHeight={minHeight}
         format="auto"
         label={label ?? `${adId} · responsive`}
-        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-2xl bg-ad-surface"
       />
     </div>
   );
@@ -377,7 +377,7 @@ export function InFeedAd({
       data-ad-refresh={refreshKey}
       data-ad-viewable={viewable ? "true" : "false"}
       aria-label="advertisement"
-      className="my-5 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+      className="my-5 overflow-hidden"
     >
       <RotatingUnit
         key={refreshKey}
@@ -423,7 +423,7 @@ export function VideoAd({
       data-ad-refresh={refreshKey}
       data-ad-viewable={viewable ? "true" : "false"}
       aria-label="advertisement"
-      className="my-6 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+      className="my-6 overflow-hidden"
     >
       <RotatingUnit
         key={refreshKey}
@@ -451,7 +451,7 @@ export function HeaderBannerAd() {
           prefix="av-header"
           minHeight={90}
           label="Header_Ad · 728×90 / 320×50"
-          className="rounded-lg border border-dashed border-border/70 bg-ad-surface"
+          className="rounded-lg bg-ad-surface"
         />
       </div>
     </div>
@@ -468,7 +468,7 @@ export function BelowTitleAd() {
         prefix="av-below-title"
         minHeight={100}
         label="Below_Title_Ad · 970×90 / 336×100"
-        className="rounded-xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-xl bg-ad-surface"
       />
     </div>
   );
@@ -485,7 +485,7 @@ export function PostContentAd() {
         prefix="av-post-content"
         minHeight={250}
         label="Post_Content_Ad · 970×250 / 336×280"
-        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-2xl bg-ad-surface"
       />
     </div>
   );
@@ -514,7 +514,7 @@ export function InArticleAd({
       data-ad-refresh={refreshKey}
       data-ad-viewable={viewable ? "true" : "false"}
       aria-label="advertisement"
-      className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+      className="my-8 overflow-hidden"
     >
       <RotatingUnit
         key={refreshKey}
@@ -564,7 +564,7 @@ export function StickySidebarAd({
           minHeight={600}
           format="vertical"
           label={label}
-          className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+          className="rounded-2xl bg-ad-surface"
         />
       </div>
     </div>

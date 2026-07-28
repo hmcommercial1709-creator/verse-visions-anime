@@ -52,27 +52,35 @@ export function MonetagSlot({
     };
   }, [zone]);
 
-  const collapsed = collapseUntilFilled && !filled;
+  // Collapse (display:none) when nothing renders within 2s.
+  const [expired, setExpired] = useState(false);
+  useEffect(() => {
+    setExpired(false);
+    const timer = window.setTimeout(() => setExpired(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [zone]);
+
+  const collapsed = (collapseUntilFilled || expired) && !filled;
 
   return (
     <div
-      className={`relative w-full overflow-hidden bg-ad-surface ${collapsed ? "" : className}`}
-      style={{
-        minHeight: collapsed ? 0 : minHeight,
-        contain: "layout",
-        backgroundColor: "var(--ad-surface)",
-      }}
+      className={`relative w-full overflow-hidden ${filled ? `bg-ad-surface ${className}` : ""}`}
+      style={
+        collapsed
+          ? { display: "none" }
+          : {
+              minHeight: filled ? minHeight : 0,
+              contain: "layout",
+              background: filled ? "var(--ad-surface)" : "transparent",
+            }
+      }
       aria-label="advertisement"
       role="complementary"
       data-monetag-zone={zone}
       data-monetag-filled={filled ? "true" : "false"}
     >
       <div ref={hostRef} className="w-full" />
-      {!filled && !collapseUntilFilled && (
-        <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          {label ?? "Advertisement"}
-        </span>
-      )}
     </div>
   );
 }
+

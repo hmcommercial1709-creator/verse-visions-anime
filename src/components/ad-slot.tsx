@@ -24,30 +24,33 @@ type Placement =
   | "video"
   | "affiliate";
 
-// Reusable, clean ad placeholders. Wire real ad code into `data-ad-slot`.
+/**
+ * Generic slot marker. Renders a real responsive ad unit that collapses to
+ * nothing when neither network fills — never a dark labelled placeholder.
+ */
 export function AdSlot({ placement = "inline", label }: { placement?: Placement; label?: string }) {
-  const heights: Record<Placement, string> = {
-    top: "h-24",
-    hero: "h-28",
-    inline: "h-32",
-    between: "h-36",
-    sidebar: "h-64",
-    footer: "h-24",
-    "sticky-mobile": "h-14",
-    native: "h-40",
-    video: "h-56",
-    affiliate: "h-40",
+  const heights: Record<Placement, number> = {
+    top: 96,
+    hero: 112,
+    inline: 128,
+    between: 144,
+    sidebar: 256,
+    footer: 96,
+    "sticky-mobile": 56,
+    native: 160,
+    video: 224,
+    affiliate: 160,
   };
   return (
-    <div
-      data-ad-slot={placement}
-      className={`w-full ${heights[placement]} rounded-xl border border-dashed border-border/70 bg-ad-surface grid place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground`}
-      aria-label="advertisement"
-    >
-      {label ?? `Ad Slot · ${placement}`}
-    </div>
+    <DisplayAd
+      adId={`Slot_${placement}`}
+      prefix={`av-${placement}`}
+      minHeight={heights[placement]}
+      label={label}
+    />
   );
 }
+
 
 /**
  * Standard Google AdSense container. Renders the `<ins class="adsbygoogle">`
@@ -114,20 +117,35 @@ export function AdSenseContainer({
     };
   }, [id, slot, pathname]);
 
+  // Collapse entirely if nothing filled within 2s: no border, no background,
+  // no reserved height, no label — the slot simply disappears.
+  const [expired, setExpired] = useState(false);
+  useEffect(() => {
+    setExpired(false);
+    const timer = window.setTimeout(() => setExpired(true), 2000);
+    return () => window.clearTimeout(timer);
+  }, [id, slot, pathname]);
+
+  const collapsed = expired && !filled;
 
   return (
     <div
-      className={`relative w-full overflow-hidden bg-ad-surface ${className}`}
+      className={`relative w-full overflow-hidden ${filled ? `bg-ad-surface ${className}` : ""}`}
       style={
-        fluidHeight
-          ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
-          : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
+        collapsed
+          ? { display: "none" }
+          : filled
+            ? fluidHeight
+              ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
+              : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
+            : { minHeight, height: fluidHeight ? undefined : minHeight, contain: "layout", background: "transparent" }
       }
       aria-label="advertisement"
       role="complementary"
       data-ad-filled={filled ? "true" : "false"}
       data-ad-label={label ?? id}
     >
+
       <ins
         ref={insRef}
         id={id}
@@ -283,10 +301,6 @@ export function MultiplexAd({
 }) {
   return (
     <section className={`mt-12 ${className}`} aria-label="Sponsored recommendations">
-      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span>{title}</span>
-        <span>Advertisement</span>
-      </div>
       <RefreshingUnit
         slotKind="multiplex"
         adId={adId}
@@ -295,9 +309,10 @@ export function MultiplexAd({
         format="autorelaxed"
         fluidHeight
         label={`${adId} · matched content`}
-        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-2xl bg-ad-surface"
       />
     </section>
+
   );
 }
 
@@ -327,7 +342,7 @@ export function DisplayAd({
         minHeight={minHeight}
         format="auto"
         label={label ?? `${adId} · responsive`}
-        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-2xl bg-ad-surface"
       />
     </div>
   );
@@ -362,7 +377,7 @@ export function InFeedAd({
       data-ad-refresh={refreshKey}
       data-ad-viewable={viewable ? "true" : "false"}
       aria-label="advertisement"
-      className="my-5 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+      className="my-5 overflow-hidden"
     >
       <RotatingUnit
         key={refreshKey}
@@ -408,7 +423,7 @@ export function VideoAd({
       data-ad-refresh={refreshKey}
       data-ad-viewable={viewable ? "true" : "false"}
       aria-label="advertisement"
-      className="my-6 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+      className="my-6 overflow-hidden"
     >
       <RotatingUnit
         key={refreshKey}
@@ -436,7 +451,7 @@ export function HeaderBannerAd() {
           prefix="av-header"
           minHeight={90}
           label="Header_Ad · 728×90 / 320×50"
-          className="rounded-lg border border-dashed border-border/70 bg-ad-surface"
+          className="rounded-lg bg-ad-surface"
         />
       </div>
     </div>
@@ -453,7 +468,7 @@ export function BelowTitleAd() {
         prefix="av-below-title"
         minHeight={100}
         label="Below_Title_Ad · 970×90 / 336×100"
-        className="rounded-xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-xl bg-ad-surface"
       />
     </div>
   );
@@ -463,14 +478,14 @@ export function BelowTitleAd() {
 export function PostContentAd() {
   return (
     <div className="mt-12">
-      <div className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Advertisement</div>
+      
       <RefreshingUnit
         slotKind="post-content"
         adId="Post_Content_Ad"
         prefix="av-post-content"
         minHeight={250}
         label="Post_Content_Ad · 970×250 / 336×280"
-        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-2xl bg-ad-surface"
       />
     </div>
   );
@@ -499,7 +514,7 @@ export function InArticleAd({
       data-ad-refresh={refreshKey}
       data-ad-viewable={viewable ? "true" : "false"}
       aria-label="advertisement"
-      className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
+      className="my-8 overflow-hidden"
     >
       <RotatingUnit
         key={refreshKey}
@@ -549,7 +564,7 @@ export function StickySidebarAd({
           minHeight={600}
           format="vertical"
           label={label}
-          className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+          className="rounded-2xl bg-ad-surface"
         />
       </div>
     </div>

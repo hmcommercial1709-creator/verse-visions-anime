@@ -69,7 +69,7 @@ function EpisodePage() {
   const animeRecs = recommendAnime(anime.slug, 4);
   const merch = productsForContext(anime, anime.title);
   // Native units injected every 4 recap paragraphs (slot 1 is above the fold).
-  const recapAdPlan = planInArticleAds([ep.recap.length], { interval: 3, startAt: 2, max: 6 });
+  const recapAdPlan = planInArticleAds([ep.recap.length], { interval: 2, startAt: 2, max: 14 });
 
   return (
     <article>

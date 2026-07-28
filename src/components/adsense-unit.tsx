@@ -92,21 +92,17 @@ export function AdsenseUnit({
 
   return (
     <div
-      className={`relative w-full overflow-hidden ${filled ? `bg-ad-surface ${className}` : ""}`}
+      className={`ad-container relative w-full overflow-hidden ${filled ? className : ""}`}
       style={
         collapsed
-          ? { display: "none" }
+          ? { display: "none", height: 0, minHeight: 0, border: "none", background: "transparent" }
           : filled
-            ? fluidHeight
-              ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
-              : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
-            : {
-                minHeight,
-                height: fluidHeight ? undefined : minHeight,
+            ? {
+                minHeight: fluidHeight ? undefined : minHeight,
                 contain: "layout",
-                background: "transparent",
-                border: "none",
+                backgroundColor: "var(--ad-surface)",
               }
+            : { background: "transparent", border: "none", minHeight: 0 }
       }
       aria-label="advertisement"
       role="complementary"
@@ -117,7 +113,7 @@ export function AdsenseUnit({
         ref={insRef}
         id={id}
         className="adsbygoogle block w-full"
-        style={{ display: "block", width: "100%", ...(fluidHeight ? {} : { height: "100%" }) }}
+        style={{ display: "block", width: "100%", background: "transparent" }}
         data-ad-client={AD_CLIENT}
         {...(slot ? { "data-ad-slot": slot } : {})}
         data-ad-format={format}

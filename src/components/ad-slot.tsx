@@ -39,6 +39,23 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
     video: 224,
     affiliate: 160,
   };
+  // Slots that live inside content flow use Google's native in-article
+  // fluid format; edge placements (sidebar/footer/header) stay responsive.
+  const inline = placement === "inline" || placement === "between" || placement === "native";
+  if (inline) {
+    return (
+      <RefreshingUnit
+        slotKind="in-article"
+        adId={`Slot_${placement}`}
+        prefix={`av-${placement}`}
+        minHeight={heights[placement]}
+        format="fluid"
+        layout="in-article"
+        fluidHeight
+        label={label ?? `Slot_${placement} · native`}
+      />
+    );
+  }
   return (
     <DisplayAd
       adId={`Slot_${placement}`}
@@ -48,6 +65,7 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
     />
   );
 }
+
 
 
 /**

@@ -166,9 +166,9 @@ export function AdSenseContainer({
 
 
 /**
- * Ad unit renderer. AdSense gets first look at the reserved box; if it comes
- * back unfilled after a short grace period, a Monetag in-page banner zone
- * takes over the same box so no slot is ever left empty (CPM on every view).
+ * Ad unit renderer. Pure Google AdSense: one responsive `<ins>` per reserved
+ * box, no Monetag wrapper scripts, and the box collapses to nothing when the
+ * unit does not fill.
  */
 function RotatingUnit({
   id,
@@ -179,7 +179,6 @@ function RotatingUnit({
   fluidHeight,
   label,
   className,
-  refreshKey = 0,
 }: {
   refreshKey?: number;
   id: string;
@@ -191,43 +190,17 @@ function RotatingUnit({
   label?: string;
   className?: string;
 }) {
-  const wrapRef = useRef<HTMLDivElement | null>(null);
-  const [fallback, setFallback] = useState(false);
-
-  // Give AdSense ~2s to fill; otherwise the Monetag banner takes over the very
-  // same reserved block (rendered inline in the DOM, never as an overlay).
-  useEffect(() => {
-    setFallback(false);
-    const timer = window.setTimeout(() => {
-      const node = wrapRef.current?.querySelector("[data-ad-filled]");
-      if (node?.getAttribute("data-ad-filled") !== "true") setFallback(true);
-    }, 2000);
-    return () => window.clearTimeout(timer);
-  }, [id, slot, refreshKey]);
-
-  const zone = pickMonetagZone(refreshKey + id.length);
-
-  if (fallback && zone) {
-    return <MonetagSlot zone={zone} minHeight={minHeight} className={className} />;
-  }
-
   return (
-    <div ref={wrapRef}>
-      <AdSenseContainer
-        id={id}
-        slot={slot}
-        minHeight={minHeight}
-        format={format}
-        layout={layout}
-        fluidHeight={fluidHeight}
-        label={label}
-        className={className}
-      />
-      {/* Companion Monetag banner mounted inline in the same block. It stays
-          zero-height until its own zone actually fills, so a filled AdSense
-          unit never gets pushed around and no empty box appears. */}
-      {zone && <MonetagSlot zone={zone} minHeight={minHeight} collapseUntilFilled className="mt-3" />}
-    </div>
+    <AdSenseContainer
+      id={id}
+      slot={slot}
+      minHeight={minHeight}
+      format={format}
+      layout={layout}
+      fluidHeight={fluidHeight}
+      label={label}
+      className={className}
+    />
   );
 }
 

@@ -1,4 +1,5 @@
 import type { CategorySlug } from "./categories";
+import { plainText } from "@/lib/inline-links";
 
 /**
  * Rich in-body blocks an editor can drop between paragraphs of a

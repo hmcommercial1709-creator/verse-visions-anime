@@ -125,6 +125,8 @@ export function AdSenseContainer({
       }
       aria-label="advertisement"
       role="complementary"
+      data-ad-filled={filled ? "true" : "false"}
+      data-ad-label={label ?? id}
     >
       <ins
         ref={insRef}
@@ -132,20 +134,16 @@ export function AdSenseContainer({
         className="adsbygoogle block w-full"
         style={{ display: "block", width: "100%", ...(fluidHeight ? {} : { height: "100%" }) }}
         data-ad-client={AD_CLIENT}
-        data-ad-slot={slot ?? id}
+        data-ad-slot={slot ?? "auto"}
         data-ad-format={format}
         {...(layout ? { "data-ad-layout": layout } : {})}
         data-full-width-responsive="true"
         {...adTargetingAttributes(geo, id)}
       />
-      {!filled && (
-        <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          {label ?? id}
-        </span>
-      )}
     </div>
   );
 }
+
 
 
 

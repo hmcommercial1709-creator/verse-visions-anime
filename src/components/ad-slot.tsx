@@ -150,6 +150,50 @@ export function AdSenseContainer({
 
 
 /**
+ * Network-rotating unit: serves AdSense on even refresh ticks and a Monetag
+ * in-page banner/native zone on odd ticks (when zones are configured). Both
+ * render inside the same reserved box, so rotation never shifts layout.
+ */
+function RotatingUnit({
+  refreshKey,
+  id,
+  slot,
+  minHeight,
+  format,
+  layout,
+  fluidHeight,
+  label,
+  className,
+}: {
+  refreshKey: number;
+  id: string;
+  slot?: string;
+  minHeight: number;
+  format?: string;
+  layout?: string;
+  fluidHeight?: boolean;
+  label?: string;
+  className?: string;
+}) {
+  const zone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
+  if (zone) {
+    return <MonetagSlot zone={zone} minHeight={minHeight} label={label} className={className} />;
+  }
+  return (
+    <AdSenseContainer
+      id={id}
+      slot={slot}
+      minHeight={minHeight}
+      format={format}
+      layout={layout}
+      fluidHeight={fluidHeight}
+      label={label}
+      className={className}
+    />
+  );
+}
+
+/**
  * Wraps any AdSense container with its own independent viewability-gated
  * refresh cycle (45s of accumulated in-view time, paused off-screen/off-tab).
  */
@@ -197,8 +241,9 @@ function RefreshingUnit({
           className={className}
         />
       ) : (
-        <AdSenseContainer
+        <RotatingUnit
           key={refreshKey}
+          refreshKey={refreshKey}
           id={adId}
           slot={unitId}
           minHeight={minHeight}
@@ -316,8 +361,9 @@ export function InFeedAd({
         <span>{label}</span>
         <span className="font-mono opacity-60">in-feed {index}</span>
       </div>
-      <AdSenseContainer
+      <RotatingUnit
         key={refreshKey}
+        refreshKey={refreshKey}
         id={containerId}
         slot={id}
         minHeight={220}
@@ -365,8 +411,9 @@ export function VideoAd({
         <span>{title}</span>
         <span>Advertisement</span>
       </div>
-      <AdSenseContainer
+      <RotatingUnit
         key={refreshKey}
+        refreshKey={refreshKey}
         id={containerId}
         slot={id}
         minHeight={280}
@@ -459,8 +506,9 @@ export function InArticleAd({
         <span>Sponsored</span>
         <span className="font-mono opacity-60">slot {index}</span>
       </div>
-      <AdSenseContainer
+      <RotatingUnit
         key={refreshKey}
+        refreshKey={refreshKey}
         id={containerId}
         slot={id}
         minHeight={200}
@@ -498,8 +546,9 @@ export function StickySidebarAd({
         data-ad-viewable={viewable ? "true" : "false"}
         aria-label="advertisement"
       >
-        <AdSenseContainer
+        <RotatingUnit
           key={refreshKey}
+          refreshKey={refreshKey}
           id={adId}
           slot={id}
           minHeight={600}

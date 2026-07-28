@@ -24,19 +24,12 @@ const TAGS: Tag[] = [
   // NOTE: the AdSense loader is intentionally NOT here — it ships in the
   // document head (src/routes/__root.tsx) so Auto Ads can run on every page.
 
-  // Monetag global tags. Load once, site-wide, so the network can serve
-  // immediately without waiting on custom wrappers. In-page push + vignette
-  // banner zones only — no popunder / OnClick zones.
-  { id: "monetag-inpage", src: "https://thubanoa.com/1?z=11410811" },
+  // Monetag global tag. EXACTLY ONE in-page push zone site-wide so the
+  // "Download is ready" widgets never stack. No popunder / OnClick / vignette.
   {
     id: "monetag-inpage-11443705",
     src: "https://nap5k.com/tag.min.js",
     attrs: { "data-zone": "11443705" },
-  },
-  {
-    id: "monetag-vignette-11443723",
-    src: "https://n6wxm.com/vignette.min.js",
-    attrs: { "data-zone": "11443723" },
   },
 
 

@@ -11,8 +11,11 @@
  */
 const ENV_ZONES = (import.meta.env.VITE_MONETAG_BANNER_ZONES as string | undefined) ?? "";
 
-/** Hard-coded banner/native zones. Keep popunder zones OUT of this array. */
-const STATIC_ZONES: string[] = ["11443705", "11410811", "11410812"];
+/**
+ * Empty by design: inline article/feed boxes serve pure AdSense only. Monetag
+ * runs once globally (in-page push), never wrapped inside block containers.
+ */
+const STATIC_ZONES: string[] = [];
 
 export const MONETAG_BANNER_ZONES: string[] = [
   ...STATIC_ZONES,

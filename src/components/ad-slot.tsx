@@ -192,7 +192,7 @@ function RefreshingUnit({
         <MonetagSlot
           key={`monetag-${refreshKey}`}
           zone={monetagZone}
-          minHeight={Math.max(minHeight, 250)}
+          minHeight={minHeight}
           label={label}
           className={className}
         />
@@ -201,7 +201,7 @@ function RefreshingUnit({
           key={refreshKey}
           id={adId}
           slot={unitId}
-          minHeight={Math.max(minHeight, 250)}
+          minHeight={minHeight}
           format={format}
           layout={layout}
           fluidHeight={fluidHeight}

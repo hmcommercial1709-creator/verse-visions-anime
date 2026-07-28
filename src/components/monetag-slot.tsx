@@ -52,15 +52,23 @@ export function MonetagSlot({
     };
   }, [zone]);
 
+  const collapsed = collapseUntilFilled && !filled;
+
   return (
     <div
-      className={`relative w-full overflow-hidden bg-ad-surface ${className}`}
-      style={{ minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }}
+      className={`relative w-full overflow-hidden bg-ad-surface ${collapsed ? "" : className}`}
+      style={{
+        minHeight: collapsed ? 0 : minHeight,
+        contain: "layout",
+        backgroundColor: "var(--ad-surface)",
+      }}
       aria-label="advertisement"
       role="complementary"
+      data-monetag-zone={zone}
+      data-monetag-filled={filled ? "true" : "false"}
     >
       <div ref={hostRef} className="w-full" />
-      {!filled && (
+      {!filled && !collapseUntilFilled && (
         <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
           {label ?? "Advertisement"}
         </span>

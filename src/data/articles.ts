@@ -59,6 +59,7 @@ import { gojoLimitlessArticle } from "./article-gojo-limitless";
 import { shibuyaIncidentArticle } from "./article-shibuya-incident";
 import { sorcererFamiliesArticle } from "./article-sorcerer-families";
 import { extraArticles } from "./articles-extra";
+import { longformArticles } from "./articles-longform";
 
 const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
 

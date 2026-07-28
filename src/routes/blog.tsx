@@ -10,7 +10,7 @@ import {
 } from "@/data/articles";
 import { categories } from "@/data/categories";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { HeaderBannerAd, InArticleAd, PostContentAd,
+import { HeaderBannerAd, InArticleAd, PostContentAd, DisplayAd,
   MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
 import { MediaImage } from "@/components/media";
 import { backdropFor, artAlt } from "@/lib/media";

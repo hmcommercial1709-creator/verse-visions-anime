@@ -301,10 +301,6 @@ export function MultiplexAd({
 }) {
   return (
     <section className={`mt-12 ${className}`} aria-label="Sponsored recommendations">
-      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span>{title}</span>
-        <span>Advertisement</span>
-      </div>
       <RefreshingUnit
         slotKind="multiplex"
         adId={adId}
@@ -313,9 +309,10 @@ export function MultiplexAd({
         format="autorelaxed"
         fluidHeight
         label={`${adId} · matched content`}
-        className="rounded-2xl border border-dashed border-border/70 bg-ad-surface"
+        className="rounded-2xl bg-ad-surface"
       />
     </section>
+
   );
 }
 

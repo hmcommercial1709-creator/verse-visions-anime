@@ -108,11 +108,11 @@ export function AdSenseContainer({
 
   return (
     <div
-      className={`relative w-full overflow-hidden ${className}`}
+      className={`relative w-full overflow-hidden bg-ad-surface ${className}`}
       style={
         fluidHeight
-          ? { minHeight, contain: "layout" }
-          : { minHeight, height: minHeight, contain: "layout size" }
+          ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
+          : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
       }
       aria-label="advertisement"
       role="complementary"

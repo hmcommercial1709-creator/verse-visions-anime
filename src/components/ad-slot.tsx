@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
+import { useRouterState } from "@tanstack/react-router";
 import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 import { adTargetingAttributes, useGeoTarget } from "@/lib/geo-targeting";
+import { MonetagSlot } from "@/components/monetag-slot";
+import { hasMonetagBanners, pickMonetagZone } from "@/lib/monetag";
 
 /** Live AdSense publisher ID (loaded globally from the root route <head>). */
 export const AD_CLIENT = "ca-pub-6422431093727588";
+
 
 
 
@@ -73,6 +77,8 @@ export function AdSenseContainer({
   const geo = useGeoTarget();
   const insRef = useRef<HTMLModElement | null>(null);
   const [filled, setFilled] = useState(false);
+  // Re-push on every route change so client-side navigation always fills.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   // Hand the freshly mounted <ins> to the globally loaded AdSense script.
   useEffect(() => {
@@ -83,7 +89,9 @@ export function AdSenseContainer({
     try {
       const w = window as unknown as { adsbygoogle?: unknown[] };
       w.adsbygoogle = w.adsbygoogle || [];
-      w.adsbygoogle.push({});
+      if (node.getAttribute("data-adsbygoogle-status") !== "done") {
+        w.adsbygoogle.push({});
+      }
     } catch {
       /* script blocked or not yet available — box stays reserved, no CLS */
     }
@@ -104,7 +112,8 @@ export function AdSenseContainer({
       cancelled = true;
       observer?.disconnect();
     };
-  }, [id, slot]);
+  }, [id, slot, pathname]);
+
 
   return (
     <div
@@ -141,6 +150,50 @@ export function AdSenseContainer({
 
 
 /**
+ * Network-rotating unit: serves AdSense on even refresh ticks and a Monetag
+ * in-page banner/native zone on odd ticks (when zones are configured). Both
+ * render inside the same reserved box, so rotation never shifts layout.
+ */
+function RotatingUnit({
+  refreshKey,
+  id,
+  slot,
+  minHeight,
+  format,
+  layout,
+  fluidHeight,
+  label,
+  className,
+}: {
+  refreshKey: number;
+  id: string;
+  slot?: string;
+  minHeight: number;
+  format?: string;
+  layout?: string;
+  fluidHeight?: boolean;
+  label?: string;
+  className?: string;
+}) {
+  const zone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
+  if (zone) {
+    return <MonetagSlot zone={zone} minHeight={minHeight} label={label} className={className} />;
+  }
+  return (
+    <AdSenseContainer
+      id={id}
+      slot={slot}
+      minHeight={minHeight}
+      format={format}
+      layout={layout}
+      fluidHeight={fluidHeight}
+      label={label}
+      className={className}
+    />
+  );
+}
+
+/**
  * Wraps any AdSense container with its own independent viewability-gated
  * refresh cycle (45s of accumulated in-view time, paused off-screen/off-tab).
  */
@@ -167,28 +220,44 @@ function RefreshingUnit({
 }) {
   const unitId = useAdUnitId(prefix);
   const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLDivElement>();
+  // Rotate networks between refresh cycles: AdSense on even ticks, a Monetag
+  // banner/native zone on odd ticks (only when in-page zones are configured).
+  const monetagZone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
   return (
     <div
       ref={ref}
       data-ad-slot={slotKind}
       data-ad-unit-id={unitId}
       data-ad-refresh={refreshKey}
+      data-ad-network={monetagZone ? "monetag" : "adsense"}
       data-ad-viewable={viewable ? "true" : "false"}
     >
-      <AdSenseContainer
-        key={refreshKey}
-        id={adId}
-        slot={unitId}
-        minHeight={minHeight}
-        format={format}
-        layout={layout}
-        fluidHeight={fluidHeight}
-        label={label}
-        className={className}
-      />
+      {monetagZone ? (
+        <MonetagSlot
+          key={`monetag-${refreshKey}`}
+          zone={monetagZone}
+          minHeight={minHeight}
+          label={label}
+          className={className}
+        />
+      ) : (
+        <RotatingUnit
+          key={refreshKey}
+          refreshKey={refreshKey}
+          id={adId}
+          slot={unitId}
+          minHeight={minHeight}
+          format={format}
+          layout={layout}
+          fluidHeight={fluidHeight}
+          label={label}
+          className={className}
+        />
+      )}
     </div>
   );
 }
+
 
 /**
  * Multiplex / "matched content" grid — high-yield recirculation unit meant to
@@ -292,8 +361,9 @@ export function InFeedAd({
         <span>{label}</span>
         <span className="font-mono opacity-60">in-feed {index}</span>
       </div>
-      <AdSenseContainer
+      <RotatingUnit
         key={refreshKey}
+        refreshKey={refreshKey}
         id={containerId}
         slot={id}
         minHeight={220}
@@ -341,8 +411,9 @@ export function VideoAd({
         <span>{title}</span>
         <span>Advertisement</span>
       </div>
-      <AdSenseContainer
+      <RotatingUnit
         key={refreshKey}
+        refreshKey={refreshKey}
         id={containerId}
         slot={id}
         minHeight={280}
@@ -435,8 +506,9 @@ export function InArticleAd({
         <span>Sponsored</span>
         <span className="font-mono opacity-60">slot {index}</span>
       </div>
-      <AdSenseContainer
+      <RotatingUnit
         key={refreshKey}
+        refreshKey={refreshKey}
         id={containerId}
         slot={id}
         minHeight={200}
@@ -474,8 +546,9 @@ export function StickySidebarAd({
         data-ad-viewable={viewable ? "true" : "false"}
         aria-label="advertisement"
       >
-        <AdSenseContainer
+        <RotatingUnit
           key={refreshKey}
+          refreshKey={refreshKey}
           id={adId}
           slot={id}
           minHeight={600}

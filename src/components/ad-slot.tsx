@@ -176,8 +176,8 @@ function RotatingUnit({
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [fallback, setFallback] = useState(false);
 
-  // Give AdSense ~2s to fill; otherwise mount the Monetag banner inline in the
-  // very same reserved block (never an overlay).
+  // Give AdSense ~2s to fill; otherwise the Monetag banner takes over the very
+  // same reserved block (rendered inline in the DOM, never as an overlay).
   useEffect(() => {
     setFallback(false);
     const timer = window.setTimeout(() => {
@@ -205,6 +205,10 @@ function RotatingUnit({
         label={label}
         className={className}
       />
+      {/* Companion Monetag banner mounted inline in the same block. It stays
+          zero-height until its own zone actually fills, so a filled AdSense
+          unit never gets pushed around and no empty box appears. */}
+      {zone && <MonetagSlot zone={zone} minHeight={minHeight} collapseUntilFilled className="mt-3" />}
     </div>
   );
 }

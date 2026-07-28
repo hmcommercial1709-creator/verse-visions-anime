@@ -24,9 +24,10 @@ const TAGS: Tag[] = [
   // NOTE: the AdSense loader is intentionally NOT here — it ships in the
   // document head (src/routes/__root.tsx) so Auto Ads can run on every page.
 
-  // NOTE: no global Monetag tag here. OnClick / Popunder / Vignette formats are
-  // banned site-wide. Monetag now serves ONLY through in-page banner/native
-  // zones rendered inside <MonetagSlot> containers (src/lib/monetag.ts).
+  // Monetag global in-page tag (zone 11410811). Loads once, site-wide, so the
+  // network can serve immediately without waiting on custom wrappers.
+  { id: "monetag-inpage", src: "https://thubanoa.com/1?z=11410811" },
+
 
 
   {

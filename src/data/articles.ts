@@ -51,9 +51,13 @@ export type Article = {
   related: string[]; // slugs of anime
 };
 
-/** Flat paragraph list for reading-time, word count and schema. */
+/** Flat paragraph list (inline link markup stripped) for reading-time, word count and schema. */
 export const articleParagraphs = (a: Article): string[] =>
-  a.sections && a.sections.length > 0 ? a.sections.flatMap((s) => [s.heading, ...s.paragraphs]) : a.body;
+  (a.sections && a.sections.length > 0
+    ? a.sections.flatMap((s) => [s.heading, ...s.paragraphs])
+    : a.body
+  ).map(plainText);
+
 
 import { gojoLimitlessArticle } from "./article-gojo-limitless";
 import { shibuyaIncidentArticle } from "./article-shibuya-incident";

@@ -25,7 +25,7 @@ const HOME_OG_IMAGE =
 
 const HERO_SLUGS = ["one-piece", "jujutsu-kaisen", "solo-leveling", "demon-slayer", "attack-on-titan"];
 
-const HUB_SLUGS = ["jujutsu-kaisen", "one-piece", "attack-on-titan", "bleach"];
+const HUB_SLUGS = ["bleach", "naruto", "hunter-x-hunter", "my-hero-academia"];
 
 export const Route = createFileRoute("/")({
   head: () => ({

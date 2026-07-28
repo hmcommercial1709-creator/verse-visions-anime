@@ -1,4 +1,5 @@
 import type { CategorySlug } from "./categories";
+import { plainText } from "@/lib/inline-links";
 
 /**
  * Rich in-body blocks an editor can drop between paragraphs of a
@@ -51,14 +52,19 @@ export type Article = {
   related: string[]; // slugs of anime
 };
 
-/** Flat paragraph list for reading-time, word count and schema. */
+/** Flat paragraph list (inline link markup stripped) for reading-time, word count and schema. */
 export const articleParagraphs = (a: Article): string[] =>
-  a.sections && a.sections.length > 0 ? a.sections.flatMap((s) => [s.heading, ...s.paragraphs]) : a.body;
+  (a.sections && a.sections.length > 0
+    ? a.sections.flatMap((s) => [s.heading, ...s.paragraphs])
+    : a.body
+  ).map(plainText);
+
 
 import { gojoLimitlessArticle } from "./article-gojo-limitless";
 import { shibuyaIncidentArticle } from "./article-shibuya-incident";
 import { sorcererFamiliesArticle } from "./article-sorcerer-families";
 import { extraArticles } from "./articles-extra";
+import { longformArticles } from "./articles-longform";
 
 const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
 
@@ -168,9 +174,10 @@ export const categoryForArticle = (a: Article): CategorySlug =>
   a.category ?? SECTION_CATEGORY[a.section];
 
 /** Every published editorial item, newest first. */
-export const articles: Article[] = [...coreArticles, ...extraArticles].sort((a, b) =>
+export const articles: Article[] = [...coreArticles, ...longformArticles, ...extraArticles].sort((a, b) =>
   b.date.localeCompare(a.date),
 );
+
 
 export const getArticle = (slug: string) => articles.find((a) => a.slug === slug);
 export const listArticles = (section?: Article["section"]) =>

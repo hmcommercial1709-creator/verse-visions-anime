@@ -9,13 +9,13 @@ import { Link } from "@tanstack/react-router";
  * anchor and readers never get a full page reload; anything else falls back
  * to a plain external anchor.
  */
-const LINK_RE = /\[([^\]]+)\]\((\/[^)\s]*|https?:\/\/[^)\s]+)\)/g;
+import { INLINE_LINK_RE } from "@/lib/inline-links";
 
 export function RichText({ text }: { text: string }) {
   const parts: React.ReactNode[] = [];
   let last = 0;
   let match: RegExpExecArray | null;
-  const re = new RegExp(LINK_RE);
+  const re = new RegExp(INLINE_LINK_RE);
 
   while ((match = re.exec(text)) !== null) {
     if (match.index > last) parts.push(text.slice(last, match.index));
@@ -53,6 +53,3 @@ export function RichText({ text }: { text: string }) {
     </>
   );
 }
-
-/** Strips inline link markup for plain-text contexts (SEO meta, schema, TOC). */
-export const plainText = (text: string) => text.replace(LINK_RE, "$1");

@@ -77,6 +77,8 @@ export function AdSenseContainer({
   const geo = useGeoTarget();
   const insRef = useRef<HTMLModElement | null>(null);
   const [filled, setFilled] = useState(false);
+  // Re-push on every route change so client-side navigation always fills.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   // Hand the freshly mounted <ins> to the globally loaded AdSense script.
   useEffect(() => {
@@ -87,7 +89,9 @@ export function AdSenseContainer({
     try {
       const w = window as unknown as { adsbygoogle?: unknown[] };
       w.adsbygoogle = w.adsbygoogle || [];
-      w.adsbygoogle.push({});
+      if (node.getAttribute("data-adsbygoogle-status") !== "done") {
+        w.adsbygoogle.push({});
+      }
     } catch {
       /* script blocked or not yet available — box stays reserved, no CLS */
     }
@@ -108,7 +112,8 @@ export function AdSenseContainer({
       cancelled = true;
       observer?.disconnect();
     };
-  }, [id, slot]);
+  }, [id, slot, pathname]);
+
 
   return (
     <div

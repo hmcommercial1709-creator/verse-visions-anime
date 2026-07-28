@@ -57,7 +57,7 @@ const drafts: Draft[] = [
     tag: "Watch Order",
     tags: ["attack-on-titan", "watch-order", "guide", "action"],
     cover: ["#7f1d1d", "#0b1120"],
-    related: ["attack-on-titan", "vinland-saga", "chainsaw-man"],
+    related: ["attack-on-titan", "fullmetal-alchemist-brotherhood", "chainsaw-man"],
     sections: [
       {
         heading: "Start With Broadcast Order, Not Chronology",
@@ -503,7 +503,7 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "spring-2026-anime-season-preview",
+    slug: "spring-2026-season-preview-risk-guide",
     category: "news",
     section: "news",
     title: "Spring 2026 Season Preview: Every Show Worth Your Watchlist, Sorted by Risk",
@@ -570,7 +570,7 @@ const drafts: Draft[] = [
     tag: "Review",
     tags: ["frieren", "fantasy", "review", "analysis"],
     cover: ["#34d399", "#064e3b"],
-    related: ["frieren", "vinland-saga", "hunter-x-hunter"],
+    related: ["frieren", "fullmetal-alchemist-brotherhood", "hunter-x-hunter"],
     sections: [
       {
         heading: "The Premise Everyone Underestimated",
@@ -713,7 +713,7 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "how-anime-production-committees-work",
+    slug: "how-anime-gets-made-production-committees",
     category: "news",
     section: "editorial",
     title: "How Anime Actually Gets Made: Production Committees, Schedules and Where the Money Goes",
@@ -763,7 +763,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Legal streaming is the single most direct way an ordinary viewer influences a sequel decision, because platform licence renewals are negotiated on measurable engagement.",
           "Delay announcements are usually good news for the finished product, even when they are frustrating. A studio that pushes a broadcast is a studio protecting the episodes you have not seen yet.",
-          "Our seasonal risk assessments apply all of this in practice — see the [Spring 2026 preview](/article/spring-2026-anime-season-preview).",
+          "Our seasonal risk assessments apply all of this in practice — see the [Spring 2026 preview](/article/spring-2026-season-preview-risk-guide).",
         ],
       },
     ],
@@ -818,7 +818,7 @@ const drafts: Draft[] = [
         heading: "The Honest Recommendation",
         paragraphs: [
           "Most viewers are best served by one primary subscription plus rotating a second service for a month whenever it holds a season you care about. Annual plans only make sense on your primary.",
-          "If you are building a first watchlist to justify a subscription, start with our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen) and the [Spring 2026 preview](/article/spring-2026-anime-season-preview).",
+          "If you are building a first watchlist to justify a subscription, start with our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen) and the [Spring 2026 preview](/article/spring-2026-season-preview-risk-guide).",
         ],
       },
     ],
@@ -935,7 +935,7 @@ const drafts: Draft[] = [
         heading: "Production and Craft Terms",
         paragraphs: [
           "Sakuga refers to the standout animation cuts a studio invests in; our [sakuga explainer](/article/sakuga-explained-what-makes-a-fight-scene-great) covers the vocabulary in depth. Key animation, in-betweens and douga describe the labour stages behind those cuts.",
-          "A production committee is the funding consortium behind a show, explained in full in [how anime actually gets made](/article/how-anime-production-committees-work). Seiyuu are voice actors, and gekiga is an older term for dramatic, adult-oriented manga.",
+          "A production committee is the funding consortium behind a show, explained in full in [how anime actually gets made](/article/how-anime-gets-made-production-committees). Seiyuu are voice actors, and gekiga is an older term for dramatic, adult-oriented manga.",
           "Keep this page bookmarked — we extend it every time a term starts showing up in comment threads without explanation.",
         ],
       },

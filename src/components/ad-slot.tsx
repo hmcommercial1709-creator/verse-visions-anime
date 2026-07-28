@@ -478,7 +478,7 @@ export function BelowTitleAd() {
 export function PostContentAd() {
   return (
     <div className="mt-12">
-      <div className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Advertisement</div>
+      
       <RefreshingUnit
         slotKind="post-content"
         adId="Post_Content_Ad"

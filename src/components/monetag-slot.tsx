@@ -12,11 +12,14 @@ export function MonetagSlot({
   minHeight = 250,
   label,
   className = "",
+  /** Companion mode: take no space (and show no label) until the zone fills. */
+  collapseUntilFilled = false,
 }: {
   zone: string;
   minHeight?: number;
   label?: string;
   className?: string;
+  collapseUntilFilled?: boolean;
 }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const [filled, setFilled] = useState(false);

@@ -169,9 +169,10 @@ export const categoryForArticle = (a: Article): CategorySlug =>
   a.category ?? SECTION_CATEGORY[a.section];
 
 /** Every published editorial item, newest first. */
-export const articles: Article[] = [...coreArticles, ...extraArticles].sort((a, b) =>
+export const articles: Article[] = [...coreArticles, ...longformArticles, ...extraArticles].sort((a, b) =>
   b.date.localeCompare(a.date),
 );
+
 
 export const getArticle = (slug: string) => articles.find((a) => a.slug === slug);
 export const listArticles = (section?: Article["section"]) =>

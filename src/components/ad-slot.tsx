@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { useRouterState } from "@tanstack/react-router";
 import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 import { adTargetingAttributes, useGeoTarget } from "@/lib/geo-targeting";
+import { AdsenseUnit, AD_CLIENT } from "@/components/adsense-unit";
 
-/** Live AdSense publisher ID (loaded globally from the root route <head>). */
-export const AD_CLIENT = "ca-pub-6422431093727588";
+export { AD_CLIENT };
+
 
 
 

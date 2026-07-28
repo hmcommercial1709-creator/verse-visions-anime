@@ -136,13 +136,15 @@ export function AdSenseContainer({
             ? fluidHeight
               ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
               : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
-            : { minHeight, height: fluidHeight ? undefined : minHeight, contain: "layout", background: "transparent" }
+            : { minHeight, height: fluidHeight ? undefined : minHeight, contain: "layout", background: "transparent", border: "none" }
       }
       aria-label="advertisement"
       role="complementary"
       data-ad-filled={filled ? "true" : "false"}
+      data-ad-collapsed={collapsed ? "true" : "false"}
       data-ad-label={label ?? id}
     >
+
 
       <ins
         ref={insRef}

@@ -3,8 +3,6 @@ import { X } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { useAdUnitId, useViewableAdRefresh } from "@/lib/ad-refresh";
 import { adTargetingAttributes, useGeoTarget } from "@/lib/geo-targeting";
-import { MonetagSlot } from "@/components/monetag-slot";
-import { hasMonetagBanners, pickMonetagZone } from "@/lib/monetag";
 
 /** Live AdSense publisher ID (loaded globally from the root route <head>). */
 export const AD_CLIENT = "ca-pub-6422431093727588";
@@ -125,6 +123,8 @@ export function AdSenseContainer({
       }
       aria-label="advertisement"
       role="complementary"
+      data-ad-filled={filled ? "true" : "false"}
+      data-ad-label={label ?? id}
     >
       <ins
         ref={insRef}
@@ -132,30 +132,24 @@ export function AdSenseContainer({
         className="adsbygoogle block w-full"
         style={{ display: "block", width: "100%", ...(fluidHeight ? {} : { height: "100%" }) }}
         data-ad-client={AD_CLIENT}
-        data-ad-slot={slot ?? id}
+        data-ad-slot={slot ?? "auto"}
         data-ad-format={format}
         {...(layout ? { "data-ad-layout": layout } : {})}
         data-full-width-responsive="true"
         {...adTargetingAttributes(geo, id)}
       />
-      {!filled && (
-        <span className="pointer-events-none absolute inset-0 grid place-items-center text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          {label ?? id}
-        </span>
-      )}
     </div>
   );
 }
 
 
 
+
 /**
- * Network-rotating unit: serves AdSense on even refresh ticks and a Monetag
- * in-page banner/native zone on odd ticks (when zones are configured). Both
- * render inside the same reserved box, so rotation never shifts layout.
+ * Ad unit renderer. AdSense fills the reserved box directly; Monetag serves
+ * through its global in-page tag, so no per-slot wrapper is needed.
  */
 function RotatingUnit({
-  refreshKey,
   id,
   slot,
   minHeight,
@@ -165,7 +159,7 @@ function RotatingUnit({
   label,
   className,
 }: {
-  refreshKey: number;
+  refreshKey?: number;
   id: string;
   slot?: string;
   minHeight: number;
@@ -175,10 +169,6 @@ function RotatingUnit({
   label?: string;
   className?: string;
 }) {
-  const zone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
-  if (zone) {
-    return <MonetagSlot zone={zone} minHeight={minHeight} label={label} className={className} />;
-  }
   return (
     <AdSenseContainer
       id={id}
@@ -220,43 +210,30 @@ function RefreshingUnit({
 }) {
   const unitId = useAdUnitId(prefix);
   const { ref, refreshKey, viewable } = useViewableAdRefresh<HTMLDivElement>();
-  // Rotate networks between refresh cycles: AdSense on even ticks, a Monetag
-  // banner/native zone on odd ticks (only when in-page zones are configured).
-  const monetagZone = hasMonetagBanners() && refreshKey % 2 === 1 ? pickMonetagZone(refreshKey) : null;
   return (
     <div
       ref={ref}
       data-ad-slot={slotKind}
       data-ad-unit-id={unitId}
       data-ad-refresh={refreshKey}
-      data-ad-network={monetagZone ? "monetag" : "adsense"}
+      data-ad-network="adsense"
       data-ad-viewable={viewable ? "true" : "false"}
     >
-      {monetagZone ? (
-        <MonetagSlot
-          key={`monetag-${refreshKey}`}
-          zone={monetagZone}
-          minHeight={minHeight}
-          label={label}
-          className={className}
-        />
-      ) : (
-        <RotatingUnit
-          key={refreshKey}
-          refreshKey={refreshKey}
-          id={adId}
-          slot={unitId}
-          minHeight={minHeight}
-          format={format}
-          layout={layout}
-          fluidHeight={fluidHeight}
-          label={label}
-          className={className}
-        />
-      )}
+      <RotatingUnit
+        key={refreshKey}
+        id={adId}
+        slot={unitId}
+        minHeight={minHeight}
+        format={format}
+        layout={layout}
+        fluidHeight={fluidHeight}
+        label={label}
+        className={className}
+      />
     </div>
   );
 }
+
 
 
 /**
@@ -357,10 +334,6 @@ export function InFeedAd({
       aria-label="advertisement"
       className="my-5 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
-      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span>{label}</span>
-        <span className="font-mono opacity-60">in-feed {index}</span>
-      </div>
       <RotatingUnit
         key={refreshKey}
         refreshKey={refreshKey}
@@ -407,10 +380,6 @@ export function VideoAd({
       aria-label="advertisement"
       className="my-6 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
-      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span>{title}</span>
-        <span>Advertisement</span>
-      </div>
       <RotatingUnit
         key={refreshKey}
         refreshKey={refreshKey}
@@ -502,10 +471,6 @@ export function InArticleAd({
       aria-label="advertisement"
       className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
-      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span>Sponsored</span>
-        <span className="font-mono opacity-60">slot {index}</span>
-      </div>
       <RotatingUnit
         key={refreshKey}
         refreshKey={refreshKey}

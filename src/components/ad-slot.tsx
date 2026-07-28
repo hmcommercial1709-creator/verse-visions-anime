@@ -380,10 +380,6 @@ export function VideoAd({
       aria-label="advertisement"
       className="my-6 overflow-hidden rounded-2xl border border-border/60 bg-card/40"
     >
-      <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span>{title}</span>
-        <span>Advertisement</span>
-      </div>
       <RotatingUnit
         key={refreshKey}
         refreshKey={refreshKey}

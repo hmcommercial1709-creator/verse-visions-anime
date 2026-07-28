@@ -171,10 +171,10 @@
   .monetag-sticky-banner a { font-size: 13px; padding: 7px 18px; }
 }
 
-/* Keep every ad surface (including Auto Ads injected by Google) on the dark
-   theme so unfilled or loading units never flash a white box. */
-ins.adsbygoogle,
-ins.adsbygoogle[data-ad-status="unfilled"],
+/* Ad surfaces only get the dark theme once Google actually fills them.
+   Pending / unfilled units stay fully transparent so no empty dark
+   rectangle is ever visible, and unfilled units collapse entirely. */
+ins.adsbygoogle[data-ad-status="filled"],
 .google-auto-placed,
 [data-anchor-status],
 [id^="aswift_"],
@@ -182,7 +182,16 @@ ins.adsbygoogle[data-ad-status="unfilled"],
   background-color: var(--ad-surface) !important;
   color-scheme: dark;
 }
+ins.adsbygoogle {
+  background: transparent !important;
+}
 ins.adsbygoogle[data-ad-status="unfilled"] {
   display: none !important;
 }
+/* Container-level collapse: any reserved ad box that never filled takes up
+   no space and shows no chrome. */
+[data-ad-filled="false"][data-ad-collapsed="true"] {
+  display: none !important;
+}
+
 

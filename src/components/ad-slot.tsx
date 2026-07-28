@@ -39,6 +39,23 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
     video: 224,
     affiliate: 160,
   };
+  // Slots that live inside content flow use Google's native in-article
+  // fluid format; edge placements (sidebar/footer/header) stay responsive.
+  const inline = placement === "inline" || placement === "between" || placement === "native";
+  if (inline) {
+    return (
+      <RefreshingUnit
+        slotKind="in-article"
+        adId={`Slot_${placement}`}
+        prefix={`av-${placement}`}
+        minHeight={heights[placement]}
+        format="fluid"
+        layout="in-article"
+        fluidHeight
+        label={label ?? `Slot_${placement} · native`}
+      />
+    );
+  }
   return (
     <DisplayAd
       adId={`Slot_${placement}`}
@@ -48,6 +65,7 @@ export function AdSlot({ placement = "inline", label }: { placement?: Placement;
     />
   );
 }
+
 
 
 /**
@@ -136,13 +154,15 @@ export function AdSenseContainer({
             ? fluidHeight
               ? { minHeight, contain: "layout", backgroundColor: "var(--ad-surface)" }
               : { minHeight, height: minHeight, contain: "layout size", backgroundColor: "var(--ad-surface)" }
-            : { minHeight, height: fluidHeight ? undefined : minHeight, contain: "layout", background: "transparent" }
+            : { minHeight, height: fluidHeight ? undefined : minHeight, contain: "layout", background: "transparent", border: "none" }
       }
       aria-label="advertisement"
       role="complementary"
       data-ad-filled={filled ? "true" : "false"}
+      data-ad-collapsed={collapsed ? "true" : "false"}
       data-ad-label={label ?? id}
     >
+
 
       <ins
         ref={insRef}
@@ -402,9 +422,12 @@ export function VideoAd({
         id={containerId}
         slot={id}
         minHeight={280}
-        format="auto"
+        format="fluid"
+        layout="in-article"
+        fluidHeight
         label={`${containerId} · video`}
       />
+
     </aside>
   );
 }

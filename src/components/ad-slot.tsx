@@ -24,30 +24,33 @@ type Placement =
   | "video"
   | "affiliate";
 
-// Reusable, clean ad placeholders. Wire real ad code into `data-ad-slot`.
+/**
+ * Generic slot marker. Renders a real responsive ad unit that collapses to
+ * nothing when neither network fills — never a dark labelled placeholder.
+ */
 export function AdSlot({ placement = "inline", label }: { placement?: Placement; label?: string }) {
-  const heights: Record<Placement, string> = {
-    top: "h-24",
-    hero: "h-28",
-    inline: "h-32",
-    between: "h-36",
-    sidebar: "h-64",
-    footer: "h-24",
-    "sticky-mobile": "h-14",
-    native: "h-40",
-    video: "h-56",
-    affiliate: "h-40",
+  const heights: Record<Placement, number> = {
+    top: 96,
+    hero: 112,
+    inline: 128,
+    between: 144,
+    sidebar: 256,
+    footer: 96,
+    "sticky-mobile": 56,
+    native: 160,
+    video: 224,
+    affiliate: 160,
   };
   return (
-    <div
-      data-ad-slot={placement}
-      className={`w-full ${heights[placement]} rounded-xl border border-dashed border-border/70 bg-ad-surface grid place-items-center text-[11px] uppercase tracking-[0.22em] text-muted-foreground`}
-      aria-label="advertisement"
-    >
-      {label ?? `Ad Slot · ${placement}`}
-    </div>
+    <DisplayAd
+      adId={`Slot_${placement}`}
+      prefix={`av-${placement}`}
+      minHeight={heights[placement]}
+      label={label}
+    />
   );
 }
+
 
 /**
  * Standard Google AdSense container. Renders the `<ins class="adsbygoogle">`

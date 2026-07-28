@@ -81,21 +81,23 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                 </div>
               </div>
             </Link>
-            {/* Dense in-feed monetization: a viewable native unit after every
-                2nd card, upgraded to a video unit on every 6th card. */}
-            {(i + 1) % 6 === 0 ? (
-              <VideoAd
-                index={Math.ceil((i + 1) / 6)}
-                unitId={`av-feed-video-${a.slug}`}
-                adId={`Video_Ad_Feed_${Math.ceil((i + 1) / 6)}`}
-              />
-            ) : (i + 1) % 2 === 0 ? (
-              <InFeedAd
-                index={Math.ceil((i + 1) / 2)}
-                unitId={`av-feed-${a.slug}-${Math.ceil((i + 1) / 2)}`}
-                adId={`InFeed_Ad_Feed_${Math.ceil((i + 1) / 2)}`}
-              />
-            ) : null}
+            {/* Ad between every article card: native in-feed unit, upgraded
+                to an outstream video unit on every 4th card. Never after the
+                final rendered card, so the feed end stays clean. */}
+            {i < count - 1 &&
+              ((i + 1) % 4 === 0 ? (
+                <VideoAd
+                  index={Math.ceil((i + 1) / 4)}
+                  unitId={`av-feed-video-${a.slug}`}
+                  adId={`Video_Ad_Feed_${Math.ceil((i + 1) / 4)}`}
+                />
+              ) : (
+                <InFeedAd
+                  index={i + 1}
+                  unitId={`av-feed-${a.slug}-${i + 1}`}
+                  adId={`InFeed_Ad_Feed_${i + 1}`}
+                />
+              ))}
 
             {/* Affiliate card woven between feed sections */}
             {i > 0 && (i + 1) % (PAGE * 2) === 0 && (() => {

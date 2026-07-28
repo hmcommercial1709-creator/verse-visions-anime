@@ -22,6 +22,7 @@ import { ArticleRecRail, AnimeRecRail } from "@/components/recommendations";
 import { ReadingProgressBar } from "@/components/reading-progress";
 import { TableOfContents } from "@/components/table-of-contents";
 import { Spoiler } from "@/components/spoiler";
+import { RichText } from "@/components/rich-text";
 import { ComparisonTable } from "@/components/comparison-table";
 import { ArticlePoll } from "@/components/article-poll";
 import { deriveSections, readingLabel, slugifyHeading, wordCount } from "@/lib/reading";
@@ -97,7 +98,7 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
         <Spoiler level={block.level ?? "major"} scope={block.scope}>
           <div className="space-y-3 text-base leading-relaxed text-muted-foreground">
             {block.paragraphs.map((p, i) => (
-              <p key={i}>{p}</p>
+              <p key={i}><RichText text={p} /></p>
             ))}
           </div>
         </Spoiler>
@@ -293,7 +294,7 @@ function ArticlePage() {
                     const ad = adPlan.get(`${i}:${j}`);
                     return (
                       <div key={j}>
-                        <p className="mb-6">{p}</p>
+                        <p className="mb-6"><RichText text={p} /></p>
                         {/* Native unit injected every few paragraphs */}
                         {ad && (
                           <div className="not-prose">

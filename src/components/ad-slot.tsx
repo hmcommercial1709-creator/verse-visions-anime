@@ -422,9 +422,12 @@ export function VideoAd({
         id={containerId}
         slot={id}
         minHeight={280}
-        format="auto"
+        format="fluid"
+        layout="in-article"
+        fluidHeight
         label={`${containerId} · video`}
       />
+
     </aside>
   );
 }

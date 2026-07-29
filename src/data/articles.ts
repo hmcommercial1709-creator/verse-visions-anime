@@ -64,6 +64,7 @@ import { bestActionThrillerAnime2026Article } from "./article-best-action-thrill
 import { gojoLimitlessArticle } from "./article-gojo-limitless";
 import { shibuyaIncidentArticle } from "./article-shibuya-incident";
 import { sorcererFamiliesArticle } from "./article-sorcerer-families";
+import { topUpcomingAnimeOpenWorldGames2026Article } from "./article-top-upcoming-anime-open-world-games-2026";
 import { extraArticles } from "./articles-extra";
 import { longformArticles } from "./articles-longform";
 
@@ -82,6 +83,7 @@ export const authors = [
 
 const coreArticles: Article[] = [
   bestActionThrillerAnime2026Article,
+  topUpcomingAnimeOpenWorldGames2026Article,
   gojoLimitlessArticle,
   shibuyaIncidentArticle,
   sorcererFamiliesArticle,

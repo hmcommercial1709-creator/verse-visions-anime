@@ -60,6 +60,7 @@ export const articleParagraphs = (a: Article): string[] =>
   ).map(plainText);
 
 
+import { bestActionThrillerAnime2026Article } from "./article-best-action-thriller-anime-2026";
 import { gojoLimitlessArticle } from "./article-gojo-limitless";
 import { shibuyaIncidentArticle } from "./article-shibuya-incident";
 import { sorcererFamiliesArticle } from "./article-sorcerer-families";
@@ -80,6 +81,7 @@ export const authors = [
 ];
 
 const coreArticles: Article[] = [
+  bestActionThrillerAnime2026Article,
   gojoLimitlessArticle,
   shibuyaIncidentArticle,
   sorcererFamiliesArticle,

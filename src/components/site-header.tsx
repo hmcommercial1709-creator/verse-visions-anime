@@ -125,6 +125,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [globalOpen, setGlobalOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const t = useUi();
 

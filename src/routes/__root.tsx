@@ -15,6 +15,7 @@ import { SiteHeader } from "@/components/site-header";
 import { MonetagBanner } from "@/components/monetag-banner";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
+import { PropellerConversion } from "@/components/propeller-conversion";
 import { useLocaleDocumentSync } from "@/lib/i18n";
 import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
 

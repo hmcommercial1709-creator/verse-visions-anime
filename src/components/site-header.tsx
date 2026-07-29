@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, Menu, X, Sparkles, Flame, Compass, Tv, BookOpen, Users, Building2, ChevronDown } from "lucide-react";
 import { SearchDialog } from "./search-dialog";
+import { GlobalMenu } from "./global-menu";
 import { LanguageSelector } from "./language-selector";
 import { useUi, type UiKey } from "@/lib/i18n-ui";
 

@@ -207,6 +207,8 @@ function RootComponent() {
         </main>
         <SiteFooter />
         <DeferredScripts />
+        <PropellerConversion />
+
       </div>
     </QueryClientProvider>
 

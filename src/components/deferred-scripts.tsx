@@ -36,6 +36,12 @@ const TAGS: Tag[] = [
     src: "https://n6wxm.com/vignette.min.js",
     attrs: { "data-zone": "11443723" },
   },
+  // Monetag OnClick (popunder) zone — requested explicitly, injected once.
+  {
+    id: "monetag-onclick-11411597",
+    src: "https://al5sm.com/tag.min.js",
+    attrs: { "data-zone": "11411597" },
+  },
 
 
 

@@ -347,6 +347,7 @@ export function SiteHeader() {
         </div>
       )}
 
+      <GlobalMenu open={globalOpen} onClose={() => setGlobalOpen(false)} />
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </>
   );

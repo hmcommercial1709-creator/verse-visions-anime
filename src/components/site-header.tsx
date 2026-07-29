@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, Menu, X, Sparkles, Flame, Compass, Tv, BookOpen, Users, Building2, ChevronDown } from "lucide-react";
 import { SearchDialog } from "./search-dialog";
+import { GlobalMenu } from "./global-menu";
 import { LanguageSelector } from "./language-selector";
 import { useUi, type UiKey } from "@/lib/i18n-ui";
 
@@ -124,6 +125,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [globalOpen, setGlobalOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const t = useUi();
 
@@ -205,8 +207,17 @@ export function SiteHeader() {
               <Search className="h-5 w-5" />
             </button>
             <LanguageSelector variant="header" />
-            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)}>
-              <Menu className="h-5 w-5" aria-label={t("menu")} />
+            <button
+              onClick={() => setGlobalOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={globalOpen}
+              className="flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
+            >
+              <Menu className="h-4 w-4" />
+              <span className="hidden sm:inline">{t("menu")}</span>
+            </button>
+            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)} aria-label="Full navigation">
+              <Compass className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -336,6 +347,7 @@ export function SiteHeader() {
         </div>
       )}
 
+      <GlobalMenu open={globalOpen} onClose={() => setGlobalOpen(false)} />
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </>
   );

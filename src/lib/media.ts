@@ -36,6 +36,7 @@ import bTop10Anime2026 from "@/assets/art/top-10-anime-2026.webp.asset.json";
 import bChainsawManRezeArcPreview from "@/assets/art/chainsaw-man-reze-arc-preview.webp.asset.json";
 import bSoloLevelingS2Review from "@/assets/art/solo-leveling-s2-review.webp.asset.json";
 import bSpyXFamilyCruiseArc from "@/assets/art/spy-x-family-cruise-arc.webp.asset.json";
+import bBestAction2026 from "@/assets/art/best-action-thriller-anime-2026.webp.asset.json";
 import artLimitless from "@/assets/media/art-limitless.webp.asset.json";
 import artLimitlessSm from "@/assets/media/art-limitless-800.webp.asset.json";
 import artShibuya from "@/assets/media/art-shibuya.webp.asset.json";
@@ -116,6 +117,7 @@ const articleBackdrops: Record<string, MediaArt> = {
   "chainsaw-man-reze-arc-preview": one(bChainsawManRezeArcPreview, 1536, 864),
   "solo-leveling-s2-review": one(bSoloLevelingS2Review, 1536, 864),
   "spy-x-family-cruise-arc": one(bSpyXFamilyCruiseArc, 1536, 864),
+  "best-action-thriller-anime-2026": one(bBestAction2026, 1536, 864),
 };
 
 /** Stable, SSR-safe hash so server and client resolve the same artwork. */

@@ -207,8 +207,19 @@ export function SiteHeader() {
               <Search className="h-5 w-5" />
             </button>
             <LanguageSelector variant="header" />
-            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)}>
+            <button
+              onClick={() => setGlobalOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={globalOpen}
+              className="hidden lg:flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
+            >
+              <Menu className="h-4 w-4" /> {t("menu")}
+            </button>
+            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setGlobalOpen(true)}>
               <Menu className="h-5 w-5" aria-label={t("menu")} />
+            </button>
+            <button className="hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)} aria-hidden="true" tabIndex={-1}>
+              <Menu className="h-5 w-5" />
             </button>
           </div>
         </div>

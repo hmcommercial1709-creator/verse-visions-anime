@@ -40,7 +40,7 @@ const DECEPTIVE_PATTERNS: RegExp[] = [
 const ALLOWED_AD_HOSTS = [
   "nap5k.com",
   "n6wxm.com",
-  "al5sm.com",
+  
   "thubanoa.com",
   "fpyf8.com",
   "monetag.com",

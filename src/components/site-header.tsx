@@ -215,11 +215,8 @@ export function SiteHeader() {
             >
               <Menu className="h-4 w-4" /> {t("menu")}
             </button>
-            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setGlobalOpen(true)}>
-              <Menu className="h-5 w-5" aria-label={t("menu")} />
-            </button>
-            <button className="hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)} aria-hidden="true" tabIndex={-1}>
-              <Menu className="h-5 w-5" />
+            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)} aria-label="Full menu">
+              <Grid3x3 className="h-5 w-5" />
             </button>
           </div>
         </div>

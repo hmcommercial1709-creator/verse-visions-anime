@@ -26,11 +26,13 @@ type BaseProps = {
   label?: string;
   title?: string;
   placement?: string;
+  prefix?: string;
+  minHeight?: number;
 };
 
 /** Fluid in-article unit — best between paragraphs of long-form content. */
-export function InArticleAd({ className = "", unitId, adId, index }: BaseProps) {
-  const auto = useAdUnitId("av-in-article");
+export function InArticleAd({ className = "", unitId, adId, index, prefix, minHeight = 120 }: BaseProps) {
+  const auto = useAdUnitId(prefix ?? "av-in-article");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
     <AdsenseUnit
@@ -39,46 +41,45 @@ export function InArticleAd({ className = "", unitId, adId, index }: BaseProps) 
       format="fluid"
       layout="in-article"
       fluidHeight
-      minHeight={120}
+      minHeight={minHeight}
       className={`my-6 ${className}`}
-      extraAttrs={{ style: "" }}
     />
   );
 }
 
 /** Autorelaxed multiplex grid — "more content" style unit for page ends. */
-export function MultiplexAd({ className = "", unitId }: BaseProps) {
-  const auto = useAdUnitId("av-multiplex");
+export function MultiplexAd({ className = "", unitId, prefix, minHeight = 250 }: BaseProps) {
+  const auto = useAdUnitId(prefix ?? "av-multiplex");
   return (
     <AdsenseUnit
       id={unitId ?? auto}
       slot={AD_SLOTS.multiplex}
       format="autorelaxed"
       fluidHeight
-      minHeight={250}
+      minHeight={minHeight}
       className={`my-8 ${className}`}
     />
   );
 }
 
 /** Responsive display unit ("hazza") — headers, sidebars, post-content. */
-export function DisplayAd({ className = "", unitId, adId, index }: BaseProps) {
-  const auto = useAdUnitId("av-display");
+export function DisplayAd({ className = "", unitId, adId, index, prefix, minHeight = 100 }: BaseProps) {
+  const auto = useAdUnitId(prefix ?? "av-display");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
     <AdsenseUnit
       id={id}
       slot={AD_SLOTS.display}
       format="auto"
-      minHeight={100}
+      minHeight={minHeight}
       className={`my-6 ${className}`}
     />
   );
 }
 
 /** Fluid in-feed unit — between cards in listing/feed layouts. */
-export function InFeedAd({ className = "", unitId, adId, index }: BaseProps) {
-  const auto = useAdUnitId("av-in-feed");
+export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeight = 120 }: BaseProps) {
+  const auto = useAdUnitId(prefix ?? "av-in-feed");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
     <AdsenseUnit
@@ -86,7 +87,7 @@ export function InFeedAd({ className = "", unitId, adId, index }: BaseProps) {
       slot={AD_SLOTS.inFeed}
       format="fluid"
       fluidHeight
-      minHeight={120}
+      minHeight={minHeight}
       className={`my-4 ${className}`}
       extraAttrs={{ "data-ad-layout-key": "-ct-1h+5b-1e-7f" }}
     />
@@ -103,11 +104,11 @@ export const StickySidebarAd = DisplayAd;
 export const VideoAd = DisplayAd;
 
 /** Generic slot: feed positions get the in-feed unit, everything else display. */
-export function AdSlot({ placement, className, unitId, adId, index }: BaseProps) {
+export function AdSlot({ placement, className, unitId, adId, index, prefix }: BaseProps) {
   if (placement === "inline") {
-    return <InArticleAd className={className} unitId={unitId} adId={adId} index={index} />;
+    return <InArticleAd className={className} unitId={unitId} adId={adId} index={index} prefix={prefix} />;
   }
-  return <InFeedAd className={className} unitId={unitId} adId={adId} index={index} />;
+  return <InFeedAd className={className} unitId={unitId} adId={adId} index={index} prefix={prefix} />;
 }
 
 /** Mobile anchor: Auto Ads owns anchor formats, so keep this a no-op. */

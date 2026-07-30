@@ -96,12 +96,14 @@ function EpisodePage() {
 
           {/* Primary actions */}
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:max-w-2xl">
-            <a
-              href="#episode-preview"
+            <Link
+              to="/watch/$slug"
+              params={{ slug: anime.slug }}
+              search={{ ep: ep.number }}
               className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-primary px-6 py-4 text-base font-bold text-primary-foreground glow-primary transition-transform hover:scale-[1.02] hover:brightness-110"
             >
               <Play className="h-5 w-5 fill-current" /> Play / Stream
-            </a>
+            </Link>
             <Link
               to="/streaming"
               className="inline-flex items-center justify-center gap-2.5 rounded-2xl border border-accent/50 bg-accent/10 px-6 py-4 text-base font-bold text-accent backdrop-blur transition-colors hover:bg-accent/20"

@@ -108,7 +108,7 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
 
                 <div className="mt-6 flex flex-wrap items-center gap-3">
                   <Link
-                    to="/anime/$slug"
+                    to="/watch/$slug"
                     params={{ slug: active.slug }}
                     className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground glow-primary transition-transform hover:scale-[1.03] hover:brightness-110"
                   >

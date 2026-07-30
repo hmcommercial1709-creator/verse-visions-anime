@@ -16,7 +16,9 @@ export const AD_SLOTS = {
   multiplex: "9734703029",
   display: "5126563543",
   inFeed: "2783547212",
+  displayTop: "9027889883",
 } as const;
+
 
 type BaseProps = {
   className?: string;

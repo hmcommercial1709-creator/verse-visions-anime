@@ -5,7 +5,7 @@ import { getStudio } from "@/data/studios";
 import { charactersByAnime, characters } from "@/data/characters";
 import { episodesFor } from "@/data/episodes";
 import { Breadcrumbs, Section } from "@/components/ui-bits";
-import { AdSlot, AffiliateBox } from "@/components/ad-slot";
+import { AdSlot, AffiliateBox, TopBannerAd } from "@/components/ad-slot";
 import { AnimeCard } from "@/components/anime-card";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
@@ -128,6 +128,10 @@ function AnimeDetail() {
           </div>
         </div>
       </section>
+
+      <div className="mx-auto max-w-7xl px-4 lg:px-6 mt-6">
+        <TopBannerAd />
+      </div>
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6 grid gap-10 lg:grid-cols-[1fr_320px] mt-10">
         <div className="min-w-0">

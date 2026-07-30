@@ -16,7 +16,9 @@ export const AD_SLOTS = {
   multiplex: "9734703029",
   display: "5126563543",
   inFeed: "2783547212",
+  displayTop: "9027889883",
 } as const;
+
 
 type BaseProps = {
   className?: string;
@@ -94,14 +96,30 @@ export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeigh
   );
 }
 
+/** Responsive top display banner ("Display_Banner_Top") — above/below the title. */
+export function TopBannerAd({ className = "", unitId, adId, index, prefix, minHeight = 100 }: BaseProps) {
+  const auto = useAdUnitId(prefix ?? "av-display-top");
+  const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
+  return (
+    <AdsenseUnit
+      id={id}
+      slot={AD_SLOTS.displayTop}
+      format="auto"
+      minHeight={minHeight}
+      className={`my-4 ${className}`}
+    />
+  );
+}
+
 /* ---- Semantic aliases used across routes ---- */
 
 export const AdSenseContainer = DisplayAd;
-export const HeaderBannerAd = DisplayAd;
-export const BelowTitleAd = DisplayAd;
+export const HeaderBannerAd = TopBannerAd;
+export const BelowTitleAd = TopBannerAd;
 export const PostContentAd = DisplayAd;
 export const StickySidebarAd = DisplayAd;
 export const VideoAd = DisplayAd;
+
 
 /** Generic slot: feed positions get the in-feed unit, everything else display. */
 export function AdSlot({ placement, className, unitId, adId, index, prefix }: BaseProps) {

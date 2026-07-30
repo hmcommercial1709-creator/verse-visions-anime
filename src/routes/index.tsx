@@ -337,8 +337,11 @@ function Home() {
 
         {/* Watch order banner */}
         <section className="my-16 rounded-3xl border border-accent/30 bg-gradient-to-br from-accent/10 via-background to-primary/10 p-8 lg:p-12 relative overflow-hidden">
-          <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-accent/20 blur-3xl" />
+          {/* Cheap masked glows: gradients/masks paint far faster than blur filters. */}
+          <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-primary/25 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
+          <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-accent/25 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
+
+
           <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] items-center">
             <div>
               <div className="text-xs uppercase tracking-[0.22em] text-accent font-semibold mb-3">The ultimate roadmap</div>

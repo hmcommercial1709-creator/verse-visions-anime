@@ -152,8 +152,8 @@ export function SiteHeader() {
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? "backdrop-blur-xl bg-background/75 border-b border-border/60"
-            : "backdrop-blur-sm bg-background/30"
+            ? "backdrop-blur-md bg-background/90 border-b border-border/60"
+            : "bg-background/70"
         }`}
         onMouseLeave={() => setOpenMenu(null)}
       >
@@ -261,7 +261,7 @@ export function SiteHeader() {
         {openMenu && (
           <div className="absolute inset-x-0 top-full hidden lg:block" onMouseEnter={() => {}}>
             <div className="mx-auto max-w-7xl px-4 lg:px-6 pb-6">
-              <div className="rounded-2xl border border-border/60 bg-popover/95 backdrop-blur-xl shadow-2xl p-6">
+              <div className="rounded-2xl border border-border/60 bg-popover shadow-2xl p-6">
                 <div className="grid grid-cols-3 gap-8">
                   {megaGroups.find(g => g.label === openMenu)!.columns.map((col) => (
                     <div key={col.title}>
@@ -291,7 +291,7 @@ export function SiteHeader() {
       {/* Mobile drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-background/80 backdrop-blur" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-0 bg-background/90" onClick={() => setMobileOpen(false)} />
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
             <div className="flex items-center justify-between mb-6">
               <span className="font-display text-lg font-bold">Menu</span>

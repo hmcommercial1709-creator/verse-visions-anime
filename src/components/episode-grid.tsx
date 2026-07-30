@@ -44,7 +44,7 @@ export function EpisodeGrid({ limit = 8 }: { limit?: number }) {
             <span className="absolute left-2 top-2 rounded-md bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
               EP {ep.number}
             </span>
-            <span className="absolute right-2 top-2 rounded-md bg-black/60 px-2 py-0.5 text-[10px] font-bold tracking-wide text-white backdrop-blur">
+            <span className="absolute right-2 top-2 rounded-md bg-black/70 px-2 py-0.5 text-[10px] font-bold tracking-wide text-white">
               {qualityFor(anime.year)}
             </span>
 

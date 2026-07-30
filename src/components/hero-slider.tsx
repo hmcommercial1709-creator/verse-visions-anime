@@ -74,7 +74,7 @@ export function HeroSlider({ items }: { items: Article[] }) {
               </Link>
               <Link
                 to="/editorial"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/40 px-5 py-3 font-medium backdrop-blur hover:bg-secondary"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/80 px-5 py-3 font-medium hover:bg-secondary"
               >
                 All long reads
               </Link>
@@ -85,7 +85,7 @@ export function HeroSlider({ items }: { items: Article[] }) {
                 type="button"
                 aria-label="Previous slide"
                 onClick={() => setIndex((i) => (i - 1 + total) % total)}
-                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/50 backdrop-blur hover:border-primary/60"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/80 hover:border-primary/60"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -107,7 +107,7 @@ export function HeroSlider({ items }: { items: Article[] }) {
                 type="button"
                 aria-label="Next slide"
                 onClick={() => setIndex((i) => (i + 1) % total)}
-                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/50 backdrop-blur hover:border-primary/60"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/80 hover:border-primary/60"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

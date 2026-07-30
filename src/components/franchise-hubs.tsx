@@ -40,7 +40,7 @@ function Hub({ anime }: { anime: Anime }) {
           <Link
             to="/anime/$slug"
             params={{ slug: anime.slug }}
-            className="shrink-0 rounded-md border border-border/60 bg-background/50 px-2.5 py-1 text-xs backdrop-blur hover:border-primary/60"
+            className="shrink-0 rounded-md border border-border/60 bg-background/80 px-2.5 py-1 text-xs hover:border-primary/60"
           >
             Hub
           </Link>

@@ -27,11 +27,11 @@ export function AnimeCard({ anime, size = "md" }: { anime: Anime; size?: "sm" | 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,.15),transparent_60%)]" />
         <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
         <div className="absolute top-2 left-2 flex gap-1">
-          <span className="rounded-md bg-black/50 backdrop-blur px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+          <span className="rounded-md bg-black/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
             {anime.status}
           </span>
         </div>
-        <div className="absolute top-2 right-2 flex items-center gap-1 rounded-md bg-black/50 backdrop-blur px-2 py-0.5 text-[11px] font-bold text-gold">
+        <div className="absolute top-2 right-2 flex items-center gap-1 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-gold">
           <Star className="h-3 w-3 fill-current" />
           {anime.rating.toFixed(1)}
         </div>

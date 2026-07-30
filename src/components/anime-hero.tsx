@@ -51,7 +51,7 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
           alt={artAlt(active.title, "poster")}
           ratio="16/9"
           className="absolute inset-0 h-full w-full animate-fade-in"
-          imgClassName="object-cover object-top scale-105 blur-[2px]"
+          imgClassName="object-cover object-top scale-105"
           sizes="100vw"
           priority
           overlay={false}
@@ -118,7 +118,7 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
                     to="/anime/$slug"
                     params={{ slug: active.slug }}
                     hash="episodes"
-                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/50 px-5 py-3.5 font-semibold backdrop-blur transition-colors hover:border-primary/60 hover:bg-secondary"
+                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/80 px-5 py-3.5 font-semibold transition-colors hover:border-primary/60 hover:bg-secondary"
                   >
                     <Info className="h-4 w-4" /> Series details
                   </Link>
@@ -131,7 +131,7 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
-                className="flex w-full items-center gap-3 rounded-2xl border border-border/70 bg-background/60 px-4 py-3.5 text-left text-sm text-muted-foreground backdrop-blur transition-colors hover:border-primary/60 hover:text-foreground"
+                className="flex w-full items-center gap-3 rounded-2xl border border-border/70 bg-background/80 px-4 py-3.5 text-left text-sm text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
               >
                 <Search className="h-4 w-4 shrink-0" />
                 <span className="min-w-0 flex-1 truncate">Search anime, characters, studios…</span>
@@ -163,7 +163,7 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
                 type="button"
                 aria-label="Previous slide"
                 onClick={() => setIndex((i) => (i - 1 + total) % total)}
-                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/50 backdrop-blur hover:border-primary/60"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/80 hover:border-primary/60"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -183,7 +183,7 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
                 type="button"
                 aria-label="Next slide"
                 onClick={() => setIndex((i) => (i + 1) % total)}
-                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/50 backdrop-blur hover:border-primary/60"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-background/80 hover:border-primary/60"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

@@ -61,6 +61,7 @@ import { Route as ClassicRouteImport } from './routes/classic'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as BlackTigerHoneyRouteImport } from './routes/black-tiger-honey'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AuthorsRouteImport } from './routes/authors'
 import { Route as AboutRouteImport } from './routes/about'
@@ -336,6 +337,11 @@ const BlogRoute = BlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlackTigerHoneyRoute = BlackTigerHoneyRouteImport.update({
+  id: '/black-tiger-honey',
+  path: '/black-tiger-honey',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AwardsRoute = AwardsRouteImport.update({
   id: '/awards',
   path: '/awards',
@@ -412,6 +418,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
+  '/black-tiger-honey': typeof BlackTigerHoneyRoute
   '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
   '/characters': typeof CharactersRoute
@@ -480,6 +487,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
+  '/black-tiger-honey': typeof BlackTigerHoneyRoute
   '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
   '/characters': typeof CharactersRoute
@@ -549,6 +557,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
+  '/black-tiger-honey': typeof BlackTigerHoneyRoute
   '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
   '/characters': typeof CharactersRoute
@@ -619,6 +628,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/awards'
+    | '/black-tiger-honey'
     | '/blog'
     | '/browse'
     | '/characters'
@@ -687,6 +697,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/awards'
+    | '/black-tiger-honey'
     | '/blog'
     | '/browse'
     | '/characters'
@@ -755,6 +766,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/authors'
     | '/awards'
+    | '/black-tiger-honey'
     | '/blog'
     | '/browse'
     | '/characters'
@@ -824,6 +836,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthorsRoute: typeof AuthorsRoute
   AwardsRoute: typeof AwardsRoute
+  BlackTigerHoneyRoute: typeof BlackTigerHoneyRoute
   BlogRoute: typeof BlogRoute
   BrowseRoute: typeof BrowseRoute
   CharactersRoute: typeof CharactersRoute
@@ -1254,6 +1267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/black-tiger-honey': {
+      id: '/black-tiger-honey'
+      path: '/black-tiger-honey'
+      fullPath: '/black-tiger-honey'
+      preLoaderRoute: typeof BlackTigerHoneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/awards': {
       id: '/awards'
       path: '/awards'
@@ -1360,6 +1380,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthorsRoute: AuthorsRoute,
   AwardsRoute: AwardsRoute,
+  BlackTigerHoneyRoute: BlackTigerHoneyRoute,
   BlogRoute: BlogRoute,
   BrowseRoute: BrowseRoute,
   CharactersRoute: CharactersRoute,

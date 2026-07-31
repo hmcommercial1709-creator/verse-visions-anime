@@ -70,6 +70,9 @@ function LiveSeason() {
               src={a.image}
               alt={a.title}
               loading="lazy"
+              decoding="async"
+              width={225}
+              height={338}
               className="mb-2 aspect-[2/3] w-full rounded-lg object-cover"
             />
           )}

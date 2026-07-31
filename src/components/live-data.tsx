@@ -79,6 +79,9 @@ export function AnimeLiveData({
             src={data.image}
             alt={`${title} key visual`}
             loading="lazy"
+            decoding="async"
+            width={140}
+            height={210}
             className="w-full rounded-xl border border-border/60 object-cover"
           />
         )}
@@ -146,6 +149,9 @@ export function AnimeLiveData({
                     src={c.image}
                     alt={c.character}
                     loading="lazy"
+                    decoding="async"
+                    width={225}
+                    height={300}
                     className="mb-2 aspect-[3/4] w-full rounded-lg object-cover"
                   />
                 )}
@@ -225,6 +231,9 @@ export function CharacterLiveData({ name }: { name: string }) {
             src={data.image}
             alt={name}
             loading="lazy"
+            decoding="async"
+            width={140}
+            height={210}
             className="w-full rounded-xl border border-border/60 object-cover"
           />
         )}

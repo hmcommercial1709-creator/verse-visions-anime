@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { arGuideBySlug, AR_GUIDES } from "@/data/ar-guides";
+import { arGuideBySlug, AR_GUIDES, type ArGuide } from "@/data/ar-guides";
 import { SITE_URL } from "@/lib/i18n";
 
 export const Route = createFileRoute("/ar/anime/$slug")({
@@ -67,7 +67,8 @@ export const Route = createFileRoute("/ar/anime/$slug")({
 });
 
 function ArGuidePage() {
-  const { guide: g } = Route.useLoaderData();
+  const { guide } = Route.useLoaderData();
+  const g = guide as ArGuide;
   const others = AR_GUIDES.filter((x) => x.slug !== g.slug).slice(0, 6);
 
   return (

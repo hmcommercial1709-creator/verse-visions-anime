@@ -76,6 +76,7 @@ import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
+import { Route as ArAnimeSlugRouteImport } from './routes/ar.anime.$slug'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
 const WatchOrderRoute = WatchOrderRouteImport.update({
@@ -413,6 +414,11 @@ const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
   path: '/sitemap/$locale/$file',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArAnimeSlugRoute = ArAnimeSlugRouteImport.update({
+  id: '/ar/anime/$slug',
+  path: '/ar/anime/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
   id: '/anime_/$slug/episode/$num',
   path: '/anime/$slug/episode/$num',
@@ -486,6 +492,7 @@ export interface FileRoutesByFullPath {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
@@ -556,6 +563,7 @@ export interface FileRoutesByTo {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale': typeof LocaleIndexRoute
+  '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
@@ -627,6 +635,7 @@ export interface FileRoutesById {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
@@ -699,6 +708,7 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
+    | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
     | '/anime/$slug/episode/$num'
   fileRoutesByTo: FileRoutesByTo
@@ -769,6 +779,7 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale'
+    | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
     | '/anime/$slug/episode/$num'
   id:
@@ -839,6 +850,7 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
+    | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
     | '/anime_/$slug/episode/$num'
   fileRoutesById: FileRoutesById
@@ -910,6 +922,7 @@ export interface RootRouteChildren {
   StudioSlugRoute: typeof StudioSlugRoute
   WatchSlugRoute: typeof WatchSlugRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
+  ArAnimeSlugRoute: typeof ArAnimeSlugRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
 }
@@ -1385,6 +1398,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapLocaleFileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ar/anime/$slug': {
+      id: '/ar/anime/$slug'
+      path: '/ar/anime/$slug'
+      fullPath: '/ar/anime/$slug'
+      preLoaderRoute: typeof ArAnimeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/anime_/$slug/episode/$num': {
       id: '/anime_/$slug/episode/$num'
       path: '/anime/$slug/episode/$num'
@@ -1462,19 +1482,10 @@ const rootRouteChildren: RootRouteChildren = {
   StudioSlugRoute: StudioSlugRoute,
   WatchSlugRoute: WatchSlugRoute,
   LocaleIndexRoute: LocaleIndexRoute,
+  ArAnimeSlugRoute: ArAnimeSlugRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

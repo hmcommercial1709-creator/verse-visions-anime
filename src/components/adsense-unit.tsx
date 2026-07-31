@@ -66,9 +66,9 @@ export function AdsenseUnit({
       typeof MutationObserver !== "undefined"
         ? new MutationObserver(() => {
             if (cancelled) return;
-            if (node.getAttribute("data-ad-status") === "filled" || node.firstElementChild) {
-              setFilled(true);
-            }
+            const status = node.getAttribute("data-ad-status");
+            if (status === "filled") setFilled(true);
+            if (status === "unfilled") setFilled(false);
           })
         : null;
     observer?.observe(node, {
@@ -125,7 +125,14 @@ export function AdsenseUnit({
         ref={insRef}
         id={id}
         className="adsbygoogle block w-full"
-        style={{ display: "block", width: "100%", minHeight, background: "transparent" }}
+        style={{
+          display: "block",
+          width: "100%",
+          // A fixed height on the <ins> makes Google pick a creative that fits
+          // the reserved box, instead of resizing the box after the fact.
+          ...(fluidHeight ? { minHeight } : { height: minHeight }),
+          background: "transparent",
+        }}
         data-ad-client={AD_CLIENT}
         {...(slot ? { "data-ad-slot": slot } : {})}
         data-ad-format={format}

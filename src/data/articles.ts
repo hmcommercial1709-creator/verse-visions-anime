@@ -49,6 +49,8 @@ export type Article = {
   body: string[];
   /** When present, replaces the auto-derived sections with editorial ones. */
   sections?: ArticleSection[];
+  /** Editorial FAQ pairs. When present they drive the page's FAQPage schema. */
+  faqs?: { q: string; a: string }[];
   related: string[]; // slugs of anime
 };
 
@@ -64,6 +66,8 @@ import { bestActionThrillerAnime2026Article } from "./article-best-action-thrill
 import { gojoLimitlessArticle } from "./article-gojo-limitless";
 import { shibuyaIncidentArticle } from "./article-shibuya-incident";
 import { sorcererFamiliesArticle } from "./article-sorcerer-families";
+import { wanoRecapArticle } from "./article-wano-recap";
+import { jjkWatchOrderArticle } from "./article-jjk-watch-order";
 import { topUpcomingAnimeOpenWorldGames2026Article } from "./article-top-upcoming-anime-open-world-games-2026";
 import { extraArticles } from "./articles-extra";
 import { longformArticles } from "./articles-longform";
@@ -87,6 +91,8 @@ const coreArticles: Article[] = [
   gojoLimitlessArticle,
   shibuyaIncidentArticle,
   sorcererFamiliesArticle,
+  wanoRecapArticle,
+  jjkWatchOrderArticle,
   { slug: "why-frieren-won-2024", section: "editorial", title: "Why Frieren Won the Year: A Long Answer to a Short Question",
     excerpt: "The 2024 Anime of the Year didn't win because it was flashy. It won because it took the medium seriously.",
     author: "aiko-tanaka", date: "2026-03-14", tag: "Editorial",
@@ -97,16 +103,6 @@ const coreArticles: Article[] = [
       "It also, quietly, has one of the best magic systems on television. Mana suppression, spell diversity that includes cosmetic and mundane spells, and an exam arc that treats bureaucracy like a boss fight — Frieren keeps rewarding fans who want to think as hard as they feel.",
     ],
     related: ["frieren", "hunter-x-hunter", "vinland-saga"] },
-  { slug: "one-piece-wano-recap", section: "guides", title: "The Complete Wano Recap: What Actually Happened and Why It Mattered",
-    excerpt: "A 200-episode arc, sixteen character resolutions, and the payoff Oda has been drawing since Skypiea.",
-    author: "hana-mori", date: "2026-03-08", tag: "Guide",
-    cover: g("#ef4444", "#facc15"),
-    body: [
-      "Wano is not a filler saga wearing samurai clothes. It is the closing of nearly every question the New World opened. Kaido is dead. Momonosuke is on the throne. The Ancient Weapons are one step less mythical. And the man in the straw hat is finally close enough to Laugh Tale that his crew can taste it.",
-      "This guide covers the arc in six chunks: entry, the raid, Onigashima's roof, the Beast Pirates fall, the flashbacks, and the aftermath.",
-      "If you've been putting off Wano because of its length, know this: it is the arc most fans point to as the moment One Piece became the most watched anime in the world for real, not just on paper.",
-    ],
-    related: ["one-piece"] },
   { slug: "beginner-guide-modern-shonen", section: "guides", title: "The Beginner's Guide to Modern Shonen (2026 Edition)",
     excerpt: "Five entry points, four studios, one very short list of shows you can start this weekend.",
     author: "hana-mori", date: "2026-02-27", tag: "Beginner",

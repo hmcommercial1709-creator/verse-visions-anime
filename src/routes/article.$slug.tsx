@@ -165,7 +165,7 @@ export const Route = createFileRoute("/article/$slug")({
         },
         {
           type: "application/ld+json",
-          children: JSON.stringify(faqSchema([
+          children: JSON.stringify(faqSchema(a.faqs && a.faqs.length > 0 ? a.faqs : [
             {
               q: `How long does it take to read "${a.title}"?`,
               a: `About ${readingLabel(articleParagraphs(a))} at an average reading pace.`,

@@ -12,6 +12,7 @@ import {
   allStudios,
 } from "@/lib/content-registry";
 import { categorySlugs } from "@/data/categories";
+import { INDEXABLE_LOCALES, DEFAULT_LOCALE, getLocale, localizePath, type LocaleCode } from "@/lib/i18n";
 
 export const BASE_URL = "https://gamecastle.store";
 
@@ -82,14 +83,28 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
   }
 }
 
-export function urlsetXml(entries: SitemapEntry[]): string {
+/**
+ * Renders a urlset for one locale. Every <url> carries xhtml:link alternates
+ * for each locale with indexable content (self-referencing alternate
+ * included, as required by the hreflang spec).
+ */
+export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_LOCALE): string {
+  const withAlternates = INDEXABLE_LOCALES.length > 1;
   const seen = new Set<string>();
   const urls = entries
     .filter((e) => (seen.has(e.path) ? false : (seen.add(e.path), true)))
     .map((e) =>
       [
         `  <url>`,
-        `    <loc>${BASE_URL}${e.path}</loc>`,
+        `    <loc>${BASE_URL}${localizePath(e.path, locale)}</loc>`,
+        ...(withAlternates
+          ? INDEXABLE_LOCALES.map(
+              (code) =>
+                `    <xhtml:link rel="alternate" hreflang="${getLocale(code).hrefLang}" href="${BASE_URL}${localizePath(e.path, code)}" />`,
+            ).concat([
+              `    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${e.path}" />`,
+            ])
+          : []),
         e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
         e.priority ? `    <priority>${e.priority}</priority>` : null,
         `  </url>`,
@@ -98,17 +113,25 @@ export function urlsetXml(entries: SitemapEntry[]): string {
 
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`,
     ...urls,
     `</urlset>`,
   ].join("\n");
 }
 
+/** Child sitemap path for a partition in a given locale. */
+export function partitionSitemapPath(partition: Partition, locale: LocaleCode = DEFAULT_LOCALE): string {
+  return locale === DEFAULT_LOCALE ? `/sitemap-${partition}.xml` : `/sitemap/${locale}/${partition}.xml`;
+}
+
 export function sitemapIndexXml(): string {
+  const children = INDEXABLE_LOCALES.flatMap((locale) =>
+    PARTITIONS.map((p) => partitionSitemapPath(p, locale)),
+  );
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-    ...PARTITIONS.map((p) => `  <sitemap>\n    <loc>${BASE_URL}/sitemap-${p}.xml</loc>\n  </sitemap>`),
+    ...children.map((path) => `  <sitemap>\n    <loc>${BASE_URL}${path}</loc>\n  </sitemap>`),
     `</sitemapindex>`,
   ].join("\n");
 }

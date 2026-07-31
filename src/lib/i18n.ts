@@ -69,18 +69,38 @@ export function localizePath(pathname: string, locale: LocaleCode): string {
   return base === "/" ? `/${locale}` : `/${locale}${base}`;
 }
 
-/** hreflang alternates (plus x-default) for a given canonical English path. */
+/**
+ * Locales that currently have real, indexable content. Every other locale in
+ * LOCALES is still a translation-in-progress placeholder served as
+ * `noindex, follow`, so we must NOT advertise it via hreflang — pointing an
+ * alternate at a noindex URL makes Google drop the whole cluster.
+ *
+ * Add a locale code here only once its pages carry translated content.
+ */
+export const INDEXABLE_LOCALES: LocaleCode[] = ["en"];
+
+export function isIndexableLocale(code: string | undefined): boolean {
+  return isLocaleCode(code) && INDEXABLE_LOCALES.includes(code);
+}
+
+/**
+ * hreflang alternates (plus x-default) for a canonical path, restricted to
+ * locales with indexable content. With a single active locale there is no
+ * cluster to declare, so we emit nothing at all.
+ */
 export function hreflangLinks(pathname: string) {
+  if (INDEXABLE_LOCALES.length < 2) return [];
   const base = stripLocale(pathname);
   return [
-    ...LOCALES.map((l) => ({
+    ...INDEXABLE_LOCALES.map((code) => ({
       rel: "alternate",
-      hreflang: l.hrefLang,
-      href: `${SITE_URL}${localizePath(base, l.code)}`,
+      hreflang: getLocale(code).hrefLang,
+      href: `${SITE_URL}${localizePath(base, code)}`,
     })),
     { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}${base}` },
   ];
 }
+
 
 /** Current locale for the active route. */
 export function useLocale(): Locale {

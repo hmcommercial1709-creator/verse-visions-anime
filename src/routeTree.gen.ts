@@ -75,7 +75,9 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
+import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
+import { Route as ArAnimeSlugRouteImport } from './routes/ar.anime.$slug'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
 const WatchOrderRoute = WatchOrderRouteImport.update({
@@ -408,9 +410,19 @@ const LocaleSplatRoute = LocaleSplatRouteImport.update({
   path: '/$locale/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
+  id: '/ar/anime/',
+  path: '/ar/anime/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
   id: '/sitemap/$locale/$file',
   path: '/sitemap/$locale/$file',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArAnimeSlugRoute = ArAnimeSlugRouteImport.update({
+  id: '/ar/anime/$slug',
+  path: '/ar/anime/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
@@ -486,7 +498,9 @@ export interface FileRoutesByFullPath {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/ar/anime/': typeof ArAnimeIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesByTo {
@@ -556,7 +570,9 @@ export interface FileRoutesByTo {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale': typeof LocaleIndexRoute
+  '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/ar/anime': typeof ArAnimeIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesById {
@@ -627,7 +643,9 @@ export interface FileRoutesById {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/ar/anime/': typeof ArAnimeIndexRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRouteTypes {
@@ -699,7 +717,9 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
+    | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
+    | '/ar/anime/'
     | '/anime/$slug/episode/$num'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -769,7 +789,9 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale'
+    | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
+    | '/ar/anime'
     | '/anime/$slug/episode/$num'
   id:
     | '__root__'
@@ -839,7 +861,9 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
+    | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
+    | '/ar/anime/'
     | '/anime_/$slug/episode/$num'
   fileRoutesById: FileRoutesById
 }
@@ -910,7 +934,9 @@ export interface RootRouteChildren {
   StudioSlugRoute: typeof StudioSlugRoute
   WatchSlugRoute: typeof WatchSlugRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
+  ArAnimeSlugRoute: typeof ArAnimeSlugRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
+  ArAnimeIndexRoute: typeof ArAnimeIndexRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
 }
 
@@ -1378,11 +1404,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ar/anime/': {
+      id: '/ar/anime/'
+      path: '/ar/anime'
+      fullPath: '/ar/anime/'
+      preLoaderRoute: typeof ArAnimeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap/$locale/$file': {
       id: '/sitemap/$locale/$file'
       path: '/sitemap/$locale/$file'
       fullPath: '/sitemap/$locale/$file'
       preLoaderRoute: typeof SitemapLocaleFileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/anime/$slug': {
+      id: '/ar/anime/$slug'
+      path: '/ar/anime/$slug'
+      fullPath: '/ar/anime/$slug'
+      preLoaderRoute: typeof ArAnimeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anime_/$slug/episode/$num': {
@@ -1462,7 +1502,9 @@ const rootRouteChildren: RootRouteChildren = {
   StudioSlugRoute: StudioSlugRoute,
   WatchSlugRoute: WatchSlugRoute,
   LocaleIndexRoute: LocaleIndexRoute,
+  ArAnimeSlugRoute: ArAnimeSlugRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
+  ArAnimeIndexRoute: ArAnimeIndexRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,
 }
 export const routeTree = rootRouteImport

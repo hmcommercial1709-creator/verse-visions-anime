@@ -14,7 +14,7 @@ export function LocalizedEditionNotice({ locale: code, path }: { locale: string;
 
   return (
     <div dir={locale.dir} lang={locale.hrefLang} className="mx-auto max-w-3xl px-4 py-16 lg:px-6">
-      <div className="rounded-2xl border border-border/60 bg-card/50 p-8 backdrop-blur-sm">
+      <div className="rounded-2xl border border-border/60 bg-card/80 p-8">
         <div className="flex items-center gap-3">
           <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent">
             <Languages className="h-5 w-5 text-primary-foreground" />

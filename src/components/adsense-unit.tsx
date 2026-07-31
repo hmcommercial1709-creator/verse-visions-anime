@@ -25,10 +25,11 @@ export type AdsenseUnitProps = {
 /**
  * Reusable Google AdSense unit.
  *
- * - renders a single responsive `<ins class="adsbygoogle">`
- * - pushes to `window.adsbygoogle` on mount and on every route change
- * - collapses itself (`display: none`) when Google returns no ad, so the page
- *   never shows an empty dark box
+ * CLS contract:
+ *  - the wrapper reserves `minHeight` from the very first (server) render, so a
+ *    unit that later fills does NOT push content down;
+ *  - a unit that never fills only collapses when it is *outside the viewport*,
+ *    so reclaiming that space can never move anything the user is looking at.
  */
 export function AdsenseUnit({
   id,
@@ -39,11 +40,12 @@ export function AdsenseUnit({
   fluidHeight = false,
   className = "",
   extraAttrs,
-  collapseAfterMs = 2000,
+  collapseAfterMs = 2500,
 }: AdsenseUnitProps) {
+  const wrapRef = useRef<HTMLDivElement | null>(null);
   const insRef = useRef<HTMLModElement | null>(null);
   const [filled, setFilled] = useState(false);
-  const [expired, setExpired] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -64,9 +66,9 @@ export function AdsenseUnit({
       typeof MutationObserver !== "undefined"
         ? new MutationObserver(() => {
             if (cancelled) return;
-            if (node.getAttribute("data-ad-status") === "filled" || node.firstElementChild) {
-              setFilled(true);
-            }
+            const status = node.getAttribute("data-ad-status");
+            if (status === "filled") setFilled(true);
+            if (status === "unfilled") setFilled(false);
           })
         : null;
     observer?.observe(node, {
@@ -81,28 +83,38 @@ export function AdsenseUnit({
     };
   }, [id, slot, pathname]);
 
-  // Collapse entirely when nothing fills: no border, no background, no height.
+  // Reclaim the reserved space only when nothing filled AND the box is off
+  // screen — collapsing an on-screen box is exactly what causes layout shift.
   useEffect(() => {
-    setExpired(false);
-    const timer = window.setTimeout(() => setExpired(true), collapseAfterMs);
+    setCollapsed(false);
+    const timer = window.setTimeout(() => {
+      if (filled) return;
+      const el = wrapRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const offScreen = r.bottom < 0 || r.top > window.innerHeight;
+      if (offScreen) setCollapsed(true);
+    }, collapseAfterMs);
     return () => window.clearTimeout(timer);
-  }, [id, slot, pathname, collapseAfterMs]);
-
-  const collapsed = expired && !filled;
+  }, [id, slot, pathname, collapseAfterMs, filled]);
 
   return (
     <div
+      ref={wrapRef}
       className={`ad-container relative w-full overflow-hidden ${filled ? className : ""}`}
       style={
         collapsed
           ? { display: "none", height: 0, minHeight: 0, border: "none", background: "transparent" }
-          : filled
-            ? {
-                minHeight: fluidHeight ? undefined : minHeight,
-                contain: "layout",
-                backgroundColor: "var(--ad-surface)",
-              }
-            : { background: "transparent", border: "none", minHeight: 0 }
+          : {
+              // Space is reserved from the first render in every state, so a
+              // late fill never moves the page.
+              minHeight,
+              contain: "layout",
+              ...(filled
+                ? { backgroundColor: "var(--ad-surface)" }
+                : { background: "transparent", border: "none" }),
+              ...(fluidHeight && filled ? { minHeight: undefined } : null),
+            }
       }
       aria-label="advertisement"
       role="complementary"
@@ -113,7 +125,14 @@ export function AdsenseUnit({
         ref={insRef}
         id={id}
         className="adsbygoogle block w-full"
-        style={{ display: "block", width: "100%", background: "transparent" }}
+        style={{
+          display: "block",
+          width: "100%",
+          // A fixed height on the <ins> makes Google pick a creative that fits
+          // the reserved box, instead of resizing the box after the fact.
+          ...(fluidHeight ? { minHeight } : { height: minHeight }),
+          background: "transparent",
+        }}
         data-ad-client={AD_CLIENT}
         {...(slot ? { "data-ad-slot": slot } : {})}
         data-ad-format={format}

@@ -79,6 +79,9 @@ export function AnimeLiveData({
             src={data.image}
             alt={`${title} key visual`}
             loading="lazy"
+            decoding="async"
+            width={140}
+            height={210}
             className="w-full rounded-xl border border-border/60 object-cover"
           />
         )}
@@ -146,6 +149,9 @@ export function AnimeLiveData({
                     src={c.image}
                     alt={c.character}
                     loading="lazy"
+                    decoding="async"
+                    width={225}
+                    height={300}
                     className="mb-2 aspect-[3/4] w-full rounded-lg object-cover"
                   />
                 )}
@@ -165,7 +171,7 @@ export function AnimeLiveData({
           <h3 className="font-display text-lg font-bold">Full episode directory</h3>
           <div className="mt-3 max-h-96 overflow-y-auto rounded-xl border border-border/60">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-secondary/80 text-xs uppercase text-muted-foreground backdrop-blur">
+              <thead className="sticky top-0 bg-secondary text-xs uppercase text-muted-foreground">
                 <tr>
                   <th className="p-2 text-left">#</th>
                   <th className="p-2 text-left">Title</th>
@@ -225,6 +231,9 @@ export function CharacterLiveData({ name }: { name: string }) {
             src={data.image}
             alt={name}
             loading="lazy"
+            decoding="async"
+            width={140}
+            height={210}
             className="w-full rounded-xl border border-border/60 object-cover"
           />
         )}

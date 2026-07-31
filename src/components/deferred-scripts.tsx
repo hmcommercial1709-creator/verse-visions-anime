@@ -82,14 +82,18 @@ export function DeferredScripts() {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
     }).requestIdleCallback;
 
-    const timer = window.setTimeout(() => (idle ? idle(run, { timeout: 3000 }) : run()), 1500);
-    // Any real interaction means the user is engaged — load immediately.
-    const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "scroll"];
-    events.forEach((e) => window.addEventListener(e, run, { once: true, passive: true }));
+    // Third-party tags are the single biggest source of main-thread blocking,
+    // so they are always injected from an idle callback and never synchronously
+    // inside an input/scroll handler (that is exactly what wrecks INP).
+    const schedule = () => (idle ? idle(run, { timeout: 4000 }) : window.setTimeout(run, 200));
+    const timer = window.setTimeout(schedule, 2500);
+    // Real engagement pulls them in sooner — but still via idle, never inline.
+    const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown"];
+    events.forEach((e) => window.addEventListener(e, schedule, { once: true, passive: true }));
 
     return () => {
       window.clearTimeout(timer);
-      events.forEach((e) => window.removeEventListener(e, run));
+      events.forEach((e) => window.removeEventListener(e, schedule));
     };
   }, []);
 

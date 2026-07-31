@@ -33,7 +33,7 @@ type BaseProps = {
 };
 
 /** Fluid in-article unit — best between paragraphs of long-form content. */
-export function InArticleAd({ className = "", unitId, adId, index, prefix, minHeight = 120 }: BaseProps) {
+export function InArticleAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-in-article");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -50,7 +50,7 @@ export function InArticleAd({ className = "", unitId, adId, index, prefix, minHe
 }
 
 /** Autorelaxed multiplex grid — "more content" style unit for page ends. */
-export function MultiplexAd({ className = "", unitId, prefix, minHeight = 250 }: BaseProps) {
+export function MultiplexAd({ className = "", unitId, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-multiplex");
   return (
     <AdsenseUnit
@@ -65,7 +65,7 @@ export function MultiplexAd({ className = "", unitId, prefix, minHeight = 250 }:
 }
 
 /** Responsive display unit ("hazza") — headers, sidebars, post-content. */
-export function DisplayAd({ className = "", unitId, adId, index, prefix, minHeight = 100 }: BaseProps) {
+export function DisplayAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-display");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -80,7 +80,7 @@ export function DisplayAd({ className = "", unitId, adId, index, prefix, minHeig
 }
 
 /** Fluid in-feed unit — between cards in listing/feed layouts. */
-export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeight = 120 }: BaseProps) {
+export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-in-feed");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -97,7 +97,7 @@ export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeigh
 }
 
 /** Responsive top display banner ("Display_Banner_Top") — above/below the title. */
-export function TopBannerAd({ className = "", unitId, adId, index, prefix, minHeight = 100 }: BaseProps) {
+export function TopBannerAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-display-top");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (

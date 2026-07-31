@@ -1,51 +1,38 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 /**
- * Defers rendering of below-the-fold content until it is about to scroll into
- * view. Keeps the initial render (and hydration) cheap so the LCP paint isn't
- * competing with heavy widgets, while reserving height to avoid layout shift.
+ * Below-the-fold section wrapper.
+ *
+ * Instead of mounting content late (which caused large layout shifts when the
+ * real content was taller than the reserved placeholder), the content is always
+ * rendered — including in the server HTML, which is better for SEO — and the
+ * browser is told it may skip *rendering* work while it is off screen via
+ * `content-visibility: auto`. `contain-intrinsic-size` supplies a size estimate
+ * so scrollbar geometry stays stable, and because the real DOM is present the
+ * measured height is used as soon as the section is reached: zero CLS, while
+ * still keeping style/layout/paint off the main thread until needed (better INP).
  */
 export function LazySection({
   children,
   minHeight = 320,
-  rootMargin = "400px",
   className,
 }: {
   children: ReactNode;
-  /** Placeholder height reserved before the content mounts (px). */
+  /** Estimated height used while the section is off screen (px). */
   minHeight?: number;
+  /** Kept for API compatibility with previous call sites. */
   rootMargin?: string;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (visible) return;
-    const el = ref.current;
-    if (!el) return;
-
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [visible, rootMargin]);
-
   return (
-    <div ref={ref} className={className} style={visible ? undefined : { minHeight }}>
-      {visible ? children : null}
+    <div
+      className={className}
+      style={{
+        contentVisibility: "auto",
+        containIntrinsicSize: `auto ${minHeight}px`,
+      }}
+    >
+      {children}
     </div>
   );
 }

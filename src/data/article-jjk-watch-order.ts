@@ -171,7 +171,7 @@ export const jjkWatchOrderArticle: Article = {
         {
           type: "link",
           label: "The complete Shibuya Incident timeline and world impact analysis",
-          to: "/article/shibuya-incident",
+          to: "/article/shibuya-incident-timeline",
           note: "Hour-by-hour reconstruction of the arc, with the aftermath explained.",
         },
         {

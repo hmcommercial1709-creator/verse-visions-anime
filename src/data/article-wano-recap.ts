@@ -106,7 +106,7 @@ export const wanoRecapArticle: Article = {
       blocks: [
         {
           type: "image",
-          art: "wano",
+          art: "one-piece-wano-recap",
           caption: "Wano's closed borders and industrial ruin: the arc's politics are visible in its landscape before anyone explains them.",
         },
       ],

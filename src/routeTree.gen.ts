@@ -30,6 +30,7 @@ import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
 import { Route as SitemapCharactersDotxmlRouteImport } from './routes/sitemap-characters[.]xml'
 import { Route as SitemapArticlesDotxmlRouteImport } from './routes/sitemap-articles[.]xml'
+import { Route as SitemapArDotxmlRouteImport } from './routes/sitemap-ar[.]xml'
 import { Route as SitemapAnimeDotxmlRouteImport } from './routes/sitemap-anime[.]xml'
 import { Route as SeasonalRouteImport } from './routes/seasonal'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
@@ -183,6 +184,11 @@ const SitemapCharactersDotxmlRoute = SitemapCharactersDotxmlRouteImport.update({
 const SitemapArticlesDotxmlRoute = SitemapArticlesDotxmlRouteImport.update({
   id: '/sitemap-articles.xml',
   path: '/sitemap-articles.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapArDotxmlRoute = SitemapArDotxmlRouteImport.update({
+  id: '/sitemap-ar.xml',
+  path: '/sitemap-ar.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapAnimeDotxmlRoute = SitemapAnimeDotxmlRouteImport.update({
@@ -468,6 +474,7 @@ export interface FileRoutesByFullPath {
   '/rss.xml': typeof RssDotxmlRoute
   '/seasonal': typeof SeasonalRoute
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
+  '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
@@ -540,6 +547,7 @@ export interface FileRoutesByTo {
   '/rss.xml': typeof RssDotxmlRoute
   '/seasonal': typeof SeasonalRoute
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
+  '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
@@ -613,6 +621,7 @@ export interface FileRoutesById {
   '/rss.xml': typeof RssDotxmlRoute
   '/seasonal': typeof SeasonalRoute
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
+  '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
@@ -687,6 +696,7 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/seasonal'
     | '/sitemap-anime.xml'
+    | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
     | '/sitemap-characters.xml'
     | '/sitemap-episodes.xml'
@@ -759,6 +769,7 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/seasonal'
     | '/sitemap-anime.xml'
+    | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
     | '/sitemap-characters.xml'
     | '/sitemap-episodes.xml'
@@ -831,6 +842,7 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/seasonal'
     | '/sitemap-anime.xml'
+    | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
     | '/sitemap-characters.xml'
     | '/sitemap-episodes.xml'
@@ -904,6 +916,7 @@ export interface RootRouteChildren {
   RssDotxmlRoute: typeof RssDotxmlRoute
   SeasonalRoute: typeof SeasonalRoute
   SitemapAnimeDotxmlRoute: typeof SitemapAnimeDotxmlRoute
+  SitemapArDotxmlRoute: typeof SitemapArDotxmlRoute
   SitemapArticlesDotxmlRoute: typeof SitemapArticlesDotxmlRoute
   SitemapCharactersDotxmlRoute: typeof SitemapCharactersDotxmlRoute
   SitemapEpisodesDotxmlRoute: typeof SitemapEpisodesDotxmlRoute
@@ -1087,6 +1100,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-articles.xml'
       fullPath: '/sitemap-articles.xml'
       preLoaderRoute: typeof SitemapArticlesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-ar.xml': {
+      id: '/sitemap-ar.xml'
+      path: '/sitemap-ar.xml'
+      fullPath: '/sitemap-ar.xml'
+      preLoaderRoute: typeof SitemapArDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap-anime.xml': {
@@ -1472,6 +1492,7 @@ const rootRouteChildren: RootRouteChildren = {
   RssDotxmlRoute: RssDotxmlRoute,
   SeasonalRoute: SeasonalRoute,
   SitemapAnimeDotxmlRoute: SitemapAnimeDotxmlRoute,
+  SitemapArDotxmlRoute: SitemapArDotxmlRoute,
   SitemapArticlesDotxmlRoute: SitemapArticlesDotxmlRoute,
   SitemapCharactersDotxmlRoute: SitemapCharactersDotxmlRoute,
   SitemapEpisodesDotxmlRoute: SitemapEpisodesDotxmlRoute,

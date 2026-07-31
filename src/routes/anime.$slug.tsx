@@ -120,7 +120,7 @@ function AnimeDetail() {
               </div>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                <Link to="/watch/$slug" params={{ slug: anime.slug }} className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground glow-primary"><Play className="h-4 w-4" /> Play episode</Link>
+                <Link to="/watch/$slug" params={{ slug: anime.slug }} search={{ ep: undefined }} className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground glow-primary"><Play className="h-4 w-4" /> Play episode</Link>
                 <a href="#trailer" className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm">Watch trailer</a>
                 <button className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm">+ Watchlist</button>
                 <button className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm">★ Rate</button>

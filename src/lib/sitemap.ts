@@ -12,6 +12,7 @@ import {
   allStudios,
 } from "@/lib/content-registry";
 import { categorySlugs } from "@/data/categories";
+import { AR_GUIDES } from "@/data/ar-guides";
 import { INDEXABLE_LOCALES, DEFAULT_LOCALE, getLocale, localizePath, type LocaleCode } from "@/lib/i18n";
 
 export const BASE_URL = "https://gamecastle.store";
@@ -125,14 +126,59 @@ export function partitionSitemapPath(partition: Partition, locale: LocaleCode = 
 }
 
 export function sitemapIndexXml(): string {
-  const children = INDEXABLE_LOCALES.flatMap((locale) =>
-    PARTITIONS.map((p) => partitionSitemapPath(p, locale)),
-  );
+  const children = [
+    ...INDEXABLE_LOCALES.flatMap((locale) =>
+      PARTITIONS.map((p) => partitionSitemapPath(p, locale)),
+    ),
+    // Arabic cornerstone edition: real localized content, its own child sitemap.
+    "/sitemap-ar.xml",
+  ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
     ...children.map((path) => `  <sitemap>\n    <loc>${BASE_URL}${path}</loc>\n  </sitemap>`),
     `</sitemapindex>`,
+  ].join("\n");
+}
+
+/**
+ * Arabic edition URLs (the /ar/anime hub + one entry per localized guide).
+ * These are the only /ar/ paths with real translated content, so they are the
+ * only ones we advertise to crawlers.
+ */
+export const AR_ENTRIES: SitemapEntry[] = [
+  { path: "/ar/anime", changefreq: "weekly", priority: "0.9" },
+  ...AR_GUIDES.map((g) => ({
+    path: `/ar/anime/${g.slug}`,
+    changefreq: "monthly" as const,
+    priority: "0.8",
+  })),
+];
+
+/** urlset for the Arabic edition, with hreflang pairs to the English original. */
+export function arUrlsetXml(): string {
+  const urls = AR_ENTRIES.map((e) => {
+    const guide = AR_GUIDES.find((g) => `/ar/anime/${g.slug}` === e.path);
+    return [
+      `  <url>`,
+      `    <loc>${BASE_URL}${e.path}</loc>`,
+      `    <xhtml:link rel="alternate" hreflang="ar" href="${BASE_URL}${e.path}" />`,
+      ...(guide
+        ? [
+            `    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}${guide.enPath}" />`,
+            `    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${guide.enPath}" />`,
+          ]
+        : []),
+      e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
+      e.priority ? `    <priority>${e.priority}</priority>` : null,
+      `  </url>`,
+    ].filter(Boolean).join("\n");
+  });
+  return [
+    `<?xml version="1.0" encoding="UTF-8"?>`,
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`,
+    ...urls,
+    `</urlset>`,
   ].join("\n");
 }
 

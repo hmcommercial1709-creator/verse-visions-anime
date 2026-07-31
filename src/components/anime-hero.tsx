@@ -110,6 +110,7 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
                   <Link
                     to="/watch/$slug"
                     params={{ slug: active.slug }}
+                    search={{ ep: undefined }}
                     className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground glow-primary transition-transform hover:scale-[1.03] hover:brightness-110"
                   >
                     <Play className="h-5 w-5 fill-current" /> Watch Now

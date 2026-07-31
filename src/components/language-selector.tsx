@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Check, ChevronDown, Globe } from "lucide-react";
-import { LOCALES, localizePath, useLocale, type LocaleCode } from "@/lib/i18n";
+import { LOCALES, isReadyLocale, localeEntryPath, useLocale, type LocaleCode } from "@/lib/i18n";
 
 interface Props {
   /** "header" = compact pill, "footer" = wider block */
@@ -34,7 +34,7 @@ export function LanguageSelector({ variant = "header", align = "end", className 
   const switchTo = (code: LocaleCode) => {
     setOpen(false);
     // Preserve the current page — jump to its localized equivalent path.
-    navigate({ to: localizePath(pathname, code) as string, replace: false });
+    navigate({ to: localeEntryPath(pathname, code) as string, replace: false });
   };
 
   return (
@@ -82,6 +82,11 @@ export function LanguageSelector({ variant = "header", align = "end", className 
                     {l.short}
                   </span>
                   <span className="truncate">{l.label}</span>
+                  {isReadyLocale(l.code) && !isActive && (
+                    <span className="ms-auto shrink-0 rounded-full border border-primary/40 bg-primary/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary">
+                      Live
+                    </span>
+                  )}
                   {isActive && <Check className="ms-auto h-3.5 w-3.5 shrink-0" />}
                 </button>
               </li>

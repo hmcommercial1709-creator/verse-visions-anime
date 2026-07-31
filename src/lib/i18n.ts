@@ -79,9 +79,37 @@ export function localizePath(pathname: string, locale: LocaleCode): string {
  */
 export const INDEXABLE_LOCALES: LocaleCode[] = ["en"];
 
+/**
+ * Locales that have real translated content a visitor can browse today, even
+ * if we don't advertise them through hreflang yet. Used by the language
+ * selector to show which editions are live.
+ */
+export const READY_LOCALES: LocaleCode[] = ["en", "ar"];
+
+export function isReadyLocale(code: string | undefined): boolean {
+  return isLocaleCode(code) && READY_LOCALES.includes(code);
+}
+
+/**
+ * Entry point for a locale from the language selector. Ready locales with a
+ * dedicated hub land on that hub instead of an untranslated mirror path.
+ */
+const LOCALE_ENTRY: Partial<Record<LocaleCode, string>> = {
+  ar: "/ar/anime",
+};
+
+export function localeEntryPath(pathname: string, locale: LocaleCode): string {
+  const target = localizePath(pathname, locale);
+  const entry = LOCALE_ENTRY[locale];
+  if (!entry) return target;
+  // Already inside the localized hub? keep the current page.
+  return target.startsWith(entry) ? target : entry;
+}
+
 export function isIndexableLocale(code: string | undefined): boolean {
   return isLocaleCode(code) && INDEXABLE_LOCALES.includes(code);
 }
+
 
 /**
  * hreflang alternates (plus x-default) for a canonical path, restricted to

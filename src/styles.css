@@ -186,18 +186,18 @@ ins.adsbygoogle {
   background: transparent !important;
 }
 ins.adsbygoogle[data-ad-status="unfilled"] {
+  visibility: hidden;
+}
+/* Container-level collapse: only boxes explicitly marked collapsed (off-screen
+   and unfilled) are removed, so reclaiming space never shifts visible content. */
+[data-ad-filled="false"][data-ad-collapsed="true"] {
   display: none !important;
 }
-/* Container-level collapse: any reserved ad box that never filled takes up
-   no space and shows no chrome. */
-[data-ad-filled="false"][data-ad-collapsed="true"],
-.ad-container:empty {
-  display: none !important;
-}
+/* Pending / unfilled units show no chrome but KEEP their reserved height. */
 .ad-container[data-ad-filled="false"] {
   background: transparent !important;
   border: none !important;
-  min-height: 0 !important;
 }
+
 
 

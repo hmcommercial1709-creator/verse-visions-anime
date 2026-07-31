@@ -440,22 +440,6 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "jujutsu-kaisen-watch-order-and-manga-jump",
-    category: "gaming-guides", section: "guides",
-    title: "Jujutsu Kaisen Watch Order, Plus Exactly Where to Jump Into the Manga",
-    excerpt: "Season order, the film's correct placement, and the chapter number that continues the anime cleanly.",
-    author: "hana-mori", date: "2026-04-14", tag: "Watch Order",
-    tags: ["jujutsu-kaisen", "watch-order", "manga", "guide"],
-    cover: ["#141b2d", "#3a1150"],
-    related: ["jujutsu-kaisen"],
-    body: [
-      "Watch Season 1 first, in broadcast order, then the film, then Season 2. Chronological order — film first — is technically valid and dramatically worse, because the film's emotional payload depends on knowing the cast it precedes.",
-      "Season 2 splits into two halves that feel like different shows: Hidden Inventory is a character piece, Shibuya is a disaster movie. Do not pause between them if you can help it; the contrast is the point.",
-      "For the manga jump, continue from the chapter immediately after the anime's last adapted scene rather than the start of the next arc. The overlap chapters carry setup the anime compressed.",
-      "If you only want the fights, that is a legitimate way to read a battle manga, but Jujutsu Kaisen hides most of its rule-setting in conversation. Skipping dialogue makes the late-series power system incomprehensible.",
-    ],
-  },
-  {
     slug: "beginners-guide-to-anime-2026",
     category: "gaming-guides", section: "guides",
     title: "The Absolute Beginner's Guide to Anime in 2026",

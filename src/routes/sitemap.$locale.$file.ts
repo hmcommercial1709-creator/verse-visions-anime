@@ -6,14 +6,14 @@ import { INDEXABLE_LOCALES, isLocaleCode, type LocaleCode } from "@/lib/i18n";
 /**
  * Per-locale child sitemaps: /sitemap/<locale>/<partition>.xml
  * Only locales with indexable content are served; anything else 404s so the
- * sitemap index never advertises a placeholder edition.
+ * index never advertises a placeholder edition.
  */
-export const Route = createFileRoute("/sitemap/$locale/$partition.xml")({
+export const Route = createFileRoute("/sitemap/$locale/$file")({
   server: {
     handlers: {
       GET: async ({ params }) => {
         const locale = params.locale;
-        const partition = params.partition as Partition;
+        const partition = params.file.replace(/\.xml$/, "") as Partition;
         if (
           !isLocaleCode(locale) ||
           !INDEXABLE_LOCALES.includes(locale as LocaleCode) ||

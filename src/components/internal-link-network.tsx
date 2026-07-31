@@ -37,7 +37,7 @@ export function InternalLinkNetwork({
   return (
     <nav
       aria-label="Related pages"
-      className={`rounded-2xl border border-border/60 bg-card/40 p-5 backdrop-blur-sm ${className}`}
+      className={`rounded-2xl border border-border/60 bg-card/80 p-5 ${className}`}
     >
       <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
         <Network className="h-3.5 w-3.5" /> {title ?? t("related")}

@@ -30,7 +30,7 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-background/85 backdrop-blur-md" onClick={() => onOpenChange(false)} />
+      <div className="absolute inset-0 bg-background/95" onClick={() => onOpenChange(false)} />
       <div className="relative mx-auto mt-20 max-w-2xl px-4">
         <div className="overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl">
           <div className="flex items-center gap-3 border-b border-border px-4 py-3">

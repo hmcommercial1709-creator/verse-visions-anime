@@ -54,7 +54,7 @@ export function GlobalMenu({
       <button
         aria-label="Close menu"
         onClick={onClose}
-        className="absolute inset-0 h-full w-full cursor-default bg-background/85 backdrop-blur-md animate-in fade-in duration-200"
+        className="absolute inset-0 h-full w-full cursor-default bg-background/95 animate-in fade-in duration-200"
       />
       <div className="relative mx-auto flex h-full max-w-6xl flex-col px-4 py-6 lg:px-8">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
@@ -75,7 +75,7 @@ export function GlobalMenu({
           {SECTIONS.map((section) => (
             <section
               key={section.title}
-              className="rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur-xl"
+              className="rounded-2xl border border-border/60 bg-card p-5"
             >
               <div className="mb-4 flex items-center gap-2">
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary/25 to-accent/25 text-primary">

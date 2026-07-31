@@ -106,7 +106,7 @@ function EpisodePage() {
             </Link>
             <Link
               to="/streaming"
-              className="inline-flex items-center justify-center gap-2.5 rounded-2xl border border-accent/50 bg-accent/10 px-6 py-4 text-base font-bold text-accent backdrop-blur transition-colors hover:bg-accent/20"
+              className="inline-flex items-center justify-center gap-2.5 rounded-2xl border border-accent/50 bg-accent/10 px-6 py-4 text-base font-bold text-accent transition-colors hover:bg-accent/20"
             >
               <Download className="h-5 w-5" /> Download options
             </Link>

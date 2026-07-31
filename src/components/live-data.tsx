@@ -171,7 +171,7 @@ export function AnimeLiveData({
           <h3 className="font-display text-lg font-bold">Full episode directory</h3>
           <div className="mt-3 max-h-96 overflow-y-auto rounded-xl border border-border/60">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-secondary/80 text-xs uppercase text-muted-foreground backdrop-blur">
+              <thead className="sticky top-0 bg-secondary text-xs uppercase text-muted-foreground">
                 <tr>
                   <th className="p-2 text-left">#</th>
                   <th className="p-2 text-left">Title</th>

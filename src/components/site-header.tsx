@@ -152,7 +152,7 @@ export function SiteHeader() {
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
-            ? "backdrop-blur-md bg-background/90 border-b border-border/60"
+            ? "bg-background/95 border-b border-border/60"
             : "bg-background/70"
         }`}
         onMouseLeave={() => setOpenMenu(null)}

@@ -38,7 +38,7 @@ export function Section({ eyebrow, title, subtitle, children, action }: { eyebro
 
 export function StatPill({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-border/60 bg-card/60 backdrop-blur px-4 py-3">
+    <div className="rounded-xl border border-border/60 bg-card px-4 py-3">
       <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</div>
       <div className="mt-1 font-display text-xl font-bold text-gradient">{value}</div>
     </div>

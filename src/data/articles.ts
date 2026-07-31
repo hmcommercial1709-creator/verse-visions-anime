@@ -49,6 +49,8 @@ export type Article = {
   body: string[];
   /** When present, replaces the auto-derived sections with editorial ones. */
   sections?: ArticleSection[];
+  /** Editorial FAQ pairs. When present they drive the page's FAQPage schema. */
+  faqs?: { q: string; a: string }[];
   related: string[]; // slugs of anime
 };
 

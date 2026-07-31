@@ -75,7 +75,7 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
-import { Route as SitemapLocalePartitionDotxmlRouteImport } from './routes/sitemap.$locale.$partition[.]xml'
+import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
 const WatchOrderRoute = WatchOrderRouteImport.update({
@@ -408,12 +408,11 @@ const LocaleSplatRoute = LocaleSplatRouteImport.update({
   path: '/$locale/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapLocalePartitionDotxmlRoute =
-  SitemapLocalePartitionDotxmlRouteImport.update({
-    id: '/sitemap/$locale/$partition.xml',
-    path: '/sitemap/$locale/$partition.xml',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
+  id: '/sitemap/$locale/$file',
+  path: '/sitemap/$locale/$file',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
   id: '/anime_/$slug/episode/$num',
   path: '/anime/$slug/episode/$num',
@@ -487,7 +486,7 @@ export interface FileRoutesByFullPath {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
-  '/sitemap/$locale/$partition.xml': typeof SitemapLocalePartitionDotxmlRoute
+  '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesByTo {
@@ -557,7 +556,7 @@ export interface FileRoutesByTo {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale': typeof LocaleIndexRoute
-  '/sitemap/$locale/$partition.xml': typeof SitemapLocalePartitionDotxmlRoute
+  '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesById {
@@ -628,7 +627,7 @@ export interface FileRoutesById {
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
-  '/sitemap/$locale/$partition.xml': typeof SitemapLocalePartitionDotxmlRoute
+  '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRouteTypes {
@@ -700,7 +699,7 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
-    | '/sitemap/$locale/$partition.xml'
+    | '/sitemap/$locale/$file'
     | '/anime/$slug/episode/$num'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -770,7 +769,7 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale'
-    | '/sitemap/$locale/$partition.xml'
+    | '/sitemap/$locale/$file'
     | '/anime/$slug/episode/$num'
   id:
     | '__root__'
@@ -840,7 +839,7 @@ export interface FileRouteTypes {
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
-    | '/sitemap/$locale/$partition.xml'
+    | '/sitemap/$locale/$file'
     | '/anime_/$slug/episode/$num'
   fileRoutesById: FileRoutesById
 }
@@ -911,7 +910,7 @@ export interface RootRouteChildren {
   StudioSlugRoute: typeof StudioSlugRoute
   WatchSlugRoute: typeof WatchSlugRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
-  SitemapLocalePartitionDotxmlRoute: typeof SitemapLocalePartitionDotxmlRoute
+  SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
 }
 
@@ -1379,11 +1378,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sitemap/$locale/$partition.xml': {
-      id: '/sitemap/$locale/$partition.xml'
-      path: '/sitemap/$locale/$partition.xml'
-      fullPath: '/sitemap/$locale/$partition.xml'
-      preLoaderRoute: typeof SitemapLocalePartitionDotxmlRouteImport
+    '/sitemap/$locale/$file': {
+      id: '/sitemap/$locale/$file'
+      path: '/sitemap/$locale/$file'
+      fullPath: '/sitemap/$locale/$file'
+      preLoaderRoute: typeof SitemapLocaleFileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anime_/$slug/episode/$num': {
@@ -1463,7 +1462,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudioSlugRoute: StudioSlugRoute,
   WatchSlugRoute: WatchSlugRoute,
   LocaleIndexRoute: LocaleIndexRoute,
-  SitemapLocalePartitionDotxmlRoute: SitemapLocalePartitionDotxmlRoute,
+  SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,
 }
 export const routeTree = rootRouteImport

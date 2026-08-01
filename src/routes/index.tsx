@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { animes } from "@/data/animes";
+import { episodes } from "@/data/episodes";
+
 import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { articles } from "@/data/articles";

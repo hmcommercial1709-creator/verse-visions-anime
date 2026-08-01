@@ -38,12 +38,8 @@ const DECEPTIVE_PATTERNS: RegExp[] = [
 
 /** Ad networks we intentionally run, including Monetag's vignette banner. */
 const ALLOWED_AD_HOSTS = [
-  "nap5k.com",
-  "n6wxm.com",
-  
-  "thubanoa.com",
-  "fpyf8.com",
-  "monetag.com",
+  // In-page display networks only. Overlay/interstitial/popunder hosts are
+  // deliberately absent so their creatives get swept out of the DOM.
   "googlesyndication.com",
   "doubleclick.net",
 ];

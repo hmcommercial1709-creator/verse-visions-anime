@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Clock, Play, Star } from "lucide-react";
-import { animes, type Anime } from "@/data/animes";
+import { Clock, Play, Star } from "lucide-react";
+import type { Anime } from "@/data/animes";
 import { episodes } from "@/data/episodes";
 import { getAnime } from "@/data/animes";
 import { MediaImage } from "@/components/media";
@@ -128,17 +128,3 @@ export function PosterRail({ items }: { items: Anime[] }) {
     </>
   );
 }
-
-/** Small helper for the "see all" rail action. */
-export function RailAction({ to, label }: { to: string; label: string }) {
-  return (
-    <Link
-      to={to}
-      className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline"
-    >
-      {label} <ArrowRight className="h-3 w-3" />
-    </Link>
-  );
-}
-
-export const allAnimes = animes;

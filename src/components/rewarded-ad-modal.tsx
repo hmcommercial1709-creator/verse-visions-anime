@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink, Gift, Loader2, Lock, X } from "lucide-react";
-import { AdSlot } from "@/components/ad-slot";
+import { DisplayAd } from "@/components/ad-slot";
 
 /**
  * Rewarded-ad gate.
@@ -93,7 +93,7 @@ export function RewardedAdModal({
           </p>
 
           {/* Real ad container — AdSense / rewarded script renders here. */}
-          <AdSlot slot="rewarded-gate" className="mt-4" minHeight={200} />
+          <DisplayAd prefix="av-rewarded" className="mt-4" minHeight={200} />
 
           <div className="mt-4">
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">

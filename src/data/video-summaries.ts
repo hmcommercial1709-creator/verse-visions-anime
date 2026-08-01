@@ -28,9 +28,9 @@ export const KIND_LABEL_AR: Record<VideoKind, string> = {
 };
 
 /** Licensed platform used by the "watch full episode" CTA. */
-const PLATFORMS: Record<string, { label: string; labelAr: string; search: string }> = {
-  crunchyroll: { label: "Crunchyroll", labelAr: "كranchyroll", search: "https://www.crunchyroll.com/search?q=" },
-  netflix: { label: "Netflix", labelAr: "نتفليكس", search: "https://www.netflix.com/search?q=" },
+const PLATFORMS: Record<string, { label: string; search: string }> = {
+  crunchyroll: { label: "Crunchyroll", search: "https://www.crunchyroll.com/search?q=" },
+  netflix: { label: "Netflix", search: "https://www.netflix.com/search?q=" },
 };
 
 const PLATFORM_BY_SLUG: Record<string, keyof typeof PLATFORMS> = {

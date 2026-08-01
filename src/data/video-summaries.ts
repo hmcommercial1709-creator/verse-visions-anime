@@ -2,10 +2,10 @@ import { getAnime } from "@/data/animes";
 import { trailerFor } from "@/data/trailers";
 
 /**
- * Arabic video-first content model.
+ * Video-first content model (English).
  *
  * Each entry pairs an embeddable official YouTube video (summary, AMV or short
- * review) with a 2–3 paragraph Arabic write-up written for search, plus the
+ * review) with a 2–3 paragraph English write-up written for search, plus the
  * licensed platform the visitor should finish the episode on. No hosted video,
  * no pirated sources — the CTA always points at the official platform.
  */
@@ -15,16 +15,16 @@ export type VideoSummary = {
   animeSlug: string;
   kind: VideoKind;
   youtubeId: string;
-  /** Arabic headline shown above the embed. */
-  titleAr: string;
-  /** 2–3 Arabic paragraphs rendered under the player for SEO. */
-  paragraphsAr: string[];
+  /** Headline shown above the embed. */
+  title: string;
+  /** 2–3 paragraphs rendered under the player for SEO. */
+  paragraphs: string[];
 };
 
-export const KIND_LABEL_AR: Record<VideoKind, string> = {
-  summary: "ملخص الأنمي",
-  amv: "فيديو موسيقي AMV",
-  review: "مراجعة سريعة",
+export const KIND_LABEL: Record<VideoKind, string> = {
+  summary: "Anime summary",
+  amv: "AMV music video",
+  review: "Quick review",
 };
 
 /** Licensed platform used by the "watch full episode" CTA. */
@@ -47,77 +47,77 @@ export function officialPlatformFor(slug: string, title: string) {
   };
 }
 
-const AR: Record<string, string[]> = {
+const COPY: Record<string, string[]> = {
   "jujutsu-kaisen": [
-    "يقدّم هذا الملخص المصوّر لأنمي Jujutsu Kaisen صورة كاملة عن عالم السحرة واللعنات، من لحظة التقاء يوجي إيتادوري بإصبع سوكونا حتى تحوّله إلى وعاء يحمل ملك اللعنات داخله. نشرح في الفيديو تسلسل الأحداث بترتيب زمني واضح، مع تحديد الحلقات التي يجب مشاهدتها كاملة على المنصة الرسمية لفهم دوافع كل شخصية.",
-    "نتوقف بعد ذلك عند نظام الطاقة الملعونة: كيف تُولد اللعنات من المشاعر البشرية السلبية، وما الفرق بين التقنيات الموروثة مثل «لا نهائية» لدى غوجو ساتورو وبين التقنيات المكتسبة، ولماذا يُعتبر التوسّع الميداني ذروة القتال في هذا العالم. الشرح مبنيّ على ما ظهر فعلياً في الأنمي دون حرق لأحداث المانغا.",
-    "وفي الجزء الأخير نرشّح ترتيب المشاهدة الأمثل للمبتدئين: الموسم الأول، ثم فيلم Jujutsu Kaisen 0، ثم موسم حادثة شيبويا. إذا أعجبك التحليل، أكمل الحلقة الكاملة على المنصة الرسمية لتدعم صنّاع العمل وتحصل على جودة عالية وترجمة عربية معتمدة.",
+    "This Jujutsu Kaisen video summary rebuilds the whole sorcery world in order: the moment Yuji Itadori swallows Sukuna's finger, his life sentence as the King of Curses' vessel, and the political machinery of Jujutsu High that decides who lives long enough to graduate. Every beat is placed on a clear timeline, with the episodes worth watching in full clearly flagged.",
+    "From there we break down cursed energy as a power system: how curses are born out of negative human emotion, the gap between inherited techniques like Satoru Gojo's Limitless and self-taught ones, and why a Domain Expansion is the ceiling of any fight in this series. Everything explained is anime-only — no manga spoilers slip in.",
+    "The last section is a viewing order for newcomers: season one, then Jujutsu Kaisen 0, then the Shibuya Incident arc. If the breakdown helped, continue the full episode on the official platform in original quality and support the studio that made it.",
   ],
   "demon-slayer": [
-    "في هذا الملخص نستعرض رحلة تانجيرو كامادو من فقدان عائلته إلى انتمائه لفيلق قتلة الشياطين، مع تفسير بسيط لقواعد العالم: من هم الأقمار العليا، ولماذا يمثّل موزان كيبوتسوجي تهديداً مختلفاً عن أي شرير آخر في أعمال الشونين.",
-    "نتحدّث أيضاً عن أساليب التنفّس بوصفها نظام قوة قائماً على الانضباط لا على المواهب الخارقة، ونوضح كيف تحوّل استوديو ufotable المعارك إلى لوحات متحركة عبر الإضاءة والكاميرا الثلاثية الأبعاد، وهو ما يجعل مشاهدة الحلقة كاملة بجودة عالية تجربة مختلفة تماماً.",
-    "الفيديو مناسب لمن يريد اللحاق بالقصة قبل الموسم الجديد. بعد الانتهاء، انتقل إلى المنصة الرسمية لمتابعة الحلقة الكاملة بالترجمة العربية ومشاهدة المشاهد التي لا يمكن لأي ملخص أن ينقل أثرها الحقيقي.",
+    "This summary walks Tanjiro Kamado's arc from the morning he loses his family to his place inside the Demon Slayer Corps, with a beginner-friendly explanation of the world rules: who the Upper Moons are, and why Muzan Kibutsuji is a fundamentally different kind of shonen antagonist.",
+    "We also cover Breathing Styles as a discipline-based power system rather than a talent-based one, and how ufotable turns each duel into moving artwork with layered lighting and 3D camera work — which is exactly why the full episode in high quality hits differently.",
+    "It is the fastest way to catch up before the next season. When you are done, head to the official platform for the full episode and the scenes no recap can carry.",
   ],
   "one-piece": [
-    "ملخص One Piece هذا موجّه لمن يشعر أن عدد الحلقات مخيف. نبدأ من نقطة انطلاق لوفي، ونمرّ على المحطات الكبرى: ألاباستا، إينيس لوبي، مارينفورد، ثم وانو، مع توضيح ما يمكن اختصاره وما لا يجوز تفويته أبداً.",
-    "نشرح كذلك خرائط القوة في العالم: فواكه الشيطان وأنواعها الثلاثة، إرادة الغلبة، ونظام اليونكو والأدميرالات، إضافة إلى الخط السياسي للحكومة العالمية الذي يمنح الأحداث ثقلاً يتجاوز المعارك.",
-    "إذا كنت تبني قائمة مشاهدة، استخدم الترتيب المذكور في الفيديو ثم أكمل الحلقات كاملة على المنصة الرسمية؛ فالحلقات الأصلية تحتوي على تفاصيل بصرية وحوارات محورية يستحيل تلخيصها في دقائق.",
+    "This One Piece summary is for anyone intimidated by the episode count. We start at Luffy's departure and move through the major landmarks — Alabasta, Enies Lobby, Marineford, Wano — marking what can be condensed and what must never be skipped.",
+    "We also map the world's power hierarchy: the three Devil Fruit categories, Conqueror's Haki, the Yonko and Admiral balance, and the World Government storyline that gives the fights weight far beyond the punches.",
+    "If you are building a watchlist, use the order in the video, then finish the episodes in full on the official platform — the originals carry visual detail and pivotal dialogue that minutes of recap simply cannot hold.",
   ],
   "attack-on-titan": [
-    "هذا الملخص يعيد تركيب قصة Attack on Titan بترتيب منطقي: الحياة داخل الأسوار، سقوط شيغانشينا، انكشاف حقيقة العمالقة، ثم التحوّل الكامل في منظور إيرين يايغر خلال المواسم الأخيرة.",
-    "نناقش الأفكار التي جعلت العمل ظاهرة عالمية: الحرية مقابل الأمان، الدائرة المتكرّرة للكراهية بين الشعوب، وكيف يتحوّل الضحية إلى جلاد. كل ذلك دون حرق مفاجئ للنهاية إلا بتحذير واضح داخل الفيديو.",
-    "بعد المشاهدة، أكمل الحلقة الكاملة على المنصة الرسمية للاستمتاع بالموسيقى التصويرية والإخراج الصوتي بجودتهما الأصلية، فهما نصف تجربة هذا الأنمي.",
+    "This recap reassembles Attack on Titan in a logical sequence: life inside the walls, the fall of Shiganshina, the truth behind the Titans, and the complete inversion of Eren Yeager's perspective across the final seasons.",
+    "We discuss the ideas that turned it into a global phenomenon — freedom versus safety, the repeating cycle of inherited hatred, and how a victim becomes an executioner — with a clear on-screen warning before any ending spoiler.",
+    "Afterwards, continue the full episode on the official platform: the score and sound design are half of this show's experience, and they only land at original quality.",
   ],
   "chainsaw-man": [
-    "مراجعة سريعة لأنمي Chainsaw Man: نتحدّث عن دنجي، الشاب الذي لا يطلب من الحياة سوى وجبة كاملة ونوم هادئ، وكيف يحوّله عقد بسيط مع شيطان المنشار إلى سلاح في يد منظمة أمنية غامضة.",
-    "نحلّل ما يميّز العمل: الدمج بين الرعب والكوميديا السوداء، والإيقاع الذي لا يمنح المشاهد وقتاً للأمان، وشخصية ماكيما كأحد أكثر التصميمات إثارة للجدل في السنوات الأخيرة، مع الإشارة إلى مستوى الرسوم المتحركة لدى MAPPA.",
-    "إن أعجبتك المراجعة، شاهد الحلقة الكاملة على المنصة الرسمية؛ فالعمل يعتمد بشكل كبير على التوقيت الصوتي والمونتاج، وهو ما يفقده أي ملخص مختصر.",
+    "A quick review of Chainsaw Man: Denji wants nothing from life but a full meal and a quiet place to sleep, and a simple contract with a chainsaw devil turns him into a weapon held by a secretive public safety bureau.",
+    "We unpack what makes it work — horror braided with pitch-black comedy, a rhythm that never lets the viewer feel safe, and Makima as one of the most argued-about character designs of recent years — plus where MAPPA's animation peaks.",
+    "If the review landed, watch the full episode on the official platform. This show lives on vocal timing and editing, the first things any short recap loses.",
   ],
   "solo-leveling": [
-    "ملخص Solo Leveling يشرح كيف يتحوّل سونغ جين-وو من أضعف صيّاد من الرتبة E إلى لاعب يمتلك نظام تطوير خاصاً به، وما معنى «البوابات» و«الأبراج المحصّنة» في هذا العالم.",
-    "نستعرض كذلك ما الذي يجعل العمل ممتعاً للجمهور العربي: إيقاع تصاعدي واضح، مكافآت سريعة للمشاهد، وإخراج قتالي من استوديو A-1 Pictures مع موسيقى تصويرية قوية.",
-    "استخدم الفيديو للحاق بالقصة، ثم أكمل الحلقة الكاملة على المنصة الرسمية حيث تتوفر الترجمة العربية والجودة الأصلية.",
+    "This Solo Leveling summary explains how Sung Jinwoo goes from the weakest E-rank hunter alive to a player with a leveling system of his own, and what gates and dungeons actually mean in this world.",
+    "We also cover why the pacing is so addictive: a clean upward power curve, fast payoffs for the viewer, and A-1 Pictures' fight direction backed by one of the strongest recent soundtracks.",
+    "Use the video to catch up, then continue the full episode on the official platform where subtitles and original quality are available.",
   ],
   frieren: [
-    "ملخص Frieren: Beyond Journey's End يقدّم أنمي فانتازيا مختلفاً؛ فالقصة تبدأ بعد هزيمة ملك الشياطين، وتتابع الساحرة النخبوية فريرين وهي تكتشف معنى الزمن والفقد بعد رحيل رفاقها البشر.",
-    "نتحدّث عن الإيقاع الهادئ المتعمّد، وعن الطريقة التي يبني بها العمل عالمه من خلال التفاصيل الصغيرة لا من خلال المعارك، وعن السبب الذي جعله يتصدّر قوائم أفضل أنمي في السنوات الأخيرة.",
-    "إذا كنت تبحث عن عمل يمنحك راحة نفسية مع كتابة عميقة، أكمل الحلقة الكاملة على المنصة الرسمية وامنح نفسك وقتاً لمشاهدة المشاهد بإيقاعها الأصلي.",
+    "Frieren: Beyond Journey's End is a different kind of fantasy, and this summary shows why. The story begins after the Demon King is already dead, following the elf mage Frieren as she learns what time and loss mean once her human companions are gone.",
+    "We talk about the deliberately quiet pacing, the way the series builds its world through small details instead of battles, and the reason it swept best-anime lists.",
+    "If you want something gentle with genuinely sharp writing, continue the full episode on the official platform and give yourself time to watch it at its intended pace.",
   ],
   "spy-x-family": [
-    "ملخص Spy x Family: جاسوس محترف، وقاتلة مأجورة، وطفلة تقرأ الأفكار، يشكّلون عائلة مزيفة تتحوّل تدريجياً إلى عائلة حقيقية. نشرح في الفيديو بنية الحلقات وكيف يوازن العمل بين الكوميديا والتشويق.",
-    "نتوقف عند شخصية آنيا فورجر ودورها كمحرّك للكوميديا، وعند الخط السياسي الذي يمنح المسلسل خلفية أكثر جدية من مظهره الخارجي، مع الإشارة إلى إخراج WIT Studio وCloverWorks.",
-    "بعد المشاهدة، أكمل الحلقة الكاملة على المنصة الرسمية للحصول على الترجمة المعتمدة والدبلجة الرسمية عند توفرها.",
+    "Spy x Family in summary: an elite spy, a contract killer and a telepathic child form a fake family that slowly turns real. The video explains the episode structure and how the show balances comedy against espionage tension.",
+    "We spend time on Anya Forger as the comedic engine, and on the cold-war political backdrop that makes the series more serious than its surface, alongside the WIT Studio and CloverWorks direction.",
+    "Afterwards, continue the full episode on the official platform for the licensed subtitles and the official dub where available.",
   ],
   "blue-lock": [
-    "ملخص Blue Lock يشرح فكرة المشروع: مئات المهاجمين الشباب في منشأة واحدة، وهدف واحد هو إنتاج أفضل مهاجم أناني في العالم. نستعرض تطوّر إيساغي يويتشي وقواعد الإقصاء داخل المشروع.",
-    "نتحدّث عن الأسلوب البصري المستوحى من أنميات القتال أكثر من أنميات الرياضة التقليدية، وعن السبب الذي جعل العمل مثيراً للجدل بين جمهور كرة القدم.",
-    "أكمل الحلقة الكاملة على المنصة الرسمية لمتابعة المباريات بكامل تفاصيلها الصوتية والبصرية.",
+    "This Blue Lock summary lays out the premise: hundreds of young strikers in one facility, one goal — manufacture the most selfish striker on earth. We follow Yoichi Isagi's growth and the elimination rules that drive it.",
+    "We cover the visual language, borrowed from battle anime rather than traditional sports anime, and why the series splits opinion among actual football fans.",
+    "Continue the full episode on the official platform to follow each match with its full sound and visual detail.",
   ],
   haikyuu: [
-    "ملخص Haikyuu!! يقدّم أفضل مدخل إلى أنمي الرياضة: فريق مدرسي متواضع، لاعب قصير القامة يمتلك قفزة استثنائية، وصانع ألعاب عبقري يكره الخسارة.",
-    "نشرح أساسيات الكرة الطائرة كما يعرضها الأنمي، وكيف يحوّل العمل التكتيك إلى تشويق حقيقي، ولماذا تُعدّ مبارياته من أفضل ما أُنتج في هذا النوع.",
-    "شاهد الحلقة الكاملة على المنصة الرسمية لتعيش التوتر الكامل لكل نقطة، فالملخص ينقل النتيجة لكن لا ينقل الإحساس.",
+    "Haikyuu!! is the best entry point into sports anime, and this summary shows why: an unremarkable school team, a short wing spiker with an extraordinary jump, and a genius setter who cannot stand losing.",
+    "We explain the volleyball fundamentals as the show teaches them, how it converts tactics into real suspense, and why its matches are considered the genre's high-water mark.",
+    "Watch the full episode on the official platform to feel the tension of every single point — a recap gives you the score, never the feeling.",
   ],
   naruto: [
-    "ملخص Naruto يعيد ترتيب القصة من البداية: طفل يتيم يحمل الوحش ذا التسعة أذيال داخله، ويحلم بأن يصبح هوكاغي كي يعترف به قومه.",
-    "نستعرض المحطات الأساسية: فريق السابع، امتحانات التشونين، رحيل ساسكي، ثم الحرب النينجا الكبرى، مع إرشادات لتجاوز الحلقات الفرعية غير الأساسية.",
-    "بعد الملخص، أكمل الحلقات الكاملة على المنصة الرسمية بالترتيب الصحيح للحصول على التجربة العاطفية كاملة.",
+    "This Naruto summary reorders the story from the start: an orphaned boy carrying the Nine-Tailed Fox, chasing the title of Hokage so his village will finally see him.",
+    "We move through the key landmarks — Team 7, the Chunin Exams, Sasuke's defection, the Fourth Great Ninja War — with guidance on which filler stretches you can safely skip.",
+    "After the summary, continue the full episodes on the official platform in the correct order for the complete emotional payoff.",
   ],
 };
 
-/** Arabic fallback copy for series that don't have hand-written text yet. */
-function fallbackAr(title: string, year: number): string[] {
+/** Fallback copy for series that don't have hand-written text yet. */
+function fallbackCopy(title: string, year: number): string[] {
   return [
-    `في هذا الفيديو نقدّم ملخصاً عربياً لأنمي ${title} (${year}): بداية القصة، الشخصيات الأساسية، والخط الزمني للأحداث كما ظهرت في الحلقات الرسمية.`,
-    `نشرح أيضاً نظام القوة والصراع الرئيسي في العمل، ونحدّد الحلقات المفصلية التي تستحق المشاهدة الكاملة، مع تنبيه واضح قبل أي مشهد يحتوي حرقاً للأحداث.`,
-    `للحصول على التجربة الأصلية بجودة عالية وترجمة عربية معتمدة، أكمل الحلقة الكاملة على المنصة الرسمية من الزر أسفل الملخص.`,
+    `This video is an English summary of ${title} (${year}): where the story starts, the core cast, and the timeline of events exactly as the official episodes present them.`,
+    `We also explain the power system and the central conflict, and mark the pivotal episodes worth watching in full, with a clear warning before anything spoiler-heavy.`,
+    `For the original experience in full quality with licensed subtitles, continue the full episode on the official platform using the button below the summary.`,
   ];
 }
 
 const KIND_CYCLE: VideoKind[] = ["summary", "review", "amv"];
 
 /** All video entries, derived from verified official YouTube ids. */
-export const videoSummaries: VideoSummary[] = Object.keys(AR).flatMap((slug, i) => {
+export const videoSummaries: VideoSummary[] = Object.keys(COPY).flatMap((slug, i) => {
   const anime = getAnime(slug);
   const youtubeId = trailerFor(slug);
   if (!anime || !youtubeId) return [];
@@ -127,17 +127,17 @@ export const videoSummaries: VideoSummary[] = Object.keys(AR).flatMap((slug, i) 
       animeSlug: slug,
       kind,
       youtubeId,
-      titleAr: `${KIND_LABEL_AR[kind]} · ${anime.title}`,
-      paragraphsAr: AR[slug] ?? fallbackAr(anime.title, anime.year),
+      title: `${KIND_LABEL[kind]} · ${anime.title}`,
+      paragraphs: COPY[slug] ?? fallbackCopy(anime.title, anime.year),
     },
   ];
 });
 
 export const getVideoSummary = (slug: string) => videoSummaries.find((v) => v.animeSlug === slug);
 
-/** Arabic copy for an episode page, falling back to series-level text. */
+/** Episode-level copy, falling back to series-level text. */
 export function episodeVideoCopy(slug: string, title: string, number: number, year: number) {
   const base = getVideoSummary(slug);
-  const intro = `ملخص الحلقة ${number} من ${title}: نستعرض في الفيديو أهم أحداث الحلقة وتطوّر الشخصيات، مع شرح مبسّط لما يجب تذكّره قبل الحلقة القادمة.`;
-  return [intro, ...(base ? base.paragraphsAr.slice(1) : fallbackAr(title, year).slice(1))];
+  const intro = `${title} episode ${number} summary: the video walks through the episode's key events and character turns, with a plain-language reminder of what matters going into the next one.`;
+  return [intro, ...(base ? base.paragraphs.slice(1) : fallbackCopy(title, year).slice(1))];
 }

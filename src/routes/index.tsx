@@ -1,13 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { animes } from "@/data/animes";
+import { episodes } from "@/data/episodes";
+
 import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { articles } from "@/data/articles";
-import { AdSlot, MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
+import { AdSlot, MultiplexAd, StickySidebarAd, DisplayAd } from "@/components/ad-slot";
 import { Rail, EpisodeRail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
+import { HomeStage } from "@/components/home-stage";
 import { AnimeHero } from "@/components/anime-hero";
+
 import { EpisodeGrid } from "@/components/episode-grid";
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
@@ -27,6 +31,11 @@ const HERO_SLUGS = ["one-piece", "jujutsu-kaisen", "solo-leveling", "demon-slaye
 
 const HUB_SLUGS = ["bleach", "naruto", "hunter-x-hunter", "my-hero-academia"];
 
+/** Slug of the newest episode's series — the above-the-fold player poster (LCP). */
+const LCP_SLUG =
+  [...episodes].sort((a, b) => (a.airDate < b.airDate ? 1 : -1))[0]?.animeSlug ?? HERO_SLUGS[0];
+
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -45,16 +54,17 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: `${SITE_URL}/` },
       ...hreflangLinks("/"),
-      // LCP hero poster — preloaded so the first paint has the image already in flight.
+      // LCP is the above-the-fold player poster — preload it at high priority.
       {
         rel: "preload",
         as: "image",
-        href: posterFor(HERO_SLUGS[0]).src,
-        imagesrcset: posterFor(HERO_SLUGS[0]).srcSet,
+        href: posterFor(LCP_SLUG).src,
+        imagesrcset: posterFor(LCP_SLUG).srcSet,
         fetchpriority: "high",
       },
     ],
   }),
+
   component: Home,
 });
 
@@ -99,12 +109,12 @@ function Home() {
 
   return (
     <div>
-      <AnimeHero items={heroPicks} />
+      {/* ABOVE THE FOLD — inline player, latest-episode switcher and search.
+          Rendered synchronously (no lazy gate, no overlay) so the first paint
+          already contains a playable episode. */}
+      <HomeStage trending={trending} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        {/* WATCH FIRST — latest episodes rail sits directly under the hero so a
-            visitor landing from any link can start an episode without a click
-            through the menus. */}
         <Rail
           title="Latest episodes — start watching now"
           subtitle="Newest releases first. Tap any card to open the player with that episode preloaded."
@@ -117,6 +127,10 @@ function Home() {
           <EpisodeRail limit={12} />
         </Rail>
 
+        {/* First display unit sits after the visitor has content, in the
+            natural gap between rails — reserved height, so no shift. */}
+        <DisplayAd className="my-8" minHeight={280} />
+
         <Rail
           title="Trending this week"
           subtitle="The shows dominating streaming charts and fan discussion right now."
@@ -128,6 +142,7 @@ function Home() {
         >
           <PosterRail items={trending} />
         </Rail>
+
 
         <Rail
           title="Top rated on AnimeVerse"
@@ -147,6 +162,15 @@ function Home() {
         >
           <PosterRail items={[...classics, ...newReleases]} />
         </Rail>
+      </div>
+
+      {/* Featured spotlight carousel — demoted below the watch rails so the
+          landing view is content, not marketing. */}
+      <AnimeHero items={heroPicks} />
+
+      <div className="mx-auto max-w-7xl px-4 lg:px-6">
+        <DisplayAd className="my-8" minHeight={280} />
+
 
         {/* GENRE SHELVES */}
         <Section eyebrow="Browse by category" title="Every mood, every night" subtitle="Jump straight into a shelf: tournament arcs, isekai, quiet grief — the medium is bigger than any single door.">

@@ -3,7 +3,6 @@ import { animes } from "@/data/animes";
 import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { articles } from "@/data/articles";
-import { AnimeCard, AnimePoster } from "@/components/anime-card";
 import { AdSlot, MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
 import { Rail, EpisodeRail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
@@ -17,7 +16,7 @@ import { InfiniteArticleFeed } from "@/components/article-feed";
 import { LazySection } from "@/components/lazy-section";
 import { MediaImage, VideoEmbed } from "@/components/media";
 import { backdrops, backdropFor, posterFor, artAlt } from "@/lib/media";
-import { TrendingUp, Star, ArrowRight, Award } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
 
@@ -301,61 +300,6 @@ function Home() {
         </Section>
 
         <AdSlot placement="inline" />
-
-        {/* NEW & CLASSIC */}
-        <div className="grid gap-10 lg:grid-cols-2 my-16">
-          <div>
-            <div className="flex items-center gap-2 mb-4"><TrendingUp className="h-4 w-4 text-accent" /><h3 className="font-display text-2xl font-bold">New this era</h3></div>
-            <div className="space-y-3">
-              {newReleases.map((a) => (
-                <Link key={a.slug} to="/anime/$slug" params={{ slug: a.slug }} className="flex gap-3 rounded-xl border border-border/60 p-3 hover:border-primary/60 bg-card/40">
-                  <MediaImage
-                    art={posterFor(a.slug, [a.title])}
-                    alt={artAlt(a.title, "poster")}
-                    ratio="2/3"
-                    className="h-16 w-12 shrink-0 rounded"
-                    sizes="48px"
-                    overlay={false}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold truncate">{a.title}</div>
-                    <div className="text-xs text-muted-foreground line-clamp-2">{a.tagline}</div>
-                    <div className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
-                      <span className="flex items-center gap-1 text-gold"><Star className="h-3 w-3 fill-current" />{a.rating}</span>
-                      <span>{a.year}</span>
-                      <span>{a.status}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center gap-2 mb-4"><Award className="h-4 w-4 text-gold" /><h3 className="font-display text-2xl font-bold">The classics</h3></div>
-            <div className="space-y-3">
-              {classics.map((a) => (
-                <Link key={a.slug} to="/anime/$slug" params={{ slug: a.slug }} className="flex gap-3 rounded-xl border border-border/60 p-3 hover:border-primary/60 bg-card/40">
-                  <MediaImage
-                    art={posterFor(a.slug, [a.title])}
-                    alt={artAlt(a.title, "poster")}
-                    ratio="2/3"
-                    className="h-16 w-12 shrink-0 rounded"
-                    sizes="48px"
-                    overlay={false}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold truncate">{a.title}</div>
-                    <div className="text-xs text-muted-foreground line-clamp-2">{a.tagline}</div>
-                    <div className="mt-1 flex items-center gap-2 text-[11px] text-muted-foreground">
-                      <span className="flex items-center gap-1 text-gold"><Star className="h-3 w-3 fill-current" />{a.rating}</span>
-                      <span>{a.year}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* Watch order banner */}
         <section className="my-16 rounded-3xl border border-accent/30 bg-gradient-to-br from-accent/10 via-background to-primary/10 p-8 lg:p-12 relative overflow-hidden">

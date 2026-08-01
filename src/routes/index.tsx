@@ -99,12 +99,12 @@ function Home() {
 
   return (
     <div>
-      <AnimeHero items={heroPicks} />
+      {/* ABOVE THE FOLD — inline player, latest-episode switcher and search.
+          Rendered synchronously (no lazy gate, no overlay) so the first paint
+          already contains a playable episode. */}
+      <HomeStage trending={trending} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        {/* WATCH FIRST — latest episodes rail sits directly under the hero so a
-            visitor landing from any link can start an episode without a click
-            through the menus. */}
         <Rail
           title="Latest episodes — start watching now"
           subtitle="Newest releases first. Tap any card to open the player with that episode preloaded."
@@ -117,6 +117,10 @@ function Home() {
           <EpisodeRail limit={12} />
         </Rail>
 
+        {/* First display unit sits after the visitor has content, in the
+            natural gap between rails — reserved height, so no shift. */}
+        <DisplayAd className="my-8" minHeight={280} />
+
         <Rail
           title="Trending this week"
           subtitle="The shows dominating streaming charts and fan discussion right now."
@@ -128,6 +132,7 @@ function Home() {
         >
           <PosterRail items={trending} />
         </Rail>
+
 
         <Rail
           title="Top rated on AnimeVerse"

@@ -47,16 +47,17 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: `${SITE_URL}/` },
       ...hreflangLinks("/"),
-      // LCP hero poster — preloaded so the first paint has the image already in flight.
+      // LCP is the above-the-fold player poster — preload it at high priority.
       {
         rel: "preload",
         as: "image",
-        href: posterFor(HERO_SLUGS[0]).src,
-        imagesrcset: posterFor(HERO_SLUGS[0]).srcSet,
+        href: posterFor(LCP_SLUG).src,
+        imagesrcset: posterFor(LCP_SLUG).srcSet,
         fetchpriority: "high",
       },
     ],
   }),
+
   component: Home,
 });
 

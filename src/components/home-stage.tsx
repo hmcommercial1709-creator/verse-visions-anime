@@ -109,7 +109,7 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                           onClick={() => setPlaying(true)}
                           className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-base font-bold text-primary-foreground glow-primary hover:brightness-110"
                         >
-                          <Play className="h-5 w-5 fill-current" /> Watch Now · شاهد الآن
+                          <Play className="h-5 w-5 fill-current" /> Watch Now
                         </button>
                       ) : (
                         <Link
@@ -118,7 +118,7 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                           search={{ ep: ep.number }}
                           className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-base font-bold text-primary-foreground glow-primary hover:brightness-110"
                         >
-                          <Play className="h-5 w-5 fill-current" /> Watch Now · شاهد الآن
+                          <Play className="h-5 w-5 fill-current" /> Watch Now
                         </Link>
                       )}
                       <Link

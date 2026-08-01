@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { animes, getAnime } from "@/data/animes";
-import { videoSummaries, KIND_LABEL_AR } from "@/data/video-summaries";
+import { videoSummaries, KIND_LABEL } from "@/data/video-summaries";
 import { VideoSummaryCard } from "@/components/video-summary";
 import { episodes } from "@/data/episodes";
 
@@ -133,10 +133,10 @@ function Home() {
             each with an Arabic SEO write-up and a CTA to the official platform. */}
         <section className="mt-12">
           <h2 className="font-display text-2xl font-bold sm:text-3xl">
-            ملخصات ومراجعات بالفيديو · Anime summaries, AMVs &amp; reviews
+            Anime summaries, AMVs &amp; reviews
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            شاهد الملخص أو المراجعة مباشرة على الموقع، اقرأ الشرح العربي، ثم أكمل الحلقة الكاملة على المنصة الرسمية.
+            Watch the summary or review right here, read the full breakdown, then continue the full episode on the official platform.
           </p>
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
             {videoSummaries.slice(0, 6).map((v) => {
@@ -148,9 +148,9 @@ function Home() {
                   animeSlug={v.animeSlug}
                   animeTitle={a.title}
                   youtubeId={v.youtubeId}
-                  titleAr={v.titleAr}
-                  kindLabelAr={KIND_LABEL_AR[v.kind]}
-                  paragraphsAr={v.paragraphsAr}
+                  title={v.title}
+                  kindLabel={KIND_LABEL[v.kind]}
+                  paragraphs={v.paragraphs}
                 />
               );
             })}

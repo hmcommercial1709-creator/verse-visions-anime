@@ -16,7 +16,7 @@ import { AnimeRecRail } from "@/components/recommendations";
 import { ArticleComments } from "@/components/article-comments";
 import { VideoEmbed } from "@/components/media";
 import { VideoSummaryCard } from "@/components/video-summary";
-import { getVideoSummary, episodeVideoCopy, KIND_LABEL_AR } from "@/data/video-summaries";
+import { getVideoSummary, episodeVideoCopy, KIND_LABEL } from "@/data/video-summaries";
 import { backdropFor } from "@/lib/media";
 import { ArrowLeft, ArrowRight, Calendar, Clock, Download, Play } from "lucide-react";
 
@@ -135,14 +135,14 @@ function EpisodePage() {
 
         <div id="episode-preview" className="scroll-mt-24" />
         {episodeVideo ? (
-          <Block title="ملخص الحلقة بالفيديو · Video summary">
+          <Block title="Video summary">
             <VideoSummaryCard
               animeSlug={anime.slug}
               animeTitle={anime.title}
               youtubeId={episodeVideo.youtubeId}
-              titleAr={`${KIND_LABEL_AR[episodeVideo.kind]} · ${anime.title} — الحلقة ${ep.number}`}
-              kindLabelAr={KIND_LABEL_AR[episodeVideo.kind]}
-              paragraphsAr={episodeVideoCopy(anime.slug, anime.title, ep.number, anime.year)}
+              title={`${KIND_LABEL[episodeVideo.kind]} · ${anime.title} — Episode ${ep.number}`}
+              kindLabel={KIND_LABEL[episodeVideo.kind]}
+              paragraphs={episodeVideoCopy(anime.slug, anime.title, ep.number, anime.year)}
               episodeNumber={ep.number}
             />
           </Block>

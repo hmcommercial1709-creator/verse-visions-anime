@@ -21,7 +21,7 @@ const SECTIONS = [
     links: [
       { to: "/", label: "Home" },
       { to: "/blog", label: "All Articles" },
-      { to: "/ar/anime", label: "الدلائل العربية — Arabic guides" },
+      { to: "/ar/anime", label: "Arabic guides" },
     ],
   },
   {

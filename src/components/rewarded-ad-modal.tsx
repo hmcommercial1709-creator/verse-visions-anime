@@ -93,7 +93,9 @@ export function RewardedAdModal({
           </p>
 
           {/* Real ad container — AdSense / rewarded script renders here. */}
-          <DisplayAd prefix="av-rewarded" className="mt-4" minHeight={200} />
+          <div className="mt-4 overflow-hidden rounded-xl border border-border/60 bg-muted/20">
+            <DisplayAd prefix="av-rewarded" minHeight={200} />
+          </div>
 
           <div className="mt-4">
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">

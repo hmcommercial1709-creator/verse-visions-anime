@@ -127,9 +127,38 @@ function Home() {
           <EpisodeRail limit={12} />
         </Rail>
 
+        {/* CORE CONTENT — embedded YouTube summaries, AMVs and short reviews,
+            each with an Arabic SEO write-up and a CTA to the official platform. */}
+        <section className="mt-12">
+          <h2 className="font-display text-2xl font-bold sm:text-3xl">
+            ملخصات ومراجعات بالفيديو · Anime summaries, AMVs &amp; reviews
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            شاهد الملخص أو المراجعة مباشرة على الموقع، اقرأ الشرح العربي، ثم أكمل الحلقة الكاملة على المنصة الرسمية.
+          </p>
+          <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            {videoSummaries.slice(0, 6).map((v) => {
+              const a = getAnime(v.animeSlug);
+              if (!a) return null;
+              return (
+                <VideoSummaryCard
+                  key={`${v.animeSlug}-${v.kind}`}
+                  animeSlug={v.animeSlug}
+                  animeTitle={a.title}
+                  youtubeId={v.youtubeId}
+                  titleAr={v.titleAr}
+                  kindLabelAr={KIND_LABEL_AR[v.kind]}
+                  paragraphsAr={v.paragraphsAr}
+                />
+              );
+            })}
+          </div>
+        </section>
+
         {/* First display unit sits after the visitor has content, in the
             natural gap between rails — reserved height, so no shift. */}
         <DisplayAd className="my-8" minHeight={280} />
+
 
         <Rail
           title="Trending this week"

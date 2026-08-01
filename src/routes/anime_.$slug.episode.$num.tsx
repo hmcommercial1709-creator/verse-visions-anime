@@ -15,6 +15,8 @@ import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
 import { ArticleComments } from "@/components/article-comments";
 import { VideoEmbed } from "@/components/media";
+import { VideoSummaryCard } from "@/components/video-summary";
+import { getVideoSummary, episodeVideoCopy, KIND_LABEL_AR } from "@/data/video-summaries";
 import { backdropFor } from "@/lib/media";
 import { ArrowLeft, ArrowRight, Calendar, Clock, Download, Play } from "lucide-react";
 
@@ -67,6 +69,7 @@ function EpisodePage() {
   const prev = idx > 0 ? siblings[idx - 1] : null;
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const animeRecs = recommendAnime(anime.slug, 4);
+  const episodeVideo = getVideoSummary(anime.slug);
   const merch = productsForContext(anime, anime.title);
   // Native units injected every 4 recap paragraphs (slot 1 is above the fold).
   const recapAdPlan = planInArticleAds([ep.recap.length], { interval: 2, startAt: 2, max: 14 });
@@ -131,14 +134,28 @@ function EpisodePage() {
         />
 
         <div id="episode-preview" className="scroll-mt-24" />
-        <Block title="Watch the episode preview">
-          <VideoEmbed
-            art={backdropFor(anime.slug)}
-            title={`${anime.title} Episode ${ep.number} — ${ep.title}`}
-            subtitle={`${ep.arc} · ${ep.runtime}`}
-            searchQuery={anime.slug}
-          />
-        </Block>
+        {episodeVideo ? (
+          <Block title="ملخص الحلقة بالفيديو · Video summary">
+            <VideoSummaryCard
+              animeSlug={anime.slug}
+              animeTitle={anime.title}
+              youtubeId={episodeVideo.youtubeId}
+              titleAr={`${KIND_LABEL_AR[episodeVideo.kind]} · ${anime.title} — الحلقة ${ep.number}`}
+              kindLabelAr={KIND_LABEL_AR[episodeVideo.kind]}
+              paragraphsAr={episodeVideoCopy(anime.slug, anime.title, ep.number, anime.year)}
+              episodeNumber={ep.number}
+            />
+          </Block>
+        ) : (
+          <Block title="Watch the episode preview">
+            <VideoEmbed
+              art={backdropFor(anime.slug)}
+              title={`${anime.title} Episode ${ep.number} — ${ep.title}`}
+              subtitle={`${ep.arc} · ${ep.runtime}`}
+              searchQuery={anime.slug}
+            />
+          </Block>
+        )}
 
         <Block title="Recap">
           <div className="prose prose-invert max-w-none space-y-5 text-lg leading-relaxed">

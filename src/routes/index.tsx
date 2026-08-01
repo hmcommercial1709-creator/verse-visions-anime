@@ -29,6 +29,11 @@ const HERO_SLUGS = ["one-piece", "jujutsu-kaisen", "solo-leveling", "demon-slaye
 
 const HUB_SLUGS = ["bleach", "naruto", "hunter-x-hunter", "my-hero-academia"];
 
+/** Slug of the newest episode's series — the above-the-fold player poster (LCP). */
+const LCP_SLUG =
+  [...episodes].sort((a, b) => (a.airDate < b.airDate ? 1 : -1))[0]?.animeSlug ?? HERO_SLUGS[0];
+
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [

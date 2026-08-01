@@ -14,16 +14,16 @@ const PREVIEW_SECONDS = 45;
  *    iframe before interaction so LCP/CLS stay clean),
  * 2. a rewarded-ad gate that opens as the preview ends — or when the visitor
  *    hits "Watch full episode" — and
- * 3. the unlocked CTA to the licensed platform plus the rest of the Arabic
- *    RTL summary written for search.
+ * 3. the unlocked CTA to the licensed platform plus the rest of the summary
+ *    written for search.
  */
 export function VideoSummaryCard({
   animeSlug,
   animeTitle,
   youtubeId,
-  titleAr,
-  kindLabelAr,
-  paragraphsAr,
+  title,
+  kindLabel,
+  paragraphs,
   headingAs = "h3",
   episodeNumber,
   className,
@@ -31,9 +31,9 @@ export function VideoSummaryCard({
   animeSlug: string;
   animeTitle: string;
   youtubeId: string;
-  titleAr: string;
-  kindLabelAr: string;
-  paragraphsAr: string[];
+  title: string;
+  kindLabel: string;
+  paragraphs: string[];
   headingAs?: "h2" | "h3";
   episodeNumber?: number;
   className?: string;
@@ -47,8 +47,8 @@ export function VideoSummaryCard({
   const platform = officialPlatformFor(animeSlug, animeTitle);
   const Heading = headingAs;
   const embedTitle = episodeNumber
-    ? `${animeTitle} — الحلقة ${episodeNumber} · ${kindLabelAr}`
-    : `${animeTitle} · ${kindLabelAr}`;
+    ? `${animeTitle} — episode ${episodeNumber} · ${kindLabel}`
+    : `${animeTitle} · ${kindLabel}`;
 
   // Preview countdown: once the clip is (nearly) over, raise the gate.
   useEffect(() => {
@@ -69,8 +69,8 @@ export function VideoSummaryCard({
     setGateOpen(true);
   };
 
-  const visibleParagraphs = unlocked ? paragraphsAr : paragraphsAr.slice(0, 1);
-  const hiddenCount = paragraphsAr.length - visibleParagraphs.length;
+  const visibleParagraphs = unlocked ? paragraphs : paragraphs.slice(0, 1);
+  const hiddenCount = paragraphs.length - visibleParagraphs.length;
 
   return (
     <section
@@ -106,37 +106,31 @@ export function VideoSummaryCard({
             <button
               type="button"
               onClick={() => setPlaying(true)}
-              aria-label={`تشغيل معاينة ${embedTitle}`}
+              aria-label={`Play preview of ${embedTitle}`}
               className="absolute inset-0 grid place-items-center"
             >
               <span className="grid h-16 w-16 place-items-center rounded-full bg-primary text-primary-foreground glow-primary transition-transform hover:scale-110">
                 <Play className="h-7 w-7 fill-current" />
               </span>
             </button>
-            <span
-              dir="rtl"
-              className="absolute bottom-3 right-3 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-white"
-            >
-              معاينة مجانية {PREVIEW_SECONDS} ثانية
+            <span className="absolute bottom-3 left-3 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-white">
+              Free {PREVIEW_SECONDS}-second preview
             </span>
           </>
         )}
 
         {playing && !unlocked && (
-          <span
-            dir="rtl"
-            className="pointer-events-none absolute bottom-3 right-3 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-white"
-          >
-            المعاينة المجانية · {left} ثانية
+          <span className="pointer-events-none absolute bottom-3 left-3 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-white">
+            Free preview · {left}s left
           </span>
         )}
       </div>
 
-      <div dir="rtl" lang="ar" className="p-5 text-right">
+      <div className="p-5">
         <span className="inline-block rounded-md bg-primary/15 px-2 py-0.5 text-[11px] font-bold text-primary">
-          {kindLabelAr}
+          {kindLabel}
         </span>
-        <Heading className="mt-2 font-display text-xl font-bold leading-snug sm:text-2xl">{titleAr}</Heading>
+        <Heading className="mt-2 font-display text-xl font-bold leading-snug sm:text-2xl">{title}</Heading>
 
         <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-foreground/85">
           {visibleParagraphs.map((p, i) => (
@@ -147,7 +141,7 @@ export function VideoSummaryCard({
         {unlocked ? (
           <>
             <span className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-semibold text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> تم فتح الملخص الكامل
+              <Sparkles className="h-3.5 w-3.5" /> Full summary unlocked
             </span>
             <a
               href={platform.url}
@@ -155,7 +149,7 @@ export function VideoSummaryCard({
               rel="noopener noreferrer"
               className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3.5 text-base font-bold text-accent-foreground hover:brightness-110 sm:w-auto"
             >
-              شاهد الحلقة الكاملة على المنصة الرسمية
+              Watch full episode on the official platform
               <ExternalLink className="h-4 w-4 shrink-0" />
             </a>
           </>
@@ -163,7 +157,7 @@ export function VideoSummaryCard({
           <>
             {hiddenCount > 0 && (
               <p className="mt-3 text-[12px] text-muted-foreground">
-                يتبقى {hiddenCount} مقطع من الملخص — افتحها عبر إعلان قصير.
+                {hiddenCount} more section{hiddenCount > 1 ? "s" : ""} of this summary — unlock with a short ad.
               </p>
             )}
             <button
@@ -172,13 +166,13 @@ export function VideoSummaryCard({
               className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3.5 text-base font-bold text-accent-foreground hover:brightness-110 sm:w-auto"
             >
               <Lock className="h-4 w-4 shrink-0" />
-              شاهد الحلقة الكاملة / أكمل الملخص
+              Watch full episode / Continue
             </button>
           </>
         )}
 
         <p className="mt-2 text-[11px] text-muted-foreground">
-          الروابط تؤدي إلى {platform.label} — منصة مرخّصة رسمياً. لا نستضيف أي حلقات على موقعنا.
+          Links go to {platform.label}, an officially licensed platform. We never host episodes on this site.
         </p>
       </div>
 

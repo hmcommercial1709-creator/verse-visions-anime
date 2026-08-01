@@ -3,11 +3,13 @@ import { animes } from "@/data/animes";
 import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { articles } from "@/data/articles";
-import { AdSlot, MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
+import { AdSlot, MultiplexAd, StickySidebarAd, DisplayAd } from "@/components/ad-slot";
 import { Rail, EpisodeRail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
+import { HomeStage } from "@/components/home-stage";
 import { AnimeHero } from "@/components/anime-hero";
+
 import { EpisodeGrid } from "@/components/episode-grid";
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";

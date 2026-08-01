@@ -154,6 +154,15 @@ function Home() {
         >
           <PosterRail items={[...classics, ...newReleases]} />
         </Rail>
+      </div>
+
+      {/* Featured spotlight carousel — demoted below the watch rails so the
+          landing view is content, not marketing. */}
+      <AnimeHero items={heroPicks} />
+
+      <div className="mx-auto max-w-7xl px-4 lg:px-6">
+        <DisplayAd className="my-8" minHeight={280} />
+
 
         {/* GENRE SHELVES */}
         <Section eyebrow="Browse by category" title="Every mood, every night" subtitle="Jump straight into a shelf: tournament arcs, isekai, quiet grief — the medium is bigger than any single door.">

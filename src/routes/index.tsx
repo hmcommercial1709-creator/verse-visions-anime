@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { animes } from "@/data/animes";
+import { animes, getAnime } from "@/data/animes";
+import { videoSummaries, KIND_LABEL_AR } from "@/data/video-summaries";
+import { VideoSummaryCard } from "@/components/video-summary";
 import { episodes } from "@/data/episodes";
 
 import { genres } from "@/data/genres";

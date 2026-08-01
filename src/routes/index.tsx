@@ -4,7 +4,8 @@ import { genres } from "@/data/genres";
 import { studios } from "@/data/studios";
 import { articles } from "@/data/articles";
 import { AnimeCard, AnimePoster } from "@/components/anime-card";
-import { AdSlot, HeaderBannerAd, MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
+import { AdSlot, MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
+import { Rail, EpisodeRail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { AnimeHero } from "@/components/anime-hero";
@@ -99,12 +100,77 @@ function Home() {
 
   return (
     <div>
-      <HeaderBannerAd />
-
       <AnimeHero items={heroPicks} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {/* WATCH FIRST — latest episodes rail sits directly under the hero so a
+            visitor landing from any link can start an episode without a click
+            through the menus. */}
+        <Rail
+          title="Latest episodes — start watching now"
+          subtitle="Newest releases first. Tap any card to open the player with that episode preloaded."
+          action={
+            <Link to="/streaming" className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline">
+              All episodes <ArrowRight className="h-3 w-3" />
+            </Link>
+          }
+        >
+          <EpisodeRail limit={12} />
+        </Rail>
+
+        <Rail
+          title="Trending this week"
+          subtitle="The shows dominating streaming charts and fan discussion right now."
+          action={
+            <Link to="/trending" className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline">
+              See all trending <ArrowRight className="h-3 w-3" />
+            </Link>
+          }
+        >
+          <PosterRail items={trending} />
+        </Rail>
+
+        <Rail
+          title="Top rated on AnimeVerse"
+          subtitle="Aggregated from 40,000+ community ratings across the last twelve months."
+          action={
+            <Link to="/top-rated" className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline">
+              Full leaderboard <ArrowRight className="h-3 w-3" />
+            </Link>
+          }
+        >
+          <PosterRail items={topRated} />
+        </Rail>
+
+        <Rail
+          title="Continue the classics"
+          subtitle="Foundational series worth a first — or fifth — rewatch."
+        >
+          <PosterRail items={[...classics, ...newReleases]} />
+        </Rail>
+
+        {/* GENRE SHELVES */}
+        <Section eyebrow="Browse by category" title="Every mood, every night" subtitle="Jump straight into a shelf: tournament arcs, isekai, quiet grief — the medium is bigger than any single door.">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {genres.slice(0, 15).map((g) => (
+              <Link
+                key={g.slug}
+                to="/genre/$slug"
+                params={{ slug: g.slug }}
+                className="group relative flex h-24 flex-col justify-end overflow-hidden rounded-xl border border-border/60 p-4 hover:border-primary/60"
+                style={{ background: `linear-gradient(135deg, ${g.hue}22, ${g.hue}08)` }}
+              >
+                <div className="absolute inset-0 opacity-30" style={{ background: `radial-gradient(circle at 30% 20%, ${g.hue}88, transparent 60%)` }} />
+                <div className="relative">
+                  <div className="font-display text-lg font-bold">{g.name}</div>
+                  <div className="line-clamp-1 text-[11px] text-muted-foreground">{g.tagline}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Section>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <StatPill label="Series covered" value={`${animes.length}+`} />
           <StatPill label="Genres" value={String(genres.length)} />
           <StatPill label="Studios" value={String(studios.length)} />
@@ -179,18 +245,6 @@ function Home() {
         <AdSlot placement="between" label="Native · Sponsored" />
 
 
-        {/* TRENDING NOW */}
-        <Section
-          eyebrow="What people are watching"
-          title="Trending this week"
-          subtitle="The shows dominating discussion, streaming charts, and our editors' group chat."
-          action={<Link to="/trending" className="text-sm text-primary hover:underline flex items-center gap-1">See all trending anime <ArrowRight className="h-3 w-3" /></Link>}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {trending.map((a) => <AnimeCard key={a.slug} anime={a} size="md" />)}
-          </div>
-        </Section>
-
         <LazySection minHeight={520}>
           {/* ENGAGEMENT */}
           <Section
@@ -201,38 +255,6 @@ function Home() {
             <EngagementWidget />
           </Section>
         </LazySection>
-
-        {/* GENRE MOSAIC */}
-        <Section eyebrow="Every mood, every night" title="Browse by genre" subtitle="From tournament arcs to quiet grief, the medium is bigger than any single door.">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {genres.slice(0, 15).map((g) => (
-              <Link
-                key={g.slug}
-                to="/genre/$slug"
-                params={{ slug: g.slug }}
-                className="relative overflow-hidden rounded-xl border border-border/60 p-4 h-28 flex flex-col justify-end group hover:border-primary/60 card-hover hover:!card-hover-active"
-                style={{ background: `linear-gradient(135deg, ${g.hue}22, ${g.hue}08)` }}
-              >
-                <div className="absolute inset-0 opacity-30" style={{ background: `radial-gradient(circle at 30% 20%, ${g.hue}88, transparent 60%)` }} />
-                <div className="relative">
-                  <div className="font-display text-lg font-bold">{g.name}</div>
-                  <div className="text-[11px] text-muted-foreground line-clamp-1">{g.tagline}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Section>
-
-        {/* TOP RATED */}
-        <Section
-          eyebrow="Reader-rated"
-          title="Highest scored on AnimeVerse"
-          subtitle="Aggregated from 40,000+ community ratings across the last twelve months."
-        >
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-            {topRated.map((a) => <AnimePoster key={a.slug} anime={a} />)}
-          </div>
-        </Section>
 
         <Section
           eyebrow="Featured deep-dives"

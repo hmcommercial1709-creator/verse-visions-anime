@@ -24,24 +24,8 @@ const TAGS: Tag[] = [
   // NOTE: the AdSense loader is intentionally NOT here — it ships in the
   // document head (src/routes/__root.tsx) so Auto Ads can run on every page.
 
-  // Monetag global overlay formats. Loaded EXACTLY ONCE site-wide (id-guarded
-  // in injectAll) so the "Download is ready" widgets never stack.
-  {
-    id: "monetag-inpage-11443705",
-    src: "https://nap5k.com/tag.min.js",
-    attrs: { "data-zone": "11443705" },
-  },
-  {
-    id: "monetag-vignette-11443723",
-    src: "https://n6wxm.com/vignette.min.js",
-    attrs: { "data-zone": "11443723" },
-  },
-  // NOTE: no OnClick/popunder zone here on purpose — the anti-intrusive policy
-  // blocks window.open, so popunder formats stay off the site.
-
-
-
-
+  // NOTE: no Monetag in-page push / vignette / popunder zones. The homepage
+  // must be free of overlay and interstitial formats — display units only.
 
   {
     id: "cf-beacon",

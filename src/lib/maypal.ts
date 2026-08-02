@@ -8,7 +8,7 @@
  * Replace MAYPAL_MERCHANT_ID with the merchant/store ID from your Maypal
  * dashboard (it is a public identifier, safe to keep in the frontend).
  */
-export const MAYPAL_MERCHANT_ID = "gamecastle-store";
+export const MAYPAL_MERCHANT_ID = "0xf2229e9260c";
 
 /**
  * Public EVM wallet (ETH / USDT / USDC on Ethereum-compatible chains) that

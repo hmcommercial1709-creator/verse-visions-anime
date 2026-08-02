@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { storeProducts, type StoreProduct } from "@/data/store-products";
 import {
   buildCheckoutUrl,
@@ -142,8 +142,12 @@ function OnchainPanel({ product }: { product: StoreProduct }) {
 }
 
 function CheckoutPage() {
-  const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
-  const product = storeProducts.find((p) => p.id === params?.get("p")) ?? storeProducts[0];
+  const [productId, setProductId] = useState<string | null>(null);
+  // Read after mount so SSR and hydration agree, then resolve the real pack.
+  useEffect(() => {
+    setProductId(new URLSearchParams(window.location.search).get("p"));
+  }, []);
+  const product = storeProducts.find((p) => p.id === productId) ?? storeProducts[0];
   const [method, setMethod] = useState<PaymentMethodId>("maypal");
 
   if (!product) return null;

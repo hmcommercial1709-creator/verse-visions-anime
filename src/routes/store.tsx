@@ -7,8 +7,9 @@ import {
   storeProducts,
   type StoreProduct,
 } from "@/data/store-products";
-import { Bitcoin, Check, ShieldCheck, Sparkles, Zap } from "lucide-react";
-import { buildMaypalCheckoutUrl } from "@/lib/maypal";
+import { Bitcoin, Check, Copy, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { useState } from "react";
+import { buildMaypalCheckoutUrl, PAYOUT_WALLET_ADDRESS } from "@/lib/maypal";
 
 const SITE = "https://gamecastle.store";
 

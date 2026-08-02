@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { storeProducts } from "@/data/store-products";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { CheckCircle2, Download } from "lucide-react";

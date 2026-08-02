@@ -71,6 +71,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
+import { Route as StoreThanksRouteImport } from './routes/store.thanks'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -392,6 +393,11 @@ const StudioSlugRoute = StudioSlugRouteImport.update({
   path: '/studio/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StoreThanksRoute = StoreThanksRouteImport.update({
+  id: '/thanks',
+  path: '/thanks',
+  getParentRoute: () => StoreRoute,
+} as any)
 const GenreSlugRoute = GenreSlugRouteImport.update({
   id: '/genre/$slug',
   path: '/genre/$slug',
@@ -490,7 +496,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
-  '/store': typeof StoreRoute
+  '/store': typeof StoreRouteWithChildren
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -509,6 +515,7 @@ export interface FileRoutesByFullPath {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -564,7 +571,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
-  '/store': typeof StoreRoute
+  '/store': typeof StoreRouteWithChildren
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -583,6 +590,7 @@ export interface FileRoutesByTo {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale': typeof LocaleIndexRoute
@@ -639,7 +647,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
-  '/store': typeof StoreRoute
+  '/store': typeof StoreRouteWithChildren
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -658,6 +666,7 @@ export interface FileRoutesById {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -734,6 +743,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
@@ -808,6 +818,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale'
@@ -882,6 +893,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
@@ -938,7 +950,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
   StatisticsRoute: typeof StatisticsRoute
-  StoreRoute: typeof StoreRoute
+  StoreRoute: typeof StoreRouteWithChildren
   StreamingRoute: typeof StreamingRoute
   StudiosRoute: typeof StudiosRoute
   TermsRoute: typeof TermsRoute
@@ -1402,6 +1414,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/store/thanks': {
+      id: '/store/thanks'
+      path: '/thanks'
+      fullPath: '/store/thanks'
+      preLoaderRoute: typeof StoreThanksRouteImport
+      parentRoute: typeof StoreRoute
+    }
     '/genre/$slug': {
       id: '/genre/$slug'
       path: '/genre/$slug'
@@ -1475,6 +1494,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface StoreRouteChildren {
+  StoreThanksRoute: typeof StoreThanksRoute
+}
+
+const StoreRouteChildren: StoreRouteChildren = {
+  StoreThanksRoute: StoreThanksRoute,
+}
+
+const StoreRouteWithChildren = StoreRoute._addFileChildren(StoreRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -1522,7 +1551,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,
   StatisticsRoute: StatisticsRoute,
-  StoreRoute: StoreRoute,
+  StoreRoute: StoreRouteWithChildren,
   StreamingRoute: StreamingRoute,
   StudiosRoute: StudiosRoute,
   TermsRoute: TermsRoute,

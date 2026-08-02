@@ -7,7 +7,8 @@ import {
   storeProducts,
   type StoreProduct,
 } from "@/data/store-products";
-import { Check, Download, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { Bitcoin, Check, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { buildMaypalCheckoutUrl } from "@/lib/maypal";
 
 const SITE = "https://gamecastle.store";
 
@@ -18,12 +19,12 @@ export const Route = createFileRoute("/store")({
       {
         name: "description",
         content:
-          "Buy premium 4K phone wallpaper packs: high-quality anime wallpapers and dark aesthetic AMOLED backgrounds. Instant download delivery, one-time price from $4.",
+          "Buy premium 4K phone wallpaper packs: high-quality anime wallpapers and dark aesthetic AMOLED backgrounds. Instant download delivery, one-time price of $1.99, secure Maypal crypto checkout.",
       },
       { property: "og:title", content: "Digital Phone Wallpapers Store · AnimeVerse" },
       {
         property: "og:description",
-        content: "500+ 4K anime and dark aesthetic phone wallpapers. Instant delivery, no subscription.",
+        content: "500+ 4K anime and dark aesthetic phone wallpapers. Instant delivery, $1.99 per pack, Maypal crypto checkout.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE}/store` },
@@ -73,17 +74,23 @@ function ProductCard({ p }: { p: StoreProduct }) {
               <div className="text-xs text-muted-foreground line-through">{p.originalPrice}</div>
             )}
           </div>
-          <a
-            href={p.deliveryUrl}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
+          <button
+            type="button"
+            onClick={() =>
+              window.open(
+                buildMaypalCheckoutUrl({ productId: p.id, title: p.title, amount: p.amount }),
+                "_blank",
+                "noopener,noreferrer",
+              )
+            }
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:brightness-110"
           >
-            <Download className="h-4 w-4" /> Buy &amp; download
-          </a>
+            <Bitcoin className="h-4 w-4" /> Pay with Maypal
+          </button>
         </div>
         <p className="mt-2 text-[11px] text-muted-foreground">
-          Checkout opens your instant delivery link — files are hosted on Google Drive.
+          Secure Maypal crypto checkout — once payment confirms you land on your instant Google
+          Drive delivery link.
         </p>
       </div>
     </article>
@@ -109,13 +116,14 @@ function StorePage() {
             <p className="mt-4 text-lg text-muted-foreground">
               Two curated collections — high-quality anime artwork and deep-black aesthetic
               backgrounds — cropped for real phone screens in 4K. One-time price, lifetime files,
-              no subscription and no app to install.
+              no subscription and no app to install. Every pack is just $1.99, paid securely with Maypal
+              crypto checkout.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {[
                 { icon: Zap, label: "Instant delivery", note: "Download link opens immediately" },
                 { icon: ShieldCheck, label: "Lifetime access", note: "Re-download any time, free updates" },
-                { icon: Download, label: "500+ files", note: "4K vertical, phone-ready crops" },
+                { icon: Bitcoin, label: "Crypto checkout", note: "Pay securely with Maypal — $1.99 a pack" },
               ].map((f) => (
                 <div key={f.label} className="rounded-xl border border-border/60 bg-card/40 p-4">
                   <f.icon className="h-4 w-4 text-primary" />
@@ -150,8 +158,8 @@ function StorePage() {
           <h2 className="font-display text-2xl font-bold sm:text-3xl">How delivery works</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-3">
             {[
-              ["01", "Pick your pack", "Choose an anime or dark aesthetic collection — every pack is a one-time payment."],
-              ["02", "Complete checkout", "Payment confirms in seconds; nothing is shipped and no account is required."],
+              ["01", "Pick your pack", "Choose an anime or dark aesthetic collection — every pack is a one-time $1.99 payment."],
+              ["02", "Pay with Maypal", "Choose your coin in Maypal's secure crypto checkout — confirmation takes seconds, no account needed."],
               ["03", "Open your link", "Your Google Drive delivery link unlocks straight away — download the full pack in 4K."],
             ].map(([n, t, d]) => (
               <div key={n}>

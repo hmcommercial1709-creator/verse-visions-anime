@@ -21,7 +21,7 @@ export function StorePromoBanner() {
               Exclusive Digital Phone Wallpapers Store — 500+ 4K anime &amp; dark aesthetic wallpapers
             </h2>
             <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
-              Instant delivery, one-time price, no subscription. Packs from $4.
+              Instant delivery, no subscription. Every pack just $1.99 — pay with Maypal crypto checkout.
             </p>
           </div>
         </div>

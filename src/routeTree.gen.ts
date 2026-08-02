@@ -21,6 +21,7 @@ import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudiosRouteImport } from './routes/studios'
 import { Route as StreamingRouteImport } from './routes/streaming'
+import { Route as StoreRouteImport } from './routes/store'
 import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as SoundtracksRouteImport } from './routes/soundtracks'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -139,6 +140,11 @@ const StudiosRoute = StudiosRouteImport.update({
 const StreamingRoute = StreamingRouteImport.update({
   id: '/streaming',
   path: '/streaming',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StatisticsRoute = StatisticsRouteImport.update({
@@ -484,6 +490,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
+  '/store': typeof StoreRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -557,6 +564,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
+  '/store': typeof StoreRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -631,6 +639,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
+  '/store': typeof StoreRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -706,6 +715,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
+    | '/store'
     | '/streaming'
     | '/studios'
     | '/terms'
@@ -779,6 +789,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
+    | '/store'
     | '/streaming'
     | '/studios'
     | '/terms'
@@ -852,6 +863,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/soundtracks'
     | '/statistics'
+    | '/store'
     | '/streaming'
     | '/studios'
     | '/terms'
@@ -926,6 +938,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
   StatisticsRoute: typeof StatisticsRoute
+  StoreRoute: typeof StoreRoute
   StreamingRoute: typeof StreamingRoute
   StudiosRoute: typeof StudiosRoute
   TermsRoute: typeof TermsRoute
@@ -1037,6 +1050,13 @@ declare module '@tanstack/react-router' {
       path: '/streaming'
       fullPath: '/streaming'
       preLoaderRoute: typeof StreamingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/statistics': {
@@ -1502,6 +1522,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,
   StatisticsRoute: StatisticsRoute,
+  StoreRoute: StoreRoute,
   StreamingRoute: StreamingRoute,
   StudiosRoute: StudiosRoute,
   TermsRoute: TermsRoute,

@@ -13,6 +13,7 @@ import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
 import { AnimeHero } from "@/components/anime-hero";
+import { StorePromoBanner } from "@/components/store-promo-banner";
 
 import { EpisodeGrid } from "@/components/episode-grid";
 import { FranchiseHubs } from "@/components/franchise-hubs";
@@ -111,6 +112,9 @@ function Home() {
 
   return (
     <div>
+      {/* Digital wallpapers store announcement — first thing on the page. */}
+      <StorePromoBanner />
+
       {/* ABOVE THE FOLD — inline player, latest-episode switcher and search.
           Rendered synchronously (no lazy gate, no overlay) so the first paint
           already contains a playable episode. */}

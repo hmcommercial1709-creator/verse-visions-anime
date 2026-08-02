@@ -81,10 +81,6 @@ function ProductCard({ p }: { p: StoreProduct }) {
             <Lock className="h-4 w-4" /> Buy now
           </a>
         </div>
-        <p className="mt-2 text-[11px] text-muted-foreground">
-          Card, Apple Pay, Google Pay or crypto — once payment confirms you land on your instant
-          Google Drive delivery link.
-        </p>
       </div>
     </article>
   );

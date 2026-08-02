@@ -63,8 +63,9 @@ function OnchainPanel({ product }: { product: StoreProduct }) {
     <div className="mt-6 rounded-2xl border border-border/60 bg-black/70 p-5">
       <h3 className="font-display text-base font-bold">Send the payment on-chain</h3>
       <p className="mt-2 text-sm text-muted-foreground">
-        Transfer the exact amount in ETH, USDT or USDC on any Ethereum-compatible network, then
-        email us the transaction hash and pack name — the delivery link comes straight back.
+        Transfer the exact amount in ETH, USDT or USDC on any Ethereum-compatible network, then hit
+        the confirm button — delivery is automatic and your download link unlocks instantly, with no
+        manual approval on our side.
       </p>
       <div className="mt-4 space-y-3">
         <div>

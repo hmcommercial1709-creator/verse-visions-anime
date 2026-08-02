@@ -28,7 +28,7 @@ const ICONS: Record<PaymentMethodId, typeof Bitcoin> = {
   wallet: Smartphone,
 };
 
-export const Route = createFileRoute("/store/checkout")({
+export const Route = createFileRoute("/store_/checkout")({
   head: () => ({
     meta: [
       { title: "Secure checkout — pay by card, wallet or crypto | AnimeVerse Store" },

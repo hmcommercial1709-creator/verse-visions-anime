@@ -5,7 +5,7 @@ import { CheckCircle2, Download } from "lucide-react";
 
 const SITE = "https://gamecastle.store";
 
-export const Route = createFileRoute("/store/thanks")({
+export const Route = createFileRoute("/store_/thanks")({
   head: () => ({
     meta: [
       { title: "Your wallpaper download — AnimeVerse Store" },

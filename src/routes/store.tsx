@@ -135,6 +135,8 @@ function StorePage() {
           </div>
         </header>
 
+        <WalletPanel />
+
         {STORE_CATEGORIES.map((c, i) => (
           <section key={c.slug} id={c.slug} className="mt-16 scroll-mt-24">
             <div className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">

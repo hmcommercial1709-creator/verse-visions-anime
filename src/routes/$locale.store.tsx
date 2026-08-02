@@ -41,12 +41,21 @@ function ProductCard({ p, locale }: { p: StoreProduct; locale: StoreLocaleSeo })
       id={p.id}
       className="flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-black/60"
     >
-      <div className="relative aspect-[16/10] overflow-hidden" style={{ background: p.gradient }}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
-          {p.count}
+      <div className="relative aspect-[16/10] overflow-hidden bg-black">
+        <img
+          src={p.image}
+          alt={`${p.title} preview`}
+          loading="lazy"
+          width={1200}
+          height={752}
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+        <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/75 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+          {p.countLabel}
         </span>
       </div>
+
       <div className="flex flex-1 flex-col p-5">
         <h3 className="font-display text-lg font-bold leading-snug">{p.title}</h3>
         <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>

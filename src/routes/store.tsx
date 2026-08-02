@@ -36,22 +36,24 @@ function ProductCard({ p }: { p: StoreProduct }) {
       id={p.id}
       className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-black/60"
     >
-      <div className="relative aspect-[16/10] overflow-hidden" style={{ background: p.gradient }}>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        {/* Phone mockups hint at the product without shipping heavy imagery. */}
-        <div className="absolute inset-0 flex items-end justify-center gap-2 pb-0">
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="h-[68%] w-[18%] translate-y-3 rounded-t-xl border border-white/15"
-              style={{ background: p.gradient, opacity: 0.5 + i * 0.2 }}
-            />
-          ))}
-        </div>
-        <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
-          {p.count} wallpapers
+      <div className="relative aspect-[16/10] overflow-hidden bg-black">
+        <img
+          src={p.image}
+          alt={`${p.title} preview — anime phone wallpapers shown on three smartphones`}
+          loading="lazy"
+          width={1200}
+          height={752}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+        <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/75 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+          {p.countLabel} wallpapers
+        </span>
+        <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-black/75 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/80">
+          4K · Instant
         </span>
       </div>
+
 
       <div className="flex flex-1 flex-col p-5">
         <h3 className="font-display text-lg font-bold leading-snug">{p.title}</h3>

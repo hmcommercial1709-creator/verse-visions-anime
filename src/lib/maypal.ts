@@ -36,6 +36,7 @@ export function buildMaypalCheckoutUrl({ productId, title, amount }: MaypalCheck
     amount: amount.toFixed(2),
     currency: "USD",
     pay_with: "crypto",
+    payout_address: PAYOUT_WALLET_ADDRESS,
     success_url: `${origin}/store/thanks?p=${productId}`,
     cancel_url: `${origin}/store`,
   });

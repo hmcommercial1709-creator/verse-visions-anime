@@ -71,7 +71,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
-import { Route as StoreThanksRouteImport } from './routes/store.thanks'
+import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
+import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -394,9 +395,14 @@ const StudioSlugRoute = StudioSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoreThanksRoute = StoreThanksRouteImport.update({
-  id: '/thanks',
-  path: '/thanks',
-  getParentRoute: () => StoreRoute,
+  id: '/store_/thanks',
+  path: '/store/thanks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreCheckoutRoute = StoreCheckoutRouteImport.update({
+  id: '/store_/checkout',
+  path: '/store/checkout',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GenreSlugRoute = GenreSlugRouteImport.update({
   id: '/genre/$slug',
@@ -496,7 +502,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
-  '/store': typeof StoreRouteWithChildren
+  '/store': typeof StoreRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -515,6 +521,7 @@ export interface FileRoutesByFullPath {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
@@ -571,7 +578,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
-  '/store': typeof StoreRouteWithChildren
+  '/store': typeof StoreRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -590,6 +597,7 @@ export interface FileRoutesByTo {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
@@ -647,7 +655,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/soundtracks': typeof SoundtracksRoute
   '/statistics': typeof StatisticsRoute
-  '/store': typeof StoreRouteWithChildren
+  '/store': typeof StoreRoute
   '/streaming': typeof StreamingRoute
   '/studios': typeof StudiosRoute
   '/terms': typeof TermsRoute
@@ -666,7 +674,8 @@ export interface FileRoutesById {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
-  '/store/thanks': typeof StoreThanksRoute
+  '/store_/checkout': typeof StoreCheckoutRoute
+  '/store_/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -743,6 +752,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/checkout'
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
@@ -818,6 +828,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/checkout'
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
@@ -893,7 +904,8 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
-    | '/store/thanks'
+    | '/store_/checkout'
+    | '/store_/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
@@ -950,7 +962,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SoundtracksRoute: typeof SoundtracksRoute
   StatisticsRoute: typeof StatisticsRoute
-  StoreRoute: typeof StoreRouteWithChildren
+  StoreRoute: typeof StoreRoute
   StreamingRoute: typeof StreamingRoute
   StudiosRoute: typeof StudiosRoute
   TermsRoute: typeof TermsRoute
@@ -969,6 +981,8 @@ export interface RootRouteChildren {
   CategorySlugRoute: typeof CategorySlugRoute
   CharacterSlugRoute: typeof CharacterSlugRoute
   GenreSlugRoute: typeof GenreSlugRoute
+  StoreCheckoutRoute: typeof StoreCheckoutRoute
+  StoreThanksRoute: typeof StoreThanksRoute
   StudioSlugRoute: typeof StudioSlugRoute
   WatchSlugRoute: typeof WatchSlugRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
@@ -1414,12 +1428,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/store/thanks': {
-      id: '/store/thanks'
-      path: '/thanks'
+    '/store_/thanks': {
+      id: '/store_/thanks'
+      path: '/store/thanks'
       fullPath: '/store/thanks'
       preLoaderRoute: typeof StoreThanksRouteImport
-      parentRoute: typeof StoreRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/store_/checkout': {
+      id: '/store_/checkout'
+      path: '/store/checkout'
+      fullPath: '/store/checkout'
+      preLoaderRoute: typeof StoreCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/genre/$slug': {
       id: '/genre/$slug'
@@ -1494,16 +1515,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface StoreRouteChildren {
-  StoreThanksRoute: typeof StoreThanksRoute
-}
-
-const StoreRouteChildren: StoreRouteChildren = {
-  StoreThanksRoute: StoreThanksRoute,
-}
-
-const StoreRouteWithChildren = StoreRoute._addFileChildren(StoreRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -1551,7 +1562,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SoundtracksRoute: SoundtracksRoute,
   StatisticsRoute: StatisticsRoute,
-  StoreRoute: StoreRouteWithChildren,
+  StoreRoute: StoreRoute,
   StreamingRoute: StreamingRoute,
   StudiosRoute: StudiosRoute,
   TermsRoute: TermsRoute,
@@ -1570,6 +1581,8 @@ const rootRouteChildren: RootRouteChildren = {
   CategorySlugRoute: CategorySlugRoute,
   CharacterSlugRoute: CharacterSlugRoute,
   GenreSlugRoute: GenreSlugRoute,
+  StoreCheckoutRoute: StoreCheckoutRoute,
+  StoreThanksRoute: StoreThanksRoute,
   StudioSlugRoute: StudioSlugRoute,
   WatchSlugRoute: WatchSlugRoute,
   LocaleIndexRoute: LocaleIndexRoute,

@@ -10,6 +10,12 @@
  */
 export const MAYPAL_MERCHANT_ID = "gamecastle-store";
 
+/**
+ * Public EVM wallet (ETH / USDT / USDC on Ethereum-compatible chains) that
+ * receives store payouts. Public by design — safe in the frontend.
+ */
+export const PAYOUT_WALLET_ADDRESS = "0xf2229e6a6de3788d6cfe1f978f53655f6ca9260c";
+
 const MAYPAL_CHECKOUT_BASE = "https://pay.maypal.com/checkout";
 
 const SITE_ORIGIN = "https://gamecastle.store";

@@ -37,7 +37,13 @@ export const STORE_CATEGORIES: {
   },
 ];
 
-const DRIVE = "https://drive.google.com/drive/folders/1AnimeVerseDigitalStore";
+/** Live delivery links handed to buyers after checkout. */
+const ANIME_DRIVE =
+  "https://drive.google.com/file/d/1JDzZANisDIKKmeAbpWlpDBis1X1d2_JB/view?usp=sharing";
+const DARK_DRIVE_1 =
+  "https://drive.google.com/file/d/1C2oTBCwAn7U4-mTMJjcT_RSxqylkGk_4/view?usp=sharing";
+const DARK_DRIVE_2 =
+  "https://drive.google.com/file/d/1cXjziv7NEXxxQ1IsE1GLD5nkNqkv0trO/view?usp=sharing";
 
 export const storeProducts: StoreProduct[] = [
   {

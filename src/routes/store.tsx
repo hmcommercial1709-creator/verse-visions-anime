@@ -32,7 +32,10 @@ export const Route = createFileRoute("/store")({
 
 function ProductCard({ p }: { p: StoreProduct }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-black/60">
+    <article
+      id={p.id}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-black/60"
+    >
       <div className="relative aspect-[16/10] overflow-hidden" style={{ background: p.gradient }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
         {/* Phone mockups hint at the product without shipping heavy imagery. */}

@@ -42,6 +42,9 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/new-releases", "/upcoming", "/completed", "/classic", "/recommendations",
     "/genres", "/studios", "/characters", "/streaming",
   ].map((path) => ({ path, changefreq: "daily" as const, priority: "0.9" })),
+  ...["/store", "/ja/store", "/es/store", "/fr/store", "/pt/store"].map((path) => ({
+    path, changefreq: "weekly" as const, priority: "0.9",
+  })),
   ...[
     "/blog", "/news", "/reviews", "/guides", "/editorial", "/watch-order", "/power-scaling",
     "/manga-spoilers", "/timeline", "/quotes", "/facts", "/statistics", "/awards", "/events",

@@ -78,6 +78,7 @@ import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
+import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
@@ -429,6 +430,11 @@ const AnimeSlugRoute = AnimeSlugRouteImport.update({
   path: '/anime/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleStoreRoute = LocaleStoreRouteImport.update({
+  id: '/$locale/store',
+  path: '/$locale/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleSplatRoute = LocaleSplatRouteImport.update({
   id: '/$locale/$',
   path: '/$locale/$',
@@ -516,6 +522,7 @@ export interface FileRoutesByFullPath {
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
   '/$locale/$': typeof LocaleSplatRoute
+  '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -592,6 +599,7 @@ export interface FileRoutesByTo {
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
   '/$locale/$': typeof LocaleSplatRoute
+  '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -669,6 +677,7 @@ export interface FileRoutesById {
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
   '/$locale/$': typeof LocaleSplatRoute
+  '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -747,6 +756,7 @@ export interface FileRouteTypes {
     | '/wallpapers'
     | '/watch-order'
     | '/$locale/$'
+    | '/$locale/store'
     | '/anime/$slug'
     | '/article/$slug'
     | '/category/$slug'
@@ -823,6 +833,7 @@ export interface FileRouteTypes {
     | '/wallpapers'
     | '/watch-order'
     | '/$locale/$'
+    | '/$locale/store'
     | '/anime/$slug'
     | '/article/$slug'
     | '/category/$slug'
@@ -899,6 +910,7 @@ export interface FileRouteTypes {
     | '/wallpapers'
     | '/watch-order'
     | '/$locale/$'
+    | '/$locale/store'
     | '/anime/$slug'
     | '/article/$slug'
     | '/category/$slug'
@@ -976,6 +988,7 @@ export interface RootRouteChildren {
   WallpapersRoute: typeof WallpapersRoute
   WatchOrderRoute: typeof WatchOrderRoute
   LocaleSplatRoute: typeof LocaleSplatRoute
+  LocaleStoreRoute: typeof LocaleStoreRoute
   AnimeSlugRoute: typeof AnimeSlugRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   CategorySlugRoute: typeof CategorySlugRoute
@@ -1477,6 +1490,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnimeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/store': {
+      id: '/$locale/store'
+      path: '/$locale/store'
+      fullPath: '/$locale/store'
+      preLoaderRoute: typeof LocaleStoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/$': {
       id: '/$locale/$'
       path: '/$locale/$'
@@ -1576,6 +1596,7 @@ const rootRouteChildren: RootRouteChildren = {
   WallpapersRoute: WallpapersRoute,
   WatchOrderRoute: WatchOrderRoute,
   LocaleSplatRoute: LocaleSplatRoute,
+  LocaleStoreRoute: LocaleStoreRoute,
   AnimeSlugRoute: AnimeSlugRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   CategorySlugRoute: CategorySlugRoute,

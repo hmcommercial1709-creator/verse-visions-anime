@@ -10,35 +10,32 @@ import {
 import { Bitcoin, Check, Copy, Lock, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { useState } from "react";
 import { PAYOUT_WALLET_ADDRESS } from "@/lib/maypal";
-
-const SITE = "https://gamecastle.store";
+import {
+  getStoreLocale,
+  SITE,
+  storeHreflangLinks,
+  storeJsonLd,
+  storeSocialMeta,
+} from "@/lib/store-seo";
 
 export const Route = createFileRoute("/store")({
-  head: () => ({
-    meta: [
-      { title: "Digital Phone Wallpapers Store — 4K Anime & Dark Aesthetic Packs" },
-      {
-        name: "description",
-        content:
-          "Buy premium 4K phone wallpaper packs: high-quality anime wallpapers and dark aesthetic AMOLED backgrounds. Instant download delivery, one-time price of $1.99, secure card, wallet or crypto checkout.",
-      },
-      { property: "og:title", content: "Digital Phone Wallpapers Store · AnimeVerse" },
-      {
-        property: "og:description",
-        content: "500+ 4K anime and dark aesthetic phone wallpapers. Instant delivery, $1.99 per pack, card, wallet or crypto checkout.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: `${SITE}/store` },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: `${SITE}/store` }],
-  }),
+  head: () => {
+    const locale = getStoreLocale("en");
+    return {
+      meta: storeSocialMeta(locale),
+      links: [{ rel: "canonical", href: `${SITE}/store` }, ...storeHreflangLinks()],
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(storeJsonLd(locale)) }],
+    };
+  },
   component: StorePage,
 });
 
 function ProductCard({ p }: { p: StoreProduct }) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-black/60">
+    <article
+      id={p.id}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-black/60"
+    >
       <div className="relative aspect-[16/10] overflow-hidden" style={{ background: p.gradient }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
         {/* Phone mockups hint at the product without shipping heavy imagery. */}

@@ -56,7 +56,7 @@ export const storeProducts: StoreProduct[] = [
     blurb:
       "One download, a full year of fresh lock screens. 120 hero-moment wallpapers from One Piece, Naruto, Jujutsu Kaisen, Demon Slayer and more — every frame upscaled to 4K and framed so nothing important hides behind your clock.",
     bullets: ["120 files · 4K vertical (2160×3840)", "Optimised for iPhone & Android crops", "Instant delivery — no waiting, no account"],
-    deliveryUrl: DRIVE,
+    deliveryUrl: ANIME_DRIVE,
     gradient: "linear-gradient(135deg, #ff5f6d, #1a0b1f 70%)",
     accent: "#ff5f6d",
   },
@@ -70,7 +70,7 @@ export const storeProducts: StoreProduct[] = [
     blurb:
       "The frames animators are proud of. 60 cinematic stills chosen for composition and colour, so your home screen looks like a movie poster instead of a screenshot.",
     bullets: ["60 files · 4K vertical", "Colour-graded for OLED contrast", "Includes 12 matching lock-screen variants"],
-    deliveryUrl: DRIVE,
+    deliveryUrl: ANIME_DRIVE,
     gradient: "linear-gradient(135deg, #00ffcc, #06121a 70%)",
     accent: "#00ffcc",
   },
@@ -83,7 +83,7 @@ export const storeProducts: StoreProduct[] = [
     blurb:
       "Fan-favourite characters in clean, poster-style portrait layouts. Each wallpaper leaves the top third breathable so widgets and notifications never cover a face.",
     bullets: ["80 files · 4K vertical", "Widget-safe composition", "Sorted into folders by series"],
-    deliveryUrl: DRIVE,
+    deliveryUrl: ANIME_DRIVE,
     gradient: "linear-gradient(135deg, #a855f7, #140b22 70%)",
     accent: "#a855f7",
   },
@@ -97,7 +97,7 @@ export const storeProducts: StoreProduct[] = [
     blurb:
       "True-black backgrounds that switch OLED pixels off entirely: measurably better battery life, zero glare at night, and a screen that makes every icon look designed.",
     bullets: ["150 files · true #000000 base", "Battery-friendly on AMOLED panels", "Minimal accent variants included"],
-    deliveryUrl: DRIVE,
+    deliveryUrl: DARK_DRIVE_1,
     gradient: "linear-gradient(135deg, #2b2b2b, #000 70%)",
     accent: "#8f8f8f",
   },
@@ -110,7 +110,7 @@ export const storeProducts: StoreProduct[] = [
     blurb:
       "Rain-slick streets, cold neon, and empty midnight cities. Built for people who want their phone to feel like a late-night anime episode without a single character on screen.",
     bullets: ["90 files · 4K vertical", "Neon-on-black palette", "Pairs with any dark icon pack"],
-    deliveryUrl: DRIVE,
+    deliveryUrl: DARK_DRIVE_2,
     gradient: "linear-gradient(135deg, #1b6cff, #05060f 70%)",
     accent: "#4f8cff",
   },
@@ -123,7 +123,7 @@ export const storeProducts: StoreProduct[] = [
     blurb:
       "Soft dark gradients and quiet textures for a screen that stays calm. The pack people keep coming back to when a busy wallpaper starts feeling loud.",
     bullets: ["70 files · 4K vertical", "Grain + smooth gradient variants", "Works on phone, tablet and watch"],
-    deliveryUrl: DRIVE,
+    deliveryUrl: DARK_DRIVE_1,
     gradient: "linear-gradient(135deg, #3a3a52, #08080c 70%)",
     accent: "#b0b0d0",
   },

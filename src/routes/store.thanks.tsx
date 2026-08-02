@@ -44,7 +44,7 @@ function ThanksPage() {
             Payment confirmed — your pack is ready
           </h1>
           <p className="mt-3 text-muted-foreground">
-            Thanks for paying with Maypal crypto checkout. Your delivery link is below and stays
+            Thanks for your payment. Your delivery link is below and stays
             valid for lifetime re-downloads.
           </p>
 
@@ -69,7 +69,7 @@ function ThanksPage() {
               <Link to="/store" className="text-primary underline">
                 store
               </Link>{" "}
-              and reopen the pack you bought, or contact us with your Maypal order ID.
+              and reopen the pack you bought, or contact us with your payment or transaction ID.
             </p>
           )}
         </div>

@@ -72,6 +72,7 @@ import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as StoreThanksRouteImport } from './routes/store.thanks'
+import { Route as StoreCheckoutRouteImport } from './routes/store.checkout'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -398,6 +399,11 @@ const StoreThanksRoute = StoreThanksRouteImport.update({
   path: '/thanks',
   getParentRoute: () => StoreRoute,
 } as any)
+const StoreCheckoutRoute = StoreCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => StoreRoute,
+} as any)
 const GenreSlugRoute = GenreSlugRouteImport.update({
   id: '/genre/$slug',
   path: '/genre/$slug',
@@ -515,6 +521,7 @@ export interface FileRoutesByFullPath {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
@@ -590,6 +597,7 @@ export interface FileRoutesByTo {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
@@ -666,6 +674,7 @@ export interface FileRoutesById {
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
@@ -743,6 +752,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/checkout'
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
@@ -818,6 +828,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/checkout'
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
@@ -893,6 +904,7 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/character/$slug'
     | '/genre/$slug'
+    | '/store/checkout'
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
@@ -1421,6 +1433,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreThanksRouteImport
       parentRoute: typeof StoreRoute
     }
+    '/store/checkout': {
+      id: '/store/checkout'
+      path: '/checkout'
+      fullPath: '/store/checkout'
+      preLoaderRoute: typeof StoreCheckoutRouteImport
+      parentRoute: typeof StoreRoute
+    }
     '/genre/$slug': {
       id: '/genre/$slug'
       path: '/genre/$slug'
@@ -1495,10 +1514,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface StoreRouteChildren {
+  StoreCheckoutRoute: typeof StoreCheckoutRoute
   StoreThanksRoute: typeof StoreThanksRoute
 }
 
 const StoreRouteChildren: StoreRouteChildren = {
+  StoreCheckoutRoute: StoreCheckoutRoute,
   StoreThanksRoute: StoreThanksRoute,
 }
 
@@ -1581,13 +1602,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

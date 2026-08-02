@@ -5,7 +5,10 @@ export type StoreProduct = {
   title: string;
   category: StoreCategory;
   count: number;
+  /** Display price string. */
   price: string;
+  /** Numeric USD amount handed to Maypal checkout. */
+  amount: number;
   originalPrice?: string;
   blurb: string;
   bullets: string[];
@@ -51,7 +54,8 @@ export const storeProducts: StoreProduct[] = [
     title: "Shonen Legends — 120 Wallpaper Pack",
     category: "anime-wallpapers",
     count: 120,
-    price: "$7",
+    price: "$1.99",
+    amount: 1.99,
     originalPrice: "$19",
     blurb:
       "One download, a full year of fresh lock screens. 120 hero-moment wallpapers from One Piece, Naruto, Jujutsu Kaisen, Demon Slayer and more — every frame upscaled to 4K and framed so nothing important hides behind your clock.",
@@ -65,7 +69,8 @@ export const storeProducts: StoreProduct[] = [
     title: "Sakuga Frames — Cinematic 60 Pack",
     category: "anime-wallpapers",
     count: 60,
-    price: "$5",
+    price: "$1.99",
+    amount: 1.99,
     originalPrice: "$14",
     blurb:
       "The frames animators are proud of. 60 cinematic stills chosen for composition and colour, so your home screen looks like a movie poster instead of a screenshot.",
@@ -79,7 +84,8 @@ export const storeProducts: StoreProduct[] = [
     title: "Portrait Collection — 80 Character Wallpapers",
     category: "anime-wallpapers",
     count: 80,
-    price: "$6",
+    price: "$1.99",
+    amount: 1.99,
     blurb:
       "Fan-favourite characters in clean, poster-style portrait layouts. Each wallpaper leaves the top third breathable so widgets and notifications never cover a face.",
     bullets: ["80 files · 4K vertical", "Widget-safe composition", "Sorted into folders by series"],
@@ -92,7 +98,8 @@ export const storeProducts: StoreProduct[] = [
     title: "Pure Black AMOLED — 150 Pack",
     category: "dark-aesthetic",
     count: 150,
-    price: "$5",
+    price: "$1.99",
+    amount: 1.99,
     originalPrice: "$12",
     blurb:
       "True-black backgrounds that switch OLED pixels off entirely: measurably better battery life, zero glare at night, and a screen that makes every icon look designed.",
@@ -106,7 +113,8 @@ export const storeProducts: StoreProduct[] = [
     title: "Neon Noir — 90 Aesthetic Pack",
     category: "dark-aesthetic",
     count: 90,
-    price: "$6",
+    price: "$1.99",
+    amount: 1.99,
     blurb:
       "Rain-slick streets, cold neon, and empty midnight cities. Built for people who want their phone to feel like a late-night anime episode without a single character on screen.",
     bullets: ["90 files · 4K vertical", "Neon-on-black palette", "Pairs with any dark icon pack"],
@@ -119,7 +127,8 @@ export const storeProducts: StoreProduct[] = [
     title: "Minimal Dark — 70 Gradient Pack",
     category: "dark-aesthetic",
     count: 70,
-    price: "$4",
+    price: "$1.99",
+    amount: 1.99,
     blurb:
       "Soft dark gradients and quiet textures for a screen that stays calm. The pack people keep coming back to when a busy wallpaper starts feeling loud.",
     bullets: ["70 files · 4K vertical", "Grain + smooth gradient variants", "Works on phone, tablet and watch"],

@@ -97,6 +97,39 @@ function ProductCard({ p }: { p: StoreProduct }) {
   );
 }
 
+function WalletPanel() {
+  const [copied, setCopied] = useState(false);
+  return (
+    <section className="mt-8 rounded-2xl border border-border/60 bg-black/70 p-6">
+      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+        <Bitcoin className="h-3.5 w-3.5" /> Prefer a direct transfer?
+      </div>
+      <h2 className="mt-2 font-display text-xl font-bold">Send $1.99 to our crypto wallet</h2>
+      <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+        Pay ETH, USDT or USDC on any Ethereum-compatible network to the address below, then message
+        us with your transaction hash and pack name — we send the Drive delivery link right back.
+      </p>
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <code className="flex-1 overflow-x-auto rounded-lg border border-border/60 bg-card/40 px-3 py-2.5 text-xs text-foreground/90">
+          {PAYOUT_WALLET_ADDRESS}
+        </code>
+        <button
+          type="button"
+          onClick={() => {
+            void navigator.clipboard?.writeText(PAYOUT_WALLET_ADDRESS);
+            setCopied(true);
+            window.setTimeout(() => setCopied(false), 2000);
+          }}
+          className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary/50 px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/10"
+        >
+          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+          {copied ? "Copied" : "Copy address"}
+        </button>
+      </div>
+    </section>
+  );
+}
+
 function StorePage() {
   return (
     <div className="bg-black">

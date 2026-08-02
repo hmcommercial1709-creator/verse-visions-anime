@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { storeProducts } from "@/data/store-products";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { CheckCircle2, Download } from "lucide-react";
@@ -29,8 +30,29 @@ export const Route = createFileRoute("/store_/thanks")({
 });
 
 function ThanksPage() {
-  const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
-  const product = storeProducts.find((p) => p.id === params?.get("p"));
+  const [productId, setProductId] = useState<string | null>(null);
+  const [autoOpened, setAutoOpened] = useState(false);
+  const opened = useRef(false);
+
+  // Read the order reference on the client (SSR has no query string).
+  useEffect(() => {
+    const search = new URLSearchParams(window.location.search);
+    setProductId(search.get("p") ?? search.get("product_id") ?? search.get("item"));
+  }, []);
+
+  const product = storeProducts.find((p) => p.id === productId);
+
+  // Fully automated delivery: as soon as the provider returns the buyer here,
+  // the download link opens itself — no manual approval step.
+  useEffect(() => {
+    if (!product || opened.current) return;
+    opened.current = true;
+    const timer = window.setTimeout(() => {
+      window.open(product.deliveryUrl, "_blank", "noopener,noreferrer");
+      setAutoOpened(true);
+    }, 800);
+    return () => window.clearTimeout(timer);
+  }, [product]);
 
   return (
     <div className="bg-black">
@@ -44,8 +66,8 @@ function ThanksPage() {
             Payment confirmed — your pack is ready
           </h1>
           <p className="mt-3 text-muted-foreground">
-            Thanks for your payment. Your delivery link is below and stays
-            valid for lifetime re-downloads.
+            Delivery is automatic: your download opens in a new tab right away, and the link below
+            stays valid for lifetime re-downloads.
           </p>
 
           {product ? (
@@ -62,6 +84,11 @@ function ThanksPage() {
               >
                 <Download className="h-4 w-4" /> Open download link
               </a>
+              <p className="mt-3 text-[11px] text-muted-foreground">
+                {autoOpened
+                  ? "Opened automatically. If your browser blocked the new tab, use the button above."
+                  : "Opening your download automatically…"}
+              </p>
             </div>
           ) : (
             <p className="mt-8 text-sm text-muted-foreground">

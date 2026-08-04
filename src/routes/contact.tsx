@@ -53,7 +53,7 @@ function ContactPage() {
 
       <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/40 px-4 py-2 text-sm text-muted-foreground">
         <Clock className="h-4 w-4 text-primary" />
-        Typical reply time: two working days
+        Messages are read by the editorial desk
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -61,7 +61,7 @@ function ContactPage() {
           <div key={d.title} className="rounded-xl border border-border/60 bg-card/40 p-5">
             <d.icon className={`mb-2 h-5 w-5 ${d.tone}`} />
             <div className="font-semibold">{d.title}</div>
-            <a href={`mailto:${d.value}`} className="mt-1 block break-all text-sm text-primary hover:underline">{d.value}</a>
+            <div className="mt-1 text-sm text-primary">{d.value}</div>
             <p className="mt-2 text-sm text-muted-foreground">{d.note}</p>
           </div>
         ))}

@@ -13,13 +13,13 @@ const contactSchema = z.object({
 type Fields = z.infer<typeof contactSchema>;
 type Errors = Partial<Record<keyof Fields, string>>;
 
-const topics: { value: Fields["topic"]; label: string; inbox: string }[] = [
-  { value: "editorial", label: "Editorial question", inbox: "editors@animeverse.example" },
-  { value: "correction", label: "Correction / fact check", inbox: "corrections@animeverse.example" },
-  { value: "pitch", label: "Pitch an article", inbox: "pitches@animeverse.example" },
-  { value: "business", label: "Advertising & partnerships", inbox: "partners@animeverse.example" },
-  { value: "dmca", label: "Copyright / DMCA", inbox: "dmca@animeverse.example" },
-  { value: "other", label: "Something else", inbox: "hello@animeverse.example" },
+const topics: { value: Fields["topic"]; label: string }[] = [
+  { value: "editorial", label: "Editorial question" },
+  { value: "correction", label: "Correction / fact check" },
+  { value: "pitch", label: "Pitch an article" },
+  { value: "business", label: "Advertising & partnerships" },
+  { value: "dmca", label: "Copyright / DMCA" },
+  { value: "other", label: "Something else" },
 ];
 
 const inputClass =
@@ -49,33 +49,20 @@ export function ContactForm() {
     }
 
     setStatus("sending");
-    const data = parsed.data;
-    const inbox = topics.find((t) => t.value === data.topic)?.inbox ?? topics[0].inbox;
-    const body = [
-      `Name: ${data.name}`,
-      `Email: ${data.email}`,
-      `Topic: ${data.topic}`,
-      "",
-      data.message,
-    ].join("\n");
-
-    // No third-party mail service is connected, so the validated message is
-    // handed off to the reader's mail client addressed to the right desk.
-    const href = `mailto:${inbox}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(body)}`;
-    window.setTimeout(() => {
-      window.location.href = href;
-      setStatus("sent");
-    }, 350);
+    // No mail service or backend is connected to this form yet, so the
+    // validated message stays in the browser. The confirmation panel says so
+    // rather than implying delivery.
+    window.setTimeout(() => setStatus("sent"), 350);
   };
 
   if (status === "sent") {
     return (
       <div className="rounded-2xl border border-primary/40 bg-primary/5 p-8 text-center">
         <CheckCircle2 className="mx-auto h-10 w-10 text-primary" />
-        <h2 className="mt-4 font-display text-2xl font-bold">Message ready to send</h2>
+        <h2 className="mt-4 font-display text-2xl font-bold">Message drafted</h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-          We opened your mail client with the message pre-filled and addressed to the right desk. Hit send there and
-          we'll reply within two working days.
+          Your message passed validation. Message delivery is not connected to this form yet, so nothing has been sent
+          to us — please keep a copy of what you wrote.
         </p>
         <button
           onClick={() => {

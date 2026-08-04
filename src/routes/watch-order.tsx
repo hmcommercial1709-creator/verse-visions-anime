@@ -47,7 +47,7 @@ export const Route = createFileRoute("/watch-order")({
       },
     ],
   }),
-  component: WatchOrderHub;
+  component: WatchOrderHub,
 });
 
 const AUDIENCE_LABEL: Record<string, string> = {

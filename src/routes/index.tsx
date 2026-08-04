@@ -43,15 +43,15 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "GameCastle Anime | Ultimate Anime Hub, Guides, and Character Database" },
-      { name: "description", content: "Anime reviews, character deep-dives, watch orders, episode recaps and seasonal guides — updated daily by the GameCastle Anime editorial team." },
-      { property: "og:title", content: "GameCastle Anime | The Ultimate Anime & Gaming Authority" },
-      { property: "og:description", content: "Discover breaking anime news, guides, and interactive tools. Join millions of global fans today!" },
+      { title: "GameCastle Anime | Anime Guides & Watch Orders" },
+      { name: "description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
+      { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
+      { property: "og:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:image", content: HOME_OG_IMAGE },
-      { name: "twitter:title", content: "GameCastle Anime | Global Anime & Gaming Hub" },
-      { name: "twitter:description", content: "Your ultimate destination for anime guides, character databases, and gaming tools." },
+      { name: "twitter:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
+      { name: "twitter:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
       { name: "twitter:image", content: HOME_OG_IMAGE },
     ],
     links: [

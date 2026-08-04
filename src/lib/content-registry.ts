@@ -19,7 +19,8 @@
  */
 
 import { animes, type Anime } from "@/data/animes";
-import { articles, authors, type Article } from "@/data/articles";
+import { articles, authors, categoryForArticle, type Article } from "@/data/articles";
+import { categories, type Category, type CategorySlug } from "@/data/categories";
 import { characters, type Character } from "@/data/characters";
 import { studios, type Studio } from "@/data/studios";
 import { genres, type Genre } from "@/data/genres";
@@ -119,12 +120,23 @@ export const getAuthorBySlug = (_slug?: string) => authors[0];
 // ---------------------------------------------------------------------
 
 export const allStudios = (): Studio[] => studios;
+export const populatedStudios = (): Studio[] =>
+  studios.filter((studio) => animeByStudio(studio.slug).length > 0);
 export const getStudioBySlug = (slug: string): Studio | undefined =>
   studios.find((s) => s.slug === slug);
 
 export const allGenres = (): Genre[] => genres;
+export const populatedGenres = (): Genre[] =>
+  genres.filter((genre) => animeByGenre(genre.slug).length > 0);
 export const getGenreBySlug = (slug: string): Genre | undefined =>
   genres.find((g) => g.slug === slug);
+
+export const populatedCategories = (): Category[] => {
+  const live = new Set<CategorySlug>(publishedArticles().map((article) => categoryForArticle(article)));
+  return categories.filter((category) => live.has(category.slug));
+};
+export const populatedCategorySlugs = (): CategorySlug[] =>
+  populatedCategories().map((category) => category.slug);
 
 export const allFranchises = (): Franchise[] => franchises;
 export const getFranchiseBySlug = (slug: string): Franchise | undefined =>
@@ -178,14 +190,14 @@ export function buildSearchIndex(): SearchEntry[] {
       keywords: [c.name, c.role, ...c.personality],
     });
   }
-  for (const s of studios) {
+  for (const s of populatedStudios()) {
     idx.push({
       slug: s.slug, title: s.name, subtitle: "Studio",
       kind: "studio", href: `/studio/${s.slug}`,
       keywords: [s.name, s.country],
     });
   }
-  for (const g of genres) {
+  for (const g of populatedGenres()) {
     idx.push({
       slug: g.slug, title: g.name, subtitle: "Genre",
       kind: "genre", href: `/genre/${g.slug}`,
@@ -235,8 +247,8 @@ export function collectSitemapPaths(): string[] {
   for (const a of publishedAnime()) paths.push(`/anime/${a.slug}`);
   for (const e of publishedEpisodes()) paths.push(`/anime/${e.animeSlug}/episode/${e.number}`);
   for (const c of publishedCharacters()) paths.push(`/character/${c.slug}`);
-  for (const s of studios) paths.push(`/studio/${s.slug}`);
-  for (const g of genres) paths.push(`/genre/${g.slug}`);
+  for (const s of populatedStudios()) paths.push(`/studio/${s.slug}`);
+  for (const g of populatedGenres()) paths.push(`/genre/${g.slug}`);
   for (const a of publishedArticles()) paths.push(`/article/${a.slug}`);
   return paths;
 }

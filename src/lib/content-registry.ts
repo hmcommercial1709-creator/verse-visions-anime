@@ -111,7 +111,8 @@ export const getArticleBySlug = (slug: string): Article | undefined =>
 export const articlesForAnime = (animeSlug: string): Article[] =>
   publishedArticles().filter((a) => a.related.includes(animeSlug));
 
-export const getAuthorBySlug = (slug: string) => authors.find((a) => a.slug === slug);
+/** All legacy author slugs resolve to the single editorial desk byline. */
+export const getAuthorBySlug = (_slug?: string) => authors[0];
 
 // ---------------------------------------------------------------------
 // Studios / Genres / Franchises / Arcs / Rankings / Watch orders

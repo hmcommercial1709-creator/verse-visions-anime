@@ -99,14 +99,14 @@ export function SiteFooter() {
         {/* Columns */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <Link to="/" aria-label="GameCastle Anime home" className="flex items-center gap-2 mb-4">
               <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent">
                 <Flame className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="font-display text-lg font-bold">Anime<span className="text-gradient">Verse</span></span>
+              <span className="font-display text-lg font-bold">Game<span className="text-gradient">Castle</span> Anime</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              The independent home for anime reviews, guides, and culture. Written by fans, edited like a magazine.
+              Anime Guides, Watch Orders & Power Systems. Written by fans, edited like a magazine.
             </p>
             <div className="mt-4">
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Language</p>

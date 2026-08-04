@@ -86,9 +86,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { httpEquiv: "content-language", content: "en" },
       { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
-      { title: "GameCastle Anime — The Home of Anime Reviews, Guides & Culture" },
+      { title: "GameCastle Anime | Anime Guides & Watch Orders" },
 
-      { name: "description", content: "Discover the best anime with GameCastle Anime: reviews, character deep-dives, watch orders, studio profiles, and long-form editorial from a fan-led editorial team." },
+      { name: "description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
       { name: "author", content: "GameCastle Anime Editorial" },
       { property: "og:site_name", content: "GameCastle Anime" },
       { property: "og:type", content: "website" },
@@ -97,10 +97,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "google-adsense-account", content: "ca-pub-6422431093727588" },
 
       { name: "theme-color", content: "#12081b" },
-      { property: "og:title", content: "GameCastle Anime | The Ultimate Anime & Gaming Authority" },
-      { name: "twitter:title", content: "GameCastle Anime | Global Anime & Gaming Hub" },
-      { property: "og:description", content: "Discover breaking anime news, guides, and interactive tools. Join millions of global fans today!" },
-      { name: "twitter:description", content: "Your ultimate destination for anime guides, character databases, and gaming tools." },
+      { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
+      { name: "twitter:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
+      { property: "og:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
+      { name: "twitter:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

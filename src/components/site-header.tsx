@@ -158,15 +158,15 @@ export function SiteHeader() {
         onMouseLeave={() => setOpenMenu(null)}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 lg:px-6">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
+          <Link to="/" aria-label="GameCastle Anime home" className="flex items-center gap-2 shrink-0">
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent glow-primary">
               <Flame className="h-5 w-5 text-primary-foreground" />
             </div>
             <div className="leading-none">
               <div className="font-display text-lg font-bold tracking-tight">
-                Anime<span className="text-gradient">Verse</span>
+                Game<span className="text-gradient">Castle</span> Anime
               </div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">The anime authority</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Anime Guides, Watch Orders & Power Systems</div>
             </div>
           </Link>
 

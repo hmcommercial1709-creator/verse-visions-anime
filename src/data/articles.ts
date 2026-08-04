@@ -41,6 +41,10 @@ export type Article = {
   /** Free-form topical tags surfaced on detail pages and archive filters. */
   tags?: string[];
   title: string;
+  /** Overrides the <title> tag when the SEO title differs from the H1. */
+  seoTitle?: string;
+  /** Absolute-or-root-relative share image for og:image / twitter:image. */
+  ogImage?: string;
   excerpt: string;
   author: string; // slug
   date: string;
@@ -68,6 +72,7 @@ import { shibuyaIncidentArticle } from "./article-shibuya-incident";
 import { sorcererFamiliesArticle } from "./article-sorcerer-families";
 import { wanoRecapArticle } from "./article-wano-recap";
 import { jjkWatchOrderArticle } from "./article-jjk-watch-order";
+import { soloLevelingSystemArticle } from "./article-solo-leveling-system";
 import { topUpcomingAnimeOpenWorldGames2026Article } from "./article-top-upcoming-anime-open-world-games-2026";
 import { extraArticles } from "./articles-extra";
 import { longformArticles } from "./articles-longform";
@@ -93,6 +98,7 @@ const coreArticles: Article[] = [
   sorcererFamiliesArticle,
   wanoRecapArticle,
   jjkWatchOrderArticle,
+  soloLevelingSystemArticle,
   { slug: "why-frieren-won-2024", section: "editorial", title: "Why Frieren Won the Year: A Long Answer to a Short Question",
     excerpt: "The 2024 Anime of the Year didn't win because it was flashy. It won because it took the medium seriously.",
     author: "aiko-tanaka", date: "2026-03-14", tag: "Editorial",

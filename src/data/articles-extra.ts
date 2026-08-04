@@ -133,22 +133,6 @@ const drafts: Draft[] = [
   },
   // ──────────────────────────────── RPG ─────────────────────────────────
   {
-    slug: "solo-leveling-system-progression-explained",
-    category: "rpg", section: "guides",
-    title: "The Solo Leveling System, Fully Explained: Stats, Ranks and Shadow Economy",
-    excerpt: "How Jinwoo's progression actually works, why it accelerates, and what the shadow army costs him.",
-    author: "lina-vasquez", date: "2026-04-22", tag: "Guide",
-    tags: ["solo-leveling", "progression", "power-systems", "rpg"],
-    cover: ["#4c1d95", "#0b1120"],
-    related: ["solo-leveling"],
-    body: [
-      "The System is a closed progression loop with three inputs: combat, quests and penalties. Combat awards experience scaled to the gap between hunter rank and gate rank, which is why Jinwoo's early growth looks absurd — he is fighting far above his listed grade on purpose.",
-      "Stat points are the interesting part. Unlike most game-shaped fiction, Solo Leveling commits to a small stat spread — Strength, Agility, Vitality, Intelligence, Sense — and lets the reader track allocation across the whole run. Jinwoo's build is a speed-first bruiser, and every fight reflects it.",
-      "Shadow extraction is where the economy turns. Each extracted shadow is a permanent asset with upkeep paid in mana, meaning the army is not free power but a standing cost that shapes how he opens fights. The narrative rarely says this out loud; the fights demonstrate it.",
-      "The penalty quests are the balancing mechanism, and the reason the story never quite becomes frictionless. Miss a daily and the System does not scold you — it drops you somewhere that wants you dead.",
-    ],
-  },
-  {
     slug: "isekai-power-fantasy-that-actually-works",
     category: "rpg", section: "editorial",
     title: "Why Most Isekai Fail and the Handful That Actually Work",

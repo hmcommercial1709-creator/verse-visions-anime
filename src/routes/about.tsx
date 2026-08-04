@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { authors } from "@/data/articles";
+import { EDITORIAL_DESK } from "@/data/articles";
 import { ShieldCheck, PenLine, Scale, Users } from "lucide-react";
 
 const TITLE = "About GameCastle Anime — Our Anime Editorial Team & Analysis Mission";
@@ -33,7 +33,6 @@ export const Route = createFileRoute("/about")({
             "@type": "Organization",
             name: "GameCastle Anime",
             url: "https://gamecastle.store/",
-            employee: authors.map((a) => ({ "@type": "Person", name: a.name, jobTitle: a.role })),
           },
         }),
       },
@@ -43,7 +42,7 @@ export const Route = createFileRoute("/about")({
 });
 
 const pillars = [
-  { icon: PenLine, title: "Original writing only", body: "Every recap, review, and guide on GameCastle Anime is written from scratch by a member of our team after watching the material. We do not republish synopses, subtitle scripts, or scraped summaries." },
+  { icon: PenLine, title: "Original writing only", body: "Every recap, review, and guide on GameCastle Anime is written in-house from scratch after watching the material. We do not republish synopses, subtitle scripts, or scraped summaries." },
   { icon: Scale, title: "Analysis over hype", body: "Our reviews argue a position and show the work: direction, storyboarding, adaptation choices, pacing against the source manga. Scores come last, not first." },
   { icon: ShieldCheck, title: "Corrections in the open", body: "When we get something wrong we fix it and say so at the bottom of the article. Facts are checked against primary sources — official sites, credited staff lists, and publisher announcements." },
   { icon: Users, title: "Reader-first monetisation", body: "We are funded by advertising and a small number of affiliate partnerships. Sponsored placements are always labelled, and no advertiser gets to review coverage before publication." },
@@ -116,34 +115,18 @@ function AboutPage() {
       </section>
 
       <section className="mt-12">
-        <h2 className="font-display text-2xl font-bold">The lore research team</h2>
+        <h2 className="font-display text-2xl font-bold">Who writes GameCastle Anime</h2>
         <p className="mt-2 text-muted-foreground">
-          Our researchers build the timelines, arc maps and relationship charts behind every hub, working
-          from broadcast episodes, published manga volumes, credited staff lists and publisher
-          announcements. Manga-ahead material is always gated on our{" "}
+          Everything here is published under one byline: the{" "}
+          <Link to="/authors" className="text-primary hover:underline">GameCastle Anime Editorial Team</Link>. We do not
+          publish named staff profiles or claim credentials we cannot show you. Timelines, arc maps and relationship
+          charts are built from broadcast episodes, published manga volumes, credited staff lists and publisher
+          announcements, and manga-ahead material is gated on our{" "}
           <Link to="/manga-spoilers" className="text-primary hover:underline">manga spoilers hub</Link>.
         </p>
-        <h3 className="mt-8 font-display text-xl font-bold">The editorial team</h3>
-        <p className="mt-2 text-muted-foreground">Every article carries a byline. These are the people behind them.</p>
-
-        <p className="mt-2 text-muted-foreground">Every article carries a byline. These are the people behind them.</p>
-        <div className="mt-5 space-y-3">
-          {authors.map((a) => (
-            <div key={a.slug} className="flex gap-4 rounded-2xl border border-border/60 bg-card/40 p-5">
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-primary to-accent font-display text-lg font-bold text-primary-foreground">
-                {a.name.charAt(0)}
-              </div>
-              <div>
-                <div className="font-semibold">{a.name}</div>
-                <div className="text-xs uppercase tracking-[0.16em] text-primary">{a.role}</div>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{a.bio}</p>
-              </div>
-            </div>
-          ))}
+        <div className="mt-5 rounded-2xl border border-border/60 bg-card/40 p-6 text-sm leading-relaxed text-muted-foreground">
+          {EDITORIAL_DESK.bio}
         </div>
-        <p className="mt-4 text-sm text-muted-foreground">
-          See all bylines and archives on the <Link to="/authors" className="text-primary hover:underline">authors page</Link>.
-        </p>
       </section>
 
       <section className="mt-12">

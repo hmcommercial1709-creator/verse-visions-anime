@@ -33,7 +33,7 @@ export function AnimeCard({ anime, size = "md" }: { anime: Anime; size?: "sm" | 
         </div>
         <div className="absolute top-2 right-2 flex items-center gap-1 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-bold text-gold">
           <Star className="h-3 w-3 fill-current" />
-          {anime.rating.toFixed(1)}
+          <span title="GameCastle Anime editorial score">{anime.rating.toFixed(1)}</span>
         </div>
         <div className="absolute inset-x-0 bottom-0 p-3">
           <div className="text-[10px] uppercase tracking-[0.18em] text-white/90">{anime.year} · {anime.studio}</div>

@@ -50,7 +50,7 @@ function TopRatedPage() {
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Top rated" }]} />
       <h1 className="font-display text-4xl lg:text-5xl font-bold">Top rated anime</h1>
       <p className="mt-3 max-w-3xl text-lg text-muted-foreground">
-        These are the series our editors and readers score highest — everything at 8.0 and above, sorted by rating and
+        These are the series our editors score highest — everything at 8.0 and above, sorted by editorial score and
         split by decade. It is a different lens from our{" "}
         <Link to="/top" className="text-primary hover:underline">
           all-time top ranking

@@ -112,7 +112,7 @@ function AnimeDetail() {
               </div>
 
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl">
-                <Stat icon={Star} label="Rating" value={`${anime.rating.toFixed(1)}/10`} />
+                <Stat icon={Star} label="Editorial score" value={`${anime.rating.toFixed(1)}/10`} />
                 <Stat icon={Tv} label="Episodes" value={String(anime.episodes)} />
                 <Stat icon={Calendar} label="Seasons" value={String(anime.seasons)} />
                 <Stat icon={Building2} label="Studio" value={studio?.name || anime.studio} />

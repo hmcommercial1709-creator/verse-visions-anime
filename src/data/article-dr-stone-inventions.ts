@@ -52,7 +52,7 @@ export const drStoneInventionsArticle: Article = {
   ],
   sections: [
     {
-      heading: "How the Dr. Stone Science Tech Tree Works",
+      heading: "The Dr. Stone Inventions List at a Glance",
       paragraphs: [
         "Dr. Stone is built like a tech tree with a cast attached. Every invention Senku Ishigami attempts has prerequisites, and the series is unusually disciplined about honouring them: no glass without silica sand and a hot enough furnace, no antibiotics without glassware, no telephone without copper wire, and no copper wire without smelting.",
         "Quick answer: Dr. Stone's inventions follow a strict dependency order. Senku begins with revival fluid and stone-age tools, then iron and glass, then the sulfa drug that wins the village over, then electricity, the light bulb and the cell phone, and finally steam power, ships, aircraft and a spacecraft.",
@@ -62,26 +62,35 @@ export const drStoneInventionsArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption: "Major Dr. Stone inventions, their prerequisites and where they land in the story.",
-          columns: ["Invention", "Materials or prerequisite", "Purpose", "Story stage"],
+          caption: "All major Dr. Stone inventions, what they are for, what they need and where they land in the story.",
+          columns: ["Invention", "Purpose", "Materials", "Story stage"],
           rows: [
-            ["Revival fluid", "Nitric acid from cave deposits, alcohol", "Reverse petrification", "Stone World opening"],
-            ["Stone-age tool kit", "Cord, stone, wood, fire", "Survival, hunting, shelter", "Stone World opening"],
-            ["Ramen and cola", "Wheat, wild ingredients, carbonate springs", "Morale, recruiting allies", "Early Kingdom of Science"],
-            ["Iron (tatara furnace)", "Iron sand, charcoal, forced air", "Tools, blades, wire, machine parts", "Early Kingdom of Science"],
-            ["Glass", "Silica sand, high-temperature furnace", "Lab vessels, lenses, lamps", "Early Kingdom of Science"],
-            ["Sulfa drug", "Glassware, sulfur, acids, careful synthesis", "Cure pneumonia, win village trust", "Village arc"],
-            ["Generator", "Magnets, copper wire, iron core", "Electricity for later machines", "Village and Stone Wars arcs"],
-            ["Light bulb", "Glass bulb, tungsten filament, vacuum", "Light, and proof of vacuum control", "Stone Wars arc"],
-            ["Cell phone", "Copper wire, vacuum tube, electricity", "Long-range coordination in battle", "Stone Wars arc"],
-            ["Steam engine", "Iron, boiler, pressure sealing", "Powered transport and machinery", "Post-Stone-Wars industry"],
-            ["Ship and navigation gear", "Timber, iron fittings, instruments", "Ocean travel to new regions", "Treasure Island era"],
-            ["Refined fuel and aircraft", "Petroleum, refining, precision engines", "Fast long-distance travel", "Late story"],
-            ["Spacecraft", "Entire industrial base rebuilt", "Reach the petrification source", "Final arc"],
+            ["Revival fluid", "Reverse petrification", "Nitric acid from cave deposits, alcohol", "Stone World opening"],
+            ["Stone-age tool kit", "Survival, hunting, shelter", "Cord, stone, wood, fire", "Stone World opening"],
+            ["Ramen and cola", "Morale, recruiting allies", "Wheat, wild ingredients, carbonate springs", "Early Kingdom of Science"],
+            ["Iron (tatara furnace)", "Tools, blades, wire, machine parts", "Iron sand, charcoal, forced air", "Early Kingdom of Science"],
+            ["Glass", "Lab vessels, lenses, lamps", "Silica sand, high-temperature furnace", "Early Kingdom of Science"],
+            ["Sulfa drug", "Cure pneumonia, win village trust", "Glassware, sulfur, acids, careful synthesis", "Village arc"],
+            ["Generator", "Electricity for later machines", "Magnets, copper wire, iron core", "Village and Stone Wars arcs"],
+            ["Light bulb", "Light, and proof of vacuum control", "Glass bulb, tungsten filament, vacuum", "Stone Wars arc"],
+            ["Cell phone", "Long-range coordination in battle", "Copper wire, vacuum tube, electricity", "Stone Wars arc"],
+            ["Steam engine", "Powered transport and machinery", "Iron, boiler, pressure sealing", "Post-Stone-Wars industry"],
+            ["Ship and navigation gear", "Ocean travel to new regions", "Timber, iron fittings, instruments", "Treasure Island era"],
+            ["Refined fuel and aircraft", "Fast long-distance travel", "Petroleum, refining, precision engines", "Late story"],
+            ["Spacecraft", "Reach the petrification source", "Entire industrial base rebuilt", "Final arc"],
           ],
         },
       ],
     },
+    {
+      heading: "How the Dr. Stone Science Roadmap Works",
+      paragraphs: [
+        "The science roadmap has two axes. The material axis decides what is physically possible: charcoal and forced air give higher furnace temperatures, temperature gives iron and glass, glass gives laboratory chemistry, and chemistry gives everything from medicine to refined fuel. Nothing in the series jumps a rung on that ladder.",
+        "The social axis decides what is practical. Senku inventions that look frivolous — cola, ramen, soap, sweets — exist to recruit and retain the workforce that heavy industry needs, and each one also demonstrates that his methods deliver results faster than superstition does.",
+        "Keep both axes in mind and the list stops looking like trivia. Every entry in the table above is either a material unlock, a labour unlock, or a payoff that spends both.",
+      ],
+    },
+
     {
       heading: "Early Survival Inventions",
       paragraphs: [

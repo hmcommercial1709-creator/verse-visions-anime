@@ -161,7 +161,7 @@ export const Route = createFileRoute("/article/$slug")({
             headline: a.title,
             description: a.excerpt,
             datePublished: a.date,
-            dateModified: a.date,
+            dateModified: a.updated ?? a.date,
             mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/article/${a.slug}`) },
             articleSection: a.section,
             wordCount: wordCount(articleParagraphs(a)),

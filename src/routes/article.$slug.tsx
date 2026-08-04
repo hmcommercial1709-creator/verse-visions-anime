@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { getArticle, articles, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
+import { getArticle, publishedArticleList, articleIsPublished, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
 import { ArticleComments } from "@/components/article-comments";
 import { InternalLinkNetwork } from "@/components/internal-link-network";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
@@ -138,6 +138,7 @@ export const Route = createFileRoute("/article/$slug")({
       meta: [
         { title: a.seoTitle ?? `${a.title} · GameCastle Anime` },
         { name: "description", content: a.excerpt },
+        { name: "robots", content: articleIsPublished(a) ? "index, follow" : "noindex, follow" },
         { property: "og:title", content: a.seoTitle ?? a.title },
         { property: "og:description", content: a.excerpt },
         ...(a.ogImage
@@ -215,7 +216,7 @@ function ArticlePage() {
       : deriveSections(a.body);
   const relatedAnime = articleAnimeRecs(a.slug, 4);
   const alsoEnjoyed = recommendArticles(a.slug, 3);
-  const sectionMates = articles.filter((x) => x.slug !== a.slug && x.section === a.section).slice(0, 3);
+  const sectionMates = publishedArticleList().filter((x) => x.slug !== a.slug && x.section === a.section).slice(0, 3);
   const articleRail = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);

@@ -196,22 +196,6 @@ const drafts: Draft[] = [
       "When a series does this well you stop noticing the machinery entirely — which is the point. Progression should feel like understanding, not like accumulation.",
     ],
   },
-  {
-    slug: "dr-stone-science-tech-tree-guide",
-    category: "rpg", section: "guides",
-    title: "The Dr. Stone Tech Tree: Every Major Invention and What It Unlocked",
-    excerpt: "From sulfa drugs to the cell phone — the rebuild, in order, with the dependencies that made each step possible.",
-    author: "hana-mori", date: "2026-02-05", tag: "Guide",
-    tags: ["dr-stone", "tech-tree", "science", "guide"],
-    cover: ["#16a34a", "#052e16"],
-    related: ["dr-stone"],
-    body: [
-      "Dr. Stone is a tech tree with a cast. Each invention has prerequisites, and the show is unusually disciplined about honouring them: no glass without sand and heat, no antibiotics without glass, no radio without wire and no wire without a furnace.",
-      "The first genuine unlock is not a weapon but medicine. Sulfa drugs buy Senku a village's trust, and trust buys labour — the actual bottleneck in every subsequent project.",
-      "The iron and glass tier is where the show's economy becomes visible. Every later marvel routes back through those two materials, which is why the mid-series arcs spend so long on logistics that other anime would skip.",
-      "Read the series as a build order and the pacing choices make sense. The cell phone is not a gag payoff; it is the top of a dependency chain the show spent two seasons laying down.",
-    ],
-  },
   // ─────────────────────────────── STRATEGY ─────────────────────────────
   {
     slug: "death-note-mind-games-tactical-breakdown",

@@ -115,6 +115,11 @@ export const soloLevelingSystemArticle: Article = {
       heading: "Frequently Asked Questions",
       paragraphs: [
         "Short answers to the questions readers ask most about the Solo Leveling System. Longer explanations live in the sections above.",
+        "How does the System work in Solo Leveling? It measures Jinwoo with stats, levels and experience, pays him for combat and quests, lets him allocate attribute points manually, and penalises missed dailies. Skills, an inventory and job advancement unlock as he progresses.",
+        "What are the stats in Solo Leveling? Strength, Agility, Vitality, Intelligence and Sense, plus a fatigue value that tracks strain. Each maps to something visible in a fight, from raw damage to mana detection.",
+        "How does Jinwoo level up? Experience comes from dungeons, enemies and quests, with larger payouts for fighting above his own grade. Every level grants attribute points he distributes himself.",
+        "What happens if Jinwoo fails a daily quest? The System applies a penalty rather than a warning, dropping him into a hostile penalty zone he has to survive.",
+        "Why did the System choose Sung Jinwoo? Because the weakest hunter in the double dungeon chose to buy time for the others instead of running, and the System keeps every reward conditional on repeating that choice.",
       ],
     },
   ],

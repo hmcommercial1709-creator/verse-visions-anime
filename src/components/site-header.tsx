@@ -278,6 +278,7 @@ export function SiteHeader() {
             </button>
             <button
               onClick={() => setSearchOpen(true)}
+              aria-label={t("search")}
               className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground"
             >
               <Search className="h-5 w-5" />
@@ -287,6 +288,7 @@ export function SiteHeader() {
               onClick={() => setGlobalOpen(true)}
               aria-haspopup="dialog"
               aria-expanded={globalOpen}
+              aria-label={t("menu")}
               className="flex items-center gap-2 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
             >
               <Menu className="h-4 w-4" />

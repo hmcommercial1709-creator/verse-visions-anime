@@ -96,8 +96,10 @@ export function HeroSlider({ items }: { items: Article[] }) {
                     aria-label={`Go to slide ${i + 1}`}
                     aria-current={i === index ? "true" : undefined}
                     onClick={() => setIndex(i)}
-                    className={`h-1.5 rounded-full transition-all ${
-                      i === index ? "w-8 bg-primary" : "w-3 bg-border hover:bg-muted-foreground"
+                    className={`relative h-11 w-11 rounded-full after:absolute after:left-1/2 after:top-1/2 after:h-1.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:transition-all ${
+                      i === index
+                        ? "after:w-8 after:bg-primary"
+                        : "after:w-3 after:bg-border hover:after:bg-muted-foreground"
                     }`}
                   />
                 ))}

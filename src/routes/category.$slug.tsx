@@ -1,12 +1,15 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import {
-  articles,
   articleParagraphs,
   categoryForArticle,
   getAuthor,
   type Article,
 } from "@/data/articles";
-import { categories, getCategory } from "@/data/categories";
+import { getCategory } from "@/data/categories";
+import {
+  populatedCategories,
+  publishedArticles,
+} from "@/lib/content-registry";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { HeaderBannerAd, InArticleAd, PostContentAd,
   MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
@@ -20,7 +23,10 @@ export const Route = createFileRoute("/category/$slug")({
   loader: ({ params }) => {
     const category = getCategory(params.slug);
     if (!category) throw notFound();
-    return { category };
+    const articleCount = publishedArticles().filter(
+      (article) => categoryForArticle(article) === category.slug,
+    ).length;
+    return { category, articleCount };
   },
   head: ({ params, loaderData }) => {
     const url = `https://gamecastle.store/category/${params.slug}`;
@@ -28,11 +34,15 @@ export const Route = createFileRoute("/category/$slug")({
       return { meta: [{ title: "Category not found · GameCastle Anime" }, { name: "robots", content: "noindex" }] };
     }
     const c = loaderData.category;
+    const hasPublishedArticles = loaderData.articleCount > 0;
     const title = `${c.name} — ${c.tagline} · GameCastle Anime`;
     return {
       meta: [
         { title },
         { name: "description", content: c.description },
+        ...(!hasPublishedArticles
+          ? [{ name: "robots", content: "noindex, follow" }]
+          : []),
         { property: "og:title", content: title },
         { property: "og:description", content: c.description },
         { property: "og:type", content: "website" },
@@ -106,7 +116,7 @@ function Card({ a, featured = false }: { a: Article; featured?: boolean }) {
 
 function CategoryPage() {
   const { category } = Route.useLoaderData();
-  const list = articles.filter((a) => categoryForArticle(a) === category.slug);
+  const list = publishedArticles().filter((a) => categoryForArticle(a) === category.slug);
   const [lead, ...rest] = list;
 
   return (
@@ -139,7 +149,15 @@ function CategoryPage() {
             </h2>
 
             {list.length === 0 ? (
-              <p className="mt-4 text-muted-foreground">This desk is publishing soon.</p>
+              <div className="mt-4 rounded-xl border border-border/60 bg-card/40 p-6">
+                <p className="text-muted-foreground">
+                  This category has no published articles and is excluded from search engines
+                  until it offers a useful collection.
+                </p>
+                <Link to="/blog" className="mt-4 inline-flex font-semibold text-primary hover:underline">
+                  Browse all published articles
+                </Link>
+              </div>
             ) : (
               <>
                 <div className="mt-5 grid gap-5 sm:grid-cols-2">
@@ -162,7 +180,7 @@ function CategoryPage() {
 
             <h2 className="mt-12 font-display text-2xl font-bold">Other desks</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {categories
+              {populatedCategories()
                 .filter((c) => c.slug !== category.slug)
                 .map((c) => (
                   <Link

@@ -27,8 +27,8 @@ export const Route = createFileRoute("/anime/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     const a = loaderData.anime;
-    const title = `${a.title} — Story, Characters, Watch Order & Review · AnimeVerse`;
-    const desc = `The complete AnimeVerse guide to ${a.title}: synopsis, arcs, characters, power system, watch order, soundtrack, fun facts and FAQ.`;
+    const title = `${a.title} — Story, Characters, Watch Order & Review · GameCastle Anime`;
+    const desc = `The complete GameCastle Anime guide to ${a.title}: synopsis, arcs, characters, power system, watch order, soundtrack, fun facts and FAQ.`;
     return {
       meta: [
         { title },
@@ -68,7 +68,7 @@ export const Route = createFileRoute("/anime/$slug")({
         children: JSON.stringify(faqSchema([
           { q: `How many episodes does ${a.title} have?`, a: `${a.title} runs for ${a.episodes} episodes across ${a.seasons} season(s).` },
           { q: `What is the best watch order for ${a.title}?`, a: `Our watch-order section breaks down both the release order and the chronological order for ${a.title}, including which filler you can safely skip.` },
-          { q: `Is ${a.title} worth watching?`, a: `${a.title} holds a ${a.rating.toFixed(1)}/10 editorial score at AnimeVerse. ${a.tagline}` },
+          { q: `Is ${a.title} worth watching?`, a: `${a.title} holds a ${a.rating.toFixed(1)}/10 editorial score at GameCastle Anime. ${a.tagline}` },
         ])),
       }],
     };
@@ -336,7 +336,7 @@ function AnimeDetail() {
           {/* Conclusion */}
           <SectionBlock id="conclusion" title="Conclusion">
             <p className="text-lg leading-relaxed">
-              {anime.title} earned its spot in the AnimeVerse library because it did what most anime doesn't: it kept its promises. The arcs paid off. The characters grew. The world got bigger the longer we sat with it. If you're picking your next weekend of viewing, this is one worth clearing the calendar for.
+              {anime.title} earned its spot in the GameCastle Anime library because it did what most anime doesn't: it kept its promises. The arcs paid off. The characters grew. The world got bigger the longer we sat with it. If you're picking your next weekend of viewing, this is one worth clearing the calendar for.
             </p>
           </SectionBlock>
 

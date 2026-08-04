@@ -4,9 +4,9 @@ import { articles } from "@/data/articles";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { Gauge, Scale, Layers } from "lucide-react";
 
-const TITLE = "Power Scaling Hub — How AnimeVerse Ranks Anime Strength";
+const TITLE = "Power Scaling Hub — How GameCastle Anime Ranks Anime Strength";
 const DESC =
-  "AnimeVerse power scaling: a transparent methodology for ranking anime characters by feats, ability mechanics and in-series statements — plus our flagship technique breakdowns.";
+  "GameCastle Anime power scaling: a transparent methodology for ranking anime characters by feats, ability mechanics and in-series statements — plus our flagship technique breakdowns.";
 const URL = absoluteUrl("/power-scaling");
 
 const faqs = [
@@ -19,7 +19,7 @@ const faqs = [
 export const Route = createFileRoute("/power-scaling")({
   head: () => ({
     meta: [
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },

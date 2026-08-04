@@ -4,9 +4,9 @@ import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
 
-const TITLE = "Top Rated Anime — Highest Scoring Series by Decade · AnimeVerse";
+const TITLE = "Top Rated Anime — Highest Scoring Series by Decade · GameCastle Anime";
 const DESC =
-  "Every anime in the AnimeVerse library scoring 8.0 and above, grouped by decade so you can see how the medium's best work evolved from the classics to today.";
+  "Every anime in the GameCastle Anime library scoring 8.0 and above, grouped by decade so you can see how the medium's best work evolved from the classics to today.";
 const URL = "https://gamecastle.store/top-rated";
 
 export const Route = createFileRoute("/top-rated")({

@@ -94,7 +94,7 @@ const megaGroups = [
         { to: "/statistics", label: "Statistics" },
         { to: "/events", label: "Events & Cons" },
       ]},
-      { title: "AnimeVerse", links: [
+      { title: "GameCastle Anime", links: [
         { to: "/about", label: "About Us" },
         { to: "/contact", label: "Contact" },
         { to: "/editorial-policy", label: "Editorial Policy" },

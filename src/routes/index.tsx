@@ -43,14 +43,14 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "AnimeVerse | Ultimate Anime Hub, Guides, and Character Database" },
-      { name: "description", content: "Anime reviews, character deep-dives, watch orders, episode recaps and seasonal guides — updated daily by the AnimeVerse editorial team." },
-      { property: "og:title", content: "AnimeVerse | The Ultimate Anime & Gaming Authority" },
+      { title: "GameCastle Anime | Ultimate Anime Hub, Guides, and Character Database" },
+      { name: "description", content: "Anime reviews, character deep-dives, watch orders, episode recaps and seasonal guides — updated daily by the GameCastle Anime editorial team." },
+      { property: "og:title", content: "GameCastle Anime | The Ultimate Anime & Gaming Authority" },
       { property: "og:description", content: "Discover breaking anime news, guides, and interactive tools. Join millions of global fans today!" },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:image", content: HOME_OG_IMAGE },
-      { name: "twitter:title", content: "AnimeVerse | Global Anime & Gaming Hub" },
+      { name: "twitter:title", content: "GameCastle Anime | Global Anime & Gaming Hub" },
       { name: "twitter:description", content: "Your ultimate destination for anime guides, character databases, and gaming tools." },
       { name: "twitter:image", content: HOME_OG_IMAGE },
     ],
@@ -180,7 +180,7 @@ function Home() {
 
 
         <Rail
-          title="Top rated on AnimeVerse"
+          title="Top rated on GameCastle Anime"
           subtitle="Aggregated from 40,000+ community ratings across the last twelve months."
           action={
             <Link to="/top-rated" className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline">
@@ -267,7 +267,7 @@ function Home() {
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
               <VideoEmbed
                 art={backdrops.trailer}
-                title="AnimeVerse Screening Room — Season Trailer Breakdown"
+                title="GameCastle Anime Screening Room — Season Trailer Breakdown"
                 subtitle="Editors' cut · animation direction, sakuga highlights, and what the framing spoils"
                 searchQuery="jujutsu kaisen official trailer"
               />
@@ -337,7 +337,7 @@ function Home() {
               <StickySidebarAd />
             </div>
           </Section>
-          <MultiplexAd title="More from AnimeVerse" />
+          <MultiplexAd title="More from GameCastle Anime" />
         </LazySection>
 
 

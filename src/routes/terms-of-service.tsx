@@ -2,16 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
-const TITLE = "Terms of Service — Using AnimeVerse";
+const TITLE = "Terms of Service — Using GameCastle Anime";
 const DESC =
-  "The terms governing your use of AnimeVerse: acceptable use, intellectual property and fair-use commentary, user submissions, advertising and affiliate disclosure, and liability limits.";
+  "The terms governing your use of GameCastle Anime: acceptable use, intellectual property and fair-use commentary, user submissions, advertising and affiliate disclosure, and liability limits.";
 const URL = absoluteUrl("/terms-of-service");
 const UPDATED = "July 2026";
 
 export const Route = createFileRoute("/terms-of-service")({
   head: () => ({
     meta: [
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
@@ -41,16 +41,16 @@ function TermsOfServicePage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">1. Acceptance</h2>
           <p className="mt-3">
-            By accessing AnimeVerse you agree to these terms. If you do not agree, please stop using the
+            By accessing GameCastle Anime you agree to these terms. If you do not agree, please stop using the
             site. They apply to every page, including anime hubs, episode guides, character profiles,
             power-scaling analysis, and articles.
           </p>
         </section>
 
         <section>
-          <h2 className="font-display text-2xl font-bold text-foreground">2. What AnimeVerse is</h2>
+          <h2 className="font-display text-2xl font-bold text-foreground">2. What GameCastle Anime is</h2>
           <p className="mt-3">
-            AnimeVerse is a digital media publication. We publish reviews, analysis, recaps, watch
+            GameCastle Anime is a digital media publication. We publish reviews, analysis, recaps, watch
             orders, spoiler coverage and news commentary. We do <strong>not</strong> host, stream, embed,
             upload or provide downloads of anime episodes, manga chapters, subtitle files or any other
             copyrighted media. Where we note where a series is available, that is informational only.
@@ -60,14 +60,14 @@ function TermsOfServicePage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">3. Intellectual property</h2>
           <p className="mt-3">
-            Article text, rankings, page structure and original artwork on this site belong to AnimeVerse
+            Article text, rankings, page structure and original artwork on this site belong to GameCastle Anime
             and may not be republished in full without written permission. You may quote a short excerpt
             with clear attribution and a link back.
           </p>
           <p className="mt-3">
             All anime titles, characters, logos and franchise imagery referenced here are the property of
             their respective rights holders and appear for identification and commentary as part of
-            criticism and reporting. AnimeVerse claims no ownership of, and is not affiliated with or
+            criticism and reporting. GameCastle Anime claims no ownership of, and is not affiliated with or
             endorsed by, any studio, publisher or streaming service.
           </p>
         </section>
@@ -133,7 +133,7 @@ function TermsOfServicePage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">10. Limitation of liability</h2>
           <p className="mt-3">
-            To the fullest extent permitted by law, AnimeVerse is not liable for indirect or
+            To the fullest extent permitted by law, GameCastle Anime is not liable for indirect or
             consequential loss arising from your use of the site or reliance on its content. Nothing here
             limits rights that cannot be limited by law.
           </p>

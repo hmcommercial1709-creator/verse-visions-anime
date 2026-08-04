@@ -45,8 +45,8 @@ export const Route = createFileRoute("/ar/anime/$slug")({
                 description: g.metaDescription,
                 dateModified: g.updated,
                 mainEntityOfPage: url,
-                author: { "@type": "Organization", name: "AnimeVerse" },
-                publisher: { "@type": "Organization", name: "AnimeVerse" },
+                author: { "@type": "Organization", name: "GameCastle Anime" },
+                publisher: { "@type": "Organization", name: "GameCastle Anime" },
               },
               {
                 "@type": "FAQPage",

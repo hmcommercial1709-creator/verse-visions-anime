@@ -61,7 +61,7 @@ export function GlobalMenu({
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-[0.3em] text-primary">Navigation</div>
-            <h2 className="truncate font-display text-2xl font-bold">Explore AnimeVerse</h2>
+            <h2 className="truncate font-display text-2xl font-bold">Explore GameCastle Anime</h2>
           </div>
           <button
             onClick={onClose}

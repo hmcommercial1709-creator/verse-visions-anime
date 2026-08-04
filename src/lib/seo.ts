@@ -3,7 +3,7 @@
  * Canonicals and og:url must be absolute and self-referencing.
  */
 export const SITE_URL = "https://gamecastle.store";
-export const SITE_NAME = "AnimeVerse";
+export const SITE_NAME = "GameCastle Anime";
 
 export function absoluteUrl(path: string) {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;

@@ -7,7 +7,7 @@ const URL = `${SITE_URL}/ar/anime`;
 export const Route = createFileRoute("/ar/anime/")({
   head: () => ({
     meta: [
-      { title: "أدلة ترتيب مشاهدة الأنمي بالعربية — AnimeVerse" },
+      { title: "أدلة ترتيب مشاهدة الأنمي بالعربية — GameCastle Anime" },
       {
         name: "description",
         content:

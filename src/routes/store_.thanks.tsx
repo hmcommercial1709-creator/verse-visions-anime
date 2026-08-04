@@ -9,13 +9,13 @@ const SITE = "https://gamecastle.store";
 export const Route = createFileRoute("/store_/thanks")({
   head: () => ({
     meta: [
-      { title: "Your wallpaper download — AnimeVerse Store" },
+      { title: "Your wallpaper download — GameCastle Anime Store" },
       {
         name: "description",
         content:
           "Payment confirmed. Open your instant download link and grab your 4K anime or dark aesthetic wallpaper pack.",
       },
-      { property: "og:title", content: "Your wallpaper download · AnimeVerse Store" },
+      { property: "og:title", content: "Your wallpaper download · GameCastle Anime Store" },
       {
         property: "og:description",
         content: "Payment confirmed — your 4K wallpaper pack download link is ready.",

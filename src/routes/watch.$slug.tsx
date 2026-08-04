@@ -29,8 +29,8 @@ export const Route = createFileRoute("/watch/$slug")({
     if (!loaderData)
       return { meta: [{ title: "Unavailable" }, { name: "robots", content: "noindex" }] };
     const a = loaderData.anime;
-    const title = `Watch ${a.title} — Player, Episodes & Streaming Guide · AnimeVerse`;
-    const desc = `Play ${a.title} in the AnimeVerse player: official video, full episode list and every licensed platform streaming it right now.`;
+    const title = `Watch ${a.title} — Player, Episodes & Streaming Guide · GameCastle Anime`;
+    const desc = `Play ${a.title} in the GameCastle Anime player: official video, full episode list and every licensed platform streaming it right now.`;
     return {
       meta: [
         { title },
@@ -228,7 +228,7 @@ function WatchPage() {
               Compare all platforms <ExternalLink className="h-3 w-3" />
             </Link>
             <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-              AnimeVerse streams only official video and links to licensed platforms — no pirated sources.
+              GameCastle Anime streams only official video and links to licensed platforms — no pirated sources.
             </p>
           </div>
         </aside>

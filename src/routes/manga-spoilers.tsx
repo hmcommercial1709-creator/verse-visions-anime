@@ -6,13 +6,13 @@ import { EyeOff, BookOpen, AlertTriangle } from "lucide-react";
 
 const TITLE = "Manga Spoilers Hub — Chapter Breakdowns Ahead of the Anime";
 const DESC =
-  "Manga-ahead coverage for AnimeVerse: chapter-by-chapter breakdowns, adaptation gaps, and what anime-only viewers have not seen yet — every major reveal kept behind a spoiler gate.";
+  "Manga-ahead coverage for GameCastle Anime: chapter-by-chapter breakdowns, adaptation gaps, and what anime-only viewers have not seen yet — every major reveal kept behind a spoiler gate.";
 const URL = absoluteUrl("/manga-spoilers");
 
 export const Route = createFileRoute("/manga-spoilers")({
   head: () => ({
     meta: [
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },

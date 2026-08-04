@@ -3,15 +3,15 @@ import { Breadcrumbs } from "@/components/ui-bits";
 import { authors } from "@/data/articles";
 import { ShieldCheck, PenLine, Scale, Users } from "lucide-react";
 
-const TITLE = "About AnimeVerse — Our Anime Editorial Team & Analysis Mission";
+const TITLE = "About GameCastle Anime — Our Anime Editorial Team & Analysis Mission";
 const DESC =
-  "Meet the AnimeVerse editorial team and read how we research, review, and analyse anime: independent long-form criticism, watch orders, and franchise deep dives written by humans.";
+  "Meet the GameCastle Anime editorial team and read how we research, review, and analyse anime: independent long-form criticism, watch orders, and franchise deep dives written by humans.";
 const URL = "https://gamecastle.store/about";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/about")({
           description: DESC,
           publisher: {
             "@type": "Organization",
-            name: "AnimeVerse",
+            name: "GameCastle Anime",
             url: "https://gamecastle.store/",
             employee: authors.map((a) => ({ "@type": "Person", name: a.name, jobTitle: a.role })),
           },
@@ -43,7 +43,7 @@ export const Route = createFileRoute("/about")({
 });
 
 const pillars = [
-  { icon: PenLine, title: "Original writing only", body: "Every recap, review, and guide on AnimeVerse is written from scratch by a member of our team after watching the material. We do not republish synopses, subtitle scripts, or scraped summaries." },
+  { icon: PenLine, title: "Original writing only", body: "Every recap, review, and guide on GameCastle Anime is written from scratch by a member of our team after watching the material. We do not republish synopses, subtitle scripts, or scraped summaries." },
   { icon: Scale, title: "Analysis over hype", body: "Our reviews argue a position and show the work: direction, storyboarding, adaptation choices, pacing against the source manga. Scores come last, not first." },
   { icon: ShieldCheck, title: "Corrections in the open", body: "When we get something wrong we fix it and say so at the bottom of the article. Facts are checked against primary sources — official sites, credited staff lists, and publisher announcements." },
   { icon: Users, title: "Reader-first monetisation", body: "We are funded by advertising and a small number of affiliate partnerships. Sponsored placements are always labelled, and no advertiser gets to review coverage before publication." },
@@ -53,9 +53,9 @@ function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 lg:px-6 py-12">
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "About Us" }]} />
-      <h1 className="font-display text-4xl lg:text-5xl font-bold">About AnimeVerse</h1>
+      <h1 className="font-display text-4xl lg:text-5xl font-bold">About GameCastle Anime</h1>
       <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-        AnimeVerse is an independent anime publication. We write long-form criticism, franchise deep dives, episode
+        GameCastle Anime is an independent anime publication. We write long-form criticism, franchise deep dives, episode
         analysis, and the practical guides — watch orders, arc breakdowns, beginner routes — that fans actually search
         for. No streams, no downloads: just editorial.
       </p>
@@ -65,7 +65,7 @@ function AboutPage() {
         <div className="mt-4 space-y-4 text-foreground/85 leading-relaxed">
           <p>
             Anime coverage online splits into two piles: news aggregation that vanishes in a day, and forum arguments
-            nobody can find twice. We built AnimeVerse for the middle — durable, structured analysis that is still
+            nobody can find twice. We built GameCastle Anime for the middle — durable, structured analysis that is still
             useful three seasons later.
           </p>
           <p>

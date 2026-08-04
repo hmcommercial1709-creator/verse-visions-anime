@@ -179,5 +179,5 @@ export const backdropFor = (slug: string, _hints: string[] = []): MediaArt =>
 /** Descriptive alt text — original art, so it is described rather than credited. */
 export const artAlt = (title: string, kind: "poster" | "backdrop" = "backdrop"): string =>
   kind === "poster"
-    ? `Original AnimeVerse poster illustration representing ${title}`
-    : `Original AnimeVerse key-visual artwork for ${title}`;
+    ? `Original GameCastle Anime poster illustration representing ${title}`
+    : `Original GameCastle Anime key-visual artwork for ${title}`;

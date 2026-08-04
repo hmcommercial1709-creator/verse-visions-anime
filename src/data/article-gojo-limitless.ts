@@ -1,4 +1,5 @@
 import type { Article } from "./articles";
+import limitlessArt from "@/assets/media/art-limitless.webp.asset.json";
 
 /**
  * Master article — Jujutsu Kaisen / Lore / Power Scaling.
@@ -7,20 +8,48 @@ import type { Article } from "./articles";
 export const gojoLimitlessArticle: Article = {
   slug: "gojo-satoru-limitless-technique-explained",
   section: "guides",
+  category: "strategy",
+  tags: ["jujutsu-kaisen", "gojo", "limitless", "infinity", "cursed-techniques"],
   title:
     "Satoru Gojo's Limitless Technique Explained: How It Works, Physics, and Hidden Weaknesses (Full Analysis)",
+  seoTitle: "Gojo's Limitless Explained: Infinity, Blue, Red & Purple",
   excerpt:
     "A complete breakdown of Limitless — the infinity barrier, Blue, Red, Purple, Unlimited Void, and the specific conditions under which the strongest sorcerer alive can actually be beaten.",
+  ogImage: limitlessArt.url,
   author: "rowan-fitzgerald",
   date: "2026-07-24",
+  updated: "2026-08-05",
   tag: "Jujutsu Kaisen · Lore & Power Scaling",
   cover: "linear-gradient(135deg, #1b2a6b, #0b0d1c 55%, #4c1d95)",
   body: [],
   related: ["jujutsu-kaisen"],
+  faqs: [
+    {
+      q: "What is Gojo's Limitless technique?",
+      a: "Limitless is the Gojo family's inherited cursed technique for manipulating space. Its neutral form, Infinity, divides the remaining distance between Gojo and an approaching object so the object slows without reaching him.",
+    },
+    {
+      q: "What is the difference between Limitless and Infinity?",
+      a: "Limitless is the complete inherited technique. Infinity is its neutral defensive application. Blue creates attraction, Red creates repulsion, Purple combines them, and Unlimited Void is Gojo's Domain Expansion.",
+    },
+    {
+      q: "Why can Gojo use Limitless so efficiently?",
+      a: "The Six Eyes gives Gojo exceptionally precise perception and cursed-energy control. That precision reduces waste enough for him to maintain Infinity continuously while still using the technique's more expensive applications.",
+    },
+    {
+      q: "What do Blue, Red and Purple do?",
+      a: "Blue creates a spatial deficit that pulls matter inward. Red reverses that operation and repels matter outward. Purple combines the two settings into Gojo's most destructive non-domain attack.",
+    },
+    {
+      q: "Can Gojo's Infinity be bypassed?",
+      a: "Yes, under specific conditions. Domain effects, technique nullification and attacks that target space itself can bypass or neutralise the distance-based defence. Major examples are kept behind the article's manga spoiler gate.",
+    },
+  ],
   sections: [
     {
       heading: "Why Limitless Is the Most Misread Technique in Jujutsu Kaisen",
       paragraphs: [
+        "Quick answer: Limitless is the Gojo family's inherited technique for controlling space. Infinity is the neutral barrier that prevents attacks from reaching Gojo; Blue produces attraction, Red produces repulsion, Purple combines both operations, and Unlimited Void overwhelms a target with information. The Six Eyes does not replace Limitless — it gives Gojo the precision to run it at extraordinary efficiency. New viewers can use our [Jujutsu Kaisen watch order](/article/jujutsu-kaisen-watch-order-and-manga-jump) before entering the spoiler-labelled sections below.",
         "Satoru Gojo is introduced as an answer rather than a question. Before the audience understands what cursed energy is, it is told that this man is the strongest, and the story spends its first season quietly proving it by removing him from rooms so that other characters have something to do. That framing creates a problem for readers who care about mechanics: a technique described as unbeatable stops being interesting. Limitless is the opposite of unbeatable. It is one of the most tightly specified abilities in modern shonen, with a defined operating principle, a measurable resource cost, and failure conditions that the story returns to again and again.",
         "The confusion is understandable. Limitless is presented through spectacle — a hand raised, an attack stopping in mid-air, a crater where a building used to be — and spectacle hides rules. This analysis strips the spectacle away. We will define what the technique manipulates, why the Six Eyes is functionally inseparable from it, how each named application changes the underlying operation, and where the genuine, textual weaknesses are. Nothing here relies on fan power-scaling shorthand; every claim is anchored to how the series itself describes the ability and to what happens on the page when it is used.",
         "There is a second reason this matters beyond trivia. Jujutsu Kaisen is a series about specialists — sorcerers whose entire value is one narrow, inherited, often awkward technique — and Limitless is the outlier that appears to break that premise by being good at everything. It does not. It is a single principle applied at three settings plus a domain, and every one of those settings has a cost, a tell, and a category of attack it cannot answer. Read that way, Gojo stops being a plot device and becomes the best-designed problem in the story: the reason every villain has to be smart instead of strong.",

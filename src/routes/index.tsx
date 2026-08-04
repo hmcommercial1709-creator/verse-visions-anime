@@ -2,8 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { getAnime } from "@/data/animes";
 import { videoSummaries, KIND_LABEL } from "@/data/video-summaries";
 import { VideoSummaryCard } from "@/components/video-summary";
-import { episodes } from "@/data/episodes";
-
 import {
   populatedGenres,
   populatedStudios,
@@ -22,7 +20,7 @@ import { EngagementWidget } from "@/components/engagement-poll";
 import { InfiniteArticleFeed } from "@/components/article-feed";
 import { LazySection } from "@/components/lazy-section";
 import { MediaImage, VideoEmbed } from "@/components/media";
-import { backdrops, backdropFor, posterFor, artAlt } from "@/lib/media";
+import { backdrops, backdropFor, artAlt } from "@/lib/media";
 import { ArrowRight } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
@@ -38,10 +36,6 @@ const HERO_SLUGS = [
 ];
 
 const HUB_SLUGS = ["bleach", "naruto", "hunter-x-hunter", "my-hero-academia"];
-
-/** Slug of the newest episode's series — the above-the-fold player poster (LCP). */
-const LCP_SLUG =
-  [...episodes].sort((a, b) => (a.airDate < b.airDate ? 1 : -1))[0]?.animeSlug ?? HERO_SLUGS[0];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -73,14 +67,6 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "canonical", href: `${SITE_URL}/` },
       ...hreflangLinks("/"),
-      // LCP is the above-the-fold player poster — preload it at high priority.
-      {
-        rel: "preload",
-        as: "image",
-        href: posterFor(LCP_SLUG).src,
-        imagesrcset: posterFor(LCP_SLUG).srcSet,
-        fetchpriority: "high",
-      },
     ],
   }),
 

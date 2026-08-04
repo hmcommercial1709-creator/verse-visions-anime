@@ -144,32 +144,23 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                     type="button"
                     onClick={() => select(i)}
                     aria-current={i === active ? "true" : undefined}
-                    className={`w-[190px] shrink-0 snap-start overflow-hidden rounded-xl border text-left transition-colors ${
+                    aria-label={`Play ${c.anime.title}, episode ${c.ep.number}: ${c.ep.title}`}
+                    className={`flex w-[210px] shrink-0 snap-start items-start gap-3 rounded-xl border p-3 text-left transition-colors ${
                       i === active ? "border-primary bg-primary/10" : "border-border/60 bg-card/40 hover:border-primary/50"
                     }`}
                   >
-                    <div className="relative">
-                      <MediaImage
-                        art={posterFor(c.anime.slug, [c.anime.title])}
-                        alt={artAlt(c.anime.title, "poster")}
-                        ratio="16/9"
-                        imgClassName="object-cover object-top"
-                        sizes="190px"
-                        overlay={false}
-                      />
-                      <span className="absolute left-1.5 top-1.5 rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold text-primary-foreground">
-                        EP {c.ep.number}
-                      </span>
-                    </div>
-                    <div className="p-2.5">
-                      <div className="truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-xs font-bold text-primary">
+                      EP {c.ep.number}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
                         {c.anime.title}
-                      </div>
-                      <div className="mt-1 line-clamp-1 text-xs font-bold">{c.ep.title}</div>
-                      <div className="mt-1 flex items-center gap-1 text-[10px] text-muted-foreground">
+                      </span>
+                      <span className="mt-1 block line-clamp-2 text-xs font-bold leading-snug">{c.ep.title}</span>
+                      <span className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground">
                         <Clock className="h-3 w-3" /> {c.ep.runtime}
-                      </div>
-                    </div>
+                      </span>
+                    </span>
                   </button>
                 ))}
               </div>
@@ -188,17 +179,9 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                     to="/watch/$slug"
                     params={{ slug: a.slug }}
                     search={{ ep: undefined }}
-                    className="grid grid-cols-[24px_44px_minmax(0,1fr)] items-center gap-3 rounded-xl border border-border/60 bg-card/40 p-2 hover:border-primary/50"
+                    className="grid grid-cols-[28px_minmax(0,1fr)] items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-3 py-2.5 hover:border-primary/50"
                   >
                     <span className="text-center font-display text-lg font-bold text-muted-foreground">{i + 1}</span>
-                    <MediaImage
-                      art={posterFor(a.slug, [a.title])}
-                      alt={artAlt(a.title, "poster")}
-                      ratio="2/3"
-                      className="rounded-md"
-                      sizes="44px"
-                      overlay={false}
-                    />
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-semibold">{a.title}</span>
                       <span className="mt-0.5 flex items-center gap-2 text-[11px] text-muted-foreground">

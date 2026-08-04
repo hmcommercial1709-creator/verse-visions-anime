@@ -279,6 +279,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "hunter-x-hunter-nen-system-guide",
+    publicationStatus: "archived",
     category: "gaming-guides",
     section: "guides",
     title: "The Nen System, Fully Explained: Categories, Conditions and Why It Still Sets the Standard",

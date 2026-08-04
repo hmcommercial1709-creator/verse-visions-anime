@@ -9,17 +9,13 @@ type Tag = {
   attrs?: Record<string, string>;
 };
 
-/**
- * Third-party tags (analytics, ads) are injected after the page is interactive
- * instead of blocking the critical path. They contribute nothing to first
- * paint, so loading them on idle keeps LCP and TBT low without losing data.
- */
-const TAGS: Tag[] = [
-  {
-    id: "adsense-lib",
-    src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
-    crossOrigin: "anonymous",
-  },
+const ADSENSE_TAG: Tag = {
+  id: "adsense-lib",
+  src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
+  crossOrigin: "anonymous",
+};
+
+const SUPPORT_TAGS: Tag[] = [
   { id: "ga4-lib", src: "https://www.googletagmanager.com/gtag/js?id=G-LETSF76JTN" },
   {
     id: "ga4-init",
@@ -38,9 +34,8 @@ const TAGS: Tag[] = [
   },
 ];
 
-
-function injectAll() {
-  for (const tag of TAGS) {
+function inject(tags: Tag[]) {
+  for (const tag of tags) {
     if (document.getElementById(tag.id)) continue;
     const el = document.createElement("script");
     el.id = tag.id;
@@ -56,31 +51,55 @@ function injectAll() {
   }
 }
 
+/**
+ * Keep third-party work outside the critical rendering window. Analytics and
+ * the lightweight beacon start on idle. AdSense starts after real engagement,
+ * or after a 15-second fallback so an interested reader still sees ads without
+ * ads competing with the article, LCP or the first interaction.
+ */
 export function DeferredScripts() {
   useEffect(() => {
-    let done = false;
-    const run = () => {
-      if (done) return;
-      done = true;
-      injectAll();
-    };
+    let disposed = false;
+    let supportLoaded = false;
+    let adsLoaded = false;
 
     const idle = (window as unknown as {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
     }).requestIdleCallback;
 
-    // Third-party tags are the single biggest source of main-thread blocking.
-    // AdSense, analytics and the beacon start only after useful content is
-    // interactive; queued manual ad slots are processed when the library arrives.
-    const schedule = () => (idle ? idle(run, { timeout: 4000 }) : window.setTimeout(run, 200));
-    const timer = window.setTimeout(schedule, 2500);
-    // Real engagement pulls them in sooner — but still via idle, never inline.
-    const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown"];
-    events.forEach((e) => window.addEventListener(e, schedule, { once: true, passive: true }));
+    const onIdle = (callback: () => void, timeout: number) => {
+      const guarded = () => {
+        if (!disposed) callback();
+      };
+      return idle ? idle(guarded, { timeout }) : window.setTimeout(guarded, Math.min(timeout, 250));
+    };
+
+    const loadSupport = () => {
+      if (supportLoaded) return;
+      supportLoaded = true;
+      inject(SUPPORT_TAGS);
+    };
+
+    const loadAds = () => {
+      if (adsLoaded) return;
+      adsLoaded = true;
+      inject([ADSENSE_TAG]);
+    };
+
+    const supportTimer = window.setTimeout(() => onIdle(loadSupport, 2500), 2500);
+    const adsTimer = window.setTimeout(() => onIdle(loadAds, 2000), 15000);
+
+    // An engaged visitor should not wait for the fallback. Scheduling on idle
+    // keeps the interaction itself responsive while preserving ad impressions.
+    const engage = () => onIdle(loadAds, 800);
+    const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "scroll", "touchstart"];
+    events.forEach((event) => window.addEventListener(event, engage, { once: true, passive: true }));
 
     return () => {
-      window.clearTimeout(timer);
-      events.forEach((e) => window.removeEventListener(e, schedule));
+      disposed = true;
+      window.clearTimeout(supportTimer);
+      window.clearTimeout(adsTimer);
+      events.forEach((event) => window.removeEventListener(event, engage));
     };
   }, []);
 

@@ -9,13 +9,7 @@ type Tag = {
   attrs?: Record<string, string>;
 };
 
-const ADSENSE_TAG: Tag = {
-  id: "adsense-lib",
-  src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
-  crossOrigin: "anonymous",
-};
-
-const SUPPORT_TAGS: Tag[] = [
+const THIRD_PARTY_TAGS: Tag[] = [
   { id: "ga4-lib", src: "https://www.googletagmanager.com/gtag/js?id=G-LETSF76JTN" },
   {
     id: "ga4-init",
@@ -31,6 +25,11 @@ const SUPPORT_TAGS: Tag[] = [
     type: "module",
     src: "https://static.cloudflareinsights.com/beacon.min.js",
     attrs: { "data-cf-beacon": '{"token": "c56a7a14c83d442c9d5e830751558e64"}' },
+  },
+  {
+    id: "adsense-lib",
+    src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
+    crossOrigin: "anonymous",
   },
 ];
 
@@ -52,53 +51,44 @@ function inject(tags: Tag[]) {
 }
 
 /**
- * Keep third-party work outside the critical rendering window. Analytics and
- * the lightweight beacon start on idle. AdSense starts after real engagement,
- * or after a 15-second fallback so an interested reader still sees ads without
- * ads competing with the article, LCP or the first interaction.
+ * Keep all non-essential third-party work outside the critical rendering
+ * window. Engaged readers get analytics, the beacon and AdSense immediately on
+ * idle; a 15-second fallback still loads them for readers who begin by reading
+ * without touching the page.
  */
 export function DeferredScripts() {
   useEffect(() => {
     let disposed = false;
-    let supportLoaded = false;
-    let adsLoaded = false;
+    let loaded = false;
 
     const idle = (window as unknown as {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
     }).requestIdleCallback;
 
-    const onIdle = (callback: () => void, timeout: number) => {
+    const load = () => {
+      if (disposed || loaded) return;
+      loaded = true;
+      inject(THIRD_PARTY_TAGS);
+    };
+
+    const onIdle = (timeout: number) => {
       const guarded = () => {
-        if (!disposed) callback();
+        if (!disposed) load();
       };
       return idle ? idle(guarded, { timeout }) : window.setTimeout(guarded, Math.min(timeout, 250));
     };
 
-    const loadSupport = () => {
-      if (supportLoaded) return;
-      supportLoaded = true;
-      inject(SUPPORT_TAGS);
-    };
-
-    const loadAds = () => {
-      if (adsLoaded) return;
-      adsLoaded = true;
-      inject([ADSENSE_TAG]);
-    };
-
-    const supportTimer = window.setTimeout(() => onIdle(loadSupport, 2500), 2500);
-    const adsTimer = window.setTimeout(() => onIdle(loadAds, 2000), 15000);
+    const fallbackTimer = window.setTimeout(() => onIdle(2000), 15000);
 
     // An engaged visitor should not wait for the fallback. Scheduling on idle
     // keeps the interaction itself responsive while preserving ad impressions.
-    const engage = () => onIdle(loadAds, 800);
+    const engage = () => onIdle(800);
     const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "scroll", "touchstart"];
     events.forEach((event) => window.addEventListener(event, engage, { once: true, passive: true }));
 
     return () => {
       disposed = true;
-      window.clearTimeout(supportTimer);
-      window.clearTimeout(adsTimer);
+      window.clearTimeout(fallbackTimer);
       events.forEach((event) => window.removeEventListener(event, engage));
     };
   }, []);

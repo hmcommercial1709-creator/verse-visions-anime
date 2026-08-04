@@ -1,18 +1,15 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import {
-  articleParagraphs,
-  categoryForArticle,
-  getAuthor,
-  type Article,
-} from "@/data/articles";
+import { articleParagraphs, categoryForArticle, getAuthor, type Article } from "@/data/articles";
 import { getCategory } from "@/data/categories";
-import {
-  populatedCategories,
-  publishedArticles,
-} from "@/lib/content-registry";
+import { populatedCategories, publishedArticles } from "@/lib/content-registry";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { HeaderBannerAd, InArticleAd, PostContentAd,
-  MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
+import {
+  HeaderBannerAd,
+  InArticleAd,
+  PostContentAd,
+  MultiplexAd,
+  StickySidebarAd,
+} from "@/components/ad-slot";
 import { MediaImage } from "@/components/media";
 import { backdropFor, artAlt } from "@/lib/media";
 import { readingLabel } from "@/lib/reading";
@@ -31,7 +28,12 @@ export const Route = createFileRoute("/category/$slug")({
   head: ({ params, loaderData }) => {
     const url = `https://gamecastle.store/category/${params.slug}`;
     if (!loaderData) {
-      return { meta: [{ title: "Category not found · GameCastle Anime" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [
+          { title: "Category not found · GameCastle Anime" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
     const c = loaderData.category;
     const hasPublishedArticles = loaderData.articleCount > 0;
@@ -40,9 +42,7 @@ export const Route = createFileRoute("/category/$slug")({
       meta: [
         { title },
         { name: "description", content: c.description },
-        ...(!hasPublishedArticles
-          ? [{ name: "robots", content: "noindex, follow" }]
-          : []),
+        ...(!hasPublishedArticles ? [{ name: "robots", content: "noindex, follow" }] : []),
         { property: "og:title", content: title },
         { property: "og:description", content: c.description },
         { property: "og:type", content: "website" },
@@ -97,8 +97,12 @@ function Card({ a, featured = false }: { a: Article; featured?: boolean }) {
         />
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">{a.tag}</div>
-        <h3 className={`mt-1.5 font-display font-bold leading-snug group-hover:text-gradient ${featured ? "text-2xl" : "text-lg"}`}>
+        <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
+          {a.tag}
+        </div>
+        <h3
+          className={`mt-1.5 font-display font-bold leading-snug group-hover:text-gradient ${featured ? "text-2xl" : "text-lg"}`}
+        >
           {a.title}
         </h3>
         <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{a.excerpt}</p>
@@ -122,11 +126,23 @@ function CategoryPage() {
   return (
     <div>
       <HeaderBannerAd />
-      <section className="relative overflow-hidden border-b border-border/60" style={{ background: category.gradient }}>
+      <section
+        className="relative overflow-hidden border-b border-border/60"
+        style={{ background: category.gradient }}
+      >
         <div className="bg-background/70">
           <div className="mx-auto max-w-7xl px-4 py-14 lg:px-6">
-            <Breadcrumbs items={[{ to: "/", label: "Home" }, { to: "/blog", label: "Blog" }, { label: category.name }]} />
-            <div className="text-xs font-semibold uppercase tracking-[0.22em]" style={{ color: category.accent }}>
+            <Breadcrumbs
+              items={[
+                { to: "/", label: "Home" },
+                { to: "/blog", label: "Blog" },
+                { label: category.name },
+              ]}
+            />
+            <div
+              className="text-xs font-semibold uppercase tracking-[0.22em]"
+              style={{ color: category.accent }}
+            >
               {category.tagline}
             </div>
             <h1 className="mt-2 font-display text-5xl font-bold lg:text-6xl">{category.name}</h1>
@@ -151,10 +167,13 @@ function CategoryPage() {
             {list.length === 0 ? (
               <div className="mt-4 rounded-xl border border-border/60 bg-card/40 p-6">
                 <p className="text-muted-foreground">
-                  This category has no published articles and is excluded from search engines
-                  until it offers a useful collection.
+                  This category has no published articles and is excluded from search engines until
+                  it offers a useful collection.
                 </p>
-                <Link to="/blog" className="mt-4 inline-flex font-semibold text-primary hover:underline">
+                <Link
+                  to="/blog"
+                  className="mt-4 inline-flex font-semibold text-primary hover:underline"
+                >
                   Browse all published articles
                 </Link>
               </div>
@@ -190,7 +209,9 @@ function CategoryPage() {
                     className="group flex items-center justify-between rounded-xl border border-border/60 bg-card/40 px-4 py-3 hover:border-primary/50"
                   >
                     <span>
-                      <span className="font-display font-bold group-hover:text-gradient">{c.name}</span>
+                      <span className="font-display font-bold group-hover:text-gradient">
+                        {c.name}
+                      </span>
                       <span className="block text-xs text-muted-foreground">{c.tagline}</span>
                     </span>
                     <ArrowRight className="h-4 w-4 text-muted-foreground" />

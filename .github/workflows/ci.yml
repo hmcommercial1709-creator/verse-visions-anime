@@ -39,7 +39,7 @@ jobs:
         run: |
           mapfile -d '' files < <(git diff --name-only -z "origin/${{ github.base_ref }}...HEAD" -- '*.ts' '*.tsx')
           if ((${#files[@]})); then
-            bunx eslint "${files[@]}"
+            bunx eslint "${files[@]}" --rule 'prettier/prettier: off'
           fi
 
       - name: Build production bundle

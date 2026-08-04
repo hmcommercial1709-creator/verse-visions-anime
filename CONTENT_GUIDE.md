@@ -1,7 +1,7 @@
-# AnimeVerse — Content Authoring Guide
+# GameCastle Anime — Content Authoring Guide
 
 This document is the source of truth for how editors add content to
-AnimeVerse without touching route files, SEO wiring, sitemap, search,
+GameCastle Anime without touching route files, SEO wiring, sitemap, search,
 or the recommendation engine.
 
 > The content engine is data-driven. If you add a record correctly, it
@@ -19,7 +19,18 @@ or the recommendation engine.
   Episode recaps are original editorial. Quotes are short and
   attributed.
 - **Never use placeholder authors, reviewers, or dates** to make a
-  page look more authoritative than it is.
+  page look more authoritative than it is. GameCastle Anime publishes
+  under one organisational byline — the GameCastle Anime Editorial Team
+  (`EDITORIAL_DESK` in `src/data/articles.ts`). Do not add named staff
+  profiles, job titles, former employers, or years-of-experience claims.
+- **Everything must be verifiable before publish.** Credentials,
+  metrics, scores, rating counts, dates, awards and streaming
+  availability all need a source you can point to in the repo or an
+  external citation. Scores are labelled as *editorial* judgement and
+  are never presented as community or aggregated ratings; never emit
+  `AggregateRating` / `Review` structured data unless the page shows a
+  genuine, labelled editorial review. If you cannot verify a claim,
+  soften it or cut it — do not invent support.
 - **Draft first, publish deliberately.** Set `publicationStatus:
   "draft"` on any record that is not editorially complete. Drafts stay
   routable at their URL but are excluded from sitemap, search, and

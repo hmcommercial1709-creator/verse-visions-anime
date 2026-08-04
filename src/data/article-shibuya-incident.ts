@@ -2,7 +2,7 @@ import type { Article } from "./articles";
 
 /**
  * Cluster article — Jujutsu Kaisen / Story Arc / Analysis.
- * Original AnimeVerse editorial analysis. No script excerpts, no reproduced panels.
+ * Original GameCastle Anime editorial analysis. No script excerpts, no reproduced panels.
  */
 export const shibuyaIncidentArticle: Article = {
   slug: "shibuya-incident-timeline",
@@ -30,7 +30,7 @@ export const shibuyaIncidentArticle: Article = {
         {
           type: "image",
           art: "shibuya",
-          caption: "Original AnimeVerse key visual: a sealed metropolitan station at the hour the curtain drops.",
+          caption: "Original GameCastle Anime key visual: a sealed metropolitan station at the hour the curtain drops.",
         },
       ],
     },

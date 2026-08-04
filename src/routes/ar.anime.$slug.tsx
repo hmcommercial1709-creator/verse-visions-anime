@@ -18,7 +18,6 @@ export const Route = createFileRoute("/ar/anime/$slug")({
       meta: [
         { title: g.titleTag },
         { name: "description", content: g.metaDescription },
-        { name: "keywords", content: g.keywords.join("، ") },
         { property: "og:title", content: g.titleTag },
         { property: "og:description", content: g.metaDescription },
         { property: "og:type", content: "article" },

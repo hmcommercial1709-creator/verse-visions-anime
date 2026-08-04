@@ -25,7 +25,7 @@ const KIND_META: Record<AffiliateProduct["kind"], { label: string; Icon: typeof 
  */
 export function productsForContext(anime?: Anime | null, fallbackTitle = "GameCastle Anime Picks"): AffiliateProduct[] {
   const name = anime?.title ?? fallbackTitle;
-  const slug = anime?.slug ?? "animeverse";
+  const slug = anime?.slug ?? "gamecastle-anime";
   return [
     {
       id: `${slug}-figure`,
@@ -33,7 +33,6 @@ export function productsForContext(anime?: Anime | null, fallbackTitle = "GameCa
       title: `${name} — 1/7 Scale Figure`,
       subtitle: "Licensed scale statue, sculpted display base",
       price: "$149.99",
-      rating: 4.8,
       retailer: "Amazon",
       href: "https://www.amazon.com",
       cta: "Buy Official Figure",
@@ -44,7 +43,6 @@ export function productsForContext(anime?: Anime | null, fallbackTitle = "GameCa
       title: `${name} — Manga Box Set`,
       subtitle: "Official English edition, complete first arc",
       price: "$64.99",
-      rating: 4.9,
       retailer: "Bookshop",
       href: "https://bookshop.org",
       cta: "Shop Manga",
@@ -55,7 +53,6 @@ export function productsForContext(anime?: Anime | null, fallbackTitle = "GameCa
       title: `${name} — Art Print Set`,
       subtitle: "Studio-approved key art, museum-grade paper",
       price: "$32.00",
-      rating: 4.6,
       retailer: "Crunchyroll Store",
       href: "https://store.crunchyroll.com",
       cta: "View Deal",

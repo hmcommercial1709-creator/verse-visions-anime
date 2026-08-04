@@ -84,15 +84,22 @@ import { longformArticles } from "./articles-longform";
 const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
 
 
-export const authors = [
-  { slug: "aiko-tanaka", name: "Aiko Tanaka", role: "Editor-in-Chief", bio: "Ten years covering the Japanese animation industry. Formerly Anime News Network, Otaquest, and a permanent seat at Anime Expo." },
-  { slug: "rowan-fitzgerald", name: "Rowan Fitzgerald", role: "Senior Reviews Editor", bio: "Rowan writes the long reviews. Focus areas: seinen, mecha, and Studio Bones. Also a working translator." },
-  { slug: "juno-park", name: "Juno Park", role: "Features Writer", bio: "Juno covers manhwa-to-anime crossover, idol shows, and everything the algorithm underrates." },
-  { slug: "marcus-oduya", name: "Marcus Oduya", role: "News Reporter", bio: "Marcus files the daily beat on studios, licensing, and international streaming." },
-  { slug: "hana-mori", name: "Hana Mori", role: "Guides Editor", bio: "Hana writes the watch orders, glossaries, and beginner explainers that get bookmarked." },
-  { slug: "kenji-arata", name: "Kenji Arata", role: "Esports & Competitive Editor", bio: "Kenji covers competitive scenes, coaching and the sports anime that get training right. Former team analyst." },
-  { slug: "lina-vasquez", name: "Lina Vasquez", role: "RPG & Systems Editor", bio: "Lina writes about progression systems, party theory and worldbuilding that survives a spreadsheet." },
-];
+/**
+ * GameCastle Anime publishes under a single transparent organisational
+ * byline. There are no named staff profiles and no credential claims: every
+ * article is written and checked by the editorial desk. Legacy `author`
+ * slugs on existing records are kept so URLs and data stay stable, but they
+ * all resolve to this one desk identity.
+ */
+export const EDITORIAL_DESK = {
+  slug: "gamecastle-editorial",
+  name: "GameCastle Anime Editorial Team",
+  role: "Editorial Desk",
+  bio: "GameCastle Anime is written and edited in-house. Every recap, guide and analysis is original editorial work based on watching or reading the material, and corrections are welcome through the contact form.",
+} as const;
+
+export const authors = [EDITORIAL_DESK];
+
 
 const coreArticles: Article[] = [
   bestActionThrillerAnime2026Article,
@@ -207,4 +214,6 @@ export const allTags = (): { tag: string; count: number }[] => {
     .map(([tag, count]) => ({ tag, count }))
     .sort((x, y) => y.count - x.count || x.tag.localeCompare(y.tag));
 };
-export const getAuthor = (slug: string) => authors.find((a) => a.slug === slug);
+/** Every legacy author slug resolves to the single editorial desk byline. */
+export const getAuthor = (_slug?: string) => EDITORIAL_DESK;
+

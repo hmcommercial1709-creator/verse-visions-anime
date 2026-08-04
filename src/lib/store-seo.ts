@@ -196,7 +196,6 @@ export function storeSocialMeta(locale: StoreLocaleSeo) {
   return [
     { title: locale.title },
     { name: "description", content: locale.description },
-    { name: "keywords", content: locale.keywords.join(", ") },
     { property: "og:site_name", content: "GameCastle Anime" },
     { property: "og:title", content: locale.ogTitle },
     { property: "og:description", content: locale.ogDescription },

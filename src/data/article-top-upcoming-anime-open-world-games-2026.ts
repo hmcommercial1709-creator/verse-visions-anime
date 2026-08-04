@@ -33,7 +33,7 @@ export const topUpcomingAnimeOpenWorldGames2026Article: Article = {
           type: "image",
           art: "top-upcoming-anime-open-world-games-2026",
           caption:
-            "Original AnimeVerse key visual for the 2026 anime and open-world gaming guide.",
+            "Original GameCastle Anime key visual for the 2026 anime and open-world gaming guide.",
         },
       ],
     },

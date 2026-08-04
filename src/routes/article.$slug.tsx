@@ -114,7 +114,6 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
           title: block.title,
           subtitle: `${block.subtitle} · ${block.offer}`,
           price: block.price,
-          rating: 4.9,
           retailer: block.retailer,
           href: block.href,
           cta: block.cta,
@@ -165,8 +164,8 @@ export const Route = createFileRoute("/article/$slug")({
             mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/article/${a.slug}`) },
             articleSection: a.section,
             wordCount: wordCount(articleParagraphs(a)),
-            author: { "@type": "Person", name: getAuthor(a.author)?.name },
-            publisher: { "@type": "Organization", name: "GameCastle Anime" },
+            author: { "@type": "Organization", name: "GameCastle Anime Editorial Team" },
+            publisher: { "@id": "https://gamecastle.store/#organization" },
           }),
         },
         {
@@ -182,7 +181,7 @@ export const Route = createFileRoute("/article/$slug")({
             },
             {
               q: "Who wrote this analysis?",
-              a: `${getAuthor(a.author)?.name ?? "The GameCastle Anime editorial team"} wrote and fact-checked this piece for GameCastle Anime.`,
+              a: "The GameCastle Anime editorial team. We publish under one organisational byline rather than named staff profiles.",
             },
           ])),
         },
@@ -266,7 +265,7 @@ function ArticlePage() {
                 <div className="h-10 w-10 shrink-0 rounded-full bg-gradient-to-br from-primary to-accent" />
                 <div className="min-w-0">
                   <div className="truncate text-sm font-semibold">{author?.name}</div>
-                  <div className="truncate text-xs text-muted-foreground">{author?.role} · {a.date}</div>
+                  <div className="truncate text-xs text-muted-foreground">Published {a.date}</div>
                   {a.updated && (
                     <div className="truncate text-xs text-muted-foreground">
                       Last updated:{" "}

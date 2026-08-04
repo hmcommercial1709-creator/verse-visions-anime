@@ -9,11 +9,36 @@ import { MediaImage } from "@/components/media";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
+/**
+ * Licensed services to check. Catalogues differ by region and change over
+ * time, so each entry links to that service's own search rather than
+ * asserting the series is available there.
+ */
 const PROVIDERS = [
-  { id: "crunchyroll", label: "Crunchyroll", quality: "1080p · Sub & Dub", url: "https://www.crunchyroll.com/search?q=" },
-  { id: "netflix", label: "Netflix", quality: "1080p · Dub", url: "https://www.netflix.com/search?q=" },
-  { id: "hidive", label: "HIDIVE", quality: "1080p · Sub", url: "https://www.hidive.com/search?q=" },
-  { id: "prime", label: "Prime Video", quality: "1080p · Sub & Dub", url: "https://www.primevideo.com/search?phrase=" },
+  {
+    id: "crunchyroll",
+    label: "Crunchyroll",
+    quality: "Search the Crunchyroll catalogue",
+    url: "https://www.crunchyroll.com/search?q=",
+  },
+  {
+    id: "netflix",
+    label: "Netflix",
+    quality: "Search the Netflix catalogue",
+    url: "https://www.netflix.com/search?q=",
+  },
+  {
+    id: "hidive",
+    label: "HIDIVE",
+    quality: "Search the HIDIVE catalogue",
+    url: "https://www.hidive.com/search?q=",
+  },
+  {
+    id: "prime",
+    label: "Prime Video",
+    quality: "Search Prime Video",
+    url: "https://www.primevideo.com/search?phrase=",
+  },
 ] as const;
 
 export const Route = createFileRoute("/watch/$slug")({
@@ -29,8 +54,8 @@ export const Route = createFileRoute("/watch/$slug")({
     if (!loaderData)
       return { meta: [{ title: "Unavailable" }, { name: "robots", content: "noindex" }] };
     const a = loaderData.anime;
-    const title = `Watch ${a.title} — Player, Episodes & Streaming Guide · GameCastle Anime`;
-    const desc = `Play ${a.title} in the GameCastle Anime player: official video, full episode list and every licensed platform streaming it right now.`;
+    const title = `Where to Watch ${a.title} Legally — Official Trailer & Episode Guide · GameCastle Anime`;
+    const desc = `Watch the official ${a.title} trailer, browse the episode guide and see which licensed streaming services to check. GameCastle Anime does not host episodes.`;
     return {
       meta: [
         { title },
@@ -87,12 +112,12 @@ function WatchPage() {
       />
 
       <h1 className="font-display text-3xl sm:text-5xl font-bold tracking-tight">
-        Watch {anime.title}
+        Where to watch {anime.title} legally
         <span className="text-muted-foreground"> — Episode {current}</span>
       </h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
-        {episode?.title ? `${episode.title}. ` : ""}Press play for the official video, then continue the full episode on
-        the licensed platform of your choice.
+        {episode?.title ? `${episode.title}. ` : ""}Play the official trailer or clip below, then head to a licensed
+        streaming service for the full episode. We do not host or stream episodes here.
       </p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px] items-start">
@@ -104,7 +129,7 @@ function WatchPage() {
                 key={`${videoId}-${current}`}
                 className="absolute inset-0 h-full w-full border-0"
                 src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
-                title={`${anime.title} episode ${current} — official video`}
+                title={`${anime.title} — official trailer or promotional clip`}
                 referrerPolicy="strict-origin-when-cross-origin"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                 allowFullScreen
@@ -125,7 +150,7 @@ function WatchPage() {
                       onClick={() => setPlaying(true)}
                       className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground glow-primary hover:brightness-110"
                     >
-                      <Play className="h-5 w-5 fill-current" /> Play Episode {current}
+                      <Play className="h-5 w-5 fill-current" /> Play official trailer
                     </button>
                   ) : (
                     <a
@@ -134,7 +159,7 @@ function WatchPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground glow-primary hover:brightness-110"
                     >
-                      <Play className="h-5 w-5 fill-current" /> Play on {activeProvider.label}
+                      <Play className="h-5 w-5 fill-current" /> Look for it on {activeProvider.label}
                     </a>
                   )}
                 </div>
@@ -149,7 +174,7 @@ function WatchPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground hover:brightness-110"
             >
-              <MonitorPlay className="h-4 w-4" /> Continue full episode on {activeProvider.label}
+              <MonitorPlay className="h-4 w-4" /> Watch the full episode on {activeProvider.label}
             </a>
             {episode && (
               <Link
@@ -171,7 +196,7 @@ function WatchPage() {
 
           {/* EPISODE SELECTOR */}
           <section className="mt-8">
-            <h2 className="font-display text-2xl font-bold">Episodes</h2>
+            <h2 className="font-display text-2xl font-bold">Episode guide</h2>
             <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10">
               {numbers.map((n) => (
                 <button
@@ -201,7 +226,9 @@ function WatchPage() {
         {/* SIDEBAR */}
         <aside className="space-y-4">
           <div className="rounded-2xl border border-border/60 bg-card/50 p-5">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">Streaming servers</div>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">
+              Where to watch legally
+            </div>
             <div className="mt-3 space-y-1.5">
               {PROVIDERS.map((p) => (
                 <button
@@ -228,7 +255,8 @@ function WatchPage() {
               Compare all platforms <ExternalLink className="h-3 w-3" />
             </Link>
             <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-              GameCastle Anime streams only official video and links to licensed platforms — no pirated sources.
+              GameCastle Anime embeds only official trailers and clips, and links out to licensed services. We never
+              host episodes, downloads or unlicensed sources. Availability varies by region — check the service.
             </p>
           </div>
         </aside>

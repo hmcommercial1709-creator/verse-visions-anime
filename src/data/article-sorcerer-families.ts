@@ -2,7 +2,7 @@ import type { Article } from "./articles";
 
 /**
  * Cluster article — Jujutsu Kaisen / Clans / Lore.
- * Original AnimeVerse editorial analysis. No script excerpts, no reproduced panels.
+ * Original GameCastle Anime editorial analysis. No script excerpts, no reproduced panels.
  */
 export const sorcererFamiliesArticle: Article = {
   slug: "three-great-sorcerer-families",
@@ -30,7 +30,7 @@ export const sorcererFamiliesArticle: Article = {
         {
           type: "image",
           art: "clans",
-          caption: "Original AnimeVerse illustration: three inherited crests, three very different kinds of power.",
+          caption: "Original GameCastle Anime illustration: three inherited crests, three very different kinds of power.",
         },
       ],
     },
@@ -172,7 +172,7 @@ export const sorcererFamiliesArticle: Article = {
           cta: "Check Availability on Official Store",
           href: "https://www.amazon.com",
           retailer: "Official Store",
-          note: "AnimeVerse may earn a commission on purchases made through this link. Pricing and stock are set by the retailer.",
+          note: "GameCastle Anime may earn a commission on purchases made through this link. Pricing and stock are set by the retailer.",
         },
       ],
     },

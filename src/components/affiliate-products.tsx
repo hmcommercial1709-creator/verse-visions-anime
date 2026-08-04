@@ -25,7 +25,7 @@ const KIND_META: Record<AffiliateProduct["kind"], { label: string; Icon: typeof 
  */
 export function productsForContext(anime?: Anime | null, fallbackTitle = "GameCastle Anime Picks"): AffiliateProduct[] {
   const name = anime?.title ?? fallbackTitle;
-  const slug = anime?.slug ?? "animeverse";
+  const slug = anime?.slug ?? "gamecastle-anime";
   return [
     {
       id: `${slug}-figure`,

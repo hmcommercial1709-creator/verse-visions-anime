@@ -11,7 +11,7 @@ export const Route = createFileRoute("/top")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { title: "Top 100 Anime of All Time — Ranked · GameCastle Anime" },
-      { name: "description", content: "The best anime ever made, ranked by our editorial team and community rating." },
+      { name: "description", content: "The best anime ever made, ranked by the GameCastle Anime editorial team." },
       { property: "og:title", content: "Top 100 Anime · GameCastle Anime" },
       { property: "og:description", content: "The definitive ranking." },
     ],

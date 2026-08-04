@@ -1,6 +1,18 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Search, Menu, X, Sparkles, Flame, Compass, Tv, BookOpen, Users, Building2, ChevronDown } from "lucide-react";
+import {
+  Search,
+  Menu,
+  X,
+  Sparkles,
+  Flame,
+  Compass,
+  Tv,
+  BookOpen,
+  Users,
+  Building2,
+  ChevronDown,
+} from "lucide-react";
 import { SearchDialog } from "./search-dialog";
 import { GlobalMenu } from "./global-menu";
 import { LanguageSelector } from "./language-selector";
@@ -31,63 +43,97 @@ const megaGroups = [
     label: "Browse",
     icon: Compass,
     columns: [
-      { title: "Discovery", links: [
-        { to: "/browse", label: "All Anime" },
-        { to: "/seasonal", label: "Seasonal" },
-        { to: "/trending", label: "Trending" },
-        { to: "/top", label: "Top 100" },
-        { to: "/top-rated", label: "Top Rated" },
-        { to: "/upcoming", label: "Upcoming" },
-        { to: "/new-releases", label: "New Releases" },
-        { to: "/completed", label: "Completed" },
-      ]},
-      { title: "By format", links: [
-        { to: "/classic", label: "Classic & Retro" },
-        { to: "/timeline", label: "Anime Timeline" },
-        { to: "/watch-order", label: "Watch Orders" },
-        { to: "/genre/family", label: "Kids & Family" },
-      ]},
+      {
+        title: "Discovery",
+        links: [
+          { to: "/browse", label: "All Anime" },
+          { to: "/seasonal", label: "Seasonal" },
+          { to: "/trending", label: "Trending" },
+          { to: "/top", label: "Top 100" },
+          { to: "/top-rated", label: "Top Rated" },
+          { to: "/upcoming", label: "Upcoming" },
+          { to: "/new-releases", label: "New Releases" },
+          { to: "/completed", label: "Completed" },
+        ],
+      },
+      {
+        title: "By format",
+        links: [
+          { to: "/classic", label: "Classic & Retro" },
+          { to: "/timeline", label: "Anime Timeline" },
+          { to: "/watch-order", label: "Watch Orders" },
+          { to: "/genre/family", label: "Kids & Family" },
+        ],
+      },
 
-      { title: "Popular", links: navAnime.slice(0, 6).map(a => ({ to: `/anime/${a.slug}`, label: a.title })) },
+      {
+        title: "Popular",
+        links: navAnime.slice(0, 6).map((a) => ({ to: `/anime/${a.slug}`, label: a.title })),
+      },
     ],
   },
   {
     label: "Genres",
     icon: Sparkles,
     columns: [
-      { title: "Action & Adventure", links: genreLinks(["action", "adventure", "fantasy", "shonen", "mecha", "sci-fi"]) },
-      { title: "Story & Feels", links: genreLinks(["drama", "romance", "slice-of-life", "comedy", "family", "school"]) },
-      { title: "Dark & Cerebral", links: genreLinks(["mystery", "psychological", "horror", "supernatural", "historical", "isekai"]) },
+      {
+        title: "Action & Adventure",
+        links: genreLinks(["action", "adventure", "fantasy", "shonen", "mecha", "sci-fi"]),
+      },
+      {
+        title: "Story & Feels",
+        links: genreLinks(["drama", "romance", "slice-of-life", "comedy", "family", "school"]),
+      },
+      {
+        title: "Dark & Cerebral",
+        links: genreLinks([
+          "mystery",
+          "psychological",
+          "horror",
+          "supernatural",
+          "historical",
+          "isekai",
+        ]),
+      },
     ],
   },
   {
     label: "Editorial",
     icon: BookOpen,
     columns: [
-      { title: "News & Reviews", links: [
-        { to: "/news", label: "News" },
-        { to: "/reviews", label: "Reviews" },
-        { to: "/top-lists", label: "Top Lists" },
-        { to: "/editorial", label: "Editorial" },
-        { to: "/authors", label: "Our Writers" },
-      ]},
-      { title: "Hubs", links: [
-        { to: "/guides", label: "Anime Guides" },
-        { to: "/manga-spoilers", label: "Manga Spoilers" },
-        { to: "/power-scaling", label: "Power Scaling" },
-        { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
-        { to: "/watch-order", label: "Watch Order" },
-        { to: "/recommendations", label: "Recommendations" },
-      ]},
+      {
+        title: "News & Reviews",
+        links: [
+          { to: "/news", label: "News" },
+          { to: "/reviews", label: "Reviews" },
+          { to: "/top-lists", label: "Top Lists" },
+          { to: "/editorial", label: "Editorial" },
+          { to: "/authors", label: "Our Writers" },
+        ],
+      },
+      {
+        title: "Hubs",
+        links: [
+          { to: "/guides", label: "Anime Guides" },
+          { to: "/manga-spoilers", label: "Manga Spoilers" },
+          { to: "/power-scaling", label: "Power Scaling" },
+          { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
+          { to: "/watch-order", label: "Watch Order" },
+          { to: "/recommendations", label: "Recommendations" },
+        ],
+      },
 
-      { title: "Must-read deep dives", links: [
-        { to: "/article/why-frieren-won-2024", label: "Why Frieren Won the Year" },
-        { to: "/article/review-jujutsu-kaisen-s2", label: "Jujutsu Kaisen S2 Review" },
-        { to: "/article/one-piece-wano-recap", label: "The Complete Wano Recap" },
-        { to: "/article/top-10-anime-2026", label: "10 Best Anime Right Now" },
-        { to: "/quotes", label: "Quotes" },
-        { to: "/soundtracks", label: "Soundtracks" },
-      ]},
+      {
+        title: "Must-read deep dives",
+        links: [
+          { to: "/article/why-frieren-won-2024", label: "Why Frieren Won the Year" },
+          { to: "/article/review-jujutsu-kaisen-s2", label: "Jujutsu Kaisen S2 Review" },
+          { to: "/article/one-piece-wano-recap", label: "The Complete Wano Recap" },
+          { to: "/article/top-10-anime-2026", label: "10 Best Anime Right Now" },
+          { to: "/quotes", label: "Quotes" },
+          { to: "/soundtracks", label: "Soundtracks" },
+        ],
+      },
     ],
   },
 
@@ -95,25 +141,35 @@ const megaGroups = [
     label: "Studios",
     icon: Building2,
     columns: [
-      { title: "Studios", links: [{ to: "/studios", label: "All Studios" }, ...navStudios.slice(0, 5).map(s => ({ to: `/studio/${s.slug}`, label: s.name }))] },
-      { title: "Streaming", links: [
-        { to: "/streaming", label: "Streaming Platforms" },
-        { to: "/awards", label: "Anime Awards" },
-        { to: "/statistics", label: "Statistics" },
-        { to: "/events", label: "Events & Cons" },
-      ]},
-      { title: "GameCastle Anime", links: [
-        { to: "/about", label: "About Us" },
-        { to: "/contact", label: "Contact" },
-        { to: "/editorial-policy", label: "Editorial Policy" },
-        { to: "/privacy-policy", label: "Privacy Policy" },
-        { to: "/terms-of-service", label: "Terms of Service" },
-        { to: "/faq", label: "FAQ" },
-      ]},
-
+      {
+        title: "Studios",
+        links: [
+          { to: "/studios", label: "All Studios" },
+          ...navStudios.slice(0, 5).map((s) => ({ to: `/studio/${s.slug}`, label: s.name })),
+        ],
+      },
+      {
+        title: "Streaming",
+        links: [
+          { to: "/streaming", label: "Streaming Platforms" },
+          { to: "/awards", label: "Anime Awards" },
+          { to: "/statistics", label: "Statistics" },
+          { to: "/events", label: "Events & Cons" },
+        ],
+      },
+      {
+        title: "GameCastle Anime",
+        links: [
+          { to: "/about", label: "About Us" },
+          { to: "/contact", label: "Contact" },
+          { to: "/editorial-policy", label: "Editorial Policy" },
+          { to: "/privacy-policy", label: "Privacy Policy" },
+          { to: "/terms-of-service", label: "Terms of Service" },
+          { to: "/faq", label: "FAQ" },
+        ],
+      },
     ],
   },
-
 ];
 
 /** Direct category hubs surfaced in the main navigation. */
@@ -127,7 +183,6 @@ const categoryHubs = [
   { to: "/news", label: "News" },
   { to: "/blog", label: "All Articles" },
 ];
-
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -159,14 +214,16 @@ export function SiteHeader() {
     <>
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled
-            ? "bg-background/95 border-b border-border/60"
-            : "bg-background/70"
+          scrolled ? "bg-background/95 border-b border-border/60" : "bg-background/70"
         }`}
         onMouseLeave={() => setOpenMenu(null)}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 lg:px-6">
-          <Link to="/" aria-label="GameCastle Anime home" className="flex items-center gap-2 shrink-0">
+          <Link
+            to="/"
+            aria-label="GameCastle Anime home"
+            className="flex items-center gap-2 shrink-0"
+          >
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent glow-primary">
               <Flame className="h-5 w-5 text-primary-foreground" />
             </div>
@@ -174,7 +231,9 @@ export function SiteHeader() {
               <div className="font-display text-lg font-bold tracking-tight">
                 Game<span className="text-gradient">Castle</span> Anime
               </div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Anime Guides, Watch Orders & Power Systems</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                Anime Guides, Watch Orders & Power Systems
+              </div>
             </div>
           </Link>
 
@@ -185,7 +244,9 @@ export function SiteHeader() {
                 onMouseEnter={() => setOpenMenu(g.label)}
                 onClick={() => setOpenMenu(openMenu === g.label ? null : g.label)}
                 className={`flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                  openMenu === g.label ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                  openMenu === g.label
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
                 }`}
               >
                 <g.icon className="h-3.5 w-3.5" />
@@ -193,14 +254,19 @@ export function SiteHeader() {
                 <ChevronDown className="h-3 w-3 opacity-70" />
               </button>
             ))}
-            <Link to="/characters" className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5">
+            <Link
+              to="/characters"
+              className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5"
+            >
               <Users className="h-3.5 w-3.5" /> Characters
             </Link>
-            <Link to="/blog" className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5">
+            <Link
+              to="/blog"
+              className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5"
+            >
               <Tv className="h-3.5 w-3.5" /> Blog
             </Link>
           </nav>
-
 
           <div className="ml-auto flex items-center gap-2">
             <button
@@ -209,9 +275,14 @@ export function SiteHeader() {
             >
               <Search className="h-4 w-4" />
               <span>{t("search")}…</span>
-              <span className="ml-auto rounded border border-border/60 px-1.5 py-0.5 text-[10px] font-mono">⌘K</span>
+              <span className="ml-auto rounded border border-border/60 px-1.5 py-0.5 text-[10px] font-mono">
+                ⌘K
+              </span>
             </button>
-            <button onClick={() => setSearchOpen(true)} className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground"
+            >
               <Search className="h-5 w-5" />
             </button>
             <LanguageSelector variant="header" />
@@ -224,7 +295,11 @@ export function SiteHeader() {
               <Menu className="h-4 w-4" />
               <span className="hidden sm:inline">{t("menu")}</span>
             </button>
-            <button className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground" onClick={() => setMobileOpen(true)} aria-label="Full navigation">
+            <button
+              className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Full navigation"
+            >
               <Compass className="h-5 w-5" />
             </button>
           </div>
@@ -263,32 +338,34 @@ export function SiteHeader() {
           </div>
         </div>
 
-
-
         {/* Mega menu */}
         {openMenu && (
           <div className="absolute inset-x-0 top-full hidden lg:block" onMouseEnter={() => {}}>
             <div className="mx-auto max-w-7xl px-4 lg:px-6 pb-6">
               <div className="rounded-2xl border border-border/60 bg-popover shadow-2xl p-6">
                 <div className="grid grid-cols-3 gap-8">
-                  {megaGroups.find(g => g.label === openMenu)!.columns.map((col) => (
-                    <div key={col.title}>
-                      <div className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-3">{col.title}</div>
-                      <ul className="space-y-1.5">
-                        {col.links.map((l) => (
-                          <li key={l.to}>
-                            <Link
-                              to={l.to}
-                              onClick={() => setOpenMenu(null)}
-                              className="block text-sm text-foreground/90 hover:text-primary transition-colors"
-                            >
-                              {l.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                  {megaGroups
+                    .find((g) => g.label === openMenu)!
+                    .columns.map((col) => (
+                      <div key={col.title}>
+                        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-3">
+                          {col.title}
+                        </div>
+                        <ul className="space-y-1.5">
+                          {col.links.map((l) => (
+                            <li key={l.to}>
+                              <Link
+                                to={l.to}
+                                onClick={() => setOpenMenu(null)}
+                                className="block text-sm text-foreground/90 hover:text-primary transition-colors"
+                              >
+                                {l.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -303,15 +380,23 @@ export function SiteHeader() {
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
             <div className="flex items-center justify-between mb-6">
               <span className="font-display text-lg font-bold">Menu</span>
-              <button onClick={() => setMobileOpen(false)} className="rounded-md p-2"><X className="h-5 w-5" /></button>
+              <button onClick={() => setMobileOpen(false)} className="rounded-md p-2">
+                <X className="h-5 w-5" />
+              </button>
             </div>
             <nav className="space-y-6">
               <div>
-                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">Category hubs</div>
+                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                  Category hubs
+                </div>
                 <ul className="space-y-1.5">
                   {categoryHubs.map((h) => (
                     <li key={h.to}>
-                      <Link to={h.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm font-semibold text-primary">
+                      <Link
+                        to={h.to}
+                        onClick={() => setMobileOpen(false)}
+                        className="block py-1 text-sm font-semibold text-primary"
+                      >
                         {h.label}
                       </Link>
                     </li>
@@ -320,20 +405,31 @@ export function SiteHeader() {
               </div>
               {megaGroups.map((g) => (
                 <div key={g.label}>
-                  <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">{g.label}</div>
+                  <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                    {g.label}
+                  </div>
                   <ul className="space-y-1.5">
-                    {g.columns.flatMap(c => c.links).slice(0, 8).map((l) => (
-                      <li key={l.to}>
-                        <Link to={l.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm">
-                          {l.label}
-                        </Link>
-                      </li>
-                    ))}
+                    {g.columns
+                      .flatMap((c) => c.links)
+                      .slice(0, 8)
+                      .map((l) => (
+                        <li key={l.to}>
+                          <Link
+                            to={l.to}
+                            onClick={() => setMobileOpen(false)}
+                            className="block py-1 text-sm"
+                          >
+                            {l.label}
+                          </Link>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               ))}
               <div>
-                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">About &amp; legal</div>
+                <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                  About &amp; legal
+                </div>
                 <ul className="space-y-1.5">
                   {[
                     { to: "/about", label: "About Us" },
@@ -342,7 +438,11 @@ export function SiteHeader() {
                     { to: "/terms-of-service", label: "Terms of Service" },
                   ].map((l) => (
                     <li key={l.to}>
-                      <Link to={l.to} onClick={() => setMobileOpen(false)} className="block py-1 text-sm">
+                      <Link
+                        to={l.to}
+                        onClick={() => setMobileOpen(false)}
+                        className="block py-1 text-sm"
+                      >
                         {l.label}
                       </Link>
                     </li>
@@ -350,7 +450,6 @@ export function SiteHeader() {
                 </ul>
               </div>
             </nav>
-
           </div>
         </div>
       )}

@@ -25,7 +25,7 @@ export const soloLevelingSystemArticle: Article = {
     {
       heading: "What Is the System in Solo Leveling?",
       paragraphs: [
-        "**Quick answer:** The System is a game-like interface only Sung Jinwoo can see. It reissues him as a Player after he nearly dies in a double dungeon, then measures him with stats, levels and experience. It hands out daily and penalty quests, rewards him with attribute points, skills and an inventory, and unlocks job advancement — turning survival into measurable progression.",
+        "Quick answer: the System is a game-like interface only Sung Jinwoo can see. It reissues him as a Player after he nearly dies in a double dungeon, then measures him with stats, levels and experience. It hands out daily and penalty quests, rewards him with attribute points, skills and an inventory, and unlocks job advancement — turning survival into measurable progression.",
         "That short definition covers the mechanics, but the reason the System works as storytelling is narrower than most readers assume. It is not a wish machine. It is an accounting layer placed on top of a world that already had rules: gates open, hunters are graded, and monsters kill people. Everything the System adds is bookkeeping — it counts what Jinwoo does and pays him for it.",
         "This guide walks through that bookkeeping in order: how the stats system works, what each stat actually governs, how levels and attribute points accumulate, how quests and penalties enforce the loop, and how skills, the inventory and job advancement turn numbers into new abilities. If you want the series overview first, start with our [Solo Leveling series hub](/anime/solo-leveling), then come back here for the mechanics.",
       ],

@@ -144,7 +144,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               url: "https://gamecastle.store/",
               description:
                 "GameCastle Anime is an independent anime editorial publication covering reviews, character deep-dives, watch orders, studio profiles and long-form analysis.",
-              email: "editors@animeverse.example",
+
             },
             {
               "@type": "WebSite",

@@ -114,7 +114,6 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
           title: block.title,
           subtitle: `${block.subtitle} · ${block.offer}`,
           price: block.price,
-          rating: 4.9,
           retailer: block.retailer,
           href: block.href,
           cta: block.cta,

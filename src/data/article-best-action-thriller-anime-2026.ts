@@ -40,7 +40,7 @@ export const bestActionThrillerAnime2026Article: Article = {
         {
           type: "image",
           art: "best-action-thriller-anime-2026",
-          caption: "Original AnimeVerse key visual for the 2026 action and thriller guide.",
+          caption: "Original GameCastle Anime key visual for the 2026 action and thriller guide.",
         },
       ],
     },

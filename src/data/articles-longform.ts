@@ -67,7 +67,7 @@ const drafts: Draft[] = [
           "If you are coming to this series from a different genre entirely, the on-ramp guide in our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen) explains why Attack on Titan is a harder first anime than it looks, and offers gentler starting points.",
         ],
         blocks: [
-          { type: "image", art: "attack-on-titan", caption: "Original AnimeVerse key visual for the Attack on Titan watch guide." },
+          { type: "image", art: "attack-on-titan", caption: "Original GameCastle Anime key visual for the Attack on Titan watch guide." },
         ],
       },
       {
@@ -151,7 +151,7 @@ const drafts: Draft[] = [
           "Readers who want the general framework we use across the site can find it in our [power-scaling hub](/power-scaling), which explains how we treat feats, statements and author commentary differently.",
         ],
         blocks: [
-          { type: "image", art: "demon-slayer", caption: "Original AnimeVerse key visual for the Hashira ranking." },
+          { type: "image", art: "demon-slayer", caption: "Original GameCastle Anime key visual for the Hashira ranking." },
         ],
       },
       {
@@ -234,7 +234,7 @@ const drafts: Draft[] = [
           "For a comparison with a rival system that solved the same escalation problem differently, our [Nen and rule-bound power systems](/article/hunter-x-hunter-nen-system-guide) piece is the natural companion read.",
         ],
         blocks: [
-          { type: "image", art: "one-piece", caption: "Original AnimeVerse key visual for the Devil Fruit explainer." },
+          { type: "image", art: "one-piece", caption: "Original GameCastle Anime key visual for the Devil Fruit explainer." },
         ],
       },
       {
@@ -297,7 +297,7 @@ const drafts: Draft[] = [
           "Readers coming from a different system will recognise the design goal from our [Devil Fruit explainer](/article/one-piece-devil-fruit-system-explained): fix the rules early, escalate inside them.",
         ],
         blocks: [
-          { type: "image", art: "hunter-x-hunter", caption: "Original AnimeVerse key visual for the Nen system guide." },
+          { type: "image", art: "hunter-x-hunter", caption: "Original GameCastle Anime key visual for the Nen system guide." },
         ],
       },
       {
@@ -361,7 +361,7 @@ const drafts: Draft[] = [
           "If you want the vocabulary behind the animation calls in this list, start with our [sakuga explainer](/article/sakuga-explained-what-makes-a-fight-scene-great).",
         ],
         blocks: [
-          { type: "image", art: "trailer", caption: "Original AnimeVerse artwork for the openings feature." },
+          { type: "image", art: "trailer", caption: "Original GameCastle Anime artwork for the openings feature." },
         ],
       },
       {
@@ -418,7 +418,7 @@ const drafts: Draft[] = [
           "For the wider genre context, our [review of Season 2](/article/solo-leveling-s2-review) covers how the adaptation paces those systems on screen.",
         ],
         blocks: [
-          { type: "image", art: "solo-leveling", caption: "Original AnimeVerse key visual for the progression breakdown." },
+          { type: "image", art: "solo-leveling", caption: "Original GameCastle Anime key visual for the progression breakdown." },
         ],
       },
       {
@@ -474,7 +474,7 @@ const drafts: Draft[] = [
           "This is the same structural move Mob Psycho makes, and we cover the comparison in our [best action anime ranking](/article/best-action-anime-of-the-decade-ranked).",
         ],
         blocks: [
-          { type: "image", art: "one-punch-man", caption: "Original AnimeVerse key visual for the stakes essay." },
+          { type: "image", art: "one-punch-man", caption: "Original GameCastle Anime key visual for the stakes essay." },
         ],
       },
       {
@@ -524,7 +524,7 @@ const drafts: Draft[] = [
           "The live simulcast grid lives at [seasonal simulcast grid](/seasonal), and the airing calendar updates weekly.",
         ],
         blocks: [
-          { type: "image", art: "trailer", caption: "Original AnimeVerse artwork for the seasonal preview." },
+          { type: "image", art: "trailer", caption: "Original GameCastle Anime artwork for the seasonal preview." },
         ],
       },
       {
@@ -580,7 +580,7 @@ const drafts: Draft[] = [
           "Our earlier essay on [why Frieren won the year](/article/why-frieren-won-2024) covers the awards case; this piece is about the genre it started.",
         ],
         blocks: [
-          { type: "image", art: "frieren", caption: "Original AnimeVerse key visual for the slow-fantasy review." },
+          { type: "image", art: "frieren", caption: "Original GameCastle Anime key visual for the slow-fantasy review." },
         ],
       },
       {
@@ -631,7 +631,7 @@ const drafts: Draft[] = [
           "Our [combat system design piece](/article/combat-system-design-anime-vs-games) makes the same point about telegraphs in fights: legibility is what makes an audience lean forward.",
         ],
         blocks: [
-          { type: "image", art: "haikyuu", caption: "Original AnimeVerse key visual for the sports blueprint." },
+          { type: "image", art: "haikyuu", caption: "Original GameCastle Anime key visual for the sports blueprint." },
         ],
       },
       {
@@ -684,7 +684,7 @@ const drafts: Draft[] = [
           "It also cost comedic timing in places where the source's panel rhythm was the joke. Both things are true, and the discourse has mostly refused to hold them together.",
         ],
         blocks: [
-          { type: "image", art: "chainsaw-man", caption: "Original AnimeVerse key visual for the adaptation review." },
+          { type: "image", art: "chainsaw-man", caption: "Original GameCastle Anime key visual for the adaptation review." },
         ],
       },
       {
@@ -734,7 +734,7 @@ const drafts: Draft[] = [
           "It also explains why studios with hit shows can still run thin margins, a topic we touch on in our [convention season guide](/article/convention-season-2026-guide) when covering announcement timing.",
         ],
         blocks: [
-          { type: "image", art: "clans", caption: "Original AnimeVerse artwork for the production industry explainer." },
+          { type: "image", art: "clans", caption: "Original GameCastle Anime artwork for the production industry explainer." },
         ],
       },
       {
@@ -790,7 +790,7 @@ const drafts: Draft[] = [
           "Our live availability data per title sits on each series hub — for example [One Piece series hub](/anime/one-piece) — and the aggregate view is at [streaming hub](/streaming).",
         ],
         blocks: [
-          { type: "image", art: "spy-x-family", caption: "Original AnimeVerse artwork for the streaming comparison." },
+          { type: "image", art: "spy-x-family", caption: "Original GameCastle Anime artwork for the streaming comparison." },
         ],
       },
       {
@@ -845,7 +845,7 @@ const drafts: Draft[] = [
           "The foundational rules are covered in our [Limitless explainer](/article/gojo-satoru-limitless-technique-explained), which is the prerequisite read for this guide.",
         ],
         blocks: [
-          { type: "image", art: "limitless", caption: "Original AnimeVerse artwork for the domain expansion guide." },
+          { type: "image", art: "limitless", caption: "Original GameCastle Anime artwork for the domain expansion guide." },
         ],
       },
       {
@@ -907,7 +907,7 @@ const drafts: Draft[] = [
           "If you are choosing where to watch, our [streaming comparison](/article/best-anime-streaming-services-compared) covers simulcast delays by platform.",
         ],
         blocks: [
-          { type: "image", art: "frieren", caption: "Original AnimeVerse artwork for the beginner glossary." },
+          { type: "image", art: "frieren", caption: "Original GameCastle Anime artwork for the beginner glossary." },
         ],
       },
       {

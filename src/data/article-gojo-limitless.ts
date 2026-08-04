@@ -2,7 +2,7 @@ import type { Article } from "./articles";
 
 /**
  * Master article — Jujutsu Kaisen / Lore / Power Scaling.
- * Original AnimeVerse analysis. No script excerpts, no reproduced panels.
+ * Original GameCastle Anime analysis. No script excerpts, no reproduced panels.
  */
 export const gojoLimitlessArticle: Article = {
   slug: "gojo-satoru-limitless-technique-explained",
@@ -31,7 +31,7 @@ export const gojoLimitlessArticle: Article = {
           type: "video",
           art: "limitless",
           title: "Limitless in Motion: How Infinity Is Animated",
-          subtitle: "AnimeVerse screening room - watch how the animation sells unresolvable distance",
+          subtitle: "GameCastle Anime screening room - watch how the animation sells unresolvable distance",
           searchQuery: "jujutsu kaisen gojo infinity scene official",
         },
       ],
@@ -112,7 +112,7 @@ export const gojoLimitlessArticle: Article = {
         {
           type: "image",
           art: "energy",
-          caption: "Original AnimeVerse illustration: convergent and divergent cursed energy collapsing into an imaginary-mass core.",
+          caption: "Original GameCastle Anime illustration: convergent and divergent cursed energy collapsing into an imaginary-mass core.",
         },
         {
           type: "link",
@@ -149,7 +149,7 @@ export const gojoLimitlessArticle: Article = {
           cta: "Check Availability on Official Store",
           href: "https://www.amazon.com",
           retailer: "Official Store",
-          note: "AnimeVerse may earn a commission on purchases made through this link. Pricing and stock are set by the retailer.",
+          note: "GameCastle Anime may earn a commission on purchases made through this link. Pricing and stock are set by the retailer.",
         },
         {
           type: "spoiler",

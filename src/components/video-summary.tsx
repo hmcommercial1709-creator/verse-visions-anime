@@ -92,7 +92,9 @@ export function VideoSummaryCard({
         </Heading>
 
         <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-foreground/85">
-          {paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+          {paragraphs.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
         </div>
 
         <a

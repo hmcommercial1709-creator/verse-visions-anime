@@ -11,6 +11,7 @@ const META = "The latest anime news — studios, licensing, streaming, and indus
 export const Route = createFileRoute("/news")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, follow" },
       { property: "og:url", content: "https://gamecastle.store/news" },
       { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: META },

@@ -10,8 +10,7 @@ import {
 } from "@/data/articles";
 import { populatedCategories } from "@/lib/content-registry";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { HeaderBannerAd, InArticleAd, PostContentAd, DisplayAd,
-  MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
+import { PostContentAd, DisplayAd, StickySidebarAd } from "@/components/ad-slot";
 import { MediaImage } from "@/components/media";
 import { backdropFor, artAlt } from "@/lib/media";
 import { readingLabel } from "@/lib/reading";
@@ -108,7 +107,6 @@ function BlogArchive() {
 
   return (
     <div>
-      <HeaderBannerAd />
       <div className="mx-auto max-w-7xl px-4 py-10 lg:px-6">
         <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Blog" }]} />
         <h1 className="font-display text-5xl font-bold">Blog &amp; News Archive</h1>
@@ -187,8 +185,6 @@ function BlogArchive() {
                   ))}
                 </div>
 
-                {/* In-feed responsive unit, below the fold and outside the grid flow */}
-                <InArticleAd index={2} unitId="av-blog-infeed" adId="InArticle_Ad_2" />
               </>
             )}
 
@@ -227,7 +223,6 @@ function BlogArchive() {
             )}
 
             <PostContentAd />
-            <MultiplexAd />
           </div>
 
           <aside className="space-y-6">

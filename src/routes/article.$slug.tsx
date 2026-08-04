@@ -1,20 +1,13 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { getArticle, articles, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
+import { getArticle, publishedArticleList, articleIsPublished, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
 import { ArticleComments } from "@/components/article-comments";
 import { InternalLinkNetwork } from "@/components/internal-link-network";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
-  AdSlot,
-  DisplayAd,
-  BelowTitleAd,
-  HeaderBannerAd,
   InArticleAd,
   PostContentAd,
-  MultiplexAd,
   StickySidebarAd,
-  VideoAd,
-
 } from "@/components/ad-slot";
 import { planInArticleAds } from "@/lib/ads-layout";
 import { recommendArticles, articleAnimeRecs } from "@/lib/recommendations";
@@ -66,13 +59,6 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
     return (
       <div className="not-prose">
         <SectionHeaderImage art={namedArt(block.art)} caption={block.caption} />
-        {/* Ad between the image section and the paragraphs that follow it. */}
-        <DisplayAd
-          adId={`Image_Break_Ad_${block.art}`}
-          prefix="av-image-break"
-          minHeight={250}
-          className="my-6"
-        />
       </div>
     );
   }
@@ -138,6 +124,7 @@ export const Route = createFileRoute("/article/$slug")({
       meta: [
         { title: a.seoTitle ?? `${a.title} · GameCastle Anime` },
         { name: "description", content: a.excerpt },
+        { name: "robots", content: articleIsPublished(a) ? "index, follow" : "noindex, follow" },
         { property: "og:title", content: a.seoTitle ?? a.title },
         { property: "og:description", content: a.excerpt },
         ...(a.ogImage
@@ -215,20 +202,21 @@ function ArticlePage() {
       : deriveSections(a.body);
   const relatedAnime = articleAnimeRecs(a.slug, 4);
   const alsoEnjoyed = recommendArticles(a.slug, 3);
-  const sectionMates = articles.filter((x) => x.slug !== a.slug && x.section === a.section).slice(0, 3);
+  const sectionMates = publishedArticleList().filter((x) => x.slug !== a.slug && x.section === a.section).slice(0, 3);
   const articleRail = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
   const merchProducts = productsForContext(loreAnime, a.title);
-  // In-body native units land every 4 paragraphs; slot 1 is the guaranteed
-  // above-the-fold unit, so the body plan starts at InArticle_Ad_2.
-  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { interval: 2, startAt: 2, max: 14 });
+  // Keep the answer readable: at most three reserved units, six paragraphs apart.
+  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), {
+    interval: 6,
+    startAt: 1,
+    max: 3,
+  });
 
   return (
     <div>
       <ReadingProgressBar />
-      <HeaderBannerAd />
-
 
       <section className="relative">
         <div className="relative h-64 lg:h-80" style={{ background: a.cover }}>
@@ -289,16 +277,11 @@ function ArticlePage() {
               </div>
             </div>
 
-            {/* Below-title billboard (Below_Title_Ad) */}
-            <BelowTitleAd />
-
             {/* Mobile TOC */}
             <div className="mt-6 lg:hidden">
               <TableOfContents sections={sections} />
             </div>
 
-            {/* Guaranteed top-of-article AdSense unit (InArticle_Ad_1) */}
-            <InArticleAd index={1} unitId="av-article-top" adId="InArticle_Ad_1" />
 
             <div className="prose prose-invert mt-8 max-w-none text-lg leading-relaxed">
               {sections.map((s, i) => (
@@ -329,13 +312,6 @@ function ArticlePage() {
                   {s.blocks?.map((block, bi) => (
                     <ArticleBlockView key={bi} block={block} />
                   ))}
-
-                  {/* Mid-article outstream video unit (viewable impression, no click needed) */}
-                  {i === 1 && (
-                    <div className="not-prose">
-                      <VideoAd index={1} unitId="av-article-video" adId="Video_Ad_Article_1" />
-                    </div>
-                  )}
 
                   {/* Contextual internal link card, woven into the flow */}
 
@@ -422,7 +398,6 @@ function ArticlePage() {
 
             {/* Post-article banner (Post_Content_Ad) */}
             <PostContentAd />
-            <MultiplexAd />
 
             {/* Reader discussion */}
             <ArticleComments slug={a.slug} />

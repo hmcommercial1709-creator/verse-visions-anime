@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
-import { articles } from "@/data/articles";
+import { publishedArticleList } from "@/data/articles";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 import { Gauge, Scale, Layers } from "lucide-react";
 
@@ -8,6 +8,7 @@ const TITLE = "Power Scaling Hub — How GameCastle Anime Ranks Anime Strength";
 const DESC =
   "GameCastle Anime power scaling: a transparent methodology for ranking anime characters by feats, ability mechanics and in-series statements — plus our flagship technique breakdowns.";
 const URL = absoluteUrl("/power-scaling");
+const articles = publishedArticleList();
 
 const faqs = [
   { q: "What counts as a valid feat?", a: "An on-screen or on-page action with a clear cause and effect, shown in canon material. Databook figures and author interviews are supporting evidence, not proof, and filler is excluded unless the original creator supervised it." },

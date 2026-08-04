@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/ui-bits";
 export const Route = createFileRoute("/facts")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, follow" },
       { property: "og:url", content: "https://gamecastle.store/facts" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

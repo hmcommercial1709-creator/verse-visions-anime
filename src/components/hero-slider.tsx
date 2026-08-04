@@ -37,7 +37,6 @@ export function HeroSlider({ items }: { items: Article[] }) {
           ratio="16/9"
           className="absolute inset-0 h-full w-full"
           sizes="100vw"
-          priority
           overlay={false}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/40" />

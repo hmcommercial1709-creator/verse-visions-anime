@@ -1,6 +1,8 @@
 import { animes, type Anime } from "@/data/animes";
 import { characters, type Character } from "@/data/characters";
-import { articles, type Article } from "@/data/articles";
+import { publishedArticleList, type Article } from "@/data/articles";
+
+const articles = publishedArticleList();
 
 // ---------- Anime → Anime ----------
 // Score by curated similar list, shared genres, same studio, shared themes,

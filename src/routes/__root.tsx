@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
-  createRootRouteWithContext,
+  createRootRoute,
   useRouter,
   HeadContent,
   Scripts,
@@ -15,9 +14,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { PropellerConversion } from "@/components/propeller-conversion";
-import { useLocaleDocumentSync } from "@/lib/i18n";
-import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
-
+import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 
 function NotFoundComponent() {
   return (
@@ -79,16 +76,22 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { httpEquiv: "content-language", content: "en" },
-      { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
+      {
+        name: "robots",
+        content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
       { title: "GameCastle Anime | Anime Guides & Watch Orders" },
 
-      { name: "description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
+      {
+        name: "description",
+        content:
+          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
+      },
       { name: "author", content: "GameCastle Anime Editorial" },
       { property: "og:site_name", content: "GameCastle Anime" },
       { property: "og:type", content: "website" },
@@ -99,39 +102,45 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#12081b" },
       { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
       { name: "twitter:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
-      { property: "og:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
-      { name: "twitter:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
+      {
+        property: "og:description",
+        content:
+          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "dns-prefetch", href: "https://gamecastle.store" },
-      { rel: "preconnect", href: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" },
-      { rel: "preconnect", href: "https://pagead2.googlesyndication.com" },
-      { rel: "dns-prefetch", href: "https://googleads.g.doubleclick.net" },
-      { rel: "sitemap", type: "application/xml", title: "Sitemap", href: "https://gamecastle.store/sitemap.xml" },
-      { rel: "alternate", type: "application/rss+xml", title: "GameCastle Anime RSS Feed", href: "https://gamecastle.store/rss.xml" },
+      {
+        rel: "preconnect",
+        href: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap",
+      },
+      {
+        rel: "sitemap",
+        type: "application/xml",
+        title: "Sitemap",
+        href: "https://gamecastle.store/sitemap.xml",
+      },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "GameCastle Anime RSS Feed",
+        href: "https://gamecastle.store/rss.xml",
+      },
     ],
 
-
     scripts: [
-      // Global AdSense loader (Auto Ads). Loaded from the document head so
-      // Google can place auto-ads on every page; `async` keeps it off the
-      // critical path. All other third-party tags are injected on idle by
-      // <DeferredScripts />.
-      {
-        async: true,
-        crossOrigin: "anonymous",
-        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
-      },
-
-
-
-
-
       {
         type: "application/ld+json",
         children: JSON.stringify({
@@ -144,7 +153,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               url: "https://gamecastle.store/",
               description:
                 "GameCastle Anime is an independent anime editorial publication covering reviews, character deep-dives, watch orders, studio profiles and long-form analysis.",
-
             },
             {
               "@type": "WebSite",
@@ -165,9 +173,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           ],
         }),
       },
-
     ],
-
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -176,8 +182,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const locale = useLocale();
+
   return (
-    <html lang="en" className="dark">
+    <html lang={locale.hrefLang} dir={locale.dir} className="dark">
       <head>
         <HeadContent />
       </head>
@@ -190,25 +198,19 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
   useLocaleDocumentSync();
-  useNonIntrusiveAdPolicy();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen flex flex-col">
-        <div className="sticky top-0 z-50">
-          <SiteHeader />
-        </div>
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <SiteFooter />
-        <DeferredScripts />
-        <PropellerConversion />
-
+    <div className="min-h-screen flex flex-col">
+      <div className="sticky top-0 z-50">
+        <SiteHeader />
       </div>
-    </QueryClientProvider>
-
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <SiteFooter />
+      <DeferredScripts />
+      <PropellerConversion />
+    </div>
   );
 }

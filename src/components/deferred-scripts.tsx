@@ -15,14 +15,17 @@ type Tag = {
  * paint, so loading them on idle keeps LCP and TBT low without losing data.
  */
 const TAGS: Tag[] = [
+  {
+    id: "adsense-lib",
+    src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
+    crossOrigin: "anonymous",
+  },
   { id: "ga4-lib", src: "https://www.googletagmanager.com/gtag/js?id=G-LETSF76JTN" },
   {
     id: "ga4-init",
     inline:
       "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-LETSF76JTN');",
   },
-  // NOTE: the AdSense loader is intentionally NOT here — it ships in the
-  // document head (src/routes/__root.tsx) so Auto Ads can run on every page.
 
   // NOTE: no Monetag in-page push / vignette / popunder zones. The homepage
   // must be free of overlay and interstitial formats — display units only.
@@ -66,9 +69,9 @@ export function DeferredScripts() {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
     }).requestIdleCallback;
 
-    // Third-party tags are the single biggest source of main-thread blocking,
-    // so they are always injected from an idle callback and never synchronously
-    // inside an input/scroll handler (that is exactly what wrecks INP).
+    // Third-party tags are the single biggest source of main-thread blocking.
+    // AdSense, analytics and the beacon start only after useful content is
+    // interactive; queued manual ad slots are processed when the library arrives.
     const schedule = () => (idle ? idle(run, { timeout: 4000 }) : window.setTimeout(run, 200));
     const timer = window.setTimeout(schedule, 2500);
     // Real engagement pulls them in sooner — but still via idle, never inline.

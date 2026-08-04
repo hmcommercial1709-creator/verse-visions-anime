@@ -12,6 +12,7 @@ const awards = [
 export const Route = createFileRoute("/awards")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, follow" },
       { property: "og:url", content: "https://gamecastle.store/awards" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

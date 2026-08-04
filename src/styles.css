@@ -84,9 +84,12 @@
       radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--magenta) 22%, transparent), transparent 60%),
       radial-gradient(900px 500px at 100% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 55%),
       radial-gradient(600px 500px at 50% 100%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 60%);
-    background-attachment: fixed;
+    background-attachment: scroll;
   }
   h1, h2, h3, h4, h5 { font-family: var(--font-display); letter-spacing: -0.02em; }
+  @media (min-width: 768px) {
+    body { background-attachment: fixed; }
+  }
 }
 
 @utility text-gradient {

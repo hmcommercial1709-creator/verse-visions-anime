@@ -15,6 +15,7 @@ const g = (a: string, b: string) => `linear-gradient(135deg, ${a}, ${b})`;
 
 type Draft = {
   slug: string;
+  publicationStatus?: Article["publicationStatus"];
   category: CategorySlug;
   section: Article["section"];
   title: string;
@@ -30,6 +31,7 @@ type Draft = {
 
 const build = (d: Draft): Article => ({
   slug: d.slug,
+  publicationStatus: d.publicationStatus,
   section: d.section,
   category: d.category,
   tags: d.tags,
@@ -504,6 +506,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "spring-2026-season-preview-risk-guide",
+    publicationStatus: "review",
     category: "news",
     section: "news",
     title: "Spring 2026 Season Preview: Every Show Worth Your Watchlist, Sorted by Risk",
@@ -770,6 +773,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "best-anime-streaming-services-compared",
+    publicationStatus: "review",
     category: "gaming-guides",
     section: "guides",
     title: "Anime Streaming Services Compared: Catalogue, Dubs, Price and Regional Gaps",

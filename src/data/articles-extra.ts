@@ -20,6 +20,7 @@ type Draft = {
 
 const build = (d: Draft): Article => ({
   slug: d.slug,
+  publicationStatus: "draft",
   section: d.section,
   category: d.category,
   tags: d.tags,

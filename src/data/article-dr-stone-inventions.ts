@@ -15,10 +15,11 @@ export const drStoneInventionsArticle: Article = {
   section: "guides",
   category: "rpg",
   tags: ["dr-stone", "inventions", "tech-tree", "science", "guide"],
-  title: "Dr. Stone Inventions List: The Complete Science Tech Tree",
-  seoTitle: "Dr. Stone Inventions List: Complete Science & Tech Tree",
+  title: "Dr. Stone Inventions List: Complete Science & Technology Guide",
+  seoTitle: "Dr. Stone Inventions List: Complete Science & Technology Guide",
   excerpt:
-    "Explore the major inventions in Dr. Stone in order, from basic tools and medicine to communication, engines and advanced technology.",
+    "Explore the complete Dr. Stone inventions list, from Senku's earliest tools to advanced technology, with clear explanations of how each invention works.",
+
   ogImage: drStoneArt.url,
   author: "hana-mori",
   date: "2026-02-05",

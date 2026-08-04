@@ -214,22 +214,6 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "hunter-x-hunter-nen-strategy-rules",
-    category: "strategy", section: "guides",
-    title: "Nen as a Strategy Game: Conditions, Vows and the Cost of Restriction",
-    excerpt: "Togashi's power system is a negotiation table. Here is how the bargaining actually works.",
-    author: "hana-mori", date: "2026-04-11", tag: "Guide",
-    tags: ["hunter-x-hunter", "nen", "power-systems", "strategy"],
-    cover: ["#0ea5e9", "#0c2340"],
-    related: ["hunter-x-hunter"],
-    body: [
-      "Nen's central mechanic is not aura. It is the vow: accept a restriction, receive proportional power. That single rule turns every ability into a design puzzle with a visible price tag, and it is why Hunter x Hunter fights read like negotiations rather than collisions.",
-      "The restrictions that generate the most power are the ones that could plausibly lose the fight. A condition that never triggers is cheap and yields little. Knov, Kurapika and Chrollo all pay in ways that constrain them at the worst possible moment, by design.",
-      "Information is the second currency. Knowing an opponent's ability degrades it; concealing yours is worth more than raw output. Hence the recurring structure where the fight's decisive move is a disclosure.",
-      "If you want to understand why the Chimera Ant arc is paced the way it is, read it as three parties trading information and restriction across a clock they can all see. The tension is arithmetic, and it is exact.",
-    ],
-  },
-  {
     slug: "meta-shifts-how-competitive-scenes-evolve",
     category: "strategy", section: "editorial",
     title: "How a Meta Forms: The Life Cycle of Every Competitive Scene",

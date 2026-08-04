@@ -13,9 +13,18 @@ const NAV_KEYS: Record<string, UiKey> = {
   Editorial: "editorial",
   Studios: "studios",
 };
-import { genres } from "@/data/genres";
-import { studios } from "@/data/studios";
-import { animes } from "@/data/animes";
+import { populatedGenres, populatedStudios, publishedAnime } from "@/lib/content-registry";
+
+const navGenres = populatedGenres();
+const navStudios = populatedStudios();
+const navAnime = publishedAnime();
+const genreLinks = (slugs: string[]) =>
+  slugs
+    .filter((slug) => navGenres.some((genre) => genre.slug === slug))
+    .map((slug) => ({
+      to: `/genre/${slug}`,
+      label: navGenres.find((genre) => genre.slug === slug)?.name ?? slug,
+    }));
 
 const megaGroups = [
   {
@@ -24,7 +33,6 @@ const megaGroups = [
     columns: [
       { title: "Discovery", links: [
         { to: "/browse", label: "All Anime" },
-        { to: "/explore", label: "Explore & Filter" },
         { to: "/seasonal", label: "Seasonal" },
         { to: "/trending", label: "Trending" },
         { to: "/top", label: "Top 100" },
@@ -40,16 +48,16 @@ const megaGroups = [
         { to: "/genre/family", label: "Kids & Family" },
       ]},
 
-      { title: "Popular", links: animes.slice(0, 6).map(a => ({ to: `/anime/${a.slug}`, label: a.title })) },
+      { title: "Popular", links: navAnime.slice(0, 6).map(a => ({ to: `/anime/${a.slug}`, label: a.title })) },
     ],
   },
   {
     label: "Genres",
     icon: Sparkles,
     columns: [
-      { title: "Action & Adventure", links: ["action","adventure","fantasy","shonen","mecha","sci-fi"].map(s => ({ to:`/genre/${s}`, label: genres.find(g=>g.slug===s)?.name || s })) },
-      { title: "Story & Feels", links: ["drama","romance","slice-of-life","comedy","family","school"].map(s => ({ to:`/genre/${s}`, label: genres.find(g=>g.slug===s)?.name || s })) },
-      { title: "Dark & Cerebral", links: ["mystery","psychological","horror","supernatural","historical","isekai"].map(s => ({ to:`/genre/${s}`, label: genres.find(g=>g.slug===s)?.name || s })) },
+      { title: "Action & Adventure", links: genreLinks(["action", "adventure", "fantasy", "shonen", "mecha", "sci-fi"]) },
+      { title: "Story & Feels", links: genreLinks(["drama", "romance", "slice-of-life", "comedy", "family", "school"]) },
+      { title: "Dark & Cerebral", links: genreLinks(["mystery", "psychological", "horror", "supernatural", "historical", "isekai"]) },
     ],
   },
   {
@@ -87,7 +95,7 @@ const megaGroups = [
     label: "Studios",
     icon: Building2,
     columns: [
-      { title: "Studios", links: [{ to: "/studios", label: "All Studios" }, ...studios.slice(0,5).map(s => ({ to: `/studio/${s.slug}`, label: s.name }))] },
+      { title: "Studios", links: [{ to: "/studios", label: "All Studios" }, ...navStudios.slice(0, 5).map(s => ({ to: `/studio/${s.slug}`, label: s.name }))] },
       { title: "Streaming", links: [
         { to: "/streaming", label: "Streaming Platforms" },
         { to: "/awards", label: "Anime Awards" },
@@ -110,13 +118,13 @@ const megaGroups = [
 
 /** Direct category hubs surfaced in the main navigation. */
 const categoryHubs = [
-  { to: "/category/action", label: "Action" },
-  { to: "/category/rpg", label: "RPG" },
-  { to: "/category/strategy", label: "Strategy" },
-  { to: "/category/esports", label: "Esports" },
-  { to: "/category/gaming-guides", label: "Gaming Guides" },
-  { to: "/category/reviews", label: "Reviews" },
-  { to: "/category/news", label: "News" },
+  { to: "/guides", label: "Guides" },
+  { to: "/watch-order", label: "Watch Orders" },
+  { to: "/power-scaling", label: "Power Scaling" },
+  { to: "/characters", label: "Characters" },
+  { to: "/seasonal", label: "Seasonal" },
+  { to: "/reviews", label: "Reviews" },
+  { to: "/news", label: "News" },
   { to: "/blog", label: "All Articles" },
 ];
 
@@ -242,7 +250,7 @@ export function SiteHeader() {
               All anime
             </Link>
 
-            {genres.slice(0, 14).map((g) => (
+            {navGenres.slice(0, 14).map((g) => (
               <Link
                 key={g.slug}
                 to="/genre/$slug"

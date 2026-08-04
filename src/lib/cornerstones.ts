@@ -1,7 +1,7 @@
 /**
  * Cornerstone guides.
  *
- * The eight pages we actively want to rank, in one place, so the hubs
+ * The pages we actively want to rank, in one place, so the hubs
  * (/guides, /watch-order, /power-scaling, /characters) can link to them
  * with varied, contextual anchors instead of duplicated boilerplate.
  *
@@ -62,6 +62,27 @@ export const CORNERSTONES: Cornerstone[] = [
     blurb: "Senku's full science roadmap in story order, with purpose and materials for each build.",
     hub: "power-scaling",
     animeSlug: "dr-stone",
+  },
+  {
+    slug: "one-piece-devil-fruit-system-explained",
+    anchor: "One Piece Devil Fruits explained",
+    blurb: "Paramecia, Zoan, Logia, awakening, Haki interaction and the rules that keep the system coherent.",
+    hub: "power-scaling",
+    animeSlug: "one-piece",
+  },
+  {
+    slug: "frieren-magic-system-deep-dive",
+    anchor: "Frieren magic system explained",
+    blurb: "Mana suppression, spell analysis, Zoltraak, visualisation and the First-Class Mage Exam.",
+    hub: "power-scaling",
+    animeSlug: "frieren",
+  },
+  {
+    slug: "attack-on-titan-odm-gear-tactics-analysis",
+    anchor: "Attack on Titan ODM gear explained",
+    blurb: "What ODM means, how the equipment works and why gas, anchors and terrain decide every route.",
+    hub: "power-scaling",
+    animeSlug: "attack-on-titan",
   },
   {
     slug: "one-piece-wano-recap",

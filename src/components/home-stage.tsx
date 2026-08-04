@@ -127,7 +127,7 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                         search={{ ep: ep.number }}
                         className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/80 px-4 py-3 text-sm font-semibold hover:border-primary/60"
                       >
-                        <Info className="h-4 w-4" /> Full episode page
+                        <Info className="h-4 w-4" /> Where to watch
                       </Link>
                     </div>
                   </div>

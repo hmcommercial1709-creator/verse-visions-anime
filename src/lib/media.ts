@@ -153,6 +153,13 @@ const articleBackdrops: Record<string, MediaArt> = {
   "jujutsu-kaisen-watch-order-and-manga-jump": art(bReviewJujutsuKaisenS2, bReviewJujutsuKaisenS2_s, 1536, 864),
   // Dr. Stone inventions guide reuses the owned Dr. Stone key visual (matches its og:image).
   "dr-stone-science-tech-tree-guide": art(pDrStone, pDrStone_s, 1024, 1536),
+  "frieren-magic-system-deep-dive": art(pFrieren, pFrieren_s, 1024, 1536),
+  "attack-on-titan-odm-gear-tactics-analysis": art(
+    pAttackOnTitan,
+    pAttackOnTitan_s,
+    1024,
+    1536,
+  ),
 };
 
 /** Stable, SSR-safe hash so server and client resolve the same artwork. */

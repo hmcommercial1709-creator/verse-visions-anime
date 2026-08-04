@@ -149,6 +149,8 @@ const articleBackdrops: Record<string, MediaArt> = {
   "spy-x-family-cruise-arc": art(bSpyXFamilyCruiseArc, bSpyXFamilyCruiseArc_s, 1536, 864),
   "best-action-thriller-anime-2026": art(bBestAction2026_full, bBestAction2026_s, 1536, 864),
   "top-upcoming-anime-open-world-games-2026": art(bGames2026_full, bGames2026_s, 1536, 864),
+  // Watch-order guide reuses the owned Jujutsu Kaisen key visual (matches its og:image).
+  "jujutsu-kaisen-watch-order-and-manga-jump": art(bReviewJujutsuKaisenS2, bReviewJujutsuKaisenS2_s, 1536, 864),
 };
 
 /** Stable, SSR-safe hash so server and client resolve the same artwork. */

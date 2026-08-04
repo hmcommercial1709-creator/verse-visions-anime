@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
-  createRootRouteWithContext,
+  createRootRoute,
   useRouter,
   HeadContent,
   Scripts,
@@ -16,7 +15,6 @@ import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { PropellerConversion } from "@/components/propeller-conversion";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
-import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
 
 function NotFoundComponent() {
   return (
@@ -78,7 +76,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -118,9 +116,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "dns-prefetch", href: "https://gamecastle.store" },
       {
         rel: "preconnect",
         href: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev",
@@ -130,8 +126,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap",
       },
-      { rel: "preconnect", href: "https://pagead2.googlesyndication.com" },
-      { rel: "dns-prefetch", href: "https://googleads.g.doubleclick.net" },
       {
         rel: "sitemap",
         type: "application/xml",
@@ -147,16 +141,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
 
     scripts: [
-      // Global AdSense loader (Auto Ads). Loaded from the document head so
-      // Google can place auto-ads on every page; `async` keeps it off the
-      // critical path. All other third-party tags are injected on idle by
-      // <DeferredScripts />.
-      {
-        async: true,
-        crossOrigin: "anonymous",
-        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
-      },
-
       {
         type: "application/ld+json",
         children: JSON.stringify({
@@ -214,23 +198,19 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
   useLocaleDocumentSync();
-  useNonIntrusiveAdPolicy();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen flex flex-col">
-        <div className="sticky top-0 z-50">
-          <SiteHeader />
-        </div>
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <SiteFooter />
-        <DeferredScripts />
-        <PropellerConversion />
+    <div className="min-h-screen flex flex-col">
+      <div className="sticky top-0 z-50">
+        <SiteHeader />
       </div>
-    </QueryClientProvider>
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <SiteFooter />
+      <DeferredScripts />
+      <PropellerConversion />
+    </div>
   );
 }

@@ -83,7 +83,7 @@ export function DeferredScripts() {
     // An engaged visitor should not wait for the fallback. Scheduling on idle
     // keeps the interaction itself responsive while preserving ad impressions.
     const engage = () => onIdle(800);
-    const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "scroll", "touchstart"];
+    const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "wheel", "touchstart"];
     events.forEach((event) => window.addEventListener(event, engage, { once: true, passive: true }));
 
     return () => {

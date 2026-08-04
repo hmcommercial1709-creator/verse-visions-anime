@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link, redirect } from "@tanstack/react-router";
 import { getArticle, publishedArticleList, articleIsPublished, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
 import { ArticleComments } from "@/components/article-comments";
 import { InternalLinkNetwork } from "@/components/internal-link-network";
@@ -111,8 +111,24 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
 }
 
 
+const LEGACY_ARTICLE_REDIRECTS: Record<string, string> = {
+  "solo-leveling-progression-system-breakdown":
+    "solo-leveling-system-progression-explained",
+  "hunter-x-hunter-nen-system-guide":
+    "hunter-x-hunter-nen-strategy-rules",
+};
+
 export const Route = createFileRoute("/article/$slug")({
   loader: ({ params }) => {
+    const destination = LEGACY_ARTICLE_REDIRECTS[params.slug];
+    if (destination) {
+      throw redirect({
+        to: "/article/$slug",
+        params: { slug: destination },
+        statusCode: 301,
+      });
+    }
+
     const article = getArticle(params.slug);
     if (!article) throw notFound();
     return { article };

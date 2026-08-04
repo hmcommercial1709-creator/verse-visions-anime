@@ -8,7 +8,9 @@ Tracked keyword/content map for https://gamecastle.store.
   next to them. None are cited today, so none are stated.
 - Priority reflects our own judgement of intent match and how complete the
   page already is — it is not a traffic forecast.
-- `/browse` is the single canonical anime discovery experience. `/explore` permanently redirects to it and must never appear in sitemaps or navigation.\n- Empty genre, studio, and editorial-category shelves are `noindex, follow` and excluded from discovery and XML sitemaps until they contain published items.\n- English is the only generic indexable locale. Arabic exists only where a
+- `/browse` is the single canonical anime discovery experience. `/explore` permanently redirects to it and must never appear in sitemaps or navigation.
+- Empty genre, studio, and editorial-category shelves are `noindex, follow` and excluded from discovery and XML sitemaps until they contain published items.
+- English is the only generic indexable locale. Arabic exists only where a
   genuinely translated page exists (`/ar/anime` and the guides in
   `src/data/ar-guides.ts`). Untranslated locale paths are `noindex` and are
   not advertised in the sitemap or hreflang.

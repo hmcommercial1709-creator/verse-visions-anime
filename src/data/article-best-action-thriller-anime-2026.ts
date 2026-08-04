@@ -8,6 +8,7 @@ import type { Article } from "./articles";
  */
 export const bestActionThrillerAnime2026Article: Article = {
   slug: "best-action-thriller-anime-2026",
+  publicationStatus: "review",
   section: "top-lists",
   category: "action",
   tags: ["action", "thriller", "2026", "top list", "reviews", "mappa", "ufotable"],

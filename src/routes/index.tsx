@@ -4,8 +4,7 @@ import { videoSummaries, KIND_LABEL } from "@/data/video-summaries";
 import { VideoSummaryCard } from "@/components/video-summary";
 import { episodes } from "@/data/episodes";
 
-import { genres } from "@/data/genres";
-import { studios } from "@/data/studios";
+import { populatedGenres, populatedStudios } from "@/lib/content-registry";
 import { articles } from "@/data/articles";
 import { AdSlot, MultiplexAd, StickySidebarAd, DisplayAd } from "@/components/ad-slot";
 import { Rail, EpisodeRail, PosterRail } from "@/components/streaming-rails";
@@ -72,6 +71,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const visibleGenres = populatedGenres();
+  const visibleStudios = populatedStudios();
+
   /**
    * Every rail below draws from a shared pool and removes what it takes, so no
    * anime card and no article card is ever rendered twice on this page.
@@ -210,7 +212,7 @@ function Home() {
         {/* GENRE SHELVES */}
         <Section eyebrow="Browse by category" title="Every mood, every night" subtitle="Jump straight into a shelf: tournament arcs, isekai, quiet grief — the medium is bigger than any single door.">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {genres.slice(0, 15).map((g) => (
+            {visibleGenres.slice(0, 15).map((g) => (
               <Link
                 key={g.slug}
                 to="/genre/$slug"
@@ -230,8 +232,8 @@ function Home() {
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <StatPill label="Series covered" value={`${animes.length}+`} />
-          <StatPill label="Genres" value={String(genres.length)} />
-          <StatPill label="Studios" value={String(studios.length)} />
+          <StatPill label="Genres" value={String(visibleGenres.length)} />
+          <StatPill label="Studios" value={String(visibleStudios.length)} />
           <StatPill label="Long reads" value={String(articles.length)} />
         </div>
 
@@ -344,7 +346,7 @@ function Home() {
         {/* STUDIOS */}
         <Section eyebrow="The people behind the frames" title="Studios shaping the medium">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {studios.slice(0, 8).map((s) => (
+            {visibleStudios.slice(0, 8).map((s) => (
               <Link key={s.slug} to="/studio/$slug" params={{ slug: s.slug }}
                 className="rounded-xl border border-border/60 p-5 hover:border-primary/60 card-hover hover:!card-hover-active"
                 style={{ background: `linear-gradient(135deg, ${s.accent}18, transparent 70%)` }}>

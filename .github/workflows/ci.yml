@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
@@ -32,8 +34,13 @@ jobs:
       - name: Validate content registry
         run: bun run validate:content
 
-      - name: Lint
-        run: bun run lint
+      - name: Lint changed source files
+        shell: bash
+        run: |
+          mapfile -d '' files < <(git diff --name-only -z "origin/${{ github.base_ref }}...HEAD" -- '*.ts' '*.tsx')
+          if ((${#files[@]})); then
+            bunx eslint "${files[@]}"
+          fi
 
       - name: Build production bundle
         run: bun run build

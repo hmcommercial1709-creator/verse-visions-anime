@@ -1,11 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { collectionSchema } from "@/lib/seo";
 import { useMemo } from "react";
-import {
-  populatedGenres,
-  populatedStudios,
-  publishedAnime,
-} from "@/lib/content-registry";
+import { populatedGenres, populatedStudios, publishedAnime } from "@/lib/content-registry";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
@@ -106,8 +102,7 @@ function Browse() {
         if (genre !== "all" && !item.genres.includes(genre)) return false;
         if (studio !== "all" && item.studio !== studio) return false;
         if (status !== "all" && item.status !== status) return false;
-        if (decade !== "all" && Math.floor(item.year / 10) * 10 !== Number(decade))
-          return false;
+        if (decade !== "all" && Math.floor(item.year / 10) * 10 !== Number(decade)) return false;
         return true;
       })
       .sort((a, b) =>
@@ -128,8 +123,7 @@ function Browse() {
     });
 
   const active =
-    [genre, studio, status, decade].filter((value) => value !== "all").length +
-    (q ? 1 : 0);
+    [genre, studio, status, decade].filter((value) => value !== "all").length + (q ? 1 : 0);
 
   const selectClass =
     "rounded-lg border border-border bg-secondary/60 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30";
@@ -159,29 +153,39 @@ function Browse() {
           <Filter className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
           <select
             value={genre}
-            onChange={(event) => update({ genre: event.target.value === "all" ? undefined : event.target.value })}
+            onChange={(event) =>
+              update({ genre: event.target.value === "all" ? undefined : event.target.value })
+            }
             className={selectClass}
             aria-label="Genre"
           >
             <option value="all">All genres</option>
             {genres.map((item) => (
-              <option key={item.slug} value={item.slug}>{item.name}</option>
+              <option key={item.slug} value={item.slug}>
+                {item.name}
+              </option>
             ))}
           </select>
           <select
             value={studio}
-            onChange={(event) => update({ studio: event.target.value === "all" ? undefined : event.target.value })}
+            onChange={(event) =>
+              update({ studio: event.target.value === "all" ? undefined : event.target.value })
+            }
             className={selectClass}
             aria-label="Studio"
           >
             <option value="all">All studios</option>
             {studios.map((item) => (
-              <option key={item.slug} value={item.slug}>{item.name}</option>
+              <option key={item.slug} value={item.slug}>
+                {item.name}
+              </option>
             ))}
           </select>
           <select
             value={status}
-            onChange={(event) => update({ status: event.target.value === "all" ? undefined : event.target.value })}
+            onChange={(event) =>
+              update({ status: event.target.value === "all" ? undefined : event.target.value })
+            }
             className={selectClass}
             aria-label="Status"
           >
@@ -192,13 +196,17 @@ function Browse() {
           </select>
           <select
             value={decade}
-            onChange={(event) => update({ decade: event.target.value === "all" ? undefined : event.target.value })}
+            onChange={(event) =>
+              update({ decade: event.target.value === "all" ? undefined : event.target.value })
+            }
             className={selectClass}
             aria-label="Decade"
           >
             <option value="all">Any decade</option>
             {decades.map((value) => (
-              <option key={value} value={value}>{value}s</option>
+              <option key={value} value={value}>
+                {value}s
+              </option>
             ))}
           </select>
           <select
@@ -248,7 +256,9 @@ function Browse() {
 
       {list.length > 0 ? (
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {list.map((item) => <AnimeCard key={item.slug} anime={item} />)}
+          {list.map((item) => (
+            <AnimeCard key={item.slug} anime={item} />
+          ))}
         </div>
       ) : (
         <div className="mt-10 rounded-2xl border border-border/60 bg-card/50 p-10 text-center">

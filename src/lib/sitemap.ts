@@ -13,7 +13,13 @@ import {
   populatedCategorySlugs,
 } from "@/lib/content-registry";
 import { AR_GUIDES } from "@/data/ar-guides";
-import { INDEXABLE_LOCALES, DEFAULT_LOCALE, getLocale, localizePath, type LocaleCode } from "@/lib/i18n";
+import {
+  INDEXABLE_LOCALES,
+  DEFAULT_LOCALE,
+  getLocale,
+  localizePath,
+  type LocaleCode,
+} from "@/lib/i18n";
 
 export const BASE_URL = "https://gamecastle.store";
 
@@ -38,24 +44,61 @@ export type Partition = (typeof PARTITIONS)[number];
 const PAGE_ENTRIES: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
   ...[
-    "/browse", "/seasonal", "/trending", "/top", "/top-rated", "/top-lists",
-    "/new-releases", "/upcoming", "/completed", "/classic", "/recommendations",
-    "/genres", "/studios", "/characters", "/streaming",
+    "/browse",
+    "/seasonal",
+    "/trending",
+    "/top",
+    "/top-rated",
+    "/top-lists",
+    "/new-releases",
+    "/upcoming",
+    "/completed",
+    "/classic",
+    "/recommendations",
+    "/genres",
+    "/studios",
+    "/characters",
+    "/streaming",
   ].map((path) => ({ path, changefreq: "daily" as const, priority: "0.9" })),
   ...["/store"].map((path) => ({
-    path, changefreq: "weekly" as const, priority: "0.9",
+    path,
+    changefreq: "weekly" as const,
+    priority: "0.9",
   })),
   ...[
-    "/blog", "/news", "/reviews", "/guides", "/editorial", "/watch-order", "/power-scaling",
-    "/manga-spoilers", "/timeline", "/quotes", "/facts", "/statistics", "/awards", "/events",
-    "/openings", "/soundtracks", "/wallpapers", "/merch", "/authors", "/faq",
+    "/blog",
+    "/news",
+    "/reviews",
+    "/guides",
+    "/editorial",
+    "/watch-order",
+    "/power-scaling",
+    "/manga-spoilers",
+    "/timeline",
+    "/quotes",
+    "/facts",
+    "/statistics",
+    "/awards",
+    "/events",
+    "/openings",
+    "/soundtracks",
+    "/wallpapers",
+    "/merch",
+    "/authors",
+    "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),
   ...["/about", "/contact", "/sitemap-page"].map((path) => ({
-    path, changefreq: "monthly" as const, priority: "0.6",
+    path,
+    changefreq: "monthly" as const,
+    priority: "0.6",
   })),
-  ...["/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy"].map((path) => ({
-    path, changefreq: "yearly" as const, priority: "0.4",
-  })),
+  ...["/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy"].map(
+    (path) => ({
+      path,
+      changefreq: "yearly" as const,
+      priority: "0.4",
+    }),
+  ),
 ];
 
 export function partitionEntries(partition: Partition): SitemapEntry[] {
@@ -64,25 +107,45 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
       return PAGE_ENTRIES;
     case "anime":
       return publishedAnime().map((a) => ({
-        path: `/anime/${a.slug}`, changefreq: "weekly" as const, priority: "0.9",
+        path: `/anime/${a.slug}`,
+        changefreq: "weekly" as const,
+        priority: "0.9",
       }));
     case "episodes":
       return publishedEpisodes().map((e) => ({
-        path: `/anime/${e.animeSlug}/episode/${e.number}`, changefreq: "monthly" as const, priority: "0.7",
+        path: `/anime/${e.animeSlug}/episode/${e.number}`,
+        changefreq: "monthly" as const,
+        priority: "0.7",
       }));
     case "articles":
       return publishedArticles().map((a) => ({
-        path: `/article/${a.slug}`, changefreq: "weekly" as const, priority: "0.8",
+        path: `/article/${a.slug}`,
+        changefreq: "weekly" as const,
+        priority: "0.8",
       }));
     case "characters":
       return publishedCharacters().map((c) => ({
-        path: `/character/${c.slug}`, changefreq: "monthly" as const, priority: "0.7",
+        path: `/character/${c.slug}`,
+        changefreq: "monthly" as const,
+        priority: "0.7",
       }));
     case "taxonomy":
       return [
-        ...populatedCategorySlugs().map((slug) => ({ path: `/category/${slug}`, changefreq: "daily" as const, priority: "0.8" })),
-        ...populatedGenres().map((g) => ({ path: `/genre/${g.slug}`, changefreq: "weekly" as const, priority: "0.7" })),
-        ...populatedStudios().map((s) => ({ path: `/studio/${s.slug}`, changefreq: "weekly" as const, priority: "0.7" })),
+        ...populatedCategorySlugs().map((slug) => ({
+          path: `/category/${slug}`,
+          changefreq: "daily" as const,
+          priority: "0.8",
+        })),
+        ...populatedGenres().map((g) => ({
+          path: `/genre/${g.slug}`,
+          changefreq: "weekly" as const,
+          priority: "0.7",
+        })),
+        ...populatedStudios().map((s) => ({
+          path: `/studio/${s.slug}`,
+          changefreq: "weekly" as const,
+          priority: "0.7",
+        })),
       ];
   }
 }
@@ -112,7 +175,9 @@ export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_
         e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
         e.priority ? `    <priority>${e.priority}</priority>` : null,
         `  </url>`,
-      ].filter(Boolean).join("\n"),
+      ]
+        .filter(Boolean)
+        .join("\n"),
     );
 
   return [
@@ -124,8 +189,13 @@ export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_
 }
 
 /** Child sitemap path for a partition in a given locale. */
-export function partitionSitemapPath(partition: Partition, locale: LocaleCode = DEFAULT_LOCALE): string {
-  return locale === DEFAULT_LOCALE ? `/sitemap-${partition}.xml` : `/sitemap/${locale}/${partition}.xml`;
+export function partitionSitemapPath(
+  partition: Partition,
+  locale: LocaleCode = DEFAULT_LOCALE,
+): string {
+  return locale === DEFAULT_LOCALE
+    ? `/sitemap-${partition}.xml`
+    : `/sitemap/${locale}/${partition}.xml`;
 }
 
 export function sitemapIndexXml(): string {
@@ -175,7 +245,9 @@ export function arUrlsetXml(): string {
       e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
       e.priority ? `    <priority>${e.priority}</priority>` : null,
       `  </url>`,
-    ].filter(Boolean).join("\n");
+    ]
+      .filter(Boolean)
+      .join("\n");
   });
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,

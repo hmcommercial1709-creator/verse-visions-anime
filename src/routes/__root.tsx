@@ -18,7 +18,6 @@ import { PropellerConversion } from "@/components/propeller-conversion";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
 
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -84,10 +83,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
+      {
+        name: "robots",
+        content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
       { title: "GameCastle Anime | Anime Guides & Watch Orders" },
 
-      { name: "description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
+      {
+        name: "description",
+        content:
+          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
+      },
       { name: "author", content: "GameCastle Anime Editorial" },
       { property: "og:site_name", content: "GameCastle Anime" },
       { property: "og:type", content: "website" },
@@ -98,8 +104,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#12081b" },
       { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
       { name: "twitter:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
-      { property: "og:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
-      { name: "twitter:description", content: "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime." },
+      {
+        property: "og:description",
+        content:
+          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -107,14 +121,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://gamecastle.store" },
-      { rel: "preconnect", href: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" },
+      {
+        rel: "preconnect",
+        href: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700;800&display=swap",
+      },
       { rel: "preconnect", href: "https://pagead2.googlesyndication.com" },
       { rel: "dns-prefetch", href: "https://googleads.g.doubleclick.net" },
-      { rel: "sitemap", type: "application/xml", title: "Sitemap", href: "https://gamecastle.store/sitemap.xml" },
-      { rel: "alternate", type: "application/rss+xml", title: "GameCastle Anime RSS Feed", href: "https://gamecastle.store/rss.xml" },
+      {
+        rel: "sitemap",
+        type: "application/xml",
+        title: "Sitemap",
+        href: "https://gamecastle.store/sitemap.xml",
+      },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "GameCastle Anime RSS Feed",
+        href: "https://gamecastle.store/rss.xml",
+      },
     ],
-
 
     scripts: [
       // Global AdSense loader (Auto Ads). Loaded from the document head so
@@ -126,10 +156,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         crossOrigin: "anonymous",
         src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
       },
-
-
-
-
 
       {
         type: "application/ld+json",
@@ -143,7 +169,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               url: "https://gamecastle.store/",
               description:
                 "GameCastle Anime is an independent anime editorial publication covering reviews, character deep-dives, watch orders, studio profiles and long-form analysis.",
-
             },
             {
               "@type": "WebSite",
@@ -164,9 +189,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           ],
         }),
       },
-
     ],
-
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -207,9 +230,7 @@ function RootComponent() {
         <SiteFooter />
         <DeferredScripts />
         <PropellerConversion />
-
       </div>
     </QueryClientProvider>
-
   );
 }

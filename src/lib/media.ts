@@ -151,6 +151,8 @@ const articleBackdrops: Record<string, MediaArt> = {
   "top-upcoming-anime-open-world-games-2026": art(bGames2026_full, bGames2026_s, 1536, 864),
   // Watch-order guide reuses the owned Jujutsu Kaisen key visual (matches its og:image).
   "jujutsu-kaisen-watch-order-and-manga-jump": art(bReviewJujutsuKaisenS2, bReviewJujutsuKaisenS2_s, 1536, 864),
+  // Dr. Stone inventions guide reuses the owned Dr. Stone key visual (matches its og:image).
+  "dr-stone-science-tech-tree-guide": art(pDrStone, pDrStone_s, 1024, 1536),
 };
 
 /** Stable, SSR-safe hash so server and client resolve the same artwork. */

@@ -75,6 +75,7 @@ import { sorcererFamiliesArticle } from "./article-sorcerer-families";
 import { wanoRecapArticle } from "./article-wano-recap";
 import { jjkWatchOrderArticle } from "./article-jjk-watch-order";
 import { soloLevelingSystemArticle } from "./article-solo-leveling-system";
+import { drStoneInventionsArticle } from "./article-dr-stone-inventions";
 import { topUpcomingAnimeOpenWorldGames2026Article } from "./article-top-upcoming-anime-open-world-games-2026";
 import { extraArticles } from "./articles-extra";
 import { longformArticles } from "./articles-longform";
@@ -101,6 +102,7 @@ const coreArticles: Article[] = [
   wanoRecapArticle,
   jjkWatchOrderArticle,
   soloLevelingSystemArticle,
+  drStoneInventionsArticle,
   { slug: "why-frieren-won-2024", section: "editorial", title: "Why Frieren Won the Year: A Long Answer to a Short Question",
     excerpt: "The 2024 Anime of the Year didn't win because it was flashy. It won because it took the medium seriously.",
     author: "aiko-tanaka", date: "2026-03-14", tag: "Editorial",

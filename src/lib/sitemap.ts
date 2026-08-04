@@ -8,10 +8,10 @@ import {
   publishedArticles,
   publishedCharacters,
   publishedEpisodes,
-  allGenres,
-  allStudios,
+  populatedGenres,
+  populatedStudios,
+  populatedCategorySlugs,
 } from "@/lib/content-registry";
-import { categorySlugs } from "@/data/categories";
 import { AR_GUIDES } from "@/data/ar-guides";
 import { INDEXABLE_LOCALES, DEFAULT_LOCALE, getLocale, localizePath, type LocaleCode } from "@/lib/i18n";
 
@@ -38,11 +38,11 @@ export type Partition = (typeof PARTITIONS)[number];
 const PAGE_ENTRIES: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
   ...[
-    "/browse", "/explore", "/seasonal", "/trending", "/top", "/top-rated", "/top-lists",
+    "/browse", "/seasonal", "/trending", "/top", "/top-rated", "/top-lists",
     "/new-releases", "/upcoming", "/completed", "/classic", "/recommendations",
     "/genres", "/studios", "/characters", "/streaming",
   ].map((path) => ({ path, changefreq: "daily" as const, priority: "0.9" })),
-  ...["/store", "/ja/store", "/es/store", "/fr/store", "/pt/store"].map((path) => ({
+  ...["/store"].map((path) => ({
     path, changefreq: "weekly" as const, priority: "0.9",
   })),
   ...[
@@ -80,9 +80,9 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
       }));
     case "taxonomy":
       return [
-        ...categorySlugs().map((slug) => ({ path: `/category/${slug}`, changefreq: "daily" as const, priority: "0.8" })),
-        ...allGenres().map((g) => ({ path: `/genre/${g.slug}`, changefreq: "weekly" as const, priority: "0.7" })),
-        ...allStudios().map((s) => ({ path: `/studio/${s.slug}`, changefreq: "weekly" as const, priority: "0.7" })),
+        ...populatedCategorySlugs().map((slug) => ({ path: `/category/${slug}`, changefreq: "daily" as const, priority: "0.8" })),
+        ...populatedGenres().map((g) => ({ path: `/genre/${g.slug}`, changefreq: "weekly" as const, priority: "0.7" })),
+        ...populatedStudios().map((s) => ({ path: `/studio/${s.slug}`, changefreq: "weekly" as const, priority: "0.7" })),
       ];
   }
 }

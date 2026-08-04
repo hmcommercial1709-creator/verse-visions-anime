@@ -161,7 +161,7 @@ export const Route = createFileRoute("/article/$slug")({
             headline: a.title,
             description: a.excerpt,
             datePublished: a.date,
-            dateModified: a.date,
+            dateModified: a.updated ?? a.date,
             mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/article/${a.slug}`) },
             articleSection: a.section,
             wordCount: wordCount(articleParagraphs(a)),
@@ -267,6 +267,17 @@ function ArticlePage() {
                 <div className="min-w-0">
                   <div className="truncate text-sm font-semibold">{author?.name}</div>
                   <div className="truncate text-xs text-muted-foreground">{author?.role} · {a.date}</div>
+                  {a.updated && (
+                    <div className="truncate text-xs text-muted-foreground">
+                      Last updated:{" "}
+                      {new Date(`${a.updated}T00:00:00Z`).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        timeZone: "UTC",
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex shrink-0 flex-wrap justify-end gap-1.5 text-[11px]">

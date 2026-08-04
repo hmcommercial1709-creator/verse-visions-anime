@@ -48,6 +48,8 @@ export type Article = {
   excerpt: string;
   author: string; // slug
   date: string;
+  /** ISO date of the latest substantive revision; drives dateModified and the byline. */
+  updated?: string;
   tag: string;
   cover: string;
   body: string[];

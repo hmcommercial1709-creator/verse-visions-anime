@@ -92,7 +92,7 @@ export const drStoneInventionsArticle: Article = {
     },
 
     {
-      heading: "Early Survival Inventions",
+      heading: "Early Senku Inventions: Survival Tools and Revival Fluid",
       paragraphs: [
         "The first tier is pure stone age. Senku wakes in a petrified world with no infrastructure, so the opening inventions are cord, spears, a fire pit, a stone-and-charcoal lamp and a rough calendar kept by counting days. None of it is impressive on its own; all of it is the base of the tree.",
         "The revival fluid is the genuine breakthrough of this stage. Senku identifies a nitric-acid source in a bat cave and mixes it with alcohol to free other petrified humans, which turns a solo survival story into a project with a workforce. Choosing who to revive becomes an early strategic decision rather than a moral afterthought.",
@@ -100,7 +100,7 @@ export const drStoneInventionsArticle: Article = {
       ],
     },
     {
-      heading: "Medicine and the Sulfa Drug Roadmap",
+      heading: "Medicine on the Science Roadmap: The Sulfa Drug",
       paragraphs: [
         "The first true milestone is medical, not military. Ruri, the village priestess, is dying of pneumonia, and Senku commits the young Kingdom of Science to synthesising a sulfa drug — an antibacterial compound that predates penicillin and, crucially, can be built from materials the group can actually reach.",
         "The roadmap is the most instructive sequence in the series. It needs heat-resistant glassware, so glass comes first. It needs sulfur and acid handling, so a sulfur source and safe vessels come next. Every step is a separate expedition or build, and the show lets each failure cost time. That is the honest version of a tech tree: the recipe is public, the logistics are the difficulty.",
@@ -108,7 +108,7 @@ export const drStoneInventionsArticle: Article = {
       ],
     },
     {
-      heading: "Electricity, Glass and Industrial Tools",
+      heading: "Dr. Stone Inventions for Electricity, Glass and Industry",
       paragraphs: [
         "Iron and glass are the two materials the rest of the series routes through. Iron arrives via a tatara-style furnace fed with iron sand, charcoal and forced air, giving the lab blades, nails, vessel fittings and — most importantly — wire. Glass arrives from silica sand at high temperature, giving flasks, lenses and eventually sealed bulbs.",
         "Electricity follows from magnets plus copper wire. A hand-cranked generator is enough to start, and once current exists the tree branches quickly: electrolysis for chemicals the group cannot mine, arc heat for higher furnace temperatures, and stored power for machines that cannot wait on muscle. Kaseki, the village craftsman, is effectively a prerequisite in himself, because precision parts need a machinist and not just a smith.",
@@ -116,7 +116,7 @@ export const drStoneInventionsArticle: Article = {
       ],
     },
     {
-      heading: "Communication and Information Technology",
+      heading: "Senku Inventions for Communication and Information",
       paragraphs: [
         "The cell phone is the series' signature build, and it is a genuine dependency payoff: copper wire from smelting, vacuum tubes from glass and filament work, and steady current from the generator. Senku's team assembles a crude wired-and-radio telephone system during the Stone Wars, and it wins that conflict less by force than by coordination — one side can pass information instantly, the other cannot.",
         "Around it sit the information tools that make a small population effective: paper, printing and written records, so knowledge stops living in one person's head. Chalk-and-slate diagrams, maps and material inventories are unglamorous inventions that quietly raise the ceiling on every project.",
@@ -124,7 +124,7 @@ export const drStoneInventionsArticle: Article = {
       ],
     },
     {
-      heading: "Vehicles, Engines and Advanced Technology",
+      heading: "Vehicles, Engines and Advanced Dr. Stone Technology",
       paragraphs: [
         "The industrial tier begins with steam. A boiler, sealed pressure and iron parts give the Kingdom of Science powered movement — vehicles that carry loads no team of villagers could, and rotating power for workshop machinery. From there the tree opens into ocean travel: a seaworthy ship, navigation instruments and the food preservation needed for a long voyage.",
         "Chemistry keeps pace with mechanics. Petroleum access allows refining, refining allows better fuels and lubricants, and better fuels allow engines with far higher power-to-weight ratios than steam. That is the step that makes flight plausible within the story's own rules rather than as a wish.",
@@ -144,7 +144,7 @@ export const drStoneInventionsArticle: Article = {
       ],
     },
     {
-      heading: "Dr. Stone Inventions in Order",
+      heading: "The Full Dr. Stone Inventions List in Order",
       paragraphs: [
         "Condensed build order, tier by tier: revival fluid and stone-age tools; food, soap and cola for morale and recruitment; charcoal, iron sand and the furnace; glass and laboratory vessels; the sulfa drug; magnets, wire and the generator; the light bulb and vacuum sealing; the vacuum tube and the telephone; paper and printing; steam power and vehicles; ships and navigation; petroleum refining, engines and flight; and finally the large-scale programme of the closing arc.",
         "The rule behind the order is simple: nothing appears before the material and the manpower that make it possible. When you spot an invention arriving early, the story has usually just paid for it with an expedition, a new ally or a failed attempt — which is exactly why the series rewards rewatching with the dependency chain in mind.",
@@ -159,7 +159,7 @@ export const drStoneInventionsArticle: Article = {
       ],
     },
     {
-      heading: "Frequently Asked Questions",
+      heading: "Dr. Stone Inventions FAQ",
       paragraphs: [
         "What is the first invention in Dr. Stone? The revival fluid — a nitric-acid and alcohol solution that reverses petrification — alongside the basic stone-age tools Senku needs to survive long enough to make it.",
         "How many inventions are there in Dr. Stone? There is no official count, since the series treats small tools and headline machines alike. Roughly forty to fifty named creations matter to the plot.",

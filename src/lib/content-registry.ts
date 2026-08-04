@@ -44,7 +44,9 @@ export type WithMeta<T> = T & {
   imageAttribution?: string;
 };
 
-export function isPublished(item: { publicationStatus?: PublicationStatus } | Record<string, unknown>): boolean {
+export function isPublished(
+  item: { publicationStatus?: PublicationStatus } | Record<string, unknown>,
+): boolean {
   const status = (item as { publicationStatus?: PublicationStatus }).publicationStatus;
   return (status ?? "published") === "published";
 }
@@ -66,9 +68,7 @@ export const animeByStudio = (studioSlug: string): Anime[] =>
 
 export const animeByTheme = (theme: string): Anime[] => {
   const needle = theme.toLowerCase();
-  return publishedAnime().filter((a) =>
-    a.themes.some((t) => t.toLowerCase() === needle),
-  );
+  return publishedAnime().filter((a) => a.themes.some((t) => t.toLowerCase() === needle));
 };
 
 // ---------------------------------------------------------------------
@@ -132,7 +132,9 @@ export const getGenreBySlug = (slug: string): Genre | undefined =>
   genres.find((g) => g.slug === slug);
 
 export const populatedCategories = (): Category[] => {
-  const live = new Set<CategorySlug>(publishedArticles().map((article) => categoryForArticle(article)));
+  const live = new Set<CategorySlug>(
+    publishedArticles().map((article) => categoryForArticle(article)),
+  );
   return categories.filter((category) => live.has(category.slug));
 };
 export const populatedCategorySlugs = (): CategorySlug[] =>
@@ -169,7 +171,15 @@ export type SearchEntry = {
   slug: string;
   title: string;
   subtitle?: string;
-  kind: "anime" | "character" | "studio" | "genre" | "article" | "episode" | "franchise" | "ranking";
+  kind:
+    | "anime"
+    | "character"
+    | "studio"
+    | "genre"
+    | "article"
+    | "episode"
+    | "franchise"
+    | "ranking";
   href: string;
   keywords: string[];
 };
@@ -178,36 +188,51 @@ export function buildSearchIndex(): SearchEntry[] {
   const idx: SearchEntry[] = [];
   for (const a of publishedAnime()) {
     idx.push({
-      slug: a.slug, title: a.title, subtitle: `${a.year} · ${a.status}`,
-      kind: "anime", href: `/anime/${a.slug}`,
+      slug: a.slug,
+      title: a.title,
+      subtitle: `${a.year} · ${a.status}`,
+      kind: "anime",
+      href: `/anime/${a.slug}`,
       keywords: [a.title, a.japaneseTitle ?? "", a.tagline, ...a.themes, ...a.genres],
     });
   }
   for (const c of publishedCharacters()) {
     idx.push({
-      slug: c.slug, title: c.name, subtitle: c.role,
-      kind: "character", href: `/character/${c.slug}`,
+      slug: c.slug,
+      title: c.name,
+      subtitle: c.role,
+      kind: "character",
+      href: `/character/${c.slug}`,
       keywords: [c.name, c.role, ...c.personality],
     });
   }
   for (const s of populatedStudios()) {
     idx.push({
-      slug: s.slug, title: s.name, subtitle: "Studio",
-      kind: "studio", href: `/studio/${s.slug}`,
+      slug: s.slug,
+      title: s.name,
+      subtitle: "Studio",
+      kind: "studio",
+      href: `/studio/${s.slug}`,
       keywords: [s.name, s.country],
     });
   }
   for (const g of populatedGenres()) {
     idx.push({
-      slug: g.slug, title: g.name, subtitle: "Genre",
-      kind: "genre", href: `/genre/${g.slug}`,
+      slug: g.slug,
+      title: g.name,
+      subtitle: "Genre",
+      kind: "genre",
+      href: `/genre/${g.slug}`,
       keywords: [g.name],
     });
   }
   for (const a of publishedArticles()) {
     idx.push({
-      slug: a.slug, title: a.title, subtitle: a.tag,
-      kind: "article", href: `/article/${a.slug}`,
+      slug: a.slug,
+      title: a.title,
+      subtitle: a.tag,
+      kind: "article",
+      href: `/article/${a.slug}`,
       keywords: [a.title, a.excerpt, a.tag, a.section],
     });
   }
@@ -223,15 +248,21 @@ export function buildSearchIndex(): SearchEntry[] {
   }
   for (const f of franchises) {
     idx.push({
-      slug: f.slug, title: f.name, subtitle: "Franchise",
-      kind: "franchise", href: `/watch-order#${f.slug}`,
+      slug: f.slug,
+      title: f.name,
+      subtitle: "Franchise",
+      kind: "franchise",
+      href: `/watch-order#${f.slug}`,
       keywords: [f.name],
     });
   }
   for (const r of publishedRankings()) {
     idx.push({
-      slug: r.slug, title: r.title, subtitle: "Ranking",
-      kind: "ranking", href: `/top-lists#${r.slug}`,
+      slug: r.slug,
+      title: r.title,
+      subtitle: "Ranking",
+      kind: "ranking",
+      href: `/top-lists#${r.slug}`,
       keywords: [r.title, r.summary],
     });
   }
@@ -271,7 +302,11 @@ export function validateReferences(): ValidationIssue[] {
     const seen = new Set<string>();
     for (const item of list) {
       if (seen.has(item.slug))
-        issues.push({ level: "error", kind: "duplicate-slug", message: `${label}: duplicate slug "${item.slug}"` });
+        issues.push({
+          level: "error",
+          kind: "duplicate-slug",
+          message: `${label}: duplicate slug "${item.slug}"`,
+        });
       seen.add(item.slug);
     }
   };
@@ -286,32 +321,60 @@ export function validateReferences(): ValidationIssue[] {
   // Anime references
   for (const a of animes) {
     if (!studioSlugs.has(a.studio))
-      issues.push({ level: "error", kind: "missing-ref", message: `anime "${a.slug}" → studio "${a.studio}" not found` });
+      issues.push({
+        level: "error",
+        kind: "missing-ref",
+        message: `anime "${a.slug}" → studio "${a.studio}" not found`,
+      });
     for (const g of a.genres)
       if (!genreSlugs.has(g))
-        issues.push({ level: "error", kind: "missing-ref", message: `anime "${a.slug}" → genre "${g}" not found` });
+        issues.push({
+          level: "error",
+          kind: "missing-ref",
+          message: `anime "${a.slug}" → genre "${g}" not found`,
+        });
     for (const c of a.characters)
       if (!characterSlugs.has(c))
-        issues.push({ level: "warn", kind: "missing-ref", message: `anime "${a.slug}" → character "${c}" not found` });
+        issues.push({
+          level: "warn",
+          kind: "missing-ref",
+          message: `anime "${a.slug}" → character "${c}" not found`,
+        });
     for (const s of a.similar)
       if (!animeSlugs.has(s))
-        issues.push({ level: "warn", kind: "missing-ref", message: `anime "${a.slug}" → similar "${s}" not found` });
+        issues.push({
+          level: "warn",
+          kind: "missing-ref",
+          message: `anime "${a.slug}" → similar "${s}" not found`,
+        });
   }
 
   // Character references
   for (const c of characters) {
     if (!animeSlugs.has(c.anime))
-      issues.push({ level: "error", kind: "missing-ref", message: `character "${c.slug}" → anime "${c.anime}" not found` });
+      issues.push({
+        level: "error",
+        kind: "missing-ref",
+        message: `character "${c.slug}" → anime "${c.anime}" not found`,
+      });
   }
 
   // Episode references + duplicates + missing anime
   const epKey = new Set<string>();
   for (const e of episodes) {
     if (!animeSlugs.has(e.animeSlug))
-      issues.push({ level: "error", kind: "missing-ref", message: `episode ${e.number} → anime "${e.animeSlug}" not found` });
+      issues.push({
+        level: "error",
+        kind: "missing-ref",
+        message: `episode ${e.number} → anime "${e.animeSlug}" not found`,
+      });
     const key = `${e.animeSlug}#${e.number}`;
     if (epKey.has(key))
-      issues.push({ level: "error", kind: "duplicate-episode", message: `duplicate episode "${key}"` });
+      issues.push({
+        level: "error",
+        kind: "duplicate-episode",
+        message: `duplicate episode "${key}"`,
+      });
     epKey.add(key);
   }
 
@@ -319,28 +382,48 @@ export function validateReferences(): ValidationIssue[] {
   for (const a of articles) {
     for (const r of a.related)
       if (!animeSlugs.has(r))
-        issues.push({ level: "warn", kind: "missing-ref", message: `article "${a.slug}" → related anime "${r}" not found` });
+        issues.push({
+          level: "warn",
+          kind: "missing-ref",
+          message: `article "${a.slug}" → related anime "${r}" not found`,
+        });
   }
 
   // Relationships reference known characters
   for (const r of characterRelationships) {
     if (!characterSlugs.has(r.from))
-      issues.push({ level: "error", kind: "missing-ref", message: `relationship → character "${r.from}" not found` });
+      issues.push({
+        level: "error",
+        kind: "missing-ref",
+        message: `relationship → character "${r.from}" not found`,
+      });
     if (!characterSlugs.has(r.to))
-      issues.push({ level: "error", kind: "missing-ref", message: `relationship → character "${r.to}" not found` });
+      issues.push({
+        level: "error",
+        kind: "missing-ref",
+        message: `relationship → character "${r.to}" not found`,
+      });
   }
 
   // Story arcs
   for (const arc of storyArcs) {
     if (!animeSlugs.has(arc.animeSlug))
-      issues.push({ level: "error", kind: "missing-ref", message: `arc "${arc.slug}" → anime "${arc.animeSlug}" not found` });
+      issues.push({
+        level: "error",
+        kind: "missing-ref",
+        message: `arc "${arc.slug}" → anime "${arc.animeSlug}" not found`,
+      });
   }
 
   // Franchises
   for (const f of franchises) {
     for (const e of f.entries) {
       if (e.animeSlug && !animeSlugs.has(e.animeSlug))
-        issues.push({ level: "warn", kind: "missing-ref", message: `franchise "${f.slug}" → entry "${e.title}" references unknown anime "${e.animeSlug}"` });
+        issues.push({
+          level: "warn",
+          kind: "missing-ref",
+          message: `franchise "${f.slug}" → entry "${e.title}" references unknown anime "${e.animeSlug}"`,
+        });
     }
   }
 

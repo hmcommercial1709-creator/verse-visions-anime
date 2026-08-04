@@ -137,10 +137,16 @@ export const Route = createFileRoute("/article/$slug")({
     const a = loaderData.article;
     return {
       meta: [
-        { title: `${a.title} · AnimeVerse` },
+        { title: a.seoTitle ?? `${a.title} · AnimeVerse` },
         { name: "description", content: a.excerpt },
-        { property: "og:title", content: a.title },
+        { property: "og:title", content: a.seoTitle ?? a.title },
         { property: "og:description", content: a.excerpt },
+        ...(a.ogImage
+          ? [
+              { property: "og:image", content: absoluteUrl(a.ogImage) },
+              { name: "twitter:image", content: absoluteUrl(a.ogImage) },
+            ]
+          : []),
         { property: "og:type", content: "article" },
         { property: "og:url", content: absoluteUrl(`/article/${a.slug}`) },
         { name: "twitter:card", content: "summary_large_image" },

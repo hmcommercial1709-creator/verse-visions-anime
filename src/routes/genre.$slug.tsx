@@ -1,9 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getGenre } from "@/data/genres";
-import {
-  animeByGenre,
-  populatedGenres,
-} from "@/lib/content-registry";
+import { animeByGenre, populatedGenres } from "@/lib/content-registry";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
@@ -31,9 +28,7 @@ export const Route = createFileRoute("/genre/$slug")({
       meta: [
         { title },
         { name: "description", content: description },
-        ...(!hasPublishedGuides
-          ? [{ name: "robots", content: "noindex, follow" }]
-          : []),
+        ...(!hasPublishedGuides ? [{ name: "robots", content: "noindex, follow" }] : []),
         { property: "og:url", content: `https://gamecastle.store/genre/${genre.slug}` },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
@@ -76,13 +71,9 @@ function GenrePage() {
             >
               Genre
             </div>
-            <h1 className="mt-2 font-display text-5xl font-bold lg:text-6xl">
-              {genre.name} Anime
-            </h1>
+            <h1 className="mt-2 font-display text-5xl font-bold lg:text-6xl">{genre.name} Anime</h1>
             <p className="mt-3 text-xl font-semibold text-gradient">{genre.tagline}</p>
-            <p className="mt-5 text-lg leading-relaxed text-foreground/85">
-              {genre.description}
-            </p>
+            <p className="mt-5 text-lg leading-relaxed text-foreground/85">{genre.description}</p>
           </div>
         </div>
       </section>
@@ -115,19 +106,21 @@ function GenrePage() {
                 What defines great {genre.name.toLowerCase()} anime?
               </h2>
               <p className="max-w-3xl leading-relaxed text-foreground/85">
-                The {genre.name.toLowerCase()} category is not a checklist; it is a promise.
-                Every published guide above explores how a series keeps, bends or breaks that
-                promise. Start with the premise that interests you, then follow its related
-                characters, watch order and analysis.
+                The {genre.name.toLowerCase()} category is not a checklist; it is a promise. Every
+                published guide above explores how a series keeps, bends or breaks that promise.
+                Start with the premise that interests you, then follow its related characters, watch
+                order and analysis.
               </p>
             </div>
           </>
         ) : (
           <div className="my-12 rounded-2xl border border-border/60 bg-card/40 p-8 text-center">
-            <h2 className="font-display text-2xl font-bold">No published guides in this genre yet</h2>
+            <h2 className="font-display text-2xl font-bold">
+              No published guides in this genre yet
+            </h2>
             <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
-              We do not index empty shelves. Browse the populated library to find a complete
-              guide now.
+              We do not index empty shelves. Browse the populated library to find a complete guide
+              now.
             </p>
             <Link
               to="/browse"

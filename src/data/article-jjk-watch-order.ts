@@ -1,20 +1,28 @@
 import type { Article } from "./articles";
+import jjkWatchOrderArt from "@/assets/art/review-jujutsu-kaisen-s2.webp.asset.json";
 
 /**
- * Cornerstone rewrite of the JJK watch order guide. Target cluster:
- * "how to watch jjk in order", "jujutsu kaisen watch order",
- * "jujutsu kaisen chronological order", "jjk season order",
- * "where to start jujutsu kaisen", "jjk manga after anime".
+ * Cornerstone English guide for the Jujutsu Kaisen watch-order cluster:
+ * "jujutsu kaisen watch order", "how to watch jjk in order",
+ * "jujutsu kaisen chronological order", "jujutsu kaisen movie watch order",
+ * "when to watch jujutsu kaisen 0", "where to start the manga after the anime".
+ *
+ * Structure note for future localisation: every section is a self-contained
+ * heading + paragraph block, so professionally translated ES / PT / AR / FR / DE
+ * versions can be authored on their own localised URLs later, each with its own
+ * self-referencing canonical and reciprocal hreflang. No hreflang is emitted for
+ * this page until those translated pages actually exist.
  */
 export const jjkWatchOrderArticle: Article = {
   slug: "jujutsu-kaisen-watch-order-and-manga-jump",
   section: "guides",
   category: "gaming-guides",
   tags: ["jujutsu-kaisen", "watch-order", "manga", "guide", "beginner"],
-  title:
-    "How to Watch Jujutsu Kaisen in Order (2026): Full Watch Order, Chronological Order, Movie Placement and Where to Start the Manga",
+  title: "Jujutsu Kaisen Watch Order: Complete Anime and Movie Guide",
+  seoTitle: "Jujutsu Kaisen Watch Order: Anime, Movie & Manga Guide",
   excerpt:
-    "The complete Jujutsu Kaisen watch order: release order versus chronological order, exactly where Jujutsu Kaisen 0 belongs, the season and arc breakdown, and the chapter to jump to after the anime.",
+    "Watch Jujutsu Kaisen in the correct order, including every season, Jujutsu Kaisen 0, chronological order and where to continue in the manga.",
+  ogImage: jjkWatchOrderArt.url,
   author: "hana-mori",
   date: "2026-07-31",
   tag: "Jujutsu Kaisen · Watch Order",
@@ -23,66 +31,55 @@ export const jjkWatchOrderArticle: Article = {
   related: ["jujutsu-kaisen"],
   faqs: [
     {
-      q: "How do you watch Jujutsu Kaisen in order?",
-      a: "Watch Season 1 (episodes 1–24), then the movie Jujutsu Kaisen 0, then Season 2 (episodes 25–47), then the Culling Game continuation. This is release order and it is the recommended order for a first watch.",
+      q: "What is the correct Jujutsu Kaisen watch order?",
+      a: "Season 1 (episodes 1–24), then the film Jujutsu Kaisen 0, then Season 2 (episodes 25–47), then Season 3, which adapts the Culling Game. This is release order and the recommended sequence for a first watch.",
     },
     {
-      q: "Should I watch Jujutsu Kaisen 0 before or after Season 1?",
-      a: "After Season 1. Chronologically the movie happens first, but it was written as a prequel for viewers who already know Yuji, Gojo and the school, and its ending directly sets up material used in Season 2. Watching it first spoils a Season 1 reveal and weakens the movie's payoff.",
+      q: "When should you watch Jujutsu Kaisen 0?",
+      a: "After Season 1. The film is set about a year earlier, but it was written for viewers who already know the school and the cast, and one of its details is a mid-Season-1 reveal.",
     },
     {
-      q: "What is the chronological order of Jujutsu Kaisen?",
-      a: "Chronologically: Hidden Inventory / Premature Death (Season 2 episodes 1–5, set in 2006), Jujutsu Kaisen 0 (2017), Season 1 (2018), then Shibuya Incident (Season 2, second half) and everything after. Use this order only on a rewatch.",
+      q: "Can you watch the Jujutsu Kaisen movie before Season 1?",
+      a: "You can follow the plot, but it is not recommended. Watching it first spoils a Season 1 reveal and removes most of the emotional context the film relies on for its ending.",
     },
     {
-      q: "Do I need to watch Jujutsu Kaisen 0 at all?",
-      a: "Yes for the full story. Yuta Okkotsu, Rika, and the Geto material introduced in the movie all return as central plot elements later, and skipping it makes the post-Shibuya story confusing.",
+      q: "What is the Jujutsu Kaisen chronological order?",
+      a: "Hidden Inventory / Premature Death (Season 2, episodes 25–29, set in 2006), then Jujutsu Kaisen 0 (2017), then Season 1 (2018), then the Shibuya Incident and Season 3. Use it for rewatches only.",
     },
     {
-      q: "Where does Season 2 start and end?",
-      a: "Season 2 covers episodes 25 to 47: the Hidden Inventory / Premature Death arc in the first five episodes, then the Shibuya Incident arc from episode 30 to the finale.",
-    },
-    {
-      q: "What chapter should I read after finishing the Jujutsu Kaisen anime?",
-      a: "Continue from chapter 137, immediately after the Shibuya Incident's closing scenes. Starting at the next arc's first chapter (around 143) skips setup the anime did not adapt.",
-    },
-    {
-      q: "How long does it take to watch Jujutsu Kaisen?",
-      a: "About 20 hours: 47 episodes at roughly 24 minutes each, plus the 105-minute movie.",
-    },
-    {
-      q: "Is there filler in Jujutsu Kaisen?",
-      a: "No. There are no filler episodes. Every episode adapts manga material, so the watch order is purely a question of season and movie sequencing.",
+      q: "Where do you start the manga after the anime?",
+      a: "Season 2 ends around chapter 136, so continue from chapter 137. If you have also finished Season 3's Culling Game episodes, check your last adapted chapter before choosing a jump point.",
     },
   ],
   sections: [
     {
-      heading: "The Short Answer: Jujutsu Kaisen Watch Order in 2026",
+      heading: "Best Jujutsu Kaisen Watch Order",
       paragraphs: [
-        "If you want one line and nothing else: watch Season 1, then the movie Jujutsu Kaisen 0, then Season 2, then the Culling Game continuation. That is release order, it is the order the story was written to be experienced in, and it is what we recommend to every first-time viewer without exception. The confusion around this series comes from the fact that the movie is a prequel, which makes people assume it should be watched first. It should not, and the reason is specific rather than a matter of taste.",
-        "Below is the full breakdown: the numbered watch order with episode counts, the arc-by-arc structure of each season, the chronological order for rewatchers, the exact placement argument for the movie, the correct manga jump point, and where each part is legally streaming. Everything is spoiler-safe outside clearly labelled gates.",
+        "Jujutsu Kaisen is short compared with most long-running shonen, yet its viewing order confuses people more than series ten times its length. The reason is the film: Jujutsu Kaisen 0 carries a number that looks like a starting point, and it is genuinely set before the first season. That combination sends a lot of new viewers to the movie first, which is the one order the story was not built for.",
+        "This guide covers both sequences that matter — release order for a first watch and chronological order for a rewatch — plus where the film belongs, what each season adapts, and the point where the manga picks up after the anime. Nothing below reveals a major plot beat outside a labelled spoiler gate.",
+        "Quick answer: watch Jujutsu Kaisen Season 1 (episodes 1–24) first, then the film Jujutsu Kaisen 0, then Season 2 (episodes 25–47), then Season 3, which adapts the Culling Game arc. That release order is the recommended sequence for a first watch, and the series has no filler episodes to skip along the way.",
       ],
       blocks: [
         {
           type: "table",
-          caption: "Jujutsu Kaisen watch order — the recommended sequence for a first watch.",
+          caption: "Recommended Jujutsu Kaisen watch order, step by step.",
           columns: ["#", "What to Watch", "Episodes / Runtime", "Arc Covered"],
           rows: [
             ["1", "Jujutsu Kaisen Season 1", "Episodes 1–24 (~9h 40m)", "Fearsome Womb, Vs. Mahito, Kyoto Goodwill Event, Death Painting"],
-            ["2", "Jujutsu Kaisen 0 (movie)", "105 minutes", "Yuta Okkotsu and the Cursed Child (prequel, 2017)"],
+            ["2", "Jujutsu Kaisen 0 (film)", "105 minutes", "Yuta Okkotsu and the cursed child (prequel, 2017)"],
             ["3", "Jujutsu Kaisen Season 2, first half", "Episodes 25–29 (~2h)", "Hidden Inventory / Premature Death (2006)"],
             ["4", "Jujutsu Kaisen Season 2, second half", "Episodes 30–47 (~7h 15m)", "Shibuya Incident"],
-            ["5", "Continuation (Culling Game)", "Currently airing / announced", "Perfect Preparation and the Culling Game"],
+            ["5", "Jujutsu Kaisen Season 3", "Premiered January 2026", "Perfect Preparation and the Culling Game"],
           ],
         },
       ],
     },
     {
-      heading: "Why Jujutsu Kaisen 0 Goes After Season 1, Not Before",
+      heading: "Jujutsu Kaisen Release Order",
       paragraphs: [
-        "The movie is set roughly a year before Season 1 and follows a different protagonist, so on paper it looks like the natural starting point. In practice it was made as a companion piece for an audience that already knows the world, and it does two things that break if you watch it first. It uses a character whose status is a mid-Season-1 reveal, and it treats the audience's familiarity with Gojo and the school as established, so the film spends its time on emotional payoff rather than explanation.",
-        "There is also a purely practical argument. Jujutsu Kaisen 0's final act connects directly to material Season 2 uses, which means watching it between the two seasons puts the setup and the payoff about eight hours apart instead of thirty. Viewers who watch it first almost always report that the ending landed flat and then confused them again later; viewers who watch it after Season 1 report the opposite.",
-        "The one exception: if you have already finished the entire series and are rewatching, chronological order is a genuinely interesting experience, because it turns the Hidden Inventory arc into the story's real opening and reframes the movie as the middle chapter of a longer tragedy. That order is in the next section.",
+        "Release order is simply the order the anime was broadcast: Season 1 in 2020–2021, the film at the end of 2021, Season 2 in 2023, and Season 3 from January 2026. Because the adaptation has stayed close to the manga and has no filler, release order and the manga's own reading order line up almost exactly, which is why it works so well for a first watch.",
+        "The practical benefit is that every reveal arrives when the writing intended it to. Season 1 teaches the rules — cursed energy, cursed techniques, domain expansions, binding vows — through conversation during fights rather than exposition scenes. The film then trades on that familiarity, and Season 2 assumes both. Watch it in this order and you never have to backfill information.",
+        "There is one detail worth knowing before Season 2's second half: the Shibuya Incident's opening episodes assume you have seen Jujutsu Kaisen 0, because a character and a technique from the film matter to how the arc is set up. Skipping the movie is the main reason viewers describe Shibuya as hard to follow.",
       ],
       blocks: [
         {
@@ -90,108 +87,65 @@ export const jjkWatchOrderArticle: Article = {
           caption: "Release order versus chronological order — what each one is good for.",
           columns: ["Order", "Sequence", "Best For", "Trade-off"],
           rows: [
-            [
-              "Release order (recommended)",
-              "S1 → Movie → S2 → continuation",
-              "First-time viewers",
-              "None; reveals land as written",
-            ],
-            [
-              "Chronological order",
-              "S2 eps 25–29 → Movie → S1 → S2 eps 30–47",
-              "Rewatchers who know the ending",
-              "Spoils two major Season 1 and movie reveals",
-            ],
-            [
-              "Anime-then-manga",
-              "S1 → Movie → S2 → manga ch. 137",
-              "Viewers who don't want to wait for new episodes",
-              "Art-to-animation adjustment; heavy dialogue density",
-            ],
+            ["Release order (recommended)", "S1 → film → S2 → S3", "First-time viewers", "None; reveals land as written"],
+            ["Chronological order", "S2 eps 25–29 → film → S1 → S2 eps 30–47 → S3", "Rewatchers who know the ending", "Spoils a Season 1 and a film reveal"],
+            ["Anime then manga", "S1 → film → S2 → manga from ch. 137", "Viewers who don't want to wait for episodes", "Adjusting from animation to page; dense dialogue"],
           ],
         },
       ],
     },
     {
-      heading: "Jujutsu Kaisen Chronological Order (For Rewatches Only)",
+      heading: "Jujutsu Kaisen Chronological Order",
       paragraphs: [
-        "In story time, Jujutsu Kaisen spans about twelve years. The chronological sequence is: Hidden Inventory / Premature Death, which is Season 2's first five episodes and takes place in 2006 during Gojo and Geto's student years; then Jujutsu Kaisen 0, set in 2017; then Season 1, set in 2018; then the Shibuya Incident, which follows Season 1 by weeks rather than years; then the Culling Game material.",
-        "The reason this order is a rewatch-only recommendation is that Hidden Inventory's dramatic weight depends entirely on knowing where its two leads end up. Watching it cold turns the arc's central turn into an ordinary character beat. Watching it second, after twenty-four episodes have established the present-day situation, is one of the most effective structural choices in modern shonen adaptation.",
+        "Chronological order rearranges the same content by in-story date instead of broadcast date, and the difference is not cosmetic. Release order keeps the audience's knowledge in step with Yuji's; chronological order front-loads a flashback that only works emotionally once you already know how its two leads end up. That single change is what separates the two sequences.",
+        "In story time the series spans roughly twelve years. Hidden Inventory / Premature Death takes place in 2006, during Gojo and Geto's own student days. Jujutsu Kaisen 0 is set in 2017. Season 1 begins in 2018, and the Shibuya Incident follows it by weeks rather than years, with Season 3's Culling Game material continuing from there.",
+        "So use chronological order on a rewatch, where seeing 2006 first becomes a study in inevitability rather than a spoiler. On a first watch it removes the tension the show is built around.",
       ],
       blocks: [
         {
           type: "table",
-          caption: "Story timeline: what happens when, in-universe.",
+          caption: "Jujutsu Kaisen story timeline: what happens when, in-universe.",
           columns: ["In-Story Year", "Content", "Where to Find It"],
           rows: [
             ["2006", "Hidden Inventory / Premature Death", "Season 2, episodes 25–29"],
             ["2017", "Jujutsu Kaisen 0", "Feature film, 105 minutes"],
             ["2018 (spring)", "Yuji's recruitment through the Death Painting arc", "Season 1, episodes 1–24"],
             ["2018 (October 31)", "The Shibuya Incident", "Season 2, episodes 30–47"],
-            ["2018 (winter onward)", "Perfect Preparation and the Culling Game", "Continuation / manga ch. 137+"],
+            ["2018 (winter onward)", "Perfect Preparation and the Culling Game", "Season 3 / manga ch. 137 onward"],
           ],
         },
       ],
     },
     {
-      heading: "Season 1 Arc Breakdown: Episodes 1–24",
+      heading: "When to Watch Jujutsu Kaisen 0",
       paragraphs: [
-        "Season 1 is structured as four arcs and functions as the show's rulebook. The Fearsome Womb arc introduces cursed energy, cursed spirits and the sorcerer hierarchy; the Vs. Mahito arc raises the antagonist's competence and establishes that the series will kill people who matter; the Kyoto Goodwill Event is a tournament arc that quietly does an enormous amount of world-building about jujutsu society's politics; and the Death Painting arc closes the season by widening the conflict beyond Tokyo.",
-        "The one thing to know going in is that Jujutsu Kaisen front-loads its mechanics in conversation rather than exposition dumps. Binding vows, domain expansions, cursed technique reversal and the innate-technique framework are all introduced in dialogue during fights. Skipping talking scenes here is the single most common reason viewers find later arcs incomprehensible, and it is worth resisting the urge.",
-        "There is no filler in Season 1, and there are no recap episodes to skip. The 24-episode run is entirely adapted manga material, so the season is unusually efficient by shonen standards.",
-      ],
-      blocks: [
-        {
-          type: "table",
-          caption: "Season 1 arcs and their episode ranges.",
-          columns: ["Arc", "Episodes", "What It Establishes"],
-          rows: [
-            ["Fearsome Womb", "1–4", "Cursed energy, Sukuna, the sorcerer hierarchy"],
-            ["Vs. Mahito", "5–8", "Cursed spirits as characters; real stakes"],
-            ["Kyoto Sister-School Goodwill Event", "9–17", "Jujutsu politics, the Zenin family, the wider student cast"],
-            ["Death Painting", "18–24", "The Cursed Womb trio and the escalation into Season 2"],
-          ],
-        },
-      ],
-    },
-    {
-      heading: "Season 2 Arc Breakdown: Episodes 25–47",
-      paragraphs: [
-        "Season 2 is effectively two shows sharing a cour count. Episodes 25 to 29 are Hidden Inventory / Premature Death, a quiet character piece about two students on a long assignment. Episodes 30 to 47 are the Shibuya Incident, which is a disaster movie: one night, one district, a sealed target and a cast that gets systematically taken apart. The contrast is the point, and it is why we recommend not pausing between the two halves.",
-        "For watch-order purposes there is one practical note. The Shibuya Incident's opening episodes assume you have seen the movie, because a character and a technique introduced there are relevant to the arc's setup. If you skipped Jujutsu Kaisen 0, this is where the gap starts to hurt.",
-        "Shibuya is also where the series' power system stops being decorative. Domain expansions, binding vows, reverse cursed technique and the specific limits of Gojo's Limitless are all load-bearing plot mechanics during the arc rather than spectacle. Our two companion guides go deeper on both.",
+        "Watch Jujutsu Kaisen 0 between Season 1 and Season 2. That placement does two things at once: it preserves a Season 1 reveal the film treats as common knowledge, and it puts the film's closing act roughly two hours away from the Season 2 material that builds on it instead of a full season away.",
+        "The film follows Yuta Okkotsu rather than Yuji, and it is a complete story in its own right — you do not need to treat it as an episode-length side chapter. It is also not optional. Characters and consequences introduced there become central later, so skipping it leaves a gap that widens with every arc.",
+        "If you are joining friends midway through Season 2, the compromise that works best is to pause after Season 1's finale, watch the film, then resume. Watching it later, after Shibuya, still works but reduces several scenes to recognition rather than surprise.",
       ],
       blocks: [
         {
           type: "link",
-          label: "Satoru Gojo's Limitless technique explained: mechanics, costs and real weaknesses",
-          to: "/article/gojo-satoru-limitless-technique-explained",
-          note: "Read before Shibuya if you want the fight mechanics to land.",
-        },
-        {
-          type: "link",
-          label: "The complete Shibuya Incident timeline and world impact analysis",
-          to: "/article/shibuya-incident-timeline",
-          note: "Hour-by-hour reconstruction of the arc, with the aftermath explained.",
-        },
-        {
-          type: "spoiler",
-          scope: "Season 2 outcomes",
-          level: "major",
-          heading: "What Shibuya changes about the watch order after it (spoilers)",
-          paragraphs: [
-            "Shibuya ends with the sorcerer world's leadership structure broken, Gojo removed from play, and a formal execution order issued against Yuji. Everything after this point — including the Culling Game — is a direct consequence of that legal and political collapse rather than a new villain arc.",
-            "If you are jumping to the manga, this is why chapter 137 rather than 143 is the right entry point: the intervening chapters cover the tribunal and recruitment fallout, not filler.",
-          ],
+          label: "Jujutsu Kaisen series hub: episodes, characters, arcs and streaming links",
+          to: "/anime/jujutsu-kaisen",
+          note: "Current regional availability for both seasons and the film.",
         },
       ],
     },
     {
-      heading: "Where to Start the Manga After the Anime (Exact Chapter)",
+      heading: "Can You Watch the Movie Before Season 1?",
       paragraphs: [
-        "Start at chapter 137. The anime's final adapted scenes fall at the end of chapter 136, and chapters 137 to 142 cover the immediate legal and political aftermath of Shibuya — the tribunal, the recruitment of new allies, and the setup for the Culling Game. Readers who skip to the next arc's first chapter consistently report confusion about how the cast reassembled, and that confusion is entirely caused by skipping those six chapters.",
-        "A second, softer recommendation: reread chapters 120 to 136 before continuing. The anime compressed several conversations during Shibuya, and the manga versions contain rule clarifications about binding vows and cursed technique reversal that the Culling Game arc uses heavily.",
-        "If you only want to read the fights, that is a legitimate way to read a battle manga, but Jujutsu Kaisen hides most of its rule-setting in dialogue. Skipping conversation makes the late-series power system genuinely incomprehensible rather than just harder to follow.",
+        "Technically yes. The film opens with its own introduction to cursed energy and jujutsu sorcery, so a complete newcomer can follow the plot without confusion. Plenty of people started there and enjoyed it. The question is whether it is the best use of the film, and the answer is no.",
+        "Two things break. First, the movie treats a piece of information as settled that Season 1 spends most of its run withholding, so watching it first removes a reveal you cannot get back. Second, the film's ending is written as a payoff for viewers who already recognise its supporting cast; without that recognition it reads as a competent finale instead of the emotional hinge it is meant to be.",
+        "The exception is a practical one: if the film is the only part available to you right now, watch it and start Season 1 afterwards. A slightly reduced first viewing is better than waiting indefinitely, and Season 1 still works completely on its own.",
+      ],
+    },
+    {
+      heading: "Where to Continue the Manga After the Anime",
+      paragraphs: [
+        "If you finished Season 2 and don't want to wait, start at chapter 137. The season's final adapted scenes land at the end of chapter 136, and chapters 137 to 142 cover the immediate aftermath — the tribunal, the recruitment that reassembles the cast, and the setup the Culling Game depends on. Readers who skip ahead to the next arc's opening chapter routinely lose track of how the cast regrouped, and those six chapters are the reason.",
+        "If you have also watched Season 3's broadcast episodes, note your last adapted chapter before picking a jump point, since a currently airing season moves that line every week. The safe habit is to check the series hub's episode list rather than relying on a fixed chapter number.",
+        "One optional extra: rereading from around chapter 120 restores conversations the anime compressed during Shibuya, several of which clarify how binding vows and reverse cursed technique actually work. The later arcs lean on those rules heavily, so the reread pays for itself.",
       ],
       blocks: [
         {
@@ -199,44 +153,51 @@ export const jjkWatchOrderArticle: Article = {
           caption: "Anime-to-manga conversion points.",
           columns: ["Anime Point", "Manga Chapter", "Note"],
           rows: [
-            ["End of Season 1", "Chapter 64", "Movie fits here in release order"],
+            ["End of Season 1", "Chapter 64", "The film fits here in release order"],
             ["End of Hidden Inventory (ep. 29)", "Chapter 79", "Flashback arc: chapters 65–79"],
             ["End of Season 2 (ep. 47)", "Chapter 136", "Continue from 137, not 143"],
             ["Recommended reread start", "Chapter 120", "Restores dialogue the anime compressed"],
           ],
         },
+        {
+          type: "spoiler",
+          scope: "End of Season 2",
+          level: "major",
+          heading: "Why the order after Shibuya changes (spoilers)",
+          paragraphs: [
+            "Shibuya ends with the sorcerer world's leadership structure broken and a formal execution order issued against Yuji. Everything after that point follows from that collapse rather than from a new villain being introduced, which is why the aftermath chapters matter more than they look.",
+            "That is also the argument for chapter 137 over 143: the intervening chapters are consequence, not filler.",
+          ],
+        },
+        {
+          type: "link",
+          label: "Satoru Gojo's Limitless technique explained: mechanics, costs and real weaknesses",
+          to: "/article/gojo-satoru-limitless-technique-explained",
+          note: "Useful before Shibuya, where the technique's limits become plot mechanics.",
+        },
+        {
+          type: "link",
+          label: "The complete Shibuya Incident timeline and world impact analysis",
+          to: "/article/shibuya-incident-timeline",
+          note: "Hour-by-hour reconstruction of the arc and its aftermath.",
+        },
       ],
     },
     {
-      heading: "Where to Watch Jujutsu Kaisen Legally",
+      heading: "Frequently Asked Questions",
       paragraphs: [
-        "Both seasons and the movie are licensed for streaming in most regions, with Crunchyroll carrying the series subtitled and dubbed and Netflix holding rights in a number of territories. The film rotates between platforms and is reliably available for digital purchase. Availability changes by country, so the practical approach is to check the series hub for current regional links rather than trusting a static list.",
-        "Dub watchers should know that the English dub is complete for both seasons and the movie, and that the dub for Shibuya is unusually strong — this is not an arc where the dub lags in quality. Sub-first viewers lose nothing either way; both tracks are fully adapted.",
+        "How do you watch JJK in order? Season 1 (episodes 1–24), then Jujutsu Kaisen 0, then Season 2 (episodes 25–47), then Season 3's Culling Game episodes. That is release order and the recommended first watch.",
+        "When should you watch Jujutsu Kaisen 0? After Season 1 and before Season 2. It is chronologically earlier but written for viewers who already know the cast, and it sets up material Season 2 uses.",
+        "Can you watch the movie before Season 1? You can follow it, but it spoils a Season 1 reveal and blunts the film's own ending, so it is not the recommended entry point.",
+        "What is the chronological order? Season 2 episodes 25–29, then the film, then Season 1, then Season 2 episodes 30–47, then Season 3. Best kept for rewatches.",
+        "Where do you start the manga after the anime? Chapter 137 after Season 2. If you are also watching Season 3 as it airs, confirm your last adapted chapter first.",
       ],
       blocks: [
         {
-          type: "link",
-          label: "Jujutsu Kaisen series hub: episodes, characters, arcs and streaming links",
-          to: "/anime/jujutsu-kaisen",
-        },
-        {
           type: "poll",
           question: "Which order did you use for your first Jujutsu Kaisen watch?",
-          options: ["Release order (S1 → movie → S2)", "Movie first", "Chronological", "Anime then manga"],
+          options: ["Release order (S1 → film → S2)", "Movie first", "Chronological", "Anime then manga"],
         },
-      ],
-    },
-    {
-      heading: "Frequently Asked Questions About the Jujutsu Kaisen Watch Order",
-      paragraphs: [
-        "How do you watch JJK in order? Season 1 (episodes 1–24), then Jujutsu Kaisen 0, then Season 2 (episodes 25–47), then the Culling Game continuation. That is release order and it is the recommended first watch.",
-        "Should I watch Jujutsu Kaisen 0 first? No. Watch it after Season 1. It is chronologically earlier but written as a companion piece, and watching it first spoils a Season 1 reveal while weakening the film's own ending.",
-        "Is there a chronological watch order? Yes: Season 2 episodes 25–29, then the movie, then Season 1, then Season 2 episodes 30–47. Use it for rewatches only.",
-        "How many episodes does Jujutsu Kaisen have? 47 across two seasons, plus one 105-minute film, with the Culling Game continuation adding to that count.",
-        "Is there any filler in Jujutsu Kaisen? None. Every episode adapts manga material, which is why the watch order is purely about sequencing seasons and the film.",
-        "What chapter does the anime end on? Chapter 136. Continue reading from chapter 137.",
-        "How long does it take to watch everything? Roughly 20 hours including the movie.",
-        "Do I need to watch Season 1 before the movie to understand it? You will follow the movie's plot either way, but two of its emotional beats depend on Season 1 knowledge, and one of its reveals is a Season 1 spoiler.",
       ],
     },
   ],

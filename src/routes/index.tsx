@@ -118,9 +118,22 @@ function Home() {
   const uniqueArticles = liveArticles.filter(
     (a, i) => liveArticles.findIndex((b) => b.slug === a.slug) === i,
   );
-  const featuredArticles = uniqueArticles.slice(0, 4);
-  const spotlightArticles = uniqueArticles.slice(4, 7);
-  const feedArticles = uniqueArticles.slice(7);
+  const priorityGuideSlugs = [
+    "dr-stone-science-tech-tree-guide",
+    "solo-leveling-system-progression-explained",
+    "jujutsu-kaisen-watch-order-and-manga-jump",
+    "gojo-satoru-limitless-technique-explained",
+    "hunter-x-hunter-nen-strategy-rules",
+    "attack-on-titan-odm-gear-tactics-analysis",
+  ];
+  const priorityGuides = priorityGuideSlugs
+    .map((slug) => uniqueArticles.find((article) => article.slug === slug))
+    .filter((article): article is (typeof uniqueArticles)[number] => Boolean(article));
+  const priorityGuideSet = new Set(priorityGuideSlugs);
+  const remainingArticles = uniqueArticles.filter((article) => !priorityGuideSet.has(article.slug));
+  const featuredArticles = remainingArticles.slice(0, 4);
+  const spotlightArticles = remainingArticles.slice(4, 7);
+  const feedArticles = remainingArticles.slice(7);
 
   return (
     <div>
@@ -202,6 +215,49 @@ function Home() {
         >
           <PosterRail items={[...classics, ...newReleases]} />
         </Rail>
+
+        <section className="my-12">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Essential reading
+              </p>
+              <h2 className="mt-2 font-display text-2xl font-bold sm:text-3xl">
+                Answers anime fans are searching for
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                Clear watch orders, power-system rules and equipment guides built for quick answers
+                first — with the deeper analysis waiting underneath.
+              </p>
+            </div>
+            <Link to="/guides" className="flex items-center gap-1 text-sm text-primary hover:underline">
+              Browse every guide <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {priorityGuides.map((article) => (
+              <Link
+                key={article.slug}
+                to="/article/$slug"
+                params={{ slug: article.slug }}
+                className="group rounded-2xl border border-border/60 bg-card/40 p-5 transition-colors hover:border-primary/60 hover:bg-card/70"
+              >
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  {article.tag}
+                </div>
+                <h3 className="mt-2 font-display text-lg font-bold leading-snug group-hover:text-primary">
+                  {article.title}
+                </h3>
+                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                  {article.excerpt}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                  Read the guide <ArrowRight className="h-3 w-3" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">

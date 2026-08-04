@@ -16,6 +16,7 @@ export const soloLevelingSystemArticle: Article = {
     "Understand the Solo Leveling System, including Jinwoo's stats, levels, quests, penalties, skills and rank progression in this complete guide.",
   author: "lina-vasquez",
   date: "2026-04-22",
+  updated: "2026-08-05",
   tag: "Guide",
   cover: "linear-gradient(135deg, #4c1d95, #0b1120)",
   ogImage: soloLevelingArt.url,

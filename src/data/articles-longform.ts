@@ -233,7 +233,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Every Devil Fruit falls into Paramecia, Zoan or Logia, and every single one charges the same price: the sea rejects you forever. That fixed cost is the reason the system has survived a quarter century of escalation. No matter how absurd a power becomes, seawater and sea-prism stone remain the universal off switch.",
           "Paramecia alter the body or the world around it. Zoan grant a transformation, and the mythical and ancient sub-classes are where the ceiling lives. Logia turn the user into an element, which sounds unbeatable until you remember that Haki was introduced specifically to make it beatable.",
-          "For a comparison with a rival system that solved the same escalation problem differently, our [Nen and rule-bound power systems](/article/hunter-x-hunter-nen-system-guide) piece is the natural companion read.",
+          "For a comparison with a rival system that solved the same escalation problem differently, our [Nen and rule-bound power systems](/article/hunter-x-hunter-nen-strategy-rules) piece is the natural companion read.",
         ],
         blocks: [
           { type: "image", art: "one-piece", caption: "Original GameCastle Anime key visual for the Devil Fruit explainer." },
@@ -400,6 +400,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "solo-leveling-progression-system-breakdown",
+    publicationStatus: "archived",
     category: "rpg",
     section: "editorial",
     title: "Solo Leveling's Progression System, Broken Down Like an RPG Designer Would",
@@ -491,7 +492,7 @@ const drafts: Draft[] = [
         heading: "What Other Series Should Steal",
         paragraphs: [
           "Three lessons transfer. First, if your protagonist cannot lose, give them something to want that violence does not obtain. Second, invest in a supporting cast whose losses are permanent. Third, keep the comedy sincere — mockery ages badly, affection does not.",
-          "Solo Leveling takes the opposite route, escalating the world so the protagonist can stay threatened; our [progression breakdown](/article/solo-leveling-progression-system-breakdown) covers how that scales.",
+          "Solo Leveling takes the opposite route, escalating the world so the protagonist can stay threatened; our [progression breakdown](/article/solo-leveling-system-progression-explained) covers how that scales.",
           "The series hub is at [One Punch Man series hub](/anime/one-punch-man) with episode notes and the S-Class file.",
         ],
         blocks: [
@@ -591,7 +592,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Mana suppression, mundane spells and a bureaucratic mage exam give the world a texture that rewards attention without demanding it. It is a rule-bound system delivered without a single explanatory chalkboard scene.",
           "That restraint is the hardest thing to copy. Series that adopt Frieren's pacing without its systems produce atmosphere with nothing underneath.",
-          "Readers who like rule-bound magic should compare it with our [Nen system guide](/article/hunter-x-hunter-nen-system-guide), which is the maximalist version of the same instinct.",
+          "Readers who like rule-bound magic should compare it with our [Nen system guide](/article/hunter-x-hunter-nen-strategy-rules), which is the maximalist version of the same instinct.",
         ],
       },
       {

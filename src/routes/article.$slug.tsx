@@ -5,16 +5,9 @@ import { InternalLinkNetwork } from "@/components/internal-link-network";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
 import { Breadcrumbs } from "@/components/ui-bits";
 import {
-  AdSlot,
-  DisplayAd,
-  BelowTitleAd,
-  HeaderBannerAd,
   InArticleAd,
   PostContentAd,
-  MultiplexAd,
   StickySidebarAd,
-  VideoAd,
-
 } from "@/components/ad-slot";
 import { planInArticleAds } from "@/lib/ads-layout";
 import { recommendArticles, articleAnimeRecs } from "@/lib/recommendations";
@@ -66,13 +59,6 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
     return (
       <div className="not-prose">
         <SectionHeaderImage art={namedArt(block.art)} caption={block.caption} />
-        {/* Ad between the image section and the paragraphs that follow it. */}
-        <DisplayAd
-          adId={`Image_Break_Ad_${block.art}`}
-          prefix="av-image-break"
-          minHeight={250}
-          className="my-6"
-        />
       </div>
     );
   }
@@ -221,15 +207,16 @@ function ArticlePage() {
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
   const merchProducts = productsForContext(loreAnime, a.title);
-  // In-body native units land every 4 paragraphs; slot 1 is the guaranteed
-  // above-the-fold unit, so the body plan starts at InArticle_Ad_2.
-  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), { interval: 2, startAt: 2, max: 14 });
+  // Keep the answer readable: at most three reserved units, six paragraphs apart.
+  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), {
+    interval: 6,
+    startAt: 1,
+    max: 3,
+  });
 
   return (
     <div>
       <ReadingProgressBar />
-      <HeaderBannerAd />
-
 
       <section className="relative">
         <div className="relative h-64 lg:h-80" style={{ background: a.cover }}>
@@ -290,16 +277,11 @@ function ArticlePage() {
               </div>
             </div>
 
-            {/* Below-title billboard (Below_Title_Ad) */}
-            <BelowTitleAd />
-
             {/* Mobile TOC */}
             <div className="mt-6 lg:hidden">
               <TableOfContents sections={sections} />
             </div>
 
-            {/* Guaranteed top-of-article AdSense unit (InArticle_Ad_1) */}
-            <InArticleAd index={1} unitId="av-article-top" adId="InArticle_Ad_1" />
 
             <div className="prose prose-invert mt-8 max-w-none text-lg leading-relaxed">
               {sections.map((s, i) => (
@@ -330,13 +312,6 @@ function ArticlePage() {
                   {s.blocks?.map((block, bi) => (
                     <ArticleBlockView key={bi} block={block} />
                   ))}
-
-                  {/* Mid-article outstream video unit (viewable impression, no click needed) */}
-                  {i === 1 && (
-                    <div className="not-prose">
-                      <VideoAd index={1} unitId="av-article-video" adId="Video_Ad_Article_1" />
-                    </div>
-                  )}
 
                   {/* Contextual internal link card, woven into the flow */}
 
@@ -423,7 +398,6 @@ function ArticlePage() {
 
             {/* Post-article banner (Post_Content_Ad) */}
             <PostContentAd />
-            <MultiplexAd />
 
             {/* Reader discussion */}
             <ArticleComments slug={a.slug} />

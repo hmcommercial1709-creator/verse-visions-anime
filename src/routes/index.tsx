@@ -1,11 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { animes, getAnime } from "@/data/animes";
+import { getAnime } from "@/data/liveAnime";
 import { videoSummaries, KIND_LABEL } from "@/data/video-summaries";
 import { VideoSummaryCard } from "@/components/video-summary";
 import { episodes } from "@/data/episodes";
 
-import { populatedGenres, populatedStudios } from "@/lib/content-registry";
-import { articles } from "@/data/articles";
+import {
+  populatedGenres,
+  populatedStudios,
+  publishedAnime,
+  publishedArticles,
+} from "@/lib/content-registry";
 import { AdSlot, MultiplexAd, StickySidebarAd, DisplayAd } from "@/components/ad-slot";
 import { Rail, EpisodeRail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
@@ -87,6 +91,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const liveAnime = publishedAnime();
+  const liveArticles = publishedArticles();
   const visibleGenres = populatedGenres();
   const visibleStudios = populatedStudios();
 
@@ -94,7 +100,7 @@ function Home() {
    * Every rail below draws from a shared pool and removes what it takes, so no
    * anime card and no article card is ever rendered twice on this page.
    */
-  type Anime = (typeof animes)[number];
+  type Anime = (typeof liveAnime)[number];
   const claimed = new Set<string>();
   const take = (pool: Anime[], count: number) => {
     const picked: Anime[] = [];
@@ -108,34 +114,34 @@ function Home() {
   };
 
   const heroPicks = take(
-    HERO_SLUGS.map((s) => animes.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
+    HERO_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
     HERO_SLUGS.length,
   );
   const hubs = take(
-    HUB_SLUGS.map((s) => animes.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
+    HUB_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
     HUB_SLUGS.length,
   );
   const streamingPicks = take(
-    animes.filter((a) => a.status === "Ongoing"),
+    liveAnime.filter((a) => a.status === "Ongoing"),
     4,
   );
-  const trending = take(animes, 6);
+  const trending = take(liveAnime, 6);
   const topRated = take(
-    [...animes].sort((a, b) => b.rating - a.rating),
+    [...liveAnime].sort((a, b) => b.rating - a.rating),
     6,
   );
   const newReleases = take(
-    animes.filter((a) => a.year >= 2022),
+    liveAnime.filter((a) => a.year >= 2022),
     3,
   );
   const classics = take(
-    animes.filter((a) => a.year < 2015),
+    liveAnime.filter((a) => a.year < 2015),
     3,
   );
 
   // Articles: hero slides, the screening-room list and the editorial feed never overlap.
-  const uniqueArticles = articles.filter(
-    (a, i) => articles.findIndex((b) => b.slug === a.slug) === i,
+  const uniqueArticles = liveArticles.filter(
+    (a, i) => liveArticles.findIndex((b) => b.slug === a.slug) === i,
   );
   const featuredArticles = uniqueArticles.slice(0, 4);
   const spotlightArticles = uniqueArticles.slice(4, 7);
@@ -276,10 +282,10 @@ function Home() {
         </Section>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatPill label="Series covered" value={`${animes.length}+`} />
+          <StatPill label="Series covered" value={`${liveAnime.length}+`} />
           <StatPill label="Genres" value={String(visibleGenres.length)} />
           <StatPill label="Studios" value={String(visibleStudios.length)} />
-          <StatPill label="Long reads" value={String(articles.length)} />
+          <StatPill label="Long reads" value={String(liveArticles.length)} />
         </div>
 
         {/* FRANCHISE HUBS */}

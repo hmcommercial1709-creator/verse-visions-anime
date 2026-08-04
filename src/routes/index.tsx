@@ -181,7 +181,7 @@ function Home() {
 
         <Rail
           title="Top rated on GameCastle Anime"
-          subtitle="Aggregated from 40,000+ community ratings across the last twelve months."
+          subtitle="The series our editors rate highest across the GameCastle Anime library."
           action={
             <Link to="/top-rated" className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline">
               Full leaderboard <ArrowRight className="h-3 w-3" />

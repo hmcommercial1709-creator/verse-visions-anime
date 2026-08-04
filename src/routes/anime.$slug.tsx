@@ -50,7 +50,6 @@ export const Route = createFileRoute("/anime/$slug")({
           datePublished: String(a.year),
           numberOfEpisodes: a.episodes,
           numberOfSeasons: a.seasons,
-          aggregateRating: { "@type": "AggregateRating", ratingValue: a.rating, bestRating: 10, ratingCount: 4200 },
           genre: a.genres,
           url: absoluteUrl(`/anime/${a.slug}`),
         }),
@@ -68,7 +67,7 @@ export const Route = createFileRoute("/anime/$slug")({
         children: JSON.stringify(faqSchema([
           { q: `How many episodes does ${a.title} have?`, a: `${a.title} runs for ${a.episodes} episodes across ${a.seasons} season(s).` },
           { q: `What is the best watch order for ${a.title}?`, a: `Our watch-order section breaks down both the release order and the chronological order for ${a.title}, including which filler you can safely skip.` },
-          { q: `Is ${a.title} worth watching?`, a: `${a.title} holds a ${a.rating.toFixed(1)}/10 editorial score at GameCastle Anime. ${a.tagline}` },
+          { q: `Is ${a.title} worth watching?`, a: `${a.tagline} This page covers the premise, arcs, characters and watch order so you can decide before you start.` },
         ])),
       }],
     };

@@ -764,4 +764,11 @@ const drafts: Draft[] = [
   },
 ];
 
-export const extraArticles: Article[] = drafts.map(build);
+const PROMOTED_SEARCH_SLUGS = new Set([
+  "frieren-magic-system-deep-dive",
+  "attack-on-titan-odm-gear-tactics-analysis",
+]);
+
+export const extraArticles: Article[] = drafts
+  .filter((draft) => !PROMOTED_SEARCH_SLUGS.has(draft.slug))
+  .map(build);

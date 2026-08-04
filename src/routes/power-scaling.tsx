@@ -52,7 +52,12 @@ const method = [
   { icon: Scale, title: "Context always", body: "Author intent, adaptation changes, and the internal logic of the power system frame every verdict. We say when a comparison is speculative." },
 ];
 
-const featuredSlugs = ["gojo-satoru-limitless-technique-explained", "three-great-sorcerer-families", "shibuya-incident-timeline"];
+const featuredSlugs = [
+  "gojo-satoru-limitless-technique-explained",
+  "hunter-x-hunter-nen-strategy-rules",
+  "solo-leveling-system-progression-explained",
+  "dr-stone-science-tech-tree-guide",
+];
 
 function PowerScalingPage() {
   const featured = featuredSlugs.map((s) => articles.find((a) => a.slug === s)).filter(Boolean) as typeof articles;
@@ -102,7 +107,7 @@ function PowerScalingPage() {
 
       <section className="mt-14">
         <h2 className="font-display text-2xl font-bold">Flagship breakdowns</h2>
-        <div className="mt-5 grid gap-6 md:grid-cols-3">
+        <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((a) => (
             <Link key={a.slug} to="/article/$slug" params={{ slug: a.slug }} className="rounded-2xl overflow-hidden border border-border/60 bg-card/40 transition-colors hover:border-primary/50">
               <div className="h-28" style={{ background: a.cover }} />
@@ -130,6 +135,8 @@ function PowerScalingPage() {
         <div className="rounded-2xl border border-border/60 bg-card/40 p-6">
           <h2 className="font-display text-2xl font-bold">Keep reading</h2>
           <ul className="mt-4 space-y-2 text-sm">
+            <li><Link to="/guides" className="text-primary hover:underline">All anime guides</Link> — explainers, glossaries and beginner routes</li>
+            <li><Link to="/watch-order" className="text-primary hover:underline">Anime watch orders</Link> — see a power system develop in the right order</li>
             <li><Link to="/characters" className="text-primary hover:underline">Character profiles</Link> — abilities and power evolution</li>
             <li><Link to="/manga-spoilers" className="text-primary hover:underline">Manga Spoilers</Link> — feats the anime hasn't reached</li>
             <li><Link to="/anime/$slug" params={{ slug: "jujutsu-kaisen" }} className="text-primary hover:underline">Jujutsu Kaisen hub</Link> — cursed technique mechanics</li>

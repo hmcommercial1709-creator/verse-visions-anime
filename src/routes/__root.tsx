@@ -15,7 +15,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { PropellerConversion } from "@/components/propeller-conversion";
-import { useLocaleDocumentSync } from "@/lib/i18n";
+import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 import { useNonIntrusiveAdPolicy } from "@/lib/anti-intrusive";
 
 
@@ -84,7 +84,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { httpEquiv: "content-language", content: "en" },
       { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
       { title: "GameCastle Anime | Anime Guides & Watch Orders" },
 
@@ -176,8 +175,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const locale = useLocale();
+
   return (
-    <html lang="en" className="dark">
+    <html lang={locale.hrefLang} dir={locale.dir} className="dark">
       <head>
         <HeadContent />
       </head>

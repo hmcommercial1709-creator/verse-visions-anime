@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment, useMemo, useState } from "react";
 import {
-  articles,
+  publishedArticleList,
   articleTags,
   categoryForArticle,
   getAuthor,
   articleParagraphs,
   type Article,
 } from "@/data/articles";
-import { categories } from "@/data/categories";
+import { populatedCategories } from "@/lib/content-registry";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { HeaderBannerAd, InArticleAd, PostContentAd, DisplayAd,
   MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
@@ -19,8 +19,10 @@ import { Clock, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const TITLE = "Blog & News Archive";
 const META =
-  "Search the full GameCastle Anime archive: reviews, guides, action breakdowns, RPG systems, strategy analysis, esports and daily news.";
+  "Search GameCastle Anime's published English archive: watch orders, power-system guides, reviews, explainers and original analysis.";
 const PER_PAGE = 9;
+const articles = publishedArticleList();
+const categories = populatedCategories();
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
@@ -111,7 +113,7 @@ function BlogArchive() {
         <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Blog" }]} />
         <h1 className="font-display text-5xl font-bold">Blog &amp; News Archive</h1>
         <p className="mt-3 max-w-3xl text-lg text-muted-foreground">
-          Every piece we have published — {articles.length} articles across seven desks. Search by title, topic or tag,
+          Every piece we have published — {articles.length} focused anime guides and analyses. Search by title, topic or tag,
           filter by category, and page through the full archive.
         </p>
 
@@ -127,7 +129,7 @@ function BlogArchive() {
                   id="blog-search"
                   value={query}
                   onChange={(e) => reset(() => setQuery(e.target.value))}
-                  placeholder="Search 50+ articles — try 'watch order', 'sakuga', 'esports'"
+                  placeholder="Search published guides — try 'watch order', 'Nen', or 'Gojo'"
                   className="w-full bg-transparent py-2.5 text-sm outline-none"
                 />
               </div>

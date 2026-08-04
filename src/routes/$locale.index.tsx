@@ -12,15 +12,15 @@ export const Route = createFileRoute("/$locale/")({
     return {
       meta: [
       { name: "twitter:card", content: "summary_large_image" },
-        { title: `AnimeVerse — ${locale.english} edition` },
+        { title: `GameCastle Anime — ${locale.english} edition` },
         {
           name: "description",
-          content: `The ${locale.english} edition of AnimeVerse: anime reviews, character deep-dives, watch orders, and long-form editorial.`,
+          content: `The ${locale.english} edition of GameCastle Anime: anime reviews, character deep-dives, watch orders, and long-form editorial.`,
         },
-        { property: "og:title", content: `AnimeVerse — ${locale.english} edition` },
+        { property: "og:title", content: `GameCastle Anime — ${locale.english} edition` },
         {
           property: "og:description",
-          content: `The ${locale.english} edition of AnimeVerse: anime reviews, watch orders, and long-form editorial.`,
+          content: `The ${locale.english} edition of GameCastle Anime: anime reviews, watch orders, and long-form editorial.`,
         },
         { property: "og:type", content: "website" },
         { property: "og:url", content: `${SITE_URL}/${locale.code}` },

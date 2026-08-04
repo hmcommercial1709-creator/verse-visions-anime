@@ -9,16 +9,16 @@ import { HeaderBannerAd, PostContentAd } from "@/components/ad-slot";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 import { CalendarDays, ExternalLink, Loader2, Star } from "lucide-react";
 
-const TITLE = "Seasonal Anime — Currently Airing & Season Archive · AnimeVerse";
+const TITLE = "Seasonal Anime — Currently Airing & Season Archive · GameCastle Anime";
 const DESC =
-  "What's airing right now, plus every season in the AnimeVerse archive. Live currently-airing data with a fully cached editorial fallback so the page is always rich.";
+  "What's airing right now, plus every season in the GameCastle Anime archive. Live currently-airing data with a fully cached editorial fallback so the page is always rich.";
 
 export const Route = createFileRoute("/seasonal")({
   head: () => ({
     meta: [
       { title: TITLE },
       { name: "description", content: DESC },
-      { property: "og:title", content: "Seasonal Anime · AnimeVerse" },
+      { property: "og:title", content: "Seasonal Anime · GameCastle Anime" },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/seasonal") },
@@ -110,7 +110,7 @@ function Seasonal() {
       <h1 className="font-display text-5xl font-bold">Seasonal anime</h1>
       <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
         The simulcast board for the current season, followed by our own archive grouped by
-        release year — every entry links to a full AnimeVerse deep-dive.
+        release year — every entry links to a full GameCastle Anime deep-dive.
       </p>
 
       <section className="mt-10">

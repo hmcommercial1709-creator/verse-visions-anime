@@ -1,5 +1,5 @@
 /**
- * Multi-method checkout layer for the AnimeVerse digital store.
+ * Multi-method checkout layer for the GameCastle Anime digital store.
  *
  * Every method settles into the SAME payout destination:
  *  - crypto methods settle on-chain to PAYOUT_WALLET_ADDRESS

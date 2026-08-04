@@ -20,7 +20,7 @@ function main() {
   const warns = issues.filter((i) => i.level === "warn");
   const stats = contentStats();
 
-  console.log("AnimeVerse — content validation report");
+  console.log("GameCastle Anime — content validation report");
   console.log("======================================\n");
   console.log("Stats:");
   console.log(JSON.stringify(stats, null, 2));

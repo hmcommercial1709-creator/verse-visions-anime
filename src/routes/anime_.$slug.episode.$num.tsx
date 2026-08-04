@@ -31,7 +31,7 @@ export const Route = createFileRoute("/anime_/$slug/episode/$num")({
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     const { ep, anime } = loaderData;
-    const title = `${anime.title} Episode ${ep.number}: ${ep.title} — Recap & Analysis · AnimeVerse`;
+    const title = `${anime.title} Episode ${ep.number}: ${ep.title} — Recap & Analysis · GameCastle Anime`;
     const desc = ep.synopsis;
     return {
       meta: [
@@ -115,7 +115,7 @@ function EpisodePage() {
             </Link>
           </div>
           <p className="mt-2 text-[11px] text-muted-foreground">
-            AnimeVerse links to official streaming platforms only — 1080p and 4K where available.
+            GameCastle Anime links to official streaming platforms only — 1080p and 4K where available.
           </p>
         </div>
       </section>

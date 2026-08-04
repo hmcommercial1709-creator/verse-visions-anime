@@ -20,7 +20,7 @@ export const Route = createFileRoute("/character/$slug")({
     const c = loaderData.character;
     return {
       meta: [
-        { title: `${c.name} — Character Guide · AnimeVerse` },
+        { title: `${c.name} — Character Guide · GameCastle Anime` },
         { name: "description", content: `${c.name} from ${c.anime}: full biography, personality, arcs, quotes, and power analysis.` },
         { property: "og:title", content: `${c.name} · Character Guide` },
         { property: "og:description", content: c.bio },

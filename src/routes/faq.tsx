@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
 
 const faqs = [
-  { q: "What is AnimeVerse?", a: "An independent editorial site covering anime reviews, guides, and industry news." },
+  { q: "What is GameCastle Anime?", a: "An independent editorial site covering anime reviews, guides, and industry news." },
   { q: "How do you pick which anime to cover?", a: "Editorial priority follows what fans are watching now, plus the classics newcomers should not miss." },
   { q: "Do you write for kids or adults?", a: "Both. We label mature content and keep our beginner guides safe for all-ages readers." },
   { q: "How can I contribute?", a: "Pitch us at editors@animeverse.example with a link to prior work." },
@@ -14,9 +14,9 @@ export const Route = createFileRoute("/faq")({
       { property: "og:url", content: "https://gamecastle.store/faq" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-    { title: "AnimeVerse FAQ · AnimeVerse" },
-    { name: "description", content: "Frequently asked questions about AnimeVerse: coverage, contributions, and the newsletter." },
-    { property: "og:title", content: "FAQ · AnimeVerse" },
+    { title: "GameCastle Anime FAQ · GameCastle Anime" },
+    { name: "description", content: "Frequently asked questions about GameCastle Anime: coverage, contributions, and the newsletter." },
+    { property: "og:title", content: "FAQ · GameCastle Anime" },
     { property: "og:description", content: "Frequently asked questions." },
   ], links: [{ rel: "canonical", href: "https://gamecastle.store/faq" }],
     scripts: [{ type: "application/ld+json", children: JSON.stringify({

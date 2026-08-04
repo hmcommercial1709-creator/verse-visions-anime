@@ -137,7 +137,7 @@ export const Route = createFileRoute("/article/$slug")({
     const a = loaderData.article;
     return {
       meta: [
-        { title: a.seoTitle ?? `${a.title} · AnimeVerse` },
+        { title: a.seoTitle ?? `${a.title} · GameCastle Anime` },
         { name: "description", content: a.excerpt },
         { property: "og:title", content: a.seoTitle ?? a.title },
         { property: "og:description", content: a.excerpt },
@@ -166,7 +166,7 @@ export const Route = createFileRoute("/article/$slug")({
             articleSection: a.section,
             wordCount: wordCount(articleParagraphs(a)),
             author: { "@type": "Person", name: getAuthor(a.author)?.name },
-            publisher: { "@type": "Organization", name: "AnimeVerse" },
+            publisher: { "@type": "Organization", name: "GameCastle Anime" },
           }),
         },
         {
@@ -182,7 +182,7 @@ export const Route = createFileRoute("/article/$slug")({
             },
             {
               q: "Who wrote this analysis?",
-              a: `${getAuthor(a.author)?.name ?? "The AnimeVerse editorial team"} wrote and fact-checked this piece for AnimeVerse.`,
+              a: `${getAuthor(a.author)?.name ?? "The GameCastle Anime editorial team"} wrote and fact-checked this piece for GameCastle Anime.`,
             },
           ])),
         },

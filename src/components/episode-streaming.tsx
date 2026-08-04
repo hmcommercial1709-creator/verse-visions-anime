@@ -6,7 +6,7 @@ import { episodesFor } from "@/data/episodes";
 
 /**
  * Latest episodes + "where to watch" switcher.
- * AnimeVerse links to official platforms only — no hosted video, no piracy links.
+ * GameCastle Anime links to official platforms only — no hosted video, no piracy links.
  */
 const PROVIDERS = [
   { id: "crunchyroll", label: "Crunchyroll", quality: "1080p · Sub & Dub", url: "https://www.crunchyroll.com" },

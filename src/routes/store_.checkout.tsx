@@ -63,13 +63,13 @@ const METHOD_MARKS: Record<PaymentMethodId, React.ReactNode> = {
 export const Route = createFileRoute("/store_/checkout")({
   head: () => ({
     meta: [
-      { title: "Secure checkout — pay by card, wallet or crypto | AnimeVerse Store" },
+      { title: "Secure checkout — pay by card, wallet or crypto | GameCastle Anime Store" },
       {
         name: "description",
         content:
           "Complete your $1.99 wallpaper pack purchase with card, Apple Pay, Google Pay or crypto. Instant Google Drive delivery after payment confirms.",
       },
-      { property: "og:title", content: "Secure checkout · AnimeVerse Store" },
+      { property: "og:title", content: "Secure checkout · GameCastle Anime Store" },
       {
         property: "og:description",
         content: "Pay by card, digital wallet or crypto — instant wallpaper pack delivery.",
@@ -187,7 +187,7 @@ function CheckoutPage() {
 
         <header className="mt-8 max-w-2xl">
           <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-primary">
-            <Sparkles className="h-3.5 w-3.5" /> AnimeVerse checkout
+            <Sparkles className="h-3.5 w-3.5" /> GameCastle Anime checkout
           </div>
           <h1 className="mt-3.5 font-display text-3xl font-bold leading-[1.1] tracking-tight sm:text-[2.75rem]">
             Complete your purchase

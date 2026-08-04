@@ -24,7 +24,7 @@ export function LocalizedEditionNotice({ locale: code, path }: { locale: string;
               {locale.short} · {locale.dir.toUpperCase()}
             </p>
             <h1 className="font-display text-2xl font-bold">
-              AnimeVerse — {locale.label}
+              GameCastle Anime — {locale.label}
             </h1>
           </div>
         </div>

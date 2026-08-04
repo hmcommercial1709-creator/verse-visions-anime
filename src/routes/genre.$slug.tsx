@@ -14,8 +14,8 @@ export const Route = createFileRoute("/genre/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     const g = loaderData.genre;
-    const title = `Best ${g.name} Anime — Rankings, Reviews & Guides · AnimeVerse`;
-    const desc = `The complete AnimeVerse guide to ${g.name} anime: the defining shows, why the genre works, and where to start.`;
+    const title = `Best ${g.name} Anime — Rankings, Reviews & Guides · GameCastle Anime`;
+    const desc = `The complete GameCastle Anime guide to ${g.name} anime: the defining shows, why the genre works, and where to start.`;
     return {
       meta: [
         { property: "og:url", content: `https://gamecastle.store/genre/${g.slug}` },

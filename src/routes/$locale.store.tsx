@@ -88,7 +88,7 @@ function LocalizedStorePage() {
         <header className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/10 via-black to-black p-8 lg:p-12">
           <div className="relative max-w-3xl">
             <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> AnimeVerse · {locale.language}
+              <Sparkles className="h-3.5 w-3.5" /> GameCastle Anime · {locale.language}
             </div>
             <h1 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
               {locale.heading}

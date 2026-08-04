@@ -37,7 +37,7 @@ export const STORE_LOCALES: StoreLocaleSeo[] = [
     hrefLang: "en",
     ogLocale: "en_US",
     language: "English",
-    title: "4K Anime Phone Wallpapers — $1.99 Packs, Instant Download | AnimeVerse Store",
+    title: "4K Anime Phone Wallpapers — $1.99 Packs, Instant Download | GameCastle Anime Store",
     description:
       "Buy 4K anime phone wallpapers and dark AMOLED aesthetic packs for $1.99. 39,000+ hand-picked vertical wallpapers, instant Google Drive delivery, card, Apple Pay, Google Pay or crypto checkout.",
     keywords: [
@@ -64,7 +64,7 @@ export const STORE_LOCALES: StoreLocaleSeo[] = [
     hrefLang: "ja",
     ogLocale: "ja_JP",
     language: "日本語",
-    title: "アニメ壁紙 4K スマホ用パック — 1.99ドルで即ダウンロード | AnimeVerse",
+    title: "アニメ壁紙 4K スマホ用パック — 1.99ドルで即ダウンロード | GameCastle Anime",
     description:
       "スマホ用の4Kアニメ壁紙と黒基調のAMOLED向け壁紙パックが1本1.99ドル。厳選された縦型壁紙39,000枚以上、決済後すぐにGoogleドライブのリンクからダウンロードできます。",
     keywords: [
@@ -90,7 +90,7 @@ export const STORE_LOCALES: StoreLocaleSeo[] = [
     hrefLang: "es",
     ogLocale: "es_ES",
     language: "Español",
-    title: "Fondos de pantalla de anime 4K — packs por 1,99 $ y descarga instantánea | AnimeVerse",
+    title: "Fondos de pantalla de anime 4K — packs por 1,99 $ y descarga instantánea | GameCastle Anime",
     description:
       "Compra packs de fondos de pantalla de anime en 4K y fondos oscuros AMOLED por 1,99 $. Más de 39.000 wallpapers verticales seleccionados, entrega inmediata por Google Drive, pago con tarjeta, monedero o cripto.",
     keywords: [
@@ -116,7 +116,7 @@ export const STORE_LOCALES: StoreLocaleSeo[] = [
     hrefLang: "fr",
     ogLocale: "fr_FR",
     language: "Français",
-    title: "Fonds d'écran anime 4K — packs à 1,99 $ en téléchargement immédiat | AnimeVerse",
+    title: "Fonds d'écran anime 4K — packs à 1,99 $ en téléchargement immédiat | GameCastle Anime",
     description:
       "Achetez des packs de fonds d'écran anime en 4K et des fonds noirs AMOLED pour 1,99 $. Plus de 39 000 wallpapers verticaux sélectionnés, livraison instantanée via Google Drive, paiement par carte, wallet ou crypto.",
     keywords: [
@@ -142,7 +142,7 @@ export const STORE_LOCALES: StoreLocaleSeo[] = [
     hrefLang: "pt",
     ogLocale: "pt_BR",
     language: "Português",
-    title: "Papéis de parede de anime 4K — packs por US$ 1,99 com download na hora | AnimeVerse",
+    title: "Papéis de parede de anime 4K — packs por US$ 1,99 com download na hora | GameCastle Anime",
     description:
       "Compre packs de papéis de parede de anime em 4K e fundos escuros AMOLED por US$ 1,99. Mais de 39.000 wallpapers verticais selecionados, entrega imediata pelo Google Drive, pagamento com cartão, carteira digital ou cripto.",
     keywords: [
@@ -197,7 +197,7 @@ export function storeSocialMeta(locale: StoreLocaleSeo) {
     { title: locale.title },
     { name: "description", content: locale.description },
     { name: "keywords", content: locale.keywords.join(", ") },
-    { property: "og:site_name", content: "AnimeVerse" },
+    { property: "og:site_name", content: "GameCastle Anime" },
     { property: "og:title", content: locale.ogTitle },
     { property: "og:description", content: locale.ogDescription },
     { property: "og:type", content: "website" },
@@ -225,7 +225,7 @@ function productNode(p: StoreProduct, locale: StoreLocaleSeo) {
     name: p.title,
     description: p.blurb,
     sku: p.id,
-    brand: { "@type": "Brand", name: "AnimeVerse" },
+    brand: { "@type": "Brand", name: "GameCastle Anime" },
     category:
       p.category === "anime-wallpapers"
         ? "Anime phone wallpapers"
@@ -240,7 +240,7 @@ function productNode(p: StoreProduct, locale: StoreLocaleSeo) {
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       priceValidUntil: "2027-12-31",
-      seller: { "@type": "Organization", name: "AnimeVerse" },
+      seller: { "@type": "Organization", name: "GameCastle Anime" },
       hasMerchantReturnPolicy: {
         "@type": "MerchantReturnPolicy",
         applicableCountry: "US",
@@ -263,7 +263,7 @@ export function storeJsonLd(locale: StoreLocaleSeo) {
         name: locale.ogTitle,
         description: locale.description,
         inLanguage: locale.hrefLang,
-        isPartOf: { "@type": "WebSite", name: "AnimeVerse", url: SITE },
+        isPartOf: { "@type": "WebSite", name: "GameCastle Anime", url: SITE },
       },
       {
         "@type": "ItemList",

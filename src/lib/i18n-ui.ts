@@ -29,7 +29,7 @@ const en: Dict = {
   menu: "Menu",
   language: "Language",
   readMore: "Read more",
-  related: "Related on AnimeVerse",
+  related: "Related on GameCastle Anime",
   advertisement: "Advertisement",
   home: "Home",
 };

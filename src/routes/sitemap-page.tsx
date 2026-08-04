@@ -11,10 +11,10 @@ export const Route = createFileRoute("/sitemap-page")({
       { property: "og:url", content: "https://gamecastle.store/sitemap-page" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-    { title: "HTML Sitemap · AnimeVerse" },
-    { name: "description", content: "Every page on AnimeVerse, organized by section." },
-    { property: "og:title", content: "Sitemap · AnimeVerse" },
-    { property: "og:description", content: "All pages on AnimeVerse." },
+    { title: "HTML Sitemap · GameCastle Anime" },
+    { name: "description", content: "Every page on GameCastle Anime, organized by section." },
+    { property: "og:title", content: "Sitemap · GameCastle Anime" },
+    { property: "og:description", content: "All pages on GameCastle Anime." },
   ], links: [{ rel: "canonical", href: "https://gamecastle.store/sitemap-page" }] }),
   component: () => (
     <div className="mx-auto max-w-5xl px-4 lg:px-6 py-10">

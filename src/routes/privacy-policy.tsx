@@ -4,14 +4,14 @@ import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
 const TITLE = "Privacy Policy — Cookies, Ads & Your Data Rights";
 const DESC =
-  "How AnimeVerse collects, uses and protects your data: cookie categories, Google AdSense and third-party ad network disclosures, consent, retention, and your GDPR/CCPA rights.";
+  "How GameCastle Anime collects, uses and protects your data: cookie categories, Google AdSense and third-party ad network disclosures, consent, retention, and your GDPR/CCPA rights.";
 const URL = absoluteUrl("/privacy-policy");
 const UPDATED = "July 2026";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => ({
     meta: [
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
@@ -39,16 +39,16 @@ function PrivacyPolicyPage() {
 
       <div className="mt-8 space-y-8 leading-relaxed text-foreground/85">
         <p>
-          This policy explains what information AnimeVerse ("we", "us") collects when you visit this
+          This policy explains what information GameCastle Anime ("we", "us") collects when you visit this
           website, why we collect it, who we share it with, and the choices you have. It is maintained
-          by the AnimeVerse editorial team and describes our own practices; it is not a certification
+          by the GameCastle Anime editorial team and describes our own practices; it is not a certification
           issued by any third party.
         </p>
 
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">1. Who we are</h2>
           <p className="mt-3">
-            AnimeVerse is an independent anime publication. We are the data controller for this site.
+            GameCastle Anime is an independent anime publication. We are the data controller for this site.
             Privacy questions go to{" "}
             <a href="mailto:privacy@animeverse.example" className="text-primary hover:underline">privacy@animeverse.example</a>{" "}
             or via the <Link to="/contact" className="text-primary hover:underline">contact form</Link>.
@@ -110,7 +110,7 @@ function PrivacyPolicyPage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">5. Advertising and Google AdSense</h2>
           <p className="mt-3">
-            AnimeVerse is funded by display advertising. We work with Google AdSense and its certified
+            GameCastle Anime is funded by display advertising. We work with Google AdSense and its certified
             partners to fill the ad slots on this site.
           </p>
           <ul className="mt-3 list-disc space-y-2 pl-6">

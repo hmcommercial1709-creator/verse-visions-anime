@@ -2,16 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AlertTriangle } from "lucide-react";
 
-const TITLE = "DMCA & Copyright Notice — AnimeVerse Takedown Process";
+const TITLE = "DMCA & Copyright Notice — GameCastle Anime Takedown Process";
 const DESC =
-  "How to submit a DMCA takedown notice or counter-notice to AnimeVerse, what our designated agent needs, and our policy on fair-use commentary and repeat infringement.";
+  "How to submit a DMCA takedown notice or counter-notice to GameCastle Anime, what our designated agent needs, and our policy on fair-use commentary and repeat infringement.";
 const URL = "https://gamecastle.store/dmca";
 const UPDATED = "July 2026";
 
 export const Route = createFileRoute("/dmca")({
   head: () => ({
     meta: [
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
@@ -34,7 +34,7 @@ function DmcaPage() {
       <div className="mt-6 flex gap-3 rounded-xl border border-primary/30 bg-primary/5 p-5">
         <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
         <p className="text-sm leading-relaxed text-foreground/85">
-          AnimeVerse does not host, stream, upload, embed, or provide downloads of anime episodes, manga
+          GameCastle Anime does not host, stream, upload, embed, or provide downloads of anime episodes, manga
           scans, or subtitle files. We publish original editorial writing. If you believe specific text or
           an image on this site infringes your copyright, the process below will get it reviewed quickly.
         </p>
@@ -60,7 +60,7 @@ function DmcaPage() {
           </p>
           <ol className="mt-3 list-decimal space-y-2 pl-6">
             <li>Identification of the copyrighted work you claim has been infringed.</li>
-            <li>The exact URL(s) on AnimeVerse of the material you want removed, and a description of it.</li>
+            <li>The exact URL(s) on GameCastle Anime of the material you want removed, and a description of it.</li>
             <li>Your name, mailing address, telephone number, and email address.</li>
             <li>A statement that you have a good-faith belief the use is not authorised by the copyright owner, its agent, or the law.</li>
             <li>A statement that the information in the notice is accurate and that, under penalty of perjury, you are the owner or authorised to act on the owner's behalf.</li>
@@ -103,7 +103,7 @@ function DmcaPage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">6. Designated agent</h2>
           <div className="mt-3 rounded-xl border border-border/60 bg-card/40 p-5 text-sm">
-            <div className="font-semibold text-foreground">Copyright Agent, AnimeVerse Editorial</div>
+            <div className="font-semibold text-foreground">Copyright Agent, GameCastle Anime Editorial</div>
             <div className="mt-1 text-muted-foreground">Email: <a href="mailto:dmca@animeverse.example" className="text-primary hover:underline">dmca@animeverse.example</a></div>
             <div className="text-muted-foreground">Postal address available on request via the <Link to="/contact" className="text-primary hover:underline">contact form</Link>.</div>
           </div>

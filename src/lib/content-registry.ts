@@ -1,7 +1,7 @@
 /**
  * Content Registry
  * ----------------
- * Central lookup surface for every content type in AnimeVerse. Route
+ * Central lookup surface for every content type in GameCastle Anime. Route
  * components and generators (sitemap, search, recommendations) should
  * import from here instead of poking at raw data files, so that:
  *

@@ -77,7 +77,7 @@ export function SiteFooter() {
         <div className="mb-12 rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 via-accent/5 to-background p-8 lg:p-10">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] items-center">
             <div>
-              <h3 className="font-display text-2xl lg:text-3xl font-bold">Get the AnimeVerse Weekly Brief.</h3>
+              <h3 className="font-display text-2xl lg:text-3xl font-bold">Get the GameCastle Anime Weekly Brief.</h3>
               <p className="mt-2 text-muted-foreground max-w-2xl">
                 One email every Friday. New releases, quiet gems the algorithm misses, and the review our editors are arguing about that week.
               </p>
@@ -99,14 +99,14 @@ export function SiteFooter() {
         {/* Columns */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <Link to="/" aria-label="GameCastle Anime home" className="flex items-center gap-2 mb-4">
               <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent">
                 <Flame className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="font-display text-lg font-bold">Anime<span className="text-gradient">Verse</span></span>
+              <span className="font-display text-lg font-bold">Game<span className="text-gradient">Castle</span> Anime</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              The independent home for anime reviews, guides, and culture. Written by fans, edited like a magazine.
+              Anime Guides, Watch Orders & Power Systems. Written by fans, edited like a magazine.
             </p>
             <div className="mt-4">
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Language</p>
@@ -134,7 +134,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-border/60 pt-6 text-xs text-muted-foreground">
-          <div>© {new Date().getFullYear()} AnimeVerse Media. AnimeVerse does not host or stream episodes. All illustrations, titles, and trademarks belong to their respective owners.</div>
+          <div>© {new Date().getFullYear()} GameCastle Anime Media. GameCastle Anime does not host or stream episodes. All illustrations, titles, and trademarks belong to their respective owners.</div>
           <div className="flex flex-wrap gap-4">
             <Link to="/about" className="hover:text-primary">About</Link>
             <Link to="/contact" className="hover:text-primary">Contact</Link>

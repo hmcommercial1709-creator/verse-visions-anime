@@ -19,15 +19,15 @@ import { Clock, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const TITLE = "Blog & News Archive";
 const META =
-  "Search the full AnimeVerse archive: reviews, guides, action breakdowns, RPG systems, strategy analysis, esports and daily news.";
+  "Search the full GameCastle Anime archive: reviews, guides, action breakdowns, RPG systems, strategy analysis, esports and daily news.";
 const PER_PAGE = 9;
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
-      { title: `${TITLE} — Every Article, Searchable · AnimeVerse` },
+      { title: `${TITLE} — Every Article, Searchable · GameCastle Anime` },
       { name: "description", content: META },
-      { property: "og:title", content: `${TITLE} · AnimeVerse` },
+      { property: "og:title", content: `${TITLE} · GameCastle Anime` },
       { property: "og:description", content: META },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://gamecastle.store/blog" },
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/blog")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: `${TITLE} · AnimeVerse`,
+          name: `${TITLE} · GameCastle Anime`,
           description: META,
           url: "https://gamecastle.store/blog",
         }),

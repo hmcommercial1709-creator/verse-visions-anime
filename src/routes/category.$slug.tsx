@@ -25,10 +25,10 @@ export const Route = createFileRoute("/category/$slug")({
   head: ({ params, loaderData }) => {
     const url = `https://gamecastle.store/category/${params.slug}`;
     if (!loaderData) {
-      return { meta: [{ title: "Category not found · AnimeVerse" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Category not found · GameCastle Anime" }, { name: "robots", content: "noindex" }] };
     }
     const c = loaderData.category;
-    const title = `${c.name} — ${c.tagline} · AnimeVerse`;
+    const title = `${c.name} — ${c.tagline} · GameCastle Anime`;
     return {
       meta: [
         { title },

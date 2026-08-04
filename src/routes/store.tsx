@@ -95,7 +95,7 @@ function StorePage() {
           <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/25 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
           <div className="relative max-w-3xl">
             <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> AnimeVerse digital store
+              <Sparkles className="h-3.5 w-3.5" /> GameCastle Anime digital store
             </div>
             <h1 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
               Premium phone wallpapers, delivered the second you buy

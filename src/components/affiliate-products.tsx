@@ -23,7 +23,7 @@ const KIND_META: Record<AffiliateProduct["kind"], { label: string; Icon: typeof 
  * Deterministic starter catalogue derived from the anime in context so every
  * article template can show relevant merch without hand-authoring rows.
  */
-export function productsForContext(anime?: Anime | null, fallbackTitle = "AnimeVerse Picks"): AffiliateProduct[] {
+export function productsForContext(anime?: Anime | null, fallbackTitle = "GameCastle Anime Picks"): AffiliateProduct[] {
   const name = anime?.title ?? fallbackTitle;
   const slug = anime?.slug ?? "animeverse";
   return [
@@ -125,7 +125,7 @@ export function AffiliateProductWidget({
         ))}
       </div>
       <p className="border-t border-border/50 px-4 py-2 text-[11px] text-muted-foreground">
-        AnimeVerse may earn a commission on purchases made through these links. Prices are indicative.
+        GameCastle Anime may earn a commission on purchases made through these links. Prices are indicative.
       </p>
     </aside>
   );

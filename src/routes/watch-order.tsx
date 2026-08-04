@@ -9,9 +9,9 @@ export const Route = createFileRoute("/watch-order")({
       { property: "og:url", content: "https://gamecastle.store/watch-order" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "The Ultimate Anime Watch Order Guide · AnimeVerse" },
+      { title: "The Ultimate Anime Watch Order Guide · GameCastle Anime" },
       { name: "description", content: "Every long-running anime with a canonical, filler-aware watch order. Naruto, One Piece, Fate, and more." },
-      { property: "og:title", content: "Anime Watch Order Guide · AnimeVerse" },
+      { property: "og:title", content: "Anime Watch Order Guide · GameCastle Anime" },
       { property: "og:description", content: "Never watch a series in the wrong order again." },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/watch-order" }],
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/watch-order")({
     <div className="mx-auto max-w-4xl px-4 lg:px-6 py-10">
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Watch Order" }]} />
       <h1 className="font-display text-5xl font-bold">Watch orders</h1>
-      <p className="mt-3 text-lg text-muted-foreground">The canonical order for every long-running series in the AnimeVerse library. Filler-aware where relevant, movie-canon annotated.</p>
+      <p className="mt-3 text-lg text-muted-foreground">The canonical order for every long-running series in the GameCastle Anime library. Filler-aware where relevant, movie-canon annotated.</p>
       <AdSlot placement="between" />
       <div className="mt-10 space-y-6">
         {animes.filter(a => a.watchOrder.length > 1).map(a => (

@@ -12,9 +12,9 @@ export const Route = createFileRoute("/news")({
   head: () => ({
     meta: [
       { property: "og:url", content: "https://gamecastle.store/news" },
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: META },
-      { property: "og:title", content: `${TITLE} · AnimeVerse` },
+      { property: "og:title", content: `${TITLE} · GameCastle Anime` },
       { property: "og:description", content: META },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

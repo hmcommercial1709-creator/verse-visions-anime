@@ -3,14 +3,14 @@ import { Breadcrumbs } from "@/components/ui-bits";
 import { ContactForm } from "@/components/contact-form";
 import { Mail, Clock, ShieldCheck, MapPin } from "lucide-react";
 
-const TITLE = "Contact AnimeVerse — Tips, Corrections & Partnerships";
+const TITLE = "Contact GameCastle Anime — Tips, Corrections & Partnerships";
 const DESC =
-  "Contact the AnimeVerse editorial team: story tips, corrections, article pitches, advertising partnerships, and copyright notices. Replies within two working days.";
+  "Contact the GameCastle Anime editorial team: story tips, corrections, article pitches, advertising partnerships, and copyright notices. Replies within two working days.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: `${TITLE} · AnimeVerse` },
+      { title: `${TITLE} · GameCastle Anime` },
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
@@ -79,7 +79,7 @@ function ContactPage() {
         <h2 className="font-display text-lg font-bold text-foreground">Before you write</h2>
         <ul className="mt-3 space-y-2">
           <li>· Reporting an error in an article? Include the URL and, where possible, a source. Corrections are logged publicly in our <a href="/editorial-policy" className="text-primary hover:underline">editorial policy</a>.</li>
-          <li>· AnimeVerse does not host, stream, or distribute episodes. We cannot provide download links or file requests.</li>
+          <li>· GameCastle Anime does not host, stream, or distribute episodes. We cannot provide download links or file requests.</li>
           <li>· Copyright holders should follow the formal process on our <a href="/dmca" className="text-primary hover:underline">DMCA &amp; Copyright Notice</a> page.</li>
         </ul>
       </div>

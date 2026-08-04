@@ -9,16 +9,16 @@ import { HeaderBannerAd, AdSlot } from "@/components/ad-slot";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 import { Filter, Search, X } from "lucide-react";
 
-const TITLE = "Explore Anime — Filter by Genre, Studio, Year & Status · AnimeVerse";
+const TITLE = "Explore Anime — Filter by Genre, Studio, Year & Status · GameCastle Anime";
 const DESC =
-  "Explore the full AnimeVerse library with multi-filter controls: combine genre, studio, airing status, release year and search to find your next series in seconds.";
+  "Explore the full GameCastle Anime library with multi-filter controls: combine genre, studio, airing status, release year and search to find your next series in seconds.";
 
 export const Route = createFileRoute("/explore")({
   head: () => ({
     meta: [
       { title: TITLE },
       { name: "description", content: DESC },
-      { property: "og:title", content: "Explore the AnimeVerse library" },
+      { property: "og:title", content: "Explore the GameCastle Anime library" },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/explore") },

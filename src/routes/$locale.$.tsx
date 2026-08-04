@@ -13,13 +13,13 @@ export const Route = createFileRoute("/$locale/$")({
     return {
       meta: [
       { name: "twitter:card", content: "summary_large_image" },
-        { title: `AnimeVerse ${locale.english} — ${path}` },
+        { title: `GameCastle Anime ${locale.english} — ${path}` },
         {
           name: "description",
-          content: `${locale.english} edition of this AnimeVerse page. Translation in progress — the English original stays available.`,
+          content: `${locale.english} edition of this GameCastle Anime page. Translation in progress — the English original stays available.`,
         },
-        { property: "og:title", content: `AnimeVerse ${locale.english} edition` },
-        { property: "og:description", content: `${locale.english} edition of this AnimeVerse page.` },
+        { property: "og:title", content: `GameCastle Anime ${locale.english} edition` },
+        { property: "og:description", content: `${locale.english} edition of this GameCastle Anime page.` },
         { property: "og:type", content: "website" },
         { property: "og:url", content: `${SITE_URL}/${locale.code}${path}` },
         { property: "og:locale", content: locale.hrefLang },

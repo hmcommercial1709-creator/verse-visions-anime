@@ -18,9 +18,9 @@ export const Route = createFileRoute("/llms.txt")({
             .join("\n");
 
         const body = [
-          "# AnimeVerse",
+          "# GameCastle Anime",
           "",
-          "> AnimeVerse is an independent anime publishing platform: long-form reviews, character deep-dives, episode recaps, watch orders, studio profiles and seasonal guides, written and fact-checked by a human editorial team.",
+          "> GameCastle Anime is an independent anime publishing platform: long-form reviews, character deep-dives, episode recaps, watch orders, studio profiles and seasonal guides, written and fact-checked by a human editorial team.",
           "",
           "Content is original editorial. Attribution with a link back to the source URL is required when quoting or summarising.",
           "",
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/llms.txt")({
             { path: "/studios", title: "Studio profiles" },
             { path: "/genres", title: "Genre directory" },
             { path: "/seasonal", title: "Seasonal charts" },
-            { path: "/about", title: "About AnimeVerse" },
+            { path: "/about", title: "About GameCastle Anime" },
             { path: "/editorial-policy", title: "Editorial policy" },
             { path: "/contact", title: "Contact" },
           ]),

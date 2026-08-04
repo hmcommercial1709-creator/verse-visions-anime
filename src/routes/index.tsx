@@ -11,17 +11,14 @@ import {
   publishedArticles,
 } from "@/lib/content-registry";
 import { AdSlot, MultiplexAd, StickySidebarAd, DisplayAd } from "@/components/ad-slot";
-import { Rail, EpisodeRail, PosterRail } from "@/components/streaming-rails";
+import { Rail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
-import { AnimeHero } from "@/components/anime-hero";
 import { StorePromoBanner } from "@/components/store-promo-banner";
 
-import { EpisodeGrid } from "@/components/episode-grid";
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
-import { LatestEpisodesSection } from "@/components/episode-streaming";
 import { InfiniteArticleFeed } from "@/components/article-feed";
 import { LazySection } from "@/components/lazy-section";
 import { MediaImage, VideoEmbed } from "@/components/media";
@@ -113,19 +110,9 @@ function Home() {
     return picked;
   };
 
-  const heroPicks = take(
-    HERO_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime =>
-      Boolean(a),
-    ),
-    HERO_SLUGS.length,
-  );
   const hubs = take(
     HUB_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
     HUB_SLUGS.length,
-  );
-  const streamingPicks = take(
-    liveAnime.filter((a) => a.status === "Ongoing"),
-    4,
   );
   const trending = take(liveAnime, 6);
   const topRated = take(
@@ -160,21 +147,6 @@ function Home() {
       <HomeStage trending={trending} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <Rail
-          title="Latest episodes — start watching now"
-          subtitle="Newest releases first. Tap any card to open the player with that episode preloaded."
-          action={
-            <Link
-              to="/streaming"
-              className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline"
-            >
-              All episodes <ArrowRight className="h-3 w-3" />
-            </Link>
-          }
-        >
-          <EpisodeRail limit={12} />
-        </Rail>
-
         {/* CORE CONTENT — embedded YouTube summaries, AMVs and short reviews,
             each with an Arabic SEO write-up and a CTA to the official platform. */}
         <section className="mt-12">
@@ -186,7 +158,7 @@ function Home() {
             episode on the official platform.
           </p>
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            {videoSummaries.slice(0, 6).map((v) => {
+            {videoSummaries.slice(0, 2).map((v) => {
               const a = getAnime(v.animeSlug);
               if (!a) return null;
               return (
@@ -246,13 +218,7 @@ function Home() {
         </Rail>
       </div>
 
-      {/* Featured spotlight carousel — demoted below the watch rails so the
-          landing view is content, not marketing. */}
-      <AnimeHero items={heroPicks} />
-
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <DisplayAd className="my-8" minHeight={280} />
-
         {/* GENRE SHELVES */}
         <Section
           eyebrow="Browse by category"
@@ -305,18 +271,6 @@ function Home() {
           }
         >
           <FranchiseHubs items={hubs} />
-        </Section>
-
-        {/* LATEST EPISODES + STREAMING */}
-        <Section
-          eyebrow="Currently airing"
-          title="Latest episodes & where to watch"
-          subtitle="Pick a series, jump to an episode recap, and switch between official streaming platforms."
-        >
-          <EpisodeGrid limit={8} />
-          <div className="mt-6">
-            <LatestEpisodesSection items={streamingPicks} />
-          </div>
         </Section>
 
         <LazySection minHeight={620}>

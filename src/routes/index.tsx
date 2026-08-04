@@ -114,11 +114,15 @@ function Home() {
   };
 
   const heroPicks = take(
-    HERO_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
+    HERO_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime =>
+      Boolean(a),
+    ),
     HERO_SLUGS.length,
   );
   const hubs = take(
-    HUB_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
+    HUB_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime =>
+      Boolean(a),
+    ),
     HUB_SLUGS.length,
   );
   const streamingPicks = take(

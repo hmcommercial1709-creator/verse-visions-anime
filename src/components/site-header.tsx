@@ -104,7 +104,6 @@ const megaGroups = [
       {
         title: "News & Reviews",
         links: [
-          { to: "/news", label: "News" },
           { to: "/reviews", label: "Reviews" },
           { to: "/top-lists", label: "Top Lists" },
           { to: "/editorial", label: "Editorial" },
@@ -119,19 +118,18 @@ const megaGroups = [
           { to: "/power-scaling", label: "Power Scaling" },
           { to: "/anime/jujutsu-kaisen", label: "Jujutsu Kaisen" },
           { to: "/watch-order", label: "Watch Order" },
-          { to: "/recommendations", label: "Recommendations" },
         ],
       },
 
       {
         title: "Must-read deep dives",
         links: [
-          { to: "/article/why-frieren-won-2024", label: "Why Frieren Won the Year" },
-          { to: "/article/review-jujutsu-kaisen-s2", label: "Jujutsu Kaisen S2 Review" },
+          { to: "/article/gojo-satoru-limitless-technique-explained", label: "Gojo Limitless Explained" },
+          { to: "/article/shibuya-incident-timeline", label: "Shibuya Incident Timeline" },
           { to: "/article/one-piece-wano-recap", label: "The Complete Wano Recap" },
-          { to: "/article/top-10-anime-2026", label: "10 Best Anime Right Now" },
-          { to: "/quotes", label: "Quotes" },
-          { to: "/soundtracks", label: "Soundtracks" },
+          { to: "/article/jujutsu-kaisen-watch-order-and-manga-jump", label: "Jujutsu Kaisen Watch Order" },
+          { to: "/article/hunter-x-hunter-nen-strategy-rules", label: "Hunter x Hunter Nen Guide" },
+          { to: "/article/dr-stone-science-tech-tree-guide", label: "Dr. Stone Science Guide" },
         ],
       },
     ],
@@ -152,9 +150,9 @@ const megaGroups = [
         title: "Streaming",
         links: [
           { to: "/streaming", label: "Streaming Platforms" },
-          { to: "/awards", label: "Anime Awards" },
-          { to: "/statistics", label: "Statistics" },
-          { to: "/events", label: "Events & Cons" },
+          { to: "/seasonal", label: "Seasonal Anime" },
+          { to: "/upcoming", label: "Upcoming Anime" },
+          { to: "/completed", label: "Completed Anime" },
         ],
       },
       {
@@ -180,7 +178,6 @@ const categoryHubs = [
   { to: "/characters", label: "Characters" },
   { to: "/seasonal", label: "Seasonal" },
   { to: "/reviews", label: "Reviews" },
-  { to: "/news", label: "News" },
   { to: "/blog", label: "All Articles" },
 ];
 

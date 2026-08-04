@@ -8,6 +8,7 @@ import type { Article } from "./articles";
  */
 export const topUpcomingAnimeOpenWorldGames2026Article: Article = {
   slug: "top-upcoming-anime-open-world-games-2026",
+  publicationStatus: "draft",
   section: "guides",
   category: "gaming-guides",
   tags: ["gaming", "open world", "2026", "rpg", "mobile", "pc", "console"],

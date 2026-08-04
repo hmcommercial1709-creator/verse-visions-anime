@@ -25,6 +25,7 @@ export const jjkWatchOrderArticle: Article = {
   ogImage: jjkWatchOrderArt.url,
   author: "hana-mori",
   date: "2026-07-31",
+  updated: "2026-08-04",
   tag: "Jujutsu Kaisen · Watch Order",
   cover: "linear-gradient(135deg, #141b2d, #06070d 55%, #3a1150)",
   body: [],

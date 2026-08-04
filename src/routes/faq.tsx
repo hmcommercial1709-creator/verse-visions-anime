@@ -5,7 +5,7 @@ const faqs = [
   { q: "What is GameCastle Anime?", a: "An independent editorial site covering anime reviews, guides, and industry news." },
   { q: "How do you pick which anime to cover?", a: "Editorial priority follows what fans are watching now, plus the classics newcomers should not miss." },
   { q: "Do you write for kids or adults?", a: "Both. We label mature content and keep our beginner guides safe for all-ages readers." },
-  { q: "How can I contribute?", a: "Pitch us at editors@animeverse.example with a link to prior work." },
+  { q: "How can I contribute?", a: "Send a pitch through the contact form with a link to prior work." },
   { q: "Do you offer a newsletter?", a: "Yes. One email every Friday. Subscribe from the footer." },
 ];
 

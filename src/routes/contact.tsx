@@ -36,9 +36,9 @@ export const Route = createFileRoute("/contact")({
 });
 
 const desks = [
-  { icon: Mail, tone: "text-primary", title: "Editorial & corrections", value: "editors@animeverse.example", note: "Story tips, factual corrections, review requests." },
-  { icon: ShieldCheck, tone: "text-accent", title: "Advertising & partnerships", value: "partners@animeverse.example", note: "Media kit, sponsorships, affiliate programs." },
-  { icon: MapPin, tone: "text-primary", title: "Copyright & DMCA", value: "dmca@animeverse.example", note: "Takedown notices and counter-notices." },
+  { icon: Mail, tone: "text-primary", title: "Editorial & corrections", value: "Editorial question / Correction", note: "Story tips, factual corrections, review requests." },
+  { icon: ShieldCheck, tone: "text-accent", title: "Advertising & partnerships", value: "Advertising & partnerships", note: "Media kit, sponsorships, affiliate programs." },
+  { icon: MapPin, tone: "text-primary", title: "Copyright & DMCA", value: "Copyright / DMCA", note: "Takedown notices and counter-notices." },
 ];
 
 function ContactPage() {
@@ -47,8 +47,8 @@ function ContactPage() {
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Contact" }]} />
       <h1 className="font-display text-4xl lg:text-5xl font-bold">Contact us</h1>
       <p className="mt-3 max-w-2xl text-lg text-muted-foreground">
-        A real editor reads everything that arrives here. Tips, corrections, and pitches are all welcome — use the form
-        below and pick the desk that fits, or email us directly.
+        Tips, corrections, and pitches are all welcome. Use the form below and pick the topic that fits — each one routes
+        to the desk that handles it.
       </p>
 
       <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/40 px-4 py-2 text-sm text-muted-foreground">

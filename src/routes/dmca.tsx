@@ -54,9 +54,9 @@ function DmcaPage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">2. Submitting a takedown notice</h2>
           <p className="mt-3">
-            Send your notice to our designated copyright agent at{" "}
-            <a href="mailto:dmca@animeverse.example" className="text-primary hover:underline">dmca@animeverse.example</a>{" "}
-            with the subject line "DMCA Takedown Request". A valid notice under 17 U.S.C. §512(c)(3) must include:
+            Send your notice to our designated copyright agent through the{" "}
+            <Link to="/contact" className="text-primary hover:underline">contact form</Link>, selecting the
+            "Copyright / DMCA" topic. A valid notice under 17 U.S.C. §512(c)(3) must include:
           </p>
           <ol className="mt-3 list-decimal space-y-2 pl-6">
             <li>Identification of the copyrighted work you claim has been infringed.</li>
@@ -85,7 +85,7 @@ function DmcaPage() {
           <h2 className="font-display text-2xl font-bold text-foreground">4. Counter-notification</h2>
           <p className="mt-3">
             If your material was removed and you believe that was a mistake or misidentification, send a
-            counter-notice to the same address including: identification of the removed material and its
+            counter-notice through the same channel including: identification of the removed material and its
             former URL; a statement under penalty of perjury that you have a good-faith belief it was
             removed in error; your name, address, and phone number; consent to the jurisdiction of a
             competent court; and your signature.
@@ -104,8 +104,8 @@ function DmcaPage() {
           <h2 className="font-display text-2xl font-bold text-foreground">6. Designated agent</h2>
           <div className="mt-3 rounded-xl border border-border/60 bg-card/40 p-5 text-sm">
             <div className="font-semibold text-foreground">Copyright Agent, GameCastle Anime Editorial</div>
-            <div className="mt-1 text-muted-foreground">Email: <a href="mailto:dmca@animeverse.example" className="text-primary hover:underline">dmca@animeverse.example</a></div>
-            <div className="text-muted-foreground">Postal address available on request via the <Link to="/contact" className="text-primary hover:underline">contact form</Link>.</div>
+            <div className="mt-1 text-muted-foreground">Reach the agent through the <Link to="/contact" className="text-primary hover:underline">contact form</Link> using the "Copyright / DMCA" topic.</div>
+            <div className="text-muted-foreground">Postal address available on request through the same form.</div>
           </div>
         </section>
 

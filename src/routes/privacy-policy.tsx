@@ -49,9 +49,8 @@ function PrivacyPolicyPage() {
           <h2 className="font-display text-2xl font-bold text-foreground">1. Who we are</h2>
           <p className="mt-3">
             GameCastle Anime is an independent anime publication. We are the data controller for this site.
-            Privacy questions go to{" "}
-            <a href="mailto:privacy@animeverse.example" className="text-primary hover:underline">privacy@animeverse.example</a>{" "}
-            or via the <Link to="/contact" className="text-primary hover:underline">contact form</Link>.
+            Privacy questions go through the{" "}
+            <Link to="/contact" className="text-primary hover:underline">contact form</Link>.
           </p>
         </section>
 
@@ -161,8 +160,8 @@ function PrivacyPolicyPage() {
             your personal information.
           </p>
           <p className="mt-3">
-            To make a request, email{" "}
-            <a href="mailto:privacy@animeverse.example" className="text-primary hover:underline">privacy@animeverse.example</a>. We
+            To make a request, use the{" "}
+            <Link to="/contact" className="text-primary hover:underline">contact form</Link>. We
             respond within 30 days. You may also complain to your local data protection authority.
           </p>
         </section>

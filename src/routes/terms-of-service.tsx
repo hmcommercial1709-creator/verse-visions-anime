@@ -150,8 +150,7 @@ function TermsOfServicePage() {
         <section>
           <h2 className="font-display text-2xl font-bold text-foreground">12. Contact</h2>
           <p className="mt-3">
-            Questions about these terms:{" "}
-            <a href="mailto:legal@animeverse.example" className="text-primary hover:underline">legal@animeverse.example</a> or the{" "}
+            Questions about these terms go through the{" "}
             <Link to="/contact" className="text-primary hover:underline">contact form</Link>.
           </p>
         </section>

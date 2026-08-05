@@ -239,7 +239,7 @@ export const drStoneInventionsArticle: Article = {
       paragraphs: [
         "Condensed build order, tier by tier: revival fluid and stone-age tools; food, soap and cola for morale and recruitment; charcoal, iron sand and the furnace; glass and laboratory vessels; the sulfa drug; magnets, wire and the generator; the light bulb and vacuum sealing; the vacuum tube and the telephone; paper and printing; steam power and vehicles; ships and navigation; petroleum refining, engines and flight; and finally the large-scale programme of the closing arc.",
         "The rule behind the order is simple: nothing appears before the material and the manpower that make it possible. When you spot an invention arriving early, the story has usually just paid for it with an expedition, a new ally or a failed attempt — which is exactly why the series rewards rewatching with the dependency chain in mind.",
-        "For series background, cast and season details, see our [Dr. Stone series hub](/anime/dr-stone).",
+        "For individual science roadmaps, continue with [how revival fluid works](/article/dr-stone-revival-fluid-formula-explained), [the sulfa drug that saves Ruri](/article/dr-stone-sulfa-drug-roadmap-explained) and [how Senku builds the Stone World phone](/article/how-dr-stone-built-cell-phone). For series background, cast and season details, see our [Dr. Stone series hub](/anime/dr-stone).",
       ],
       blocks: [
         {

@@ -19,13 +19,16 @@ type Draft = {
   category: CategorySlug;
   section: Article["section"];
   title: string;
+  seoTitle?: string;
   excerpt: string;
   author: string;
   date: string;
+  updated?: string;
   tag: string;
   tags: string[];
   cover: [string, string];
   related: string[];
+  faqs?: Article["faqs"];
   sections: ArticleSection[];
 };
 
@@ -36,13 +39,16 @@ const build = (d: Draft): Article => ({
   category: d.category,
   tags: d.tags,
   title: d.title,
+  seoTitle: d.seoTitle,
   excerpt: d.excerpt,
   author: d.author,
   date: d.date,
+  updated: d.updated,
   tag: d.tag,
   cover: g(d.cover[0], d.cover[1]),
   body: d.sections.flatMap((s) => s.paragraphs),
   sections: d.sections,
+  faqs: d.faqs,
   related: d.related,
 });
 
@@ -216,63 +222,250 @@ const drafts: Draft[] = [
   },
   {
     slug: "one-piece-devil-fruit-system-explained",
+    publicationStatus: "published",
     category: "gaming-guides",
     section: "guides",
-    title: "The Devil Fruit System Explained: Types, Awakening and the Rules Oda Never Breaks",
+    title: "One Piece Devil Fruits Explained: Types, Awakening, Haki and Rules",
+    seoTitle: "One Piece Devil Fruits Explained: Types, Awakening & Haki",
     excerpt:
-      "Paramecia, Zoan, Logia, awakening, Haki interaction and the internal logic that keeps a 1,100-chapter power system coherent.",
+      "A complete One Piece Devil Fruit guide: Paramecia, Zoan, Logia, awakening, Haki, seawater, reincarnation, artificial fruits and Blackbeard.",
     author: "lina-vasquez",
     date: "2026-05-14",
-    tag: "Explainer",
-    tags: ["one-piece", "power-system", "explainer", "adventure"],
+    updated: "2026-08-05",
+    tag: "One Piece · Power System Guide",
+    tags: ["one-piece", "devil-fruits", "power-system", "awakening", "haki"],
     cover: ["#f59e0b", "#7c2d12"],
-    related: ["one-piece", "hunter-x-hunter", "bleach"],
+    related: ["one-piece", "hunter-x-hunter", "bleach", "jujutsu-kaisen"],
+    faqs: [
+      {
+        q: "What are the three Devil Fruit types in One Piece?",
+        a: "Paramecia fruits change the user's body, produce a substance or affect the surroundings; Zoan fruits allow transformations into animals or mythical creatures; Logia fruits let users create, control and become a natural element or phenomenon.",
+      },
+      {
+        q: "Can a person eat two Devil Fruits?",
+        a: "The established rule says one person cannot safely consume two Devil Fruits. Blackbeard is the only confirmed exception, and the exact mechanism that lets him use both the Yami Yami no Mi and Gura Gura no Mi has not been fully explained.",
+      },
+      {
+        q: "Do Devil Fruit users lose their powers in water?",
+        a: "Submersion drains their strength and prevents effective movement, but it does not always erase the body's changed properties. Luffy can still stretch underwater when someone else moves his body. The deeper the submersion, the stronger the weakness.",
+      },
+      {
+        q: "Does Haki cancel Devil Fruit powers?",
+        a: "Not generally. Armament Haki lets a fighter strike the true body of many users, including Logia users, and sufficiently strong Haki can resist some effects. It does not automatically switch every Devil Fruit off.",
+      },
+      {
+        q: "What is Devil Fruit awakening?",
+        a: "Awakening is a higher level of mastery where a fruit's power operates beyond its normal limits. Paramecia awakenings may extend effects into the environment, while awakened Zoans show exceptional resilience, recovery and stronger transformations.",
+      },
+      {
+        q: "What happens to a Devil Fruit when its user dies?",
+        a: "The power re-enters circulation by reincarnating in another suitable fruit. The Punk Hazard arc visibly demonstrates this process, although the complete rules governing distance and fruit selection remain unexplained.",
+      },
+    ],
     sections: [
       {
-        heading: "Three Categories, One Cost",
+        heading: "How Devil Fruits Work in One Piece",
         paragraphs: [
-          "Every Devil Fruit falls into Paramecia, Zoan or Logia, and every single one charges the same price: the sea rejects you forever. That fixed cost is the reason the system has survived a quarter century of escalation. No matter how absurd a power becomes, seawater and sea-prism stone remain the universal off switch.",
-          "Paramecia alter the body or the world around it. Zoan grant a transformation, and the mythical and ancient sub-classes are where the ceiling lives. Logia turn the user into an element, which sounds unbeatable until you remember that Haki was introduced specifically to make it beatable.",
-          "For a comparison with a rival system that solved the same escalation problem differently, our [Nen and rule-bound power systems](/article/hunter-x-hunter-nen-strategy-rules) piece is the natural companion read.",
+          "Devil Fruits are rare fruits that grant one supernatural ability in exchange for the user's ability to swim. Each fruit belongs to one of three families — Paramecia, Zoan or Logia — and each named fruit is normally unique. A person can train the ability, invent new applications and eventually awaken it, but they cannot replace the original concept with an unrelated power.",
+          "Quick answer: Paramecia is the broad category for body changes, produced substances and unusual effects; Zoan allows transformation into an animal, ancient creature or mythical being; Logia lets the user create, control and become a natural element or phenomenon. Water and Sea-Prism Stone weaken every user, while Haki gives trained opponents a way to interact with abilities that would otherwise be difficult to touch.",
+          "The system works because spectacular freedom sits inside stable costs. Luffy can turn elasticity into movement, defence and battlefield control, but drowning remains a threat. A Logia may ignore ordinary attacks, but Armament Haki, natural counters and poor judgement can still defeat them. The power grows; the underlying weakness does not disappear.",
+          "This guide covers the categories, universal rules, seawater, Haki, awakening, reincarnation, artificial fruits, objects with powers and the unresolved Blackbeard exception. Major examples include story information through Wano."
         ],
         blocks: [
-          { type: "image", art: "one-piece", caption: "Original GameCastle Anime key visual for the Devil Fruit explainer." },
+          { type: "image", art: "one-piece", caption: "Original GameCastle Anime key visual for the One Piece Devil Fruit system guide." },
         ],
       },
       {
-        heading: "Why Logia Stopped Being the Top Tier",
+        heading: "The Universal Devil Fruit Rules",
         paragraphs: [
-          "For the first half of the series, Logia was a hard counter to anyone without a gimmick. Then Haki arrived and reframed the entire hierarchy: armament Haki lets a fist land on smoke, and the intangibility becomes a mobility and utility advantage rather than an invulnerability.",
-          "This is careful design, not a retcon. Oda seeded Haki long before it was named, and the fruits that survived the transition are the ones with utility beyond 'you cannot hit me' — logistics, terrain control, and information.",
-          "The lesson generalises: power systems age well when their trump card can be answered by skill rather than by a bigger number. We make the same argument about breathing forms in our [Hashira ranking](/article/demon-slayer-hashira-ranked).",
-        ],
-      },
-      {
-        heading: "Awakening: The Second Ceiling",
-        paragraphs: [
-          "Awakening extends a fruit's effect beyond the user's own body. A Paramecia user begins transforming the environment; a Zoan user gains a semi-autonomous, regenerating enhancement. It is the mechanism that lets Oda raise the ceiling without inventing new fruits for established characters.",
-          "Crucially, awakening has a visible training cost and a visible stamina drain. It is not a free upgrade, which keeps the fights readable.",
-          "The Wano arc is the clearest showcase of awakening as a narrative device rather than a stat boost — our [complete Wano recap](/article/one-piece-wano-recap) tracks how each awakening changes the shape of a battlefield.",
+          "The first rule is exclusivity. Two fruits with the same power do not normally exist at the same time, and the ability returns to circulation only after the current user dies. This gives every fruit a history: governments, pirates and families can pursue the same power across generations even though the person carrying it changes.",
+          "The second rule is the swimming weakness. Any standing water can sap a user's strength when enough of the body is submerged; the sea is not magical because it is salty. Rain, splashes and moving water do not have the same effect. Sea-Prism Stone reproduces the sea's weakening energy and is therefore used in restraints, weapons and prison technology.",
+          "The third rule is one fruit per person. The series treats eating a second fruit as fatal, with Blackbeard as the single confirmed exception. Because the explanation is unresolved, the honest answer is not that he disproves the rule — it is that his body or method is part of a mystery the story has deliberately preserved.",
+          "The fourth rule is that imagination and training decide usefulness. A fruit grants a premise, not a complete moveset. Users discover techniques by applying the same property to new problems, which is why apparently ridiculous powers can become dangerous without changing category."
         ],
         blocks: [
           {
             type: "table",
-            caption: "Type comparison at a glance",
-            columns: ["Type", "Core effect", "Ceiling", "Common weakness"],
+            caption: "The core Devil Fruit rules and their practical consequences",
+            columns: ["Rule", "What It Means", "Important Exception or Detail"],
             rows: [
-              ["Paramecia", "Alters body or surroundings", "Awakening reshapes terrain", "Narrow application"],
-              ["Zoan", "Transformation, boosted physique", "Mythical class, self-healing", "Predictable forms"],
-              ["Logia", "Elemental body", "Large-scale area control", "Haki, natural counters"],
+              ["One active version", "A named power normally belongs to one living user", "The fruit reincarnates after death"],
+              ["Water weakness", "Submersion drains strength and mobility", "Changed body properties may remain"],
+              ["One fruit per person", "A second fruit is believed to kill the user", "Blackbeard is the unexplained exception"],
+              ["Sea-Prism Stone", "Contact weakens users like the sea", "Strength depends on exposure and restraint design"],
+              ["Training matters", "Applications grow from the fruit's original concept", "Awakening extends the concept but does not replace it"],
             ],
           },
         ],
       },
       {
-        heading: "The Rules Oda Never Breaks",
+        heading: "Paramecia Devil Fruits Explained",
         paragraphs: [
-          "Four rules have held for the entire run: one fruit per person, seawater disables, the fruit reincarnates after death, and Haki bypasses intangibility. Every apparent exception has an in-world mechanism attached rather than a hand-wave.",
-          "That consistency is why fan theorising about One Piece functions like reverse-engineering rather than guessing. The system is closed enough to reason inside.",
-          "New readers should start at the series hub [One Piece series hub](/anime/one-piece) for the arc index, or with the entry guide in our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen).",
+          "Paramecia is the largest and most varied category. Some fruits permanently change the user's body, as with Luffy's rubber-like properties before the deeper nature of his power is revealed. Others generate a substance, create a controllable object, impose a rule on a target or alter the surrounding environment.",
+          "Because the category is broad, a Paramecia should be analysed by activation method rather than name alone. Does the user need physical contact? Does an effect continue at range? Can it target living bodies, objects or both? Does damage to a created object transfer back to the user? Those answers matter more than whether the fruit sounds offensive.",
+          "Paramecia battles often reward creativity most visibly. Doflamingo turns string into cutting attacks, movement, repair and remote control. Law's Ope Ope no Mi creates an operating space where position and anatomy can be manipulated, but the room's scale and complexity consume stamina. The fruit provides the rule; mastery expands the number of decisions available inside it.",
+          "Special Paramecia is a rare label used when a fruit behaves like Paramecia while granting substance-production and body-conversion properties associated with Logia. The category is evidence that the classification system describes observed behaviour rather than forcing every power into a perfectly clean scientific box."
+        ],
+      },
+      {
+        heading: "Zoan, Ancient Zoan and Mythical Zoan",
+        paragraphs: [
+          "Zoan fruits allow transformation between a natural form, an animal form and a hybrid form. The hybrid usually combines the user's intelligence and fighting style with the animal's strength, senses or movement. Even an ordinary Zoan can be formidable because it improves the body that carries every other combat skill.",
+          "Ancient Zoans represent extinct creatures such as dinosaurs and mammoths. Their headline advantage is physical durability, but each species also creates a different silhouette, range and mobility problem. A large body can overwhelm an area while becoming a larger target, so the form itself changes the tactical geometry of a fight.",
+          "Mythical Zoans add legendary traits beyond animal transformation. Marco's phoenix flames, Kaido's dragon abilities and other mythical powers behave partly like abilities from different categories. Their rarity and flexibility create a high ceiling, but the user still needs stamina, control and a way to apply the transformation effectively.",
+          "Awakened Zoans are associated with exceptional endurance, recovery and a more complete union between user and animal. The risk is not purely physical: Impel Down demonstrates that an awakening can overwhelm the user's personality, while later examples show fighters who retain identity and control."
+        ],
+        blocks: [
+          {
+            type: "table",
+            caption: "Zoan subtypes and what distinguishes them",
+            columns: ["Zoan Class", "Transformation", "Typical Advantage"],
+            rows: [
+              ["Standard Zoan", "A living animal species", "Strength, senses, mobility and hybrid combat"],
+              ["Ancient Zoan", "An extinct animal", "Extreme durability and large-scale physical force"],
+              ["Mythical Zoan", "A legendary creature or deity", "Transformation plus rare supernatural traits"],
+              ["Artificial Zoan", "A manufactured attempt to reproduce Zoan power", "Variable results and significant side effects"],
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Logia Devil Fruits and Intangibility",
+        paragraphs: [
+          "Logia fruits allow users to create, control and transform into a natural element or phenomenon. Early in the series this looks like invulnerability: ordinary punches pass through smoke, sand, lightning or light because the user's body becomes the element before the impact can land.",
+          "Intangibility is only one advantage. The real ceiling is area control, movement and logistics. Crocodile can reshape a battlefield and remove moisture; Enel can travel through conductive material and monitor a huge area when his fruit is combined with Observation Haki; Kizaru turns light into movement and ranged force.",
+          "Logia users can still be countered without Haki when an interaction makes physical sense inside the story. Water lets Luffy strike Crocodile's sand, rubber protects him from Enel's electricity, and other environmental relationships can expose the real body. Armament Haki later provides a general combat answer, but it does not remove the fruit's mobility or destructive scale.",
+          "The story has not provided a single confirmed formula for Logia awakening comparable to the explanations given for awakened Paramecia and Zoan users. Claims that every island permanently altered by weather proves a specific awakening remain theories unless the manga identifies them."
+        ],
+      },
+      {
+        heading: "How Haki Interacts With Devil Fruits",
+        paragraphs: [
+          "Armament Haki allows a fighter to hit the substantial body behind many Devil Fruit transformations. This is most obvious against Logia users, but the same principle improves attack and defence across every category. Haki does not make the element vanish; it makes contact meaningful.",
+          "Observation Haki changes the matchup before contact. Predicting intent, sensing position and reading movement can neutralise a fruit that depends on surprise or range. Future sight becomes especially powerful when paired with a body that can reshape around attacks, because prediction and transformation solve different halves of the defensive problem.",
+          "Conqueror's Haki can overwhelm weaker wills and, at advanced levels, reinforce attacks without replacing the user's existing ability. The strongest fighters often layer Haki and Devil Fruit mastery rather than choosing between them.",
+          "Strong Haki can resist or break some imposed Devil Fruit effects, but this is not a universal cancel button. The series applies that resistance selectively. A careful explanation should ask which effect was resisted and how much Haki was required instead of assuming every supernatural rule disappears."
+        ],
+        blocks: [
+          {
+            type: "table",
+            caption: "What each form of Haki changes in a Devil Fruit battle",
+            columns: ["Haki Type", "Interaction", "What It Does Not Do"],
+            rows: [
+              ["Armament", "Lets attacks connect with protected or transformed bodies", "Does not erase the fruit or stop element production"],
+              ["Observation", "Reveals presence, intent and sometimes future movement", "Does not guarantee the body can respond in time"],
+              ["Conqueror's", "Overwhelms will and can reinforce elite attacks", "Does not automatically defeat every fruit user"],
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Devil Fruit Awakening Explained",
+        paragraphs: [
+          "Awakening is a higher stage where the fruit's concept operates beyond its normal boundary. The exact result depends on category and ability, so awakening should not be treated as one identical transformation that every user receives.",
+          "Awakened Paramecia users may extend an effect from their own body into the environment or apply it on a much larger scale. Doflamingo turns buildings and ground into string; Katakuri transforms surroundings into mochi; Law and Kid push their abilities into new target relationships. Each example expands the original rule rather than inventing a second power.",
+          "Awakened Zoans show increased physical performance, resilience and recovery. Some retain full identity and develop a distinctive transformed presentation, while the Impel Down jailers suggest an awakening can dominate the mind when control is incomplete.",
+          "Awakening has costs. Stamina drain, recovery time and the difficulty of maintaining large effects prevent it from becoming a permanent default state. The user must decide when the expanded ability is worth spending the remaining resources of the fight."
+        ],
+        blocks: [
+          {
+            type: "table",
+            caption: "Awakening by confirmed category",
+            columns: ["Category", "Observed Awakening Pattern", "Tactical Cost"],
+            rows: [
+              ["Paramecia", "Extends or applies the fruit's concept beyond the usual body or target", "High stamina use and battlefield complexity"],
+              ["Zoan", "Improves transformation, resilience and recovery", "Risk of exhaustion or loss of control"],
+              ["Logia", "No single general rule has been explicitly confirmed", "Specific claims remain unconfirmed"],
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Devil Fruit Reincarnation and the Encyclopedia",
+        paragraphs: [
+          "When a user dies, the power reincarnates in another fruit and returns to circulation. Punk Hazard shows the process directly when a nearby ordinary fruit changes after Smiley dies. That scene confirms reincarnation but does not prove that the nearest fruit is always selected under every condition.",
+          "The Devil Fruit Encyclopedia records known appearances and abilities. A fruit can sometimes be identified from its shape before it is eaten; in other cases the user learns the name from the power that appears. This allows governments and pirates to hunt strategic abilities even when the previous owner is gone.",
+          "Reincarnation explains why inherited powers matter politically. The World Government is not merely buying a weapon for one battle; it may be trying to control an ability that could otherwise return to an enemy generation after generation."
+        ],
+      },
+      {
+        heading: "Artificial Devil Fruits, SMILE and Objects With Powers",
+        paragraphs: [
+          "Vegapunk's research proves that parts of the Devil Fruit system can be reproduced through lineage factors. Momonosuke's artificial fruit copies Kaido's dragon transformation with remarkable accuracy despite being dismissed as a failure for a cosmetic difference. That result suggests the scientific limit is closer to replication than imitation.",
+          "SMILE fruits are mass-produced artificial Zoans built through a different and far less reliable process. Only a minority grant an animal ability, and the failures carry severe side effects. The Wano storyline treats those costs as industrial harm, not as a quirky substitute for natural fruits. Follow the political consequences in our [complete Wano recap](/article/one-piece-wano-recap).",
+          "Objects can also receive Zoan powers through technology, producing weapons with animal forms and instincts. The confirmed examples involve Zoan fruits, which fits a category already associated with a living will. The exact feeding process has not been fully explained on the page.",
+          "These experiments matter because they turn a naturally scarce power into a production problem. Once governments can copy a useful trait, scarcity stops being absolute — but reliability, ethics and control become the new limits."
+        ],
+      },
+      {
+        heading: "Blackbeard and the Two Devil Fruit Mystery",
+        paragraphs: [
+          "Marshall D. Teach is the only confirmed person using two Devil Fruit powers: the Yami Yami no Mi and the Gura Gura no Mi. The story repeatedly signals that his body is unusual, but it has not yet given a complete mechanical explanation for how the second power was obtained or contained.",
+          "The Yami Yami no Mi can pull Devil Fruit users toward Teach and suppress their abilities while he maintains contact. That explains part of his fighting style, not automatically the transfer method. His crew's ability-hunting activities show that a reproducible process may exist, but the details remain intentionally hidden.",
+          "Any guide that presents one fan theory — multiple personalities, multiple hearts, darkness storage or a hidden object — as confirmed is going beyond the text. The SEO-safe and reader-safe answer is simple: Blackbeard is the exception, his unusual body is relevant, and the mechanism remains unresolved."
+        ],
+      },
+      {
+        heading: "The Hidden Identity of Luffy's Fruit",
+        paragraphs: [
+          "This section contains a major Wano spoiler. For a first watch, skip to the comparison table below and return after completing the arc."
+        ],
+        blocks: [
+          {
+            type: "spoiler",
+            scope: "One Piece — Wano climax",
+            level: "major",
+            heading: "Why the Gomu Gomu no Mi classification changes",
+            paragraphs: [
+              "The fruit known publicly as the Gomu Gomu no Mi is revealed as the Hito Hito no Mi, Model: Nika, a Mythical Zoan whose properties include the rubber-like body seen throughout the series. The World Government concealed the name, which explains why the early classification and the later reveal can both exist inside the story.",
+              "Gear 5 is its awakening. It expands the user's freedom over body and surroundings while retaining the established rubber logic, presenting the culmination of Luffy's improvisational fighting style rather than an unrelated ability appearing from nowhere.",
+              "The reveal also reinforces the system's political layer: classification is information controlled by institutions. A power can be misunderstood not because the rules changed, but because the people naming it had an incentive to hide the correct category."
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Devil Fruit Types Compared",
+        paragraphs: [
+          "No category is automatically strongest. Logia has the easiest early defensive advantage, Zoan offers the most reliable physical improvement, and Paramecia contains the widest range of specialised rules. Mythical Zoans combine several benefits but remain rare and demanding.",
+          "The best fruit depends on the user's goal. Travel, medicine, espionage, rescue, logistics and information can be more valuable than destructive output. One Piece repeatedly rewards powers that solve the situation the crew actually faces rather than the power that would win an empty arena."
+        ],
+        blocks: [
+          {
+            type: "table",
+            caption: "Paramecia, Zoan and Logia compared",
+            columns: ["Type", "Best At", "Main Weakness", "Awakening"],
+            rows: [
+              ["Paramecia", "Specialised rules, creativity and unusual matchups", "Often narrow or condition-dependent", "May extend effects beyond the normal target"],
+              ["Zoan", "Physical combat, endurance and transformation", "Forms can be predictable or lose control", "Greater resilience, recovery and transformation"],
+              ["Logia", "Intangibility, mobility and area control", "Haki, natural counters and overconfidence", "General pattern not explicitly confirmed"],
+            ],
+          },
+          {
+            type: "poll",
+            question: "Which Devil Fruit category has the best overall design?",
+            options: ["Paramecia", "Zoan", "Logia", "The category matters less than the user"],
+          },
+        ],
+      },
+      {
+        heading: "Devil Fruits Compared With Nen and Other Systems",
+        paragraphs: [
+          "Devil Fruits grant an external premise and ask the user to explore it. Nen begins with personal aura and asks the user to design rules from their identity, affinity and sacrifices. Our expanded [Hunter x Hunter Nen guide](/article/hunter-x-hunter-nen-strategy-rules) shows why conditions are more explicit in Togashi's system.",
+          "Frieren's magic is learned knowledge that changes across generations, closer to research than inheritance. Compare its mana, spell analysis and visualisation rules in the [Frieren magic system guide](/article/frieren-magic-system-deep-dive).",
+          "Solo Leveling makes progress measurable through stats and ranks, while One Piece usually hides numerical strength behind matchups, Haki and creative application. The [Solo Leveling System guide](/article/solo-leveling-system-progression-explained) explains that visible progression model.",
+          "Devil Fruits remain compelling because the rule and the personality meet in public. The fruit may be random, stolen or inherited, but the moveset reveals how its current user thinks."
+        ],
+      },
+      {
+        heading: "One Piece Devil Fruit FAQ",
+        paragraphs: [
+          "What are the three Devil Fruit types? Paramecia, Zoan and Logia.",
+          "Can someone eat two Devil Fruits? The established answer is no; Blackbeard is the unexplained exception.",
+          "Does water remove a Devil Fruit power? Submersion drains the user's strength, but permanent body properties may remain even when the user cannot move effectively.",
+          "Does Haki cancel Devil Fruits? No. It enables contact, prediction, resistance and stronger attacks, but it does not universally switch powers off.",
+          "What happens after a user dies? The ability reincarnates into another fruit and can be eaten by a new user.",
+          "Where should a new reader continue? Start with the [One Piece series hub](/anime/one-piece) for the overview, arcs and connected guides."
         ],
       },
     ],

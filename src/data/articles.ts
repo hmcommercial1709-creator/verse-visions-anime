@@ -78,6 +78,7 @@ import { wanoRecapArticle } from "./article-wano-recap";
 import { jjkWatchOrderArticle } from "./article-jjk-watch-order";
 import { soloLevelingSystemArticle } from "./article-solo-leveling-system";
 import { drStoneInventionsArticle } from "./article-dr-stone-inventions";
+import { drStoneSupportingArticles } from "./article-dr-stone-cluster";
 import { hxhNenArticle } from "./article-hxh-nen";
 import { frierenMagicSystemArticle, odmGearArticle } from "./article-search-opportunities";
 import { topUpcomingAnimeOpenWorldGames2026Article } from "./article-top-upcoming-anime-open-world-games-2026";
@@ -114,6 +115,7 @@ const coreArticles: Article[] = [
   jjkWatchOrderArticle,
   soloLevelingSystemArticle,
   drStoneInventionsArticle,
+  ...drStoneSupportingArticles,
   hxhNenArticle,
   frierenMagicSystemArticle,
   odmGearArticle,

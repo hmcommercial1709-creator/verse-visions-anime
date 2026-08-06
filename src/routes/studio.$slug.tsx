@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getStudio } from "@/data/studios";
+import type { Anime } from "@/data/animes";
 import { animeByStudio, populatedStudios } from "@/lib/content-registry";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
@@ -77,7 +78,7 @@ function StudioPage() {
           <>
             <h2 className="mb-6 font-display text-3xl font-bold">Selected works</h2>
             <div className="mb-16 grid grid-cols-2 gap-4 md:grid-cols-4">
-              {works.map((anime) => (
+              {works.map((anime: Anime) => (
                 <AnimeCard key={anime.slug} anime={anime} />
               ))}
             </div>

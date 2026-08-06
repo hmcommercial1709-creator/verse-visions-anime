@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getGenre } from "@/data/genres";
+import type { Anime } from "@/data/animes";
 import { animeByGenre, populatedGenres } from "@/lib/content-registry";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
@@ -94,7 +95,7 @@ function GenrePage() {
 
             <h2 className="mb-6 font-display text-3xl font-bold">Where to start</h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              {shows.map((anime) => (
+              {shows.map((anime: Anime) => (
                 <AnimeCard key={anime.slug} anime={anime} size="md" />
               ))}
             </div>

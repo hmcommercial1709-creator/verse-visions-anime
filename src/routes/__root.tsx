@@ -98,6 +98,7 @@ export const Route = createRootRoute({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "monetag", content: "348a180a6837274a1caffc015dd1769f" },
       { name: "google-adsense-account", content: "ca-pub-6422431093727588" },
+      { name: "p:domain_verify", content: "8000a4375c6a6d65c126359606bc05d7" },
 
       { name: "theme-color", content: "#12081b" },
       { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },

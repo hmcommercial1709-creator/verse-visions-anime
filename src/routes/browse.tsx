@@ -118,7 +118,7 @@ function Browse() {
 
   const update = (patch: Partial<BrowseSearch>) =>
     navigate({
-      search: (previous) => ({ ...previous, ...patch }),
+      search: (previous: BrowseSearch) => ({ ...previous, ...patch }),
       replace: true,
     });
 

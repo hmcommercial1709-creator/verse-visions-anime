@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getGenre } from "@/data/genres";
+import type { Anime } from "@/data/animes";
 import { animeByGenre, populatedGenres } from "@/lib/content-registry";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";

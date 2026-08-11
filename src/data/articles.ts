@@ -115,7 +115,7 @@ const coreArticles: Article[] = [
       "The genius of the show is that it treats mourning as narrative fuel. Most fantasy anime is about the quest. Frieren is about the recovery.",
       "It also, quietly, has one of the best magic systems on television. Mana suppression, spell diversity that includes cosmetic and mundane spells, and an exam arc that treats bureaucracy like a boss fight — Frieren keeps rewarding fans who want to think as hard as they feel.",
     ],
-    related: ["frieren", "hunter-x-hunter", "vinland-saga"] },
+    related: ["frieren", "hunter-x-hunter"] },
   { slug: "beginner-guide-modern-shonen", publicationStatus: "draft", section: "guides", title: "The Beginner's Guide to Modern Shonen (2026 Edition)",
     excerpt: "Five entry points, four studios, one very short list of shows you can start this weekend.",
     author: "hana-mori", date: "2026-02-27", tag: "Beginner",

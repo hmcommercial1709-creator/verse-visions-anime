@@ -149,7 +149,7 @@ export const animes: Anime[] = [
       { q: "Should I read the manga or watch the anime?", a: "Manga if you want density; anime if you want the music, voices, and Luffy's laugh. The Netflix live action is a solid third entry point but stops early in East Blue." },
       { q: "Where does the anime get good?", a: "It never has a slow start. But most people mark Arlong Park as the moment they realize the show is doing something bigger than a gag comedy." },
     ],
-    similar: ["hunter-x-hunter", "fairy-tail", "black-clover", "vinland-saga"],
+    similar: ["hunter-x-hunter", "black-clover"],
   },
   {
     slug: "attack-on-titan",
@@ -208,7 +208,7 @@ export const animes: Anime[] = [
       { q: "Is the ending really that controversial?", a: "It is polarizing but not random: every choice in the finale is set up as far back as Season 1. Whether you like it usually depends on whether you read Eren's story as a tragedy or a betrayal." },
       { q: "Where do the movies fit?", a: "The compilation films are optional recaps. Nothing in the movies changes canon; they exist for theatrical viewings." },
     ],
-    similar: ["vinland-saga", "demon-slayer", "jujutsu-kaisen", "chainsaw-man"],
+    similar: ["demon-slayer", "jujutsu-kaisen", "chainsaw-man"],
   },
   {
     slug: "demon-slayer",
@@ -267,7 +267,7 @@ export const animes: Anime[] = [
       { q: "Is Demon Slayer finished?", a: "The manga is complete. The anime is finishing its final arc through a theatrical trilogy." },
       { q: "Why is the animation so praised?", a: "Ufotable renders 2D characters on 3D-lit environments with hand-composited effects. Very few studios can produce this style at TV-episode cadence." },
     ],
-    similar: ["jujutsu-kaisen", "chainsaw-man", "hells-paradise", "bleach"],
+    similar: ["jujutsu-kaisen", "chainsaw-man", "bleach"],
   },
   {
     slug: "jujutsu-kaisen",
@@ -325,7 +325,7 @@ export const animes: Anime[] = [
       { q: "Is Jujutsu Kaisen appropriate for younger viewers?", a: "It's a mature shonen with graphic violence, on-screen death of civilians, and psychological horror. TV-MA in most regions." },
       { q: "Where does the anime stop?", a: "Season 2 ends inside the Shibuya Incident. The Culling Game arc is next." },
     ],
-    similar: ["chainsaw-man", "bleach", "demon-slayer", "hells-paradise"],
+    similar: ["chainsaw-man", "bleach", "demon-slayer"],
   },
   {
     slug: "death-note",
@@ -381,7 +381,7 @@ export const animes: Anime[] = [
       { q: "Should I watch the Netflix live action film?", a: "Only as a curiosity. It shares a title with Death Note and almost nothing else." },
       { q: "How violent is Death Note?", a: "The show is mostly psychological. On-screen violence is rare; on-screen consequence is constant." },
     ],
-    similar: ["code-geass", "steins-gate", "monster", "psycho-pass"],
+    similar: [],
   },
   {
     slug: "fullmetal-alchemist-brotherhood",
@@ -439,7 +439,7 @@ export const animes: Anime[] = [
       { q: "How much filler is there?", a: "Effectively none. Brotherhood is 64 episodes because the manga was that lean." },
       { q: "Is it appropriate for teens?", a: "Yes, with heavy themes of war and grief. Recommended 13+." },
     ],
-    similar: ["hunter-x-hunter", "vinland-saga", "attack-on-titan", "code-geass"],
+    similar: ["hunter-x-hunter", "attack-on-titan"],
   },
   {
     slug: "hunter-x-hunter",
@@ -498,7 +498,7 @@ export const animes: Anime[] = [
       { q: "Is the Chimera Ant arc really that slow?", a: "Yes, and that's the point. It is one of the most disciplined character arcs in anime, and rewards patience with one of the medium's best final acts." },
       { q: "Where does the anime end?", a: "The 2011 anime ends at Chapter 339 with the Election arc. The manga has continued past that, but with long hiatuses." },
     ],
-    similar: ["fullmetal-alchemist-brotherhood", "one-piece", "vinland-saga", "naruto"],
+    similar: ["fullmetal-alchemist-brotherhood", "one-piece", "naruto"],
   },
   {
     slug: "chainsaw-man",
@@ -554,7 +554,7 @@ export const animes: Anime[] = [
       { q: "How graphic is Chainsaw Man?", a: "Very. On-screen body horror, adult themes, and a lot of blood. TV-MA." },
       { q: "Where does Season 1 end?", a: "The end of the Katana Man arc, roughly Chapter 38 of the manga." },
     ],
-    similar: ["jujutsu-kaisen", "demon-slayer", "hells-paradise", "attack-on-titan"],
+    similar: ["jujutsu-kaisen", "demon-slayer", "attack-on-titan"],
   },
   {
     slug: "solo-leveling",
@@ -658,7 +658,7 @@ export const animes: Anime[] = [
       { q: "Is it a sad show?", a: "It is a show about grief that isn't tragic. The tone is warm, not mournful." },
       { q: "Where does the anime stop?", a: "Season 1 ends at the conclusion of the First Class Mage Exam arc." },
     ],
-    similar: ["vinland-saga", "attack-on-titan", "hunter-x-hunter", "spy-x-family"],
+    similar: ["attack-on-titan", "hunter-x-hunter", "spy-x-family"],
   },
   {
     slug: "spy-x-family",
@@ -711,7 +711,7 @@ export const animes: Anime[] = [
       { q: "Do I need to watch the movie?", a: "CODE: White is a standalone story. Optional but recommended." },
       { q: "Where does the anime stop?", a: "Season 2 ends after the Cruise arc. Season 3 is confirmed." },
     ],
-    similar: ["frieren", "demon-slayer", "haikyuu", "the-apothecary-diaries"],
+    similar: ["frieren", "demon-slayer", "haikyuu"],
   },
   {
     slug: "dragon-ball-z",
@@ -1065,7 +1065,7 @@ export const animes: Anime[] = [
       { q: "Do I need to know volleyball rules?", a: "No — the show teaches you as it plays." },
       { q: "Is it finished?", a: "The TV series ended in 2020; the story continues in two theatrical films." },
     ],
-    similar: ["blue-lock", "slam-dunk", "kurokos-basketball"],
+    similar: ["blue-lock"],
   },
   {
     slug: "blue-lock",
@@ -1112,7 +1112,7 @@ export const animes: Anime[] = [
       { q: "Do I need to watch Episode Nagi?", a: "No — it's a companion film, not a prerequisite for Season 2." },
       { q: "Is it beginner-friendly?", a: "Yes. The series explains its rules explicitly every arc." },
     ],
-    similar: ["haikyuu", "kurokos-basketball"],
+    similar: ["haikyuu"],
   },
   {
     slug: "black-clover",
@@ -1159,7 +1159,7 @@ export const animes: Anime[] = [
       { q: "Is the anime over?", a: "The TV series ended in 2021; the story continues in the 2023 film and in the ongoing manga." },
       { q: "Does Asta ever get magic?", a: "No — his weapons cut magic, which is the entire premise." },
     ],
-    similar: ["my-hero-academia", "naruto", "fairy-tail"],
+    similar: ["my-hero-academia", "naruto"],
   },
   {
     slug: "dr-stone",

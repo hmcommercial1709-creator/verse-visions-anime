@@ -101,7 +101,7 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                         <Star className="h-3 w-3 fill-current" /> {anime.rating.toFixed(1)}
                       </span>
                     </div>
-                    <h1 className="mt-2 font-display text-2xl font-bold leading-tight sm:text-4xl">{ep.title}</h1>
+                    <h2 className="mt-2 font-display text-2xl font-bold leading-tight sm:text-4xl">{ep.title}</h2>
                     <div className="mt-4 flex flex-wrap items-center gap-3">
                       {videoId ? (
                         <button

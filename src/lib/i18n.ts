@@ -34,7 +34,7 @@ export const LOCALES: Locale[] = [
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
 export const SITE_URL = "https://gamecastle.store";
-export const LOCALE_STORAGE_KEY = "animeverse.locale";
+export const LOCALE_STORAGE_KEY = "gamecastle.locale";
 
 const BY_CODE = new Map(LOCALES.map((l) => [l.code, l]));
 

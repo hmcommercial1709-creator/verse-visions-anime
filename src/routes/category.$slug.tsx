@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { articleParagraphs, categoryForArticle, getAuthor, type Article } from "@/data/articles";
 import { getCategory } from "@/data/categories";
 import { populatedCategories, publishedArticles } from "@/lib/content-registry";
@@ -16,8 +16,23 @@ import { readingLabel } from "@/lib/reading";
 import { breadcrumbSchema } from "@/lib/seo";
 import { Clock, ArrowRight } from "lucide-react";
 
+const LEGACY_CATEGORY_REDIRECTS: Record<string, string> = {
+  rpg: "fantasy",
+  strategy: "analysis",
+  esports: "sports",
+  "gaming-guides": "anime-guides",
+};
+
 export const Route = createFileRoute("/category/$slug")({
   loader: ({ params }) => {
+    const destination = LEGACY_CATEGORY_REDIRECTS[params.slug];
+    if (destination) {
+      throw redirect({
+        to: "/category/$slug",
+        params: { slug: destination },
+        statusCode: 301,
+      });
+    }
     const category = getCategory(params.slug);
     if (!category) throw notFound();
     const articleCount = publishedArticles().filter(

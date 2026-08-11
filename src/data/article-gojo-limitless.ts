@@ -8,7 +8,7 @@ import limitlessArt from "@/assets/media/art-limitless.webp.asset.json";
 export const gojoLimitlessArticle: Article = {
   slug: "gojo-satoru-limitless-technique-explained",
   section: "guides",
-  category: "strategy",
+  category: "analysis",
   tags: ["jujutsu-kaisen", "gojo", "limitless", "infinity", "cursed-techniques"],
   title:
     "Satoru Gojo's Limitless Technique Explained: How It Works, Physics, and Hidden Weaknesses (Full Analysis)",

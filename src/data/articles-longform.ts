@@ -55,7 +55,7 @@ const build = (d: Draft): Article => ({
 const drafts: Draft[] = [
   {
     slug: "attack-on-titan-complete-watch-order",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
     title: "Attack on Titan: The Complete Watch Order, Recap and Rewatch Guide",
     excerpt:
@@ -223,7 +223,7 @@ const drafts: Draft[] = [
   {
     slug: "one-piece-devil-fruit-system-explained",
     publicationStatus: "published",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
     title: "One Piece Devil Fruits Explained: Types, Awakening, Haki and Rules",
     seoTitle: "One Piece Devil Fruits Explained: Types, Awakening & Haki",
@@ -473,7 +473,7 @@ const drafts: Draft[] = [
   {
     slug: "hunter-x-hunter-nen-system-guide",
     publicationStatus: "archived",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
     title: "The Nen System, Fully Explained: Categories, Conditions and Why It Still Sets the Standard",
     excerpt:
@@ -595,7 +595,7 @@ const drafts: Draft[] = [
   {
     slug: "solo-leveling-progression-system-breakdown",
     publicationStatus: "archived",
-    category: "rpg",
+    category: "fantasy",
     section: "editorial",
     title: "Solo Leveling's Progression System, Broken Down Like an RPG Designer Would",
     excerpt:
@@ -809,7 +809,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "haikyuu-sports-anime-blueprint",
-    category: "esports",
+    category: "sports",
     section: "editorial",
     title: "The Haikyuu Blueprint: Why Sports Anime Beats Every Other Genre at Tension",
     excerpt:
@@ -969,7 +969,7 @@ const drafts: Draft[] = [
   {
     slug: "best-anime-streaming-services-compared",
     publicationStatus: "review",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
     title: "Anime Streaming Services Compared: Catalogue, Dubs, Price and Regional Gaps",
     excerpt:
@@ -1086,7 +1086,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "anime-glossary-for-new-fans",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
     title: "The Anime Glossary: 60 Terms New Fans Actually Need, Explained Plainly",
     excerpt:

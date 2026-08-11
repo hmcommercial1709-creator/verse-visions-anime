@@ -59,11 +59,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/characters",
     "/streaming",
   ].map((path) => ({ path, changefreq: "daily" as const, priority: "0.9" })),
-  ...["/store"].map((path) => ({
-    path,
-    changefreq: "weekly" as const,
-    priority: "0.9",
-  })),
+
   ...[
     "/blog",
     "/reviews",
@@ -74,7 +70,6 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/manga-spoilers",
     "/timeline",
     "/wallpapers",
-    "/merch",
     "/authors",
     "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),

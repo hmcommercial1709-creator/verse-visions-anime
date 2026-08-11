@@ -8,7 +8,7 @@ import soloLevelingArt from "@/assets/art/solo-leveling.webp.asset.json";
 export const soloLevelingSystemArticle: Article = {
   slug: "solo-leveling-system-progression-explained",
   section: "guides",
-  category: "rpg",
+  category: "fantasy",
   tags: ["solo-leveling", "progression", "power-systems", "rpg"],
   title: "The Solo Leveling System Explained: Stats, Levels, Quests and Ranks",
   seoTitle: "Solo Leveling System Explained: Stats, Levels, Quests & Ranks",

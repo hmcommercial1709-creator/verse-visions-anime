@@ -13,7 +13,7 @@ import drStoneArt from "@/assets/art/dr-stone.webp.asset.json";
 export const drStoneInventionsArticle: Article = {
   slug: "dr-stone-science-tech-tree-guide",
   section: "guides",
-  category: "rpg",
+  category: "fantasy",
   tags: ["dr-stone", "inventions", "tech-tree", "science", "guide"],
   title: "Dr. Stone Inventions List in Order: Complete Science Tech Tree",
   seoTitle: "Dr. Stone Inventions List in Order: Complete Tech Tree",

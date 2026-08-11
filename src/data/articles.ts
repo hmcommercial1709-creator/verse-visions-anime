@@ -9,17 +9,6 @@ export type ArticleBlock =
   | { type: "table"; caption?: string; columns: string[]; rows: string[][] }
   | { type: "spoiler"; scope: string; level?: "minor" | "major" | "ending"; heading?: string; paragraphs: string[] }
   | { type: "link"; label: string; to: string; note?: string }
-  | {
-      type: "affiliate";
-      title: string;
-      subtitle: string;
-      price: string;
-      offer: string;
-      cta: string;
-      href: string;
-      retailer: string;
-      note?: string;
-    }
   | { type: "poll"; question: string; options: string[] }
   /** Illustrated section header. `art` names a key from src/lib/media. */
   | { type: "image"; art: string; caption: string }
@@ -81,7 +70,6 @@ import { drStoneInventionsArticle } from "./article-dr-stone-inventions";
 import { drStoneSupportingArticles } from "./article-dr-stone-cluster";
 import { hxhNenArticle } from "./article-hxh-nen";
 import { frierenMagicSystemArticle, odmGearArticle } from "./article-search-opportunities";
-import { topUpcomingAnimeOpenWorldGames2026Article } from "./article-top-upcoming-anime-open-world-games-2026";
 import { extraArticles } from "./articles-extra";
 import { longformArticles } from "./articles-longform";
 
@@ -107,7 +95,6 @@ export const authors = [EDITORIAL_DESK];
 
 const coreArticles: Article[] = [
   bestActionThrillerAnime2026Article,
-  topUpcomingAnimeOpenWorldGames2026Article,
   gojoLimitlessArticle,
   shibuyaIncidentArticle,
   sorcererFamiliesArticle,
@@ -191,8 +178,8 @@ const coreArticles: Article[] = [
 const SECTION_CATEGORY: Record<Article["section"], CategorySlug> = {
   news: "news",
   reviews: "reviews",
-  guides: "gaming-guides",
-  "top-lists": "gaming-guides",
+  guides: "anime-guides",
+  "top-lists": "anime-guides",
   editorial: "action",
 };
 

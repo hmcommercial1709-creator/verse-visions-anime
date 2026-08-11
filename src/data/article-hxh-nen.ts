@@ -11,7 +11,7 @@ import hxhArt from "@/assets/art/hunter-x-hunter.webp.asset.json";
 export const hxhNenArticle: Article = {
   slug: "hunter-x-hunter-nen-strategy-rules",
   section: "guides",
-  category: "strategy",
+  category: "analysis",
   tags: ["hunter-x-hunter", "nen", "power-systems", "strategy"],
   title: "Hunter x Hunter Nen System Explained: Types, Vows and Abilities",
   seoTitle: "Hunter x Hunter Nen Explained: Types, Vows & Abilities",

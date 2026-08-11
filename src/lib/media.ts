@@ -37,7 +37,6 @@ import bChainsawManRezeArcPreview from "@/assets/art/chainsaw-man-reze-arc-previ
 import bSoloLevelingS2Review from "@/assets/art/solo-leveling-s2-review.webp.asset.json";
 import bSpyXFamilyCruiseArc from "@/assets/art/spy-x-family-cruise-arc.webp.asset.json";
 import bBestAction2026 from "@/assets/art/best-action-thriller-anime-2026.webp.asset.json";
-import bGames2026 from "@/assets/art/top-upcoming-anime-open-world-games-2026.webp.asset.json";
 import pNaruto_s from "@/assets/art/naruto-512.webp.asset.json";
 import pOnePiece_s from "@/assets/art/one-piece-512.webp.asset.json";
 import pAttackOnTitan_s from "@/assets/art/attack-on-titan-512.webp.asset.json";
@@ -70,9 +69,7 @@ import bChainsawManRezeArcPreview_s from "@/assets/art/chainsaw-man-reze-arc-pre
 import bSoloLevelingS2Review_s from "@/assets/art/solo-leveling-s2-review-768.webp.asset.json";
 import bSpyXFamilyCruiseArc_s from "@/assets/art/spy-x-family-cruise-arc-768.webp.asset.json";
 import bBestAction2026_s from "@/assets/art/best-action-thriller-anime-2026-768.webp.asset.json";
-import bGames2026_s from "@/assets/art/top-upcoming-anime-open-world-games-2026-768.webp.asset.json";
 import bBestAction2026_full from "@/assets/art/best-action-thriller-anime-2026-1536.webp.asset.json";
-import bGames2026_full from "@/assets/art/top-upcoming-anime-open-world-games-2026-1536.webp.asset.json";
 import artLimitless from "@/assets/media/art-limitless.webp.asset.json";
 import artLimitlessSm from "@/assets/media/art-limitless-800.webp.asset.json";
 import artShibuya from "@/assets/media/art-shibuya.webp.asset.json";
@@ -148,7 +145,6 @@ const articleBackdrops: Record<string, MediaArt> = {
   "solo-leveling-s2-review": art(bSoloLevelingS2Review, bSoloLevelingS2Review_s, 1536, 864),
   "spy-x-family-cruise-arc": art(bSpyXFamilyCruiseArc, bSpyXFamilyCruiseArc_s, 1536, 864),
   "best-action-thriller-anime-2026": art(bBestAction2026_full, bBestAction2026_s, 1536, 864),
-  "top-upcoming-anime-open-world-games-2026": art(bGames2026_full, bGames2026_s, 1536, 864),
   // Watch-order guide reuses the owned Jujutsu Kaisen key visual (matches its og:image).
   "jujutsu-kaisen-watch-order-and-manga-jump": art(bReviewJujutsuKaisenS2, bReviewJujutsuKaisenS2_s, 1536, 864),
   // Dr. Stone inventions guide reuses the owned Dr. Stone key visual (matches its og:image).

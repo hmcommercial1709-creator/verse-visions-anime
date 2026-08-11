@@ -16,7 +16,7 @@ import jjkWatchOrderArt from "@/assets/art/review-jujutsu-kaisen-s2.webp.asset.j
 export const jjkWatchOrderArticle: Article = {
   slug: "jujutsu-kaisen-watch-order-and-manga-jump",
   section: "guides",
-  category: "gaming-guides",
+  category: "anime-guides",
   tags: ["jujutsu-kaisen", "watch-order", "manga", "guide", "beginner"],
   title: "Jujutsu Kaisen Watch Order: Complete Anime and Movie Guide",
   seoTitle: "Jujutsu Kaisen Watch Order: Anime, Movie & Manga Guide",

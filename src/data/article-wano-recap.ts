@@ -8,7 +8,7 @@ import type { Article } from "./articles";
 export const wanoRecapArticle: Article = {
   slug: "one-piece-wano-recap",
   section: "guides",
-  category: "gaming-guides",
+  category: "anime-guides",
   tags: ["one-piece", "wano", "arc-guide", "recap", "watch-order"],
   title:
     "Wano Arc Explained: The Complete One Piece Wano Recap, Episode List, Timeline and Ending (2026 Guide)",

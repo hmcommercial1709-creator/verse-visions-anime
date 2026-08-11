@@ -132,31 +132,3 @@ export function AdSlot({ placement, className, unitId, adId, index, prefix }: Ba
 /** Mobile anchor: Auto Ads owns anchor formats, so keep this a no-op. */
 export const MobileAnchorAd = (_props: BaseProps) => null;
 
-/** Editorial affiliate card — real content, not an ad placeholder. */
-export function AffiliateBox({
-  title,
-  subtitle,
-  price,
-  cta = "View Deal",
-}: {
-  title: string;
-  subtitle: string;
-  price?: string;
-  cta?: string;
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Affiliate</div>
-      <div className="mt-2 flex items-center justify-between">
-        <div>
-          <div className="font-semibold text-sm">{title}</div>
-          <div className="text-xs text-muted-foreground">{subtitle}</div>
-        </div>
-        {price && <div className="font-display text-lg font-bold text-primary">{price}</div>}
-      </div>
-      <button className="mt-3 w-full rounded-md bg-primary/10 border border-primary/30 py-2 text-sm font-semibold text-primary hover:bg-primary/20">
-        {cta}
-      </button>
-    </div>
-  );
-}

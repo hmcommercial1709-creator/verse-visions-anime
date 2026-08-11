@@ -13,7 +13,7 @@ export const frierenMagicSystemArticle: Article = {
   slug: "frieren-magic-system-deep-dive",
   publicationStatus: "published",
   section: "guides",
-  category: "rpg",
+  category: "fantasy",
   tags: ["frieren", "magic-system", "mana", "spells", "mage-exam"],
   title: "Frieren Magic System Explained: Mana, Spells and the Mage Exam",
   seoTitle: "Frieren Magic System Explained: Mana, Spells & Mage Exam",

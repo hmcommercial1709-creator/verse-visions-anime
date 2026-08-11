@@ -69,22 +69,6 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "combat-system-design-anime-vs-games",
-    category: "action", section: "editorial",
-    title: "Combat System Design: What Anime Fights and Game Bosses Steal From Each Other",
-    excerpt: "Telegraphs, punish windows and second phases — the shared grammar of on-screen and in-hand combat.",
-    author: "lina-vasquez", date: "2026-03-26", tag: "Analysis",
-    tags: ["game-design", "combat", "crossover", "analysis"],
-    cover: ["#dc2626", "#111827"],
-    related: ["solo-leveling", "hunter-x-hunter", "one-punch-man"],
-    body: [
-      "Boss design and fight direction converged years ago and nobody wrote it down. Both disciplines depend on the telegraph: a wind-up long enough to be readable, short enough to be threatening. In a game it teaches you when to dodge. On screen it teaches the audience to feel the dodge before the character makes it.",
-      "Second phases are the other shared invention. A boss that changes movesets at fifty percent health is doing exactly what a shonen antagonist does when the transformation music starts — resetting the audience's model of the fight so the tension curve can climb twice.",
-      "Where they diverge is agency. A game can afford an unreadable attack once, because you will retry. An anime cannot; a fight that stops making sense loses the audience permanently. That is why the best action directors are stricter about spatial continuity than most game designers ever need to be.",
-      "Solo Leveling is the interesting hybrid case: it is a game-shaped story animated with anime grammar, complete with visible stat screens and a boss ladder. When it works, it works because A-1's staff obey the fight-direction rules even while the fiction obeys the game ones.",
-    ],
-  },
-  {
     slug: "demon-slayer-hashira-fighting-styles-breakdown",
     category: "action", section: "guides",
     title: "Every Hashira Fighting Style, Broken Down by Technique and Weakness",
@@ -135,7 +119,7 @@ const drafts: Draft[] = [
   // ──────────────────────────────── RPG ─────────────────────────────────
   {
     slug: "isekai-power-fantasy-that-actually-works",
-    category: "rpg", section: "editorial",
+    category: "fantasy", section: "editorial",
     title: "Why Most Isekai Fail and the Handful That Actually Work",
     excerpt: "Wish fulfilment is not the problem. Unearned competence is.",
     author: "juno-park", date: "2026-04-09", tag: "Editorial",
@@ -151,7 +135,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "party-composition-theory-anime-teams",
-    category: "rpg", section: "guides",
+    category: "fantasy", section: "guides",
     title: "Party Composition Theory: What Anime Teams Get Right About Roles",
     excerpt: "Tank, damage, support, control — and the fifth role nobody names but every good team has.",
     author: "lina-vasquez", date: "2026-03-30", tag: "Guide",
@@ -167,7 +151,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "frieren-magic-system-deep-dive",
-    category: "rpg", section: "editorial",
+    category: "fantasy", section: "editorial",
     title: "Frieren's Magic System Is the Most Underrated Worldbuilding on Television",
     excerpt: "Mana suppression, mundane spells and an exam arc that treats bureaucracy like a boss fight.",
     author: "aiko-tanaka", date: "2026-03-12", tag: "Analysis",
@@ -181,26 +165,10 @@ const drafts: Draft[] = [
       "The result is a fantasy world that feels researched rather than invented, and a protagonist whose greatest strength — time — is also the thing costing her everything.",
     ],
   },
-  {
-    slug: "grinding-vs-storytelling-progression-pacing",
-    category: "rpg", section: "editorial",
-    title: "Grinding vs Storytelling: The Pacing Problem at the Heart of Every RPG Narrative",
-    excerpt: "Why level curves and story beats fight each other, and how the best titles reconcile them.",
-    author: "lina-vasquez", date: "2026-02-16", tag: "Analysis",
-    tags: ["pacing", "rpg", "game-design"],
-    cover: ["#6d28d9", "#111827"],
-    related: ["solo-leveling", "black-clover"],
-    body: [
-      "Every RPG narrative runs two clocks. The story clock wants escalation on a schedule. The progression clock wants the player or protagonist to earn each step. When those clocks drift apart you get either an underpowered hero winning implausibly or a story that stalls while someone farms.",
-      "Serialised anime hits the same wall. A training arc is a level curve rendered as plot, and it succeeds only when the training changes what the character can attempt, not merely what numbers they can post.",
-      "The reconciliation trick is to make progression narrative: a new technique that reframes an old defeat, a party member whose arrival changes the tactical menu, a rule of the world learned rather than granted.",
-      "When a series does this well you stop noticing the machinery entirely — which is the point. Progression should feel like understanding, not like accumulation.",
-    ],
-  },
   // ─────────────────────────────── STRATEGY ─────────────────────────────
   {
     slug: "death-note-mind-games-tactical-breakdown",
-    category: "strategy", section: "editorial",
+    category: "analysis", section: "editorial",
     title: "Death Note's Mind Games, Broken Down Move by Move",
     excerpt: "The bus scene, the tape, the Yotsuba gambit — a tactical audit of anime's most famous duel of wits.",
     author: "rowan-fitzgerald", date: "2026-04-25", tag: "Analysis",
@@ -215,24 +183,8 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "meta-shifts-how-competitive-scenes-evolve",
-    category: "strategy", section: "editorial",
-    title: "How a Meta Forms: The Life Cycle of Every Competitive Scene",
-    excerpt: "Discovery, consolidation, counterplay, collapse — the four phases that repeat in every game and every tournament sport.",
-    author: "kenji-arata", date: "2026-03-28", tag: "Analysis",
-    tags: ["meta", "competitive", "strategy", "esports"],
-    cover: ["#0284c7", "#0b1120"],
-    related: ["blue-lock", "haikyuu"],
-    body: [
-      "Every competitive scene runs the same four phases. Discovery is chaotic and joyful: nobody knows what is strong, so everything is tried. Consolidation follows fast, as results narrow the viable set to a handful of dominant approaches.",
-      "Counterplay is the interesting phase. Once a dominant strategy is legible, specialists appear who beat it and lose to everything else — the rock in a rock-paper-scissors that only exists because paper got popular.",
-      "Collapse arrives with a patch, a rule change, or a single innovator who breaks the assumption everyone shared. Then the cycle restarts, usually with the previous meta's discarded ideas as raw material.",
-      "Sports anime dramatises this loop better than most documentaries. Blue Lock is a meta in fast-forward: a closed environment where a strategy dominates for three matches, gets solved, and forces the survivors to rebuild their game around what remains.",
-    ],
-  },
-  {
     slug: "attack-on-titan-military-tactics-realism",
-    category: "strategy", section: "editorial",
+    category: "analysis", section: "editorial",
     title: "How Realistic Are Attack on Titan's Military Tactics?",
     excerpt: "Formation scouting, signal discipline, attrition math — grading the Survey Corps against real doctrine.",
     author: "rowan-fitzgerald", date: "2026-03-15", tag: "Analysis",
@@ -248,7 +200,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "chess-of-shonen-planners-ranked",
-    category: "strategy", section: "top-lists",
+    category: "analysis", section: "top-lists",
     title: "The 12 Smartest Planners in Shonen, Ranked by What They Actually Achieved",
     excerpt: "Not who the narration calls a genius — who made a plan, under pressure, that survived contact with an opponent.",
     author: "aiko-tanaka", date: "2026-02-28", tag: "Top List",
@@ -264,7 +216,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "blue-lock-egoist-strategy-explained",
-    category: "strategy", section: "guides",
+    category: "analysis", section: "guides",
     title: "Blue Lock's Egoist Doctrine, Explained as an Actual Tactical System",
     excerpt: "Spatial awareness, direct shooting and the coach who is running a selection algorithm on human beings.",
     author: "kenji-arata", date: "2026-02-12", tag: "Guide",
@@ -281,7 +233,7 @@ const drafts: Draft[] = [
   // ─────────────────────────────── ESPORTS ──────────────────────────────
   {
     slug: "sports-anime-that-competitive-players-love",
-    category: "esports", section: "top-lists",
+    category: "sports", section: "top-lists",
     title: "The Sports Anime Competitive Players Actually Recommend",
     excerpt: "Ranked by how accurately each show depicts practice, pressure and the boredom between highlights.",
     author: "kenji-arata", date: "2026-04-20", tag: "Top List",
@@ -296,24 +248,8 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "roster-churn-why-teams-rebuild-every-season",
-    category: "esports", section: "editorial",
-    title: "Roster Churn: Why Competitive Teams Rebuild Every Single Season",
-    excerpt: "Contract cycles, peak windows and the brutal arithmetic that keeps benches turning over.",
-    author: "kenji-arata", date: "2026-04-06", tag: "Editorial",
-    tags: ["esports", "rosters", "industry"],
-    cover: ["#15803d", "#0b1120"],
-    related: ["blue-lock"],
-    body: [
-      "Rebuilds look like panic from outside and like arithmetic from inside. Competitive peak windows are short, contracts are annual, and a roster that finished fourth has roughly one season of patience before sponsors ask questions.",
-      "The second driver is fit. Individual skill transfers poorly across systems; a star in a slow, structured team can be a liability in a fast one. Front offices know this and still overpay for names, because names sell.",
-      "The third is burnout, which the industry has only recently started naming honestly. Scrim schedules that would be illegal in traditional sport remain normal, and the athletes paying for it are usually under twenty-five.",
-      "The healthiest organisations treat continuity as an asset and coaching as a real profession. It is not a coincidence that they are also the ones with the longest competitive lifespans.",
-    ],
-  },
-  {
     slug: "haikyuu-training-methodology-analysis",
-    category: "esports", section: "guides",
+    category: "sports", section: "guides",
     title: "What Haikyuu Teaches About Training Methodology That Coaches Agree With",
     excerpt: "Deliberate practice, role specialisation and the synchronised attack as a coaching problem.",
     author: "hana-mori", date: "2026-03-22", tag: "Guide",
@@ -329,7 +265,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "tournament-arc-structure-writing-guide",
-    category: "esports", section: "editorial",
+    category: "sports", section: "editorial",
     title: "The Tournament Arc, Deconstructed: Why the Format Never Dies",
     excerpt: "Brackets are plot machines. Here is the structure underneath every great tournament arc.",
     author: "aiko-tanaka", date: "2026-03-08", tag: "Analysis",
@@ -344,24 +280,8 @@ const drafts: Draft[] = [
     ],
   },
   {
-    slug: "esports-burnout-and-the-shonen-work-ethic",
-    category: "esports", section: "editorial",
-    title: "Esports Burnout and the Shonen Work Ethic Problem",
-    excerpt: "'Train harder' is bad advice, and the best sports fiction has quietly started saying so.",
-    author: "juno-park", date: "2026-02-18", tag: "Editorial",
-    tags: ["burnout", "esports", "culture", "sports"],
-    cover: ["#166534", "#111827"],
-    related: ["haikyuu", "blue-lock"],
-    body: [
-      "Shonen's default answer to a plateau is volume: more reps, longer nights, one more round. In real competition that answer produces injury, tilt and a shortened career, and the sports-science literature has been unambiguous about it for a decade.",
-      "The interesting shift is that fiction has started to notice. Recovery, sleep, coaching and mental health now appear in stories that would once have skipped straight to the training montage.",
-      "Blue Lock is honest about the psychological cost of selection pressure even while glorifying it. Haikyuu treats rest and role acceptance as legitimate strategies rather than surrender.",
-      "The takeaway for anyone competing: intensity without recovery is not dedication, it is a withdrawal from a very small account. The best characters in modern sports anime are the ones who learn this before the account empties.",
-    ],
-  },
-  {
     slug: "competitive-anime-watchalong-culture",
-    category: "esports", section: "news",
+    category: "sports", section: "news",
     title: "Watchalong Culture Is Quietly Becoming the Biggest Anime Event Format",
     excerpt: "Co-streams, community brackets and the rise of episode-night as a live event.",
     author: "marcus-oduya", date: "2026-02-02", tag: "News",
@@ -375,10 +295,10 @@ const drafts: Draft[] = [
       "The open question is moderation and spoiler management at scale. Every platform is improvising, and the show that finally breaks the current tooling will probably do it this year.",
     ],
   },
-  // ────────────────────────── GAMING GUIDES ─────────────────────────────
+  // ─────────────────────────── ANIME GUIDES ─────────────────────────────
   {
     slug: "one-piece-watch-order-complete-guide",
-    category: "gaming-guides", section: "guides",
+    category: "anime-guides", section: "guides",
     title: "The Complete One Piece Watch Order (With Skippable Filler Marked)",
     excerpt: "Every saga in order, every film placed correctly, and an honest filler list you can trust.",
     author: "hana-mori", date: "2026-04-24", tag: "Watch Order",
@@ -394,7 +314,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "beginners-guide-to-anime-2026",
-    category: "gaming-guides", section: "guides",
+    category: "anime-guides", section: "guides",
     title: "The Absolute Beginner's Guide to Anime in 2026",
     excerpt: "Five entry points by taste, where to stream them legally, and what to do after the first show clicks.",
     author: "hana-mori", date: "2026-04-01", tag: "Beginner",
@@ -410,7 +330,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "how-to-avoid-spoilers-online-guide",
-    category: "gaming-guides", section: "guides",
+    category: "anime-guides", section: "guides",
     title: "How to Avoid Spoilers Online Without Leaving the Internet",
     excerpt: "Filters, feed hygiene, browser tools and the community norms that actually help.",
     author: "juno-park", date: "2026-03-18", tag: "Guide",
@@ -426,7 +346,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "how-to-read-manga-digitally-legally",
-    category: "gaming-guides", section: "guides",
+    category: "anime-guides", section: "guides",
     title: "How to Read Manga Digitally and Legally in 2026",
     excerpt: "Official apps, simulpub schedules, regional gaps and what to do when a series has no licence.",
     author: "marcus-oduya", date: "2026-03-04", tag: "Guide",
@@ -442,7 +362,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "anime-glossary-100-terms-explained",
-    category: "gaming-guides", section: "guides",
+    category: "anime-guides", section: "guides",
     title: "The Anime Glossary: 100 Terms Explained in Plain English",
     excerpt: "Seinen, sakuga, isekai, OVA, simulcast, ONA — every term you will hit in your first month.",
     author: "hana-mori", date: "2026-02-24", tag: "Reference",
@@ -458,7 +378,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "build-your-anime-backlog-system",
-    category: "gaming-guides", section: "guides",
+    category: "anime-guides", section: "guides",
     title: "How to Build an Anime Backlog System You Will Actually Use",
     excerpt: "Tracking, triage, the three-episode rule and permission to drop things.",
     author: "juno-park", date: "2026-02-08", tag: "Guide",
@@ -474,7 +394,7 @@ const drafts: Draft[] = [
   },
   {
     slug: "how-anime-production-committees-work",
-    category: "gaming-guides", section: "guides",
+    category: "anime-guides", section: "guides",
     title: "How Anime Production Committees Work (And Why Season 2 Takes Four Years)",
     excerpt: "Funding, risk sharing, rights splits and the real reasons a hit show disappears.",
     author: "marcus-oduya", date: "2026-01-28", tag: "Explainer",

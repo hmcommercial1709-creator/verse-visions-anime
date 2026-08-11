@@ -7,8 +7,6 @@ import { Clock, Loader2 } from "lucide-react";
 import type { Article } from "@/data/articles";
 import { readingLabel } from "@/lib/reading";
 import { InFeedAd, VideoAd } from "@/components/ad-slot";
-import { InlineAffiliateCard, productsForContext } from "@/components/affiliate-products";
-import { getAnime } from "@/data/animes";
 
 const PAGE = 4;
 
@@ -98,14 +96,6 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                   adId={`InFeed_Ad_Feed_${i + 1}`}
                 />
               ))}
-
-            {/* Affiliate card woven between feed sections */}
-            {i > 0 && (i + 1) % (PAGE * 2) === 0 && (() => {
-              const product = productsForContext(getAnime(a.related?.[0] ?? ""), a.title)[
-                (Math.ceil((i + 1) / (PAGE * 2)) - 1) % 3
-              ];
-              return product ? <InlineAffiliateCard product={product} /> : null;
-            })()}
 
           </div>
         ))}

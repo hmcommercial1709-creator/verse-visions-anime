@@ -22,12 +22,6 @@ import { deriveSections, readingLabel, slugifyHeading, wordCount } from "@/lib/r
 import { getAnime } from "@/data/animes";
 import { ArrowRight, Clock, FileText } from "lucide-react";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
-import {
-  AffiliateProductWidget,
-  InlineAffiliateCard,
-  StickyAffiliateRail,
-  productsForContext,
-} from "@/components/affiliate-products";
 import { MediaImage, SectionHeaderImage, VideoEmbed } from "@/components/media";
 import { backdropFor, backdrops, artAlt, type MediaArt } from "@/lib/media";
 
@@ -91,23 +85,7 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
       </div>
     );
   }
-  return (
-    <div className="not-prose my-8">
-      <InlineAffiliateCard
-        product={{
-          id: "editorial-affiliate",
-          kind: "figure",
-          title: block.title,
-          subtitle: `${block.subtitle} · ${block.offer}`,
-          price: block.price,
-          retailer: block.retailer,
-          href: block.href,
-          cta: block.cta,
-        }}
-        note={block.note}
-      />
-    </div>
-  );
+  return null;
 }
 
 
@@ -116,6 +94,18 @@ const LEGACY_ARTICLE_REDIRECTS: Record<string, string> = {
     "solo-leveling-system-progression-explained",
   "hunter-x-hunter-nen-system-guide":
     "hunter-x-hunter-nen-strategy-rules",
+  "combat-system-design-anime-vs-games":
+    "attack-on-titan-odm-gear-tactics-analysis",
+  "grinding-vs-storytelling-progression-pacing":
+    "solo-leveling-system-progression-explained",
+  "meta-shifts-how-competitive-scenes-evolve":
+    "blue-lock-egoist-strategy-explained",
+  "roster-churn-why-teams-rebuild-every-season":
+    "haikyuu-training-methodology-analysis",
+  "esports-burnout-and-the-shonen-work-ethic":
+    "haikyuu-sports-anime-blueprint",
+  "top-upcoming-anime-open-world-games-2026":
+    "best-action-thriller-anime-2026",
 };
 
 export const Route = createFileRoute("/article/$slug")({
@@ -225,7 +215,6 @@ function ArticlePage() {
   const articleRail = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
-  const merchProducts = productsForContext(loreAnime, a.title);
   // Keep the answer readable: at most three reserved units, six paragraphs apart.
   const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), {
     interval: 6,
@@ -327,7 +316,7 @@ function ArticlePage() {
                     );
                   })}
 
-                  {/* Editor-authored rich blocks: tables, spoilers, links, affiliate, poll */}
+                  {/* Editor-authored rich blocks: tables, spoilers, links and polls */}
                   {s.blocks?.map((block, bi) => (
                     <ArticleBlockView key={bi} block={block} />
                   ))}
@@ -346,15 +335,6 @@ function ArticlePage() {
                       </Link>
                       <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{inlineLinks[i].excerpt}</p>
                     </aside>
-                  )}
-
-
-                  {/* Embedded merchandise + manga affiliate widget */}
-                  {!authored && i === 2 && (
-                    <AffiliateProductWidget
-                      products={merchProducts}
-                      title={`Featured Merchandise & Manga${loreAnime ? ` · ${loreAnime.title}` : ""}`}
-                    />
                   )}
 
                   {/* Spoiler / lore accordion mid-article */}
@@ -425,7 +405,6 @@ function ArticlePage() {
 
           <aside className="hidden space-y-6 lg:block">
             <StickySidebarAd />
-            <StickyAffiliateRail products={merchProducts} />
           </aside>
         </div>
       </div>

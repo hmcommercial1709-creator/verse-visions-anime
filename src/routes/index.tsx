@@ -13,7 +13,6 @@ import { Rail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
-import { StorePromoBanner } from "@/components/store-promo-banner";
 
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
@@ -21,7 +20,7 @@ import { InfiniteArticleFeed } from "@/components/article-feed";
 import { LazySection } from "@/components/lazy-section";
 import { MediaImage, VideoEmbed } from "@/components/media";
 import { backdrops, backdropFor, artAlt } from "@/lib/media";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BookOpen, Compass } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
 const HOME_OG_IMAGE =
@@ -137,12 +136,44 @@ function Home() {
 
   return (
     <div>
-      {/* Digital wallpapers store announcement — first thing on the page. */}
-      <StorePromoBanner />
+      <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-primary/15 via-background to-accent/10">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-primary/20 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
+        <div className="relative mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-6 lg:py-16">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+              Independent anime encyclopedia
+            </p>
+            <h1 className="mt-3 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              Find your next anime — then understand every world behind it.
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Explore spoiler-aware watch orders, power-system explainers, character guides,
+              episode recaps and studio coverage written for anime fans worldwide.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                to="/browse"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground glow-primary hover:brightness-110"
+              >
+                <Compass className="h-4 w-4" /> Explore anime
+              </Link>
+              <Link
+                to="/guides"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/70 px-5 py-3 font-semibold hover:border-primary/60"
+              >
+                <BookOpen className="h-4 w-4" /> Read anime guides
+              </Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-3 lg:min-w-[360px]">
+            <StatPill label="Anime" value={String(liveAnime.length)} />
+            <StatPill label="Guides" value={String(liveArticles.length)} />
+            <StatPill label="Genres" value={String(visibleGenres.length)} />
+          </div>
+        </div>
+      </section>
 
-      {/* ABOVE THE FOLD — inline player, latest-episode switcher and search.
-          Rendered synchronously (no lazy gate, no overlay) so the first paint
-          already contains a playable episode. */}
+      {/* ABOVE THE FOLD — latest episodes, trailer playback and search. */}
       <HomeStage trending={trending} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">

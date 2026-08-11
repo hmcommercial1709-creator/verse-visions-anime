@@ -4,7 +4,7 @@ import drStoneArt from "@/assets/art/dr-stone.webp.asset.json";
 const shared = {
   publicationStatus: "published" as const,
   section: "guides" as const,
-  category: "rpg" as const,
+  category: "fantasy" as const,
   author: "gamecastle-editorial",
   date: "2026-08-05",
   updated: "2026-08-05",

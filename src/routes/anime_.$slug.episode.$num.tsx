@@ -6,11 +6,6 @@ import { Breadcrumbs } from "@/components/ui-bits";
 import { BelowTitleAd, HeaderBannerAd, InArticleAd, PostContentAd,
   MultiplexAd, StickySidebarAd } from "@/components/ad-slot";
 import { planInArticleAds } from "@/lib/ads-layout";
-import {
-  AffiliateProductWidget,
-  InlineAffiliateCard,
-  productsForContext,
-} from "@/components/affiliate-products";
 import { recommendAnime } from "@/lib/recommendations";
 import { AnimeRecRail } from "@/components/recommendations";
 import { ArticleComments } from "@/components/article-comments";
@@ -70,7 +65,6 @@ function EpisodePage() {
   const next = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
   const animeRecs = recommendAnime(anime.slug, 4);
   const episodeVideo = getVideoSummary(anime.slug);
-  const merch = productsForContext(anime, anime.title);
   // Native units injected every 4 recap paragraphs (slot 1 is above the fold).
   const recapAdPlan = planInArticleAds([ep.recap.length], { interval: 2, startAt: 2, max: 14 });
 
@@ -171,12 +165,6 @@ function EpisodePage() {
                     adId={ad.adId}
                   />
                 )}
-                {i === 4 && merch[0] && (
-                  <InlineAffiliateCard
-                    product={merch[0]}
-                    note={`Collector pick for readers following the ${ep.arc}.`}
-                  />
-                )}
               </div>
               );
             })}
@@ -213,12 +201,6 @@ function EpisodePage() {
             ))}
           </div>
         </Block>
-
-
-        <AffiliateProductWidget
-          products={merch}
-          title={`Featured Merchandise & Manga · ${anime.title}`}
-        />
 
         <Block title="Best moments">
           <ul className="space-y-2">

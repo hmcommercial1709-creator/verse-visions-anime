@@ -50,17 +50,49 @@ export function AdsenseUnit({
 
   useEffect(() => {
     const node = insRef.current;
-    if (!node) return;
+    const wrapper = wrapRef.current;
+    if (!node || !wrapper) return;
     let cancelled = false;
+    let pushed = false;
+    let frame = 0;
 
-    try {
-      const w = window as unknown as { adsbygoogle?: unknown[] };
-      if (node.getAttribute("data-adsbygoogle-status") !== "done") {
+    const pushWhenSized = () => {
+      if (
+        cancelled ||
+        pushed ||
+        node.getAttribute("data-adsbygoogle-status") === "done"
+      )
+        return;
+
+      const rect = wrapper.getBoundingClientRect();
+      const style = window.getComputedStyle(wrapper);
+      const hasUsableWidth =
+        rect.width >= 1 &&
+        style.display !== "none" &&
+        style.visibility !== "hidden";
+      if (!hasUsableWidth) return;
+
+      try {
+        const w = window as unknown as { adsbygoogle?: unknown[] };
         (w.adsbygoogle = w.adsbygoogle || []).push({});
+        pushed = true;
+      } catch (error) {
+        console.error("AdSense push error:", error);
       }
-    } catch (e) {
-      console.error("AdSense push error:", e);
-    }
+    };
+
+    const schedulePush = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(pushWhenSized);
+    };
+
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(schedulePush)
+        : null;
+    resizeObserver?.observe(wrapper);
+    window.addEventListener("resize", schedulePush, { passive: true });
+    schedulePush();
 
     const observer =
       typeof MutationObserver !== "undefined"
@@ -79,6 +111,9 @@ export function AdsenseUnit({
 
     return () => {
       cancelled = true;
+      window.cancelAnimationFrame(frame);
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", schedulePush);
       observer?.disconnect();
     };
   }, [id, slot, pathname]);
@@ -104,7 +139,13 @@ export function AdsenseUnit({
       className={`ad-container relative w-full overflow-hidden ${filled ? className : ""}`}
       style={
         collapsed
-          ? { display: "none", height: 0, minHeight: 0, border: "none", background: "transparent" }
+          ? {
+              display: "none",
+              height: 0,
+              minHeight: 0,
+              border: "none",
+              background: "transparent",
+            }
           : {
               // Space is reserved from the first render in every state, so a
               // late fill never moves the page.

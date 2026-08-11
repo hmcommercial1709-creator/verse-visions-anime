@@ -166,7 +166,7 @@ function AnimeDetail() {
           {/* Story arcs */}
           <SectionBlock id="arcs" title="Every arc, explained">
             <div className="space-y-3">
-              {anime.arcs.map((arc: any, i: number) => (
+              {anime.arcs.map((arc, i) => (
                 <div key={i} className="rounded-xl border border-border/60 bg-card/50 p-5">
                   <div className="flex items-center justify-between gap-3 mb-1">
                     <h3 className="font-display text-lg font-bold">{arc.title}</h3>
@@ -252,7 +252,7 @@ function AnimeDetail() {
           {/* Quotes */}
           <SectionBlock id="quotes" title="Quotes to remember">
             <div className="space-y-3">
-              {anime.quotes.map((q: any, i: number) => (
+              {anime.quotes.map((q, i) => (
                 <blockquote key={i} className="border-l-2 border-primary pl-4 py-1">
                   <div className="italic text-lg text-foreground/90">"{q.line}"</div>
                   <div className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">— {q.character}</div>
@@ -266,7 +266,7 @@ function AnimeDetail() {
           {/* Facts */}
           <SectionBlock id="facts" title="Fun facts, hidden details & easter eggs">
             <ul className="space-y-2">
-              {anime.facts.map((f: any, i: number) => (
+              {anime.facts.map((f, i) => (
                 <li key={i} className="flex gap-3 rounded-lg border border-border/60 bg-card/50 p-3">
                   <div className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary/20 text-primary text-xs font-bold">{i+1}</div>
                   <span className="text-sm">{f}</span>
@@ -278,7 +278,7 @@ function AnimeDetail() {
           {/* Soundtrack */}
           <SectionBlock id="soundtrack" title={<span className="flex items-center gap-2"><Music className="h-5 w-5 text-accent" /> Soundtrack & openings</span>}>
             <div className="grid gap-2 sm:grid-cols-2">
-              {anime.soundtrack.map((s: any, i: number) => (
+              {anime.soundtrack.map((s, i) => (
                 <div key={i} className="rounded-lg border border-border/60 bg-card/50 p-3 flex items-center gap-3">
                   <span className="rounded bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5">{s.type}</span>
                   <div className="min-w-0 flex-1">
@@ -298,7 +298,7 @@ function AnimeDetail() {
                   <tr><th className="text-left p-3">Role</th><th className="text-left p-3">Japanese</th><th className="text-left p-3">English</th></tr>
                 </thead>
                 <tbody>
-                  {anime.voiceActors.map((v: any, i: number) => (
+                  {anime.voiceActors.map((v, i) => (
                     <tr key={i} className="border-t border-border/60">
                       <td className="p-3 font-medium">{v.role}</td>
                       <td className="p-3 text-foreground/80">{v.jp}</td>
@@ -314,7 +314,7 @@ function AnimeDetail() {
           {anime.awards.length > 0 && (
             <SectionBlock id="awards" title={<span className="flex items-center gap-2"><Award className="h-5 w-5 text-gold" /> Awards</span>}>
               <ul className="grid gap-2 sm:grid-cols-2">
-                {anime.awards.map((a: any, i: number) => (
+                {anime.awards.map((a, i) => (
                   <li key={i} className="rounded-lg border border-gold/30 bg-gold/5 p-3 text-sm">{a}</li>
                 ))}
               </ul>
@@ -324,7 +324,7 @@ function AnimeDetail() {
           {/* FAQ */}
           <SectionBlock id="faq" title={<span className="flex items-center gap-2"><HelpCircle className="h-5 w-5 text-primary" /> Frequently asked questions</span>}>
             <div className="space-y-2">
-              {anime.faq.map((f: any, i: number) => (
+              {anime.faq.map((f, i) => (
                 <details key={i} className="group rounded-xl border border-border/60 bg-card/50 p-4">
                   <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
                     <span>{f.q}</span>
@@ -387,7 +387,7 @@ function AnimeDetail() {
   );
 }
 
-function Stat({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+function Stat({ icon: Icon, label, value }: { icon: React.ComponentType<{ className?: string }>; label: string; value: string }) {
   return (
     <div className="rounded-xl border border-border/60 bg-card/50 p-3">
       <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground flex items-center gap-1"><Icon className="h-3 w-3" /> {label}</div>

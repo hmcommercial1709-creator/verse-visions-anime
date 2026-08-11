@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { collectionSchema } from "@/lib/seo";
 import { useMemo } from "react";
-import { populatedGenres, populatedStudios, publishedAnime } from "@/lib/content-registry";
+import {
+  populatedGenres,
+  populatedStudios,
+  publishedAnime,
+} from "@/lib/content-registry";
 import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
@@ -17,15 +21,29 @@ type BrowseSearch = {
   sort?: Sort;
 };
 
-const parseSort = (value: unknown): Sort =>
-  value === "year" || value === "popularity" || value === "title" ? value : "rating";
+const parseSort = (value: unknown): Sort | undefined =>
+  value === "year" || value === "popularity" || value === "title"
+    ? value
+    : undefined;
 
 const parseSearch = (search: Record<string, unknown>): BrowseSearch => ({
   q: typeof search.q === "string" && search.q.trim() ? search.q : undefined,
-  genre: typeof search.genre === "string" && search.genre !== "all" ? search.genre : undefined,
-  studio: typeof search.studio === "string" && search.studio !== "all" ? search.studio : undefined,
-  status: typeof search.status === "string" && search.status !== "all" ? search.status : undefined,
-  decade: typeof search.decade === "string" && search.decade !== "all" ? search.decade : undefined,
+  genre:
+    typeof search.genre === "string" && search.genre !== "all"
+      ? search.genre
+      : undefined,
+  studio:
+    typeof search.studio === "string" && search.studio !== "all"
+      ? search.studio
+      : undefined,
+  status:
+    typeof search.status === "string" && search.status !== "all"
+      ? search.status
+      : undefined,
+  decade:
+    typeof search.decade === "string" && search.decade !== "all"
+      ? search.decade
+      : undefined,
   sort: parseSort(search.sort),
 });
 
@@ -36,7 +54,10 @@ export const Route = createFileRoute("/browse")({
       { property: "og:url", content: "https://gamecastle.store/browse" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Browse Anime by Genre, Studio, Year & Status · GameCastle Anime" },
+      {
+        title:
+          "Browse Anime by Genre, Studio, Year & Status · GameCastle Anime",
+      },
       {
         name: "description",
         content:
@@ -45,7 +66,8 @@ export const Route = createFileRoute("/browse")({
       { property: "og:title", content: "Browse Anime · GameCastle Anime" },
       {
         property: "og:description",
-        content: "Search and filter GameCastle Anime's published series guides.",
+        content:
+          "Search and filter GameCastle Anime's published series guides.",
       },
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/browse" }],
@@ -82,9 +104,9 @@ function Browse() {
 
   const decades = useMemo(
     () =>
-      Array.from(new Set(anime.map((item) => Math.floor(item.year / 10) * 10))).sort(
-        (a, b) => b - a,
-      ),
+      Array.from(
+        new Set(anime.map((item) => Math.floor(item.year / 10) * 10)),
+      ).sort((a, b) => b - a),
     [anime],
   );
 
@@ -102,7 +124,11 @@ function Browse() {
         if (genre !== "all" && !item.genres.includes(genre)) return false;
         if (studio !== "all" && item.studio !== studio) return false;
         if (status !== "all" && item.status !== status) return false;
-        if (decade !== "all" && Math.floor(item.year / 10) * 10 !== Number(decade)) return false;
+        if (
+          decade !== "all" &&
+          Math.floor(item.year / 10) * 10 !== Number(decade)
+        )
+          return false;
         return true;
       })
       .sort((a, b) =>
@@ -123,7 +149,8 @@ function Browse() {
     });
 
   const active =
-    [genre, studio, status, decade].filter((value) => value !== "all").length + (q ? 1 : 0);
+    [genre, studio, status, decade].filter((value) => value !== "all").length +
+    (q ? 1 : 0);
 
   const selectClass =
     "rounded-lg border border-border bg-secondary/60 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30";
@@ -131,15 +158,21 @@ function Browse() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-6">
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Browse" }]} />
-      <h1 className="font-display text-4xl font-bold sm:text-5xl">Find your next anime</h1>
+      <h1 className="font-display text-4xl font-bold sm:text-5xl">
+        Find your next anime
+      </h1>
       <p className="mt-3 max-w-3xl text-lg text-muted-foreground">
-        Search every published GameCastle guide, then combine genre, studio, status and decade
-        filters. Your selections stay in the URL, so you can bookmark or share the result.
+        Search every published GameCastle guide, then combine genre, studio,
+        status and decade filters. Your selections stay in the URL, so you can
+        bookmark or share the result.
       </p>
 
       <div className="mt-8 rounded-2xl border border-border/60 bg-card/50 p-4 shadow-sm">
         <label className="flex items-center gap-2 rounded-xl border border-border bg-background/70 px-3 py-2.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/30">
-          <Search className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+          <Search
+            className="h-4 w-4 text-muted-foreground"
+            aria-hidden="true"
+          />
           <span className="sr-only">Search anime</span>
           <input
             value={q}
@@ -150,11 +183,17 @@ function Browse() {
         </label>
 
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <Filter className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+          <Filter
+            className="h-4 w-4 text-muted-foreground"
+            aria-hidden="true"
+          />
           <select
             value={genre}
             onChange={(event) =>
-              update({ genre: event.target.value === "all" ? undefined : event.target.value })
+              update({
+                genre:
+                  event.target.value === "all" ? undefined : event.target.value,
+              })
             }
             className={selectClass}
             aria-label="Genre"
@@ -169,7 +208,10 @@ function Browse() {
           <select
             value={studio}
             onChange={(event) =>
-              update({ studio: event.target.value === "all" ? undefined : event.target.value })
+              update({
+                studio:
+                  event.target.value === "all" ? undefined : event.target.value,
+              })
             }
             className={selectClass}
             aria-label="Studio"
@@ -184,7 +226,10 @@ function Browse() {
           <select
             value={status}
             onChange={(event) =>
-              update({ status: event.target.value === "all" ? undefined : event.target.value })
+              update({
+                status:
+                  event.target.value === "all" ? undefined : event.target.value,
+              })
             }
             className={selectClass}
             aria-label="Status"
@@ -197,7 +242,10 @@ function Browse() {
           <select
             value={decade}
             onChange={(event) =>
-              update({ decade: event.target.value === "all" ? undefined : event.target.value })
+              update({
+                decade:
+                  event.target.value === "all" ? undefined : event.target.value,
+              })
             }
             className={selectClass}
             aria-label="Decade"
@@ -211,7 +259,14 @@ function Browse() {
           </select>
           <select
             value={sort}
-            onChange={(event) => update({ sort: parseSort(event.target.value) })}
+            onChange={(event) =>
+              update({
+                sort:
+                  event.target.value === "rating"
+                    ? undefined
+                    : parseSort(event.target.value),
+              })
+            }
             className={selectClass}
             aria-label="Sort order"
           >
@@ -223,24 +278,32 @@ function Browse() {
           {active > 0 && (
             <button
               type="button"
-              onClick={() => navigate({ search: { sort: "rating" }, replace: true })}
+              onClick={() => navigate({ search: {}, replace: true })}
               className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-2 text-sm hover:border-primary hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
             >
               <X className="h-3.5 w-3.5" aria-hidden="true" /> Clear filters
             </button>
           )}
-          <div className="ml-auto text-sm text-muted-foreground" aria-live="polite">
+          <div
+            className="ml-auto text-sm text-muted-foreground"
+            aria-live="polite"
+          >
             {list.length} {list.length === 1 ? "result" : "results"}
           </div>
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2" aria-label="Popular genre filters">
+      <div
+        className="mt-6 flex flex-wrap gap-2"
+        aria-label="Popular genre filters"
+      >
         {genres.slice(0, 12).map((item) => (
           <button
             key={item.slug}
             type="button"
-            onClick={() => update({ genre: genre === item.slug ? undefined : item.slug })}
+            onClick={() =>
+              update({ genre: genre === item.slug ? undefined : item.slug })
+            }
             className={`rounded-full border px-3 py-1 text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 ${
               genre === item.slug
                 ? "border-primary bg-primary/15 text-primary"
@@ -262,13 +325,15 @@ function Browse() {
         </div>
       ) : (
         <div className="mt-10 rounded-2xl border border-border/60 bg-card/50 p-10 text-center">
-          <p className="text-lg font-semibold">No published guides match those filters.</p>
+          <p className="text-lg font-semibold">
+            No published guides match those filters.
+          </p>
           <p className="mt-2 text-sm text-muted-foreground">
             Clear one or more filters to return to the full library.
           </p>
           <button
             type="button"
-            onClick={() => navigate({ search: { sort: "rating" }, replace: true })}
+            onClick={() => navigate({ search: {}, replace: true })}
             className="mt-4 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
           >
             Show all anime

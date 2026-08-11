@@ -6,7 +6,8 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -21,7 +22,9 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">
+          Page not found
+        </h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
@@ -52,7 +55,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Something went wrong on our end. You can try refreshing or head back
+          home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -83,7 +87,8 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
         name: "robots",
-        content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+        content:
+          "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
       },
       { title: "GameCastle Anime | Anime Guides & Watch Orders" },
 
@@ -101,8 +106,14 @@ export const Route = createRootRoute({
       { name: "p:domain_verify", content: "8000a4375c6a6d65c126359606bc05d7" },
 
       { name: "theme-color", content: "#12081b" },
-      { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
-      { name: "twitter:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
+      {
+        property: "og:title",
+        content: "GameCastle Anime | Anime Guides & Watch Orders",
+      },
+      {
+        name: "twitter:title",
+        content: "GameCastle Anime | Anime Guides & Watch Orders",
+      },
       {
         property: "og:description",
         content:
@@ -179,6 +190,16 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: ReactNode }) {
   const locale = useLocale();
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
 
   return (
     <html lang={locale.hrefLang} dir={locale.dir} className="dark">
@@ -186,7 +207,9 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
         <Scripts />
       </body>
     </html>

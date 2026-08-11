@@ -384,7 +384,7 @@ const drafts: Draft[] = [
     author: "juno-park", date: "2026-02-08", tag: "Guide",
     tags: ["backlog", "tracking", "guide", "habits"],
     cover: ["#7c3aed", "#111827"],
-    related: ["frieren", "vinland-saga" ,"mob-psycho-100"],
+    related: ["frieren", "mob-psycho-100"],
     body: [
       "A backlog fails when it becomes a debt ledger. The fix is triage: three buckets — watching, next up, someday — with a hard cap of five titles in 'next up'. Everything else goes to 'someday' and stays there guilt-free.",
       "The three-episode rule is good but incomplete. Give a series three episodes, then ask one question: is the thing it is doing well the thing I want more of? If the answer is no, drop it, because episode four will not change the answer.",

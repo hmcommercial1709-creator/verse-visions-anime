@@ -17,11 +17,11 @@ export const Route = createFileRoute("/sitemap-page")({
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Sitemap" }]} />
       <h1 className="font-display text-4xl font-bold">HTML Sitemap</h1>
       <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <Section title="Anime">{publishedAnime().map(a => <Item key={a.slug} to="/anime/$slug" params={{ slug: a.slug }}>{a.title}</Item>)}</Section>
-        <Section title="Genres">{populatedGenres().map(g => <Item key={g.slug} to="/genre/$slug" params={{ slug: g.slug }}>{g.name}</Item>)}</Section>
-        <Section title="Studios">{populatedStudios().map(s => <Item key={s.slug} to="/studio/$slug" params={{ slug: s.slug }}>{s.name}</Item>)}</Section>
-        <Section title="Characters">{publishedCharacters().map(c => <Item key={c.slug} to="/character/$slug" params={{ slug: c.slug }}>{c.name}</Item>)}</Section>
-        <Section title="Articles">{publishedArticles().map(a => <Item key={a.slug} to="/article/$slug" params={{ slug: a.slug }}>{a.title}</Item>)}</Section>
+        <Section title="Anime">{publishedAnime().map(a => <li key={a.slug}><Link to="/anime/$slug" params={{ slug: a.slug }} className="text-sm text-foreground/85 hover:text-primary">{a.title}</Link></li>)}</Section>
+        <Section title="Genres">{populatedGenres().map(g => <li key={g.slug}><Link to="/genre/$slug" params={{ slug: g.slug }} className="text-sm text-foreground/85 hover:text-primary">{g.name}</Link></li>)}</Section>
+        <Section title="Studios">{populatedStudios().map(s => <li key={s.slug}><Link to="/studio/$slug" params={{ slug: s.slug }} className="text-sm text-foreground/85 hover:text-primary">{s.name}</Link></li>)}</Section>
+        <Section title="Characters">{publishedCharacters().map(c => <li key={c.slug}><Link to="/character/$slug" params={{ slug: c.slug }} className="text-sm text-foreground/85 hover:text-primary">{c.name}</Link></li>)}</Section>
+        <Section title="Articles">{publishedArticles().map(a => <li key={a.slug}><Link to="/article/$slug" params={{ slug: a.slug }} className="text-sm text-foreground/85 hover:text-primary">{a.title}</Link></li>)}</Section>
         <Section title="Pages">
           {["/","/browse","/trending","/top","/upcoming","/new-releases","/completed","/classic","/news","/reviews","/guides","/top-lists","/editorial","/authors","/manga-spoilers","/power-scaling","/watch-order","/timeline","/recommendations","/quotes","/facts","/soundtracks","/openings","/wallpapers","/streaming","/statistics","/about","/contact","/faq","/privacy-policy","/terms-of-service","/cookies","/dmca","/editorial-policy"].map(p => (
             <li key={p}><Link to={p} className="text-sm text-foreground/85 hover:text-primary">{p}</Link></li>
@@ -39,7 +39,4 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       <ul className="space-y-1">{children}</ul>
     </div>
   );
-}
-function Item({ to, params, children }: any) {
-  return <li><Link to={to} params={params} className="text-sm text-foreground/85 hover:text-primary">{children}</Link></li>;
 }

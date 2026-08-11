@@ -25,7 +25,11 @@ const NAV_KEYS: Record<string, UiKey> = {
   Editorial: "editorial",
   Studios: "studios",
 };
-import { populatedGenres, populatedStudios, publishedAnime } from "@/lib/content-registry";
+import {
+  populatedGenres,
+  populatedStudios,
+  publishedAnime,
+} from "@/lib/content-registry";
 
 const navGenres = populatedGenres();
 const navStudios = populatedStudios();
@@ -68,7 +72,9 @@ const megaGroups = [
 
       {
         title: "Popular",
-        links: navAnime.slice(0, 6).map((a) => ({ to: `/anime/${a.slug}`, label: a.title })),
+        links: navAnime
+          .slice(0, 6)
+          .map((a) => ({ to: `/anime/${a.slug}`, label: a.title })),
       },
     ],
   },
@@ -78,11 +84,25 @@ const megaGroups = [
     columns: [
       {
         title: "Action & Adventure",
-        links: genreLinks(["action", "adventure", "fantasy", "shonen", "mecha", "sci-fi"]),
+        links: genreLinks([
+          "action",
+          "adventure",
+          "fantasy",
+          "shonen",
+          "mecha",
+          "sci-fi",
+        ]),
       },
       {
         title: "Story & Feels",
-        links: genreLinks(["drama", "romance", "slice-of-life", "comedy", "family", "school"]),
+        links: genreLinks([
+          "drama",
+          "romance",
+          "slice-of-life",
+          "comedy",
+          "family",
+          "school",
+        ]),
       },
       {
         title: "Dark & Cerebral",
@@ -124,12 +144,30 @@ const megaGroups = [
       {
         title: "Must-read deep dives",
         links: [
-          { to: "/article/gojo-satoru-limitless-technique-explained", label: "Gojo Limitless Explained" },
-          { to: "/article/shibuya-incident-timeline", label: "Shibuya Incident Timeline" },
-          { to: "/article/one-piece-wano-recap", label: "The Complete Wano Recap" },
-          { to: "/article/jujutsu-kaisen-watch-order-and-manga-jump", label: "Jujutsu Kaisen Watch Order" },
-          { to: "/article/hunter-x-hunter-nen-strategy-rules", label: "Hunter x Hunter Nen Guide" },
-          { to: "/article/dr-stone-science-tech-tree-guide", label: "Dr. Stone Science Guide" },
+          {
+            to: "/article/gojo-satoru-limitless-technique-explained",
+            label: "Gojo Limitless Explained",
+          },
+          {
+            to: "/article/shibuya-incident-timeline",
+            label: "Shibuya Incident Timeline",
+          },
+          {
+            to: "/article/one-piece-wano-recap",
+            label: "The Complete Wano Recap",
+          },
+          {
+            to: "/article/jujutsu-kaisen-watch-order-and-manga-jump",
+            label: "Jujutsu Kaisen Watch Order",
+          },
+          {
+            to: "/article/hunter-x-hunter-nen-strategy-rules",
+            label: "Hunter x Hunter Nen Guide",
+          },
+          {
+            to: "/article/dr-stone-science-tech-tree-guide",
+            label: "Dr. Stone Science Guide",
+          },
         ],
       },
     ],
@@ -143,7 +181,9 @@ const megaGroups = [
         title: "Studios",
         links: [
           { to: "/studios", label: "All Studios" },
-          ...navStudios.slice(0, 5).map((s) => ({ to: `/studio/${s.slug}`, label: s.name })),
+          ...navStudios
+            .slice(0, 5)
+            .map((s) => ({ to: `/studio/${s.slug}`, label: s.name })),
         ],
       },
       {
@@ -174,6 +214,7 @@ const megaGroups = [
 const categoryHubs = [
   { to: "/guides", label: "Guides" },
   { to: "/watch-order", label: "Watch Orders" },
+  { to: "/timeline", label: "Timeline" },
   { to: "/power-scaling", label: "Power Scaling" },
   { to: "/characters", label: "Characters" },
   { to: "/seasonal", label: "Seasonal" },
@@ -211,35 +252,40 @@ export function SiteHeader() {
     <>
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled ? "bg-background/95 border-b border-border/60" : "bg-background/70"
+          scrolled
+            ? "bg-background/95 border-b border-border/60"
+            : "bg-background/70"
         }`}
         onMouseLeave={() => setOpenMenu(null)}
       >
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 lg:px-6">
+        <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 lg:px-6">
           <Link
             to="/"
             aria-label="GameCastle Anime home"
-            className="flex items-center gap-2 shrink-0"
+            className="flex min-w-0 shrink items-center gap-2"
           >
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent glow-primary">
               <Flame className="h-5 w-5 text-primary-foreground" />
             </div>
-            <div className="leading-none">
-              <div className="font-display text-lg font-bold tracking-tight">
-                Game<span className="text-gradient">Castle</span> Anime
+            <div className="min-w-0 leading-none">
+              <div className="whitespace-nowrap font-display text-base font-bold tracking-tight sm:text-lg">
+                Game<span className="text-gradient">Castle</span>
+                <span className="hidden sm:inline"> Anime</span>
               </div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <div className="hidden min-[1600px]:block text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                 Anime Guides, Watch Orders & Power Systems
               </div>
             </div>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1 ml-4">
+          <nav className="ml-4 hidden items-center gap-1 2xl:flex">
             {megaGroups.map((g) => (
               <button
                 key={g.label}
                 onMouseEnter={() => setOpenMenu(g.label)}
-                onClick={() => setOpenMenu(openMenu === g.label ? null : g.label)}
+                onClick={() =>
+                  setOpenMenu(openMenu === g.label ? null : g.label)
+                }
                 className={`flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   openMenu === g.label
                     ? "bg-secondary text-foreground"
@@ -253,22 +299,22 @@ export function SiteHeader() {
             ))}
             <Link
               to="/characters"
-              className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5"
+              className="hidden rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 min-[1800px]:flex items-center gap-1.5"
             >
               <Users className="h-3.5 w-3.5" /> Characters
             </Link>
             <Link
               to="/blog"
-              className="hidden xl:flex rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 items-center gap-1.5"
+              className="hidden rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 min-[1800px]:flex items-center gap-1.5"
             >
               <Tv className="h-3.5 w-3.5" /> Blog
             </Link>
           </nav>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <button
               onClick={() => setSearchOpen(true)}
-              className="hidden md:flex items-center gap-2 rounded-lg border border-border/60 bg-secondary/50 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:border-primary/60 transition-colors min-w-[240px]"
+              className="hidden min-w-[180px] items-center gap-2 rounded-lg border border-border/60 bg-secondary/50 px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground lg:flex min-[1800px]:min-w-[240px]"
             >
               <Search className="h-4 w-4" />
               <span>{t("search")}…</span>
@@ -279,7 +325,7 @@ export function SiteHeader() {
             <button
               onClick={() => setSearchOpen(true)}
               aria-label={t("search")}
-              className="md:hidden rounded-md p-2 text-muted-foreground hover:text-foreground"
+              className="rounded-md p-2 text-muted-foreground hover:text-foreground lg:hidden"
             >
               <Search className="h-5 w-5" />
             </button>
@@ -295,7 +341,7 @@ export function SiteHeader() {
               <span className="hidden sm:inline">{t("menu")}</span>
             </button>
             <button
-              className="lg:hidden rounded-md p-2 text-muted-foreground hover:text-foreground"
+              className="rounded-md p-2 text-muted-foreground hover:text-foreground 2xl:hidden"
               onClick={() => setMobileOpen(true)}
               aria-label="Full navigation"
             >
@@ -316,7 +362,10 @@ export function SiteHeader() {
                 {h.label}
               </Link>
             ))}
-            <span className="h-4 w-px shrink-0 bg-border/70" aria-hidden="true" />
+            <span
+              className="h-4 w-px shrink-0 bg-border/70"
+              aria-hidden="true"
+            />
             <Link
               to="/browse"
               className="shrink-0 rounded-full border border-border/60 px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
@@ -339,7 +388,10 @@ export function SiteHeader() {
 
         {/* Mega menu */}
         {openMenu && (
-          <div className="absolute inset-x-0 top-full hidden lg:block" onMouseEnter={() => {}}>
+          <div
+            className="absolute inset-x-0 top-full hidden 2xl:block"
+            onMouseEnter={() => {}}
+          >
             <div className="mx-auto max-w-7xl px-4 lg:px-6 pb-6">
               <div className="rounded-2xl border border-border/60 bg-popover shadow-2xl p-6">
                 <div className="grid grid-cols-3 gap-8">
@@ -374,12 +426,18 @@ export function SiteHeader() {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-background/90" onClick={() => setMobileOpen(false)} />
+        <div className="fixed inset-0 z-50 2xl:hidden">
+          <div
+            className="absolute inset-0 bg-background/90"
+            onClick={() => setMobileOpen(false)}
+          />
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
             <div className="flex items-center justify-between mb-6">
               <span className="font-display text-lg font-bold">Menu</span>
-              <button onClick={() => setMobileOpen(false)} className="rounded-md p-2">
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="rounded-md p-2"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>

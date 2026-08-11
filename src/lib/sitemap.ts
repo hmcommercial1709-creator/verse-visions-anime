@@ -23,7 +23,14 @@ import {
 
 export const BASE_URL = "https://gamecastle.store";
 
-export type ChangeFreq = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+export type ChangeFreq =
+  | "always"
+  | "hourly"
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "yearly"
+  | "never";
 
 export interface SitemapEntry {
   path: string;
@@ -59,11 +66,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/characters",
     "/streaming",
   ].map((path) => ({ path, changefreq: "daily" as const, priority: "0.9" })),
-  ...["/store"].map((path) => ({
-    path,
-    changefreq: "weekly" as const,
-    priority: "0.9",
-  })),
+
   ...[
     "/blog",
     "/reviews",
@@ -74,7 +77,6 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/manga-spoilers",
     "/timeline",
     "/wallpapers",
-    "/merch",
     "/authors",
     "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),
@@ -83,13 +85,17 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     changefreq: "monthly" as const,
     priority: "0.6",
   })),
-  ...["/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy"].map(
-    (path) => ({
-      path,
-      changefreq: "yearly" as const,
-      priority: "0.4",
-    }),
-  ),
+  ...[
+    "/privacy-policy",
+    "/terms-of-service",
+    "/cookies",
+    "/dmca",
+    "/editorial-policy",
+  ].map((path) => ({
+    path,
+    changefreq: "yearly" as const,
+    priority: "0.4",
+  })),
 ];
 
 export function partitionEntries(partition: Partition): SitemapEntry[] {
@@ -146,7 +152,10 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
  * for each locale with indexable content (self-referencing alternate
  * included, as required by the hreflang spec).
  */
-export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_LOCALE): string {
+export function urlsetXml(
+  entries: SitemapEntry[],
+  locale: LocaleCode = DEFAULT_LOCALE,
+): string {
   const withAlternates = INDEXABLE_LOCALES.length > 1;
   const seen = new Set<string>();
   const urls = entries
@@ -200,7 +209,9 @@ export function sitemapIndexXml(): string {
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-    ...children.map((path) => `  <sitemap>\n    <loc>${BASE_URL}${path}</loc>\n  </sitemap>`),
+    ...children.map(
+      (path) => `  <sitemap>\n    <loc>${BASE_URL}${path}</loc>\n  </sitemap>`,
+    ),
     `</sitemapindex>`,
   ].join("\n");
 }

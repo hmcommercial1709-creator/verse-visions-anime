@@ -55,7 +55,7 @@ const build = (d: Draft): Article => ({
 const drafts: Draft[] = [
   {
     slug: "attack-on-titan-complete-watch-order",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
     title: "Attack on Titan: The Complete Watch Order, Recap and Rewatch Guide",
     excerpt:
@@ -65,7 +65,11 @@ const drafts: Draft[] = [
     tag: "Watch Order",
     tags: ["attack-on-titan", "watch-order", "guide", "action"],
     cover: ["#7f1d1d", "#0b1120"],
-    related: ["attack-on-titan", "fullmetal-alchemist-brotherhood", "chainsaw-man"],
+    related: [
+      "attack-on-titan",
+      "fullmetal-alchemist-brotherhood",
+      "chainsaw-man",
+    ],
     sections: [
       {
         heading: "Start With Broadcast Order, Not Chronology",
@@ -75,7 +79,12 @@ const drafts: Draft[] = [
           "If you are coming to this series from a different genre entirely, the on-ramp guide in our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen) explains why Attack on Titan is a harder first anime than it looks, and offers gentler starting points.",
         ],
         blocks: [
-          { type: "image", art: "attack-on-titan", caption: "Original GameCastle Anime key visual for the Attack on Titan watch guide." },
+          {
+            type: "image",
+            art: "attack-on-titan",
+            caption:
+              "Original GameCastle Anime key visual for the Attack on Titan watch guide.",
+          },
         ],
       },
       {
@@ -131,7 +140,13 @@ const drafts: Draft[] = [
           {
             type: "poll",
             question: "Which Attack on Titan arc is the series' peak?",
-            options: ["Trost", "Clash of the Titans", "Shiganshina", "Marley", "Rumbling"],
+            options: [
+              "Trost",
+              "Clash of the Titans",
+              "Shiganshina",
+              "Marley",
+              "Rumbling",
+            ],
           },
         ],
       },
@@ -159,7 +174,12 @@ const drafts: Draft[] = [
           "Readers who want the general framework we use across the site can find it in our [power-scaling hub](/power-scaling), which explains how we treat feats, statements and author commentary differently.",
         ],
         blocks: [
-          { type: "image", art: "demon-slayer", caption: "Original GameCastle Anime key visual for the Hashira ranking." },
+          {
+            type: "image",
+            art: "demon-slayer",
+            caption:
+              "Original GameCastle Anime key visual for the Hashira ranking.",
+          },
         ],
       },
       {
@@ -223,7 +243,7 @@ const drafts: Draft[] = [
   {
     slug: "one-piece-devil-fruit-system-explained",
     publicationStatus: "published",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
     title: "One Piece Devil Fruits Explained: Types, Awakening, Haki and Rules",
     seoTitle: "One Piece Devil Fruits Explained: Types, Awakening & Haki",
@@ -269,10 +289,15 @@ const drafts: Draft[] = [
           "Devil Fruits are rare fruits that grant one supernatural ability in exchange for the user's ability to swim. Each fruit belongs to one of three families — Paramecia, Zoan or Logia — and each named fruit is normally unique. A person can train the ability, invent new applications and eventually awaken it, but they cannot replace the original concept with an unrelated power.",
           "Quick answer: Paramecia is the broad category for body changes, produced substances and unusual effects; Zoan allows transformation into an animal, ancient creature or mythical being; Logia lets the user create, control and become a natural element or phenomenon. Water and Sea-Prism Stone weaken every user, while Haki gives trained opponents a way to interact with abilities that would otherwise be difficult to touch.",
           "The system works because spectacular freedom sits inside stable costs. Luffy can turn elasticity into movement, defence and battlefield control, but drowning remains a threat. A Logia may ignore ordinary attacks, but Armament Haki, natural counters and poor judgement can still defeat them. The power grows; the underlying weakness does not disappear.",
-          "This guide covers the categories, universal rules, seawater, Haki, awakening, reincarnation, artificial fruits, objects with powers and the unresolved Blackbeard exception. Major examples include story information through Wano."
+          "This guide covers the categories, universal rules, seawater, Haki, awakening, reincarnation, artificial fruits, objects with powers and the unresolved Blackbeard exception. Major examples include story information through Wano.",
         ],
         blocks: [
-          { type: "image", art: "one-piece", caption: "Original GameCastle Anime key visual for the One Piece Devil Fruit system guide." },
+          {
+            type: "image",
+            art: "one-piece",
+            caption:
+              "Original GameCastle Anime key visual for the One Piece Devil Fruit system guide.",
+          },
         ],
       },
       {
@@ -281,19 +306,40 @@ const drafts: Draft[] = [
           "The first rule is exclusivity. Two fruits with the same power do not normally exist at the same time, and the ability returns to circulation only after the current user dies. This gives every fruit a history: governments, pirates and families can pursue the same power across generations even though the person carrying it changes.",
           "The second rule is the swimming weakness. Any standing water can sap a user's strength when enough of the body is submerged; the sea is not magical because it is salty. Rain, splashes and moving water do not have the same effect. Sea-Prism Stone reproduces the sea's weakening energy and is therefore used in restraints, weapons and prison technology.",
           "The third rule is one fruit per person. The series treats eating a second fruit as fatal, with Blackbeard as the single confirmed exception. Because the explanation is unresolved, the honest answer is not that he disproves the rule — it is that his body or method is part of a mystery the story has deliberately preserved.",
-          "The fourth rule is that imagination and training decide usefulness. A fruit grants a premise, not a complete moveset. Users discover techniques by applying the same property to new problems, which is why apparently ridiculous powers can become dangerous without changing category."
+          "The fourth rule is that imagination and training decide usefulness. A fruit grants a premise, not a complete moveset. Users discover techniques by applying the same property to new problems, which is why apparently ridiculous powers can become dangerous without changing category.",
         ],
         blocks: [
           {
             type: "table",
-            caption: "The core Devil Fruit rules and their practical consequences",
+            caption:
+              "The core Devil Fruit rules and their practical consequences",
             columns: ["Rule", "What It Means", "Important Exception or Detail"],
             rows: [
-              ["One active version", "A named power normally belongs to one living user", "The fruit reincarnates after death"],
-              ["Water weakness", "Submersion drains strength and mobility", "Changed body properties may remain"],
-              ["One fruit per person", "A second fruit is believed to kill the user", "Blackbeard is the unexplained exception"],
-              ["Sea-Prism Stone", "Contact weakens users like the sea", "Strength depends on exposure and restraint design"],
-              ["Training matters", "Applications grow from the fruit's original concept", "Awakening extends the concept but does not replace it"],
+              [
+                "One active version",
+                "A named power normally belongs to one living user",
+                "The fruit reincarnates after death",
+              ],
+              [
+                "Water weakness",
+                "Submersion drains strength and mobility",
+                "Changed body properties may remain",
+              ],
+              [
+                "One fruit per person",
+                "A second fruit is believed to kill the user",
+                "Blackbeard is the unexplained exception",
+              ],
+              [
+                "Sea-Prism Stone",
+                "Contact weakens users like the sea",
+                "Strength depends on exposure and restraint design",
+              ],
+              [
+                "Training matters",
+                "Applications grow from the fruit's original concept",
+                "Awakening extends the concept but does not replace it",
+              ],
             ],
           },
         ],
@@ -304,7 +350,7 @@ const drafts: Draft[] = [
           "Paramecia is the largest and most varied category. Some fruits permanently change the user's body, as with Luffy's rubber-like properties before the deeper nature of his power is revealed. Others generate a substance, create a controllable object, impose a rule on a target or alter the surrounding environment.",
           "Because the category is broad, a Paramecia should be analysed by activation method rather than name alone. Does the user need physical contact? Does an effect continue at range? Can it target living bodies, objects or both? Does damage to a created object transfer back to the user? Those answers matter more than whether the fruit sounds offensive.",
           "Paramecia battles often reward creativity most visibly. Doflamingo turns string into cutting attacks, movement, repair and remote control. Law's Ope Ope no Mi creates an operating space where position and anatomy can be manipulated, but the room's scale and complexity consume stamina. The fruit provides the rule; mastery expands the number of decisions available inside it.",
-          "Special Paramecia is a rare label used when a fruit behaves like Paramecia while granting substance-production and body-conversion properties associated with Logia. The category is evidence that the classification system describes observed behaviour rather than forcing every power into a perfectly clean scientific box."
+          "Special Paramecia is a rare label used when a fruit behaves like Paramecia while granting substance-production and body-conversion properties associated with Logia. The category is evidence that the classification system describes observed behaviour rather than forcing every power into a perfectly clean scientific box.",
         ],
       },
       {
@@ -313,7 +359,7 @@ const drafts: Draft[] = [
           "Zoan fruits allow transformation between a natural form, an animal form and a hybrid form. The hybrid usually combines the user's intelligence and fighting style with the animal's strength, senses or movement. Even an ordinary Zoan can be formidable because it improves the body that carries every other combat skill.",
           "Ancient Zoans represent extinct creatures such as dinosaurs and mammoths. Their headline advantage is physical durability, but each species also creates a different silhouette, range and mobility problem. A large body can overwhelm an area while becoming a larger target, so the form itself changes the tactical geometry of a fight.",
           "Mythical Zoans add legendary traits beyond animal transformation. Marco's phoenix flames, Kaido's dragon abilities and other mythical powers behave partly like abilities from different categories. Their rarity and flexibility create a high ceiling, but the user still needs stamina, control and a way to apply the transformation effectively.",
-          "Awakened Zoans are associated with exceptional endurance, recovery and a more complete union between user and animal. The risk is not purely physical: Impel Down demonstrates that an awakening can overwhelm the user's personality, while later examples show fighters who retain identity and control."
+          "Awakened Zoans are associated with exceptional endurance, recovery and a more complete union between user and animal. The risk is not purely physical: Impel Down demonstrates that an awakening can overwhelm the user's personality, while later examples show fighters who retain identity and control.",
         ],
         blocks: [
           {
@@ -321,10 +367,26 @@ const drafts: Draft[] = [
             caption: "Zoan subtypes and what distinguishes them",
             columns: ["Zoan Class", "Transformation", "Typical Advantage"],
             rows: [
-              ["Standard Zoan", "A living animal species", "Strength, senses, mobility and hybrid combat"],
-              ["Ancient Zoan", "An extinct animal", "Extreme durability and large-scale physical force"],
-              ["Mythical Zoan", "A legendary creature or deity", "Transformation plus rare supernatural traits"],
-              ["Artificial Zoan", "A manufactured attempt to reproduce Zoan power", "Variable results and significant side effects"],
+              [
+                "Standard Zoan",
+                "A living animal species",
+                "Strength, senses, mobility and hybrid combat",
+              ],
+              [
+                "Ancient Zoan",
+                "An extinct animal",
+                "Extreme durability and large-scale physical force",
+              ],
+              [
+                "Mythical Zoan",
+                "A legendary creature or deity",
+                "Transformation plus rare supernatural traits",
+              ],
+              [
+                "Artificial Zoan",
+                "A manufactured attempt to reproduce Zoan power",
+                "Variable results and significant side effects",
+              ],
             ],
           },
         ],
@@ -335,7 +397,7 @@ const drafts: Draft[] = [
           "Logia fruits allow users to create, control and transform into a natural element or phenomenon. Early in the series this looks like invulnerability: ordinary punches pass through smoke, sand, lightning or light because the user's body becomes the element before the impact can land.",
           "Intangibility is only one advantage. The real ceiling is area control, movement and logistics. Crocodile can reshape a battlefield and remove moisture; Enel can travel through conductive material and monitor a huge area when his fruit is combined with Observation Haki; Kizaru turns light into movement and ranged force.",
           "Logia users can still be countered without Haki when an interaction makes physical sense inside the story. Water lets Luffy strike Crocodile's sand, rubber protects him from Enel's electricity, and other environmental relationships can expose the real body. Armament Haki later provides a general combat answer, but it does not remove the fruit's mobility or destructive scale.",
-          "The story has not provided a single confirmed formula for Logia awakening comparable to the explanations given for awakened Paramecia and Zoan users. Claims that every island permanently altered by weather proves a specific awakening remain theories unless the manga identifies them."
+          "The story has not provided a single confirmed formula for Logia awakening comparable to the explanations given for awakened Paramecia and Zoan users. Claims that every island permanently altered by weather proves a specific awakening remain theories unless the manga identifies them.",
         ],
       },
       {
@@ -344,7 +406,7 @@ const drafts: Draft[] = [
           "Armament Haki allows a fighter to hit the substantial body behind many Devil Fruit transformations. This is most obvious against Logia users, but the same principle improves attack and defence across every category. Haki does not make the element vanish; it makes contact meaningful.",
           "Observation Haki changes the matchup before contact. Predicting intent, sensing position and reading movement can neutralise a fruit that depends on surprise or range. Future sight becomes especially powerful when paired with a body that can reshape around attacks, because prediction and transformation solve different halves of the defensive problem.",
           "Conqueror's Haki can overwhelm weaker wills and, at advanced levels, reinforce attacks without replacing the user's existing ability. The strongest fighters often layer Haki and Devil Fruit mastery rather than choosing between them.",
-          "Strong Haki can resist or break some imposed Devil Fruit effects, but this is not a universal cancel button. The series applies that resistance selectively. A careful explanation should ask which effect was resisted and how much Haki was required instead of assuming every supernatural rule disappears."
+          "Strong Haki can resist or break some imposed Devil Fruit effects, but this is not a universal cancel button. The series applies that resistance selectively. A careful explanation should ask which effect was resisted and how much Haki was required instead of assuming every supernatural rule disappears.",
         ],
         blocks: [
           {
@@ -352,9 +414,21 @@ const drafts: Draft[] = [
             caption: "What each form of Haki changes in a Devil Fruit battle",
             columns: ["Haki Type", "Interaction", "What It Does Not Do"],
             rows: [
-              ["Armament", "Lets attacks connect with protected or transformed bodies", "Does not erase the fruit or stop element production"],
-              ["Observation", "Reveals presence, intent and sometimes future movement", "Does not guarantee the body can respond in time"],
-              ["Conqueror's", "Overwhelms will and can reinforce elite attacks", "Does not automatically defeat every fruit user"],
+              [
+                "Armament",
+                "Lets attacks connect with protected or transformed bodies",
+                "Does not erase the fruit or stop element production",
+              ],
+              [
+                "Observation",
+                "Reveals presence, intent and sometimes future movement",
+                "Does not guarantee the body can respond in time",
+              ],
+              [
+                "Conqueror's",
+                "Overwhelms will and can reinforce elite attacks",
+                "Does not automatically defeat every fruit user",
+              ],
             ],
           },
         ],
@@ -365,17 +439,33 @@ const drafts: Draft[] = [
           "Awakening is a higher stage where the fruit's concept operates beyond its normal boundary. The exact result depends on category and ability, so awakening should not be treated as one identical transformation that every user receives.",
           "Awakened Paramecia users may extend an effect from their own body into the environment or apply it on a much larger scale. Doflamingo turns buildings and ground into string; Katakuri transforms surroundings into mochi; Law and Kid push their abilities into new target relationships. Each example expands the original rule rather than inventing a second power.",
           "Awakened Zoans show increased physical performance, resilience and recovery. Some retain full identity and develop a distinctive transformed presentation, while the Impel Down jailers suggest an awakening can dominate the mind when control is incomplete.",
-          "Awakening has costs. Stamina drain, recovery time and the difficulty of maintaining large effects prevent it from becoming a permanent default state. The user must decide when the expanded ability is worth spending the remaining resources of the fight."
+          "Awakening has costs. Stamina drain, recovery time and the difficulty of maintaining large effects prevent it from becoming a permanent default state. The user must decide when the expanded ability is worth spending the remaining resources of the fight.",
         ],
         blocks: [
           {
             type: "table",
             caption: "Awakening by confirmed category",
-            columns: ["Category", "Observed Awakening Pattern", "Tactical Cost"],
+            columns: [
+              "Category",
+              "Observed Awakening Pattern",
+              "Tactical Cost",
+            ],
             rows: [
-              ["Paramecia", "Extends or applies the fruit's concept beyond the usual body or target", "High stamina use and battlefield complexity"],
-              ["Zoan", "Improves transformation, resilience and recovery", "Risk of exhaustion or loss of control"],
-              ["Logia", "No single general rule has been explicitly confirmed", "Specific claims remain unconfirmed"],
+              [
+                "Paramecia",
+                "Extends or applies the fruit's concept beyond the usual body or target",
+                "High stamina use and battlefield complexity",
+              ],
+              [
+                "Zoan",
+                "Improves transformation, resilience and recovery",
+                "Risk of exhaustion or loss of control",
+              ],
+              [
+                "Logia",
+                "No single general rule has been explicitly confirmed",
+                "Specific claims remain unconfirmed",
+              ],
             ],
           },
         ],
@@ -385,7 +475,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "When a user dies, the power reincarnates in another fruit and returns to circulation. Punk Hazard shows the process directly when a nearby ordinary fruit changes after Smiley dies. That scene confirms reincarnation but does not prove that the nearest fruit is always selected under every condition.",
           "The Devil Fruit Encyclopedia records known appearances and abilities. A fruit can sometimes be identified from its shape before it is eaten; in other cases the user learns the name from the power that appears. This allows governments and pirates to hunt strategic abilities even when the previous owner is gone.",
-          "Reincarnation explains why inherited powers matter politically. The World Government is not merely buying a weapon for one battle; it may be trying to control an ability that could otherwise return to an enemy generation after generation."
+          "Reincarnation explains why inherited powers matter politically. The World Government is not merely buying a weapon for one battle; it may be trying to control an ability that could otherwise return to an enemy generation after generation.",
         ],
       },
       {
@@ -394,7 +484,7 @@ const drafts: Draft[] = [
           "Vegapunk's research proves that parts of the Devil Fruit system can be reproduced through lineage factors. Momonosuke's artificial fruit copies Kaido's dragon transformation with remarkable accuracy despite being dismissed as a failure for a cosmetic difference. That result suggests the scientific limit is closer to replication than imitation.",
           "SMILE fruits are mass-produced artificial Zoans built through a different and far less reliable process. Only a minority grant an animal ability, and the failures carry severe side effects. The Wano storyline treats those costs as industrial harm, not as a quirky substitute for natural fruits. Follow the political consequences in our [complete Wano recap](/article/one-piece-wano-recap).",
           "Objects can also receive Zoan powers through technology, producing weapons with animal forms and instincts. The confirmed examples involve Zoan fruits, which fits a category already associated with a living will. The exact feeding process has not been fully explained on the page.",
-          "These experiments matter because they turn a naturally scarce power into a production problem. Once governments can copy a useful trait, scarcity stops being absolute — but reliability, ethics and control become the new limits."
+          "These experiments matter because they turn a naturally scarce power into a production problem. Once governments can copy a useful trait, scarcity stops being absolute — but reliability, ethics and control become the new limits.",
         ],
       },
       {
@@ -402,13 +492,13 @@ const drafts: Draft[] = [
         paragraphs: [
           "Marshall D. Teach is the only confirmed person using two Devil Fruit powers: the Yami Yami no Mi and the Gura Gura no Mi. The story repeatedly signals that his body is unusual, but it has not yet given a complete mechanical explanation for how the second power was obtained or contained.",
           "The Yami Yami no Mi can pull Devil Fruit users toward Teach and suppress their abilities while he maintains contact. That explains part of his fighting style, not automatically the transfer method. His crew's ability-hunting activities show that a reproducible process may exist, but the details remain intentionally hidden.",
-          "Any guide that presents one fan theory — multiple personalities, multiple hearts, darkness storage or a hidden object — as confirmed is going beyond the text. The SEO-safe and reader-safe answer is simple: Blackbeard is the exception, his unusual body is relevant, and the mechanism remains unresolved."
+          "Any guide that presents one fan theory — multiple personalities, multiple hearts, darkness storage or a hidden object — as confirmed is going beyond the text. The SEO-safe and reader-safe answer is simple: Blackbeard is the exception, his unusual body is relevant, and the mechanism remains unresolved.",
         ],
       },
       {
         heading: "The Hidden Identity of Luffy's Fruit",
         paragraphs: [
-          "This section contains a major Wano spoiler. For a first watch, skip to the comparison table below and return after completing the arc."
+          "This section contains a major Wano spoiler. For a first watch, skip to the comparison table below and return after completing the arc.",
         ],
         blocks: [
           {
@@ -419,7 +509,7 @@ const drafts: Draft[] = [
             paragraphs: [
               "The fruit known publicly as the Gomu Gomu no Mi is revealed as the Hito Hito no Mi, Model: Nika, a Mythical Zoan whose properties include the rubber-like body seen throughout the series. The World Government concealed the name, which explains why the early classification and the later reveal can both exist inside the story.",
               "Gear 5 is its awakening. It expands the user's freedom over body and surroundings while retaining the established rubber logic, presenting the culmination of Luffy's improvisational fighting style rather than an unrelated ability appearing from nowhere.",
-              "The reveal also reinforces the system's political layer: classification is information controlled by institutions. A power can be misunderstood not because the rules changed, but because the people naming it had an incentive to hide the correct category."
+              "The reveal also reinforces the system's political layer: classification is information controlled by institutions. A power can be misunderstood not because the rules changed, but because the people naming it had an incentive to hide the correct category.",
             ],
           },
         ],
@@ -428,7 +518,7 @@ const drafts: Draft[] = [
         heading: "Devil Fruit Types Compared",
         paragraphs: [
           "No category is automatically strongest. Logia has the easiest early defensive advantage, Zoan offers the most reliable physical improvement, and Paramecia contains the widest range of specialised rules. Mythical Zoans combine several benefits but remain rare and demanding.",
-          "The best fruit depends on the user's goal. Travel, medicine, espionage, rescue, logistics and information can be more valuable than destructive output. One Piece repeatedly rewards powers that solve the situation the crew actually faces rather than the power that would win an empty arena."
+          "The best fruit depends on the user's goal. Travel, medicine, espionage, rescue, logistics and information can be more valuable than destructive output. One Piece repeatedly rewards powers that solve the situation the crew actually faces rather than the power that would win an empty arena.",
         ],
         blocks: [
           {
@@ -436,15 +526,35 @@ const drafts: Draft[] = [
             caption: "Paramecia, Zoan and Logia compared",
             columns: ["Type", "Best At", "Main Weakness", "Awakening"],
             rows: [
-              ["Paramecia", "Specialised rules, creativity and unusual matchups", "Often narrow or condition-dependent", "May extend effects beyond the normal target"],
-              ["Zoan", "Physical combat, endurance and transformation", "Forms can be predictable or lose control", "Greater resilience, recovery and transformation"],
-              ["Logia", "Intangibility, mobility and area control", "Haki, natural counters and overconfidence", "General pattern not explicitly confirmed"],
+              [
+                "Paramecia",
+                "Specialised rules, creativity and unusual matchups",
+                "Often narrow or condition-dependent",
+                "May extend effects beyond the normal target",
+              ],
+              [
+                "Zoan",
+                "Physical combat, endurance and transformation",
+                "Forms can be predictable or lose control",
+                "Greater resilience, recovery and transformation",
+              ],
+              [
+                "Logia",
+                "Intangibility, mobility and area control",
+                "Haki, natural counters and overconfidence",
+                "General pattern not explicitly confirmed",
+              ],
             ],
           },
           {
             type: "poll",
             question: "Which Devil Fruit category has the best overall design?",
-            options: ["Paramecia", "Zoan", "Logia", "The category matters less than the user"],
+            options: [
+              "Paramecia",
+              "Zoan",
+              "Logia",
+              "The category matters less than the user",
+            ],
           },
         ],
       },
@@ -454,7 +564,7 @@ const drafts: Draft[] = [
           "Devil Fruits grant an external premise and ask the user to explore it. Nen begins with personal aura and asks the user to design rules from their identity, affinity and sacrifices. Our expanded [Hunter x Hunter Nen guide](/article/hunter-x-hunter-nen-strategy-rules) shows why conditions are more explicit in Togashi's system.",
           "Frieren's magic is learned knowledge that changes across generations, closer to research than inheritance. Compare its mana, spell analysis and visualisation rules in the [Frieren magic system guide](/article/frieren-magic-system-deep-dive).",
           "Solo Leveling makes progress measurable through stats and ranks, while One Piece usually hides numerical strength behind matchups, Haki and creative application. The [Solo Leveling System guide](/article/solo-leveling-system-progression-explained) explains that visible progression model.",
-          "Devil Fruits remain compelling because the rule and the personality meet in public. The fruit may be random, stolen or inherited, but the moveset reveals how its current user thinks."
+          "Devil Fruits remain compelling because the rule and the personality meet in public. The fruit may be random, stolen or inherited, but the moveset reveals how its current user thinks.",
         ],
       },
       {
@@ -465,7 +575,7 @@ const drafts: Draft[] = [
           "Does water remove a Devil Fruit power? Submersion drains the user's strength, but permanent body properties may remain even when the user cannot move effectively.",
           "Does Haki cancel Devil Fruits? No. It enables contact, prediction, resistance and stronger attacks, but it does not universally switch powers off.",
           "What happens after a user dies? The ability reincarnates into another fruit and can be eaten by a new user.",
-          "Where should a new reader continue? Start with the [One Piece series hub](/anime/one-piece) for the overview, arcs and connected guides."
+          "Where should a new reader continue? Start with the [One Piece series hub](/anime/one-piece) for the overview, arcs and connected guides.",
         ],
       },
     ],
@@ -473,9 +583,10 @@ const drafts: Draft[] = [
   {
     slug: "hunter-x-hunter-nen-system-guide",
     publicationStatus: "archived",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
-    title: "The Nen System, Fully Explained: Categories, Conditions and Why It Still Sets the Standard",
+    title:
+      "The Nen System, Fully Explained: Categories, Conditions and Why It Still Sets the Standard",
     excerpt:
       "Six categories, four basic principles and the contract mechanic that makes every Hunter x Hunter fight a negotiation.",
     author: "lina-vasquez",
@@ -493,7 +604,12 @@ const drafts: Draft[] = [
           "Readers coming from a different system will recognise the design goal from our [Devil Fruit explainer](/article/one-piece-devil-fruit-system-explained): fix the rules early, escalate inside them.",
         ],
         blocks: [
-          { type: "image", art: "hunter-x-hunter", caption: "Original GameCastle Anime key visual for the Nen system guide." },
+          {
+            type: "image",
+            art: "hunter-x-hunter",
+            caption:
+              "Original GameCastle Anime key visual for the Nen system guide.",
+          },
         ],
       },
       {
@@ -509,10 +625,18 @@ const drafts: Draft[] = [
             caption: "Category quick reference",
             columns: ["Category", "Core use", "Typical cost"],
             rows: [
-              ["Enhancement", "Boost body and objects", "Low creativity ceiling"],
+              [
+                "Enhancement",
+                "Boost body and objects",
+                "Low creativity ceiling",
+              ],
               ["Transmutation", "Change aura properties", "High training time"],
               ["Emission", "Detach and project aura", "Aura loss at range"],
-              ["Conjuration", "Create physical objects", "Extreme detail requirement"],
+              [
+                "Conjuration",
+                "Create physical objects",
+                "Extreme detail requirement",
+              ],
               ["Manipulation", "Control targets", "Conditions and setup"],
               ["Specialisation", "Unique effects", "Rarity, unpredictability"],
             ],
@@ -539,7 +663,8 @@ const drafts: Draft[] = [
     slug: "best-anime-openings-of-all-time",
     category: "action",
     section: "top-lists",
-    title: "The 25 Greatest Anime Openings Ever Made, and What Each One Gets Right",
+    title:
+      "The 25 Greatest Anime Openings Ever Made, and What Each One Gets Right",
     excerpt:
       "Storyboarding, cut timing and the ninety-second contract every great OP signs with its audience.",
     author: "juno-park",
@@ -557,7 +682,12 @@ const drafts: Draft[] = [
           "If you want the vocabulary behind the animation calls in this list, start with our [sakuga explainer](/article/sakuga-explained-what-makes-a-fight-scene-great).",
         ],
         blocks: [
-          { type: "image", art: "trailer", caption: "Original GameCastle Anime artwork for the openings feature." },
+          {
+            type: "image",
+            art: "trailer",
+            caption:
+              "Original GameCastle Anime artwork for the openings feature.",
+          },
         ],
       },
       {
@@ -579,7 +709,12 @@ const drafts: Draft[] = [
           {
             type: "poll",
             question: "What makes an opening great?",
-            options: ["The track", "The storyboard", "Character moments", "Foreshadowing"],
+            options: [
+              "The track",
+              "The storyboard",
+              "Character moments",
+              "Foreshadowing",
+            ],
           },
         ],
       },
@@ -595,9 +730,10 @@ const drafts: Draft[] = [
   {
     slug: "solo-leveling-progression-system-breakdown",
     publicationStatus: "archived",
-    category: "rpg",
+    category: "fantasy",
     section: "editorial",
-    title: "Solo Leveling's Progression System, Broken Down Like an RPG Designer Would",
+    title:
+      "Solo Leveling's Progression System, Broken Down Like an RPG Designer Would",
     excerpt:
       "Stat allocation, shadow economy and why the power fantasy stays satisfying past the first arc.",
     author: "lina-vasquez",
@@ -615,7 +751,12 @@ const drafts: Draft[] = [
           "For the wider genre context, our [review of Season 2](/article/solo-leveling-s2-review) covers how the adaptation paces those systems on screen.",
         ],
         blocks: [
-          { type: "image", art: "solo-leveling", caption: "Original GameCastle Anime key visual for the progression breakdown." },
+          {
+            type: "image",
+            art: "solo-leveling",
+            caption:
+              "Original GameCastle Anime key visual for the progression breakdown.",
+          },
         ],
       },
       {
@@ -653,7 +794,8 @@ const drafts: Draft[] = [
     slug: "one-punch-man-stakes-problem",
     category: "action",
     section: "editorial",
-    title: "The One Punch Man Problem: How to Write Stakes for a Character Who Cannot Lose",
+    title:
+      "The One Punch Man Problem: How to Write Stakes for a Character Who Cannot Lose",
     excerpt:
       "Invincibility is a comedy premise and a structural trap. Here is how the series escapes it, and where it does not.",
     author: "rowan-fitzgerald",
@@ -671,7 +813,12 @@ const drafts: Draft[] = [
           "This is the same structural move Mob Psycho makes, and we cover the comparison in our [best action anime ranking](/article/best-action-anime-of-the-decade-ranked).",
         ],
         blocks: [
-          { type: "image", art: "one-punch-man", caption: "Original GameCastle Anime key visual for the stakes essay." },
+          {
+            type: "image",
+            art: "one-punch-man",
+            caption:
+              "Original GameCastle Anime key visual for the stakes essay.",
+          },
         ],
       },
       {
@@ -693,7 +840,11 @@ const drafts: Draft[] = [
           {
             type: "poll",
             question: "Does One Punch Man need higher stakes?",
-            options: ["No, the joke is the point", "Yes, in the mid arcs", "Only for the supporting cast"],
+            options: [
+              "No, the joke is the point",
+              "Yes, in the mid arcs",
+              "Only for the supporting cast",
+            ],
           },
         ],
       },
@@ -704,7 +855,8 @@ const drafts: Draft[] = [
     publicationStatus: "review",
     category: "news",
     section: "news",
-    title: "Spring 2026 Season Preview: Every Show Worth Your Watchlist, Sorted by Risk",
+    title:
+      "Spring 2026 Season Preview: Every Show Worth Your Watchlist, Sorted by Risk",
     excerpt:
       "Sequels, adaptations and original projects — with a candid read on which schedules look survivable.",
     author: "marcus-oduya",
@@ -722,7 +874,12 @@ const drafts: Draft[] = [
           "The live simulcast grid lives at [seasonal simulcast grid](/seasonal), and the airing calendar updates weekly.",
         ],
         blocks: [
-          { type: "image", art: "trailer", caption: "Original GameCastle Anime artwork for the seasonal preview." },
+          {
+            type: "image",
+            art: "trailer",
+            caption:
+              "Original GameCastle Anime artwork for the seasonal preview.",
+          },
         ],
       },
       {
@@ -778,7 +935,12 @@ const drafts: Draft[] = [
           "Our earlier essay on [why Frieren won the year](/article/why-frieren-won-2024) covers the awards case; this piece is about the genre it started.",
         ],
         blocks: [
-          { type: "image", art: "frieren", caption: "Original GameCastle Anime key visual for the slow-fantasy review." },
+          {
+            type: "image",
+            art: "frieren",
+            caption:
+              "Original GameCastle Anime key visual for the slow-fantasy review.",
+          },
         ],
       },
       {
@@ -809,9 +971,10 @@ const drafts: Draft[] = [
   },
   {
     slug: "haikyuu-sports-anime-blueprint",
-    category: "esports",
+    category: "sports",
     section: "editorial",
-    title: "The Haikyuu Blueprint: Why Sports Anime Beats Every Other Genre at Tension",
+    title:
+      "The Haikyuu Blueprint: Why Sports Anime Beats Every Other Genre at Tension",
     excerpt:
       "Rally structure, rotational stakes and the reason a volleyball point can outperform a world-ending battle.",
     author: "kenji-arata",
@@ -829,7 +992,12 @@ const drafts: Draft[] = [
           "Our [combat system design piece](/article/combat-system-design-anime-vs-games) makes the same point about telegraphs in fights: legibility is what makes an audience lean forward.",
         ],
         blocks: [
-          { type: "image", art: "haikyuu", caption: "Original GameCastle Anime key visual for the sports blueprint." },
+          {
+            type: "image",
+            art: "haikyuu",
+            caption:
+              "Original GameCastle Anime key visual for the sports blueprint.",
+          },
         ],
       },
       {
@@ -864,7 +1032,8 @@ const drafts: Draft[] = [
     slug: "chainsaw-man-adaptation-tone-analysis",
     category: "reviews",
     section: "reviews",
-    title: "Chainsaw Man's Adaptation, Reconsidered: Grime, Restraint and the Cinematic Gamble",
+    title:
+      "Chainsaw Man's Adaptation, Reconsidered: Grime, Restraint and the Cinematic Gamble",
     excerpt:
       "MAPPA's film-grammar approach split the fandom. Two years on, here is what it bought and what it cost.",
     author: "rowan-fitzgerald",
@@ -882,7 +1051,12 @@ const drafts: Draft[] = [
           "It also cost comedic timing in places where the source's panel rhythm was the joke. Both things are true, and the discourse has mostly refused to hold them together.",
         ],
         blocks: [
-          { type: "image", art: "chainsaw-man", caption: "Original GameCastle Anime key visual for the adaptation review." },
+          {
+            type: "image",
+            art: "chainsaw-man",
+            caption:
+              "Original GameCastle Anime key visual for the adaptation review.",
+          },
         ],
       },
       {
@@ -914,7 +1088,8 @@ const drafts: Draft[] = [
     slug: "how-anime-gets-made-production-committees",
     category: "news",
     section: "editorial",
-    title: "How Anime Actually Gets Made: Production Committees, Schedules and Where the Money Goes",
+    title:
+      "How Anime Actually Gets Made: Production Committees, Schedules and Where the Money Goes",
     excerpt:
       "A plain-language guide to the funding structure behind every show you watch, and why it explains delays.",
     author: "marcus-oduya",
@@ -932,7 +1107,12 @@ const drafts: Draft[] = [
           "It also explains why studios with hit shows can still run thin margins, a topic we touch on in our [convention season guide](/article/convention-season-2026-guide) when covering announcement timing.",
         ],
         blocks: [
-          { type: "image", art: "clans", caption: "Original GameCastle Anime artwork for the production industry explainer." },
+          {
+            type: "image",
+            art: "clans",
+            caption:
+              "Original GameCastle Anime artwork for the production industry explainer.",
+          },
         ],
       },
       {
@@ -948,10 +1128,18 @@ const drafts: Draft[] = [
             caption: "Where a committee's revenue comes from",
             columns: ["Stream", "Typical share", "Notes"],
             rows: [
-              ["Streaming licences", "Large and growing", "Now often the anchor investor"],
+              [
+                "Streaming licences",
+                "Large and growing",
+                "Now often the anchor investor",
+              ],
               ["Merchandise", "High margin", "Drives sequel decisions"],
               ["Music", "Steady", "Label partners sit on committees"],
-              ["Physical discs", "Declining", "Still decisive for niche titles"],
+              [
+                "Physical discs",
+                "Declining",
+                "Still decisive for niche titles",
+              ],
             ],
           },
         ],
@@ -969,9 +1157,10 @@ const drafts: Draft[] = [
   {
     slug: "best-anime-streaming-services-compared",
     publicationStatus: "review",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
-    title: "Anime Streaming Services Compared: Catalogue, Dubs, Price and Regional Gaps",
+    title:
+      "Anime Streaming Services Compared: Catalogue, Dubs, Price and Regional Gaps",
     excerpt:
       "A practical comparison of where the catalogue actually is, including simulcast timing and subtitle quality.",
     author: "hana-mori",
@@ -989,7 +1178,12 @@ const drafts: Draft[] = [
           "Our live availability data per title sits on each series hub — for example [One Piece series hub](/anime/one-piece) — and the aggregate view is at [streaming hub](/streaming).",
         ],
         blocks: [
-          { type: "image", art: "spy-x-family", caption: "Original GameCastle Anime artwork for the streaming comparison." },
+          {
+            type: "image",
+            art: "spy-x-family",
+            caption:
+              "Original GameCastle Anime artwork for the streaming comparison.",
+          },
         ],
       },
       {
@@ -1005,10 +1199,22 @@ const drafts: Draft[] = [
             caption: "What to compare before subscribing",
             columns: ["Factor", "Why it matters", "How to check"],
             rows: [
-              ["Back catalogue", "Decides what you watch after the hype show", "Search three older favourites"],
-              ["Simulcast delay", "Spoiler exposure", "Check last week's release time"],
+              [
+                "Back catalogue",
+                "Decides what you watch after the hype show",
+                "Search three older favourites",
+              ],
+              [
+                "Simulcast delay",
+                "Spoiler exposure",
+                "Check last week's release time",
+              ],
               ["Dub schedule", "Accessibility", "Look for simuldub badges"],
-              ["Region gaps", "Licences differ per country", "Test the catalogue before paying"],
+              [
+                "Region gaps",
+                "Licences differ per country",
+                "Test the catalogue before paying",
+              ],
             ],
           },
         ],
@@ -1026,7 +1232,8 @@ const drafts: Draft[] = [
     slug: "jujutsu-kaisen-domain-expansion-guide",
     category: "action",
     section: "guides",
-    title: "Domain Expansion, Explained: Every Rule, Counter and Cost in Jujutsu Kaisen",
+    title:
+      "Domain Expansion, Explained: Every Rule, Counter and Cost in Jujutsu Kaisen",
     excerpt:
       "Sure-hit effects, domain clashes, simple domains and the reason the technique is a last resort rather than an opener.",
     author: "rowan-fitzgerald",
@@ -1044,7 +1251,12 @@ const drafts: Draft[] = [
           "The foundational rules are covered in our [Limitless explainer](/article/gojo-satoru-limitless-technique-explained), which is the prerequisite read for this guide.",
         ],
         blocks: [
-          { type: "image", art: "limitless", caption: "Original GameCastle Anime artwork for the domain expansion guide." },
+          {
+            type: "image",
+            art: "limitless",
+            caption:
+              "Original GameCastle Anime artwork for the domain expansion guide.",
+          },
         ],
       },
       {
@@ -1060,10 +1272,26 @@ const drafts: Draft[] = [
             caption: "Domain counters",
             columns: ["Counter", "Requirement", "Effect"],
             rows: [
-              ["Rival domain", "Own domain", "More refined domain wins the space"],
-              ["Simple Domain", "Training, no technique needed", "Negates sure-hit at close range"],
-              ["Falling Blossom Emotion", "Advanced control", "Repels contact with the barrier"],
-              ["Barrier assault", "Raw output", "Forces upkeep cost on the caster"],
+              [
+                "Rival domain",
+                "Own domain",
+                "More refined domain wins the space",
+              ],
+              [
+                "Simple Domain",
+                "Training, no technique needed",
+                "Negates sure-hit at close range",
+              ],
+              [
+                "Falling Blossom Emotion",
+                "Advanced control",
+                "Repels contact with the barrier",
+              ],
+              [
+                "Barrier assault",
+                "Raw output",
+                "Forces upkeep cost on the caster",
+              ],
             ],
           },
           {
@@ -1086,9 +1314,10 @@ const drafts: Draft[] = [
   },
   {
     slug: "anime-glossary-for-new-fans",
-    category: "gaming-guides",
+    category: "anime-guides",
     section: "guides",
-    title: "The Anime Glossary: 60 Terms New Fans Actually Need, Explained Plainly",
+    title:
+      "The Anime Glossary: 60 Terms New Fans Actually Need, Explained Plainly",
     excerpt:
       "Cour, sakuga, seinen, simulcast, OVA, ONA and every other word the discourse assumes you already know.",
     author: "hana-mori",
@@ -1106,7 +1335,12 @@ const drafts: Draft[] = [
           "If you are choosing where to watch, our [streaming comparison](/article/best-anime-streaming-services-compared) covers simulcast delays by platform.",
         ],
         blocks: [
-          { type: "image", art: "frieren", caption: "Original GameCastle Anime artwork for the beginner glossary." },
+          {
+            type: "image",
+            art: "frieren",
+            caption:
+              "Original GameCastle Anime artwork for the beginner glossary.",
+          },
         ],
       },
       {

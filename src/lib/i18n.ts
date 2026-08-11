@@ -2,7 +2,18 @@ import { useEffect } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 export type LocaleCode =
-  | "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id" | "hi" | "zh";
+  | "en"
+  | "ar"
+  | "es"
+  | "fr"
+  | "de"
+  | "pt"
+  | "it"
+  | "tr"
+  | "ja"
+  | "id"
+  | "hi"
+  | "zh";
 
 export interface Locale {
   code: LocaleCode;
@@ -18,23 +29,107 @@ export interface Locale {
 }
 
 export const LOCALES: Locale[] = [
-  { code: "en", label: "English",    short: "EN", english: "English",    dir: "ltr", hrefLang: "en" },
-  { code: "ar", label: "العربية",     short: "AR", english: "Arabic",     dir: "rtl", hrefLang: "ar" },
-  { code: "es", label: "Español",    short: "ES", english: "Spanish",    dir: "ltr", hrefLang: "es" },
-  { code: "fr", label: "Français",   short: "FR", english: "French",     dir: "ltr", hrefLang: "fr" },
-  { code: "de", label: "Deutsch",    short: "DE", english: "German",     dir: "ltr", hrefLang: "de" },
-  { code: "pt", label: "Português",  short: "PT", english: "Portuguese", dir: "ltr", hrefLang: "pt" },
-  { code: "it", label: "Italiano",   short: "IT", english: "Italian",    dir: "ltr", hrefLang: "it" },
-  { code: "tr", label: "Türkçe",     short: "TR", english: "Turkish",    dir: "ltr", hrefLang: "tr" },
-  { code: "ja", label: "日本語",       short: "JA", english: "Japanese",   dir: "ltr", hrefLang: "ja" },
-  { code: "id", label: "Indonesia",  short: "ID", english: "Indonesian", dir: "ltr", hrefLang: "id" },
-  { code: "hi", label: "हिन्दी",       short: "HI", english: "Hindi",      dir: "ltr", hrefLang: "hi" },
-  { code: "zh", label: "中文",         short: "ZH", english: "Chinese",    dir: "ltr", hrefLang: "zh" },
+  {
+    code: "en",
+    label: "English",
+    short: "EN",
+    english: "English",
+    dir: "ltr",
+    hrefLang: "en",
+  },
+  {
+    code: "ar",
+    label: "العربية",
+    short: "AR",
+    english: "Arabic",
+    dir: "rtl",
+    hrefLang: "ar",
+  },
+  {
+    code: "es",
+    label: "Español",
+    short: "ES",
+    english: "Spanish",
+    dir: "ltr",
+    hrefLang: "es",
+  },
+  {
+    code: "fr",
+    label: "Français",
+    short: "FR",
+    english: "French",
+    dir: "ltr",
+    hrefLang: "fr",
+  },
+  {
+    code: "de",
+    label: "Deutsch",
+    short: "DE",
+    english: "German",
+    dir: "ltr",
+    hrefLang: "de",
+  },
+  {
+    code: "pt",
+    label: "Português",
+    short: "PT",
+    english: "Portuguese",
+    dir: "ltr",
+    hrefLang: "pt",
+  },
+  {
+    code: "it",
+    label: "Italiano",
+    short: "IT",
+    english: "Italian",
+    dir: "ltr",
+    hrefLang: "it",
+  },
+  {
+    code: "tr",
+    label: "Türkçe",
+    short: "TR",
+    english: "Turkish",
+    dir: "ltr",
+    hrefLang: "tr",
+  },
+  {
+    code: "ja",
+    label: "日本語",
+    short: "JA",
+    english: "Japanese",
+    dir: "ltr",
+    hrefLang: "ja",
+  },
+  {
+    code: "id",
+    label: "Indonesia",
+    short: "ID",
+    english: "Indonesian",
+    dir: "ltr",
+    hrefLang: "id",
+  },
+  {
+    code: "hi",
+    label: "हिन्दी",
+    short: "HI",
+    english: "Hindi",
+    dir: "ltr",
+    hrefLang: "hi",
+  },
+  {
+    code: "zh",
+    label: "中文",
+    short: "ZH",
+    english: "Chinese",
+    dir: "ltr",
+    hrefLang: "zh",
+  },
 ];
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
 export const SITE_URL = "https://gamecastle.store";
-export const LOCALE_STORAGE_KEY = "animeverse.locale";
+export const LOCALE_STORAGE_KEY = "gamecastle.locale";
 
 const BY_CODE = new Map(LOCALES.map((l) => [l.code, l]));
 
@@ -43,7 +138,9 @@ export function isLocaleCode(value: string | undefined): value is LocaleCode {
 }
 
 export function getLocale(code: string | undefined): Locale {
-  return BY_CODE.get((code ?? "") as LocaleCode) ?? BY_CODE.get(DEFAULT_LOCALE)!;
+  return (
+    BY_CODE.get((code ?? "") as LocaleCode) ?? BY_CODE.get(DEFAULT_LOCALE)!
+  );
 }
 
 /** Removes a leading locale segment: "/ar/anime/x" -> "/anime/x" */
@@ -110,7 +207,6 @@ export function isIndexableLocale(code: string | undefined): boolean {
   return isLocaleCode(code) && INDEXABLE_LOCALES.includes(code);
 }
 
-
 /**
  * hreflang alternates (plus x-default) for a canonical path, restricted to
  * locales with indexable content. With a single active locale there is no
@@ -128,7 +224,6 @@ export function hreflangLinks(pathname: string) {
     { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}${base}` },
   ];
 }
-
 
 /** Current locale for the active route. */
 export function useLocale(): Locale {

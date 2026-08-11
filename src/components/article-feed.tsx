@@ -7,8 +7,6 @@ import { Clock, Loader2 } from "lucide-react";
 import type { Article } from "@/data/articles";
 import { readingLabel } from "@/lib/reading";
 import { InFeedAd, VideoAd } from "@/components/ad-slot";
-import { InlineAffiliateCard, productsForContext } from "@/components/affiliate-products";
-import { getAnime } from "@/data/animes";
 
 const PAGE = 4;
 
@@ -16,7 +14,13 @@ const PAGE = 4;
  * Infinite-scroll editorial feed. Renders progressively as the sentinel
  * enters the viewport, keeping first paint light on long lists.
  */
-export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[]; initial?: number }) {
+export function InfiniteArticleFeed({
+  items,
+  initial = PAGE,
+}: {
+  items: Article[];
+  initial?: number;
+}) {
   const [count, setCount] = useState(Math.min(initial, items.length));
   const [loading, setLoading] = useState(false);
   const sentinel = useRef<HTMLDivElement | null>(null);
@@ -74,8 +78,12 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                     {readingLabel(articleParagraphs(a))}
                   </span>
                 </div>
-                <h3 className="mt-2 font-display text-xl font-bold group-hover:text-gradient">{a.title}</h3>
-                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{a.excerpt}</p>
+                <h3 className="mt-2 font-display text-xl font-bold group-hover:text-gradient">
+                  {a.title}
+                </h3>
+                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                  {a.excerpt}
+                </p>
                 <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
                   <Clock className="h-3 w-3" /> {a.date}
                 </div>
@@ -98,21 +106,15 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
                   adId={`InFeed_Ad_Feed_${i + 1}`}
                 />
               ))}
-
-            {/* Affiliate card woven between feed sections */}
-            {i > 0 && (i + 1) % (PAGE * 2) === 0 && (() => {
-              const product = productsForContext(getAnime(a.related?.[0] ?? ""), a.title)[
-                (Math.ceil((i + 1) / (PAGE * 2)) - 1) % 3
-              ];
-              return product ? <InlineAffiliateCard product={product} /> : null;
-            })()}
-
           </div>
         ))}
       </div>
 
       <div ref={sentinel} className="h-10" aria-hidden />
-      <div className="mt-2 flex justify-center text-sm text-muted-foreground" aria-live="polite">
+      <div
+        className="mt-2 flex justify-center text-sm text-muted-foreground"
+        aria-live="polite"
+      >
         {loading && (
           <span className="flex items-center gap-2">
             <Loader2 className="h-4 w-4 animate-spin" /> Loading more stories…
@@ -120,7 +122,10 @@ export function InfiniteArticleFeed({ items, initial = PAGE }: { items: Article[
         )}
         {done && !loading && <span>You've reached the end of the feed.</span>}
         {!done && !loading && (
-          <button onClick={loadMore} className="rounded-lg border border-border px-4 py-2 hover:border-primary/60">
+          <button
+            onClick={loadMore}
+            className="rounded-lg border border-border px-4 py-2 hover:border-primary/60"
+          >
             Load more
           </button>
         )}

@@ -19,7 +19,6 @@ export const AD_SLOTS = {
   displayTop: "9027889883",
 } as const;
 
-
 type BaseProps = {
   className?: string;
   unitId?: string;
@@ -33,7 +32,14 @@ type BaseProps = {
 };
 
 /** Fluid in-article unit — best between paragraphs of long-form content. */
-export function InArticleAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
+export function InArticleAd({
+  className = "",
+  unitId,
+  adId,
+  index,
+  prefix,
+  minHeight = 280,
+}: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-in-article");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -50,7 +56,12 @@ export function InArticleAd({ className = "", unitId, adId, index, prefix, minHe
 }
 
 /** Autorelaxed multiplex grid — "more content" style unit for page ends. */
-export function MultiplexAd({ className = "", unitId, prefix, minHeight = 280 }: BaseProps) {
+export function MultiplexAd({
+  className = "",
+  unitId,
+  prefix,
+  minHeight = 280,
+}: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-multiplex");
   return (
     <AdsenseUnit
@@ -65,7 +76,14 @@ export function MultiplexAd({ className = "", unitId, prefix, minHeight = 280 }:
 }
 
 /** Responsive display unit ("hazza") — headers, sidebars, post-content. */
-export function DisplayAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
+export function DisplayAd({
+  className = "",
+  unitId,
+  adId,
+  index,
+  prefix,
+  minHeight = 280,
+}: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-display");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -80,7 +98,14 @@ export function DisplayAd({ className = "", unitId, adId, index, prefix, minHeig
 }
 
 /** Fluid in-feed unit — between cards in listing/feed layouts. */
-export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
+export function InFeedAd({
+  className = "",
+  unitId,
+  adId,
+  index,
+  prefix,
+  minHeight = 280,
+}: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-in-feed");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -97,7 +122,14 @@ export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeigh
 }
 
 /** Responsive top display banner ("Display_Banner_Top") — above/below the title. */
-export function TopBannerAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
+export function TopBannerAd({
+  className = "",
+  unitId,
+  adId,
+  index,
+  prefix,
+  minHeight = 280,
+}: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-display-top");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -120,43 +152,36 @@ export const PostContentAd = DisplayAd;
 export const StickySidebarAd = DisplayAd;
 export const VideoAd = DisplayAd;
 
-
 /** Generic slot: feed positions get the in-feed unit, everything else display. */
-export function AdSlot({ placement, className, unitId, adId, index, prefix }: BaseProps) {
+export function AdSlot({
+  placement,
+  className,
+  unitId,
+  adId,
+  index,
+  prefix,
+}: BaseProps) {
   if (placement === "inline") {
-    return <InArticleAd className={className} unitId={unitId} adId={adId} index={index} prefix={prefix} />;
+    return (
+      <InArticleAd
+        className={className}
+        unitId={unitId}
+        adId={adId}
+        index={index}
+        prefix={prefix}
+      />
+    );
   }
-  return <InFeedAd className={className} unitId={unitId} adId={adId} index={index} prefix={prefix} />;
+  return (
+    <InFeedAd
+      className={className}
+      unitId={unitId}
+      adId={adId}
+      index={index}
+      prefix={prefix}
+    />
+  );
 }
 
 /** Mobile anchor: Auto Ads owns anchor formats, so keep this a no-op. */
 export const MobileAnchorAd = (_props: BaseProps) => null;
-
-/** Editorial affiliate card — real content, not an ad placeholder. */
-export function AffiliateBox({
-  title,
-  subtitle,
-  price,
-  cta = "View Deal",
-}: {
-  title: string;
-  subtitle: string;
-  price?: string;
-  cta?: string;
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Affiliate</div>
-      <div className="mt-2 flex items-center justify-between">
-        <div>
-          <div className="font-semibold text-sm">{title}</div>
-          <div className="text-xs text-muted-foreground">{subtitle}</div>
-        </div>
-        {price && <div className="font-display text-lg font-bold text-primary">{price}</div>}
-      </div>
-      <button className="mt-3 w-full rounded-md bg-primary/10 border border-primary/30 py-2 text-sm font-semibold text-primary hover:bg-primary/20">
-        {cta}
-      </button>
-    </div>
-  );
-}

@@ -8,7 +8,7 @@ import soloLevelingArt from "@/assets/art/solo-leveling.webp.asset.json";
 export const soloLevelingSystemArticle: Article = {
   slug: "solo-leveling-system-progression-explained",
   section: "guides",
-  category: "rpg",
+  category: "fantasy",
   tags: ["solo-leveling", "progression", "power-systems", "rpg"],
   title: "The Solo Leveling System Explained: Stats, Levels, Quests and Ranks",
   seoTitle: "Solo Leveling System Explained: Stats, Levels, Quests & Ranks",
@@ -54,12 +54,36 @@ export const soloLevelingSystemArticle: Article = {
           caption: "Core stats and what each one changes in a fight",
           columns: ["Stat", "Governs", "How it shows up on screen"],
           rows: [
-            ["Strength", "Physical damage, carrying capacity", "Fights that end in one exchange instead of five"],
-            ["Agility", "Speed, reaction, mobility", "He dictates the range and closes gaps unopposed"],
-            ["Vitality", "Durability, stamina", "Surviving a misread attack without losing tempo"],
-            ["Intelligence", "Mana pool, magical output", "Sustaining shadow soldiers and larger skills"],
-            ["Sense", "Perception, detection, mana reading", "Knowing what is in the room before entering it"],
-            ["Fatigue", "Accumulated strain", "Forced retreats and degraded performance"],
+            [
+              "Strength",
+              "Physical damage, carrying capacity",
+              "Fights that end in one exchange instead of five",
+            ],
+            [
+              "Agility",
+              "Speed, reaction, mobility",
+              "He dictates the range and closes gaps unopposed",
+            ],
+            [
+              "Vitality",
+              "Durability, stamina",
+              "Surviving a misread attack without losing tempo",
+            ],
+            [
+              "Intelligence",
+              "Mana pool, magical output",
+              "Sustaining shadow soldiers and larger skills",
+            ],
+            [
+              "Sense",
+              "Perception, detection, mana reading",
+              "Knowing what is in the room before entering it",
+            ],
+            [
+              "Fatigue",
+              "Accumulated strain",
+              "Forced retreats and degraded performance",
+            ],
           ],
         },
       ],

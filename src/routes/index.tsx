@@ -8,12 +8,16 @@ import {
   publishedAnime,
   publishedArticles,
 } from "@/lib/content-registry";
-import { AdSlot, MultiplexAd, StickySidebarAd, DisplayAd } from "@/components/ad-slot";
+import {
+  AdSlot,
+  MultiplexAd,
+  StickySidebarAd,
+  DisplayAd,
+} from "@/components/ad-slot";
 import { Rail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
-import { StorePromoBanner } from "@/components/store-promo-banner";
 
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
@@ -21,7 +25,7 @@ import { InfiniteArticleFeed } from "@/components/article-feed";
 import { LazySection } from "@/components/lazy-section";
 import { MediaImage, VideoEmbed } from "@/components/media";
 import { backdrops, backdropFor, artAlt } from "@/lib/media";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BookOpen, Compass } from "lucide-react";
 import { hreflangLinks, SITE_URL } from "@/lib/i18n";
 
 const HOME_OG_IMAGE =
@@ -47,7 +51,10 @@ export const Route = createFileRoute("/")({
         content:
           "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
       },
-      { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
+      {
+        property: "og:title",
+        content: "GameCastle Anime | Anime Guides & Watch Orders",
+      },
       {
         property: "og:description",
         content:
@@ -56,7 +63,10 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:image", content: HOME_OG_IMAGE },
-      { name: "twitter:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
+      {
+        name: "twitter:title",
+        content: "GameCastle Anime | Anime Guides & Watch Orders",
+      },
       {
         name: "twitter:description",
         content:
@@ -64,10 +74,7 @@ export const Route = createFileRoute("/")({
       },
       { name: "twitter:image", content: HOME_OG_IMAGE },
     ],
-    links: [
-      { rel: "canonical", href: `${SITE_URL}/` },
-      ...hreflangLinks("/"),
-    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }, ...hreflangLinks("/")],
   }),
 
   component: Home,
@@ -97,7 +104,9 @@ function Home() {
   };
 
   const hubs = take(
-    HUB_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
+    HUB_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter(
+      (a): a is Anime => Boolean(a),
+    ),
     HUB_SLUGS.length,
   );
   const trending = take(liveAnime, 6);
@@ -128,21 +137,58 @@ function Home() {
   ];
   const priorityGuides = priorityGuideSlugs
     .map((slug) => uniqueArticles.find((article) => article.slug === slug))
-    .filter((article): article is (typeof uniqueArticles)[number] => Boolean(article));
+    .filter((article): article is (typeof uniqueArticles)[number] =>
+      Boolean(article),
+    );
   const priorityGuideSet = new Set(priorityGuideSlugs);
-  const remainingArticles = uniqueArticles.filter((article) => !priorityGuideSet.has(article.slug));
+  const remainingArticles = uniqueArticles.filter(
+    (article) => !priorityGuideSet.has(article.slug),
+  );
   const featuredArticles = remainingArticles.slice(0, 4);
   const spotlightArticles = remainingArticles.slice(4, 7);
   const feedArticles = remainingArticles.slice(7);
 
   return (
     <div>
-      {/* Digital wallpapers store announcement — first thing on the page. */}
-      <StorePromoBanner />
+      <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-primary/15 via-background to-accent/10">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-primary/20 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
+        <div className="relative mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-6 lg:py-16">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+              Independent anime encyclopedia
+            </p>
+            <h1 className="mt-3 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              Find your next anime — then understand every world behind it.
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Explore spoiler-aware watch orders, power-system explainers,
+              character guides, episode recaps and studio coverage written for
+              anime fans worldwide.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                to="/browse"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground glow-primary hover:brightness-110"
+              >
+                <Compass className="h-4 w-4" /> Explore anime
+              </Link>
+              <Link
+                to="/guides"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/70 px-5 py-3 font-semibold hover:border-primary/60"
+              >
+                <BookOpen className="h-4 w-4" /> Read anime guides
+              </Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-3 lg:min-w-[360px]">
+            <StatPill label="Anime" value={String(liveAnime.length)} />
+            <StatPill label="Guides" value={String(liveArticles.length)} />
+            <StatPill label="Genres" value={String(visibleGenres.length)} />
+          </div>
+        </div>
+      </section>
 
-      {/* ABOVE THE FOLD — inline player, latest-episode switcher and search.
-          Rendered synchronously (no lazy gate, no overlay) so the first paint
-          already contains a playable episode. */}
+      {/* ABOVE THE FOLD — latest episodes, trailer playback and search. */}
       <HomeStage trending={trending} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
@@ -153,8 +199,8 @@ function Home() {
             Anime summaries, AMVs &amp; reviews
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Watch the summary or review right here, read the full breakdown, then continue the full
-            episode on the official platform.
+            Watch the summary or review right here, read the full breakdown,
+            then continue the full episode on the official platform.
           </p>
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
             {videoSummaries.slice(0, 2).map((v) => {
@@ -226,11 +272,15 @@ function Home() {
                 Answers anime fans are searching for
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                Clear watch orders, power-system rules and equipment guides built for quick answers
-                first — with the deeper analysis waiting underneath.
+                Clear watch orders, power-system rules and equipment guides
+                built for quick answers first — with the deeper analysis waiting
+                underneath.
               </p>
             </div>
-            <Link to="/guides" className="flex items-center gap-1 text-sm text-primary hover:underline">
+            <Link
+              to="/guides"
+              className="flex items-center gap-1 text-sm text-primary hover:underline"
+            >
               Browse every guide <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
@@ -274,7 +324,9 @@ function Home() {
                 to="/genre/$slug"
                 params={{ slug: g.slug }}
                 className="group relative flex h-24 flex-col justify-end overflow-hidden rounded-xl border border-border/60 p-4 hover:border-primary/60"
-                style={{ background: `linear-gradient(135deg, ${g.hue}22, ${g.hue}08)` }}
+                style={{
+                  background: `linear-gradient(135deg, ${g.hue}22, ${g.hue}08)`,
+                }}
               >
                 <div
                   className="absolute inset-0 opacity-30"
@@ -284,7 +336,9 @@ function Home() {
                 />
                 <div className="relative">
                   <div className="font-display text-lg font-bold">{g.name}</div>
-                  <div className="line-clamp-1 text-[11px] text-muted-foreground">{g.tagline}</div>
+                  <div className="line-clamp-1 text-[11px] text-muted-foreground">
+                    {g.tagline}
+                  </div>
                 </div>
               </Link>
             ))}
@@ -407,7 +461,10 @@ function Home() {
         </LazySection>
 
         {/* STUDIOS */}
-        <Section eyebrow="The people behind the frames" title="Studios shaping the medium">
+        <Section
+          eyebrow="The people behind the frames"
+          title="Studios shaping the medium"
+        >
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {visibleStudios.slice(0, 8).map((s) => (
               <Link
@@ -415,13 +472,19 @@ function Home() {
                 to="/studio/$slug"
                 params={{ slug: s.slug }}
                 className="rounded-xl border border-border/60 p-5 hover:border-primary/60 card-hover hover:!card-hover-active"
-                style={{ background: `linear-gradient(135deg, ${s.accent}18, transparent 70%)` }}
+                style={{
+                  background: `linear-gradient(135deg, ${s.accent}18, transparent 70%)`,
+                }}
               >
                 <div className="flex items-center justify-between">
                   <div className="font-display text-lg font-bold">{s.name}</div>
-                  <div className="text-xs text-muted-foreground">{s.founded}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {s.founded}
+                  </div>
                 </div>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{s.blurb}</p>
+                <p className="mt-2 text-sm text-muted-foreground line-clamp-3">
+                  {s.blurb}
+                </p>
               </Link>
             ))}
           </div>
@@ -444,9 +507,9 @@ function Home() {
                 Never watch a series in the wrong order again.
               </h3>
               <p className="mt-3 text-muted-foreground max-w-2xl">
-                Every franchise gets a canonical watch order, a movie-canon note, and a filler
-                guide. From Naruto to Demon Slayer to Fate — we do the homework so you don't miss
-                the payoff.
+                Every franchise gets a canonical watch order, a movie-canon
+                note, and a filler guide. From Naruto to Demon Slayer to Fate —
+                we do the homework so you don't miss the payoff.
               </p>
             </div>
             <Link

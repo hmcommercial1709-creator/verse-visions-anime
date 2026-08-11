@@ -4,32 +4,36 @@ import { X, Grid3x3, Zap, LinkIcon, ShieldCheck } from "lucide-react";
 
 const SECTIONS = [
   {
-    title: "Main Categories",
+    title: "Anime desks",
     icon: Grid3x3,
     links: [
-      { to: "/category/action", label: "Action" },
-      { to: "/category/rpg", label: "RPG" },
-      { to: "/category/strategy", label: "Strategy" },
-      { to: "/category/esports", label: "Esports" },
-      { to: "/category/gaming-guides", label: "Gaming Guides" },
-      { to: "/category/reviews", label: "Reviews" },
+      { to: "/category/action", label: "Action Anime" },
+      { to: "/category/fantasy", label: "Fantasy & Isekai" },
+      { to: "/category/analysis", label: "Analysis & Mind Games" },
+      { to: "/category/sports", label: "Sports Anime" },
+      { to: "/category/anime-guides", label: "Anime Guides" },
+      { to: "/category/reviews", label: "Anime Reviews" },
     ],
   },
   {
-    title: "Quick Links",
+    title: "Discover",
     icon: Zap,
     links: [
       { to: "/", label: "Home" },
+      { to: "/browse", label: "Browse Anime" },
+      { to: "/trending", label: "Popular Anime" },
+      { to: "/watch-order", label: "Watch Orders" },
       { to: "/blog", label: "All Articles" },
-      { to: "/ar/anime", label: "Arabic guides" },
     ],
   },
   {
-    title: "Essential Pages",
+    title: "About GameCastle",
     icon: ShieldCheck,
     links: [
+      { to: "/about", label: "About" },
+      { to: "/editorial-policy", label: "Editorial Policy" },
+      { to: "/contact", label: "Contact" },
       { to: "/privacy-policy", label: "Privacy Policy" },
-      { to: "/contact", label: "Contact Us" },
     ],
   },
 ];
@@ -51,7 +55,12 @@ export function GlobalMenu({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label="Global navigation">
+    <div
+      className="fixed inset-0 z-[60]"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Global navigation"
+    >
       <button
         aria-label="Close menu"
         onClick={onClose}
@@ -60,8 +69,12 @@ export function GlobalMenu({
       <div className="relative mx-auto flex h-full max-w-6xl flex-col px-4 py-6 lg:px-8">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-primary">Navigation</div>
-            <h2 className="truncate font-display text-2xl font-bold">Explore GameCastle Anime</h2>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-primary">
+              Navigation
+            </div>
+            <h2 className="truncate font-display text-2xl font-bold">
+              Explore GameCastle Anime
+            </h2>
           </div>
           <button
             onClick={onClose}

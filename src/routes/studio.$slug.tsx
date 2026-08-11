@@ -184,6 +184,9 @@ function StudioPage() {
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       {anime.year} · {anime.status} · {anime.tagline}
                     </p>
+                    <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+                      {anime.synopsis}
+                    </p>
                   </li>
                 ))}
               </ul>

@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link, redirect } from "@tanstack/react-router";
-import { getArticle, publishedArticleList, articleIsPublished, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
+import { getArticle, publishedArticleList, articleHasContent, articleIsPublished, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
 import { ArticleComments } from "@/components/article-comments";
 import { InternalLinkNetwork } from "@/components/internal-link-network";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
@@ -121,6 +121,9 @@ export const Route = createFileRoute("/article/$slug")({
 
     const article = getArticle(params.slug);
     if (!article) throw notFound();
+    if (!articleIsPublished(article) || !articleHasContent(article)) {
+      throw redirect({ to: "/blog", replace: true, statusCode: 301 });
+    }
     return { article };
   },
   head: ({ loaderData }) => {

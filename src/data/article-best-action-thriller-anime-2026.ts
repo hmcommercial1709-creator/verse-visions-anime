@@ -35,7 +35,7 @@ export const bestActionThrillerAnime2026Article: Article = {
       paragraphs: [
         "The anime industry in 2026 has reached unprecedented heights in terms of production quality, storytelling, and international popularity. Legendary animation powerhouses such as MAPPA, Ufotable, A-1 Pictures and Wit Studio continue to push the boundaries of visual art, delivering fight choreography and narrative depth that rival major Hollywood blockbusters.",
         "Whether you are a seasoned enthusiast looking for deeply analytical breakdowns or a newcomer seeking the absolute best recommendations to add to your watchlist, this ultimate guide covers everything you need to know about the top action and thriller anime defining the year 2026.",
-        "If you are building a watchlist from zero, pair this page with our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen) — it explains which of the titles below are safe entry points and which demand three prior seasons of context.",
+        "If you are building a watchlist from zero, pair this page with our [beginner's guide to modern shonen](/guides) — it explains which of the titles below are safe entry points and which demand three prior seasons of context.",
       ],
       blocks: [
         {
@@ -59,7 +59,7 @@ export const bestActionThrillerAnime2026Article: Article = {
         "Genre: action, dark fantasy, system and game mechanics, superpower. Studio: A-1 Pictures. Composer: Hiroyuki Sawano. Target audience: shonen and seinen enthusiasts alike.",
         "Set in a modern world where mysterious Gates opened two decades ago — connecting our realm to dangerous dungeons populated by deadly monsters — humanity saw the awakening of Hunters. Sung Jin-Woo, initially ridiculed as the Weakest Hunter of All Mankind, undergoes a re-awakening inside a dual dungeon. Granted access to a unique System interface visible only to him, Jin-Woo gains the ability to level up limitlessly, extract shadows from fallen foes and command a growing army of undead soldiers.",
         "A-1 Pictures has elevated its production values significantly. Under the musical direction of Hiroyuki Sawano, every transformation and battle sequence resonates with thunderous orchestrations and heavy electronic beats. The fluid motion during Jin-Woo's shadow extractions and high-speed dagger combat sets a benchmark for webtoon adaptations worldwide.",
-        "Why it dominates 2026: the power fantasy is done right, with a progression from underdog to god-like monarch that feels earned rather than handed over, and the shadow army delivers unmatched hype moments as Igris and Iron fight at Jin-Woo's side. Our [Solo Leveling season review](/article/solo-leveling-s2-review) breaks the arc structure down episode by episode.",
+        "Why it dominates 2026: the power fantasy is done right, with a progression from underdog to god-like monarch that feels earned rather than handed over, and the shadow army delivers unmatched hype moments as Igris and Iron fight at Jin-Woo's side. Our [Solo Leveling season review](/article/solo-leveling-system-progression-explained) breaks the arc structure down episode by episode.",
       ],
       blocks: [
         { type: "image", art: "solo-leveling", caption: "Solo Leveling — A-1 Pictures' benchmark webtoon adaptation." },
@@ -95,7 +95,7 @@ export const bestActionThrillerAnime2026Article: Article = {
         "Genre: action, horror, black comedy, psychological thriller. Studio: MAPPA.",
         "Denji, a destitute young man who merged with his devil dog Pochita to become Chainsaw Man, continues working for Devil Hunter Makima. As he chases simple pleasures like good food and affection, he meets Reze, a mysterious girl whose innocent charm hides an explosive secret tied to international espionage and devil warfare.",
         "Using cinematic framing, realistic colour palettes and expressive character acting, MAPPA strikes a delicate balance between gruesome devil slaughter and intimate, melancholic slice-of-life moments.",
-        "Why it dominates 2026: Denji's motivations are grounded and raw, contrasting sharply with typical heroic tropes, and the show switches effortlessly between dark comedy, visceral gore and touching romance. Release details are tracked in our [Reze Arc film preview](/article/chainsaw-man-reze-arc-preview).",
+        "Why it dominates 2026: Denji's motivations are grounded and raw, contrasting sharply with typical heroic tropes, and the show switches effortlessly between dark comedy, visceral gore and touching romance. Release details are tracked in our [Reze Arc film preview](/anime/chainsaw-man).",
       ],
       blocks: [
         { type: "image", art: "chainsaw-man", caption: "Chainsaw Man — MAPPA's most tonally daring production." },
@@ -201,7 +201,7 @@ export const bestActionThrillerAnime2026Article: Article = {
       heading: "15. Final Verdict & Community Discussion",
       paragraphs: [
         "The year 2026 stands out as a golden era for action and thriller anime. From dark fantasy battle royales to futuristic sci-fi showdowns, there has never been a better time to be a fan.",
-        "Which anime on this list is your personal favourite? Is there an underrated gem we missed? Drop your thoughts and reviews in the comment section below — and if you want the wider picture, our [ten best anime right now](/article/top-10-anime-2026) list ranks these titles against everything else airing.",
+        "Which anime on this list is your personal favourite? Is there an underrated gem we missed? Drop your thoughts and reviews in the comment section below — and if you want the wider picture, our [ten best anime right now](/top-rated) list ranks these titles against everything else airing.",
       ],
     },
   ],

@@ -195,7 +195,13 @@ export const articles: Article[] = [...coreArticles, ...longformArticles, ...ext
 export const getArticle = (slug: string) => articles.find((a) => a.slug === slug);
 export const articleIsPublished = (article: Article): boolean =>
   (article.publicationStatus ?? "published") === "published";
-export const publishedArticleList = (): Article[] => articles.filter(articleIsPublished);
+
+/** A public article must contain real editorial copy, not only an empty shell. */
+export const articleHasContent = (article: Article): boolean =>
+  articleParagraphs(article).join(" ").trim().length >= 200;
+
+export const publishedArticleList = (): Article[] =>
+  articles.filter((article) => articleIsPublished(article) && articleHasContent(article));
 export const listArticles = (section?: Article["section"]) =>
   section ? publishedArticleList().filter((a) => a.section === section) : publishedArticleList();
 export const listByCategory = (category: CategorySlug) =>

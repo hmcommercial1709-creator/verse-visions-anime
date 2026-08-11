@@ -84,6 +84,23 @@ function AnimeDetail() {
   const eps = episodesFor(anime.slug);
   const similar = anime.similar.map((s: string) => animes.find(a => a.slug === s)).filter(Boolean) as typeof animes;
   const alsoEnjoyed = recommendAnime(anime.slug, 4).filter((a) => !anime.similar.includes(a.slug));
+  const pageSections = [
+    { id: "overview", label: "Overview" },
+    { id: "arcs", label: "Arcs" },
+    { id: "power-world", label: "Power & World" },
+    { id: "watch-order", label: "Watch Order" },
+    ...(eps.length > 0 ? [{ id: "episodes", label: "Episodes" }] : []),
+    ...(cast.length > 0 ? [{ id: "characters", label: "Characters" }] : []),
+    ...(anime.themes.length > 0 ? [{ id: "themes", label: "Themes" }] : []),
+    ...(anime.quotes.length > 0 ? [{ id: "quotes", label: "Quotes" }] : []),
+    ...(anime.facts.length > 0 ? [{ id: "facts", label: "Facts" }] : []),
+    ...(anime.soundtrack.length > 0 ? [{ id: "soundtrack", label: "Soundtrack" }] : []),
+    ...(anime.voiceActors.length > 0 ? [{ id: "voice-actors", label: "Voice Actors" }] : []),
+    ...(anime.awards.length > 0 ? [{ id: "awards", label: "Awards" }] : []),
+    ...(anime.faq.length > 0 ? [{ id: "faq", label: "FAQ" }] : []),
+    { id: "conclusion", label: "Conclusion" },
+    ...(similar.length > 0 ? [{ id: "similar", label: "Similar" }] : []),
+  ];
 
   return (
     <article>
@@ -123,13 +140,13 @@ function AnimeDetail() {
 
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl">
                 <Stat icon={Star} label="Editorial score" value={`${anime.rating.toFixed(1)}/10`} />
-                <Stat icon={Tv} label="Episodes" value={String(anime.episodes)} />
+                <Stat icon={Tv} label="Episodes" value={typeof anime.episodes === "number" ? String(anime.episodes) : "TBA"} />
                 <Stat icon={Calendar} label="Seasons" value={String(anime.seasons)} />
                 <Stat icon={Building2} label="Studio" value={studio?.name || anime.studio} />
               </div>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                <Link to="/watch/$slug" params={{ slug: anime.slug }} search={{ ep: undefined }} className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground glow-primary"><Play className="h-4 w-4" /> Play episode</Link>
+                <Link to="/watch/$slug" params={{ slug: anime.slug }} search={{ ep: undefined }} className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground glow-primary"><Play className="h-4 w-4" /> Where to watch legally</Link>
                 <a href="#trailer" className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm">Watch trailer</a>
               </div>
             </div>
@@ -179,7 +196,7 @@ function AnimeDetail() {
           </SectionBlock>
 
           {/* Power / World */}
-          <div className="grid gap-4 md:grid-cols-2 my-10">
+          <section id="power-world" className="grid scroll-mt-24 gap-4 md:grid-cols-2 my-10">
             <div className="rounded-2xl border border-border/60 bg-card/50 p-6">
               <div className="flex items-center gap-2 text-primary mb-2"><Sparkles className="h-4 w-4" /><span className="text-xs font-semibold uppercase tracking-[0.22em]">Power System</span></div>
               <p className="text-sm leading-relaxed">{anime.powerSystem}</p>
@@ -188,7 +205,7 @@ function AnimeDetail() {
               <div className="flex items-center gap-2 text-accent mb-2"><Building2 className="h-4 w-4" /><span className="text-xs font-semibold uppercase tracking-[0.22em]">World Building</span></div>
               <p className="text-sm leading-relaxed">{anime.worldBuilding}</p>
             </div>
-          </div>
+          </section>
 
           {/* Watch Order */}
           <SectionBlock id="watch-order" title="Watch order">
@@ -243,72 +260,82 @@ function AnimeDetail() {
           )}
 
           {/* Themes */}
-          <SectionBlock id="themes" title="Themes">
-            <div className="flex flex-wrap gap-2">
-              {anime.themes.map((t: string) => (<span key={t} className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs text-accent">{t}</span>))}
-            </div>
-          </SectionBlock>
+          {anime.themes.length > 0 && (
+            <SectionBlock id="themes" title="Themes">
+              <div className="flex flex-wrap gap-2">
+                {anime.themes.map((t: string) => (<span key={t} className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs text-accent">{t}</span>))}
+              </div>
+            </SectionBlock>
+          )}
 
           {/* Quotes */}
-          <SectionBlock id="quotes" title="Quotes to remember">
-            <div className="space-y-3">
-              {anime.quotes.map((q, i) => (
-                <blockquote key={i} className="border-l-2 border-primary pl-4 py-1">
-                  <div className="italic text-lg text-foreground/90">"{q.line}"</div>
-                  <div className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">— {q.character}</div>
-                </blockquote>
-              ))}
-            </div>
-          </SectionBlock>
+          {anime.quotes.length > 0 && (
+            <SectionBlock id="quotes" title="Quotes to remember">
+              <div className="space-y-3">
+                {anime.quotes.map((q, i) => (
+                  <blockquote key={i} className="border-l-2 border-primary pl-4 py-1">
+                    <div className="italic text-lg text-foreground/90">"{q.line}"</div>
+                    <div className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">— {q.character}</div>
+                  </blockquote>
+                ))}
+              </div>
+            </SectionBlock>
+          )}
 
           <AdSlot placement="between" />
 
           {/* Facts */}
-          <SectionBlock id="facts" title="Fun facts, hidden details & easter eggs">
-            <ul className="space-y-2">
-              {anime.facts.map((f, i) => (
-                <li key={i} className="flex gap-3 rounded-lg border border-border/60 bg-card/50 p-3">
-                  <div className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary/20 text-primary text-xs font-bold">{i+1}</div>
-                  <span className="text-sm">{f}</span>
-                </li>
-              ))}
-            </ul>
-          </SectionBlock>
+          {anime.facts.length > 0 && (
+            <SectionBlock id="facts" title="Fun facts, hidden details & easter eggs">
+              <ul className="space-y-2">
+                {anime.facts.map((f, i) => (
+                  <li key={i} className="flex gap-3 rounded-lg border border-border/60 bg-card/50 p-3">
+                    <div className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary/20 text-primary text-xs font-bold">{i+1}</div>
+                    <span className="text-sm">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </SectionBlock>
+          )}
 
           {/* Soundtrack */}
-          <SectionBlock id="soundtrack" title={<span className="flex items-center gap-2"><Music className="h-5 w-5 text-accent" /> Soundtrack & openings</span>}>
-            <div className="grid gap-2 sm:grid-cols-2">
-              {anime.soundtrack.map((s, i) => (
-                <div key={i} className="rounded-lg border border-border/60 bg-card/50 p-3 flex items-center gap-3">
-                  <span className="rounded bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5">{s.type}</span>
-                  <div className="min-w-0 flex-1">
-                    <div className="font-medium text-sm truncate">{s.title}</div>
-                    <div className="text-xs text-muted-foreground truncate">{s.artist}</div>
+          {anime.soundtrack.length > 0 && (
+            <SectionBlock id="soundtrack" title={<span className="flex items-center gap-2"><Music className="h-5 w-5 text-accent" /> Soundtrack & openings</span>}>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {anime.soundtrack.map((s, i) => (
+                  <div key={i} className="rounded-lg border border-border/60 bg-card/50 p-3 flex items-center gap-3">
+                    <span className="rounded bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5">{s.type}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-sm truncate">{s.title}</div>
+                      <div className="text-xs text-muted-foreground truncate">{s.artist}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </SectionBlock>
+                ))}
+              </div>
+            </SectionBlock>
+          )}
 
           {/* Voice cast */}
-          <SectionBlock id="voice-actors" title={<span className="flex items-center gap-2"><Users className="h-5 w-5 text-accent" /> Voice cast</span>}>
-            <div className="overflow-x-auto rounded-xl border border-border/60">
-              <table className="w-full text-sm">
-                <thead className="text-xs uppercase text-muted-foreground bg-secondary/40">
-                  <tr><th className="text-left p-3">Role</th><th className="text-left p-3">Japanese</th><th className="text-left p-3">English</th></tr>
-                </thead>
-                <tbody>
-                  {anime.voiceActors.map((v, i) => (
-                    <tr key={i} className="border-t border-border/60">
-                      <td className="p-3 font-medium">{v.role}</td>
-                      <td className="p-3 text-foreground/80">{v.jp}</td>
-                      <td className="p-3 text-muted-foreground">{v.en || "—"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </SectionBlock>
+          {anime.voiceActors.length > 0 && (
+            <SectionBlock id="voice-actors" title={<span className="flex items-center gap-2"><Users className="h-5 w-5 text-accent" /> Voice cast</span>}>
+              <div className="overflow-x-auto rounded-xl border border-border/60">
+                <table className="w-full text-sm">
+                  <thead className="text-xs uppercase text-muted-foreground bg-secondary/40">
+                    <tr><th className="text-left p-3">Role</th><th className="text-left p-3">Japanese</th><th className="text-left p-3">English</th></tr>
+                  </thead>
+                  <tbody>
+                    {anime.voiceActors.map((v, i) => (
+                      <tr key={i} className="border-t border-border/60">
+                        <td className="p-3 font-medium">{v.role}</td>
+                        <td className="p-3 text-foreground/80">{v.jp}</td>
+                        <td className="p-3 text-muted-foreground">{v.en || "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </SectionBlock>
+          )}
 
           {/* Awards */}
           {anime.awards.length > 0 && (
@@ -322,19 +349,21 @@ function AnimeDetail() {
           )}
 
           {/* FAQ */}
-          <SectionBlock id="faq" title={<span className="flex items-center gap-2"><HelpCircle className="h-5 w-5 text-primary" /> Frequently asked questions</span>}>
-            <div className="space-y-2">
-              {anime.faq.map((f, i) => (
-                <details key={i} className="group rounded-xl border border-border/60 bg-card/50 p-4">
-                  <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
-                    <span>{f.q}</span>
-                    <span className="text-primary text-xl group-open:rotate-45 transition-transform">+</span>
-                  </summary>
-                  <p className="mt-3 text-sm text-foreground/85 leading-relaxed">{f.a}</p>
-                </details>
-              ))}
-            </div>
-          </SectionBlock>
+          {anime.faq.length > 0 && (
+            <SectionBlock id="faq" title={<span className="flex items-center gap-2"><HelpCircle className="h-5 w-5 text-primary" /> Frequently asked questions</span>}>
+              <div className="space-y-2">
+                {anime.faq.map((f, i) => (
+                  <details key={i} className="group rounded-xl border border-border/60 bg-card/50 p-4">
+                    <summary className="cursor-pointer font-semibold list-none flex justify-between items-center">
+                      <span>{f.q}</span>
+                      <span className="text-primary text-xl group-open:rotate-45 transition-transform">+</span>
+                    </summary>
+                    <p className="mt-3 text-sm text-foreground/85 leading-relaxed">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </SectionBlock>
+          )}
 
           {/* Reader reviews + discussion */}
           <UserReviews slug={anime.slug} title={anime.title} editorialScore={anime.rating} />
@@ -374,8 +403,8 @@ function AnimeDetail() {
           <div className="rounded-2xl border border-border/60 bg-card/50 p-5 sticky top-24">
             <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground mb-3">On this page</div>
             <ul className="space-y-2 text-sm">
-              {["Overview","Arcs","Power & World","Watch Order","Characters","Themes","Quotes","Facts","Soundtrack","Voice Actors","Awards","FAQ","Similar"].map((s) => (
-                <li key={s}><a href={`#${s.toLowerCase().replace(/[^a-z0-9]+/g,'-')}`} className="text-muted-foreground hover:text-primary">{s}</a></li>
+              {pageSections.map((section) => (
+                <li key={section.id}><a href={`#${section.id}`} className="text-muted-foreground hover:text-primary">{section.label}</a></li>
               ))}
             </ul>
           </div>

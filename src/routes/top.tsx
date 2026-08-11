@@ -1,34 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { animes } from "@/data/animes";
-import { AnimeCard } from "@/components/anime-card";
-import { Breadcrumbs } from "@/components/ui-bits";
-import { AdSlot } from "@/components/ad-slot";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
+/** Legacy ranking URL — the richer canonical ranking lives at /top-rated. */
 export const Route = createFileRoute("/top")({
-  head: () => ({
-    meta: [
-      { property: "og:url", content: "https://gamecastle.store/top" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { title: "Top 100 Anime of All Time — Ranked · GameCastle Anime" },
-      { name: "description", content: "The best anime ever made, ranked by the GameCastle Anime editorial team." },
-      { property: "og:title", content: "Top 100 Anime · GameCastle Anime" },
-      { property: "og:description", content: "The definitive ranking." },
-    ],
-    links: [{ rel: "canonical", href: "https://gamecastle.store/top" }],
-  }),
-  component: () => {
-    const list = [...animes].sort((a,b) => b.rating - a.rating);
-    return (
-      <div className="mx-auto max-w-7xl px-4 lg:px-6 py-10">
-        <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Top 100" }]} />
-        <h1 className="font-display text-5xl font-bold">The top anime of all time</h1>
-        <p className="mt-3 max-w-2xl text-lg text-muted-foreground">Our long-running editorial ranking, updated as new seasons air and new classics are re-appraised.</p>
-        <AdSlot placement="between" />
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {list.map(a => <AnimeCard key={a.slug} anime={a} />)}
-        </div>
-      </div>
-    );
+  beforeLoad: () => {
+    throw redirect({ to: "/top-rated", replace: true, statusCode: 301 });
   },
 });

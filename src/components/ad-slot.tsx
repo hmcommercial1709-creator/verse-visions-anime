@@ -19,6 +19,7 @@ export const AD_SLOTS = {
   displayTop: "9027889883",
 } as const;
 
+
 type BaseProps = {
   className?: string;
   unitId?: string;
@@ -32,14 +33,7 @@ type BaseProps = {
 };
 
 /** Fluid in-article unit — best between paragraphs of long-form content. */
-export function InArticleAd({
-  className = "",
-  unitId,
-  adId,
-  index,
-  prefix,
-  minHeight = 280,
-}: BaseProps) {
+export function InArticleAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-in-article");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -56,12 +50,7 @@ export function InArticleAd({
 }
 
 /** Autorelaxed multiplex grid — "more content" style unit for page ends. */
-export function MultiplexAd({
-  className = "",
-  unitId,
-  prefix,
-  minHeight = 280,
-}: BaseProps) {
+export function MultiplexAd({ className = "", unitId, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-multiplex");
   return (
     <AdsenseUnit
@@ -76,14 +65,7 @@ export function MultiplexAd({
 }
 
 /** Responsive display unit ("hazza") — headers, sidebars, post-content. */
-export function DisplayAd({
-  className = "",
-  unitId,
-  adId,
-  index,
-  prefix,
-  minHeight = 280,
-}: BaseProps) {
+export function DisplayAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-display");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -98,14 +80,7 @@ export function DisplayAd({
 }
 
 /** Fluid in-feed unit — between cards in listing/feed layouts. */
-export function InFeedAd({
-  className = "",
-  unitId,
-  adId,
-  index,
-  prefix,
-  minHeight = 280,
-}: BaseProps) {
+export function InFeedAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-in-feed");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -122,14 +97,7 @@ export function InFeedAd({
 }
 
 /** Responsive top display banner ("Display_Banner_Top") — above/below the title. */
-export function TopBannerAd({
-  className = "",
-  unitId,
-  adId,
-  index,
-  prefix,
-  minHeight = 280,
-}: BaseProps) {
+export function TopBannerAd({ className = "", unitId, adId, index, prefix, minHeight = 280 }: BaseProps) {
   const auto = useAdUnitId(prefix ?? "av-display-top");
   const id = [unitId, adId, index].filter(Boolean).join("-") || auto;
   return (
@@ -152,36 +120,15 @@ export const PostContentAd = DisplayAd;
 export const StickySidebarAd = DisplayAd;
 export const VideoAd = DisplayAd;
 
+
 /** Generic slot: feed positions get the in-feed unit, everything else display. */
-export function AdSlot({
-  placement,
-  className,
-  unitId,
-  adId,
-  index,
-  prefix,
-}: BaseProps) {
+export function AdSlot({ placement, className, unitId, adId, index, prefix }: BaseProps) {
   if (placement === "inline") {
-    return (
-      <InArticleAd
-        className={className}
-        unitId={unitId}
-        adId={adId}
-        index={index}
-        prefix={prefix}
-      />
-    );
+    return <InArticleAd className={className} unitId={unitId} adId={adId} index={index} prefix={prefix} />;
   }
-  return (
-    <InFeedAd
-      className={className}
-      unitId={unitId}
-      adId={adId}
-      index={index}
-      prefix={prefix}
-    />
-  );
+  return <InFeedAd className={className} unitId={unitId} adId={adId} index={index} prefix={prefix} />;
 }
 
 /** Mobile anchor: Auto Ads owns anchor formats, so keep this a no-op. */
 export const MobileAnchorAd = (_props: BaseProps) => null;
+

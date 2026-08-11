@@ -66,36 +66,11 @@ export const jjkWatchOrderArticle: Article = {
           caption: "Recommended Jujutsu Kaisen watch order, step by step.",
           columns: ["#", "What to Watch", "Episodes / Runtime", "Arc Covered"],
           rows: [
-            [
-              "1",
-              "Jujutsu Kaisen Season 1",
-              "Episodes 1–24 (~9h 40m)",
-              "Fearsome Womb, Vs. Mahito, Kyoto Goodwill Event, Death Painting",
-            ],
-            [
-              "2",
-              "Jujutsu Kaisen 0 (film)",
-              "105 minutes",
-              "Yuta Okkotsu and the cursed child (prequel, 2017)",
-            ],
-            [
-              "3",
-              "Jujutsu Kaisen Season 2, first half",
-              "Episodes 25–29 (~2h)",
-              "Hidden Inventory / Premature Death (2006)",
-            ],
-            [
-              "4",
-              "Jujutsu Kaisen Season 2, second half",
-              "Episodes 30–47 (~7h 15m)",
-              "Shibuya Incident",
-            ],
-            [
-              "5",
-              "Jujutsu Kaisen Season 3",
-              "Premiered January 2026",
-              "Perfect Preparation and the Culling Game",
-            ],
+            ["1", "Jujutsu Kaisen Season 1", "Episodes 1–24 (~9h 40m)", "Fearsome Womb, Vs. Mahito, Kyoto Goodwill Event, Death Painting"],
+            ["2", "Jujutsu Kaisen 0 (film)", "105 minutes", "Yuta Okkotsu and the cursed child (prequel, 2017)"],
+            ["3", "Jujutsu Kaisen Season 2, first half", "Episodes 25–29 (~2h)", "Hidden Inventory / Premature Death (2006)"],
+            ["4", "Jujutsu Kaisen Season 2, second half", "Episodes 30–47 (~7h 15m)", "Shibuya Incident"],
+            ["5", "Jujutsu Kaisen Season 3", "Premiered January 2026", "Perfect Preparation and the Culling Game"],
           ],
         },
       ],
@@ -110,28 +85,12 @@ export const jjkWatchOrderArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "Release order versus chronological order — what each one is good for.",
+          caption: "Release order versus chronological order — what each one is good for.",
           columns: ["Order", "Sequence", "Best For", "Trade-off"],
           rows: [
-            [
-              "Release order (recommended)",
-              "S1 → film → S2 → S3",
-              "First-time viewers",
-              "None; reveals land as written",
-            ],
-            [
-              "Chronological order",
-              "S2 eps 25–29 → film → S1 → S2 eps 30–47 → S3",
-              "Rewatchers who know the ending",
-              "Spoils a Season 1 and a film reveal",
-            ],
-            [
-              "Anime then manga",
-              "S1 → film → S2 → manga from ch. 137",
-              "Viewers who don't want to wait for episodes",
-              "Adjusting from animation to page; dense dialogue",
-            ],
+            ["Release order (recommended)", "S1 → film → S2 → S3", "First-time viewers", "None; reveals land as written"],
+            ["Chronological order", "S2 eps 25–29 → film → S1 → S2 eps 30–47 → S3", "Rewatchers who know the ending", "Spoils a Season 1 and a film reveal"],
+            ["Anime then manga", "S1 → film → S2 → manga from ch. 137", "Viewers who don't want to wait for episodes", "Adjusting from animation to page; dense dialogue"],
           ],
         },
       ],
@@ -146,31 +105,14 @@ export const jjkWatchOrderArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "Jujutsu Kaisen story timeline: what happens when, in-universe.",
+          caption: "Jujutsu Kaisen story timeline: what happens when, in-universe.",
           columns: ["In-Story Year", "Content", "Where to Find It"],
           rows: [
-            [
-              "2006",
-              "Hidden Inventory / Premature Death",
-              "Season 2, episodes 25–29",
-            ],
+            ["2006", "Hidden Inventory / Premature Death", "Season 2, episodes 25–29"],
             ["2017", "Jujutsu Kaisen 0", "Feature film, 105 minutes"],
-            [
-              "2018 (spring)",
-              "Yuji's recruitment through the Death Painting arc",
-              "Season 1, episodes 1–24",
-            ],
-            [
-              "2018 (October 31)",
-              "The Shibuya Incident",
-              "Season 2, episodes 30–47",
-            ],
-            [
-              "2018 (winter onward)",
-              "Perfect Preparation and the Culling Game",
-              "Season 3 / manga ch. 137 onward",
-            ],
+            ["2018 (spring)", "Yuji's recruitment through the Death Painting arc", "Season 1, episodes 1–24"],
+            ["2018 (October 31)", "The Shibuya Incident", "Season 2, episodes 30–47"],
+            ["2018 (winter onward)", "Perfect Preparation and the Culling Game", "Season 3 / manga ch. 137 onward"],
           ],
         },
       ],
@@ -185,8 +127,7 @@ export const jjkWatchOrderArticle: Article = {
       blocks: [
         {
           type: "link",
-          label:
-            "Jujutsu Kaisen series hub: episodes, characters, arcs and streaming links",
+          label: "Jujutsu Kaisen series hub: episodes, characters, arcs and streaming links",
           to: "/anime/jujutsu-kaisen",
           note: "Current regional availability for both seasons and the film.",
         },
@@ -213,26 +154,10 @@ export const jjkWatchOrderArticle: Article = {
           caption: "Anime-to-manga conversion points.",
           columns: ["Anime Point", "Manga Chapter", "Note"],
           rows: [
-            [
-              "End of Season 1",
-              "Chapter 64",
-              "The film fits here in release order",
-            ],
-            [
-              "End of Hidden Inventory (ep. 29)",
-              "Chapter 79",
-              "Flashback arc: chapters 65–79",
-            ],
-            [
-              "End of Season 2 (ep. 47)",
-              "Chapter 136",
-              "Continue from 137, not 143",
-            ],
-            [
-              "Recommended reread start",
-              "Chapter 120",
-              "Restores dialogue the anime compressed",
-            ],
+            ["End of Season 1", "Chapter 64", "The film fits here in release order"],
+            ["End of Hidden Inventory (ep. 29)", "Chapter 79", "Flashback arc: chapters 65–79"],
+            ["End of Season 2 (ep. 47)", "Chapter 136", "Continue from 137, not 143"],
+            ["Recommended reread start", "Chapter 120", "Restores dialogue the anime compressed"],
           ],
         },
         {
@@ -247,15 +172,13 @@ export const jjkWatchOrderArticle: Article = {
         },
         {
           type: "link",
-          label:
-            "Satoru Gojo's Limitless technique explained: mechanics, costs and real weaknesses",
+          label: "Satoru Gojo's Limitless technique explained: mechanics, costs and real weaknesses",
           to: "/article/gojo-satoru-limitless-technique-explained",
           note: "Useful before Shibuya, where the technique's limits become plot mechanics.",
         },
         {
           type: "link",
-          label:
-            "The complete Shibuya Incident timeline and world impact analysis",
+          label: "The complete Shibuya Incident timeline and world impact analysis",
           to: "/article/shibuya-incident-timeline",
           note: "Hour-by-hour reconstruction of the arc and its aftermath.",
         },
@@ -273,14 +196,8 @@ export const jjkWatchOrderArticle: Article = {
       blocks: [
         {
           type: "poll",
-          question:
-            "Which order did you use for your first Jujutsu Kaisen watch?",
-          options: [
-            "Release order (S1 → film → S2)",
-            "Movie first",
-            "Chronological",
-            "Anime then manga",
-          ],
+          question: "Which order did you use for your first Jujutsu Kaisen watch?",
+          options: ["Release order (S1 → film → S2)", "Movie first", "Chronological", "Anime then manga"],
         },
       ],
     },

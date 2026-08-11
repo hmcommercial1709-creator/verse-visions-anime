@@ -61,40 +61,15 @@ export const frierenMagicSystemArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "The parts of Frieren's magic system and what each one changes.",
+          caption: "The parts of Frieren's magic system and what each one changes.",
           columns: ["System element", "What it controls", "Why it matters"],
           rows: [
-            [
-              "Mana reserve",
-              "How much magical energy a mage can draw on",
-              "Sets endurance and the ceiling for demanding spells",
-            ],
-            [
-              "Mana control",
-              "Precision, efficiency and stability",
-              "Lets a skilled mage spend less and conceal more",
-            ],
-            [
-              "Mana suppression",
-              "How much power other people can sense",
-              "Creates false information before a fight starts",
-            ],
-            [
-              "Spell analysis",
-              "Reading and understanding another spell",
-              "Turns unfamiliar magic into something that can be countered",
-            ],
-            [
-              "Visualisation",
-              "The caster's ability to imagine an effect as possible",
-              "Limits what a mage can reproduce or overcome",
-            ],
-            [
-              "Experience",
-              "A library of spells, matchups and habits",
-              "Lets an older mage solve problems without overpowering them",
-            ],
+            ["Mana reserve", "How much magical energy a mage can draw on", "Sets endurance and the ceiling for demanding spells"],
+            ["Mana control", "Precision, efficiency and stability", "Lets a skilled mage spend less and conceal more"],
+            ["Mana suppression", "How much power other people can sense", "Creates false information before a fight starts"],
+            ["Spell analysis", "Reading and understanding another spell", "Turns unfamiliar magic into something that can be countered"],
+            ["Visualisation", "The caster's ability to imagine an effect as possible", "Limits what a mage can reproduce or overcome"],
+            ["Experience", "A library of spells, matchups and habits", "Lets an older mage solve problems without overpowering them"],
           ],
         },
       ],
@@ -154,14 +129,8 @@ export const frierenMagicSystemArticle: Article = {
       blocks: [
         {
           type: "poll",
-          question:
-            "Which part of Frieren's magic system decides the most fights?",
-          options: [
-            "Mana control",
-            "Suppression and deception",
-            "Spell analysis",
-            "Visualisation",
-          ],
+          question: "Which part of Frieren's magic system decides the most fights?",
+          options: ["Mana control", "Suppression and deception", "Spell analysis", "Visualisation"],
         },
       ],
     },
@@ -236,40 +205,15 @@ export const odmGearArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "The main ODM gear components and the constraint each one creates.",
+          caption: "The main ODM gear components and the constraint each one creates.",
           columns: ["Component", "Job", "Tactical constraint"],
           rows: [
-            [
-              "Anchors and grappling lines",
-              "Attach the user to solid surfaces",
-              "A weak or missing anchor removes the route",
-            ],
-            [
-              "Cable reels",
-              "Retract line and convert tension into movement",
-              "Cable angle controls the arc of travel",
-            ],
-            [
-              "Gas canisters",
-              "Provide acceleration and steering thrust",
-              "Finite fuel limits time in the air",
-            ],
-            [
-              "Hand grips and triggers",
-              "Fire anchors, reel cables and control gas",
-              "Complex inputs demand extensive training",
-            ],
-            [
-              "Harness",
-              "Distribute load across the body",
-              "Bad posture turns acceleration into injury",
-            ],
-            [
-              "Replaceable blades",
-              "Cut the Titan's nape",
-              "Edges wear and must be changed during combat",
-            ],
+            ["Anchors and grappling lines", "Attach the user to solid surfaces", "A weak or missing anchor removes the route"],
+            ["Cable reels", "Retract line and convert tension into movement", "Cable angle controls the arc of travel"],
+            ["Gas canisters", "Provide acceleration and steering thrust", "Finite fuel limits time in the air"],
+            ["Hand grips and triggers", "Fire anchors, reel cables and control gas", "Complex inputs demand extensive training"],
+            ["Harness", "Distribute load across the body", "Bad posture turns acceleration into injury"],
+            ["Replaceable blades", "Cut the Titan's nape", "Edges wear and must be changed during combat"],
           ],
         },
       ],
@@ -355,12 +299,7 @@ export const odmGearArticle: Article = {
         {
           type: "poll",
           question: "Which ODM gear limitation creates the most tension?",
-          options: [
-            "Running out of gas",
-            "Missing an anchor",
-            "Blade wear",
-            "Open terrain",
-          ],
+          options: ["Running out of gas", "Missing an anchor", "Blade wear", "Open terrain"],
         },
       ],
     },

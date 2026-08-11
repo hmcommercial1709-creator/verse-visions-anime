@@ -1,15 +1,5 @@
-import {
-  createFileRoute,
-  Link,
-  notFound,
-  redirect,
-} from "@tanstack/react-router";
-import {
-  articleParagraphs,
-  categoryForArticle,
-  getAuthor,
-  type Article,
-} from "@/data/articles";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
+import { articleParagraphs, categoryForArticle, getAuthor, type Article } from "@/data/articles";
 import { getCategory } from "@/data/categories";
 import { populatedCategories, publishedArticles } from "@/lib/content-registry";
 import { Breadcrumbs } from "@/components/ui-bits";
@@ -67,9 +57,7 @@ export const Route = createFileRoute("/category/$slug")({
       meta: [
         { title },
         { name: "description", content: c.description },
-        ...(!hasPublishedArticles
-          ? [{ name: "robots", content: "noindex, follow" }]
-          : []),
+        ...(!hasPublishedArticles ? [{ name: "robots", content: "noindex, follow" }] : []),
         { property: "og:title", content: title },
         { property: "og:description", content: c.description },
         { property: "og:type", content: "website" },
@@ -119,11 +107,7 @@ function Card({ a, featured = false }: { a: Article; featured?: boolean }) {
           art={backdropFor(a.slug, [a.title, a.tag])}
           alt={artAlt(a.title)}
           ratio="16/9"
-          sizes={
-            featured
-              ? "(max-width:768px) 100vw, 66vw"
-              : "(max-width:768px) 100vw, 33vw"
-          }
+          sizes={featured ? "(max-width:768px) 100vw, 66vw" : "(max-width:768px) 100vw, 33vw"}
           priority={featured}
         />
       </div>
@@ -136,9 +120,7 @@ function Card({ a, featured = false }: { a: Article; featured?: boolean }) {
         >
           {a.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-          {a.excerpt}
-        </p>
+        <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{a.excerpt}</p>
         <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-4 text-xs text-muted-foreground">
           <span>{author?.name}</span>
           <span>{a.date}</span>
@@ -153,9 +135,7 @@ function Card({ a, featured = false }: { a: Article; featured?: boolean }) {
 
 function CategoryPage() {
   const { category } = Route.useLoaderData();
-  const list = publishedArticles().filter(
-    (a) => categoryForArticle(a) === category.slug,
-  );
+  const list = publishedArticles().filter((a) => categoryForArticle(a) === category.slug);
   const [lead, ...rest] = list;
 
   return (
@@ -180,12 +160,8 @@ function CategoryPage() {
             >
               {category.tagline}
             </div>
-            <h1 className="mt-2 font-display text-5xl font-bold lg:text-6xl">
-              {category.name}
-            </h1>
-            <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-              {category.description}
-            </p>
+            <h1 className="mt-2 font-display text-5xl font-bold lg:text-6xl">{category.name}</h1>
+            <p className="mt-4 max-w-3xl text-lg text-muted-foreground">{category.description}</p>
           </div>
         </div>
       </section>
@@ -200,15 +176,14 @@ function CategoryPage() {
             </div>
 
             <h2 className="mt-10 font-display text-2xl font-bold">
-              {list.length} {list.length === 1 ? "article" : "articles"} in{" "}
-              {category.name}
+              {list.length} {list.length === 1 ? "article" : "articles"} in {category.name}
             </h2>
 
             {list.length === 0 ? (
               <div className="mt-4 rounded-xl border border-border/60 bg-card/40 p-6">
                 <p className="text-muted-foreground">
-                  This category has no published articles and is excluded from
-                  search engines until it offers a useful collection.
+                  This category has no published articles and is excluded from search engines until
+                  it offers a useful collection.
                 </p>
                 <Link
                   to="/blog"
@@ -226,11 +201,7 @@ function CategoryPage() {
                   ))}
                 </div>
                 {/* In-feed responsive unit between content blocks */}
-                <InArticleAd
-                  index={2}
-                  unitId={`av-cat-${category.slug}`}
-                  adId="InArticle_Ad_2"
-                />
+                <InArticleAd index={2} unitId={`av-cat-${category.slug}`} adId="InArticle_Ad_2" />
                 {rest.length > 3 && (
                   <div className="grid gap-5 sm:grid-cols-2">
                     {rest.slice(3).map((a) => (
@@ -241,9 +212,7 @@ function CategoryPage() {
               </>
             )}
 
-            <h2 className="mt-12 font-display text-2xl font-bold">
-              Other desks
-            </h2>
+            <h2 className="mt-12 font-display text-2xl font-bold">Other desks</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {populatedCategories()
                 .filter((c) => c.slug !== category.slug)
@@ -258,9 +227,7 @@ function CategoryPage() {
                       <span className="font-display font-bold group-hover:text-gradient">
                         {c.name}
                       </span>
-                      <span className="block text-xs text-muted-foreground">
-                        {c.tagline}
-                      </span>
+                      <span className="block text-xs text-muted-foreground">{c.tagline}</span>
                     </span>
                     <ArrowRight className="h-4 w-4 text-muted-foreground" />
                   </Link>

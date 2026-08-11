@@ -52,12 +52,8 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
             className="flex w-full items-center gap-3 rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-left text-sm text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
           >
             <Search className="h-4 w-4 shrink-0" />
-            <span className="min-w-0 flex-1 truncate">
-              Search anime, episodes, characters…
-            </span>
-            <span className="hidden shrink-0 rounded border border-border/60 px-1.5 py-0.5 font-mono text-[10px] sm:block">
-              ⌘K
-            </span>
+            <span className="min-w-0 flex-1 truncate">Search anime, episodes, characters…</span>
+            <span className="hidden shrink-0 rounded border border-border/60 px-1.5 py-0.5 font-mono text-[10px] sm:block">⌘K</span>
           </button>
           <Link
             to="/streaming"
@@ -99,18 +95,13 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
                     <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em]">
-                      <span className="rounded-md bg-primary px-2 py-0.5 text-primary-foreground">
-                        EP {ep.number}
-                      </span>
+                      <span className="rounded-md bg-primary px-2 py-0.5 text-primary-foreground">EP {ep.number}</span>
                       <span className="text-primary">{anime.title}</span>
                       <span className="flex items-center gap-1 text-gold">
-                        <Star className="h-3 w-3 fill-current" />{" "}
-                        {anime.rating.toFixed(1)}
+                        <Star className="h-3 w-3 fill-current" /> {anime.rating.toFixed(1)}
                       </span>
                     </div>
-                    <h2 className="mt-2 font-display text-2xl font-bold leading-tight sm:text-4xl">
-                      {ep.title}
-                    </h2>
+                    <h2 className="mt-2 font-display text-2xl font-bold leading-tight sm:text-4xl">{ep.title}</h2>
                     <div className="mt-4 flex flex-wrap items-center gap-3">
                       {videoId ? (
                         <button
@@ -155,9 +146,7 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                     aria-current={i === active ? "true" : undefined}
                     aria-label={`Play ${c.anime.title}, episode ${c.ep.number}: ${c.ep.title}`}
                     className={`flex w-[210px] shrink-0 snap-start items-start gap-3 rounded-xl border p-3 text-left transition-colors ${
-                      i === active
-                        ? "border-primary bg-primary/10"
-                        : "border-border/60 bg-card/40 hover:border-primary/50"
+                      i === active ? "border-primary bg-primary/10" : "border-border/60 bg-card/40 hover:border-primary/50"
                     }`}
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-xs font-bold text-primary">
@@ -167,9 +156,7 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                       <span className="block truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
                         {c.anime.title}
                       </span>
-                      <span className="mt-1 block line-clamp-2 text-xs font-bold leading-snug">
-                        {c.ep.title}
-                      </span>
+                      <span className="mt-1 block line-clamp-2 text-xs font-bold leading-snug">{c.ep.title}</span>
                       <span className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground">
                         <Clock className="h-3 w-3" /> {c.ep.runtime}
                       </span>
@@ -194,13 +181,9 @@ export function HomeStage({ trending }: { trending: Anime[] }) {
                     search={{ ep: undefined }}
                     className="grid grid-cols-[28px_minmax(0,1fr)] items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-3 py-2.5 hover:border-primary/50"
                   >
-                    <span className="text-center font-display text-lg font-bold text-muted-foreground">
-                      {i + 1}
-                    </span>
+                    <span className="text-center font-display text-lg font-bold text-muted-foreground">{i + 1}</span>
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-semibold">
-                        {a.title}
-                      </span>
+                      <span className="block truncate text-sm font-semibold">{a.title}</span>
                       <span className="mt-0.5 flex items-center gap-2 text-[11px] text-muted-foreground">
                         <span className="flex items-center gap-1 text-gold">
                           <Star className="h-3 w-3 fill-current" />

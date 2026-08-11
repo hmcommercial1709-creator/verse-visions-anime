@@ -48,8 +48,7 @@ export const wanoRecapArticle: Article = {
   ],
   sections: [
     {
-      heading:
-        "Wano Arc Explained in One Paragraph (No Spoilers Beyond the Premise)",
+      heading: "Wano Arc Explained in One Paragraph (No Spoilers Beyond the Premise)",
       paragraphs: [
         "Wano Country is the longest continuous story One Piece has ever told, and it is also the most tightly plotted. If you only want the short answer: the Straw Hat Grand Fleet, the surviving samurai of the Kozuki clan and the Mink tribe of Zou combine into one alliance to overthrow two powers at once — a shogun who sold his country to a pirate, and the pirate himself, an Emperor of the Sea who has never lost a fight. The arc is structured like a heist that becomes a siege that becomes a war, and by the end the political map of the world has changed in ways the series had been setting up since Skypiea.",
         "Everything below is organised the way readers actually search for it. First the practical data — the episode range, the chapter range, how long it takes, where it sits in the watch order. Then the recap itself in six phases, in order, written so you can use it either as a refresher before the Final Saga or as a substitute for a rewatch. Late-arc outcomes and the ending live behind labelled spoiler gates so this page is safe to read at any point in the story.",
@@ -58,26 +57,13 @@ export const wanoRecapArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "Wano Country at a glance: where it starts, where it ends, and how it maps between anime and manga.",
+          caption: "Wano Country at a glance: where it starts, where it ends, and how it maps between anime and manga.",
           columns: ["Question", "Anime", "Manga"],
           rows: [
             ["Arc range", "Episodes 890–1085", "Chapters 909–1057"],
-            [
-              "Setup you should not skip",
-              "Episodes 878–889 (Reverie)",
-              "Chapters 903–908",
-            ],
-            [
-              "Runtime / read time",
-              "≈195 episodes, ~78 hours",
-              "≈149 chapters, ~15 hours",
-            ],
-            [
-              "Filler inside the arc",
-              "Very little; a handful of recap episodes",
-              "None",
-            ],
+            ["Setup you should not skip", "Episodes 878–889 (Reverie)", "Chapters 903–908"],
+            ["Runtime / read time", "≈195 episodes, ~78 hours", "≈149 chapters, ~15 hours"],
+            ["Filler inside the arc", "Very little; a handful of recap episodes", "None"],
             ["What comes next", "Egghead Island (1086+)", "Egghead (1058+)"],
           ],
         },
@@ -93,48 +79,25 @@ export const wanoRecapArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "The four acts of Wano, with the episode ranges and what changes in each.",
+          caption: "The four acts of Wano, with the episode ranges and what changes in each.",
           columns: ["Act", "Episodes", "What Happens", "Genre Shift"],
           rows: [
-            [
-              "Act 1 — Arrival",
-              "890–928",
-              "The crew infiltrates Wano in disguise; Luffy is imprisoned at the Prisoner Mine",
-              "Infiltration / mystery",
-            ],
-            [
-              "Act 2 — The Plan Collapses",
-              "929–981",
-              "The Fire Festival plan is exposed; the alliance loses its element of surprise",
-              "Heist / betrayal",
-            ],
-            [
-              "Act 3 — The Raid on Onigashima",
-              "982–1076",
-              "Live-floor battles, the roof fight, the flying island, Kaido and Big Mom",
-              "War / sustained action",
-            ],
-            [
-              "Act 4 — Aftermath",
-              "1077–1085",
-              "Succession, the Poneglyph, the new world order and the Emperor announcement",
-              "Political epilogue",
-            ],
+            ["Act 1 — Arrival", "890–928", "The crew infiltrates Wano in disguise; Luffy is imprisoned at the Prisoner Mine", "Infiltration / mystery"],
+            ["Act 2 — The Plan Collapses", "929–981", "The Fire Festival plan is exposed; the alliance loses its element of surprise", "Heist / betrayal"],
+            ["Act 3 — The Raid on Onigashima", "982–1076", "Live-floor battles, the roof fight, the flying island, Kaido and Big Mom", "War / sustained action"],
+            ["Act 4 — Aftermath", "1077–1085", "Succession, the Poneglyph, the new world order and the Emperor announcement", "Political epilogue"],
           ],
         },
         {
           type: "link",
-          label:
-            "The Complete One Piece Watch Order (With Skippable Filler Marked)",
+          label: "The Complete One Piece Watch Order (With Skippable Filler Marked)",
           to: "/article/one-piece-watch-order-complete-guide",
           note: "Where Wano sits in the full run, plus which films are safe to watch and when.",
         },
       ],
     },
     {
-      heading:
-        "Phase 1 — Arrival: Why Wano Is a Country That Punishes Questions",
+      heading: "Phase 1 — Arrival: Why Wano Is a Country That Punishes Questions",
       paragraphs: [
         "Wano opens as a mystery rather than a fight, and it is deliberately disorienting. The crew is scattered, the country is closed, and the currency of the arc is information: who the Kozuki retainers are, why the land is poisoned, what the Fire Festival is, and who the shogun really answers to. Oda structures the first act so the audience learns the country the way an outsider would — through rumour, censorship and the visible gap between the capital's prosperity and the ruin of the outer regions.",
         "The environmental storytelling is the strongest it has ever been in the series. Rivers run with industrial runoff from Kaido's weapons factories, villages survive on contaminated water, and the state's official explanation is that Wano has always been this way. That is the arc's real thesis: an occupation maintained by rewriting history. It is the same idea the Void Century has been circling for hundreds of chapters, tested at a scale a reader can hold in their head.",
@@ -144,8 +107,7 @@ export const wanoRecapArticle: Article = {
         {
           type: "image",
           art: "one-piece-wano-recap",
-          caption:
-            "Wano's closed borders and industrial ruin: the arc's politics are visible in its landscape before anyone explains them.",
+          caption: "Wano's closed borders and industrial ruin: the arc's politics are visible in its landscape before anyone explains them.",
         },
       ],
     },
@@ -161,8 +123,7 @@ export const wanoRecapArticle: Article = {
           type: "spoiler",
           scope: "Wano act 2",
           level: "major",
-          heading:
-            "How the plan is exposed (open only if you have watched past episode 970)",
+          heading: "How the plan is exposed (open only if you have watched past episode 970)",
           paragraphs: [
             "Kanjuro, one of the Nine Red Scabbards, is revealed as a Kurozumi loyalist who has been feeding Orochi information for twenty years. He hands over the meeting point and the timing, then abducts Momonosuke, forcing the alliance to launch early and openly.",
             "The reveal is set up much earlier than most readers notice: Kanjuro's drawings failing at critical moments, his convenient absences, and the fact that the Scabbards' plans had been intercepted repeatedly across two decades with no explanation.",
@@ -180,42 +141,20 @@ export const wanoRecapArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "The raid's parallel fronts and what each one resolves for the story.",
+          caption: "The raid's parallel fronts and what each one resolves for the story.",
           columns: ["Front", "Key Combatants", "What It Resolves"],
           rows: [
-            [
-              "The roof",
-              "Luffy, Zoro, Law, Kid, Killer vs Kaido and Big Mom",
-              "Whether the Worst Generation can contend at Emperor level",
-            ],
-            [
-              "Skull dome / stage",
-              "The Nine Red Scabbards vs Kaido, then Orochi",
-              "Twenty years of Kozuki vengeance and the shogunate itself",
-            ],
-            [
-              "Live floor",
-              "Straw Hats and Minks vs Beast Pirates rank and file",
-              "The numbers problem and the Mink alliance's payoff",
-            ],
-            [
-              "Interior duels",
-              "Zoro, Sanji, Robin, Franky, Usopp, Nami, Chopper, Jinbe vs Tobiroppo and All-Stars",
-              "Each crew member's individual long-running arc",
-            ],
-            [
-              "Outside / sky",
-              "Momonosuke, Yamato, the Flower Capital",
-              "The ticking clock and Momonosuke's claim to lead",
-            ],
+            ["The roof", "Luffy, Zoro, Law, Kid, Killer vs Kaido and Big Mom", "Whether the Worst Generation can contend at Emperor level"],
+            ["Skull dome / stage", "The Nine Red Scabbards vs Kaido, then Orochi", "Twenty years of Kozuki vengeance and the shogunate itself"],
+            ["Live floor", "Straw Hats and Minks vs Beast Pirates rank and file", "The numbers problem and the Mink alliance's payoff"],
+            ["Interior duels", "Zoro, Sanji, Robin, Franky, Usopp, Nami, Chopper, Jinbe vs Tobiroppo and All-Stars", "Each crew member's individual long-running arc"],
+            ["Outside / sky", "Momonosuke, Yamato, the Flower Capital", "The ticking clock and Momonosuke's claim to lead"],
           ],
         },
       ],
     },
     {
-      heading:
-        "Phase 4 — The Flashbacks: Oden, Roger, and the Twenty Lost Years",
+      heading: "Phase 4 — The Flashbacks: Oden, Roger, and the Twenty Lost Years",
       paragraphs: [
         "The Oden flashback is the reason Wano works. Dropped in the middle of act two, it reframes everything the audience has seen: the poisoned rivers, the closed borders, the retainers' desperation, and Wano's refusal to open to the world. It also connects Wano directly to Gol D. Roger's final voyage, which is the single largest piece of world-building the series has delivered since Ohara.",
         "Two revelations do the heavy lifting. First, Wano's isolation is not xenophobia but a promise — Oden's own decision, made for reasons the flashback withholds until the end. Second, Roger's crew reached the final island, and what they found there is described clearly enough to reset the reader's model of the endgame while withholding the specific answer. Wano is where One Piece stops being a treasure hunt and becomes a story about an inherited war.",
@@ -264,12 +203,7 @@ export const wanoRecapArticle: Article = {
         {
           type: "poll",
           question: "Where does Wano rank for you among One Piece's arcs?",
-          options: [
-            "Best arc in the series",
-            "Top three",
-            "Great but too long",
-            "Overrated",
-          ],
+          options: ["Best arc in the series", "Top three", "Great but too long", "Overrated"],
         },
       ],
     },
@@ -286,8 +220,7 @@ export const wanoRecapArticle: Article = {
       blocks: [
         {
           type: "link",
-          label:
-            "One Piece series hub: arcs, characters, watch order and episode guides",
+          label: "One Piece series hub: arcs, characters, watch order and episode guides",
           to: "/anime/one-piece",
         },
       ],

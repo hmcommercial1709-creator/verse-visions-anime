@@ -1,18 +1,5 @@
-import {
-  createFileRoute,
-  notFound,
-  Link,
-  redirect,
-} from "@tanstack/react-router";
-import {
-  getArticle,
-  publishedArticleList,
-  articleIsPublished,
-  getAuthor,
-  articleParagraphs,
-  articleTags,
-  categoryForArticle,
-} from "@/data/articles";
+import { createFileRoute, notFound, Link, redirect } from "@tanstack/react-router";
+import { getArticle, publishedArticleList, articleIsPublished, getAuthor, articleParagraphs, articleTags, categoryForArticle } from "@/data/articles";
 import { ArticleComments } from "@/components/article-comments";
 import { InternalLinkNetwork } from "@/components/internal-link-network";
 import type { ArticleBlock, ArticleSection } from "@/data/articles";
@@ -31,12 +18,7 @@ import { Spoiler } from "@/components/spoiler";
 import { RichText } from "@/components/rich-text";
 import { ComparisonTable } from "@/components/comparison-table";
 import { ArticlePoll } from "@/components/article-poll";
-import {
-  deriveSections,
-  readingLabel,
-  slugifyHeading,
-  wordCount,
-} from "@/lib/reading";
+import { deriveSections, readingLabel, slugifyHeading, wordCount } from "@/lib/reading";
 import { getAnime } from "@/data/animes";
 import { ArrowRight, Clock, FileText } from "lucide-react";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
@@ -50,13 +32,7 @@ const namedArt = (name: string): MediaArt =>
 /** Renders an editor-authored rich block inside the article body. */
 function ArticleBlockView({ block }: { block: ArticleBlock }) {
   if (block.type === "table") {
-    return (
-      <ComparisonTable
-        columns={block.columns}
-        rows={block.rows}
-        caption={block.caption}
-      />
-    );
+    return <ComparisonTable columns={block.columns} rows={block.rows} caption={block.caption} />;
   }
   if (block.type === "poll") {
     return <ArticlePoll question={block.question} options={block.options} />;
@@ -64,19 +40,12 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
   if (block.type === "link") {
     return (
       <aside className="not-prose my-8 rounded-2xl border border-primary/30 bg-primary/5 p-4">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
-          Read next
-        </div>
-        <Link
-          to={block.to}
-          className="mt-1.5 flex items-start gap-2 font-display text-lg font-bold hover:text-gradient"
-        >
+        <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Read next</div>
+        <Link to={block.to} className="mt-1.5 flex items-start gap-2 font-display text-lg font-bold hover:text-gradient">
           <span>{block.label}</span>
           <ArrowRight className="mt-1 h-4 w-4 shrink-0" />
         </Link>
-        {block.note && (
-          <p className="mt-1 text-sm text-muted-foreground">{block.note}</p>
-        )}
+        {block.note && <p className="mt-1 text-sm text-muted-foreground">{block.note}</p>}
       </aside>
     );
   }
@@ -104,16 +73,12 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
     return (
       <div className="not-prose my-8">
         {block.heading && (
-          <h3 className="mb-2 font-display text-xl font-bold">
-            {block.heading}
-          </h3>
+          <h3 className="mb-2 font-display text-xl font-bold">{block.heading}</h3>
         )}
         <Spoiler level={block.level ?? "major"} scope={block.scope}>
           <div className="space-y-3 text-base leading-relaxed text-muted-foreground">
             {block.paragraphs.map((p, i) => (
-              <p key={i}>
-                <RichText text={p} />
-              </p>
+              <p key={i}><RichText text={p} /></p>
             ))}
           </div>
         </Spoiler>
@@ -123,10 +88,12 @@ function ArticleBlockView({ block }: { block: ArticleBlock }) {
   return null;
 }
 
+
 const LEGACY_ARTICLE_REDIRECTS: Record<string, string> = {
   "solo-leveling-progression-system-breakdown":
     "solo-leveling-system-progression-explained",
-  "hunter-x-hunter-nen-system-guide": "hunter-x-hunter-nen-strategy-rules",
+  "hunter-x-hunter-nen-system-guide":
+    "hunter-x-hunter-nen-strategy-rules",
   "combat-system-design-anime-vs-games":
     "attack-on-titan-odm-gear-tactics-analysis",
   "grinding-vs-storytelling-progression-pacing":
@@ -135,8 +102,10 @@ const LEGACY_ARTICLE_REDIRECTS: Record<string, string> = {
     "blue-lock-egoist-strategy-explained",
   "roster-churn-why-teams-rebuild-every-season":
     "haikyuu-training-methodology-analysis",
-  "esports-burnout-and-the-shonen-work-ethic": "haikyuu-sports-anime-blueprint",
-  "top-upcoming-anime-open-world-games-2026": "best-action-thriller-anime-2026",
+  "esports-burnout-and-the-shonen-work-ethic":
+    "haikyuu-sports-anime-blueprint",
+  "top-upcoming-anime-open-world-games-2026":
+    "best-action-thriller-anime-2026",
 };
 
 export const Route = createFileRoute("/article/$slug")({
@@ -155,19 +124,13 @@ export const Route = createFileRoute("/article/$slug")({
     return { article };
   },
   head: ({ loaderData }) => {
-    if (!loaderData)
-      return {
-        meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }],
-      };
+    if (!loaderData) return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     const a = loaderData.article;
     return {
       meta: [
         { title: a.seoTitle ?? `${a.title} · GameCastle Anime` },
         { name: "description", content: a.excerpt },
-        {
-          name: "robots",
-          content: articleIsPublished(a) ? "index, follow" : "noindex, follow",
-        },
+        { name: "robots", content: articleIsPublished(a) ? "index, follow" : "noindex, follow" },
         { property: "og:title", content: a.seoTitle ?? a.title },
         { property: "og:description", content: a.excerpt },
         ...(a.ogImage
@@ -194,51 +157,37 @@ export const Route = createFileRoute("/article/$slug")({
             dateModified: a.updated ?? a.date,
             inLanguage: "en",
             isAccessibleForFree: true,
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": absoluteUrl(`/article/${a.slug}`),
-            },
+            mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/article/${a.slug}`) },
             articleSection: a.section,
             wordCount: wordCount(articleParagraphs(a)),
-            author: {
-              "@type": "Organization",
-              name: "GameCastle Anime Editorial Team",
-            },
+            author: { "@type": "Organization", name: "GameCastle Anime Editorial Team" },
             publisher: { "@id": "https://gamecastle.store/#organization" },
           }),
         },
         {
           type: "application/ld+json",
-          children: JSON.stringify(
-            faqSchema(
-              a.faqs && a.faqs.length > 0
-                ? a.faqs
-                : [
-                    {
-                      q: `How long does it take to read "${a.title}"?`,
-                      a: `About ${readingLabel(articleParagraphs(a))} at an average reading pace.`,
-                    },
-                    {
-                      q: "Does this article contain spoilers?",
-                      a: "Any major plot details are placed behind clearly labelled spoiler gates you can choose to open.",
-                    },
-                    {
-                      q: "Who wrote this analysis?",
-                      a: "The GameCastle Anime editorial team. We publish under one organisational byline rather than named staff profiles.",
-                    },
-                  ],
-            ),
-          ),
+          children: JSON.stringify(faqSchema(a.faqs && a.faqs.length > 0 ? a.faqs : [
+            {
+              q: `How long does it take to read "${a.title}"?`,
+              a: `About ${readingLabel(articleParagraphs(a))} at an average reading pace.`,
+            },
+            {
+              q: "Does this article contain spoilers?",
+              a: "Any major plot details are placed behind clearly labelled spoiler gates you can choose to open.",
+            },
+            {
+              q: "Who wrote this analysis?",
+              a: "The GameCastle Anime editorial team. We publish under one organisational byline rather than named staff profiles.",
+            },
+          ])),
         },
         {
           type: "application/ld+json",
-          children: JSON.stringify(
-            breadcrumbSchema([
-              { path: "/", name: "Home" },
-              { path: "/editorial", name: "Editorial" },
-              { name: a.title },
-            ]),
-          ),
+          children: JSON.stringify(breadcrumbSchema([
+            { path: "/", name: "Home" },
+            { path: "/editorial", name: "Editorial" },
+            { name: a.title },
+          ])),
         },
       ],
     };
@@ -251,36 +200,27 @@ function ArticlePage() {
   const author = getAuthor(a.author);
   const paragraphs = articleParagraphs(a);
   const authored = Boolean(a.sections && a.sections.length > 0);
-  const sections: {
-    id: string;
-    heading: string;
-    paragraphs: string[];
-    blocks?: ArticleBlock[];
-  }[] = authored
-    ? (a.sections as ArticleSection[]).map((s: ArticleSection, i: number) => ({
-        id: slugifyHeading(s.heading, i),
-        heading: s.heading,
-        paragraphs: s.paragraphs,
-        blocks: s.blocks,
-      }))
-    : deriveSections(a.body);
+  const sections: { id: string; heading: string; paragraphs: string[]; blocks?: ArticleBlock[] }[] =
+    authored
+      ? (a.sections as ArticleSection[]).map((s: ArticleSection, i: number) => ({
+          id: slugifyHeading(s.heading, i),
+          heading: s.heading,
+          paragraphs: s.paragraphs,
+          blocks: s.blocks,
+        }))
+      : deriveSections(a.body);
   const relatedAnime = articleAnimeRecs(a.slug, 4);
   const alsoEnjoyed = recommendArticles(a.slug, 3);
-  const sectionMates = publishedArticleList()
-    .filter((x) => x.slug !== a.slug && x.section === a.section)
-    .slice(0, 3);
+  const sectionMates = publishedArticleList().filter((x) => x.slug !== a.slug && x.section === a.section).slice(0, 3);
   const articleRail = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const inlineLinks = alsoEnjoyed.length > 0 ? alsoEnjoyed : sectionMates;
   const loreAnime = relatedAnime[0] ?? getAnime(a.related[0]);
   // Keep the answer readable: at most three reserved units, six paragraphs apart.
-  const adPlan = planInArticleAds(
-    sections.map((s) => s.paragraphs.length),
-    {
-      interval: 6,
-      startAt: 1,
-      max: 3,
-    },
-  );
+  const adPlan = planInArticleAds(sections.map((s) => s.paragraphs.length), {
+    interval: 6,
+    startAt: 1,
+    max: 3,
+  });
 
   return (
     <div>
@@ -311,43 +251,26 @@ function ArticlePage() {
           </aside>
 
           <article className="min-w-0">
-            <Breadcrumbs
-              items={[
-                { to: "/", label: "Home" },
-                { to: `/${a.section}`, label: a.section },
-                { label: a.title },
-              ]}
-            />
-            <div className="text-xs uppercase tracking-[0.22em] text-primary font-semibold">
-              {a.tag}
-            </div>
-            <h1 className="mt-2 font-display text-4xl lg:text-5xl font-bold">
-              {a.title}
-            </h1>
+            <Breadcrumbs items={[{ to: "/", label: "Home" }, { to: `/${a.section}`, label: a.section }, { label: a.title }]} />
+            <div className="text-xs uppercase tracking-[0.22em] text-primary font-semibold">{a.tag}</div>
+            <h1 className="mt-2 font-display text-4xl lg:text-5xl font-bold">{a.title}</h1>
             <p className="mt-4 text-xl text-muted-foreground">{a.excerpt}</p>
 
             <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-y border-border/60 py-4">
               <div className="flex min-w-0 items-center gap-3">
                 <div className="h-10 w-10 shrink-0 rounded-full bg-gradient-to-br from-primary to-accent" />
                 <div className="min-w-0">
-                  <div className="truncate text-sm font-semibold">
-                    {author?.name}
-                  </div>
-                  <div className="truncate text-xs text-muted-foreground">
-                    Published {a.date}
-                  </div>
+                  <div className="truncate text-sm font-semibold">{author?.name}</div>
+                  <div className="truncate text-xs text-muted-foreground">Published {a.date}</div>
                   {a.updated && (
                     <div className="truncate text-xs text-muted-foreground">
                       Last updated:{" "}
-                      {new Date(`${a.updated}T00:00:00Z`).toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                          timeZone: "UTC",
-                        },
-                      )}
+                      {new Date(`${a.updated}T00:00:00Z`).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        timeZone: "UTC",
+                      })}
                     </div>
                   )}
                 </div>
@@ -357,8 +280,7 @@ function ArticlePage() {
                   <Clock className="h-3 w-3" /> {readingLabel(paragraphs)}
                 </span>
                 <span className="flex items-center gap-1 rounded-full border border-border/60 px-2.5 py-1 text-muted-foreground">
-                  <FileText className="h-3 w-3" />{" "}
-                  {wordCount(paragraphs).toLocaleString()} words
+                  <FileText className="h-3 w-3" /> {wordCount(paragraphs).toLocaleString()} words
                 </span>
               </div>
             </div>
@@ -368,21 +290,18 @@ function ArticlePage() {
               <TableOfContents sections={sections} />
             </div>
 
+
             <div className="prose prose-invert mt-8 max-w-none text-lg leading-relaxed">
               {sections.map((s, i) => (
                 <section key={s.id} id={s.id} className="scroll-mt-28">
                   {authored && (
-                    <h2 className="mb-4 mt-10 font-display text-2xl font-bold lg:text-3xl">
-                      {s.heading}
-                    </h2>
+                    <h2 className="mb-4 mt-10 font-display text-2xl font-bold lg:text-3xl">{s.heading}</h2>
                   )}
                   {s.paragraphs.map((p, j) => {
                     const ad = adPlan.get(`${i}:${j}`);
                     return (
                       <div key={j}>
-                        <p className="mb-6">
-                          <RichText text={p} />
-                        </p>
+                        <p className="mb-6"><RichText text={p} /></p>
                         {/* Native unit injected every few paragraphs */}
                         {ad && (
                           <div className="not-prose">
@@ -406,9 +325,7 @@ function ArticlePage() {
 
                   {!authored && inlineLinks[i] && i % 2 === 1 && (
                     <aside className="my-8 not-prose rounded-2xl border border-primary/30 bg-primary/5 p-4">
-                      <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
-                        Read next
-                      </div>
+                      <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">Read next</div>
                       <Link
                         to="/article/$slug"
                         params={{ slug: inlineLinks[i].slug }}
@@ -416,9 +333,7 @@ function ArticlePage() {
                       >
                         {inlineLinks[i].title}
                       </Link>
-                      <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                        {inlineLinks[i].excerpt}
-                      </p>
+                      <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{inlineLinks[i].excerpt}</p>
                     </aside>
                   )}
 
@@ -427,18 +342,12 @@ function ArticlePage() {
                     <div className="not-prose">
                       <Spoiler level="major" scope={loreAnime.title}>
                         <div className="space-y-2 text-base">
-                          <p className="text-muted-foreground">
-                            {loreAnime.worldBuilding}
-                          </p>
+                          <p className="text-muted-foreground">{loreAnime.worldBuilding}</p>
                           <ul className="space-y-1">
                             {loreAnime.arcs.slice(0, 3).map((arc) => (
                               <li key={arc.title} className="text-sm">
-                                <span className="font-semibold">
-                                  {arc.title}
-                                </span>{" "}
-                                <span className="text-muted-foreground">
-                                  — {arc.summary}
-                                </span>
+                                <span className="font-semibold">{arc.title}</span>{" "}
+                                <span className="text-muted-foreground">— {arc.summary}</span>
                               </li>
                             ))}
                           </ul>
@@ -450,27 +359,17 @@ function ArticlePage() {
               ))}
             </div>
 
-            <AnimeRecRail
-              items={relatedAnime}
-              eyebrow="Related anime"
-              title="Anime featured in this piece"
-            />
+            <AnimeRecRail items={relatedAnime} eyebrow="Related anime" title="Anime featured in this piece" />
 
             <ArticleRecRail
               items={articleRail}
               eyebrow="Readers also enjoyed"
-              title={
-                alsoEnjoyed.length > 0
-                  ? "More like this"
-                  : `More in ${a.section}`
-              }
+              title={alsoEnjoyed.length > 0 ? "More like this" : `More in ${a.section}`}
             />
 
             {/* Topical tags → category hub + tag-based discovery */}
             <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-border/60 pt-6">
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                Tags
-              </span>
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Tags</span>
               <Link
                 to="/category/$slug"
                 params={{ slug: categoryForArticle(a) }}
@@ -502,6 +401,7 @@ function ArticlePage() {
             {/* Reader discussion */}
             <ArticleComments slug={a.slug} />
           </article>
+
 
           <aside className="hidden space-y-6 lg:block">
             <StickySidebarAd />

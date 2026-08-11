@@ -9,13 +9,7 @@ export const gojoLimitlessArticle: Article = {
   slug: "gojo-satoru-limitless-technique-explained",
   section: "guides",
   category: "analysis",
-  tags: [
-    "jujutsu-kaisen",
-    "gojo",
-    "limitless",
-    "infinity",
-    "cursed-techniques",
-  ],
+  tags: ["jujutsu-kaisen", "gojo", "limitless", "infinity", "cursed-techniques"],
   title:
     "Satoru Gojo's Limitless Technique Explained: How It Works, Physics, and Hidden Weaknesses (Full Analysis)",
   seoTitle: "Gojo's Limitless Explained: Infinity, Blue, Red & Purple",
@@ -66,8 +60,7 @@ export const gojoLimitlessArticle: Article = {
           type: "video",
           art: "limitless",
           title: "Limitless in Motion: How Infinity Is Animated",
-          subtitle:
-            "GameCastle Anime screening room - watch how the animation sells unresolvable distance",
+          subtitle: "GameCastle Anime screening room - watch how the animation sells unresolvable distance",
           searchQuery: "jujutsu kaisen gojo infinity scene official",
         },
       ],
@@ -92,14 +85,8 @@ export const gojoLimitlessArticle: Article = {
       blocks: [
         {
           type: "table",
-          caption:
-            "Infinity versus a maximum-output offensive domain: cost, reach and how each is answered.",
-          columns: [
-            "Technique Name",
-            "Cursed Energy Cost",
-            "Range & Fatal Impact",
-            "Counterability",
-          ],
+          caption: "Infinity versus a maximum-output offensive domain: cost, reach and how each is answered.",
+          columns: ["Technique Name", "Cursed Energy Cost", "Range & Fatal Impact", "Counterability"],
           rows: [
             [
               "Limitless (Infinity)",
@@ -135,8 +122,7 @@ export const gojoLimitlessArticle: Article = {
       ],
     },
     {
-      heading:
-        "Cursed Technique Reversal: Red, and Why It Costs More Than It Looks",
+      heading: "Cursed Technique Reversal: Red, and Why It Costs More Than It Looks",
       paragraphs: [
         "Red inverts Blue. Where Blue subtracts space, Red uses reversed cursed energy to generate a surplus, producing an outward divergence — a repulsion strong enough to function as artillery. Because it is built on reversed cursed energy rather than the ordinary flow, Red is the more expensive of the two and the more demanding to control; it is a technique that punishes imprecision, which again is where the Six Eyes earns its keep.",
         "Reversed cursed energy is itself worth a footnote, because it underpins more than Red. Producing it requires multiplying negative energy into a positive output — a skill so difficult that most sorcerers never manage it, and one that also enables self-healing at the top tier. Gojo's fluency in it is therefore doing double duty: it powers his heaviest ordinary attack and it keeps him in fights that would end other sorcerers. Both draws come from the same pool of concentration, and that shared bottleneck is exactly what a long, multi-front engagement is designed to exploit.",
@@ -144,8 +130,7 @@ export const gojoLimitlessArticle: Article = {
       ],
     },
     {
-      heading:
-        "Hollow Technique: Purple, Imaginary Mass, and the Erasure Problem",
+      heading: "Hollow Technique: Purple, Imaginary Mass, and the Erasure Problem",
       paragraphs: [
         "Purple is the composite. By colliding the convergence of Blue with the divergence of Red, Gojo produces something the series describes as imaginary mass — an object that should not exist under the rules the setting has established, and which therefore does not interact with what it hits so much as remove it. Purple does not smash a target across a battlefield. It deletes the volume it travels through, and the visual language of a clean corridor of nothing carved through a city is the point.",
         "This is the top of Gojo's non-domain output, and it is priced accordingly. Purple demands the simultaneous, precise construction of both prior settings, which means preparation, exposure, and a genuine energy expenditure even for him. It is not a spammable finisher; it is a decision. Every use in the series is either a decisive answer to an existential threat or a demonstration for an audience that needed to understand what the gap in power actually looks like.",
@@ -156,13 +141,11 @@ export const gojoLimitlessArticle: Article = {
         {
           type: "image",
           art: "energy",
-          caption:
-            "Original GameCastle Anime illustration: convergent and divergent cursed energy collapsing into an imaginary-mass core.",
+          caption: "Original GameCastle Anime illustration: convergent and divergent cursed energy collapsing into an imaginary-mass core.",
         },
         {
           type: "link",
-          label:
-            "Read our full Shibuya Incident Timeline & World Impact Analysis",
+          label: "Read our full Shibuya Incident Timeline & World Impact Analysis",
           to: "/article/shibuya-incident-timeline",
           note: "Hour-by-hour breakdown of the arc where Limitless meets its first true tactical answer.",
         },
@@ -188,10 +171,8 @@ export const gojoLimitlessArticle: Article = {
       blocks: [
         {
           type: "affiliate",
-          title:
-            "Official Satoru Gojo Nendoroid & Shibuya Arc 1/7 Scale Figure",
-          subtitle:
-            "Licensed twin-set: articulated Nendoroid with Infinity effect part, plus the Shibuya Arc scale statue and display base.",
+          title: "Official Satoru Gojo Nendoroid & Shibuya Arc 1/7 Scale Figure",
+          subtitle: "Licensed twin-set: articulated Nendoroid with Infinity effect part, plus the Shibuya Arc scale statue and display base.",
           price: "$164.99",
           offer: "Limited Collector Edition - 15% OFF",
           cta: "Check Availability on Official Store",
@@ -203,8 +184,7 @@ export const gojoLimitlessArticle: Article = {
           type: "spoiler",
           scope: "Jujutsu Kaisen manga — post-Shibuya arcs",
           level: "major",
-          heading:
-            "Manga-only: how the weaknesses above are actually exploited",
+          heading: "Manga-only: how the weaknesses above are actually exploited",
           paragraphs: [
             "Anime-only readers should stop here. The following summarises manga developments that have not been adapted at the time of writing, in general terms and without reproducing any dialogue or panels.",
             "The later manga confirms the two counters this analysis derives from the mechanics. First, an opponent operating on space rather than through it makes Infinity irrelevant, and the series eventually gives its highest-tier antagonist exactly that toolkit — turning the fight into a contest of domains and technique refinement instead of raw output.",
@@ -250,14 +230,8 @@ export const gojoLimitlessArticle: Article = {
       blocks: [
         {
           type: "poll",
-          question:
-            "Which Domain Expansion possesses the most refined fatal strike?",
-          options: [
-            "Unlimited Void",
-            "Malevolent Shrine",
-            "Chimera Shadow Garden",
-            "Idle Death Gamble",
-          ],
+          question: "Which Domain Expansion possesses the most refined fatal strike?",
+          options: ["Unlimited Void", "Malevolent Shrine", "Chimera Shadow Garden", "Idle Death Gamble"],
         },
       ],
     },

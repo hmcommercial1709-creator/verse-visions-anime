@@ -91,7 +91,7 @@ export const wanoRecapArticle: Article = {
         {
           type: "link",
           label: "The Complete One Piece Watch Order (With Skippable Filler Marked)",
-          to: "/article/one-piece-watch-order-complete-guide",
+          to: "/watch-order",
           note: "Where Wano sits in the full run, plus which films are safe to watch and when.",
         },
       ],

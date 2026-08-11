@@ -19,7 +19,8 @@
  */
 
 import { animes, type Anime } from "@/data/animes";
-import { articles, authors, categoryForArticle, type Article } from "@/data/articles";
+import { articles, authors, articleHasContent, articleParagraphs, categoryForArticle, type Article } from "@/data/articles";
+import { INLINE_LINK_RE } from "@/lib/inline-links";
 import { categories, type Category, type CategorySlug } from "@/data/categories";
 import { characters, type Character } from "@/data/characters";
 import { studios, type Studio } from "@/data/studios";
@@ -105,7 +106,8 @@ export const relationshipsForCharacter = (slug: string): CharacterRelationship[]
 // ---------------------------------------------------------------------
 
 export const allArticles = (): Article[] => articles;
-export const publishedArticles = (): Article[] => articles.filter(isPublished);
+export const publishedArticles = (): Article[] =>
+  articles.filter((article) => isPublished(article) && articleHasContent(article));
 export const getArticleBySlug = (slug: string): Article | undefined =>
   articles.find((a) => a.slug === slug);
 
@@ -290,12 +292,88 @@ export function collectSitemapPaths(): string[] {
 
 export type ValidationIssue = { level: "error" | "warn"; kind: string; message: string };
 
+const STATIC_CONTENT_PATHS = new Set([
+  "/",
+  "/about",
+  "/authors",
+  "/blog",
+  "/browse",
+  "/characters",
+  "/classic",
+  "/completed",
+  "/contact",
+  "/cookies",
+  "/dmca",
+  "/editorial",
+  "/editorial-policy",
+  "/facts",
+  "/faq",
+  "/genres",
+  "/guides",
+  "/manga-spoilers",
+  "/new-releases",
+  "/news",
+  "/openings",
+  "/power-scaling",
+  "/privacy-policy",
+  "/quotes",
+  "/recommendations",
+  "/reviews",
+  "/seasonal",
+  "/sitemap-page",
+  "/soundtracks",
+  "/statistics",
+  "/streaming",
+  "/studios",
+  "/terms-of-service",
+  "/timeline",
+  "/top-lists",
+  "/top-rated",
+  "/trending",
+  "/upcoming",
+  "/wallpapers",
+  "/watch-order",
+]);
+
+function articleInternalLinks(article: Article): string[] {
+  const links: string[] = [];
+  const textParts = [
+    ...article.body,
+    ...(article.sections ?? []).flatMap((section) => [
+      ...section.paragraphs,
+      ...(section.blocks ?? []).flatMap((block) =>
+        block.type === "spoiler" ? block.paragraphs : block.type === "link" && block.note ? [block.note] : [],
+      ),
+    ]),
+  ];
+
+  for (const section of article.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      if (block.type === "link") links.push(block.to);
+    }
+  }
+
+  for (const text of textParts) {
+    const pattern = new RegExp(INLINE_LINK_RE.source, INLINE_LINK_RE.flags);
+    let match: RegExpExecArray | null;
+    while ((match = pattern.exec(text)) !== null) {
+      if (match[2].startsWith("/")) links.push(match[2]);
+    }
+  }
+
+  return links;
+}
+
 export function validateReferences(): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const animeSlugs = new Set(animes.map((a) => a.slug));
   const characterSlugs = new Set(characters.map((c) => c.slug));
   const studioSlugs = new Set(studios.map((s) => s.slug));
   const genreSlugs = new Set(genres.map((g) => g.slug));
+  const categorySlugs = new Set(categories.map((category) => category.slug));
+  const articleSlugs = new Set(articles.map((article) => article.slug));
+  const publishedArticleSlugs = new Set(publishedArticles().map((article) => article.slug));
+  const episodePaths = new Set(episodes.map((episode) => `/anime/${episode.animeSlug}/episode/${episode.number}`));
 
   // Duplicate slugs across each collection
   const dupCheck = (label: string, list: { slug: string }[]) => {
@@ -378,8 +456,37 @@ export function validateReferences(): ValidationIssue[] {
     epKey.add(key);
   }
 
-  // Article related anime
+  // Article content, related anime and rendered internal links
+  const contentSignatures = new Map<string, string>();
   for (const a of articles) {
+    const publicArticle = isPublished(a);
+
+    if (publicArticle && !articleHasContent(a)) {
+      issues.push({
+        level: "error",
+        kind: "empty-page",
+        message: `published article "${a.slug}" has no substantial editorial content`,
+      });
+    }
+
+    if (publicArticle && articleHasContent(a)) {
+      const signature = articleParagraphs(a)
+        .join(" ")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+      const previous = contentSignatures.get(signature);
+      if (previous) {
+        issues.push({
+          level: "error",
+          kind: "duplicate-content",
+          message: `articles "${previous}" and "${a.slug}" contain identical published copy`,
+        });
+      } else if (signature) {
+        contentSignatures.set(signature, a.slug);
+      }
+    }
+
     for (const r of a.related)
       if (!animeSlugs.has(r))
         issues.push({
@@ -387,6 +494,100 @@ export function validateReferences(): ValidationIssue[] {
           kind: "missing-ref",
           message: `article "${a.slug}" → related anime "${r}" not found`,
         });
+
+    if (!publicArticle || !articleHasContent(a)) continue;
+
+    for (const href of articleInternalLinks(a)) {
+      const path = href.split(/[?#]/, 1)[0];
+      if (!path) {
+        issues.push({
+          level: "error",
+          kind: "empty-link",
+          message: `article "${a.slug}" contains an empty internal link`,
+        });
+        continue;
+      }
+
+      const articleMatch = path.match(/^\/article\/([^/]+)$/);
+      if (articleMatch) {
+        const target = articleMatch[1];
+        if (!articleSlugs.has(target)) {
+          issues.push({
+            level: "error",
+            kind: "broken-link",
+            message: `article "${a.slug}" → article "${target}" not found`,
+          });
+        } else if (!publishedArticleSlugs.has(target)) {
+          issues.push({
+            level: "error",
+            kind: "unpublished-link",
+            message: `article "${a.slug}" → article "${target}" is not ready for readers`,
+          });
+        }
+        continue;
+      }
+
+      const animeMatch = path.match(/^\/anime\/([^/]+)$/);
+      if (animeMatch) {
+        if (!animeSlugs.has(animeMatch[1]))
+          issues.push({
+            level: "error",
+            kind: "broken-link",
+            message: `article "${a.slug}" → anime "${animeMatch[1]}" not found`,
+          });
+        continue;
+      }
+
+      const watchMatch = path.match(/^\/watch\/([^/]+)$/);
+      if (watchMatch) {
+        if (!animeSlugs.has(watchMatch[1]))
+          issues.push({
+            level: "error",
+            kind: "broken-link",
+            message: `article "${a.slug}" → watch page "${watchMatch[1]}" not found`,
+          });
+        continue;
+      }
+
+      if (/^\/anime\/[^/]+\/episode\/\d+$/.test(path)) {
+        if (!episodePaths.has(path))
+          issues.push({
+            level: "error",
+            kind: "broken-link",
+            message: `article "${a.slug}" → episode path "${path}" not found`,
+          });
+        continue;
+      }
+
+      const dynamicChecks: Array<[RegExp, Set<string>, string]> = [
+        [/^\/character\/([^/]+)$/, characterSlugs, "character"],
+        [/^\/genre\/([^/]+)$/, genreSlugs, "genre"],
+        [/^\/studio\/([^/]+)$/, studioSlugs, "studio"],
+        [/^\/category\/([^/]+)$/, categorySlugs, "category"],
+      ];
+      let matchedDynamic = false;
+      for (const [pattern, slugs, label] of dynamicChecks) {
+        const match = path.match(pattern);
+        if (!match) continue;
+        matchedDynamic = true;
+        if (!slugs.has(match[1]))
+          issues.push({
+            level: "error",
+            kind: "broken-link",
+            message: `article "${a.slug}" → ${label} "${match[1]}" not found`,
+          });
+        break;
+      }
+      if (matchedDynamic) continue;
+
+      if (!STATIC_CONTENT_PATHS.has(path)) {
+        issues.push({
+          level: "error",
+          kind: "broken-link",
+          message: `article "${a.slug}" → route "${path}" is not a canonical content page`,
+        });
+      }
+    }
   }
 
   // Relationships reference known characters

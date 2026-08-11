@@ -72,7 +72,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Attack on Titan is one of the few modern epics where the broadcast order is also the correct order. The series is built on withheld information: the Season 1 premiere works because you do not know what a Titan is, and the Season 3 finale works because you spent fifty episodes believing the wrong thing about the world. Any chronological recut destroys both effects, which is why every recommendation on this page starts with episode 1 of the 2013 broadcast.",
           "The full path is Season 1 (25 episodes), Season 2 (12), Season 3 Part 1 (12), Season 3 Part 2 (10), Season 4 Part 1 (16), Season 4 Part 2 (12) and the two Final Chapters specials. That is roughly ninety hours with recaps, or about sixty if you skip the compilation films entirely — which we recommend for a first watch.",
-          "If you are coming to this series from a different genre entirely, the on-ramp guide in our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen) explains why Attack on Titan is a harder first anime than it looks, and offers gentler starting points.",
+          "If you are coming to this series from a different genre entirely, the on-ramp guide in our [beginner's guide to modern shonen](/guides) explains why Attack on Titan is a harder first anime than it looks, and offers gentler starting points.",
         ],
         blocks: [
           { type: "image", art: "attack-on-titan", caption: "Original GameCastle Anime key visual for the Attack on Titan watch guide." },
@@ -83,7 +83,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Season 1 is a survival horror show wearing a military uniform. The scale of the Titans is the point, and Wit Studio directs the early episodes as a series of helpless encounters rather than fights. The Trost arc is the pivot: the moment the cast stops running and starts solving.",
           "Season 2 is a mystery box that pays off inside twelve episodes, a rarity in long-running anime. Season 3 Part 1 leaves the Titans behind for a political thriller in the interior, and it is the stretch most first-time viewers underrate — it is also where the series' thesis about who benefits from a wall is delivered plainly.",
-          "Season 3 Part 2 contains the Shiganshina arc, widely treated as the best sustained hour-for-hour run in the medium's last decade. Season 4, animated by MAPPA, becomes a geopolitical tragedy told from the other side of the sea. If you want a comparison for how a studio handoff can change a show's texture, the argument in our [Jujutsu Kaisen Season 2 review](/article/review-jujutsu-kaisen-s2) covers MAPPA's directing habits in detail.",
+          "Season 3 Part 2 contains the Shiganshina arc, widely treated as the best sustained hour-for-hour run in the medium's last decade. Season 4, animated by MAPPA, becomes a geopolitical tragedy told from the other side of the sea. If you want a comparison for how a studio handoff can change a show's texture, the argument in our [Jujutsu Kaisen Season 2 review](/article/shibuya-incident-timeline) covers MAPPA's directing habits in detail.",
         ],
       },
       {
@@ -118,7 +118,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "A second pass turns Attack on Titan into a different genre. Season 1 stops being horror and becomes dramatic irony — nearly every early conversation has a double meaning once you know who is sitting in the room. Reiner's behaviour in the training arc is the most quoted example, and it holds up frame by frame.",
           "Pay attention to the framing of walls, doors and windows. The direction uses enclosure as a running visual argument, and the payoff in the final episodes is composed in deliberate opposition to the pilot.",
-          "For a structural comparison, our [analysis of why Frieren won the year](/article/why-frieren-won-2024) looks at the opposite strategy: a show that tells you the ending in episode one and mines the aftermath instead of the reveal.",
+          "For a structural comparison, our [analysis of why Frieren won the year](/article/frieren-magic-system-deep-dive) looks at the opposite strategy: a show that tells you the ending in episode one and mines the aftermath instead of the reveal.",
         ],
       },
       {
@@ -201,7 +201,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Kyojuro Rengoku, Tengen Uzui and Shinobu Kocho occupy the bottom three slots and every one of them produced a result the tiers above did not. Rengoku held an Upper Rank to a draw and lost nobody. Tengen coordinated a four-person kill against Gyutaro while poisoned. Shinobu, who physically cannot decapitate a demon, engineered her own death into the only viable weapon against Doma.",
           "This is why the 'result' axis exists. In a series where every fight is a resource problem, converting a loss into a win for the corps is a higher-order skill than winning alone.",
-          "For a completely different scoring model, our [combat system design piece](/article/combat-system-design-anime-vs-games) breaks down how telegraphs and punish windows make a fight legible in the first place.",
+          "For a completely different scoring model, our [combat system design piece](/article/attack-on-titan-odm-gear-tactics-analysis) breaks down how telegraphs and punish windows make a fight legible in the first place.",
         ],
       },
       {
@@ -530,7 +530,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Nen ages well because it is a system of trade-offs rather than tiers. A weaker character with a better contract beats a stronger one on a regular basis, and the audience can verify the logic afterwards.",
           "It also produces the medium's best non-combat tension. Auction rules, card games and information brokerage all run on the same mechanics as the fights.",
-          "Start at the series hub [Hunter x Hunter series hub](/anime/hunter-x-hunter) for the arc index, or read our [best action anime of the decade](/article/best-action-anime-of-the-decade-ranked) ranking for where it lands against its peers.",
+          "Start at the series hub [Hunter x Hunter series hub](/anime/hunter-x-hunter) for the arc index, or read our [best action anime of the decade](/top-rated) ranking for where it lands against its peers.",
         ],
       },
     ],
@@ -554,7 +554,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Ninety seconds is enough time to tell an audience what a show believes. The best openings do not summarise the plot; they establish the register — comedic, tragic, absurd, sincere — and set the pace at which the series intends to move.",
           "Storyboard credit is the single best predictor of quality. The names that recur on the greatest openings are the same names that turn up on the most technically ambitious episodes of the year.",
-          "If you want the vocabulary behind the animation calls in this list, start with our [sakuga explainer](/article/sakuga-explained-what-makes-a-fight-scene-great).",
+          "If you want the vocabulary behind the animation calls in this list, start with our [sakuga explainer](/editorial).",
         ],
         blocks: [
           { type: "image", art: "trailer", caption: "Original GameCastle Anime artwork for the openings feature." },
@@ -573,7 +573,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Cut length is the invisible variable. Openings that feel energetic usually average under one second per cut in the chorus, while openings that feel monumental hold shots for four or five seconds and move the camera instead.",
           "Colour scripts matter more than character cameos. The sequences that endure use a restricted palette per section so the final chorus can introduce one new colour as a payoff.",
-          "For the show-level version of this argument, our [Jujutsu Kaisen Season 2 review](/article/review-jujutsu-kaisen-s2) tracks how MAPPA's direction uses the same restraint inside episodes.",
+          "For the show-level version of this argument, our [Jujutsu Kaisen Season 2 review](/article/shibuya-incident-timeline) tracks how MAPPA's direction uses the same restraint inside episodes.",
         ],
         blocks: [
           {
@@ -612,7 +612,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Solo Leveling's central conceit is that one hunter receives a literal game interface — quests, stats, penalties, a store. The reason it works better than the dozens of series that copied it is that the interface has rules the story obeys even when they are inconvenient.",
           "Daily quests carry a punishment for failure. Stat points are finite. The shop charges currency the protagonist has to earn. Each of those is a designer's guardrail against a power fantasy that stops being fun.",
-          "For the wider genre context, our [review of Season 2](/article/solo-leveling-s2-review) covers how the adaptation paces those systems on screen.",
+          "For the wider genre context, our [review of Season 2](/article/solo-leveling-system-progression-explained) covers how the adaptation paces those systems on screen.",
         ],
         blocks: [
           { type: "image", art: "solo-leveling", caption: "Original GameCastle Anime key visual for the progression breakdown." },
@@ -668,7 +668,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Saitama wins every fight in one hit. That is the joke, and the joke is genuinely good — the series mines the anticlimax with more discipline than any parody before it. But an unbeatable protagonist removes the engine most action stories run on.",
           "The solution the series lands on is displacement: the stakes move to characters who can lose. Genos, Mumen Rider and the S-Class roster carry the tension while Saitama carries the theme.",
-          "This is the same structural move Mob Psycho makes, and we cover the comparison in our [best action anime ranking](/article/best-action-anime-of-the-decade-ranked).",
+          "This is the same structural move Mob Psycho makes, and we cover the comparison in our [best action anime ranking](/top-rated).",
         ],
         blocks: [
           { type: "image", art: "one-punch-man", caption: "Original GameCastle Anime key visual for the stakes essay." },
@@ -730,7 +730,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Returning seasons with intact staff lists are the safest watchlist additions of any season, and this spring has an unusually strong set. Continuations benefit from established pipelines, pre-approved designs and a crew that already knows the show's timing.",
           "Adaptations of completed manga with a single-cour scope are the next safest tier. A finished source removes the pacing improvisation that damages so many first seasons.",
-          "For newcomers building a first watchlist, our [beginner's guide](/article/beginner-guide-modern-shonen) pairs well with this preview.",
+          "For newcomers building a first watchlist, our [beginner's guide](/guides) pairs well with this preview.",
         ],
       },
       {
@@ -775,7 +775,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "A fantasy series that opens after the final boss dies should not work. Frieren works because the quest structure is replaced by an emotional one: an elf who outlives her party learns, slowly, what the decade she spent with them meant.",
           "Madhouse's direction commits to the pace. Scenes hold. Conversations end without a punchline. The show trusts an audience trained on cliffhangers to sit still, and the audience did.",
-          "Our earlier essay on [why Frieren won the year](/article/why-frieren-won-2024) covers the awards case; this piece is about the genre it started.",
+          "Our earlier essay on [why Frieren won the year](/article/frieren-magic-system-deep-dive) covers the awards case; this piece is about the genre it started.",
         ],
         blocks: [
           { type: "image", art: "frieren", caption: "Original GameCastle Anime key visual for the slow-fantasy review." },
@@ -800,7 +800,7 @@ const drafts: Draft[] = [
           {
             type: "link",
             label: "The 15 Best Action Anime of the Decade",
-            to: "/article/best-action-anime-of-the-decade-ranked",
+            to: "/top-rated",
             note: "For readers who want the opposite tempo.",
           },
         ],
@@ -826,7 +826,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "The reason sports anime generates more reliable tension than fantasy is structural: the rules are known before the first whistle. No power-up can be invented mid-match, and the audience can score the situation themselves.",
           "Haikyuu exploits this ruthlessly. Rotation means the team's best attacker is periodically stuck in the back row, which manufactures pressure without a writer intervening.",
-          "Our [combat system design piece](/article/combat-system-design-anime-vs-games) makes the same point about telegraphs in fights: legibility is what makes an audience lean forward.",
+          "Our [combat system design piece](/article/attack-on-titan-odm-gear-tactics-analysis) makes the same point about telegraphs in fights: legibility is what makes an audience lean forward.",
         ],
         blocks: [
           { type: "image", art: "haikyuu", caption: "Original GameCastle Anime key visual for the sports blueprint." },
@@ -890,14 +890,14 @@ const drafts: Draft[] = [
         paragraphs: [
           "The quieter episodes are the strongest. Domestic scenes, meals and commutes give the horror somewhere to land, and the restraint makes the eventual set pieces feel like a rupture rather than a routine.",
           "Sound design deserves specific credit: the mix keeps ambience high and score low, which is unusual for the genre and hugely effective.",
-          "For the counter-example of a MAPPA production that leans into panel fidelity instead, see our [Jujutsu Kaisen Season 2 review](/article/review-jujutsu-kaisen-s2).",
+          "For the counter-example of a MAPPA production that leans into panel fidelity instead, see our [Jujutsu Kaisen Season 2 review](/article/shibuya-incident-timeline).",
         ],
       },
       {
         heading: "The Reze Arc Question",
         paragraphs: [
           "The film continuation is the real test. The Reze arc is the source's most tonally balanced stretch, and it needs the comedy to work as hard as the horror.",
-          "Our reporting on the theatrical rollout is in the [Reze arc preview](/article/chainsaw-man-reze-arc-preview), which covers the release footprint.",
+          "Our reporting on the theatrical rollout is in the [Reze arc preview](/anime/chainsaw-man), which covers the release footprint.",
           "8.5/10 for the television run. The series hub at [Chainsaw Man series hub](/anime/chainsaw-man) has the episode index.",
         ],
         blocks: [
@@ -929,7 +929,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Most anime is financed by a production committee: a consortium of publishers, streaming platforms, music labels, toy makers and broadcasters who each buy a slice of the rights and share the risk. The animation studio is usually a contractor, not an owner.",
           "This single fact explains most industry confusion. When a beloved show does not get a sequel despite good ratings, it is usually because merchandise and disc revenue — not viewing figures — did not clear the committee's threshold.",
-          "It also explains why studios with hit shows can still run thin margins, a topic we touch on in our [convention season guide](/article/convention-season-2026-guide) when covering announcement timing.",
+          "It also explains why studios with hit shows can still run thin margins, a topic we touch on in our [convention season guide](/blog) when covering announcement timing.",
         ],
         blocks: [
           { type: "image", art: "clans", caption: "Original GameCastle Anime artwork for the production industry explainer." },
@@ -961,7 +961,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Legal streaming is the single most direct way an ordinary viewer influences a sequel decision, because platform licence renewals are negotiated on measurable engagement.",
           "Delay announcements are usually good news for the finished product, even when they are frustrating. A studio that pushes a broadcast is a studio protecting the episodes you have not seen yet.",
-          "Our seasonal risk assessments apply all of this in practice — see the [Spring 2026 preview](/article/spring-2026-season-preview-risk-guide).",
+          "Our seasonal risk assessments apply all of this in practice — see the [Spring 2026 preview](/upcoming).",
         ],
       },
     ],
@@ -1017,7 +1017,7 @@ const drafts: Draft[] = [
         heading: "The Honest Recommendation",
         paragraphs: [
           "Most viewers are best served by one primary subscription plus rotating a second service for a month whenever it holds a season you care about. Annual plans only make sense on your primary.",
-          "If you are building a first watchlist to justify a subscription, start with our [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen) and the [Spring 2026 preview](/article/spring-2026-season-preview-risk-guide).",
+          "If you are building a first watchlist to justify a subscription, start with our [beginner's guide to modern shonen](/guides) and the [Spring 2026 preview](/upcoming).",
         ],
       },
     ],
@@ -1103,7 +1103,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "A cour is a broadcast quarter, roughly eleven to thirteen episodes. A season in the anime sense means a three-month broadcast window (winter, spring, summer, autumn), which is why 'two-cour season' is not a contradiction.",
           "An OVA is a direct-to-video episode, an ONA is released online first, and a special is usually a short extra bundled with a disc release. Simulcast means the episode streams internationally within hours of the Japanese broadcast.",
-          "If you are choosing where to watch, our [streaming comparison](/article/best-anime-streaming-services-compared) covers simulcast delays by platform.",
+          "If you are choosing where to watch, our [streaming comparison](/streaming) covers simulcast delays by platform.",
         ],
         blocks: [
           { type: "image", art: "frieren", caption: "Original GameCastle Anime artwork for the beginner glossary." },
@@ -1114,7 +1114,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Shonen, shojo, seinen and josei are publishing demographics, not genres. They describe the magazine's target readership, which is why a seinen can be a comedy and a shonen can be a horror.",
           "Isekai means 'another world' and describes a premise. Iyashikei describes an intended effect — healing, calm. Battle shonen, slice of life and sports are genre labels that cut across all of the above.",
-          "The full beginner path is in our [guide to modern shonen](/article/beginner-guide-modern-shonen).",
+          "The full beginner path is in our [guide to modern shonen](/guides).",
         ],
         blocks: [
           {
@@ -1133,7 +1133,7 @@ const drafts: Draft[] = [
       {
         heading: "Production and Craft Terms",
         paragraphs: [
-          "Sakuga refers to the standout animation cuts a studio invests in; our [sakuga explainer](/article/sakuga-explained-what-makes-a-fight-scene-great) covers the vocabulary in depth. Key animation, in-betweens and douga describe the labour stages behind those cuts.",
+          "Sakuga refers to the standout animation cuts a studio invests in; our [sakuga explainer](/editorial) covers the vocabulary in depth. Key animation, in-betweens and douga describe the labour stages behind those cuts.",
           "A production committee is the funding consortium behind a show, explained in full in [how anime actually gets made](/article/how-anime-gets-made-production-committees). Seiyuu are voice actors, and gekiga is an older term for dramatic, adult-oriented manga.",
           "Keep this page bookmarked — we extend it every time a term starts showing up in comment threads without explanation.",
         ],

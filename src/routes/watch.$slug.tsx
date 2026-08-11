@@ -89,14 +89,15 @@ function WatchPage() {
   const { anime } = Route.useLoaderData();
   const { ep } = Route.useSearch();
   const eps = episodesFor(anime.slug);
-  const total = typeof anime.episodes === "number" ? anime.episodes : eps.length || 12;
-  const numbers = eps.length > 0 ? eps.map((e) => e.number) : Array.from({ length: Math.min(24, total) }, (_, i) => i + 1);
+  const numbers = eps.map((episode) => episode.number);
 
-  const [current, setCurrent] = useState<number>(ep && numbers.includes(ep) ? ep : (numbers[0] ?? 1));
+  const [current, setCurrent] = useState<number | undefined>(
+    ep && numbers.includes(ep) ? ep : numbers[0],
+  );
   const [provider, setProvider] = useState<(typeof PROVIDERS)[number]["id"]>(PROVIDERS[0].id);
   const [playing, setPlaying] = useState(false);
 
-  const episode = getEpisode(anime.slug, current);
+  const episode = current === undefined ? undefined : getEpisode(anime.slug, current);
   const videoId = trailerFor(anime.slug) ?? trailerFor(anime.title);
   const activeProvider = PROVIDERS.find((p) => p.id === provider) ?? PROVIDERS[0];
   const providerLink = `${activeProvider.url}${encodeURIComponent(anime.title)}`;
@@ -113,7 +114,7 @@ function WatchPage() {
 
       <h1 className="font-display text-3xl sm:text-5xl font-bold tracking-tight">
         Where to watch {anime.title} legally
-        <span className="text-muted-foreground"> — Episode {current}</span>
+        {current !== undefined && <span className="text-muted-foreground"> — Episode {current}</span>}
       </h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
         {episode?.title ? `${episode.title}. ` : ""}Play the official trailer or clip below, then head to a licensed
@@ -126,7 +127,7 @@ function WatchPage() {
           <div className="relative w-full overflow-hidden rounded-2xl border border-border/60 bg-black" style={{ aspectRatio: "16/9" }}>
             {playing && videoId ? (
               <iframe
-                key={`${videoId}-${current}`}
+                key={`${videoId}-${current ?? "trailer"}`}
                 className="absolute inset-0 h-full w-full border-0"
                 src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
                 title={`${anime.title} — official trailer or promotional clip`}
@@ -138,7 +139,7 @@ function WatchPage() {
               <>
                 <MediaImage
                   art={backdropFor(anime.slug)}
-                  alt={`${anime.title} episode ${current} key visual`}
+                  alt={current === undefined ? `${anime.title} official key visual` : `${anime.title} episode ${current} key visual`}
                   ratio="16/9"
                   className="absolute inset-0 h-full w-full"
                   priority
@@ -174,7 +175,7 @@ function WatchPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground hover:brightness-110"
             >
-              <MonitorPlay className="h-4 w-4" /> Watch the full episode on {activeProvider.label}
+              <MonitorPlay className="h-4 w-4" /> Search {anime.title} on {activeProvider.label}
             </a>
             {episode && (
               <Link
@@ -197,28 +198,47 @@ function WatchPage() {
           {/* EPISODE SELECTOR */}
           <section className="mt-8">
             <h2 className="font-display text-2xl font-bold">Episode guide</h2>
-            <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10">
-              {numbers.map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => {
-                    setCurrent(n);
-                    setPlaying(false);
-                  }}
-                  aria-pressed={n === current}
-                  className={`grid h-10 place-items-center rounded-lg border font-mono text-xs transition-colors ${
-                    n === current
-                      ? "border-primary bg-primary/20 text-primary"
-                      : "border-border/60 text-muted-foreground hover:border-primary/50"
-                  }`}
+            {numbers.length > 0 ? (
+              <>
+                <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10">
+                  {numbers.map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => {
+                        setCurrent(n);
+                        setPlaying(false);
+                      }}
+                      aria-pressed={n === current}
+                      className={`grid h-10 place-items-center rounded-lg border font-mono text-xs transition-colors ${
+                        n === current
+                          ? "border-primary bg-primary/20 text-primary"
+                          : "border-border/60 text-muted-foreground hover:border-primary/50"
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                {episode && (
+                  <p className="mt-4 text-sm leading-relaxed text-foreground/85">{episode.synopsis}</p>
+                )}
+              </>
+            ) : (
+              <div className="mt-3 rounded-2xl border border-border/60 bg-card/50 p-5">
+                <h3 className="font-display text-lg font-bold">No placeholder episode pages</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  We have not published a detailed episode directory for {anime.title} yet. Use the licensed-service
+                  search above for current regional availability, or return to the complete series guide.
+                </p>
+                <Link
+                  to="/anime/$slug"
+                  params={{ slug: anime.slug }}
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                 >
-                  {n}
-                </button>
-              ))}
-            </div>
-            {episode && (
-              <p className="mt-4 text-sm leading-relaxed text-foreground/85">{episode.synopsis}</p>
+                  Open the {anime.title} series guide
+                </Link>
+              </div>
             )}
           </section>
         </div>

@@ -267,14 +267,14 @@ export const odmGearArticle: Article = {
       paragraphs: [
         "Cities are ideal for vertical ambushes. Rooflines and walls create dense anchor options, alleys channel Titans into predictable paths and squads can attack from different elevations. The cost is visibility: corners hide both targets and damaged structures.",
         "Forests trade walls for long trunks. The height supports wide, fast arcs and lets a squad maintain momentum, but it also creates occlusion. A soldier may have excellent anchors and very little warning about what is behind the next tree.",
-        "Open ground is the worst environment. Without elevated anchors, soldiers cannot sustain three-dimensional movement, so scouting formations rely on horses, spacing and early warning instead. That strategic weakness is explored in our [Survey Corps tactics analysis](/article/attack-on-titan-military-tactics-realism).",
+        "Open ground is the worst environment. Without elevated anchors, soldiers cannot sustain three-dimensional movement, so scouting formations rely on horses, spacing and early warning instead. That strategic weakness is explored in our [Survey Corps tactics analysis](/anime/attack-on-titan).",
         "Interior fighting creates the opposite problem: too many nearby surfaces and too little room to spend speed safely. Short anchor changes and controlled gas bursts replace the long arcs used against Titans outdoors.",
       ],
       blocks: [
         {
           type: "link",
           label: "Attack on Titan Military Tactics, Analysed",
-          to: "/article/attack-on-titan-military-tactics-realism",
+          to: "/anime/attack-on-titan",
           note: "Formation scouting, flare signals, logistics and why terrain decides survival before a fight begins.",
         },
       ],

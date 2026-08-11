@@ -70,7 +70,7 @@ export const soloLevelingSystemArticle: Article = {
         "Levels are the System's headline number, but they are downstream of experience, and experience is downstream of risk. Clearing dungeons, defeating bosses and completing quests all pay experience; the size of the payment tracks how far outside his comfort zone the encounter sat.",
         "Each level grants attribute points to distribute freely. Because the pool is manual, levelling is a decision point rather than a cutscene, and the compounding is easy to follow: more Agility means he reaches enemies sooner, which means faster clears, which means more experience per hour, which means more points. The curve accelerates because the inputs feed each other.",
         "Quest rewards sit on top of that, sometimes as points, sometimes as items or skills. The System also offers instant rewards and one-off boxes that can leapfrog a stage of progression, which is how the story avoids a flat grind while keeping the ledger honest.",
-        "If you want to see the compounding in motion rather than on paper, the Jeju Island arc is the clearest demonstration — our [Solo Leveling Season 2 review](/article/solo-leveling-s2-review) breaks down why that arc is the moment the numbers finally look like a person.",
+        "If you want to see the compounding in motion rather than on paper, the Jeju Island arc is the clearest demonstration — our [Solo Leveling Season 2 review](/anime/solo-leveling) breaks down why that arc is the moment the numbers finally look like a person.",
       ],
     },
     {
@@ -109,7 +109,7 @@ export const soloLevelingSystemArticle: Article = {
         "The in-story answer begins in the double dungeon. Jinwoo is an E-rank hunter — the weakest grade, kept alive by stubbornness and other people's tolerance — and when the raid collapses he chooses to buy time for the survivors instead of running. The System appears immediately afterwards and reissues him as a Player.",
         "Read as a mechanism, the choice is consistent: the System selects for willingness to keep going under conditions where quitting is the rational option, then supplies the tools that willingness alone could never provide. Everything it hands him afterwards is conditional on continuing to make that same choice daily.",
         "This is also why the power fantasy lands. Jinwoo does not arrive competent; he arrives obligated. The System gives him a path and a punishment, and the story spends its length showing the interest payments — fatigue, mana upkeep, penalty zones, and the widening gap between him and everyone he is trying to protect.",
-        "If that framing interests you, the same argument applies across the genre — see our editorial on [why most isekai fail and the handful that work](/article/isekai-power-fantasy-that-actually-works), or start broader with the [beginner's guide to modern shonen](/article/beginner-guide-modern-shonen).",
+        "If that framing interests you, the same argument applies across the genre — see our editorial on [why most isekai fail and the handful that work](/article/frieren-magic-system-deep-dive), or start broader with the [beginner's guide to modern shonen](/guides).",
       ],
     },
     {

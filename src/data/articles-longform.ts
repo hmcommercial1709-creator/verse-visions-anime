@@ -530,7 +530,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Nen ages well because it is a system of trade-offs rather than tiers. A weaker character with a better contract beats a stronger one on a regular basis, and the audience can verify the logic afterwards.",
           "It also produces the medium's best non-combat tension. Auction rules, card games and information brokerage all run on the same mechanics as the fights.",
-          "Start at the series hub [Hunter x Hunter series hub](/anime/hunter-x-hunter) for the arc index, or read our [best action anime of the decade](/article/best-action-anime-of-the-decade-ranked) ranking for where it lands against its peers.",
+          "Start at the series hub [Hunter x Hunter series hub](/anime/hunter-x-hunter) for the arc index, or read our [best action anime of the decade](/top-rated) ranking for where it lands against its peers.",
         ],
       },
     ],
@@ -554,7 +554,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Ninety seconds is enough time to tell an audience what a show believes. The best openings do not summarise the plot; they establish the register — comedic, tragic, absurd, sincere — and set the pace at which the series intends to move.",
           "Storyboard credit is the single best predictor of quality. The names that recur on the greatest openings are the same names that turn up on the most technically ambitious episodes of the year.",
-          "If you want the vocabulary behind the animation calls in this list, start with our [sakuga explainer](/article/sakuga-explained-what-makes-a-fight-scene-great).",
+          "If you want the vocabulary behind the animation calls in this list, start with our [sakuga explainer](/editorial).",
         ],
         blocks: [
           { type: "image", art: "trailer", caption: "Original GameCastle Anime artwork for the openings feature." },
@@ -668,7 +668,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Saitama wins every fight in one hit. That is the joke, and the joke is genuinely good — the series mines the anticlimax with more discipline than any parody before it. But an unbeatable protagonist removes the engine most action stories run on.",
           "The solution the series lands on is displacement: the stakes move to characters who can lose. Genos, Mumen Rider and the S-Class roster carry the tension while Saitama carries the theme.",
-          "This is the same structural move Mob Psycho makes, and we cover the comparison in our [best action anime ranking](/article/best-action-anime-of-the-decade-ranked).",
+          "This is the same structural move Mob Psycho makes, and we cover the comparison in our [best action anime ranking](/top-rated).",
         ],
         blocks: [
           { type: "image", art: "one-punch-man", caption: "Original GameCastle Anime key visual for the stakes essay." },
@@ -800,7 +800,7 @@ const drafts: Draft[] = [
           {
             type: "link",
             label: "The 15 Best Action Anime of the Decade",
-            to: "/article/best-action-anime-of-the-decade-ranked",
+            to: "/top-rated",
             note: "For readers who want the opposite tempo.",
           },
         ],
@@ -929,7 +929,7 @@ const drafts: Draft[] = [
         paragraphs: [
           "Most anime is financed by a production committee: a consortium of publishers, streaming platforms, music labels, toy makers and broadcasters who each buy a slice of the rights and share the risk. The animation studio is usually a contractor, not an owner.",
           "This single fact explains most industry confusion. When a beloved show does not get a sequel despite good ratings, it is usually because merchandise and disc revenue — not viewing figures — did not clear the committee's threshold.",
-          "It also explains why studios with hit shows can still run thin margins, a topic we touch on in our [convention season guide](/article/convention-season-2026-guide) when covering announcement timing.",
+          "It also explains why studios with hit shows can still run thin margins, a topic we touch on in our [convention season guide](/blog) when covering announcement timing.",
         ],
         blocks: [
           { type: "image", art: "clans", caption: "Original GameCastle Anime artwork for the production industry explainer." },
@@ -1133,7 +1133,7 @@ const drafts: Draft[] = [
       {
         heading: "Production and Craft Terms",
         paragraphs: [
-          "Sakuga refers to the standout animation cuts a studio invests in; our [sakuga explainer](/article/sakuga-explained-what-makes-a-fight-scene-great) covers the vocabulary in depth. Key animation, in-betweens and douga describe the labour stages behind those cuts.",
+          "Sakuga refers to the standout animation cuts a studio invests in; our [sakuga explainer](/editorial) covers the vocabulary in depth. Key animation, in-betweens and douga describe the labour stages behind those cuts.",
           "A production committee is the funding consortium behind a show, explained in full in [how anime actually gets made](/article/how-anime-gets-made-production-committees). Seiyuu are voice actors, and gekiga is an older term for dramatic, adult-oriented manga.",
           "Keep this page bookmarked — we extend it every time a term starts showing up in comment threads without explanation.",
         ],

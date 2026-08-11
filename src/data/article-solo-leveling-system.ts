@@ -109,7 +109,7 @@ export const soloLevelingSystemArticle: Article = {
         "The in-story answer begins in the double dungeon. Jinwoo is an E-rank hunter — the weakest grade, kept alive by stubbornness and other people's tolerance — and when the raid collapses he chooses to buy time for the survivors instead of running. The System appears immediately afterwards and reissues him as a Player.",
         "Read as a mechanism, the choice is consistent: the System selects for willingness to keep going under conditions where quitting is the rational option, then supplies the tools that willingness alone could never provide. Everything it hands him afterwards is conditional on continuing to make that same choice daily.",
         "This is also why the power fantasy lands. Jinwoo does not arrive competent; he arrives obligated. The System gives him a path and a punishment, and the story spends its length showing the interest payments — fatigue, mana upkeep, penalty zones, and the widening gap between him and everyone he is trying to protect.",
-        "If that framing interests you, the same argument applies across the genre — see our editorial on [why most isekai fail and the handful that work](/article/isekai-power-fantasy-that-actually-works), or start broader with the [beginner's guide to modern shonen](/guides).",
+        "If that framing interests you, the same argument applies across the genre — see our editorial on [why most isekai fail and the handful that work](/article/frieren-magic-system-deep-dive), or start broader with the [beginner's guide to modern shonen](/guides).",
       ],
     },
     {

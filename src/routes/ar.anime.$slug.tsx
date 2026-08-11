@@ -12,7 +12,9 @@ export const Route = createFileRoute("/ar/anime/$slug")({
     const g = loaderData?.guide;
     const url = `${SITE_URL}/ar/anime/${params.slug}`;
     if (!g) {
-      return { meta: [{ title: "غير متوفر" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "غير متوفر" }, { name: "robots", content: "noindex" }],
+      };
     }
     return {
       meta: [
@@ -29,7 +31,11 @@ export const Route = createFileRoute("/ar/anime/$slug")({
         { rel: "canonical", href: url },
         { rel: "alternate", hreflang: "ar", href: url },
         { rel: "alternate", hreflang: "en", href: `${SITE_URL}${g.enPath}` },
-        { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}${g.enPath}` },
+        {
+          rel: "alternate",
+          hreflang: "x-default",
+          href: `${SITE_URL}${g.enPath}`,
+        },
       ],
       scripts: [
         {
@@ -45,7 +51,10 @@ export const Route = createFileRoute("/ar/anime/$slug")({
                 dateModified: g.updated,
                 mainEntityOfPage: url,
                 author: { "@type": "Organization", name: "GameCastle Anime" },
-                publisher: { "@type": "Organization", name: "GameCastle Anime" },
+                publisher: {
+                  "@type": "Organization",
+                  name: "GameCastle Anime",
+                },
               },
               {
                 "@type": "FAQPage",
@@ -68,25 +77,44 @@ export const Route = createFileRoute("/ar/anime/$slug")({
 function ArGuidePage() {
   const { guide } = Route.useLoaderData();
   const g = guide as ArGuide;
-  const others = AR_GUIDES.filter((x) => x.slug !== g.slug).slice(0, 6);
+  const guideIndex = AR_GUIDES.findIndex((item) => item.slug === g.slug);
+  const others = Array.from(
+    { length: Math.min(6, AR_GUIDES.length - 1) },
+    (_, offset) => AR_GUIDES[(guideIndex + offset + 1) % AR_GUIDES.length],
+  );
 
   return (
-    <div dir="rtl" lang="ar" className="mx-auto w-full max-w-3xl px-4 py-10 text-right">
+    <div
+      dir="rtl"
+      lang="ar"
+      className="mx-auto w-full max-w-3xl px-4 py-10 text-right"
+    >
       <nav className="mb-6 text-sm text-muted-foreground">
-        <Link to="/ar/anime" className="hover:text-primary">أدلة المشاهدة بالعربية</Link>
+        <Link to="/ar/anime" className="hover:text-primary">
+          أدلة المشاهدة بالعربية
+        </Link>
       </nav>
 
       <h1 className="text-3xl font-bold leading-snug md:text-4xl">{g.h1}</h1>
-      <p className="mt-3 text-sm text-muted-foreground">آخر تحديث: {g.updated}</p>
+      <p className="mt-3 text-sm text-muted-foreground">
+        آخر تحديث: {g.updated}
+      </p>
 
       <ul className="mt-4 flex flex-wrap justify-end gap-2">
         {g.keywords.map((k) => (
-          <li key={k} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">{k}</li>
+          <li
+            key={k}
+            className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground"
+          >
+            {k}
+          </li>
         ))}
       </ul>
 
       <div className="mt-6 space-y-4 text-base leading-8">
-        {g.intro.map((p, i) => <p key={i}>{p}</p>)}
+        {g.intro.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
       </div>
 
       <section className="mt-10">
@@ -96,14 +124,20 @@ function ArGuidePage() {
             <thead className="bg-muted/40">
               <tr>
                 {g.table.head.map((h) => (
-                  <th key={h} scope="col" className="px-3 py-2 font-semibold">{h}</th>
+                  <th key={h} scope="col" className="px-3 py-2 font-semibold">
+                    {h}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {g.table.rows.map((row, i) => (
                 <tr key={i} className="border-t border-border/60">
-                  {row.map((cell, j) => <td key={j} className="px-3 py-2">{cell}</td>)}
+                  {row.map((cell, j) => (
+                    <td key={j} className="px-3 py-2">
+                      {cell}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
@@ -115,7 +149,9 @@ function ArGuidePage() {
         <section key={s.h2} className="mt-10">
           <h2 className="text-xl font-semibold">{s.h2}</h2>
           <div className="mt-3 space-y-4 text-base leading-8">
-            {s.body.map((p, i) => <p key={i}>{p}</p>)}
+            {s.body.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
         </section>
       ))}
@@ -137,7 +173,11 @@ function ArGuidePage() {
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">
           {others.map((o) => (
             <li key={o.slug}>
-              <Link to="/ar/anime/$slug" params={{ slug: o.slug }} className="text-primary hover:underline">
+              <Link
+                to="/ar/anime/$slug"
+                params={{ slug: o.slug }}
+                className="text-primary hover:underline"
+              >
                 {o.h1}
               </Link>
             </li>
@@ -145,7 +185,9 @@ function ArGuidePage() {
         </ul>
         <p className="mt-6 text-sm text-muted-foreground">
           النسخة الإنجليزية:{" "}
-          <a href={g.enPath} className="text-primary hover:underline">{g.enPath}</a>
+          <a href={g.enPath} className="text-primary hover:underline">
+            {g.enPath}
+          </a>
         </p>
       </section>
     </div>

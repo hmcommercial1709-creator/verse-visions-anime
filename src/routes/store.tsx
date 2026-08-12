@@ -6,6 +6,7 @@ import {
   ShieldCheck,
   Sparkles,
   Store,
+  WalletCards,
   Zap,
 } from "lucide-react";
 import { StoreCatalog } from "@/components/store-catalog";
@@ -134,6 +135,12 @@ function Storefront() {
               >
                 <Zap className="h-4 w-4" /> Instant game top-ups
               </Link>
+              <Link
+                to="/gaming-gift-cards"
+                className="inline-flex items-center gap-2 rounded-xl border border-[#f47b25]/50 bg-[#f47b25]/10 px-5 py-3 font-bold text-[#ff9a51] transition hover:border-[#f47b25] hover:bg-[#f47b25]/20"
+              >
+                <WalletCards className="h-4 w-4" /> Gaming gift cards
+              </Link>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
@@ -168,7 +175,7 @@ function Storefront() {
             { href: "#latest-from-play-asia", label: "Latest games" },
             { href: "#trending-gaming-gear", label: "Gaming gear" },
             { href: "#catalog", label: "All products" },
-            { href: "#catalog", label: "Gift cards" },
+            { href: "/gaming-gift-cards", label: "Gaming gift cards" },
             { href: "/game-top-up", label: "GAMIVO top-ups" },
           ].map((item) => (
             <a

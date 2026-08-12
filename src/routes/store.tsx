@@ -14,7 +14,7 @@ import { StoreProductGrid } from "@/components/store-product-card";
 import { storeCategories, storeProducts, storeRetailer } from "@/data/store-products";
 import { absoluteUrl, breadcrumbSchema, collectionSchema } from "@/lib/seo";
 
-const title = "Anime Collectibles, Games, Gift Cards & Gaming Gear | GameCastle";
+const title = "Anime Collectibles, Games & Gaming Gear | GameCastle";
 const description =
   "Explore GameCastle's anime figures, games, gaming accessories, region-specific gift cards and game top-ups through Amazon and Play-Asia.";
 

@@ -53,14 +53,10 @@ export const Route = createFileRoute("/gaming-hub/anime-games")({
           itemListElement: animeGames.map((game, index) => ({
             "@type": "ListItem",
             position: index + 1,
-            item: {
-              "@type": "Product",
-              name: game.name,
-              description: `${game.format}. ${game.buyerQuestion}`,
-              image: `https://gamecastle.store${game.image}`,
-              category: "Anime video game",
-              url: `https://gamecastle.store/gaming-hub/anime-games#anime-game-${index + 1}`,
-            },
+            name: game.name,
+            description: `${game.format}. ${game.buyerQuestion}`,
+            image: `https://gamecastle.store${game.image}`,
+            url: `https://gamecastle.store/gaming-hub/anime-games#anime-game-${index + 1}`,
           })),
         },
         faqSchema(faqs),

@@ -6,11 +6,16 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import {
-  AmazonButton,
+  StoreBuyButton,
   StoreProductGrid,
   StoreProductImage,
 } from "@/components/store-product-card";
-import { getStoreProduct, relatedStoreProducts } from "@/data/store-products";
+import {
+  getStoreProduct,
+  relatedStoreProducts,
+  storeProductSku,
+  storeRetailer,
+} from "@/data/store-products";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
 export const Route = createFileRoute("/store_/$slug")({
@@ -55,7 +60,7 @@ export const Route = createFileRoute("/store_/$slug")({
             name: product.shortTitle,
             description: product.description,
             image: product.imageUrl,
-            sku: product.asin,
+            sku: storeProductSku(product),
             category: product.categories.join(", "),
             url,
           }),
@@ -78,6 +83,8 @@ export const Route = createFileRoute("/store_/$slug")({
 
 function ProductDetail() {
   const { product } = Route.useLoaderData();
+  const retailer = storeRetailer(product);
+  const sku = storeProductSku(product);
   const related = relatedStoreProducts(product, 4);
   const alsoLike = relatedStoreProducts(product, 8).slice(4);
 
@@ -127,10 +134,10 @@ function ProductDetail() {
                 availability
               </div>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                See the latest price, seller, delivery options and international
-                availability on Amazon.
+                See the latest price, seller, delivery or digital-fulfilment
+                options and regional availability on {retailer}.
               </p>
-              <AmazonButton
+              <StoreBuyButton
                 product={product}
                 className="mt-5 w-full sm:w-auto"
               />
@@ -139,9 +146,9 @@ function ProductDetail() {
             <div className="mt-4 flex items-start gap-3 rounded-xl border border-border/60 bg-card/50 p-4 text-sm text-muted-foreground">
               <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
               <p>
-                Checkout, payment, shipping and returns are handled by Amazon
-                and the selected seller. GameCastle may earn a commission from
-                qualifying purchases.
+                Checkout, payment, delivery and applicable returns are handled
+                by {retailer} and the selected seller. GameCastle may earn a
+                commission from qualifying purchases.
               </p>
             </div>
           </div>
@@ -169,8 +176,15 @@ function ProductDetail() {
                 label="Categories"
                 value={product.categories.join(", ")}
               />
-              <Detail label="Amazon ASIN" value={product.asin} />
-              <Detail label="Price" value="Check latest price on Amazon" />
+              <Detail
+                label={retailer === "Amazon" ? "Amazon ASIN" : "Play-Asia item code"}
+                value={sku}
+              />
+              <Detail label="Retailer" value={retailer} />
+              <Detail
+                label="Price"
+                value={`Check latest price on ${retailer}`}
+              />
             </dl>
             <a
               href={product.affiliateUrl}
@@ -178,7 +192,7 @@ function ProductDetail() {
               rel="sponsored nofollow noopener noreferrer"
               className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline"
             >
-              View Amazon listing <ExternalLink className="h-4 w-4" />
+              View {retailer} listing <ExternalLink className="h-4 w-4" />
             </a>
           </aside>
         </section>

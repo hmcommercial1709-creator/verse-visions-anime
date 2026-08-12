@@ -91,7 +91,7 @@ export function StoreProductCard({ product }: { product: StoreProduct }) {
             <ShoppingBag className="h-4 w-4 text-accent" /> Check latest price
             on {retailer}
           </div>
-          <div className="grid grid-cols-[1fr_auto] gap-2">
+          <div className="grid grid-cols-1 gap-2">
             <Link
               to="/store/$slug"
               params={{ slug: product.slug }}
@@ -99,7 +99,7 @@ export function StoreProductCard({ product }: { product: StoreProduct }) {
             >
               Details
             </Link>
-            <StoreBuyButton product={product} />
+            <StoreBuyButton product={product} className="w-full" />
           </div>
         </div>
       </div>

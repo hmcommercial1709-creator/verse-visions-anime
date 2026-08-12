@@ -141,6 +141,12 @@ function Storefront() {
               >
                 <WalletCards className="h-4 w-4" /> Gaming gift cards
               </Link>
+              <Link
+                to="/gaming-hub"
+                className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/50 bg-cyan-400/10 px-5 py-3 font-bold text-cyan-300 transition hover:border-cyan-400 hover:bg-cyan-400/20"
+              >
+                <ShieldCheck className="h-4 w-4" /> Gaming guides & safety
+              </Link>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
@@ -176,6 +182,7 @@ function Storefront() {
             { href: "#trending-gaming-gear", label: "Gaming gear" },
             { href: "#catalog", label: "All products" },
             { href: "/gaming-gift-cards", label: "Gaming gift cards" },
+            { href: "/gaming-hub", label: "Gaming guides" },
             { href: "/game-top-up", label: "GAMIVO top-ups" },
           ].map((item) => (
             <a

@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import {
+  AlertTriangle,
   ArrowLeft,
   ExternalLink,
   ShieldCheck,
@@ -40,15 +41,26 @@ export const Route = createFileRoute("/store_/$slug")({
       meta: [
         { title },
         { name: "description", content: product.description },
+        {
+          name: "robots",
+          content:
+            product.indexable === false
+              ? "noindex, follow"
+              : "index, follow, max-snippet:-1, max-image-preview:large",
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: product.description },
         { property: "og:type", content: "product" },
         { property: "og:url", content: url },
-        { property: "og:image", content: product.imageUrl },
+        ...(product.imageUrl.startsWith("http")
+          ? [{ property: "og:image", content: product.imageUrl }]
+          : []),
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: product.description },
-        { name: "twitter:image", content: product.imageUrl },
+        ...(product.imageUrl.startsWith("http")
+          ? [{ name: "twitter:image", content: product.imageUrl }]
+          : []),
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
@@ -59,7 +71,9 @@ export const Route = createFileRoute("/store_/$slug")({
             "@type": "Product",
             name: product.shortTitle,
             description: product.description,
-            image: product.imageUrl,
+            ...(product.imageUrl.startsWith("http")
+              ? { image: product.imageUrl }
+              : {}),
             sku: storeProductSku(product),
             category: product.categories.join(", "),
             url,
@@ -117,6 +131,16 @@ function ProductDetail() {
               {product.description}
             </p>
 
+            {product.purchaseNotice && (
+              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-amber-400/35 bg-amber-400/10 p-4 text-sm leading-relaxed text-amber-100">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" />
+                <p>
+                  <strong>Check before purchase:</strong>{" "}
+                  {product.purchaseNotice}
+                </p>
+              </div>
+            )}
+
             <div className="mt-5 flex flex-wrap gap-2">
               {product.categories.map((category) => (
                 <span
@@ -157,10 +181,10 @@ function ProductDetail() {
         <section className="mt-14 grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="rounded-2xl border border-border/60 bg-card/50 p-6 sm:p-8">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              Collector overview
+              Product overview
             </p>
             <h2 className="mt-2 font-display text-3xl font-bold">
-              Why it belongs in the collection
+              What to know before purchase
             </h2>
             <div className="mt-5 space-y-4 text-base leading-relaxed text-foreground/85">
               {product.longDescription.map((paragraph) => (

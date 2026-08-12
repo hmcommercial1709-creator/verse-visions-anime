@@ -36,7 +36,7 @@ export function HomeStorePromo() {
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             Discover hand-picked anime figures, Funko Pop! collectibles,
             Nintendo Switch accessories and gaming gear. Compare the latest
-            price and availability on Amazon.
+            price and availability on Amazon or Play-Asia.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link
@@ -54,8 +54,8 @@ export function HomeStorePromo() {
           <div className="mt-5 flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
             <p>
-              Checkout, shipping and returns are handled by Amazon. GameCastle
-              may earn from qualifying purchases.
+              Checkout, delivery and applicable returns are handled by Amazon
+              or Play-Asia. GameCastle may earn from qualifying purchases.
             </p>
           </div>
         </div>

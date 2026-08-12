@@ -8,12 +8,12 @@ import {
   Store,
 } from "lucide-react";
 import { StoreProductGrid } from "@/components/store-product-card";
-import { storeCategories, storeProducts } from "@/data/store-products";
+import { storeCategories, storeProducts, storeRetailer } from "@/data/store-products";
 import { absoluteUrl, breadcrumbSchema, collectionSchema } from "@/lib/seo";
 
-const title = "Anime Collectibles & Gaming Gear Store | GameCastle";
+const title = "Anime Collectibles, Games & Gaming Gear Store | GameCastle";
 const description =
-  "Shop GameCastle's curated anime figures, Funko Pop collectibles, gaming headsets, Nintendo Switch controllers and charging accessories through Amazon.";
+  "Explore GameCastle's curated anime figures, Japanese music, PlayStation and PC games, Nintendo collectibles, controllers and gaming gear through Amazon and Play-Asia.";
 
 export const Route = createFileRoute("/store")({
   head: () => ({
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/store")({
         children: JSON.stringify(
           collectionSchema({
             path: "/store",
-            name: "GameCastle Anime Collectibles & Gaming Gear Store",
+            name: "GameCastle Anime, Games & Collectibles Store",
             description,
             items: storeProducts.map((product) => ({
               path: `/store/${product.slug}`,
@@ -62,16 +62,21 @@ function Storefront() {
   const gamingGear = storeProducts.filter(
     (product) => product.collection === "Gaming Gear",
   );
+  const playAsiaProducts = storeProducts.filter(
+    (product) => storeRetailer(product) === "Play-Asia",
+  );
   const featuredFigures = animeFigures
     .filter((product) => product.featured)
     .slice(0, 4);
-  const bestSellers = [
+  const featuredPicks = [
     storeProducts[2],
     storeProducts[3],
     storeProducts[5],
     storeProducts[6],
   ];
-  const newArrivals = storeProducts.filter((product) => product.newArrival);
+  const newArrivals = storeProducts
+    .filter((product) => product.newArrival)
+    .slice(-8);
 
   return (
     <div className="pb-12">
@@ -83,15 +88,16 @@ function Storefront() {
               <Store className="h-3.5 w-3.5" /> GameCastle Store
             </div>
             <h1 className="mt-5 max-w-4xl font-display text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              Collector-grade anime picks.{" "}
+              Anime collectibles, Japanese media and games.{" "}
               <span className="text-gradient">
-                Gaming gear that belongs in your setup.
+                One curated store, two trusted retailers.
               </span>
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
-              A focused marketplace for anime figures, Funko Pop collectibles,
-              wireless audio, Nintendo Switch controllers and charging
-              accessories. Every purchase opens securely on Amazon.
+              Browse anime figures, Japanese CDs and vinyl, physical and
+              digital games, Nintendo collectibles, controllers and setup
+              accessories. Every purchase continues securely on Amazon or
+              Play-Asia.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a
@@ -101,18 +107,24 @@ function Storefront() {
                 <Sparkles className="h-4 w-4" /> Shop anime collectibles
               </a>
               <a
+                href="#new-from-play-asia"
+                className="inline-flex items-center gap-2 rounded-xl border border-sky-400/50 bg-sky-400/10 px-5 py-3 font-bold text-sky-300"
+              >
+                <Gamepad2 className="h-4 w-4" /> New from Play-Asia
+              </a>
+              <a
                 href="#trending-gaming-gear"
                 className="inline-flex items-center gap-2 rounded-xl border border-accent/50 bg-accent/10 px-5 py-3 font-bold text-accent"
               >
-                <Gamepad2 className="h-4 w-4" /> Explore gaming gear
+                <Headphones className="h-4 w-4" /> Explore gaming gear
               </a>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
             <TrustCard
               icon={ShieldCheck}
-              title="Secure Amazon checkout"
-              text="Orders, payment, delivery and returns are handled by Amazon and the selected seller."
+              title="Trusted partner checkout"
+              text="Orders, payment, delivery and applicable returns are handled by Amazon, Play-Asia and their selected sellers."
             />
             <TrustCard
               icon={Headphones}
@@ -125,19 +137,41 @@ function Storefront() {
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
         <section className="mt-10 rounded-2xl border border-[#ff9900]/30 bg-[#ff9900]/5 p-4 text-sm text-muted-foreground">
-          <strong className="text-foreground">Affiliate disclosure:</strong> As
-          an Amazon Associate, GameCastle may earn from qualifying purchases.
-          Prices and availability are shown by Amazon and may change.
-          International shipping varies by product and destination.
+          <strong className="text-foreground">Affiliate disclosure:</strong>{" "}
+          GameCastle may earn a commission from qualifying purchases made
+          through Amazon or Play-Asia links. Prices, stock, delivery and
+          regional availability are controlled by each retailer and may change.
         </section>
+
+        <nav
+          aria-label="Store quick links"
+          className="mt-5 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {[
+            { href: "#featured-anime-figures", label: "Anime figures" },
+            { href: "#new-from-play-asia", label: "New from Play-Asia" },
+            { href: "#trending-gaming-gear", label: "Gaming gear" },
+            { href: "#japanese-music", label: "Japanese music" },
+            { href: "#playstation-games", label: "PlayStation games" },
+            { href: "#nintendo-collectibles", label: "Nintendo collectibles" },
+          ].map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="shrink-0 rounded-full border border-border/60 bg-card/60 px-4 py-2 text-xs font-bold text-foreground/85 transition hover:border-primary/60 hover:text-primary"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
 
         <section id="popular-anime-collections" className="scroll-mt-32 py-14">
           <SectionHeading
             eyebrow="Shop by category"
-            title="Popular Anime Collections"
-            description="Start with a franchise, figure style or gaming setup category. Only categories with listed products are linked below."
+            title="Shop Every GameCastle Collection"
+            description="Jump directly to anime figures, games, Japanese music, Nintendo collectibles or setup gear. Only categories with listed products are linked."
           />
-          <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-2">
             {storeCategories.map((category) => (
               <article
                 key={category.name}
@@ -176,21 +210,28 @@ function Storefront() {
           id="trending-gaming-gear"
           eyebrow="Setup upgrades"
           title="Trending Gaming Gear"
-          description="GameCastle's currently featured headset, controller and charging accessories."
+          description="Headsets, controllers and charging accessories from Amazon and Play-Asia."
           products={gamingGear}
         />
         <StoreSection
-          id="best-sellers"
-          eyebrow="Collector picks"
-          title="Best Sellers"
-          description="A focused set of products prominently featured in the GameCastle store. Check Amazon for current sales rank and availability."
-          products={bestSellers}
+          id="new-from-play-asia"
+          eyebrow="New affiliate partner"
+          title="New from Play-Asia"
+          description="Eight verified games, Japanese music releases, Nintendo accessories and collectibles with direct Play-Asia affiliate links."
+          products={playAsiaProducts}
+        />
+        <StoreSection
+          id="featured-picks"
+          eyebrow="GameCastle selection"
+          title="Featured Picks"
+          description="A focused set of products selected for prominent placement in the GameCastle store. Check the retailer for live stock and price."
+          products={featuredPicks}
         />
         <StoreSection
           id="new-arrivals"
           eyebrow="Just added"
           title="New Arrivals"
-          description="The newest products added to the GameCastle affiliate catalog."
+          description="The eight latest products added to the GameCastle affiliate catalog."
           products={newArrivals}
         />
 

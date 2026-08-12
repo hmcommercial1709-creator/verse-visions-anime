@@ -212,6 +212,7 @@ const megaGroups = [
 
 /** Direct category hubs surfaced in the main navigation. */
 const categoryHubs = [
+  { to: "/store", label: "Store" },
   { to: "/guides", label: "Guides" },
   { to: "/watch-order", label: "Watch Orders" },
   { to: "/timeline", label: "Timeline" },

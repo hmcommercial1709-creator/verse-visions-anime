@@ -48,6 +48,7 @@ const footerCols = [
       { to: "/facts", label: "Facts" },
       { to: "/openings", label: "Openings" },
       { to: "/soundtracks", label: "Soundtracks" },
+      { to: "/store", label: "Anime Collectibles & Gaming Gear" },
       { to: "/wallpapers", label: "Artwork Gallery" },
       { to: "/streaming", label: "Legal Streaming" },
     ],

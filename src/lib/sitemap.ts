@@ -86,11 +86,13 @@ const PAGE_ENTRIES: SitemapEntry[] = [
       priority: "0.4",
     }),
   ),
-  ...storeProducts.map((product) => ({
-    path: `/store/${product.slug}`,
-    changefreq: "weekly" as const,
-    priority: "0.8",
-  })),
+  ...storeProducts
+    .filter((product) => product.indexable !== false)
+    .map((product) => ({
+      path: `/store/${product.slug}`,
+      changefreq: "weekly" as const,
+      priority: "0.8",
+    })),
 ];
 
 export function partitionEntries(partition: Partition): SitemapEntry[] {

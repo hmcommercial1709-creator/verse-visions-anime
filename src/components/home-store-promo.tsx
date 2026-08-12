@@ -34,8 +34,8 @@ export function HomeStorePromo() {
             Bring your favorite anime worlds home.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Discover hand-picked anime figures, Funko Pop! collectibles,
-            Nintendo Switch accessories and gaming gear. Compare the latest
+            Discover anime figures, games, Nintendo accessories, regional gift
+            cards and game top-ups. Search the catalog, then compare the latest
             price and availability on Amazon or Play-Asia.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
@@ -48,7 +48,7 @@ export function HomeStorePromo() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <span className="text-sm font-semibold text-foreground/80">
-              {storeProducts.length} hand-picked products
+              {storeProducts.length} curated catalog products
             </span>
           </div>
           <div className="mt-5 flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">

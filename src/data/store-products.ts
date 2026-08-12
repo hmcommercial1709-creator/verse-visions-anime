@@ -532,7 +532,7 @@ const additionalPlayAsiaSeeds: AdditionalPlayAsiaSeed[] = [
     "affiliateUrl": "https://www.play-asia.com/ar/disneys-hercules/13/70ew79?affiliate_id=6821075",
     "title": "Disney's Hercules — Classic Action Game",
     "shortTitle": "Disney's Hercules",
-    "description": "A classic action-platform game inspired by Disney's Hercules.",
+    "description": "Explore Disney's Hercules, a classic action-platform game, then verify platform, region, language and delivery details on Play-Asia.",
     "collection": "Games & Gaming Collectibles",
     "categories": [
       "Video Games",
@@ -698,7 +698,7 @@ const additionalPlayAsiaSeeds: AdditionalPlayAsiaSeed[] = [
     "affiliateUrl": "https://www.play-asia.com/ar/lego-dimensions-fun-pack-chima-cragger/13/7093nb?affiliate_id=6821075",
     "title": "LEGO Dimensions Fun Pack — Chima Cragger",
     "shortTitle": "LEGO Dimensions Chima Cragger",
-    "description": "A Chima-themed expansion pack for compatible LEGO Dimensions setups.",
+    "description": "Explore the LEGO Dimensions Chima Cragger Fun Pack and verify included pieces, compatibility, packaging and condition on Play-Asia.",
     "collection": "Gaming Gear",
     "categories": [
       "Gaming Accessories",
@@ -714,7 +714,7 @@ const additionalPlayAsiaSeeds: AdditionalPlayAsiaSeed[] = [
     "affiliateUrl": "https://www.play-asia.com/ar/lego-dimensions-fun-pack-chima-eris/13/7093nd?affiliate_id=6821075",
     "title": "LEGO Dimensions Fun Pack — Chima Eris",
     "shortTitle": "LEGO Dimensions Chima Eris",
-    "description": "A Chima-themed expansion pack for compatible LEGO Dimensions setups.",
+    "description": "Explore the LEGO Dimensions Chima Eris Fun Pack and verify included pieces, compatibility, packaging and condition on Play-Asia.",
     "collection": "Gaming Gear",
     "categories": [
       "Gaming Accessories",

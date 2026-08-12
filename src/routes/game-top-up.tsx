@@ -18,8 +18,17 @@ const title = "Game Top Up - Instant Digital Game Credits Recharge";
 const description =
   "Recharge PUBG, Free Fire, Roblox, Fortnite and more games instantly with secure digital top-up services.";
 
-const GAMIVO_TOP_UP_URL = "https://www.gamivo.com/direct-top-ups";
-const secureExternalRel = "nofollow noopener noreferrer";
+const GAMIVO_AFFILIATE_ID = "gkphy5wy";
+
+function gamivoAffiliateUrl(url: string) {
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}glv=${GAMIVO_AFFILIATE_ID}`;
+}
+
+const GAMIVO_TOP_UP_URL = gamivoAffiliateUrl(
+  "https://www.gamivo.com/direct-top-ups",
+);
+const secureExternalRel = "sponsored nofollow noopener noreferrer";
 
 type Service = {
   name: string;
@@ -36,7 +45,7 @@ const services: Service[] = [
     name: "PUBG Mobile",
     category: "Direct top-up",
     description: "Choose PUBG Mobile UC options and confirm the correct account and region on GAMIVO.",
-    href: "https://www.gamivo.com/direct-top-ups/pubg-mobile",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/pubg-mobile"),
     glyph: "PUBG",
     visual: "linear-gradient(135deg, #db8c1f 0%, #7c2d12 52%, #1e1e1e 100%)",
     icon: Gamepad2,
@@ -45,7 +54,7 @@ const services: Service[] = [
     name: "Free Fire",
     category: "Direct top-up",
     description: "Browse Free Fire top-up choices, then review delivery and activation details on GAMIVO.",
-    href: "https://www.gamivo.com/direct-top-ups/free-fire",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/free-fire"),
     glyph: "FF",
     visual: "linear-gradient(135deg, #f59e0b 0%, #b91c1c 52%, #1e1e1e 100%)",
     icon: Bolt,
@@ -54,7 +63,7 @@ const services: Service[] = [
     name: "Fortnite",
     category: "Gift card",
     description: "Explore Fortnite digital credit listings and verify the platform, value and region before purchase.",
-    href: "https://www.gamivo.com/search/fortnite",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/search/fortnite"),
     glyph: "FN",
     visual: "linear-gradient(135deg, #4f46e5 0%, #7e22ce 52%, #1e1e1e 100%)",
     icon: Sparkles,
@@ -63,7 +72,7 @@ const services: Service[] = [
     name: "Roblox",
     category: "Gift card",
     description: "Compare Roblox gift card offers and continue to the matching regional listing on GAMIVO.",
-    href: "https://www.gamivo.com/store/gift-cards/roblox",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/roblox"),
     glyph: "RBLX",
     visual: "linear-gradient(135deg, #ef4444 0%, #374151 52%, #111827 100%)",
     icon: WalletCards,
@@ -72,7 +81,7 @@ const services: Service[] = [
     name: "Valorant",
     category: "Direct top-up",
     description: "Find Valorant top-up options and check account, currency and regional requirements on GAMIVO.",
-    href: "https://www.gamivo.com/direct-top-ups/valorant",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/valorant"),
     glyph: "V",
     visual: "linear-gradient(135deg, #fb7185 0%, #881337 52%, #1e1e1e 100%)",
     icon: Zap,
@@ -90,7 +99,7 @@ const services: Service[] = [
     name: "Mobile Legends",
     category: "Direct top-up",
     description: "View Mobile Legends: Bang Bang diamond options and confirm player details on GAMIVO.",
-    href: "https://www.gamivo.com/direct-top-ups/mobile-legends-bang-bang",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/mobile-legends-bang-bang"),
     glyph: "MLBB",
     visual: "linear-gradient(135deg, #2563eb 0%, #312e81 52%, #1e1e1e 100%)",
     icon: Gamepad2,
@@ -99,7 +108,7 @@ const services: Service[] = [
     name: "Steam Wallet",
     category: "Gift card",
     description: "Compare Steam Wallet gift cards by currency and region before continuing to GAMIVO checkout.",
-    href: "https://www.gamivo.com/store/gift-cards/steam",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/steam"),
     glyph: "STEAM",
     visual: "linear-gradient(135deg, #0891b2 0%, #0f172a 58%, #1e1e1e 100%)",
     icon: WalletCards,
@@ -108,7 +117,7 @@ const services: Service[] = [
     name: "PlayStation Store",
     category: "Gift card",
     description: "Find PlayStation Store credit and select the correct account country and denomination on GAMIVO.",
-    href: "https://www.gamivo.com/store/gift-cards/psn",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/psn"),
     glyph: "PS",
     visual: "linear-gradient(135deg, #2563eb 0%, #172554 58%, #1e1e1e 100%)",
     icon: WalletCards,
@@ -117,7 +126,7 @@ const services: Service[] = [
     name: "Xbox Gift Cards",
     category: "Gift card",
     description: "Browse Xbox gift card listings and verify platform, currency and activation region on GAMIVO.",
-    href: "https://www.gamivo.com/store/gift-cards/xbox-live",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/xbox-live"),
     glyph: "XBOX",
     visual: "linear-gradient(135deg, #16a34a 0%, #14532d 58%, #1e1e1e 100%)",
     icon: WalletCards,
@@ -126,7 +135,7 @@ const services: Service[] = [
     name: "Nintendo eShop",
     category: "Gift card",
     description: "Choose Nintendo eShop credit for the correct store region and continue securely to GAMIVO.",
-    href: "https://www.gamivo.com/store/gift-cards/nintendo",
+    href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/nintendo"),
     glyph: "N",
     visual: "linear-gradient(135deg, #ef4444 0%, #7f1d1d 58%, #1e1e1e 100%)",
     icon: WalletCards,

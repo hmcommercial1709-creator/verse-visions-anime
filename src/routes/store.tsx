@@ -6,6 +6,7 @@ import {
   ShieldCheck,
   Sparkles,
   Store,
+  Zap,
 } from "lucide-react";
 import { StoreCatalog } from "@/components/store-catalog";
 import { StoreProductGrid } from "@/components/store-product-card";
@@ -127,6 +128,12 @@ function Storefront() {
               >
                 <Headphones className="h-4 w-4" /> Explore gaming gear
               </a>
+              <Link
+                to="/game-top-up"
+                className="inline-flex items-center gap-2 rounded-xl border border-[#f47b25]/50 bg-[#f47b25]/10 px-5 py-3 font-bold text-[#ff9a51] transition hover:border-[#f47b25] hover:bg-[#f47b25]/20"
+              >
+                <Zap className="h-4 w-4" /> Instant game top-ups
+              </Link>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
@@ -162,7 +169,7 @@ function Storefront() {
             { href: "#trending-gaming-gear", label: "Gaming gear" },
             { href: "#catalog", label: "All products" },
             { href: "#catalog", label: "Gift cards" },
-            { href: "#catalog", label: "Game top-ups" },
+            { href: "/game-top-up", label: "GAMIVO top-ups" },
           ].map((item) => (
             <a
               key={`${item.href}-${item.label}`}

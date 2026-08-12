@@ -13,6 +13,7 @@ import {
   populatedCategorySlugs,
 } from "@/lib/content-registry";
 import { AR_GUIDES } from "@/data/ar-guides";
+import { storeProducts } from "@/data/store-products";
 import {
   INDEXABLE_LOCALES,
   DEFAULT_LOCALE,
@@ -69,6 +70,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/manga-spoilers",
     "/timeline",
     "/wallpapers",
+    "/store",
     "/authors",
     "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),
@@ -84,6 +86,11 @@ const PAGE_ENTRIES: SitemapEntry[] = [
       priority: "0.4",
     }),
   ),
+  ...storeProducts.map((product) => ({
+    path: `/store/${product.slug}`,
+    changefreq: "weekly" as const,
+    priority: "0.8",
+  })),
 ];
 
 export function partitionEntries(partition: Partition): SitemapEntry[] {

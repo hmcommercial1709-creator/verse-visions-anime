@@ -35,7 +35,7 @@ export const Route = createFileRoute("/store_/$slug")({
       };
     }
     const { product } = loaderData;
-    const title = `${product.title} | GameCastle Store`;
+    const title = `${product.shortTitle} | GameCastle`;
     const url = absoluteUrl(`/store/${product.slug}`);
     return {
       meta: [
@@ -68,15 +68,27 @@ export const Route = createFileRoute("/store_/$slug")({
           type: "application/ld+json",
           children: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.shortTitle,
-            description: product.description,
-            ...(product.imageUrl.startsWith("http")
-              ? { image: product.imageUrl }
-              : {}),
-            sku: storeProductSku(product),
-            category: product.categories.join(", "),
+            "@type": "ItemPage",
+            "@id": `${url}#page`,
             url,
+            name: product.shortTitle,
+            headline: product.title,
+            description: product.description,
+            inLanguage: "en",
+            ...(product.imageUrl.startsWith("http")
+              ? {
+                  primaryImageOfPage: {
+                    "@type": "ImageObject",
+                    url: product.imageUrl,
+                  },
+                }
+              : {}),
+            about: {
+              "@type": "Thing",
+              name: product.shortTitle,
+              description: product.description,
+              identifier: storeProductSku(product),
+            },
           }),
         },
         {

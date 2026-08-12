@@ -118,7 +118,7 @@ const playAsiaProductImages: Record<string, string> = {
   "borderlands-4":
     "https://s.pacn.ws/1/p/1cs/borderlands-4-878155.4.jpg?v=szdv4g&width=800",
   "dark-souls-remastered":
-    "https://www.mobygames.com/images/covers/l/572950-dark-souls-remastered-nintendo-switch-front-cover.jpg",
+    "https://cdn11.bigcommerce.com/s-muk18pjqrv/images/stencil/1280x1280/products/140140/1095850/api85lcnh__03315.1646484747.jpg?c=1",
   "disneys-hercules":
     "https://s.pacn.ws/1/p/12l/disneys-hercules-694917.7.jpg?v=ssbzcj&width=800",
   "dragon-ball-xenoverse-2-season-pass-dlc":

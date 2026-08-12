@@ -106,6 +106,71 @@ function catalogArtwork(kind: CatalogArtworkKind, title: string) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
+const playAsiaProductImages: Record<string, string> = {
+  "arc-raiders":
+    "https://s.pacn.ws/1/p/1dj/arc-raiders-891703.8.jpg?v=t333re&width=800",
+  "assassins-creed-the-ezio-collection":
+    "https://netbit.pt/27920-large_default/assassin-s-creed-the-ezio-collection-ps4.jpg",
+  "atomic-heart":
+    "https://s.pacn.ws/1/p/15d/atomic-heart-744689.1.jpg?v=ropuh7&width=800",
+  "blasphemous":
+    "https://s.pacn.ws/1/p/xp/blasphemous-606963.10.jpg?v=rxbhne&width=800",
+  "borderlands-4":
+    "https://s.pacn.ws/1/p/1cs/borderlands-4-878155.4.jpg?v=szdv4g&width=800",
+  "dark-souls-remastered":
+    "https://www.mobygames.com/images/covers/l/572950-dark-souls-remastered-nintendo-switch-front-cover.jpg",
+  "disneys-hercules":
+    "https://s.pacn.ws/1/p/12l/disneys-hercules-694917.7.jpg?v=ssbzcj&width=800",
+  "dragon-ball-xenoverse-2-season-pass-dlc":
+    "https://s.pacn.ws/1/p/1em/dragon-ball-xenoverse-2-season-pass-dlc-911407.10.jpg?v=t99dxy&width=800",
+  "dragonsword-awakening":
+    "https://s.pacn.ws/1/p/1g6/dragonsword-awakening-939179.9.jpg?v=thqtbp&width=800",
+  "final-fantasy-xiii":
+    "https://s.pacn.ws/1/p/ms/final-fantasy-xiii-410149.10.jpg?v=ruqh93&width=800",
+  "hacker-evolution-duality":
+    "https://s.pacn.ws/1/p/115/hacker-evolution-duality-668519.12.jpg?v=si8m28&width=800",
+  "koumajou-remilia-ii-strangers-requiem":
+    "https://s.pacn.ws/1/p/1dt/896873.1.jpg?v=t4tvs6&width=800",
+  "lego-dimensions-fun-pack-chima-cragger":
+    "https://media.power-cdn.net/images/h-196d55a7ff549e73247a70e8959f6eff/products/435345/435345_1_1200x1200_w_g.jpg",
+  "lego-dimensions-fun-pack-chima-eris":
+    "https://images.eprice.it/nobrand/0/hres/785/202428785/DAM202428785-0-47f6b38d-4dd6-4fbf-ad64-1994d2e06ca0.jpg",
+  "namco-museum-archives-vol-2":
+    "https://s.pacn.ws/1/p/12c/namco-museum-archives-vol-2-690263.9.jpg?v=ry1c4c&width=800",
+  "naruto-shippuden-ultimate-ninja-storm-3-full-burst":
+    "https://s.pacn.ws/1/p/i5/naruto-shippuden-ultimate-ninja-storm-3-full-burst-326947.16.jpg?v=ronxzn&width=800",
+  "nintendo-switch-pro-controller-xenoblade-2-edition":
+    "https://s.pacn.ws/1/p/ui/nintendo-switch-pro-controller-xenoblade-2-edition-549087.1.jpg?v=p0gxsa&width=800",
+  "nioh-2-the-complete-edition":
+    "https://s.pacn.ws/1/p/1a4/nioh-2-the-complete-edition-830401.1.jpg?v=sl2lq5&width=800",
+  "palworld":
+    "https://s.pacn.ws/1/p/17t/788683.1.jpg?v=s7n2so&width=800",
+  "resident-evil-2-biohazard-re-2":
+    "https://s.pacn.ws/1/p/15t/resident-evil-2-biohazard-re-2-752555.11.jpg?v=sgcgig&width=800",
+  "resident-evil-4-gold-edition":
+    "https://s.pacn.ws/1/p/19a/resident-evil-4-gold-edition-815093.10.jpg?v=sgpifl&width=800",
+  "saints-row-the-third-remastered":
+    "https://s.pacn.ws/1/p/11w/saints-row-the-third-remastered-682201.8.jpg?v=rzxt93&width=800",
+  "simcity-2000-special-edition":
+    "https://store-images.s-microsoft.com/image/apps.57960.13589548573741081.11582a69-ce5f-4c5c-a448-a30747f25ca3.58e5ceff-7dc7-4133-9069-3f39d66d0d32",
+  "super-robot-wars-y-ultimate-edition":
+    "https://s.pacn.ws/1/p/1cs/super-robot-wars-y-ultimate-edition-878185.10.jpg?v=szf741&width=800",
+  "syndicate-plus":
+    "https://s.pacn.ws/1/p/zs/syndicate-plus-644297.10.jpg?v=sp4x2r&width=800",
+  "teenage-mutant-ninja-turtles-the-cowabunga-collection":
+    "https://s.pacn.ws/1/p/14l/teenage-mutant-ninja-turtles-the-cowabunga-collection-730873.9.jpg?v=rlqicb&width=800",
+  "the-legend-of-heroes-trails-of-cold-steel-ii":
+    "https://s.pacn.ws/1/p/z6/the-legend-of-heroes-trails-of-cold-steel-ii-633101.9.jpg?v=rlqiel&width=800",
+  "tom-clancys-the-division":
+    "https://s.pacn.ws/1/p/11t/tom-clancys-the-division-680653.10.jpg?v=s0g7ur&width=800",
+  "transformers-battlegrounds":
+    "https://s.pacn.ws/1/p/106/transformers-battlegrounds-651351.10.jpg?v=rxkany&width=800",
+  "triangle-strategy":
+    "https://s.pacn.ws/1/p/14y/737025.1.jpg?v=rjzj3t&width=800",
+  "uncharted-legacy-of-thieves-collection":
+    "https://s.pacn.ws/1/p/1d7/uncharted-legacy-of-thieves-collection-885637.1.jpg?v=t1p4zo&width=800",
+};
+
 const additionalPlayAsiaSeeds: AdditionalPlayAsiaSeed[] = [
   {
     "slug": "apple-gift-card-10--eur-portugal-account",
@@ -1175,8 +1240,12 @@ const additionalPlayAsiaProducts: StoreProduct[] = additionalPlayAsiaSeeds.map(
     collection: seed.collection,
     categories: [...seed.categories],
     affiliateUrl: seed.affiliateUrl,
-    imageUrl: catalogArtwork(seed.artworkKind, seed.shortTitle),
-    imageAlt: `GameCastle catalog artwork for ${seed.shortTitle}`,
+    imageUrl:
+      playAsiaProductImages[seed.slug] ??
+      catalogArtwork(seed.artworkKind, seed.shortTitle),
+    imageAlt: playAsiaProductImages[seed.slug]
+      ? `${seed.shortTitle} product image`
+      : `GameCastle catalog artwork for ${seed.shortTitle}`,
     featured: false,
     newArrival: true,
     purchaseNotice: seed.purchaseNotice,

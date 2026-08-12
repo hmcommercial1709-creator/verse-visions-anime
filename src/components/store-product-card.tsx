@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ExternalLink, ShoppingBag } from "lucide-react";
+import { ExternalLink, ShieldAlert, ShoppingBag } from "lucide-react";
 import {
   storeRetailer,
   type StoreProduct,
@@ -75,6 +75,11 @@ export function StoreProductCard({ product }: { product: StoreProduct }) {
           <span className="rounded-full border border-border/60 bg-background/60 px-2 py-0.5 text-[9px] tracking-[0.12em] text-muted-foreground">
             {retailer}
           </span>
+          {product.purchaseNotice && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[9px] tracking-[0.08em] text-amber-300">
+              <ShieldAlert className="h-3 w-3" /> Check details
+            </span>
+          )}
         </div>
         <Link
           to="/store/$slug"

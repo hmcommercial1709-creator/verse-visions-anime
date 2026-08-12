@@ -116,10 +116,10 @@ function Storefront() {
                 <Sparkles className="h-4 w-4" /> Shop anime collectibles
               </a>
               <a
-                href="#new-from-play-asia"
+                href="#latest-from-play-asia"
                 className="inline-flex items-center gap-2 rounded-xl border border-sky-400/50 bg-sky-400/10 px-5 py-3 font-bold text-sky-300"
               >
-                <Gamepad2 className="h-4 w-4" /> New from Play-Asia
+                <Gamepad2 className="h-4 w-4" /> Latest from Play-Asia
               </a>
               <a
                 href="#trending-gaming-gear"

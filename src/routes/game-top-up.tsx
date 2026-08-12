@@ -440,14 +440,22 @@ function GameTopUpPage() {
               <p className="mt-4 max-w-2xl leading-7 text-[#e5e5e5]">
                 Open GAMIVO's current direct top-up catalog to see available games, regions, denominations and delivery details.
               </p>
-              <a
-                href={GAMIVO_TOP_UP_URL}
-                target="_blank"
-                rel={secureExternalRel}
-                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#f47b25] px-6 py-3 font-extrabold text-white transition hover:bg-[#dd3b10] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f47b25]"
-              >
-                Start Recharge <ExternalLink className="h-4 w-4" />
-              </a>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <a
+                  href={GAMIVO_TOP_UP_URL}
+                  target="_blank"
+                  rel={secureExternalRel}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#f47b25] px-6 py-3 font-extrabold text-white transition hover:bg-[#dd3b10] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f47b25]"
+                >
+                  Start Recharge <ExternalLink className="h-4 w-4" />
+                </a>
+                <Link
+                  to="/gaming-gift-cards"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/20 px-6 py-3 font-bold text-white transition hover:border-[#f47b25]/70 hover:bg-[#f47b25]/10"
+                >
+                  Compare gaming gift cards <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           </div>
 

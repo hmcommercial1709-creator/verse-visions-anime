@@ -169,6 +169,70 @@ const playAsiaProductImages: Record<string, string> = {
     "https://s.pacn.ws/1/p/14y/737025.1.jpg?v=rjzj3t&width=800",
   "uncharted-legacy-of-thieves-collection":
     "https://s.pacn.ws/1/p/1d7/uncharted-legacy-of-thieves-collection-885637.1.jpg?v=t1p4zo&width=800",
+  "apple-gift-card-10--eur-portugal-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-100-aud-australia-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-100-dkk-denmark-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-100-eur-france-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-100-eur-netherlands-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-100-gbp-uk-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-100-mxn-mexico-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-100-usd-us-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-20--eur-finland-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-30--cny-china-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-40--eur-ireland-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-50--eur-france-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-50--pln-poland-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-500-cny-china-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-500-nok-norway-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-5000-inr-india-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-600-mxn-mexico-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "apple-gift-card-75--sar-saudi-arabia-account":
+    "https://target.scene7.com/is/image/Target/GUEST_680b3bed-b3bd-4bd6-b2bf-c5cb671913ab?fmt=pjpeg&hei=488&wid=488",
+  "blood-strike-1000-100-gold-direct-top-up":
+    "https://files.kardz.com/cms/image_%241770789992734011790.png",
+  "dmm-point-code-1000-yen":
+    "https://s3-ap-northeast-1.amazonaws.com/usebitcoin-prod-media/products/dmm/ae71f598-4a62-4f15-8c75-9fa25cab6862.png",
+  "dmm-point-code-10000-yen":
+    "https://s3-ap-northeast-1.amazonaws.com/usebitcoin-prod-media/products/dmm/ae71f598-4a62-4f15-8c75-9fa25cab6862.png",
+  "fortnite-gift-card-100-usd-us-account":
+    "https://s3-ap-southeast-2.amazonaws.com/wc-prod-pim/JPEG_1000x1000/BKFTNEG100_fortnite_epic_games_store_gift_card_100.jpg",
+  "garena-free-fire-21021-diamonds":
+    "https://assetsio.gnwcdn.com/free-fire-promo-codes.jpg?auto=webp&fit=bounds&format=jpg&height=2048&quality=85&width=2048",
+  "marvel-rivals-1000-lattices-direct-top-up":
+    "https://kaleoz-media.seagmcdn.com/kaleoz-store/202601/oss-94c5c3f31040200117c23ed3b2b40499.png?x-oss-process=image%2Fformat%2Cjpg",
+  "marvel-rivals-2180-lattices-direct-top-up":
+    "https://kaleoz-media.seagmcdn.com/kaleoz-store/202601/oss-94c5c3f31040200117c23ed3b2b40499.png?x-oss-process=image%2Fformat%2Cjpg",
+  "marvel-rivals-500-lattices-direct-top-up":
+    "https://kaleoz-media.seagmcdn.com/kaleoz-store/202601/oss-94c5c3f31040200117c23ed3b2b40499.png?x-oss-process=image%2Fformat%2Cjpg",
+  "marvel-rivals-5680-lattices-direct-top-up":
+    "https://kaleoz-media.seagmcdn.com/kaleoz-store/202601/oss-94c5c3f31040200117c23ed3b2b40499.png?x-oss-process=image%2Fformat%2Cjpg",
+  "mobile-legends-1783-diamonds":
+    "https://kaleoz-media.seagmcdn.com/kaleoz-store/202412/oss-6b3a25bd83d6f4231f8f1da8b3fd5d3b.jpeg?x-oss-process=image%2Fformat%2Cjpg",
+  "pubg-mobile-3000850-uc-code":
+    "https://cdn3.xsolla.com/img/misc/images/4f8a929ef2152339ed30b4cabd47b68b.png",
+  "pubg-mobile-30025-uc-code":
+    "https://cdn3.xsolla.com/img/misc/images/4f8a929ef2152339ed30b4cabd47b68b.png",
+  "pubg-mobile-60--uc-code":
+    "https://cdn3.xsolla.com/img/misc/images/4f8a929ef2152339ed30b4cabd47b68b.png",
+  "pubg-mobile-60002100-uc-code":
+    "https://cdn3.xsolla.com/img/misc/images/4f8a929ef2152339ed30b4cabd47b68b.png",
 };
 
 const additionalPlayAsiaSeeds: AdditionalPlayAsiaSeed[] = [

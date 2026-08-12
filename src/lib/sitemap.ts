@@ -72,6 +72,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/wallpapers",
     "/store",
     "/game-top-up",
+    "/gaming-gift-cards",
     "/authors",
     "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),

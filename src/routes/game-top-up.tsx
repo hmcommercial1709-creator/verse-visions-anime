@@ -327,7 +327,7 @@ function GameTopUpPage() {
         </div>
       </section>
 
-      <main id="recharge-services" className="scroll-mt-24">
+      <div id="recharge-services" className="scroll-mt-24">
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -422,7 +422,7 @@ function GameTopUpPage() {
             Affiliate disclosure: GameCastle may earn a commission when visitors use qualifying outbound links. GAMIVO controls product availability, prices, payment, delivery, returns and customer support.
           </p>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

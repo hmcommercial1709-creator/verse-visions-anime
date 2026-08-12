@@ -7,13 +7,14 @@ import {
   Sparkles,
   Store,
 } from "lucide-react";
+import { StoreCatalog } from "@/components/store-catalog";
 import { StoreProductGrid } from "@/components/store-product-card";
 import { storeCategories, storeProducts, storeRetailer } from "@/data/store-products";
 import { absoluteUrl, breadcrumbSchema, collectionSchema } from "@/lib/seo";
 
-const title = "Anime Collectibles, Games & Gaming Gear Store | GameCastle";
+const title = "Anime Collectibles, Games, Gift Cards & Gaming Gear | GameCastle";
 const description =
-  "Explore GameCastle's curated anime figures, Japanese music, PlayStation and PC games, Nintendo collectibles, controllers and gaming gear through Amazon and Play-Asia.";
+  "Explore GameCastle's anime figures, games, gaming accessories, region-specific gift cards and game top-ups through Amazon and Play-Asia.";
 
 export const Route = createFileRoute("/store")({
   head: () => ({
@@ -65,6 +66,14 @@ function Storefront() {
   const playAsiaProducts = storeProducts.filter(
     (product) => storeRetailer(product) === "Play-Asia",
   );
+  const latestPlayAsia = [
+    ...playAsiaProducts
+      .filter((product) => product.collection === "Games & Gaming Collectibles")
+      .slice(-8),
+    ...playAsiaProducts
+      .filter((product) => product.collection === "Gift Cards & Digital Credit")
+      .slice(0, 4),
+  ];
   const featuredFigures = animeFigures
     .filter((product) => product.featured)
     .slice(0, 4);
@@ -76,7 +85,7 @@ function Storefront() {
   ];
   const newArrivals = storeProducts
     .filter((product) => product.newArrival)
-    .slice(-8);
+    .slice(-12);
 
   return (
     <div className="pb-12">
@@ -88,15 +97,15 @@ function Storefront() {
               <Store className="h-3.5 w-3.5" /> GameCastle Store
             </div>
             <h1 className="mt-5 max-w-4xl font-display text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              Anime collectibles, Japanese media and games.{" "}
+              Anime collectibles, games, gift cards and gear.{" "}
               <span className="text-gradient">
-                One curated store, two trusted retailers.
+                One searchable catalog, two trusted retailers.
               </span>
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
-              Browse anime figures, Japanese CDs and vinyl, physical and
-              digital games, Nintendo collectibles, controllers and setup
-              accessories. Every purchase continues securely on Amazon or
+              Browse anime figures, Japanese media, games, Nintendo
+              accessories, region-specific gift cards and game top-ups. Search
+              the complete catalog, then continue securely to Amazon or
               Play-Asia.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
@@ -128,8 +137,8 @@ function Storefront() {
             />
             <TrustCard
               icon={Headphones}
-              title="Curated, not crowded"
-              text="A focused catalog with clear categories, useful descriptions and no invented ratings or prices."
+              title="Search before you shop"
+              text="Filter the complete catalog by collection, search by title or item code, and review regional warnings before leaving GameCastle."
             />
           </div>
         </div>
@@ -149,14 +158,14 @@ function Storefront() {
         >
           {[
             { href: "#featured-anime-figures", label: "Anime figures" },
-            { href: "#new-from-play-asia", label: "New from Play-Asia" },
+            { href: "#latest-from-play-asia", label: "Latest games" },
             { href: "#trending-gaming-gear", label: "Gaming gear" },
-            { href: "#japanese-music", label: "Japanese music" },
-            { href: "#playstation-games", label: "PlayStation games" },
-            { href: "#nintendo-collectibles", label: "Nintendo collectibles" },
+            { href: "#catalog", label: "All products" },
+            { href: "#catalog", label: "Gift cards" },
+            { href: "#catalog", label: "Game top-ups" },
           ].map((item) => (
             <a
-              key={item.href}
+              key={`${item.href}-${item.label}`}
               href={item.href}
               className="shrink-0 rounded-full border border-border/60 bg-card/60 px-4 py-2 text-xs font-bold text-foreground/85 transition hover:border-primary/60 hover:text-primary"
             >
@@ -187,7 +196,7 @@ function Storefront() {
                   {category.children.map((child) => (
                     <a
                       key={child}
-                      href={`#${slugify(child)}`}
+                      href="#catalog"
                       className="rounded-full border border-border/60 bg-background/50 px-3 py-1.5 text-xs font-semibold text-foreground/85 transition hover:border-primary/60 hover:text-primary"
                     >
                       {child}
@@ -214,11 +223,11 @@ function Storefront() {
           products={gamingGear}
         />
         <StoreSection
-          id="new-from-play-asia"
-          eyebrow="New affiliate partner"
-          title="New from Play-Asia"
-          description="Eight verified games, Japanese music releases, Nintendo accessories and collectibles with direct Play-Asia affiliate links."
-          products={playAsiaProducts}
+          id="latest-from-play-asia"
+          eyebrow="Fresh catalog additions"
+          title="Latest from Play-Asia"
+          description="A compact selection from the newly expanded games, accessories and digital credit catalog. Use the complete catalog below to find every product."
+          products={latestPlayAsia}
         />
         <StoreSection
           id="featured-picks"
@@ -231,28 +240,11 @@ function Storefront() {
           id="new-arrivals"
           eyebrow="Just added"
           title="New Arrivals"
-          description="The eight latest products added to the GameCastle affiliate catalog."
+          description="The twelve latest products added to the GameCastle affiliate catalog."
           products={newArrivals}
         />
 
-        {storeCategories
-          .flatMap((category) => category.children)
-          .map((categoryName) => {
-            const products = storeProducts.filter((product) =>
-              product.categories.includes(categoryName),
-            );
-            if (products.length === 0) return null;
-            return (
-              <StoreSection
-                key={categoryName}
-                id={slugify(categoryName)}
-                eyebrow="Browse collection"
-                title={categoryName}
-                description={`Explore every ${categoryName.toLowerCase()} product currently listed by GameCastle.`}
-                products={products}
-              />
-            );
-          })}
+        <StoreCatalog products={storeProducts} />
 
         <section className="mt-10 rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 via-card/70 to-accent/10 p-7 sm:p-10">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">

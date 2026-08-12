@@ -52,14 +52,10 @@ export const Route = createFileRoute("/gaming-hub/game-codes-deals")({
           itemListElement: platformGuides.map((platform, index) => ({
             "@type": "ListItem",
             position: index + 1,
-            item: {
-              "@type": "Product",
-              name: platform.name,
-              description: platform.summary,
-              image: `https://gamecastle.store${platform.image}`,
-              category: "Digital gaming credit",
-              url: `https://gamecastle.store/gaming-hub/game-codes-deals#${platform.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
-            },
+            name: platform.name,
+            description: platform.summary,
+            image: `https://gamecastle.store${platform.image}`,
+            url: `https://gamecastle.store/gaming-hub/game-codes-deals#${platform.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
           })),
         },
         faqSchema(faqs),

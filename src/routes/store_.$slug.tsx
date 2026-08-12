@@ -13,7 +13,7 @@ import {
 import { getStoreProduct, relatedStoreProducts } from "@/data/store-products";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
-export const Route = createFileRoute("/store/$slug")({
+export const Route = createFileRoute("/store_/$slug")({
   loader: ({ params }) => {
     const product = getStoreProduct(params.slug);
     if (!product) throw notFound();

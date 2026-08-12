@@ -17,7 +17,7 @@ export type StoreProduct = {
 };
 
 const amazonImage = (asin: string) =>
-  `https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=${asin}&Format=_SL600_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1`;
+  `https://images-na.ssl-images-amazon.com/images/P/${asin}.01.LZZZZZZZ.jpg`;
 
 export const storeProducts: StoreProduct[] = [
   {
@@ -170,7 +170,7 @@ export const storeProducts: StoreProduct[] = [
     collection: "Gaming Gear",
     categories: ["Nintendo Switch Accessories", "Charging Accessories"],
     affiliateUrl: "https://amzn.to/4qdTsi6",
-    imageUrl: amazonImage("B07KYHBVYH"),
+    imageUrl: "https://fastsnail.us/cdn/shop/files/1.png?v=1738827571&width=1200",
     imageAlt: "FastSnail charging dock for Nintendo Switch Joy-Con controllers",
     featured: false,
     newArrival: false,

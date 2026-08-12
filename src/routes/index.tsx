@@ -13,6 +13,7 @@ import { Rail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
+import { HomeStorePromo } from "@/components/home-store-promo";
 
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
@@ -172,6 +173,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <HomeStorePromo />
 
       {/* ABOVE THE FOLD — latest episodes, trailer playback and search. */}
       <HomeStage trending={trending} />

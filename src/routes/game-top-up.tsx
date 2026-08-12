@@ -35,6 +35,8 @@ type Service = {
   category: "Direct top-up" | "Gift card";
   description: string;
   href: string;
+  image: string;
+  imageAlt: string;
   glyph: string;
   visual: string;
   icon: LucideIcon;
@@ -46,6 +48,8 @@ const services: Service[] = [
     category: "Direct top-up",
     description: "Choose PUBG Mobile UC options and confirm the correct account and region on GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/pubg-mobile"),
+    image: "/gamivo/cards/pubg.webp",
+    imageAlt: "PUBG Mobile top-up cover artwork",
     glyph: "PUBG",
     visual: "linear-gradient(135deg, #db8c1f 0%, #7c2d12 52%, #1e1e1e 100%)",
     icon: Gamepad2,
@@ -55,6 +59,8 @@ const services: Service[] = [
     category: "Direct top-up",
     description: "Browse Free Fire top-up choices, then review delivery and activation details on GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/free-fire"),
+    image: "/gamivo/cards/free-fire.webp",
+    imageAlt: "Free Fire top-up cover artwork",
     glyph: "FF",
     visual: "linear-gradient(135deg, #f59e0b 0%, #b91c1c 52%, #1e1e1e 100%)",
     icon: Bolt,
@@ -64,6 +70,8 @@ const services: Service[] = [
     category: "Gift card",
     description: "Explore Fortnite digital credit listings and verify the platform, value and region before purchase.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/search/fortnite"),
+    image: "/gamivo/cards/fortnite.webp",
+    imageAlt: "Fortnite digital credit cover artwork",
     glyph: "FN",
     visual: "linear-gradient(135deg, #4f46e5 0%, #7e22ce 52%, #1e1e1e 100%)",
     icon: Sparkles,
@@ -73,6 +81,8 @@ const services: Service[] = [
     category: "Gift card",
     description: "Compare Roblox gift card offers and continue to the matching regional listing on GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/roblox"),
+    image: "/gamivo/cards/roblox.webp",
+    imageAlt: "Roblox gift card cover artwork",
     glyph: "RBLX",
     visual: "linear-gradient(135deg, #ef4444 0%, #374151 52%, #111827 100%)",
     icon: WalletCards,
@@ -82,6 +92,8 @@ const services: Service[] = [
     category: "Direct top-up",
     description: "Find Valorant top-up options and check account, currency and regional requirements on GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/valorant"),
+    image: "/gamivo/cards/valorant.webp",
+    imageAlt: "Valorant top-up cover artwork",
     glyph: "V",
     visual: "linear-gradient(135deg, #fb7185 0%, #881337 52%, #1e1e1e 100%)",
     icon: Zap,
@@ -90,7 +102,9 @@ const services: Service[] = [
     name: "League of Legends",
     category: "Direct top-up",
     description: "Browse GAMIVO's current top-up catalog and select a League of Legends offer for your region.",
-    href: GAMIVO_TOP_UP_URL,
+    href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/league-of-legends-pc-id"),
+    image: "/gamivo/cards/league-of-legends.webp",
+    imageAlt: "League of Legends Riot Points cover artwork",
     glyph: "LoL",
     visual: "linear-gradient(135deg, #0e7490 0%, #164e63 52%, #1e1e1e 100%)",
     icon: Sparkles,
@@ -100,6 +114,8 @@ const services: Service[] = [
     category: "Direct top-up",
     description: "View Mobile Legends: Bang Bang diamond options and confirm player details on GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/direct-top-ups/mobile-legends-bang-bang"),
+    image: "/gamivo/cards/mobile-legends.webp",
+    imageAlt: "Mobile Legends Bang Bang top-up cover artwork",
     glyph: "MLBB",
     visual: "linear-gradient(135deg, #2563eb 0%, #312e81 52%, #1e1e1e 100%)",
     icon: Gamepad2,
@@ -109,6 +125,8 @@ const services: Service[] = [
     category: "Gift card",
     description: "Compare Steam Wallet gift cards by currency and region before continuing to GAMIVO checkout.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/steam"),
+    image: "/gamivo/cards/steam.webp",
+    imageAlt: "Steam Wallet gift card cover artwork",
     glyph: "STEAM",
     visual: "linear-gradient(135deg, #0891b2 0%, #0f172a 58%, #1e1e1e 100%)",
     icon: WalletCards,
@@ -118,6 +136,8 @@ const services: Service[] = [
     category: "Gift card",
     description: "Find PlayStation Store credit and select the correct account country and denomination on GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/psn"),
+    image: "/gamivo/cards/playstation.webp",
+    imageAlt: "PlayStation Store gift card cover artwork",
     glyph: "PS",
     visual: "linear-gradient(135deg, #2563eb 0%, #172554 58%, #1e1e1e 100%)",
     icon: WalletCards,
@@ -127,6 +147,8 @@ const services: Service[] = [
     category: "Gift card",
     description: "Browse Xbox gift card listings and verify platform, currency and activation region on GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/xbox-live"),
+    image: "/gamivo/cards/xbox.svg",
+    imageAlt: "Xbox Gift Cards platform artwork",
     glyph: "XBOX",
     visual: "linear-gradient(135deg, #16a34a 0%, #14532d 58%, #1e1e1e 100%)",
     icon: WalletCards,
@@ -136,6 +158,8 @@ const services: Service[] = [
     category: "Gift card",
     description: "Choose Nintendo eShop credit for the correct store region and continue securely to GAMIVO.",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/nintendo"),
+    image: "/gamivo/cards/nintendo.webp",
+    imageAlt: "Nintendo eShop gift card cover artwork",
     glyph: "N",
     visual: "linear-gradient(135deg, #ef4444 0%, #7f1d1d 58%, #1e1e1e 100%)",
     icon: WalletCards,
@@ -443,21 +467,25 @@ function ServiceCard({ service }: { service: Service }) {
   return (
     <article className="group flex min-h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#2f2f2f] shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#f47b25]/70 hover:shadow-[0_18px_45px_rgba(0,0,0,.35)]">
       <div
-        role="img"
-        aria-label={`${service.name} digital credit artwork`}
-        className="relative aspect-[16/9] overflow-hidden"
+        className="relative aspect-[342/240] overflow-hidden"
         style={{ background: service.visual }}
       >
-        <div className="absolute -right-8 -top-10 h-36 w-36 rounded-full border-[22px] border-white/10 transition duration-500 group-hover:scale-110" />
-        <div className="absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgba(255,255,255,.08)_35%,rgba(255,255,255,.08)_42%,transparent_42%)]" />
-        <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4">
-          <span className="gamivo-heading text-3xl font-extrabold tracking-tight text-white drop-shadow-lg">
-            {service.glyph}
-          </span>
-          <span className="rounded-xl border border-white/20 bg-black/25 p-2.5 backdrop-blur-sm">
-            <Icon className="h-6 w-6 text-white" aria-hidden="true" />
-          </span>
-        </div>
+        <img
+          src={service.image}
+          alt={service.imageAlt}
+          width="342"
+          height="240"
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
+        <span className="gamivo-heading absolute left-4 top-4 rounded-lg border border-white/20 bg-black/45 px-2.5 py-1 text-xs font-extrabold tracking-[0.14em] text-white shadow-lg backdrop-blur-sm">
+          {service.glyph}
+        </span>
+        <span className="absolute bottom-4 right-4 rounded-xl border border-white/20 bg-black/45 p-2.5 shadow-lg backdrop-blur-sm">
+          <Icon className="h-6 w-6 text-white" aria-hidden="true" />
+        </span>
       </div>
       <div className="flex flex-1 flex-col p-5">
         <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#f47b25]">

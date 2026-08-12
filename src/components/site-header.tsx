@@ -12,6 +12,7 @@ import {
   Users,
   Building2,
   ChevronDown,
+  ShoppingBag,
 } from "lucide-react";
 import { SearchDialog } from "./search-dialog";
 import { GlobalMenu } from "./global-menu";
@@ -358,9 +359,23 @@ export function SiteHeader() {
               <Link
                 key={h.to}
                 to={h.to}
-                className="shrink-0 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+                className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                  h.to === "/store"
+                    ? "inline-flex items-center gap-1.5 border-[#ff9900]/50 bg-[#ff9900]/10 text-[#ffb84d] hover:bg-[#ff9900]/20"
+                    : "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
+                }`}
               >
-                {h.label}
+                {h.to === "/store" ? (
+                  <>
+                    <ShoppingBag className="h-3.5 w-3.5" />
+                    <span>{h.label}</span>
+                    <span className="rounded-full bg-[#ff9900] px-1.5 py-0.5 text-[8px] font-black leading-none text-[#111827]">
+                      NEW
+                    </span>
+                  </>
+                ) : (
+                  h.label
+                )}
               </Link>
             ))}
             <span

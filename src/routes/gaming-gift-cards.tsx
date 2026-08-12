@@ -604,6 +604,12 @@ function GamingGiftCardsPage() {
                   Explore direct game top-ups <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
+                  to="/gaming-hub"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 font-bold text-cyan-200 transition hover:bg-cyan-400/20"
+                >
+                  Read gaming buyer guides <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
                   to="/store"
                   className="inline-flex min-h-12 items-center gap-2 px-2 py-3 font-bold text-[#f47b25] hover:text-[#ff9a51]"
                 >

@@ -71,6 +71,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/timeline",
     "/wallpapers",
     "/store",
+    "/game-top-up",
     "/authors",
     "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),

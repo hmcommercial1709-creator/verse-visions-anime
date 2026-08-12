@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
+import { ArrowRight, ShieldCheck, ShoppingBag, Sparkles, Zap } from "lucide-react";
 import { StoreProductImage } from "@/components/store-product-card";
 import { storeProducts, type StoreProduct } from "@/data/store-products";
 
@@ -36,7 +36,7 @@ export function HomeStorePromo() {
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             Discover anime figures, games, Nintendo accessories, regional gift
             cards and game top-ups. Search the catalog, then compare the latest
-            price and availability on Amazon or Play-Asia.
+            price and availability on Amazon, Play-Asia or GAMIVO.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link
@@ -47,6 +47,14 @@ export function HomeStorePromo() {
               Shop the collection
               <ArrowRight className="h-4 w-4" />
             </Link>
+            <Link
+              to="/game-top-up"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#f47b25]/50 bg-[#f47b25]/10 px-5 py-3 font-extrabold text-[#ff9a51] transition hover:border-[#f47b25] hover:bg-[#f47b25]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f47b25]"
+            >
+              <Zap className="h-5 w-5" />
+              Instant game top-ups
+              <ArrowRight className="h-4 w-4" />
+            </Link>
             <span className="text-sm font-semibold text-foreground/80">
               {storeProducts.length} curated catalog products
             </span>
@@ -55,7 +63,7 @@ export function HomeStorePromo() {
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
             <p>
               Checkout, delivery and applicable returns are handled by Amazon
-              or Play-Asia. GameCastle may earn from qualifying purchases.
+              Play-Asia or GAMIVO. GameCastle may earn from qualifying purchases.
             </p>
           </div>
         </div>

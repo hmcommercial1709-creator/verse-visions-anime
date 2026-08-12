@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { ExternalLink, ShoppingBag } from "lucide-react";
-import type { StoreProduct } from "@/data/store-products";
+import {
+  storeRetailer,
+  type StoreProduct,
+} from "@/data/store-products";
 
 export function StoreProductImage({
   product,
@@ -20,6 +23,7 @@ export function StoreProductImage({
         alt={product.imageAlt}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
+        referrerPolicy="no-referrer"
         className="h-full w-full object-contain p-5 transition duration-500 group-hover:scale-[1.04]"
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/10 to-transparent" />
@@ -27,27 +31,35 @@ export function StoreProductImage({
   );
 }
 
-export function AmazonButton({
+export function StoreBuyButton({
   product,
   className = "",
 }: {
   product: StoreProduct;
   className?: string;
 }) {
+  const retailer = storeRetailer(product);
+  const retailerStyle =
+    retailer === "Amazon"
+      ? "bg-[#ff9900] text-[#111827] hover:bg-[#ffad33] focus-visible:ring-[#ff9900]"
+      : "bg-sky-500 text-white hover:bg-sky-400 focus-visible:ring-sky-400";
+
   return (
     <a
       href={product.affiliateUrl}
       target="_blank"
       rel="sponsored nofollow noopener noreferrer"
-      aria-label={`Buy ${product.shortTitle} on Amazon`}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl bg-[#ff9900] px-4 py-2.5 text-sm font-extrabold text-[#111827] transition hover:bg-[#ffad33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff9900] focus-visible:ring-offset-2 focus-visible:ring-offset-background ${className}`}
+      aria-label={`Buy ${product.shortTitle} on ${retailer}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-extrabold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${retailerStyle} ${className}`}
     >
-      Buy Now <ExternalLink className="h-4 w-4" />
+      Buy on {retailer} <ExternalLink className="h-4 w-4" />
     </a>
   );
 }
 
 export function StoreProductCard({ product }: { product: StoreProduct }) {
+  const retailer = storeRetailer(product);
+
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/60 bg-card/70 shadow-lg shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-primary/10">
       <Link
@@ -58,8 +70,11 @@ export function StoreProductCard({ product }: { product: StoreProduct }) {
         <StoreProductImage product={product} className="aspect-square w-full" />
       </Link>
       <div className="flex flex-1 flex-col p-4">
-        <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-          {product.categories[0]}
+        <div className="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+          <span>{product.categories[0]}</span>
+          <span className="rounded-full border border-border/60 bg-background/60 px-2 py-0.5 text-[9px] tracking-[0.12em] text-muted-foreground">
+            {retailer}
+          </span>
         </div>
         <Link
           to="/store/$slug"
@@ -74,7 +89,7 @@ export function StoreProductCard({ product }: { product: StoreProduct }) {
         <div className="mt-auto pt-5">
           <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
             <ShoppingBag className="h-4 w-4 text-accent" /> Check latest price
-            on Amazon
+            on {retailer}
           </div>
           <div className="grid grid-cols-[1fr_auto] gap-2">
             <Link
@@ -84,7 +99,7 @@ export function StoreProductCard({ product }: { product: StoreProduct }) {
             >
               Details
             </Link>
-            <AmazonButton product={product} />
+            <StoreBuyButton product={product} />
           </div>
         </div>
       </div>

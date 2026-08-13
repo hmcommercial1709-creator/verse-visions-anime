@@ -49,6 +49,8 @@ import { Route as MangaSpoilersRouteImport } from './routes/manga-spoilers'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as GenresRouteImport } from './routes/genres'
+import { Route as GamingGiftCardsRouteImport } from './routes/gaming-gift-cards'
+import { Route as GameTopUpRouteImport } from './routes/game-top-up'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FactsRouteImport } from './routes/facts'
 import { Route as ExploreRouteImport } from './routes/explore'
@@ -66,14 +68,21 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BlackTigerHoneyRouteImport } from './routes/black-tiger-honey'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AuthorsRouteImport } from './routes/authors'
+import { Route as ArchiveRouteImport } from './routes/archive'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GamingHubIndexRouteImport } from './routes/gaming-hub.index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
 import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
+import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
+import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
+import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
+import { Route as GamingHubGameCodesDealsRouteImport } from './routes/gaming-hub.game-codes-deals'
+import { Route as GamingHubAnimeGamesRouteImport } from './routes/gaming-hub.anime-games'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -285,6 +294,16 @@ const GenresRoute = GenresRouteImport.update({
   path: '/genres',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamingGiftCardsRoute = GamingGiftCardsRouteImport.update({
+  id: '/gaming-gift-cards',
+  path: '/gaming-gift-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameTopUpRoute = GameTopUpRouteImport.update({
+  id: '/game-top-up',
+  path: '/game-top-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
@@ -370,6 +389,11 @@ const AuthorsRoute = AuthorsRouteImport.update({
   path: '/authors',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArchiveRoute = ArchiveRouteImport.update({
+  id: '/archive',
+  path: '/archive',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -378,6 +402,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingHubIndexRoute = GamingHubIndexRouteImport.update({
+  id: '/gaming-hub/',
+  path: '/gaming-hub/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
@@ -405,9 +434,36 @@ const StoreCheckoutRoute = StoreCheckoutRouteImport.update({
   path: '/store/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StoreSlugRoute = StoreSlugRouteImport.update({
+  id: '/store_/$slug',
+  path: '/store/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GenreSlugRoute = GenreSlugRouteImport.update({
   id: '/genre/$slug',
   path: '/genre/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingHubSafeGameCreditsGuideRoute =
+  GamingHubSafeGameCreditsGuideRouteImport.update({
+    id: '/gaming-hub/safe-game-credits-guide',
+    path: '/gaming-hub/safe-game-credits-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GamingHubRegionCurrencyGuideRoute =
+  GamingHubRegionCurrencyGuideRouteImport.update({
+    id: '/gaming-hub/region-currency-guide',
+    path: '/gaming-hub/region-currency-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GamingHubGameCodesDealsRoute = GamingHubGameCodesDealsRouteImport.update({
+  id: '/gaming-hub/game-codes-deals',
+  path: '/gaming-hub/game-codes-deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingHubAnimeGamesRoute = GamingHubAnimeGamesRouteImport.update({
+  id: '/gaming-hub/anime-games',
+  path: '/gaming-hub/anime-games',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CharacterSlugRoute = CharacterSlugRouteImport.update({
@@ -464,6 +520,7 @@ const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
   '/black-tiger-honey': typeof BlackTigerHoneyRoute
@@ -481,6 +538,8 @@ export interface FileRoutesByFullPath {
   '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
+  '/game-top-up': typeof GameTopUpRoute
+  '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -527,12 +586,18 @@ export interface FileRoutesByFullPath {
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
+  '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
+  '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
+  '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/gaming-hub/': typeof GamingHubIndexRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
@@ -541,6 +606,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
   '/black-tiger-honey': typeof BlackTigerHoneyRoute
@@ -558,6 +624,8 @@ export interface FileRoutesByTo {
   '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
+  '/game-top-up': typeof GameTopUpRoute
+  '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -604,12 +672,18 @@ export interface FileRoutesByTo {
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
+  '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
+  '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
+  '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale': typeof LocaleIndexRoute
+  '/gaming-hub': typeof GamingHubIndexRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime': typeof ArAnimeIndexRoute
@@ -619,6 +693,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
   '/black-tiger-honey': typeof BlackTigerHoneyRoute
@@ -636,6 +711,8 @@ export interface FileRoutesById {
   '/explore': typeof ExploreRoute
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
+  '/game-top-up': typeof GameTopUpRoute
+  '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -682,12 +759,18 @@ export interface FileRoutesById {
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
+  '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
+  '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
+  '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/store_/$slug': typeof StoreSlugRoute
   '/store_/checkout': typeof StoreCheckoutRoute
   '/store_/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/gaming-hub/': typeof GamingHubIndexRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
@@ -698,6 +781,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/archive'
     | '/authors'
     | '/awards'
     | '/black-tiger-honey'
@@ -715,6 +799,8 @@ export interface FileRouteTypes {
     | '/explore'
     | '/facts'
     | '/faq'
+    | '/game-top-up'
+    | '/gaming-gift-cards'
     | '/genres'
     | '/guides'
     | '/llms.txt'
@@ -761,12 +847,18 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
+    | '/gaming-hub/anime-games'
+    | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/region-currency-guide'
+    | '/gaming-hub/safe-game-credits-guide'
     | '/genre/$slug'
+    | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
+    | '/gaming-hub/'
     | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
     | '/ar/anime/'
@@ -775,6 +867,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/archive'
     | '/authors'
     | '/awards'
     | '/black-tiger-honey'
@@ -792,6 +885,8 @@ export interface FileRouteTypes {
     | '/explore'
     | '/facts'
     | '/faq'
+    | '/game-top-up'
+    | '/gaming-gift-cards'
     | '/genres'
     | '/guides'
     | '/llms.txt'
@@ -838,12 +933,18 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
+    | '/gaming-hub/anime-games'
+    | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/region-currency-guide'
+    | '/gaming-hub/safe-game-credits-guide'
     | '/genre/$slug'
+    | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale'
+    | '/gaming-hub'
     | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
     | '/ar/anime'
@@ -852,6 +953,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/archive'
     | '/authors'
     | '/awards'
     | '/black-tiger-honey'
@@ -869,6 +971,8 @@ export interface FileRouteTypes {
     | '/explore'
     | '/facts'
     | '/faq'
+    | '/game-top-up'
+    | '/gaming-gift-cards'
     | '/genres'
     | '/guides'
     | '/llms.txt'
@@ -915,12 +1019,18 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
+    | '/gaming-hub/anime-games'
+    | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/region-currency-guide'
+    | '/gaming-hub/safe-game-credits-guide'
     | '/genre/$slug'
+    | '/store_/$slug'
     | '/store_/checkout'
     | '/store_/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
     | '/$locale/'
+    | '/gaming-hub/'
     | '/ar/anime/$slug'
     | '/sitemap/$locale/$file'
     | '/ar/anime/'
@@ -930,6 +1040,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ArchiveRoute: typeof ArchiveRoute
   AuthorsRoute: typeof AuthorsRoute
   AwardsRoute: typeof AwardsRoute
   BlackTigerHoneyRoute: typeof BlackTigerHoneyRoute
@@ -947,6 +1058,8 @@ export interface RootRouteChildren {
   ExploreRoute: typeof ExploreRoute
   FactsRoute: typeof FactsRoute
   FaqRoute: typeof FaqRoute
+  GameTopUpRoute: typeof GameTopUpRoute
+  GamingGiftCardsRoute: typeof GamingGiftCardsRoute
   GenresRoute: typeof GenresRoute
   GuidesRoute: typeof GuidesRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
@@ -993,12 +1106,18 @@ export interface RootRouteChildren {
   ArticleSlugRoute: typeof ArticleSlugRoute
   CategorySlugRoute: typeof CategorySlugRoute
   CharacterSlugRoute: typeof CharacterSlugRoute
+  GamingHubAnimeGamesRoute: typeof GamingHubAnimeGamesRoute
+  GamingHubGameCodesDealsRoute: typeof GamingHubGameCodesDealsRoute
+  GamingHubRegionCurrencyGuideRoute: typeof GamingHubRegionCurrencyGuideRoute
+  GamingHubSafeGameCreditsGuideRoute: typeof GamingHubSafeGameCreditsGuideRoute
   GenreSlugRoute: typeof GenreSlugRoute
+  StoreSlugRoute: typeof StoreSlugRoute
   StoreCheckoutRoute: typeof StoreCheckoutRoute
   StoreThanksRoute: typeof StoreThanksRoute
   StudioSlugRoute: typeof StudioSlugRoute
   WatchSlugRoute: typeof WatchSlugRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
+  GamingHubIndexRoute: typeof GamingHubIndexRoute
   ArAnimeSlugRoute: typeof ArAnimeSlugRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   ArAnimeIndexRoute: typeof ArAnimeIndexRoute
@@ -1287,6 +1406,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GenresRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-gift-cards': {
+      id: '/gaming-gift-cards'
+      path: '/gaming-gift-cards'
+      fullPath: '/gaming-gift-cards'
+      preLoaderRoute: typeof GamingGiftCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/game-top-up': {
+      id: '/game-top-up'
+      path: '/game-top-up'
+      fullPath: '/game-top-up'
+      preLoaderRoute: typeof GameTopUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faq': {
       id: '/faq'
       path: '/faq'
@@ -1406,6 +1539,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/archive': {
+      id: '/archive'
+      path: '/archive'
+      fullPath: '/archive'
+      preLoaderRoute: typeof ArchiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -1418,6 +1558,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/': {
+      id: '/gaming-hub/'
+      path: '/gaming-hub'
+      fullPath: '/gaming-hub/'
+      preLoaderRoute: typeof GamingHubIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/': {
@@ -1455,11 +1602,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/store_/$slug': {
+      id: '/store_/$slug'
+      path: '/store/$slug'
+      fullPath: '/store/$slug'
+      preLoaderRoute: typeof StoreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/genre/$slug': {
       id: '/genre/$slug'
       path: '/genre/$slug'
       fullPath: '/genre/$slug'
       preLoaderRoute: typeof GenreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/safe-game-credits-guide': {
+      id: '/gaming-hub/safe-game-credits-guide'
+      path: '/gaming-hub/safe-game-credits-guide'
+      fullPath: '/gaming-hub/safe-game-credits-guide'
+      preLoaderRoute: typeof GamingHubSafeGameCreditsGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/region-currency-guide': {
+      id: '/gaming-hub/region-currency-guide'
+      path: '/gaming-hub/region-currency-guide'
+      fullPath: '/gaming-hub/region-currency-guide'
+      preLoaderRoute: typeof GamingHubRegionCurrencyGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/game-codes-deals': {
+      id: '/gaming-hub/game-codes-deals'
+      path: '/gaming-hub/game-codes-deals'
+      fullPath: '/gaming-hub/game-codes-deals'
+      preLoaderRoute: typeof GamingHubGameCodesDealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/anime-games': {
+      id: '/gaming-hub/anime-games'
+      path: '/gaming-hub/anime-games'
+      fullPath: '/gaming-hub/anime-games'
+      preLoaderRoute: typeof GamingHubAnimeGamesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/character/$slug': {
@@ -1538,6 +1720,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ArchiveRoute: ArchiveRoute,
   AuthorsRoute: AuthorsRoute,
   AwardsRoute: AwardsRoute,
   BlackTigerHoneyRoute: BlackTigerHoneyRoute,
@@ -1555,6 +1738,8 @@ const rootRouteChildren: RootRouteChildren = {
   ExploreRoute: ExploreRoute,
   FactsRoute: FactsRoute,
   FaqRoute: FaqRoute,
+  GameTopUpRoute: GameTopUpRoute,
+  GamingGiftCardsRoute: GamingGiftCardsRoute,
   GenresRoute: GenresRoute,
   GuidesRoute: GuidesRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
@@ -1601,12 +1786,18 @@ const rootRouteChildren: RootRouteChildren = {
   ArticleSlugRoute: ArticleSlugRoute,
   CategorySlugRoute: CategorySlugRoute,
   CharacterSlugRoute: CharacterSlugRoute,
+  GamingHubAnimeGamesRoute: GamingHubAnimeGamesRoute,
+  GamingHubGameCodesDealsRoute: GamingHubGameCodesDealsRoute,
+  GamingHubRegionCurrencyGuideRoute: GamingHubRegionCurrencyGuideRoute,
+  GamingHubSafeGameCreditsGuideRoute: GamingHubSafeGameCreditsGuideRoute,
   GenreSlugRoute: GenreSlugRoute,
+  StoreSlugRoute: StoreSlugRoute,
   StoreCheckoutRoute: StoreCheckoutRoute,
   StoreThanksRoute: StoreThanksRoute,
   StudioSlugRoute: StudioSlugRoute,
   WatchSlugRoute: WatchSlugRoute,
   LocaleIndexRoute: LocaleIndexRoute,
+  GamingHubIndexRoute: GamingHubIndexRoute,
   ArAnimeSlugRoute: ArAnimeSlugRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   ArAnimeIndexRoute: ArAnimeIndexRoute,
@@ -1615,3 +1806,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

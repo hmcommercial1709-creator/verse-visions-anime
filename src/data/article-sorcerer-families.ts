@@ -161,20 +161,6 @@ export const sorcererFamiliesArticle: Article = {
       paragraphs: [
         "The clan politics in this guide are spread across flashback arcs, side chapters and mid-fight digressions, which makes them much easier to follow in print than in weekly instalments. If you want to trace the Zenin sale, the Kamo experiments and the Gojo bloodline in one sitting, the collected volumes are the way to do it.",
       ],
-      blocks: [
-        {
-          type: "link",
-          title: "Jujutsu Kaisen Complete Manga Box Set",
-          subtitle:
-            "Official English-language collected edition covering the clan flashback arcs through the Shibuya Incident, with poster and slipcase.",
-          price: "$119.99",
-          offer: "Box Set Bundle - 20% OFF",
-          cta: "Check Availability on Official Store",
-          href: "https://www.amazon.com",
-          retailer: "Official Store",
-          note: "GameCastle Anime may earn a commission on purchases made through this link. Pricing and stock are set by the retailer.",
-        },
-      ],
     },
     {
       heading: "Verdict: Three Houses, One Design Flaw",

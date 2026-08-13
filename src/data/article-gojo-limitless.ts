@@ -170,17 +170,6 @@ export const gojoLimitlessArticle: Article = {
       ],
       blocks: [
         {
-          type: "link",
-          title: "Official Satoru Gojo Nendoroid & Shibuya Arc 1/7 Scale Figure",
-          subtitle: "Licensed twin-set: articulated Nendoroid with Infinity effect part, plus the Shibuya Arc scale statue and display base.",
-          price: "$164.99",
-          offer: "Limited Collector Edition - 15% OFF",
-          cta: "Check Availability on Official Store",
-          href: "https://www.amazon.com",
-          retailer: "Official Store",
-          note: "GameCastle Anime may earn a commission on purchases made through this link. Pricing and stock are set by the retailer.",
-        },
-        {
           type: "spoiler",
           scope: "Jujutsu Kaisen manga — post-Shibuya arcs",
           level: "major",

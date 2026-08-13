@@ -14,6 +14,7 @@ import {
 import {
   getStoreProduct,
   relatedStoreProducts,
+  storeProductPrice,
   storeProductSku,
   storeRetailer,
 } from "@/data/store-products";

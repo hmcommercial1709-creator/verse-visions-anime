@@ -20,7 +20,19 @@ export const Route = createFileRoute("/explore")({
   beforeLoad: ({ search }) => {
     throw redirect({
       to: "/browse",
-      search,
+      search: {
+        q: search.q,
+        genre: search.genre,
+        studio: search.studio,
+        status: search.status,
+        decade: search.decade,
+        sort: search.sort as
+          | "year"
+          | "popularity"
+          | "title"
+          | "rating"
+          | undefined,
+      },
       replace: true,
       statusCode: 301,
     });

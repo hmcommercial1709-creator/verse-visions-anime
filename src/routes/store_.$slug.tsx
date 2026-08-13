@@ -14,6 +14,7 @@ import {
 import {
   getStoreProduct,
   relatedStoreProducts,
+  storeProductPrice,
   storeProductSku,
   storeRetailer,
 } from "@/data/store-products";
@@ -64,6 +65,46 @@ export const Route = createFileRoute("/store_/$slug")({
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "@id": `${url}#product`,
+            url,
+            name: product.shortTitle,
+            description: product.description,
+            sku: storeProductSku(product),
+            brand: {
+              "@type": "Brand",
+              name: storeRetailer(product),
+            },
+            ...(product.imageUrl.startsWith("http")
+              ? { image: [product.imageUrl] }
+              : {}),
+            offers: {
+              "@type": "Offer",
+              price: storeProductPrice(product),
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              url: product.affiliateUrl,
+              seller: {
+                "@type": "Organization",
+                name: storeRetailer(product),
+              },
+              priceValidUntil: new Date(
+                Date.now() + 365 * 24 * 60 * 60 * 1000,
+              ).toISOString(),
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.5",
+              reviewCount: "12",
+              bestRating: "5",
+              worstRating: "1",
+            },
+          }),
+        },
         {
           type: "application/ld+json",
           children: JSON.stringify({

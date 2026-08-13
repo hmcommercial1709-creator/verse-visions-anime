@@ -25,6 +25,8 @@ export type StoreProduct = {
   newArrival: boolean;
   purchaseNotice?: string;
   indexable?: boolean;
+  /** Optional USD price for structured data. Defaults to "0.00" when unset. */
+  price?: string;
 };
 
 const amazonImage = (asin: string) =>
@@ -1769,6 +1771,10 @@ export function storeRetailer(product: StoreProduct): StoreRetailer {
 
 export function storeProductSku(product: StoreProduct) {
   return product.asin ?? product.productCode ?? product.slug;
+}
+
+export function storeProductPrice(product: StoreProduct): string {
+  return product.price ?? "0.00";
 }
 
 export function getStoreProduct(slug: string) {

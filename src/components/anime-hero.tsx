@@ -151,6 +151,14 @@ export function AnimeHero({ items, quickGenres = ["action", "fantasy", "shonen",
                 ))}
                 <Link
                   to="/explore"
+                  search={{
+                    q: undefined,
+                    genre: undefined,
+                    studio: undefined,
+                    status: undefined,
+                    decade: undefined,
+                    sort: undefined,
+                  }}
                   className="rounded-full border border-border/60 px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
                 >
                   All filters

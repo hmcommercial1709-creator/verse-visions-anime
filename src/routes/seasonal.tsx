@@ -134,6 +134,7 @@ function Seasonal() {
       <div className="mt-12">
         <Link
           to="/explore"
+          search={{}}
           className="inline-flex rounded-lg border border-border px-4 py-2 text-sm hover:border-primary hover:text-primary"
         >
           Explore with full filters →

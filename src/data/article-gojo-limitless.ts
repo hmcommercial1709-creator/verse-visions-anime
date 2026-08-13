@@ -170,7 +170,7 @@ export const gojoLimitlessArticle: Article = {
       ],
       blocks: [
         {
-          type: "affiliate",
+          type: "link",
           title: "Official Satoru Gojo Nendoroid & Shibuya Arc 1/7 Scale Figure",
           subtitle: "Licensed twin-set: articulated Nendoroid with Infinity effect part, plus the Shibuya Arc scale statue and display base.",
           price: "$164.99",

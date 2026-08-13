@@ -163,7 +163,7 @@ export const sorcererFamiliesArticle: Article = {
       ],
       blocks: [
         {
-          type: "affiliate",
+          type: "link",
           title: "Jujutsu Kaisen Complete Manga Box Set",
           subtitle:
             "Official English-language collected edition covering the clan flashback arcs through the Shibuya Incident, with poster and slipcase.",

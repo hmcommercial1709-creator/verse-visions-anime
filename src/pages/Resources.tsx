@@ -1,4 +1,5 @@
 import React from "react";
+import EmailSignup from "../components/EmailSignup";
 
 type Resource = {
   id: string;
@@ -150,6 +151,10 @@ const Resources: React.FC<ResourcesProps> = ({ onNotify = (id: string) => consol
               <ComingSoonCard key={item.id} item={item} onNotify={onNotify} />
             ))}
           </ul>
+        </section>
+
+        <section className="mt-12">
+          <EmailSignup />
         </section>
       </div>
     </main>

@@ -1,11 +1,20 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, redirect, Link } from "@tanstack/react-router";
 import { arGuideBySlug, AR_GUIDES, type ArGuide } from "@/data/ar-guides";
 import { SITE_URL } from "@/lib/i18n";
 
 export const Route = createFileRoute("/ar/anime/$slug")({
   loader: ({ params }) => {
     const guide = arGuideBySlug(params.slug);
-    if (!guide) throw notFound();
+    if (!guide) {
+      const localizedGuide = arGuideBySlug(`${params.slug}-watch-order`);
+      if (localizedGuide) {
+        throw redirect({ href: `/ar/anime/${localizedGuide.slug}`, statusCode: 308 });
+      }
+      // The localized anime sitemap mirrors every published English series.
+      // Series without a dedicated Arabic cornerstone guide land on the
+      // Arabic collection hub instead of returning a crawler-visible 404.
+      throw redirect({ to: "/ar/anime", statusCode: 308 });
+    }
     return { guide };
   },
   head: ({ params, loaderData }) => {

@@ -14,6 +14,7 @@ import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
 import { HomeStorePromo } from "@/components/home-store-promo";
+import DownloadBanner from "@/components/DownloadBanner";
 
 import { FranchiseHubs } from "@/components/franchise-hubs";
 import { EngagementWidget } from "@/components/engagement-poll";
@@ -64,10 +65,7 @@ export const Route = createFileRoute("/")({
       },
       { name: "twitter:image", content: HOME_OG_IMAGE },
     ],
-    links: [
-      { rel: "canonical", href: `${SITE_URL}/` },
-      ...hreflangLinks("/"),
-    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }, ...hreflangLinks("/")],
   }),
 
   component: Home,
@@ -148,8 +146,8 @@ function Home() {
               Find your next anime — then understand every world behind it.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Explore spoiler-aware watch orders, power-system explainers, character guides,
-              episode recaps and studio coverage written for anime fans worldwide.
+              Explore spoiler-aware watch orders, power-system explainers, character guides, episode
+              recaps and studio coverage written for anime fans worldwide.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
@@ -175,6 +173,8 @@ function Home() {
       </section>
 
       <HomeStorePromo />
+
+      <DownloadBanner />
 
       {/* ABOVE THE FOLD — latest episodes, trailer playback and search. */}
       <HomeStage trending={trending} />
@@ -264,7 +264,10 @@ function Home() {
                 first — with the deeper analysis waiting underneath.
               </p>
             </div>
-            <Link to="/guides" className="flex items-center gap-1 text-sm text-primary hover:underline">
+            <Link
+              to="/guides"
+              className="flex items-center gap-1 text-sm text-primary hover:underline"
+            >
               Browse every guide <ArrowRight className="h-3 w-3" />
             </Link>
           </div>

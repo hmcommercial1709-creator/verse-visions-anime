@@ -19,7 +19,14 @@
  */
 
 import { animes, type Anime } from "@/data/animes";
-import { articles, authors, articleHasContent, articleParagraphs, categoryForArticle, type Article } from "@/data/articles";
+import {
+  articles,
+  authors,
+  articleHasContent,
+  articleParagraphs,
+  categoryForArticle,
+  type Article,
+} from "@/data/articles";
 import { INLINE_LINK_RE } from "@/lib/inline-links";
 import { categories, type Category, type CategorySlug } from "@/data/categories";
 import { characters, type Character } from "@/data/characters";
@@ -174,14 +181,7 @@ export type SearchEntry = {
   title: string;
   subtitle?: string;
   kind:
-    | "anime"
-    | "character"
-    | "studio"
-    | "genre"
-    | "article"
-    | "episode"
-    | "franchise"
-    | "ranking";
+    "anime" | "character" | "studio" | "genre" | "article" | "episode" | "franchise" | "ranking";
   href: string;
   keywords: string[];
 };
@@ -318,6 +318,7 @@ const STATIC_CONTENT_PATHS = new Set([
   "/privacy-policy",
   "/quotes",
   "/recommendations",
+  "/resources",
   "/reviews",
   "/seasonal",
   "/sitemap-page",
@@ -342,7 +343,11 @@ function articleInternalLinks(article: Article): string[] {
     ...(article.sections ?? []).flatMap((section) => [
       ...section.paragraphs,
       ...(section.blocks ?? []).flatMap((block) =>
-        block.type === "spoiler" ? block.paragraphs : block.type === "link" && block.note ? [block.note] : [],
+        block.type === "spoiler"
+          ? block.paragraphs
+          : block.type === "link" && block.note
+            ? [block.note]
+            : [],
       ),
     ]),
   ];
@@ -373,7 +378,9 @@ export function validateReferences(): ValidationIssue[] {
   const categorySlugs = new Set(categories.map((category) => category.slug));
   const articleSlugs = new Set(articles.map((article) => article.slug));
   const publishedArticleSlugs = new Set(publishedArticles().map((article) => article.slug));
-  const episodePaths = new Set(episodes.map((episode) => `/anime/${episode.animeSlug}/episode/${episode.number}`));
+  const episodePaths = new Set(
+    episodes.map((episode) => `/anime/${episode.animeSlug}/episode/${episode.number}`),
+  );
 
   // Duplicate slugs across each collection
   const dupCheck = (label: string, list: { slug: string }[]) => {

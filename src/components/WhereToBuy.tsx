@@ -1,82 +1,70 @@
-import React from "react";
+import { ExternalLink, ShoppingBag } from "lucide-react";
 
-type Props = {
-  productName: string;
-  amazonLink?: string;
-  crunchyrollLink?: string;
-  playasiaLink?: string;
-  entertainmentEarthLink?: string;
+export type RetailerLink = {
+  name: string;
+  url: string;
+  note: string;
+  accent?: string;
 };
 
-const storeButton = (
-  name: string,
-  url: string | undefined,
-  accent: string
-) => {
-  const disabled = !url;
-
-  return (
-    <a
-      href={url ?? "#"}
-      target={url ? "_blank" : undefined}
-      rel={url ? "noopener noreferrer" : undefined}
-      aria-disabled={disabled}
-      className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg bg-[#252540] hover:bg-[#e94560] transition-colors ${
-        disabled ? "opacity-50 pointer-events-none" : ""
-      }`}
-    >
-      <span
-        className="w-3 h-3 rounded-full flex-shrink-0"
-        style={{ background: accent }}
-        aria-hidden
-      ></span>
-
-      <span className="flex-1 text-left text-sm text-white font-medium">
-        {name} <span className="text-gray-300">Check Price →</span>
-      </span>
-    </a>
-  );
+type WhereToBuyProps = {
+  title?: string;
+  description?: string;
+  links: RetailerLink[];
 };
 
-const WhereToBuy: React.FC<Props> = ({
-  productName,
-  amazonLink,
-  crunchyrollLink,
-  playasiaLink,
-  entertainmentEarthLink,
-}) => {
+const isSafePartnerUrl = (url: string) => /^https:\/\//i.test(url);
+
+export default function WhereToBuy({
+  title = "Featured partner listings",
+  description = "Open the retailer page to verify the current price, region, stock and product details before purchasing.",
+  links,
+}: WhereToBuyProps) {
+  const verifiedLinks = links.filter((link) => isSafePartnerUrl(link.url));
+
+  if (verifiedLinks.length === 0) return null;
+
   return (
-    <div className="max-w-lg mx-auto">
-      <div className="bg-[#1a1a2e] border border-[#333] rounded-xl p-6">
-        <header className="flex items-center gap-3 mb-3">
-          <div className="text-2xl" aria-hidden>
-            🛒
-          </div>
-          <h3 className="text-white font-bold text-lg">
-            Where to Buy {productName}
-          </h3>
-        </header>
-
-        <p className="text-gray-400 text-sm mb-4">Compare prices across trusted retailers</p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-          {storeButton("Amazon", amazonLink, "#FF9900")}
-          {storeButton("Crunchyroll Store", crunchyrollLink, "#F47521")}
-          {storeButton("Play-Asia", playasiaLink, "#E53935")}
-          {storeButton("Entertainment Earth", entertainmentEarthLink, "#2B7BB9")}
+    <section className="rounded-2xl border border-border/70 bg-card/40 p-6 sm:p-8">
+      <div className="flex items-start gap-3">
+        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent">
+          <ShoppingBag className="h-5 w-5" aria-hidden="true" />
         </div>
-
-        <div
-          className="rounded-md p-3"
-          style={{ background: "rgba(233,69,96,0.1)", borderLeft: "4px solid #e94560" }}
-        >
-          <p className="text-sm text-gray-200">💡 Tip: Prices change frequently. Check all stores for the best deal!</p>
+        <div>
+          <h2 className="font-display text-2xl font-bold">{title}</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
         </div>
-
-        <p className="text-gray-500 text-xs mt-3">GameCastle may earn a small commission from qualifying purchases at no extra cost to you.</p>
       </div>
-    </div>
-  );
-};
 
-export default WhereToBuy;
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        {verifiedLinks.map((link) => (
+          <a
+            key={link.url}
+            href={link.url}
+            target="_blank"
+            rel="sponsored nofollow noopener noreferrer"
+            className="group rounded-xl border border-border bg-background/60 p-4 hover:border-primary/60"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-semibold" style={{ color: link.accent }}>
+                {link.name}
+              </span>
+              <ExternalLink
+                className="h-4 w-4 text-muted-foreground group-hover:text-primary"
+                aria-hidden="true"
+              />
+            </div>
+            <p className="mt-1 text-sm text-muted-foreground">{link.note}</p>
+          </a>
+        ))}
+      </div>
+
+      <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+        Affiliate disclosure: GameCastle may earn a commission from qualifying purchases at no extra
+        cost to you. Prices and availability are controlled by each retailer and can change.
+      </p>
+    </section>
+  );
+}

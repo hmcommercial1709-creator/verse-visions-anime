@@ -1,91 +1,40 @@
-import React, { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { Mail, Rss } from "lucide-react";
 
-const STORAGE_KEY = "gamecastle_subscribers";
-
-const EmailSignup: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
-
-    // Basic validation: must contain '@'
-    if (!email || !email.includes("@")) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const list: string[] = raw ? JSON.parse(raw) : [];
-
-      // avoid duplicates
-      if (!list.includes(email)) {
-        list.push(email);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-      }
-
-      setSuccess("Welcome! Check your inbox!");
-      setEmail("");
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Please try again.");
-    }
-  };
-
+export default function EmailSignup() {
   return (
-    <div className="max-w-md mx-auto">
-      <div className="rounded-xl bg-[#1a1a2e] border-t-4 border-[#e94560] p-6">
-        <h3 className="text-white font-bold text-xl">Enjoyed this guide?</h3>
-        <p className="text-gray-300 text-sm mt-2">
-          Get weekly anime watch orders, power system explainers, and merch recommendations delivered to your inbox.
-        </p>
-
-        <form onSubmit={handleSubmit} className="mt-4" aria-label="Email signup form">
-          <label htmlFor="email" className="sr-only">
-            Email address
-          </label>
-
-          <div className="flex gap-3">
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="flex-1 bg-[#252540] border border-[#444] text-white placeholder-gray-400 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e94560]/40"
-              aria-invalid={!!error}
-              aria-describedby={error ? "email-error" : success ? "email-success" : undefined}
-            />
-
-            <button
-              type="submit"
-              className="bg-[#e94560] text-white rounded-lg px-4 py-3 font-semibold hover:brightness-95 transition"
+    <section className="rounded-2xl border border-primary/30 bg-card/50 p-6 sm:p-8">
+      <div className="flex items-start gap-4">
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary">
+          <Mail className="h-5 w-5" aria-hidden="true" />
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            New guide alerts
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-bold">Choose a working update channel</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Email delivery is not connected yet, so GameCastle does not collect addresses on this
+            page. Follow the live RSS feed now, or contact the editorial desk if you want to hear
+            when email updates become available.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <a
+              href="/rss.xml"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:brightness-110"
             >
-              Join 5,000+ Fans
-            </button>
+              <Rss className="h-4 w-4" aria-hidden="true" />
+              Follow the RSS feed
+            </a>
+            <Link
+              to="/contact"
+              className="inline-flex items-center rounded-xl border border-border bg-background/60 px-4 py-2.5 text-sm font-semibold hover:border-primary/60"
+            >
+              Contact the editorial desk
+            </Link>
           </div>
-
-          {error && (
-            <p id="email-error" className="text-sm text-red-400 mt-2">
-              {error}
-            </p>
-          )}
-
-          {success && (
-            <p id="email-success" className="text-sm text-green-400 mt-2">
-              {success}
-            </p>
-          )}
-
-          <p className="text-gray-500 text-xs mt-3">No spam. Unsubscribe anytime.</p>
-        </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default EmailSignup;
+}

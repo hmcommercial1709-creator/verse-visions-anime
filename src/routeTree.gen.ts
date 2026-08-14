@@ -9,389 +9,95 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WatchOrderRouteImport } from './routes/watch-order'
-import { Route as WallpapersRouteImport } from './routes/wallpapers'
-import { Route as UpcomingRouteImport } from './routes/upcoming'
-import { Route as TrendingRouteImport } from './routes/trending'
-import { Route as TopRatedRouteImport } from './routes/top-rated'
-import { Route as TopListsRouteImport } from './routes/top-lists'
-import { Route as TopRouteImport } from './routes/top'
-import { Route as TimelineRouteImport } from './routes/timeline'
-import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as StudiosRouteImport } from './routes/studios'
-import { Route as StreamingRouteImport } from './routes/streaming'
-import { Route as StoreRouteImport } from './routes/store'
-import { Route as StatisticsRouteImport } from './routes/statistics'
-import { Route as SoundtracksRouteImport } from './routes/soundtracks'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SitemapTaxonomyDotxmlRouteImport } from './routes/sitemap-taxonomy[.]xml'
-import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
-import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
-import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
-import { Route as SitemapCharactersDotxmlRouteImport } from './routes/sitemap-characters[.]xml'
-import { Route as SitemapArticlesDotxmlRouteImport } from './routes/sitemap-articles[.]xml'
-import { Route as SitemapArDotxmlRouteImport } from './routes/sitemap-ar[.]xml'
-import { Route as SitemapAnimeDotxmlRouteImport } from './routes/sitemap-anime[.]xml'
-import { Route as SeasonalRouteImport } from './routes/seasonal'
-import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
-import { Route as ReviewsRouteImport } from './routes/reviews'
-import { Route as RecommendationsRouteImport } from './routes/recommendations'
-import { Route as QuotesRouteImport } from './routes/quotes'
-import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as PowerScalingRouteImport } from './routes/power-scaling'
-import { Route as OpeningsRouteImport } from './routes/openings'
-import { Route as NewsRouteImport } from './routes/news'
-import { Route as NewReleasesRouteImport } from './routes/new-releases'
-import { Route as MerchRouteImport } from './routes/merch'
-import { Route as MangaSpoilersRouteImport } from './routes/manga-spoilers'
-import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
-import { Route as GuidesRouteImport } from './routes/guides'
-import { Route as GenresRouteImport } from './routes/genres'
-import { Route as GamingGiftCardsRouteImport } from './routes/gaming-gift-cards'
-import { Route as GameTopUpRouteImport } from './routes/game-top-up'
-import { Route as FaqRouteImport } from './routes/faq'
-import { Route as FactsRouteImport } from './routes/facts'
-import { Route as ExploreRouteImport } from './routes/explore'
-import { Route as EventsRouteImport } from './routes/events'
-import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
-import { Route as EditorialRouteImport } from './routes/editorial'
-import { Route as DmcaRouteImport } from './routes/dmca'
-import { Route as CookiesRouteImport } from './routes/cookies'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CompletedRouteImport } from './routes/completed'
-import { Route as ClassicRouteImport } from './routes/classic'
-import { Route as CharactersRouteImport } from './routes/characters'
-import { Route as BrowseRouteImport } from './routes/browse'
-import { Route as BlogRouteImport } from './routes/blog'
-import { Route as BlackTigerHoneyRouteImport } from './routes/black-tiger-honey'
-import { Route as AwardsRouteImport } from './routes/awards'
-import { Route as AuthorsRouteImport } from './routes/authors'
-import { Route as ArchiveRouteImport } from './routes/archive'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as GamingHubIndexRouteImport } from './routes/gaming-hub.index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ArchiveRouteImport } from './routes/archive'
+import { Route as AuthorsRouteImport } from './routes/authors'
+import { Route as AwardsRouteImport } from './routes/awards'
+import { Route as BlackTigerHoneyRouteImport } from './routes/black-tiger-honey'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as CharactersRouteImport } from './routes/characters'
+import { Route as ClassicRouteImport } from './routes/classic'
+import { Route as CompletedRouteImport } from './routes/completed'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as DmcaRouteImport } from './routes/dmca'
+import { Route as EditorialRouteImport } from './routes/editorial'
+import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as FactsRouteImport } from './routes/facts'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as GameTopUpRouteImport } from './routes/game-top-up'
+import { Route as GamingGiftCardsRouteImport } from './routes/gaming-gift-cards'
+import { Route as GenresRouteImport } from './routes/genres'
+import { Route as GuidesRouteImport } from './routes/guides'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as MangaSpoilersRouteImport } from './routes/manga-spoilers'
+import { Route as MerchRouteImport } from './routes/merch'
+import { Route as NewReleasesRouteImport } from './routes/new-releases'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as OpeningsRouteImport } from './routes/openings'
+import { Route as PowerScalingRouteImport } from './routes/power-scaling'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as QuotesRouteImport } from './routes/quotes'
+import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
+import { Route as SeasonalRouteImport } from './routes/seasonal'
+import { Route as SitemapAnimeDotxmlRouteImport } from './routes/sitemap-anime[.]xml'
+import { Route as SitemapArDotxmlRouteImport } from './routes/sitemap-ar[.]xml'
+import { Route as SitemapArticlesDotxmlRouteImport } from './routes/sitemap-articles[.]xml'
+import { Route as SitemapCharactersDotxmlRouteImport } from './routes/sitemap-characters[.]xml'
+import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
+import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
+import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
+import { Route as SitemapTaxonomyDotxmlRouteImport } from './routes/sitemap-taxonomy[.]xml'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SoundtracksRouteImport } from './routes/soundtracks'
+import { Route as StatisticsRouteImport } from './routes/statistics'
+import { Route as StoreRouteImport } from './routes/store'
+import { Route as StreamingRouteImport } from './routes/streaming'
+import { Route as StudiosRouteImport } from './routes/studios'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as TopRouteImport } from './routes/top'
+import { Route as TopListsRouteImport } from './routes/top-lists'
+import { Route as TopRatedRouteImport } from './routes/top-rated'
+import { Route as TrendingRouteImport } from './routes/trending'
+import { Route as UpcomingRouteImport } from './routes/upcoming'
+import { Route as WallpapersRouteImport } from './routes/wallpapers'
+import { Route as WatchOrderRouteImport } from './routes/watch-order'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
-import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
-import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
-import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
-import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
-import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
-import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
-import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
-import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
-import { Route as GamingHubGameCodesDealsRouteImport } from './routes/gaming-hub.game-codes-deals'
-import { Route as GamingHubAnimeGamesRouteImport } from './routes/gaming-hub.anime-games'
-import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
-import { Route as CategorySlugRouteImport } from './routes/category.$slug'
-import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
-import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
-import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
+import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
+import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
+import { Route as GamingHubIndexRouteImport } from './routes/gaming-hub.index'
+import { Route as GamingHubAnimeGamesRouteImport } from './routes/gaming-hub.anime-games'
+import { Route as GamingHubGameCodesDealsRouteImport } from './routes/gaming-hub.game-codes-deals'
+import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
+import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
+import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
+import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
+import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
+import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
+import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
+import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
-import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as ArAnimeSlugRouteImport } from './routes/ar.anime.$slug'
+import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
-const WatchOrderRoute = WatchOrderRouteImport.update({
-  id: '/watch-order',
-  path: '/watch-order',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WallpapersRoute = WallpapersRouteImport.update({
-  id: '/wallpapers',
-  path: '/wallpapers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UpcomingRoute = UpcomingRouteImport.update({
-  id: '/upcoming',
-  path: '/upcoming',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TrendingRoute = TrendingRouteImport.update({
-  id: '/trending',
-  path: '/trending',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TopRatedRoute = TopRatedRouteImport.update({
-  id: '/top-rated',
-  path: '/top-rated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TopListsRoute = TopListsRouteImport.update({
-  id: '/top-lists',
-  path: '/top-lists',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TopRoute = TopRouteImport.update({
-  id: '/top',
-  path: '/top',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TimelineRoute = TimelineRouteImport.update({
-  id: '/timeline',
-  path: '/timeline',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
-  id: '/terms-of-service',
-  path: '/terms-of-service',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudiosRoute = StudiosRouteImport.update({
-  id: '/studios',
-  path: '/studios',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StreamingRoute = StreamingRouteImport.update({
-  id: '/streaming',
-  path: '/streaming',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StoreRoute = StoreRouteImport.update({
-  id: '/store',
-  path: '/store',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StatisticsRoute = StatisticsRouteImport.update({
-  id: '/statistics',
-  path: '/statistics',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SoundtracksRoute = SoundtracksRouteImport.update({
-  id: '/soundtracks',
-  path: '/soundtracks',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapTaxonomyDotxmlRoute = SitemapTaxonomyDotxmlRouteImport.update({
-  id: '/sitemap-taxonomy.xml',
-  path: '/sitemap-taxonomy.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
-  id: '/sitemap-pages.xml',
-  path: '/sitemap-pages.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapPageRoute = SitemapPageRouteImport.update({
-  id: '/sitemap-page',
-  path: '/sitemap-page',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapEpisodesDotxmlRoute = SitemapEpisodesDotxmlRouteImport.update({
-  id: '/sitemap-episodes.xml',
-  path: '/sitemap-episodes.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapCharactersDotxmlRoute = SitemapCharactersDotxmlRouteImport.update({
-  id: '/sitemap-characters.xml',
-  path: '/sitemap-characters.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapArticlesDotxmlRoute = SitemapArticlesDotxmlRouteImport.update({
-  id: '/sitemap-articles.xml',
-  path: '/sitemap-articles.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapArDotxmlRoute = SitemapArDotxmlRouteImport.update({
-  id: '/sitemap-ar.xml',
-  path: '/sitemap-ar.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapAnimeDotxmlRoute = SitemapAnimeDotxmlRouteImport.update({
-  id: '/sitemap-anime.xml',
-  path: '/sitemap-anime.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SeasonalRoute = SeasonalRouteImport.update({
-  id: '/seasonal',
-  path: '/seasonal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RssDotxmlRoute = RssDotxmlRouteImport.update({
-  id: '/rss.xml',
-  path: '/rss.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReviewsRoute = ReviewsRouteImport.update({
-  id: '/reviews',
-  path: '/reviews',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecommendationsRoute = RecommendationsRouteImport.update({
-  id: '/recommendations',
-  path: '/recommendations',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuotesRoute = QuotesRouteImport.update({
-  id: '/quotes',
-  path: '/quotes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
-  id: '/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PowerScalingRoute = PowerScalingRouteImport.update({
-  id: '/power-scaling',
-  path: '/power-scaling',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OpeningsRoute = OpeningsRouteImport.update({
-  id: '/openings',
-  path: '/openings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsRoute = NewsRouteImport.update({
-  id: '/news',
-  path: '/news',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewReleasesRoute = NewReleasesRouteImport.update({
-  id: '/new-releases',
-  path: '/new-releases',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MerchRoute = MerchRouteImport.update({
-  id: '/merch',
-  path: '/merch',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MangaSpoilersRoute = MangaSpoilersRouteImport.update({
-  id: '/manga-spoilers',
-  path: '/manga-spoilers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
-  id: '/llms.txt',
-  path: '/llms.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuidesRoute = GuidesRouteImport.update({
-  id: '/guides',
-  path: '/guides',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GenresRoute = GenresRouteImport.update({
-  id: '/genres',
-  path: '/genres',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GamingGiftCardsRoute = GamingGiftCardsRouteImport.update({
-  id: '/gaming-gift-cards',
-  path: '/gaming-gift-cards',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GameTopUpRoute = GameTopUpRouteImport.update({
-  id: '/game-top-up',
-  path: '/game-top-up',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FactsRoute = FactsRouteImport.update({
-  id: '/facts',
-  path: '/facts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExploreRoute = ExploreRouteImport.update({
-  id: '/explore',
-  path: '/explore',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
-  id: '/editorial-policy',
-  path: '/editorial-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EditorialRoute = EditorialRouteImport.update({
-  id: '/editorial',
-  path: '/editorial',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DmcaRoute = DmcaRouteImport.update({
-  id: '/dmca',
-  path: '/dmca',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CookiesRoute = CookiesRouteImport.update({
-  id: '/cookies',
-  path: '/cookies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompletedRoute = CompletedRouteImport.update({
-  id: '/completed',
-  path: '/completed',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ClassicRoute = ClassicRouteImport.update({
-  id: '/classic',
-  path: '/classic',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CharactersRoute = CharactersRouteImport.update({
-  id: '/characters',
-  path: '/characters',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BrowseRoute = BrowseRouteImport.update({
-  id: '/browse',
-  path: '/browse',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlackTigerHoneyRoute = BlackTigerHoneyRouteImport.update({
-  id: '/black-tiger-honey',
-  path: '/black-tiger-honey',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AwardsRoute = AwardsRouteImport.update({
-  id: '/awards',
-  path: '/awards',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthorsRoute = AuthorsRouteImport.update({
-  id: '/authors',
-  path: '/authors',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArchiveRoute = ArchiveRouteImport.update({
-  id: '/archive',
-  path: '/archive',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -399,14 +105,309 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ArchiveRoute = ArchiveRouteImport.update({
+  id: '/archive',
+  path: '/archive',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GamingHubIndexRoute = GamingHubIndexRouteImport.update({
-  id: '/gaming-hub/',
-  path: '/gaming-hub/',
+const AuthorsRoute = AuthorsRouteImport.update({
+  id: '/authors',
+  path: '/authors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AwardsRoute = AwardsRouteImport.update({
+  id: '/awards',
+  path: '/awards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlackTigerHoneyRoute = BlackTigerHoneyRouteImport.update({
+  id: '/black-tiger-honey',
+  path: '/black-tiger-honey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrowseRoute = BrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharactersRoute = CharactersRouteImport.update({
+  id: '/characters',
+  path: '/characters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClassicRoute = ClassicRouteImport.update({
+  id: '/classic',
+  path: '/classic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompletedRoute = CompletedRouteImport.update({
+  id: '/completed',
+  path: '/completed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DmcaRoute = DmcaRouteImport.update({
+  id: '/dmca',
+  path: '/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialRoute = EditorialRouteImport.update({
+  id: '/editorial',
+  path: '/editorial',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
+  id: '/editorial-policy',
+  path: '/editorial-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactsRoute = FactsRouteImport.update({
+  id: '/facts',
+  path: '/facts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameTopUpRoute = GameTopUpRouteImport.update({
+  id: '/game-top-up',
+  path: '/game-top-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingGiftCardsRoute = GamingGiftCardsRouteImport.update({
+  id: '/gaming-gift-cards',
+  path: '/gaming-gift-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GenresRoute = GenresRouteImport.update({
+  id: '/genres',
+  path: '/genres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesRoute = GuidesRouteImport.update({
+  id: '/guides',
+  path: '/guides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MangaSpoilersRoute = MangaSpoilersRouteImport.update({
+  id: '/manga-spoilers',
+  path: '/manga-spoilers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MerchRoute = MerchRouteImport.update({
+  id: '/merch',
+  path: '/merch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewReleasesRoute = NewReleasesRouteImport.update({
+  id: '/new-releases',
+  path: '/new-releases',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpeningsRoute = OpeningsRouteImport.update({
+  id: '/openings',
+  path: '/openings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PowerScalingRoute = PowerScalingRouteImport.update({
+  id: '/power-scaling',
+  path: '/power-scaling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesRoute = QuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendationsRoute = RecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeasonalRoute = SeasonalRouteImport.update({
+  id: '/seasonal',
+  path: '/seasonal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapAnimeDotxmlRoute = SitemapAnimeDotxmlRouteImport.update({
+  id: '/sitemap-anime.xml',
+  path: '/sitemap-anime.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapArDotxmlRoute = SitemapArDotxmlRouteImport.update({
+  id: '/sitemap-ar.xml',
+  path: '/sitemap-ar.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapArticlesDotxmlRoute = SitemapArticlesDotxmlRouteImport.update({
+  id: '/sitemap-articles.xml',
+  path: '/sitemap-articles.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCharactersDotxmlRoute = SitemapCharactersDotxmlRouteImport.update({
+  id: '/sitemap-characters.xml',
+  path: '/sitemap-characters.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapEpisodesDotxmlRoute = SitemapEpisodesDotxmlRouteImport.update({
+  id: '/sitemap-episodes.xml',
+  path: '/sitemap-episodes.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapPageRoute = SitemapPageRouteImport.update({
+  id: '/sitemap-page',
+  path: '/sitemap-page',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
+  id: '/sitemap-pages.xml',
+  path: '/sitemap-pages.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapTaxonomyDotxmlRoute = SitemapTaxonomyDotxmlRouteImport.update({
+  id: '/sitemap-taxonomy.xml',
+  path: '/sitemap-taxonomy.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoundtracksRoute = SoundtracksRouteImport.update({
+  id: '/soundtracks',
+  path: '/soundtracks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatisticsRoute = StatisticsRouteImport.update({
+  id: '/statistics',
+  path: '/statistics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StreamingRoute = StreamingRouteImport.update({
+  id: '/streaming',
+  path: '/streaming',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudiosRoute = StudiosRouteImport.update({
+  id: '/studios',
+  path: '/studios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TimelineRoute = TimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopRoute = TopRouteImport.update({
+  id: '/top',
+  path: '/top',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopListsRoute = TopListsRouteImport.update({
+  id: '/top-lists',
+  path: '/top-lists',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TopRatedRoute = TopRatedRouteImport.update({
+  id: '/top-rated',
+  path: '/top-rated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrendingRoute = TrendingRouteImport.update({
+  id: '/trending',
+  path: '/trending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UpcomingRoute = UpcomingRouteImport.update({
+  id: '/upcoming',
+  path: '/upcoming',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WallpapersRoute = WallpapersRouteImport.update({
+  id: '/wallpapers',
+  path: '/wallpapers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WatchOrderRoute = WatchOrderRouteImport.update({
+  id: '/watch-order',
+  path: '/watch-order',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
@@ -414,76 +415,9 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
   path: '/$locale/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WatchSlugRoute = WatchSlugRouteImport.update({
-  id: '/watch/$slug',
-  path: '/watch/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudioSlugRoute = StudioSlugRouteImport.update({
-  id: '/studio/$slug',
-  path: '/studio/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StoreThanksRoute = StoreThanksRouteImport.update({
-  id: '/store_/thanks',
-  path: '/store/thanks',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StoreCheckoutRoute = StoreCheckoutRouteImport.update({
-  id: '/store_/checkout',
-  path: '/store/checkout',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StoreSlugRoute = StoreSlugRouteImport.update({
-  id: '/store_/$slug',
-  path: '/store/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GenreSlugRoute = GenreSlugRouteImport.update({
-  id: '/genre/$slug',
-  path: '/genre/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GamingHubSafeGameCreditsGuideRoute =
-  GamingHubSafeGameCreditsGuideRouteImport.update({
-    id: '/gaming-hub/safe-game-credits-guide',
-    path: '/gaming-hub/safe-game-credits-guide',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const GamingHubRegionCurrencyGuideRoute =
-  GamingHubRegionCurrencyGuideRouteImport.update({
-    id: '/gaming-hub/region-currency-guide',
-    path: '/gaming-hub/region-currency-guide',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const GamingHubGameCodesDealsRoute = GamingHubGameCodesDealsRouteImport.update({
-  id: '/gaming-hub/game-codes-deals',
-  path: '/gaming-hub/game-codes-deals',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GamingHubAnimeGamesRoute = GamingHubAnimeGamesRouteImport.update({
-  id: '/gaming-hub/anime-games',
-  path: '/gaming-hub/anime-games',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CharacterSlugRoute = CharacterSlugRouteImport.update({
-  id: '/character/$slug',
-  path: '/character/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CategorySlugRoute = CategorySlugRouteImport.update({
-  id: '/category/$slug',
-  path: '/category/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArticleSlugRoute = ArticleSlugRouteImport.update({
-  id: '/article/$slug',
-  path: '/article/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnimeSlugRoute = AnimeSlugRouteImport.update({
-  id: '/anime/$slug',
-  path: '/anime/$slug',
+const LocaleSplatRoute = LocaleSplatRouteImport.update({
+  id: '/$locale/$',
+  path: '/$locale/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleStoreRoute = LocaleStoreRouteImport.update({
@@ -491,9 +425,81 @@ const LocaleStoreRoute = LocaleStoreRouteImport.update({
   path: '/$locale/store',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleSplatRoute = LocaleSplatRouteImport.update({
-  id: '/$locale/$',
-  path: '/$locale/$',
+const AnimeSlugRoute = AnimeSlugRouteImport.update({
+  id: '/anime/$slug',
+  path: '/anime/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategorySlugRoute = CategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharacterSlugRoute = CharacterSlugRouteImport.update({
+  id: '/character/$slug',
+  path: '/character/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingHubIndexRoute = GamingHubIndexRouteImport.update({
+  id: '/gaming-hub/',
+  path: '/gaming-hub/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingHubAnimeGamesRoute = GamingHubAnimeGamesRouteImport.update({
+  id: '/gaming-hub/anime-games',
+  path: '/gaming-hub/anime-games',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingHubGameCodesDealsRoute = GamingHubGameCodesDealsRouteImport.update({
+  id: '/gaming-hub/game-codes-deals',
+  path: '/gaming-hub/game-codes-deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingHubRegionCurrencyGuideRoute =
+  GamingHubRegionCurrencyGuideRouteImport.update({
+    id: '/gaming-hub/region-currency-guide',
+    path: '/gaming-hub/region-currency-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GamingHubSafeGameCreditsGuideRoute =
+  GamingHubSafeGameCreditsGuideRouteImport.update({
+    id: '/gaming-hub/safe-game-credits-guide',
+    path: '/gaming-hub/safe-game-credits-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GenreSlugRoute = GenreSlugRouteImport.update({
+  id: '/genre/$slug',
+  path: '/genre/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreSlugRoute = StoreSlugRouteImport.update({
+  id: '/store_/$slug',
+  path: '/store/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreCheckoutRoute = StoreCheckoutRouteImport.update({
+  id: '/store_/checkout',
+  path: '/store/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreThanksRoute = StoreThanksRouteImport.update({
+  id: '/store_/thanks',
+  path: '/store/thanks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioSlugRoute = StudioSlugRouteImport.update({
+  id: '/studio/$slug',
+  path: '/studio/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WatchSlugRoute = WatchSlugRouteImport.update({
+  id: '/watch/$slug',
+  path: '/watch/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
@@ -501,14 +507,14 @@ const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
   path: '/ar/anime/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
-  id: '/sitemap/$locale/$file',
-  path: '/sitemap/$locale/$file',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ArAnimeSlugRoute = ArAnimeSlugRouteImport.update({
   id: '/ar/anime/$slug',
   path: '/ar/anime/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
+  id: '/sitemap/$locale/$file',
+  path: '/sitemap/$locale/$file',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
@@ -553,6 +559,7 @@ export interface FileRoutesByFullPath {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
+  '/resources': typeof ResourcesRoute
   '/reviews': typeof ReviewsRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/seasonal': typeof SeasonalRoute
@@ -639,6 +646,7 @@ export interface FileRoutesByTo {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
+  '/resources': typeof ResourcesRoute
   '/reviews': typeof ReviewsRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/seasonal': typeof SeasonalRoute
@@ -726,6 +734,7 @@ export interface FileRoutesById {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quotes': typeof QuotesRoute
   '/recommendations': typeof RecommendationsRoute
+  '/resources': typeof ResourcesRoute
   '/reviews': typeof ReviewsRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/seasonal': typeof SeasonalRoute
@@ -814,6 +823,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/quotes'
     | '/recommendations'
+    | '/resources'
     | '/reviews'
     | '/rss.xml'
     | '/seasonal'
@@ -900,6 +910,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/quotes'
     | '/recommendations'
+    | '/resources'
     | '/reviews'
     | '/rss.xml'
     | '/seasonal'
@@ -986,6 +997,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/quotes'
     | '/recommendations'
+    | '/resources'
     | '/reviews'
     | '/rss.xml'
     | '/seasonal'
@@ -1073,6 +1085,7 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   QuotesRoute: typeof QuotesRoute
   RecommendationsRoute: typeof RecommendationsRoute
+  ResourcesRoute: typeof ResourcesRoute
   ReviewsRoute: typeof ReviewsRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
   SeasonalRoute: typeof SeasonalRoute
@@ -1126,424 +1139,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/watch-order': {
-      id: '/watch-order'
-      path: '/watch-order'
-      fullPath: '/watch-order'
-      preLoaderRoute: typeof WatchOrderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/wallpapers': {
-      id: '/wallpapers'
-      path: '/wallpapers'
-      fullPath: '/wallpapers'
-      preLoaderRoute: typeof WallpapersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/upcoming': {
-      id: '/upcoming'
-      path: '/upcoming'
-      fullPath: '/upcoming'
-      preLoaderRoute: typeof UpcomingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/trending': {
-      id: '/trending'
-      path: '/trending'
-      fullPath: '/trending'
-      preLoaderRoute: typeof TrendingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/top-rated': {
-      id: '/top-rated'
-      path: '/top-rated'
-      fullPath: '/top-rated'
-      preLoaderRoute: typeof TopRatedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/top-lists': {
-      id: '/top-lists'
-      path: '/top-lists'
-      fullPath: '/top-lists'
-      preLoaderRoute: typeof TopListsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/top': {
-      id: '/top'
-      path: '/top'
-      fullPath: '/top'
-      preLoaderRoute: typeof TopRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/timeline': {
-      id: '/timeline'
-      path: '/timeline'
-      fullPath: '/timeline'
-      preLoaderRoute: typeof TimelineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms-of-service': {
-      id: '/terms-of-service'
-      path: '/terms-of-service'
-      fullPath: '/terms-of-service'
-      preLoaderRoute: typeof TermsOfServiceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/studios': {
-      id: '/studios'
-      path: '/studios'
-      fullPath: '/studios'
-      preLoaderRoute: typeof StudiosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/streaming': {
-      id: '/streaming'
-      path: '/streaming'
-      fullPath: '/streaming'
-      preLoaderRoute: typeof StreamingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/store': {
-      id: '/store'
-      path: '/store'
-      fullPath: '/store'
-      preLoaderRoute: typeof StoreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/statistics': {
-      id: '/statistics'
-      path: '/statistics'
-      fullPath: '/statistics'
-      preLoaderRoute: typeof StatisticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/soundtracks': {
-      id: '/soundtracks'
-      path: '/soundtracks'
-      fullPath: '/soundtracks'
-      preLoaderRoute: typeof SoundtracksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-taxonomy.xml': {
-      id: '/sitemap-taxonomy.xml'
-      path: '/sitemap-taxonomy.xml'
-      fullPath: '/sitemap-taxonomy.xml'
-      preLoaderRoute: typeof SitemapTaxonomyDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-pages.xml': {
-      id: '/sitemap-pages.xml'
-      path: '/sitemap-pages.xml'
-      fullPath: '/sitemap-pages.xml'
-      preLoaderRoute: typeof SitemapPagesDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-page': {
-      id: '/sitemap-page'
-      path: '/sitemap-page'
-      fullPath: '/sitemap-page'
-      preLoaderRoute: typeof SitemapPageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-episodes.xml': {
-      id: '/sitemap-episodes.xml'
-      path: '/sitemap-episodes.xml'
-      fullPath: '/sitemap-episodes.xml'
-      preLoaderRoute: typeof SitemapEpisodesDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-characters.xml': {
-      id: '/sitemap-characters.xml'
-      path: '/sitemap-characters.xml'
-      fullPath: '/sitemap-characters.xml'
-      preLoaderRoute: typeof SitemapCharactersDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-articles.xml': {
-      id: '/sitemap-articles.xml'
-      path: '/sitemap-articles.xml'
-      fullPath: '/sitemap-articles.xml'
-      preLoaderRoute: typeof SitemapArticlesDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-ar.xml': {
-      id: '/sitemap-ar.xml'
-      path: '/sitemap-ar.xml'
-      fullPath: '/sitemap-ar.xml'
-      preLoaderRoute: typeof SitemapArDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-anime.xml': {
-      id: '/sitemap-anime.xml'
-      path: '/sitemap-anime.xml'
-      fullPath: '/sitemap-anime.xml'
-      preLoaderRoute: typeof SitemapAnimeDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/seasonal': {
-      id: '/seasonal'
-      path: '/seasonal'
-      fullPath: '/seasonal'
-      preLoaderRoute: typeof SeasonalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rss.xml': {
-      id: '/rss.xml'
-      path: '/rss.xml'
-      fullPath: '/rss.xml'
-      preLoaderRoute: typeof RssDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reviews': {
-      id: '/reviews'
-      path: '/reviews'
-      fullPath: '/reviews'
-      preLoaderRoute: typeof ReviewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recommendations': {
-      id: '/recommendations'
-      path: '/recommendations'
-      fullPath: '/recommendations'
-      preLoaderRoute: typeof RecommendationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quotes': {
-      id: '/quotes'
-      path: '/quotes'
-      fullPath: '/quotes'
-      preLoaderRoute: typeof QuotesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-policy': {
-      id: '/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PrivacyPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/power-scaling': {
-      id: '/power-scaling'
-      path: '/power-scaling'
-      fullPath: '/power-scaling'
-      preLoaderRoute: typeof PowerScalingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/openings': {
-      id: '/openings'
-      path: '/openings'
-      fullPath: '/openings'
-      preLoaderRoute: typeof OpeningsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/news': {
-      id: '/news'
-      path: '/news'
-      fullPath: '/news'
-      preLoaderRoute: typeof NewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/new-releases': {
-      id: '/new-releases'
-      path: '/new-releases'
-      fullPath: '/new-releases'
-      preLoaderRoute: typeof NewReleasesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/merch': {
-      id: '/merch'
-      path: '/merch'
-      fullPath: '/merch'
-      preLoaderRoute: typeof MerchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/manga-spoilers': {
-      id: '/manga-spoilers'
-      path: '/manga-spoilers'
-      fullPath: '/manga-spoilers'
-      preLoaderRoute: typeof MangaSpoilersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/llms.txt': {
-      id: '/llms.txt'
-      path: '/llms.txt'
-      fullPath: '/llms.txt'
-      preLoaderRoute: typeof LlmsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guides': {
-      id: '/guides'
-      path: '/guides'
-      fullPath: '/guides'
-      preLoaderRoute: typeof GuidesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/genres': {
-      id: '/genres'
-      path: '/genres'
-      fullPath: '/genres'
-      preLoaderRoute: typeof GenresRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gaming-gift-cards': {
-      id: '/gaming-gift-cards'
-      path: '/gaming-gift-cards'
-      fullPath: '/gaming-gift-cards'
-      preLoaderRoute: typeof GamingGiftCardsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/game-top-up': {
-      id: '/game-top-up'
-      path: '/game-top-up'
-      fullPath: '/game-top-up'
-      preLoaderRoute: typeof GameTopUpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/facts': {
-      id: '/facts'
-      path: '/facts'
-      fullPath: '/facts'
-      preLoaderRoute: typeof FactsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/explore': {
-      id: '/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof ExploreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/editorial-policy': {
-      id: '/editorial-policy'
-      path: '/editorial-policy'
-      fullPath: '/editorial-policy'
-      preLoaderRoute: typeof EditorialPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/editorial': {
-      id: '/editorial'
-      path: '/editorial'
-      fullPath: '/editorial'
-      preLoaderRoute: typeof EditorialRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dmca': {
-      id: '/dmca'
-      path: '/dmca'
-      fullPath: '/dmca'
-      preLoaderRoute: typeof DmcaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cookies': {
-      id: '/cookies'
-      path: '/cookies'
-      fullPath: '/cookies'
-      preLoaderRoute: typeof CookiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/completed': {
-      id: '/completed'
-      path: '/completed'
-      fullPath: '/completed'
-      preLoaderRoute: typeof CompletedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/classic': {
-      id: '/classic'
-      path: '/classic'
-      fullPath: '/classic'
-      preLoaderRoute: typeof ClassicRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/characters': {
-      id: '/characters'
-      path: '/characters'
-      fullPath: '/characters'
-      preLoaderRoute: typeof CharactersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/browse': {
-      id: '/browse'
-      path: '/browse'
-      fullPath: '/browse'
-      preLoaderRoute: typeof BrowseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/black-tiger-honey': {
-      id: '/black-tiger-honey'
-      path: '/black-tiger-honey'
-      fullPath: '/black-tiger-honey'
-      preLoaderRoute: typeof BlackTigerHoneyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/awards': {
-      id: '/awards'
-      path: '/awards'
-      fullPath: '/awards'
-      preLoaderRoute: typeof AwardsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/authors': {
-      id: '/authors'
-      path: '/authors'
-      fullPath: '/authors'
-      preLoaderRoute: typeof AuthorsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/archive': {
-      id: '/archive'
-      path: '/archive'
-      fullPath: '/archive'
-      preLoaderRoute: typeof ArchiveRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -1553,18 +1153,431 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/archive': {
+      id: '/archive'
+      path: '/archive'
+      fullPath: '/archive'
+      preLoaderRoute: typeof ArchiveRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/gaming-hub/': {
-      id: '/gaming-hub/'
-      path: '/gaming-hub'
-      fullPath: '/gaming-hub/'
-      preLoaderRoute: typeof GamingHubIndexRouteImport
+    '/authors': {
+      id: '/authors'
+      path: '/authors'
+      fullPath: '/authors'
+      preLoaderRoute: typeof AuthorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/awards': {
+      id: '/awards'
+      path: '/awards'
+      fullPath: '/awards'
+      preLoaderRoute: typeof AwardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/black-tiger-honey': {
+      id: '/black-tiger-honey'
+      path: '/black-tiger-honey'
+      fullPath: '/black-tiger-honey'
+      preLoaderRoute: typeof BlackTigerHoneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browse': {
+      id: '/browse'
+      path: '/browse'
+      fullPath: '/browse'
+      preLoaderRoute: typeof BrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/characters': {
+      id: '/characters'
+      path: '/characters'
+      fullPath: '/characters'
+      preLoaderRoute: typeof CharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/classic': {
+      id: '/classic'
+      path: '/classic'
+      fullPath: '/classic'
+      preLoaderRoute: typeof ClassicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/completed': {
+      id: '/completed'
+      path: '/completed'
+      fullPath: '/completed'
+      preLoaderRoute: typeof CompletedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dmca': {
+      id: '/dmca'
+      path: '/dmca'
+      fullPath: '/dmca'
+      preLoaderRoute: typeof DmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial': {
+      id: '/editorial'
+      path: '/editorial'
+      fullPath: '/editorial'
+      preLoaderRoute: typeof EditorialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial-policy': {
+      id: '/editorial-policy'
+      path: '/editorial-policy'
+      fullPath: '/editorial-policy'
+      preLoaderRoute: typeof EditorialPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/facts': {
+      id: '/facts'
+      path: '/facts'
+      fullPath: '/facts'
+      preLoaderRoute: typeof FactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/game-top-up': {
+      id: '/game-top-up'
+      path: '/game-top-up'
+      fullPath: '/game-top-up'
+      preLoaderRoute: typeof GameTopUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-gift-cards': {
+      id: '/gaming-gift-cards'
+      path: '/gaming-gift-cards'
+      fullPath: '/gaming-gift-cards'
+      preLoaderRoute: typeof GamingGiftCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/genres': {
+      id: '/genres'
+      path: '/genres'
+      fullPath: '/genres'
+      preLoaderRoute: typeof GenresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides': {
+      id: '/guides'
+      path: '/guides'
+      fullPath: '/guides'
+      preLoaderRoute: typeof GuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manga-spoilers': {
+      id: '/manga-spoilers'
+      path: '/manga-spoilers'
+      fullPath: '/manga-spoilers'
+      preLoaderRoute: typeof MangaSpoilersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/merch': {
+      id: '/merch'
+      path: '/merch'
+      fullPath: '/merch'
+      preLoaderRoute: typeof MerchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-releases': {
+      id: '/new-releases'
+      path: '/new-releases'
+      fullPath: '/new-releases'
+      preLoaderRoute: typeof NewReleasesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/openings': {
+      id: '/openings'
+      path: '/openings'
+      fullPath: '/openings'
+      preLoaderRoute: typeof OpeningsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/power-scaling': {
+      id: '/power-scaling'
+      path: '/power-scaling'
+      fullPath: '/power-scaling'
+      preLoaderRoute: typeof PowerScalingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes': {
+      id: '/quotes'
+      path: '/quotes'
+      fullPath: '/quotes'
+      preLoaderRoute: typeof QuotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendations': {
+      id: '/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seasonal': {
+      id: '/seasonal'
+      path: '/seasonal'
+      fullPath: '/seasonal'
+      preLoaderRoute: typeof SeasonalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-anime.xml': {
+      id: '/sitemap-anime.xml'
+      path: '/sitemap-anime.xml'
+      fullPath: '/sitemap-anime.xml'
+      preLoaderRoute: typeof SitemapAnimeDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-ar.xml': {
+      id: '/sitemap-ar.xml'
+      path: '/sitemap-ar.xml'
+      fullPath: '/sitemap-ar.xml'
+      preLoaderRoute: typeof SitemapArDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-articles.xml': {
+      id: '/sitemap-articles.xml'
+      path: '/sitemap-articles.xml'
+      fullPath: '/sitemap-articles.xml'
+      preLoaderRoute: typeof SitemapArticlesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-characters.xml': {
+      id: '/sitemap-characters.xml'
+      path: '/sitemap-characters.xml'
+      fullPath: '/sitemap-characters.xml'
+      preLoaderRoute: typeof SitemapCharactersDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-episodes.xml': {
+      id: '/sitemap-episodes.xml'
+      path: '/sitemap-episodes.xml'
+      fullPath: '/sitemap-episodes.xml'
+      preLoaderRoute: typeof SitemapEpisodesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-page': {
+      id: '/sitemap-page'
+      path: '/sitemap-page'
+      fullPath: '/sitemap-page'
+      preLoaderRoute: typeof SitemapPageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-pages.xml': {
+      id: '/sitemap-pages.xml'
+      path: '/sitemap-pages.xml'
+      fullPath: '/sitemap-pages.xml'
+      preLoaderRoute: typeof SitemapPagesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-taxonomy.xml': {
+      id: '/sitemap-taxonomy.xml'
+      path: '/sitemap-taxonomy.xml'
+      fullPath: '/sitemap-taxonomy.xml'
+      preLoaderRoute: typeof SitemapTaxonomyDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soundtracks': {
+      id: '/soundtracks'
+      path: '/soundtracks'
+      fullPath: '/soundtracks'
+      preLoaderRoute: typeof SoundtracksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/statistics': {
+      id: '/statistics'
+      path: '/statistics'
+      fullPath: '/statistics'
+      preLoaderRoute: typeof StatisticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/streaming': {
+      id: '/streaming'
+      path: '/streaming'
+      fullPath: '/streaming'
+      preLoaderRoute: typeof StreamingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studios': {
+      id: '/studios'
+      path: '/studios'
+      fullPath: '/studios'
+      preLoaderRoute: typeof StudiosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/timeline': {
+      id: '/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top': {
+      id: '/top'
+      path: '/top'
+      fullPath: '/top'
+      preLoaderRoute: typeof TopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top-lists': {
+      id: '/top-lists'
+      path: '/top-lists'
+      fullPath: '/top-lists'
+      preLoaderRoute: typeof TopListsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top-rated': {
+      id: '/top-rated'
+      path: '/top-rated'
+      fullPath: '/top-rated'
+      preLoaderRoute: typeof TopRatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trending': {
+      id: '/trending'
+      path: '/trending'
+      fullPath: '/trending'
+      preLoaderRoute: typeof TrendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upcoming': {
+      id: '/upcoming'
+      path: '/upcoming'
+      fullPath: '/upcoming'
+      preLoaderRoute: typeof UpcomingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wallpapers': {
+      id: '/wallpapers'
+      path: '/wallpapers'
+      fullPath: '/wallpapers'
+      preLoaderRoute: typeof WallpapersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watch-order': {
+      id: '/watch-order'
+      path: '/watch-order'
+      fullPath: '/watch-order'
+      preLoaderRoute: typeof WatchOrderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/': {
@@ -1574,102 +1587,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/watch/$slug': {
-      id: '/watch/$slug'
-      path: '/watch/$slug'
-      fullPath: '/watch/$slug'
-      preLoaderRoute: typeof WatchSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/studio/$slug': {
-      id: '/studio/$slug'
-      path: '/studio/$slug'
-      fullPath: '/studio/$slug'
-      preLoaderRoute: typeof StudioSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/store_/thanks': {
-      id: '/store_/thanks'
-      path: '/store/thanks'
-      fullPath: '/store/thanks'
-      preLoaderRoute: typeof StoreThanksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/store_/checkout': {
-      id: '/store_/checkout'
-      path: '/store/checkout'
-      fullPath: '/store/checkout'
-      preLoaderRoute: typeof StoreCheckoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/store_/$slug': {
-      id: '/store_/$slug'
-      path: '/store/$slug'
-      fullPath: '/store/$slug'
-      preLoaderRoute: typeof StoreSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/genre/$slug': {
-      id: '/genre/$slug'
-      path: '/genre/$slug'
-      fullPath: '/genre/$slug'
-      preLoaderRoute: typeof GenreSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gaming-hub/safe-game-credits-guide': {
-      id: '/gaming-hub/safe-game-credits-guide'
-      path: '/gaming-hub/safe-game-credits-guide'
-      fullPath: '/gaming-hub/safe-game-credits-guide'
-      preLoaderRoute: typeof GamingHubSafeGameCreditsGuideRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gaming-hub/region-currency-guide': {
-      id: '/gaming-hub/region-currency-guide'
-      path: '/gaming-hub/region-currency-guide'
-      fullPath: '/gaming-hub/region-currency-guide'
-      preLoaderRoute: typeof GamingHubRegionCurrencyGuideRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gaming-hub/game-codes-deals': {
-      id: '/gaming-hub/game-codes-deals'
-      path: '/gaming-hub/game-codes-deals'
-      fullPath: '/gaming-hub/game-codes-deals'
-      preLoaderRoute: typeof GamingHubGameCodesDealsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gaming-hub/anime-games': {
-      id: '/gaming-hub/anime-games'
-      path: '/gaming-hub/anime-games'
-      fullPath: '/gaming-hub/anime-games'
-      preLoaderRoute: typeof GamingHubAnimeGamesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/character/$slug': {
-      id: '/character/$slug'
-      path: '/character/$slug'
-      fullPath: '/character/$slug'
-      preLoaderRoute: typeof CharacterSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/category/$slug': {
-      id: '/category/$slug'
-      path: '/category/$slug'
-      fullPath: '/category/$slug'
-      preLoaderRoute: typeof CategorySlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/article/$slug': {
-      id: '/article/$slug'
-      path: '/article/$slug'
-      fullPath: '/article/$slug'
-      preLoaderRoute: typeof ArticleSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/anime/$slug': {
-      id: '/anime/$slug'
-      path: '/anime/$slug'
-      fullPath: '/anime/$slug'
-      preLoaderRoute: typeof AnimeSlugRouteImport
+    '/$locale/$': {
+      id: '/$locale/$'
+      path: '/$locale/$'
+      fullPath: '/$locale/$'
+      preLoaderRoute: typeof LocaleSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/store': {
@@ -1679,11 +1601,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleStoreRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/$': {
-      id: '/$locale/$'
-      path: '/$locale/$'
-      fullPath: '/$locale/$'
-      preLoaderRoute: typeof LocaleSplatRouteImport
+    '/anime/$slug': {
+      id: '/anime/$slug'
+      path: '/anime/$slug'
+      fullPath: '/anime/$slug'
+      preLoaderRoute: typeof AnimeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug': {
+      id: '/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/character/$slug': {
+      id: '/character/$slug'
+      path: '/character/$slug'
+      fullPath: '/character/$slug'
+      preLoaderRoute: typeof CharacterSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/': {
+      id: '/gaming-hub/'
+      path: '/gaming-hub'
+      fullPath: '/gaming-hub/'
+      preLoaderRoute: typeof GamingHubIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/anime-games': {
+      id: '/gaming-hub/anime-games'
+      path: '/gaming-hub/anime-games'
+      fullPath: '/gaming-hub/anime-games'
+      preLoaderRoute: typeof GamingHubAnimeGamesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/game-codes-deals': {
+      id: '/gaming-hub/game-codes-deals'
+      path: '/gaming-hub/game-codes-deals'
+      fullPath: '/gaming-hub/game-codes-deals'
+      preLoaderRoute: typeof GamingHubGameCodesDealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/region-currency-guide': {
+      id: '/gaming-hub/region-currency-guide'
+      path: '/gaming-hub/region-currency-guide'
+      fullPath: '/gaming-hub/region-currency-guide'
+      preLoaderRoute: typeof GamingHubRegionCurrencyGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/safe-game-credits-guide': {
+      id: '/gaming-hub/safe-game-credits-guide'
+      path: '/gaming-hub/safe-game-credits-guide'
+      fullPath: '/gaming-hub/safe-game-credits-guide'
+      preLoaderRoute: typeof GamingHubSafeGameCreditsGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/genre/$slug': {
+      id: '/genre/$slug'
+      path: '/genre/$slug'
+      fullPath: '/genre/$slug'
+      preLoaderRoute: typeof GenreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store_/$slug': {
+      id: '/store_/$slug'
+      path: '/store/$slug'
+      fullPath: '/store/$slug'
+      preLoaderRoute: typeof StoreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store_/checkout': {
+      id: '/store_/checkout'
+      path: '/store/checkout'
+      fullPath: '/store/checkout'
+      preLoaderRoute: typeof StoreCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store_/thanks': {
+      id: '/store_/thanks'
+      path: '/store/thanks'
+      fullPath: '/store/thanks'
+      preLoaderRoute: typeof StoreThanksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio/$slug': {
+      id: '/studio/$slug'
+      path: '/studio/$slug'
+      fullPath: '/studio/$slug'
+      preLoaderRoute: typeof StudioSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watch/$slug': {
+      id: '/watch/$slug'
+      path: '/watch/$slug'
+      fullPath: '/watch/$slug'
+      preLoaderRoute: typeof WatchSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ar/anime/': {
@@ -1693,18 +1713,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArAnimeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sitemap/$locale/$file': {
-      id: '/sitemap/$locale/$file'
-      path: '/sitemap/$locale/$file'
-      fullPath: '/sitemap/$locale/$file'
-      preLoaderRoute: typeof SitemapLocaleFileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/ar/anime/$slug': {
       id: '/ar/anime/$slug'
       path: '/ar/anime/$slug'
       fullPath: '/ar/anime/$slug'
       preLoaderRoute: typeof ArAnimeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap/$locale/$file': {
+      id: '/sitemap/$locale/$file'
+      path: '/sitemap/$locale/$file'
+      fullPath: '/sitemap/$locale/$file'
+      preLoaderRoute: typeof SitemapLocaleFileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anime_/$slug/episode/$num': {
@@ -1753,6 +1773,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   QuotesRoute: QuotesRoute,
   RecommendationsRoute: RecommendationsRoute,
+  ResourcesRoute: ResourcesRoute,
   ReviewsRoute: ReviewsRoute,
   RssDotxmlRoute: RssDotxmlRoute,
   SeasonalRoute: SeasonalRoute,

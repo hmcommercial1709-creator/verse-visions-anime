@@ -32,6 +32,7 @@ const footerCols = [
     links: [
       { to: "/blog", label: "All Articles" },
       { to: "/guides", label: "Anime Guides" },
+      { to: "/resources", label: "Free Resources" },
       { to: "/reviews", label: "Reviews" },
       { to: "/power-scaling", label: "Power Scaling" },
       { to: "/manga-spoilers", label: "Manga Spoilers" },
@@ -79,8 +80,8 @@ export function SiteFooter() {
                 Keep exploring GameCastle Anime.
               </h2>
               <p className="mt-2 max-w-2xl text-muted-foreground">
-                Follow the RSS feed for every published guide, or jump straight
-                into the searchable anime library.
+                Follow the RSS feed for every published guide, or jump straight into the searchable
+                anime library.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -115,8 +116,8 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Anime guides, watch orders and power systems — written for fans
-              and edited like a magazine.
+              Anime guides, watch orders and power systems — written for fans and edited like a
+              magazine.
             </p>
             <div className="mt-4">
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -139,10 +140,7 @@ export function SiteFooter() {
               <ul className="space-y-2">
                 {c.links.map((l) => (
                   <li key={l.to}>
-                    <Link
-                      to={l.to}
-                      className="text-sm text-foreground/80 hover:text-primary"
-                    >
+                    <Link to={l.to} className="text-sm text-foreground/80 hover:text-primary">
                       {l.label}
                     </Link>
                   </li>
@@ -154,9 +152,8 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-border/60 pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
           <div>
-            © {new Date().getFullYear()} GameCastle Anime Media. GameCastle
-            Anime does not host or stream episodes. All titles and trademarks
-            belong to their respective owners.
+            © {new Date().getFullYear()} GameCastle Anime Media. GameCastle Anime does not host or
+            stream episodes. All titles and trademarks belong to their respective owners.
           </div>
           <div className="flex flex-wrap gap-4">
             <Link to="/about" className="hover:text-primary">

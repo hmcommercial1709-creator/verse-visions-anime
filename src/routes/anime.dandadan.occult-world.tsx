@@ -1,0 +1,2 @@
+import {createFileRoute} from "@tanstack/react-router";import {DandadanWorld} from "@/components/dandadan-pages";import {dandadanHead} from "@/lib/dandadan-seo";
+export const Route=createFileRoute("/anime/dandadan/occult-world")({head:()=>dandadanHead("/anime/dandadan/occult-world","Dandadan Yokai, Aliens, Curses & Powers Explained","Decode Dandadan's supernatural world: yokai, aliens, psychic powers, curses, territory rules and the emotional logic behind its battles.","/anime/dandadan/world.webp"),component:DandadanWorld});

@@ -72,6 +72,11 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/timeline",
     "/wallpapers",
     "/rewards/anime-wallpapers",
+    "/anime/dandadan",
+    "/anime/dandadan/episode-guide",
+    "/anime/dandadan/characters",
+    "/anime/dandadan/occult-world",
+    "/anime/dandadan/watch-guide",
     "/resources",
     "/store",
     "/game-top-up",
@@ -167,12 +172,14 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
  */
 export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_LOCALE): string {
   const withAlternates = INDEXABLE_LOCALES.length > 1;
+  const englishOnly = (path: string) =>
+    path === "/rewards/anime-wallpapers" || path === "/anime/dandadan" || path.startsWith("/anime/dandadan/");
   const seen = new Set<string>();
   const urls = entries
-    .filter((e) => e.path !== "/rewards/anime-wallpapers" || locale === "en")
+    .filter((e) => !englishOnly(e.path) || locale === "en")
     .filter((e) => (seen.has(e.path) ? false : (seen.add(e.path), true)))
     .map((e) => {
-      const locales = e.path === "/rewards/anime-wallpapers" ? ["en" as const] : INDEXABLE_LOCALES;
+      const locales = englishOnly(e.path) ? ["en" as const] : INDEXABLE_LOCALES;
       return (
       [
         `  <url>`,

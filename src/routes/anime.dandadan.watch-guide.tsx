@@ -1,0 +1,2 @@
+import {createFileRoute} from "@tanstack/react-router";import {DandadanWatchGuide} from "@/components/dandadan-pages";import {dandadanHead} from "@/lib/dandadan-seo";
+export const Route=createFileRoute("/anime/dandadan/watch-guide")({head:()=>dandadanHead("/anime/dandadan/watch-guide","How to Watch Dandadan: Beginner Guide & Viewing Order","Start Dandadan without confusion: viewing order, spoiler-safe tips, tone and content expectations, legal availability checks and manga next steps.","/anime/dandadan/watch-guide.webp"),component:DandadanWatchGuide});

@@ -37,6 +37,11 @@ const STATIC_HUBS: LinkNode[] = [
   { path: "/guides", label: "Anime Guides", kind: "hub", topics: ["guide"] },
   { path: "/reviews", label: "Reviews", kind: "hub", topics: ["review"] },
   { path: "/rewards/anime-wallpapers", label: "Free Anime Wallpapers", kind: "hub", topics: ["wallpaper", "art", "download"] },
+  { path: "/anime/dandadan", label: "Dandadan Complete Guide", kind: "hub", topics: ["dandadan", "yokai", "aliens", "episodes"] },
+  { path: "/anime/dandadan/episode-guide", label: "Dandadan Episode Guide", kind: "hub", topics: ["dandadan", "episodes", "arcs"] },
+  { path: "/anime/dandadan/characters", label: "Dandadan Characters", kind: "hub", topics: ["dandadan", "characters", "relationships"] },
+  { path: "/anime/dandadan/occult-world", label: "Dandadan Powers Explained", kind: "hub", topics: ["dandadan", "yokai", "aliens", "powers"] },
+  { path: "/anime/dandadan/watch-guide", label: "How to Watch Dandadan", kind: "hub", topics: ["dandadan", "watch-order", "beginner"] },
 ];
 
 let cache: { nodes: LinkNode[]; valid: Set<string> } | null = null;

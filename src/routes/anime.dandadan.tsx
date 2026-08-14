@@ -1,0 +1,2 @@
+import {createFileRoute} from "@tanstack/react-router";import {DandadanHub} from "@/components/dandadan-pages";import {dandadanHead} from "@/lib/dandadan-seo";
+export const Route=createFileRoute("/anime/dandadan")({head:()=>dandadanHead("/anime/dandadan","Dandadan Complete Guide: Episodes, Characters & Powers | GameCastle","Explore Dandadan with a spoiler-aware episode guide, character analysis, yokai and alien power explanations, watch order and original editorial artwork.","/anime/dandadan/hero.webp"),component:DandadanHub});

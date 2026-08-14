@@ -9,32 +9,33 @@ export const Route = createFileRoute("/$locale/")({
   loader: ({ params }) => ({ locale: params.locale }),
   head: ({ params }) => {
     const locale = getLocale(params.locale);
+    const isArabic = locale.code === "ar";
+    const title = isArabic
+      ? "GameCastle Anime بالعربية — أدلة الأنمي وترتيب المشاهدة"
+      : `GameCastle Anime — ${locale.english} edition`;
+    const description = isArabic
+      ? "اكتشف أدلة الأنمي العربية، ترتيب المشاهدة، تحليلات الشخصيات، أخبار المواسم وموارد الألعاب في GameCastle Anime."
+      : `The ${locale.english} edition of GameCastle Anime: anime reviews, character deep-dives, watch orders, and long-form editorial.`;
+
     return {
       meta: [
-      { name: "twitter:card", content: "summary_large_image" },
-        { title: `GameCastle Anime — ${locale.english} edition` },
-        {
-          name: "description",
-          content: `The ${locale.english} edition of GameCastle Anime: anime reviews, character deep-dives, watch orders, and long-form editorial.`,
-        },
-        { property: "og:title", content: `GameCastle Anime — ${locale.english} edition` },
-        {
-          property: "og:description",
-          content: `The ${locale.english} edition of GameCastle Anime: anime reviews, watch orders, and long-form editorial.`,
-        },
+        { name: "twitter:card", content: "summary_large_image" },
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
         { property: "og:type", content: "website" },
         { property: "og:url", content: `${SITE_URL}/${locale.code}` },
-        { property: "og:locale", content: locale.hrefLang },
-        // Placeholder edition until translated content ships: keep it out of
-        // the index so hreflang/canonical signals stay clean.
-        { name: "robots", content: "noindex, follow" },
+        { property: "og:locale", content: isArabic ? "ar_AR" : locale.hrefLang },
+        {
+          name: "robots",
+          content: isArabic ? "index, follow" : "noindex, follow",
+        },
       ],
       links: [
-        // Self-referencing canonical — never point a localized URL at /en.
         { rel: "canonical", href: `${SITE_URL}/${locale.code}` },
         ...hreflangLinks("/"),
       ],
-
     };
   },
   component: LocalizedHome,

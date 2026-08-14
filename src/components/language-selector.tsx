@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Check, ChevronDown, Globe } from "lucide-react";
-import { LOCALES, isReadyLocale, localeEntryPath, useLocale, type LocaleCode } from "@/lib/i18n";
+import { LOCALES, LOCALE_EXPLICIT_STORAGE_KEY, isReadyLocale, localeEntryPath, useLocale, type LocaleCode } from "@/lib/i18n";
 
 interface Props {
   /** "header" = compact pill, "footer" = wider block */
@@ -33,6 +33,11 @@ export function LanguageSelector({ variant = "header", align = "end", className 
 
   const switchTo = (code: LocaleCode) => {
     setOpen(false);
+    try {
+      localStorage.setItem(LOCALE_EXPLICIT_STORAGE_KEY, code);
+    } catch {
+      /* storage may be unavailable */
+    }
     // Preserve the current page — jump to its localized equivalent path.
     navigate({ to: localeEntryPath(pathname, code) as string, replace: false });
   };

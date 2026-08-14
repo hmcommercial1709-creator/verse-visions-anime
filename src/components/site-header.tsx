@@ -191,6 +191,7 @@ const megaGroups = [
 
 /** Direct category hubs surfaced in the main navigation. */
 const categoryHubs = [
+  { to: "/explore", label: "Explore" },
   { to: "/store", label: "Store" },
   { to: "/rewards/anime-wallpapers", label: "🎁 Free Gift" },
   { to: "/gaming-hub", label: "Gaming Hub" },

@@ -35,6 +35,7 @@ export const LOCALES: Locale[] = [
 export const DEFAULT_LOCALE: LocaleCode = "en";
 export const SITE_URL = "https://gamecastle.store";
 export const LOCALE_STORAGE_KEY = "gamecastle.locale";
+export const LOCALE_EXPLICIT_STORAGE_KEY = "gamecastle.locale.explicit";
 
 const BY_CODE = new Map(LOCALES.map((l) => [l.code, l]));
 
@@ -77,7 +78,7 @@ export function localizePath(pathname: string, locale: LocaleCode): string {
  *
  * Add a locale code here only once its pages carry translated content.
  */
-export const INDEXABLE_LOCALES: LocaleCode[] = ["en"];
+export const INDEXABLE_LOCALES: LocaleCode[] = ["en", "ar"];
 
 /**
  * Locales that have real translated content a visitor can browse today, even
@@ -100,7 +101,11 @@ const LOCALE_ENTRY: Partial<Record<LocaleCode, string>> = {
 
 export function localeEntryPath(pathname: string, locale: LocaleCode): string {
   const target = localizePath(pathname, locale);
-  if (stripLocale(pathname) === "/rewards/anime-wallpapers" && (locale === "en" || locale === "ar")) {
+  const base = stripLocale(pathname);
+  if (
+    (base === "/rewards/anime-wallpapers" || base === "/explore" || base.startsWith("/explore/")) &&
+    (locale === "en" || locale === "ar")
+  ) {
     return target;
   }
   const entry = LOCALE_ENTRY[locale];

@@ -1,40 +1,5 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-
-const parseSearch = (search: Record<string, unknown>) => ({
-  q: typeof search.q === "string" ? search.q : undefined,
-  genre: typeof search.genre === "string" ? search.genre : undefined,
-  studio: typeof search.studio === "string" ? search.studio : undefined,
-  status: typeof search.status === "string" ? search.status : undefined,
-  decade: typeof search.decade === "string" ? search.decade : undefined,
-  sort:
-    search.sort === "year" ||
-    search.sort === "popularity" ||
-    search.sort === "title" ||
-    search.sort === "rating"
-      ? search.sort
-      : undefined,
-});
-
-export const Route = createFileRoute("/explore")({
-  validateSearch: parseSearch,
-  beforeLoad: ({ search }) => {
-    throw redirect({
-      to: "/browse",
-      search: {
-        q: search.q,
-        genre: search.genre,
-        studio: search.studio,
-        status: search.status,
-        decade: search.decade,
-        sort: search.sort as
-          | "year"
-          | "popularity"
-          | "title"
-          | "rating"
-          | undefined,
-      },
-      replace: true,
-      statusCode: 301,
-    });
-  },
-});
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { EXPLORE_PAGES } from "@/data/explore-pages";
+import { absoluteUrl } from "@/lib/seo";
+export const Route = createFileRoute("/explore")({ head: () => ({ meta: [{ title: "Explore Anime Guides, Rankings, Releases & Wallpapers" }, { name: "description", content: "Explore bilingual anime wallpapers, watch orders, rankings, release trackers, streaming and gaming safety guides." }], links: [{ rel: "canonical", href: absoluteUrl("/explore") }, { rel: "alternate", hreflang: "ar", href: absoluteUrl("/ar/explore") }] }), component: ExploreHub });
+function ExploreHub() { return <main className="mx-auto max-w-7xl px-4 py-12 lg:px-6"><h1 className="font-display text-5xl font-black">Explore anime</h1><p className="mt-4 max-w-3xl text-lg text-muted-foreground">Wallpapers, watch orders, character rankings, verified release trackers, legal streaming and gaming guides.</p><div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{EXPLORE_PAGES.map((p) => <Link key={p.slug} to="/explore/$slug" params={{ slug: p.slug }} className="rounded-2xl border border-border bg-card/40 p-6 hover:border-primary"><span className="text-xs uppercase tracking-wider text-primary">{p.category}</span><h2 className="mt-2 font-display text-xl font-bold">{p.en.title}</h2><p className="mt-2 text-sm text-muted-foreground">{p.en.description}</p></Link>)}</div></main>; }

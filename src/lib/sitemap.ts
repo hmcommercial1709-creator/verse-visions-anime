@@ -14,6 +14,7 @@ import {
 } from "@/lib/content-registry";
 import { AR_GUIDES } from "@/data/ar-guides";
 import { storeProducts } from "@/data/store-products";
+import { EXPLORE_PAGES } from "@/data/explore-pages";
 import {
   INDEXABLE_LOCALES,
   DEFAULT_LOCALE,
@@ -102,6 +103,12 @@ const PAGE_ENTRIES: SitemapEntry[] = [
       changefreq: "weekly" as const,
       priority: "0.8",
     })),
+  { path: "/explore", changefreq: "weekly", priority: "0.9" },
+  ...EXPLORE_PAGES.map((page) => ({
+    path: `/explore/${page.slug}`,
+    changefreq: "weekly" as const,
+    priority: "0.8",
+  })),
 ];
 
 export function partitionEntries(partition: Partition): SitemapEntry[] {

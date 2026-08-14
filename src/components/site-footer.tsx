@@ -6,6 +6,7 @@ const footerCols = [
   {
     title: "Discover",
     links: [
+      { to: "/explore", label: "Explore Guides" },
       { to: "/browse", label: "Browse Anime" },
       { to: "/trending", label: "Popular Anime" },
       { to: "/top-rated", label: "Top Rated" },

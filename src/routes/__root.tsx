@@ -12,6 +12,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
+import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { PropellerConversion } from "@/components/propeller-conversion";
@@ -223,6 +224,7 @@ function RootComponent() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <LocaleRedirectGuard />
       <div className="sticky top-0 z-50">
         <SiteHeader />
       </div>

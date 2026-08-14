@@ -100,6 +100,9 @@ const LOCALE_ENTRY: Partial<Record<LocaleCode, string>> = {
 
 export function localeEntryPath(pathname: string, locale: LocaleCode): string {
   const target = localizePath(pathname, locale);
+  if (stripLocale(pathname) === "/rewards/anime-wallpapers" && (locale === "en" || locale === "ar")) {
+    return target;
+  }
   const entry = LOCALE_ENTRY[locale];
   if (!entry) return target;
   // Already inside the localized hub? keep the current page.

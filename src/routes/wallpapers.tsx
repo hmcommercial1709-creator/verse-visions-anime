@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
+import { Download, Gift } from "lucide-react";
 import { MediaImage } from "@/components/media";
 import { artAlt, posterFor } from "@/lib/media";
 import { publishedAnime } from "@/lib/content-registry";
@@ -49,6 +50,25 @@ function ArtworkGallery() {
         Anime. Every image opens a real series page with story, characters,
         metadata, watch order and related anime.
       </p>
+      <aside className="mt-7 rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/15 to-accent/10 p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+              <Gift className="h-4 w-4" aria-hidden="true" /> Free visitor gift
+            </p>
+            <h2 className="mt-2 font-display text-xl font-bold">Download the HD anime wallpaper collection</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Forty original desktop and mobile artworks with real, instant download links.
+            </p>
+          </div>
+          <Link
+            to="/rewards/anime-wallpapers"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground hover:brightness-110"
+          >
+            <Download className="h-4 w-4" aria-hidden="true" /> Open free gift
+          </Link>
+        </div>
+      </aside>
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
         {anime.map((a) => (
           <Link

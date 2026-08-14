@@ -35,6 +35,7 @@ export interface SitemapEntry {
 
 export const PARTITIONS = [
   "pages",
+  "products",
   "anime",
   "episodes",
   "articles",
@@ -115,13 +116,6 @@ const PAGE_ENTRIES: SitemapEntry[] = [
       priority: "0.4",
     }),
   ),
-  ...storeProducts
-    .filter((product) => product.indexable !== false)
-    .map((product) => ({
-      path: `/store/${product.slug}`,
-      changefreq: "weekly" as const,
-      priority: "0.8",
-    })),
   { path: "/explore", changefreq: "weekly", priority: "0.9" },
   ...EXPLORE_PAGES.map((page) => ({
     path: `/explore/${page.slug}`,
@@ -134,6 +128,14 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
   switch (partition) {
     case "pages":
       return PAGE_ENTRIES;
+    case "products":
+      return storeProducts
+        .filter((product) => product.indexable !== false)
+        .map((product) => ({
+          path: `/store/${product.slug}`,
+          changefreq: "weekly" as const,
+          priority: "0.8",
+        }));
     case "anime":
       return publishedAnime().map((a) => ({
         path: `/anime/${a.slug}`,

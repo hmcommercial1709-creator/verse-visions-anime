@@ -4,7 +4,6 @@ import { rewardWallpaperSchema } from "@/lib/reward-wallpaper-seo";
 import { absoluteUrl } from "@/lib/seo";
 
 const PATH = "/rewards/anime-wallpapers";
-const AR_PATH = "/ar/rewards/anime-wallpapers";
 const TITLE = "Free Anime Wallpapers HD | GameCastle Reward";
 const DESCRIPTION =
   "Download 40 free HD anime wallpapers for desktop and mobile, including original art inspired by One Piece, Naruto, Demon Slayer and more.";
@@ -30,7 +29,6 @@ export const Route = createFileRoute("/rewards/anime-wallpapers")({
       { property: "og:url", content: absoluteUrl(PATH) },
       { property: "og:site_name", content: "GameCastle Anime" },
       { property: "og:locale", content: "en_US" },
-      { property: "og:locale:alternate", content: "ar_AR" },
       { property: "og:image", content: OG_IMAGE },
       { property: "og:image:secure_url", content: OG_IMAGE },
       { property: "og:image:type", content: "image/webp" },
@@ -52,7 +50,6 @@ export const Route = createFileRoute("/rewards/anime-wallpapers")({
     links: [
       { rel: "canonical", href: absoluteUrl(PATH) },
       { rel: "alternate", hreflang: "en", href: absoluteUrl(PATH) },
-      { rel: "alternate", hreflang: "ar", href: absoluteUrl(AR_PATH) },
       { rel: "alternate", hreflang: "x-default", href: absoluteUrl(PATH) },
       { rel: "preload", as: "image", href: OG_IMAGE, type: "image/webp" },
     ],

@@ -169,13 +169,16 @@ export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_
   const withAlternates = INDEXABLE_LOCALES.length > 1;
   const seen = new Set<string>();
   const urls = entries
+    .filter((e) => e.path !== "/rewards/anime-wallpapers" || locale === "en")
     .filter((e) => (seen.has(e.path) ? false : (seen.add(e.path), true)))
-    .map((e) =>
+    .map((e) => {
+      const locales = e.path === "/rewards/anime-wallpapers" ? ["en" as const] : INDEXABLE_LOCALES;
+      return (
       [
         `  <url>`,
         `    <loc>${BASE_URL}${localizePath(e.path, locale)}</loc>`,
-        ...(withAlternates
-          ? INDEXABLE_LOCALES.map(
+        ...(withAlternates && locales.length > 1
+          ? locales.map(
               (code) =>
                 `    <xhtml:link rel="alternate" hreflang="${getLocale(code).hrefLang}" href="${BASE_URL}${localizePath(e.path, code)}" />`,
             ).concat([
@@ -187,8 +190,9 @@ export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_
         `  </url>`,
       ]
         .filter(Boolean)
-        .join("\n"),
-    );
+        .join("\n")
+      );
+    });
 
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
@@ -225,12 +229,11 @@ export function sitemapIndexXml(): string {
 }
 
 /**
- * Arabic edition URLs: the anime hub, localized guides and the fully translated
- * reward gallery. Only paths with real Arabic content are advertised.
+ * Arabic edition URLs: the anime hub and localized guides. Only paths with
+ * real Arabic content are advertised.
  */
 export const AR_ENTRIES: SitemapEntry[] = [
   { path: "/ar/anime", changefreq: "weekly", priority: "0.9" },
-  { path: "/ar/rewards/anime-wallpapers", changefreq: "weekly", priority: "0.8" },
   ...AR_GUIDES.map((g) => ({
     path: `/ar/anime/${g.slug}`,
     changefreq: "monthly" as const,
@@ -242,10 +245,7 @@ export const AR_ENTRIES: SitemapEntry[] = [
 export function arUrlsetXml(): string {
   const urls = AR_ENTRIES.map((e) => {
     const guide = AR_GUIDES.find((g) => `/ar/anime/${g.slug}` === e.path);
-    const enPath =
-      e.path === "/ar/rewards/anime-wallpapers"
-        ? "/rewards/anime-wallpapers"
-        : guide?.enPath;
+    const enPath = guide?.enPath;
     return [
       `  <url>`,
       `    <loc>${BASE_URL}${e.path}</loc>`,

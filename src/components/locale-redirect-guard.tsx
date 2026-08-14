@@ -11,7 +11,6 @@ import {
 
 const translatedPaths = new Set([
   "/explore",
-  "/rewards/anime-wallpapers",
   ...EXPLORE_PAGES.map((page) => `/explore/${page.slug}`),
 ]);
 

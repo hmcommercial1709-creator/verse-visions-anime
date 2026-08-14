@@ -103,7 +103,7 @@ export function localeEntryPath(pathname: string, locale: LocaleCode): string {
   const target = localizePath(pathname, locale);
   const base = stripLocale(pathname);
   if (
-    (base === "/rewards/anime-wallpapers" || base === "/explore" || base.startsWith("/explore/")) &&
+    (base === "/explore" || base.startsWith("/explore/")) &&
     (locale === "en" || locale === "ar")
   ) {
     return target;

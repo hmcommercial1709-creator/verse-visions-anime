@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AR_GUIDES } from "@/data/ar-guides";
 import { SITE_URL } from "@/lib/i18n";
+import { allSitemapEntries } from "@/lib/sitemap";
 
 const URL = `${SITE_URL}/ar/anime`;
 
@@ -38,6 +39,9 @@ export const Route = createFileRoute("/ar/anime/")({
 });
 
 function ArHub() {
+  const localizedPages = allSitemapEntries()
+    .map(({ path }) => path)
+    .filter((path) => path !== "/" && !path.startsWith("/anime/dandadan") && !path.startsWith("/anime/sakamoto-days") && path !== "/rewards/anime-wallpapers");
   return (
     <div dir="rtl" lang="ar" className="mx-auto w-full max-w-4xl px-4 py-10 text-right">
       <h1 className="text-3xl font-bold md:text-4xl">أدلة ترتيب مشاهدة الأنمي بالعربية</h1>
@@ -55,6 +59,21 @@ function ArHub() {
           </li>
         ))}
       </ul>
+      <section className="mt-12 border-t border-border pt-8" aria-labelledby="arabic-directory-title">
+        <h2 id="arabic-directory-title" className="text-2xl font-bold">دليل صفحات GameCastle العربية</h2>
+        <p className="mt-3 leading-7 text-muted-foreground">
+          روابط مباشرة ومنظمة إلى الأدلة والتصنيفات والشخصيات والمقالات، لتسهيل التصفح ووصول محركات البحث إلى كل صفحة عربية.
+        </p>
+        <ul className="mt-6 columns-1 gap-6 space-y-2 sm:columns-2 lg:columns-3">
+          {localizedPages.map((path) => (
+            <li key={path} className="break-inside-avoid">
+              <a href={`/ar${path}`} className="text-sm text-foreground/80 hover:text-primary hover:underline">
+                {path.split("/").filter(Boolean).at(-1)?.replace(/[-_]+/g, " ") || "الرئيسية"}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

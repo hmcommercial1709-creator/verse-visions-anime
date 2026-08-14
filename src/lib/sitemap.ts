@@ -43,7 +43,7 @@ export const PARTITIONS = [
 ] as const;
 export type Partition = (typeof PARTITIONS)[number];
 
-const PAGE_ENTRIES: SitemapEntry[] = [
+export const PAGE_ENTRIES: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
   ...[
     "/browse",
@@ -177,6 +177,14 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
         })),
       ];
   }
+}
+
+/** Every English canonical path advertised by the partitioned sitemaps. */
+export function allSitemapEntries(): SitemapEntry[] {
+  const seen = new Set<string>();
+  return PARTITIONS.flatMap(partitionEntries).filter(({ path }) =>
+    seen.has(path) ? false : (seen.add(path), true),
+  );
 }
 
 /**

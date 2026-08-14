@@ -183,11 +183,12 @@ export function RewardWallpaperGallery({ language }: { language: Language }) {
       <header className="relative isolate overflow-hidden border-b border-border/60">
         <img
           src="/rewards/wallpapers/pirate-ocean-sunset-hd.webp"
-          alt=""
+          alt={isArabic
+            ? "خلفية أنمي أصلية لسفينة قراصنة في محيط وقت الغروب من GameCastle Anime"
+            : "Original GameCastle Anime pirate ship sailing across the ocean at sunset wallpaper"}
           width={1600}
           height={900}
           fetchPriority="high"
-          aria-hidden="true"
           className="absolute inset-0 -z-20 h-full w-full object-cover opacity-45"
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background via-background/90 to-background/45 rtl:bg-gradient-to-l" />

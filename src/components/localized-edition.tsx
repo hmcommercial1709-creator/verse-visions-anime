@@ -11,6 +11,8 @@ import { LanguageSelector } from "@/components/language-selector";
 export function LocalizedEditionNotice({ locale: code, path }: { locale: string; path: string }) {
   const locale = getLocale(code);
   const cleanPath = path.replace(/\/+$/, "") || "/";
+  const isArabic = locale.code === "ar";
+  const topic = cleanPath.split("/").filter(Boolean).at(-1)?.replace(/[-_]+/g, " ") || "GameCastle Anime";
 
   return (
     <div dir={locale.dir} lang={locale.hrefLang} className="mx-auto max-w-3xl px-4 py-16 lg:px-6">
@@ -24,31 +26,30 @@ export function LocalizedEditionNotice({ locale: code, path }: { locale: string;
               {locale.short} · {locale.dir.toUpperCase()}
             </p>
             <h1 className="font-display text-2xl font-bold">
-              GameCastle Anime — {locale.label}
+              {isArabic ? `${topic} — دليل GameCastle Anime بالعربية` : `GameCastle Anime — ${locale.label}`}
             </h1>
           </div>
         </div>
 
         <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-          This is the <strong className="text-foreground">{locale.english}</strong> URL for{" "}
-          <code className="rounded bg-secondary px-1.5 py-0.5 text-xs">{cleanPath}</code>. The
-          localized edition is being translated by our editorial team. Until it lands, read the
-          English original — nothing is lost.
+          {isArabic
+            ? `مرحباً بك في صفحة ${topic} العربية من GameCastle Anime. استخدم الأقسام والروابط المتصلة للوصول إلى الأدلة والمقالات والشخصيات ذات الصلة بسهولة.`
+            : `This is the ${locale.english} edition for ${cleanPath}. Use the connected navigation to explore related anime and gaming resources.`}
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <Link
-            to={cleanPath}
+            to={isArabic ? "/ar/anime" : cleanPath}
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground glow-primary hover:brightness-110"
           >
-            Read in English <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+            {isArabic ? "عرض الدليل المرتبط" : "Read the related guide"} <ArrowRight className="h-4 w-4 rtl:rotate-180" />
           </Link>
           <LanguageSelector variant="footer" align="start" />
         </div>
 
-        <div className="mt-8 border-t border-border/60 pt-6">
+        {!isArabic && <div className="mt-8 border-t border-border/60 pt-6">
           <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            <Globe className="h-3.5 w-3.5" /> Other editions of this page
+            <Globe className="h-3.5 w-3.5" /> {isArabic ? "إصدارات اللغة" : "Other editions of this page"}
           </p>
           <div className="flex flex-wrap gap-2">
             {LOCALES.filter((l) => l.code !== locale.code).map((l) => (
@@ -61,7 +62,7 @@ export function LocalizedEditionNotice({ locale: code, path }: { locale: string;
               </Link>
             ))}
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );

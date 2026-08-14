@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { publishedAnime, publishedArticles, publishedCharacters, populatedGenres, populatedStudios } from "@/lib/content-registry";
+import { publishedAnime, publishedArticles, publishedCharacters, publishedEpisodes, populatedGenres, populatedStudios } from "@/lib/content-registry";
 import { Breadcrumbs } from "@/components/ui-bits";
+import { PAGE_ENTRIES } from "@/lib/sitemap";
 
 export const Route = createFileRoute("/sitemap-page")({
   head: () => ({ meta: [
@@ -22,9 +23,10 @@ export const Route = createFileRoute("/sitemap-page")({
         <Section title="Studios">{populatedStudios().map(s => <li key={s.slug}><Link to="/studio/$slug" params={{ slug: s.slug }} className="text-sm text-foreground/85 hover:text-primary">{s.name}</Link></li>)}</Section>
         <Section title="Characters">{publishedCharacters().map(c => <li key={c.slug}><Link to="/character/$slug" params={{ slug: c.slug }} className="text-sm text-foreground/85 hover:text-primary">{c.name}</Link></li>)}</Section>
         <Section title="Articles">{publishedArticles().map(a => <li key={a.slug}><Link to="/article/$slug" params={{ slug: a.slug }} className="text-sm text-foreground/85 hover:text-primary">{a.title}</Link></li>)}</Section>
+        <Section title="Episodes">{publishedEpisodes().map(e => <li key={`${e.animeSlug}-${e.number}`}><a href={`/anime/${e.animeSlug}/episode/${e.number}`} className="text-sm text-foreground/85 hover:text-primary">{e.animeSlug.replace(/-/g, " ")} episode {e.number}</a></li>)}</Section>
         <Section title="Pages">
-          {["/","/gaming-hub/ultimate-gaming-secrets-guide","/anime/dandadan","/anime/dandadan/episode-guide","/anime/dandadan/characters","/anime/dandadan/occult-world","/anime/dandadan/watch-guide","/anime/sakamoto-days","/anime/sakamoto-days/episode-guide","/anime/sakamoto-days/characters","/anime/sakamoto-days/assassin-world","/anime/sakamoto-days/watch-guide","/browse","/trending","/top-rated","/upcoming","/new-releases","/completed","/classic","/news","/reviews","/guides","/top-lists","/editorial","/authors","/manga-spoilers","/power-scaling","/watch-order","/timeline","/recommendations","/quotes","/facts","/soundtracks","/openings","/wallpapers","/rewards/anime-wallpapers","/streaming","/statistics","/about","/contact","/faq","/privacy-policy","/terms-of-service","/cookies","/dmca","/editorial-policy"].map(p => (
-            <li key={p}><Link to={p} className="text-sm text-foreground/85 hover:text-primary">{p}</Link></li>
+          {PAGE_ENTRIES.map(({ path }) => (
+            <li key={path}><a href={path} className="text-sm text-foreground/85 hover:text-primary">{path}</a></li>
           ))}
         </Section>
       </div>

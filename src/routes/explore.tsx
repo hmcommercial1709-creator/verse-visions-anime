@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { EXPLORE_PAGES } from "@/data/explore-pages";
-export const Route = createFileRoute("/explore")({ head: () => ({ meta: [{ title: "Explore Anime Guides, Rankings, Releases & Wallpapers" }, { name: "description", content: "Explore bilingual anime wallpapers, watch orders, rankings, release trackers, streaming and gaming safety guides." }] }), component: ExploreHub });
+import { absoluteUrl } from "@/lib/seo";
+export const Route = createFileRoute("/explore")({ head: () => ({ meta: [{ title: "Explore Anime Guides, Rankings, Releases & Wallpapers" }, { name: "description", content: "Explore bilingual anime wallpapers, watch orders, rankings, release trackers, streaming and gaming safety guides." }], links: [{ rel: "canonical", href: absoluteUrl("/explore") }, { rel: "alternate", hreflang: "ar", href: absoluteUrl("/ar/explore") }] }), component: ExploreHub });
 function ExploreHub() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   if (pathname.replace(/\/$/, "") !== "/explore") return <Outlet />;

@@ -1,5 +1,6 @@
 import React from "react";
 import EmailSignup from "../components/EmailSignup";
+import WhereToBuy from "../components/WhereToBuy";
 
 type Resource = {
   id: string;
@@ -143,6 +144,16 @@ const Resources: React.FC<ResourcesProps> = ({ onNotify = (id: string) => consol
 
         <div className="mt-12">
           <EmailSignup />
+        </div>
+
+        <div className="mt-12">
+          <WhereToBuy
+            productName="Ultimate Anime Figure"
+            amazonLink="https://www.amazon.com/dp/example"
+            crunchyrollLink="https://store.crunchyroll.com/example"
+            playasiaLink="https://www.play-asia.com/example"
+            entertainmentEarthLink="https://www.entertainmentearth.com/example"
+          />
         </div>
 
         <section aria-labelledby="premium-coming" className="mt-16">

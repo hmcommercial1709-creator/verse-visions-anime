@@ -26,11 +26,7 @@ const NAV_KEYS: Record<string, UiKey> = {
   Editorial: "editorial",
   Studios: "studios",
 };
-import {
-  populatedGenres,
-  populatedStudios,
-  publishedAnime,
-} from "@/lib/content-registry";
+import { populatedGenres, populatedStudios, publishedAnime } from "@/lib/content-registry";
 
 const navGenres = populatedGenres();
 const navStudios = populatedStudios();
@@ -73,9 +69,7 @@ const megaGroups = [
 
       {
         title: "Popular",
-        links: navAnime
-          .slice(0, 6)
-          .map((a) => ({ to: `/anime/${a.slug}`, label: a.title })),
+        links: navAnime.slice(0, 6).map((a) => ({ to: `/anime/${a.slug}`, label: a.title })),
       },
     ],
   },
@@ -85,25 +79,11 @@ const megaGroups = [
     columns: [
       {
         title: "Action & Adventure",
-        links: genreLinks([
-          "action",
-          "adventure",
-          "fantasy",
-          "shonen",
-          "mecha",
-          "sci-fi",
-        ]),
+        links: genreLinks(["action", "adventure", "fantasy", "shonen", "mecha", "sci-fi"]),
       },
       {
         title: "Story & Feels",
-        links: genreLinks([
-          "drama",
-          "romance",
-          "slice-of-life",
-          "comedy",
-          "family",
-          "school",
-        ]),
+        links: genreLinks(["drama", "romance", "slice-of-life", "comedy", "family", "school"]),
       },
       {
         title: "Dark & Cerebral",
@@ -182,9 +162,7 @@ const megaGroups = [
         title: "Studios",
         links: [
           { to: "/studios", label: "All Studios" },
-          ...navStudios
-            .slice(0, 5)
-            .map((s) => ({ to: `/studio/${s.slug}`, label: s.name })),
+          ...navStudios.slice(0, 5).map((s) => ({ to: `/studio/${s.slug}`, label: s.name })),
         ],
       },
       {
@@ -216,6 +194,7 @@ const categoryHubs = [
   { to: "/store", label: "Store" },
   { to: "/gaming-hub", label: "Gaming Hub" },
   { to: "/guides", label: "Guides" },
+  { to: "/resources", label: "Free Resources" },
   { to: "/watch-order", label: "Watch Orders" },
   { to: "/timeline", label: "Timeline" },
   { to: "/power-scaling", label: "Power Scaling" },
@@ -255,9 +234,7 @@ export function SiteHeader() {
     <>
       <header
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled
-            ? "bg-background/95 border-b border-border/60"
-            : "bg-background/70"
+          scrolled ? "bg-background/95 border-b border-border/60" : "bg-background/70"
         }`}
         onMouseLeave={() => setOpenMenu(null)}
       >
@@ -286,9 +263,7 @@ export function SiteHeader() {
               <button
                 key={g.label}
                 onMouseEnter={() => setOpenMenu(g.label)}
-                onClick={() =>
-                  setOpenMenu(openMenu === g.label ? null : g.label)
-                }
+                onClick={() => setOpenMenu(openMenu === g.label ? null : g.label)}
                 className={`flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   openMenu === g.label
                     ? "bg-secondary text-foreground"
@@ -379,10 +354,7 @@ export function SiteHeader() {
                 )}
               </Link>
             ))}
-            <span
-              className="h-4 w-px shrink-0 bg-border/70"
-              aria-hidden="true"
-            />
+            <span className="h-4 w-px shrink-0 bg-border/70" aria-hidden="true" />
             <Link
               to="/browse"
               className="shrink-0 rounded-full border border-border/60 px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
@@ -405,10 +377,7 @@ export function SiteHeader() {
 
         {/* Mega menu */}
         {openMenu && (
-          <div
-            className="absolute inset-x-0 top-full hidden 2xl:block"
-            onMouseEnter={() => {}}
-          >
+          <div className="absolute inset-x-0 top-full hidden 2xl:block" onMouseEnter={() => {}}>
             <div className="mx-auto max-w-7xl px-4 lg:px-6 pb-6">
               <div className="rounded-2xl border border-border/60 bg-popover shadow-2xl p-6">
                 <div className="grid grid-cols-3 gap-8">
@@ -444,17 +413,11 @@ export function SiteHeader() {
       {/* Mobile drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 2xl:hidden">
-          <div
-            className="absolute inset-0 bg-background/90"
-            onClick={() => setMobileOpen(false)}
-          />
+          <div className="absolute inset-0 bg-background/90" onClick={() => setMobileOpen(false)} />
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
             <div className="flex items-center justify-between mb-6">
               <span className="font-display text-lg font-bold">Menu</span>
-              <button
-                onClick={() => setMobileOpen(false)}
-                className="rounded-md p-2"
-              >
+              <button onClick={() => setMobileOpen(false)} className="rounded-md p-2">
                 <X className="h-5 w-5" />
               </button>
             </div>

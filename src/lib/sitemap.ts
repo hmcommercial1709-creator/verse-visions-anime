@@ -70,6 +70,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/manga-spoilers",
     "/timeline",
     "/wallpapers",
+    "/resources",
     "/store",
     "/game-top-up",
     "/gaming-gift-cards",

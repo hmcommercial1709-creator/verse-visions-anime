@@ -77,6 +77,11 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/anime/dandadan/characters",
     "/anime/dandadan/occult-world",
     "/anime/dandadan/watch-guide",
+    "/anime/sakamoto-days",
+    "/anime/sakamoto-days/episode-guide",
+    "/anime/sakamoto-days/characters",
+    "/anime/sakamoto-days/assassin-world",
+    "/anime/sakamoto-days/watch-guide",
     "/resources",
     "/store",
     "/game-top-up",
@@ -173,7 +178,7 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
 export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_LOCALE): string {
   const withAlternates = INDEXABLE_LOCALES.length > 1;
   const englishOnly = (path: string) =>
-    path === "/rewards/anime-wallpapers" || path === "/anime/dandadan" || path.startsWith("/anime/dandadan/");
+    path === "/rewards/anime-wallpapers" || path === "/anime/dandadan" || path.startsWith("/anime/dandadan/") || path === "/anime/sakamoto-days" || path.startsWith("/anime/sakamoto-days/");
   const seen = new Set<string>();
   const urls = entries
     .filter((e) => !englishOnly(e.path) || locale === "en")

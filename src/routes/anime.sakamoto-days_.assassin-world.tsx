@@ -1,0 +1,2 @@
+import { createFileRoute } from "@tanstack/react-router"; import { SakamotoWorld } from "@/components/sakamoto-pages"; import { sakamotoHead } from "@/lib/sakamoto-seo";
+export const Route = createFileRoute("/anime/sakamoto-days_/assassin-world")({ head: () => sakamotoHead("/anime/sakamoto-days/assassin-world", "Sakamoto Days Assassin World Explained: JAA, The Order & Rules", "Understand the JAA, The Order, bounties, combat logic and hidden institutions that shape the dangerous, comic world of Sakamoto Days.", "/anime/sakamoto-days/world.webp"), component: SakamotoWorld });

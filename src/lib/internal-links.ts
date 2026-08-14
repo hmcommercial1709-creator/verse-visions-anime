@@ -42,6 +42,11 @@ const STATIC_HUBS: LinkNode[] = [
   { path: "/anime/dandadan/characters", label: "Dandadan Characters", kind: "hub", topics: ["dandadan", "characters", "relationships"] },
   { path: "/anime/dandadan/occult-world", label: "Dandadan Powers Explained", kind: "hub", topics: ["dandadan", "yokai", "aliens", "powers"] },
   { path: "/anime/dandadan/watch-guide", label: "How to Watch Dandadan", kind: "hub", topics: ["dandadan", "watch-order", "beginner"] },
+  { path: "/anime/sakamoto-days", label: "Sakamoto Days Complete Guide", kind: "hub", topics: ["sakamoto days", "assassins", "episodes"] },
+  { path: "/anime/sakamoto-days/episode-guide", label: "Sakamoto Days Episode Guide", kind: "hub", topics: ["sakamoto days", "episodes", "missions"] },
+  { path: "/anime/sakamoto-days/characters", label: "Sakamoto Days Characters", kind: "hub", topics: ["sakamoto days", "characters", "order"] },
+  { path: "/anime/sakamoto-days/assassin-world", label: "Sakamoto Days Assassin World", kind: "hub", topics: ["sakamoto days", "jaa", "order", "powers"] },
+  { path: "/anime/sakamoto-days/watch-guide", label: "How to Watch Sakamoto Days", kind: "hub", topics: ["sakamoto days", "watch-order", "beginner"] },
 ];
 
 let cache: { nodes: LinkNode[]; valid: Set<string> } | null = null;

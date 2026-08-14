@@ -1,0 +1,2 @@
+import { createFileRoute } from "@tanstack/react-router"; import { SakamotoHub } from "@/components/sakamoto-pages"; import { sakamotoHead } from "@/lib/sakamoto-seo";
+export const Route = createFileRoute("/anime/sakamoto-days")({ head: () => sakamotoHead("/anime/sakamoto-days", "Sakamoto Days Complete Guide: Episodes, Characters & Assassin World", "Enter Sakamoto Days with a spoiler-aware 22-episode mission guide, character profiles, assassin-world explanations, watch tips and original editorial artwork.", "/anime/sakamoto-days/hero.webp"), component: SakamotoHub });

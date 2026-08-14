@@ -77,6 +77,7 @@ import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as AnimeDandadanRouteImport } from './routes/anime.dandadan'
+import { Route as AnimeSakamotoDaysRouteImport } from './routes/anime.sakamoto-days'
 import { Route as ArExploreRouteImport } from './routes/ar.explore'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -98,6 +99,10 @@ import { Route as AnimeDandadanCharactersRouteImport } from './routes/anime.dand
 import { Route as AnimeDandadanEpisodeGuideRouteImport } from './routes/anime.dandadan_.episode-guide'
 import { Route as AnimeDandadanOccultWorldRouteImport } from './routes/anime.dandadan_.occult-world'
 import { Route as AnimeDandadanWatchGuideRouteImport } from './routes/anime.dandadan_.watch-guide'
+import { Route as AnimeSakamotoDaysAssassinWorldRouteImport } from './routes/anime.sakamoto-days_.assassin-world'
+import { Route as AnimeSakamotoDaysCharactersRouteImport } from './routes/anime.sakamoto-days_.characters'
+import { Route as AnimeSakamotoDaysEpisodeGuideRouteImport } from './routes/anime.sakamoto-days_.episode-guide'
+import { Route as AnimeSakamotoDaysWatchGuideRouteImport } from './routes/anime.sakamoto-days_.watch-guide'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as ArAnimeSlugRouteImport } from './routes/ar.anime.$slug'
 import { Route as ArExploreSlugRouteImport } from './routes/ar.explore.$slug'
@@ -445,6 +450,11 @@ const AnimeDandadanRoute = AnimeDandadanRouteImport.update({
   path: '/anime/dandadan',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnimeSakamotoDaysRoute = AnimeSakamotoDaysRouteImport.update({
+  id: '/anime/sakamoto-days',
+  path: '/anime/sakamoto-days',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArExploreRoute = ArExploreRouteImport.update({
   id: '/ar/explore',
   path: '/ar/explore',
@@ -554,6 +564,30 @@ const AnimeDandadanWatchGuideRoute = AnimeDandadanWatchGuideRouteImport.update({
   path: '/anime/dandadan/watch-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnimeSakamotoDaysAssassinWorldRoute =
+  AnimeSakamotoDaysAssassinWorldRouteImport.update({
+    id: '/anime/sakamoto-days_/assassin-world',
+    path: '/anime/sakamoto-days/assassin-world',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AnimeSakamotoDaysCharactersRoute =
+  AnimeSakamotoDaysCharactersRouteImport.update({
+    id: '/anime/sakamoto-days_/characters',
+    path: '/anime/sakamoto-days/characters',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AnimeSakamotoDaysEpisodeGuideRoute =
+  AnimeSakamotoDaysEpisodeGuideRouteImport.update({
+    id: '/anime/sakamoto-days_/episode-guide',
+    path: '/anime/sakamoto-days/episode-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AnimeSakamotoDaysWatchGuideRoute =
+  AnimeSakamotoDaysWatchGuideRouteImport.update({
+    id: '/anime/sakamoto-days_/watch-guide',
+    path: '/anime/sakamoto-days/watch-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
   id: '/ar/anime/',
   path: '/ar/anime/',
@@ -654,6 +688,7 @@ export interface FileRoutesByFullPath {
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
+  '/anime/sakamoto-days': typeof AnimeSakamotoDaysRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -676,6 +711,10 @@ export interface FileRoutesByFullPath {
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
   '/anime/dandadan/watch-guide': typeof AnimeDandadanWatchGuideRoute
+  '/anime/sakamoto-days/assassin-world': typeof AnimeSakamotoDaysAssassinWorldRoute
+  '/anime/sakamoto-days/characters': typeof AnimeSakamotoDaysCharactersRoute
+  '/anime/sakamoto-days/episode-guide': typeof AnimeSakamotoDaysEpisodeGuideRoute
+  '/anime/sakamoto-days/watch-guide': typeof AnimeSakamotoDaysWatchGuideRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
@@ -751,6 +790,7 @@ export interface FileRoutesByTo {
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
+  '/anime/sakamoto-days': typeof AnimeSakamotoDaysRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -773,6 +813,10 @@ export interface FileRoutesByTo {
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
   '/anime/dandadan/watch-guide': typeof AnimeDandadanWatchGuideRoute
+  '/anime/sakamoto-days/assassin-world': typeof AnimeSakamotoDaysAssassinWorldRoute
+  '/anime/sakamoto-days/characters': typeof AnimeSakamotoDaysCharactersRoute
+  '/anime/sakamoto-days/episode-guide': typeof AnimeSakamotoDaysEpisodeGuideRoute
+  '/anime/sakamoto-days/watch-guide': typeof AnimeSakamotoDaysWatchGuideRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
@@ -849,6 +893,7 @@ export interface FileRoutesById {
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
+  '/anime/sakamoto-days': typeof AnimeSakamotoDaysRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -871,6 +916,10 @@ export interface FileRoutesById {
   '/anime/dandadan_/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan_/occult-world': typeof AnimeDandadanOccultWorldRoute
   '/anime/dandadan_/watch-guide': typeof AnimeDandadanWatchGuideRoute
+  '/anime/sakamoto-days_/assassin-world': typeof AnimeSakamotoDaysAssassinWorldRoute
+  '/anime/sakamoto-days_/characters': typeof AnimeSakamotoDaysCharactersRoute
+  '/anime/sakamoto-days_/episode-guide': typeof AnimeSakamotoDaysEpisodeGuideRoute
+  '/anime/sakamoto-days_/watch-guide': typeof AnimeSakamotoDaysWatchGuideRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
@@ -948,6 +997,7 @@ export interface FileRouteTypes {
     | '/$locale/store'
     | '/anime/$slug'
     | '/anime/dandadan'
+    | '/anime/sakamoto-days'
     | '/ar/explore'
     | '/article/$slug'
     | '/category/$slug'
@@ -970,6 +1020,10 @@ export interface FileRouteTypes {
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
     | '/anime/dandadan/watch-guide'
+    | '/anime/sakamoto-days/assassin-world'
+    | '/anime/sakamoto-days/characters'
+    | '/anime/sakamoto-days/episode-guide'
+    | '/anime/sakamoto-days/watch-guide'
     | '/ar/anime/$slug'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
@@ -1045,6 +1099,7 @@ export interface FileRouteTypes {
     | '/$locale/store'
     | '/anime/$slug'
     | '/anime/dandadan'
+    | '/anime/sakamoto-days'
     | '/ar/explore'
     | '/article/$slug'
     | '/category/$slug'
@@ -1067,6 +1122,10 @@ export interface FileRouteTypes {
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
     | '/anime/dandadan/watch-guide'
+    | '/anime/sakamoto-days/assassin-world'
+    | '/anime/sakamoto-days/characters'
+    | '/anime/sakamoto-days/episode-guide'
+    | '/anime/sakamoto-days/watch-guide'
     | '/ar/anime/$slug'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
@@ -1142,6 +1201,7 @@ export interface FileRouteTypes {
     | '/$locale/store'
     | '/anime/$slug'
     | '/anime/dandadan'
+    | '/anime/sakamoto-days'
     | '/ar/explore'
     | '/article/$slug'
     | '/category/$slug'
@@ -1164,6 +1224,10 @@ export interface FileRouteTypes {
     | '/anime/dandadan_/episode-guide'
     | '/anime/dandadan_/occult-world'
     | '/anime/dandadan_/watch-guide'
+    | '/anime/sakamoto-days_/assassin-world'
+    | '/anime/sakamoto-days_/characters'
+    | '/anime/sakamoto-days_/episode-guide'
+    | '/anime/sakamoto-days_/watch-guide'
     | '/ar/anime/$slug'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
@@ -1240,6 +1304,7 @@ export interface RootRouteChildren {
   LocaleStoreRoute: typeof LocaleStoreRoute
   AnimeSlugRoute: typeof AnimeSlugRoute
   AnimeDandadanRoute: typeof AnimeDandadanRoute
+  AnimeSakamotoDaysRoute: typeof AnimeSakamotoDaysRoute
   ArExploreRoute: typeof ArExploreRouteWithChildren
   ArticleSlugRoute: typeof ArticleSlugRoute
   CategorySlugRoute: typeof CategorySlugRoute
@@ -1261,6 +1326,10 @@ export interface RootRouteChildren {
   AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
   AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
   AnimeDandadanWatchGuideRoute: typeof AnimeDandadanWatchGuideRoute
+  AnimeSakamotoDaysAssassinWorldRoute: typeof AnimeSakamotoDaysAssassinWorldRoute
+  AnimeSakamotoDaysCharactersRoute: typeof AnimeSakamotoDaysCharactersRoute
+  AnimeSakamotoDaysEpisodeGuideRoute: typeof AnimeSakamotoDaysEpisodeGuideRoute
+  AnimeSakamotoDaysWatchGuideRoute: typeof AnimeSakamotoDaysWatchGuideRoute
   ArAnimeSlugRoute: typeof ArAnimeSlugRoute
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
@@ -1746,6 +1815,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnimeDandadanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anime/sakamoto-days': {
+      id: '/anime/sakamoto-days'
+      path: '/anime/sakamoto-days'
+      fullPath: '/anime/sakamoto-days'
+      preLoaderRoute: typeof AnimeSakamotoDaysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ar/explore': {
       id: '/ar/explore'
       path: '/ar/explore'
@@ -1893,6 +1969,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnimeDandadanWatchGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anime/sakamoto-days_/assassin-world': {
+      id: '/anime/sakamoto-days_/assassin-world'
+      path: '/anime/sakamoto-days/assassin-world'
+      fullPath: '/anime/sakamoto-days/assassin-world'
+      preLoaderRoute: typeof AnimeSakamotoDaysAssassinWorldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anime/sakamoto-days_/characters': {
+      id: '/anime/sakamoto-days_/characters'
+      path: '/anime/sakamoto-days/characters'
+      fullPath: '/anime/sakamoto-days/characters'
+      preLoaderRoute: typeof AnimeSakamotoDaysCharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anime/sakamoto-days_/episode-guide': {
+      id: '/anime/sakamoto-days_/episode-guide'
+      path: '/anime/sakamoto-days/episode-guide'
+      fullPath: '/anime/sakamoto-days/episode-guide'
+      preLoaderRoute: typeof AnimeSakamotoDaysEpisodeGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anime/sakamoto-days_/watch-guide': {
+      id: '/anime/sakamoto-days_/watch-guide'
+      path: '/anime/sakamoto-days/watch-guide'
+      fullPath: '/anime/sakamoto-days/watch-guide'
+      preLoaderRoute: typeof AnimeSakamotoDaysWatchGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ar/anime/': {
       id: '/ar/anime/'
       path: '/ar/anime'
@@ -2029,6 +2133,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleStoreRoute: LocaleStoreRoute,
   AnimeSlugRoute: AnimeSlugRoute,
   AnimeDandadanRoute: AnimeDandadanRoute,
+  AnimeSakamotoDaysRoute: AnimeSakamotoDaysRoute,
   ArExploreRoute: ArExploreRouteWithChildren,
   ArticleSlugRoute: ArticleSlugRoute,
   CategorySlugRoute: CategorySlugRoute,
@@ -2050,6 +2155,10 @@ const rootRouteChildren: RootRouteChildren = {
   AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
   AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,
   AnimeDandadanWatchGuideRoute: AnimeDandadanWatchGuideRoute,
+  AnimeSakamotoDaysAssassinWorldRoute: AnimeSakamotoDaysAssassinWorldRoute,
+  AnimeSakamotoDaysCharactersRoute: AnimeSakamotoDaysCharactersRoute,
+  AnimeSakamotoDaysEpisodeGuideRoute: AnimeSakamotoDaysEpisodeGuideRoute,
+  AnimeSakamotoDaysWatchGuideRoute: AnimeSakamotoDaysWatchGuideRoute,
   ArAnimeSlugRoute: ArAnimeSlugRoute,
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,

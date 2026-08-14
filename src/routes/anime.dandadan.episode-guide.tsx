@@ -1,2 +1,0 @@
-import {createFileRoute} from "@tanstack/react-router";import {DandadanEpisodes} from "@/components/dandadan-pages";import {dandadanHead} from "@/lib/dandadan-seo";
-export const Route=createFileRoute("/anime/dandadan/episode-guide")({head:()=>dandadanHead("/anime/dandadan/episode-guide","Dandadan Episode Guide: Summaries, Arcs & Key Moments","Follow Dandadan episode by episode with spoiler-light summaries, arc boundaries, emotional highlights and explanations of why every chapter matters.","/anime/dandadan/episodes.webp"),component:DandadanEpisodes});

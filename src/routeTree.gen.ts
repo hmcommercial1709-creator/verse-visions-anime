@@ -94,10 +94,10 @@ import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
 import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
-import { Route as AnimeDandadanCharactersRouteImport } from './routes/anime.dandadan.characters'
-import { Route as AnimeDandadanEpisodeGuideRouteImport } from './routes/anime.dandadan.episode-guide'
-import { Route as AnimeDandadanOccultWorldRouteImport } from './routes/anime.dandadan.occult-world'
-import { Route as AnimeDandadanWatchGuideRouteImport } from './routes/anime.dandadan.watch-guide'
+import { Route as AnimeDandadanCharactersRouteImport } from './routes/anime.dandadan_.characters'
+import { Route as AnimeDandadanEpisodeGuideRouteImport } from './routes/anime.dandadan_.episode-guide'
+import { Route as AnimeDandadanOccultWorldRouteImport } from './routes/anime.dandadan_.occult-world'
+import { Route as AnimeDandadanWatchGuideRouteImport } from './routes/anime.dandadan_.watch-guide'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as ArAnimeSlugRouteImport } from './routes/ar.anime.$slug'
 import { Route as ArExploreSlugRouteImport } from './routes/ar.explore.$slug'
@@ -533,26 +533,26 @@ const WatchSlugRoute = WatchSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeDandadanCharactersRoute = AnimeDandadanCharactersRouteImport.update({
-  id: '/characters',
-  path: '/characters',
-  getParentRoute: () => AnimeDandadanRoute,
+  id: '/anime/dandadan_/characters',
+  path: '/anime/dandadan/characters',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeDandadanEpisodeGuideRoute =
   AnimeDandadanEpisodeGuideRouteImport.update({
-    id: '/episode-guide',
-    path: '/episode-guide',
-    getParentRoute: () => AnimeDandadanRoute,
+    id: '/anime/dandadan_/episode-guide',
+    path: '/anime/dandadan/episode-guide',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const AnimeDandadanOccultWorldRoute =
   AnimeDandadanOccultWorldRouteImport.update({
-    id: '/occult-world',
-    path: '/occult-world',
-    getParentRoute: () => AnimeDandadanRoute,
+    id: '/anime/dandadan_/occult-world',
+    path: '/anime/dandadan/occult-world',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const AnimeDandadanWatchGuideRoute = AnimeDandadanWatchGuideRouteImport.update({
-  id: '/watch-guide',
-  path: '/watch-guide',
-  getParentRoute: () => AnimeDandadanRoute,
+  id: '/anime/dandadan_/watch-guide',
+  path: '/anime/dandadan/watch-guide',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
   id: '/ar/anime/',
@@ -653,7 +653,7 @@ export interface FileRoutesByFullPath {
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
-  '/anime/dandadan': typeof AnimeDandadanRouteWithChildren
+  '/anime/dandadan': typeof AnimeDandadanRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -750,7 +750,7 @@ export interface FileRoutesByTo {
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
-  '/anime/dandadan': typeof AnimeDandadanRouteWithChildren
+  '/anime/dandadan': typeof AnimeDandadanRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -848,7 +848,7 @@ export interface FileRoutesById {
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
-  '/anime/dandadan': typeof AnimeDandadanRouteWithChildren
+  '/anime/dandadan': typeof AnimeDandadanRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -867,10 +867,10 @@ export interface FileRoutesById {
   '/watch/$slug': typeof WatchSlugRoute
   '/$locale/': typeof LocaleIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
-  '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
-  '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
-  '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
-  '/anime/dandadan/watch-guide': typeof AnimeDandadanWatchGuideRoute
+  '/anime/dandadan_/characters': typeof AnimeDandadanCharactersRoute
+  '/anime/dandadan_/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
+  '/anime/dandadan_/occult-world': typeof AnimeDandadanOccultWorldRoute
+  '/anime/dandadan_/watch-guide': typeof AnimeDandadanWatchGuideRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
@@ -1160,10 +1160,10 @@ export interface FileRouteTypes {
     | '/watch/$slug'
     | '/$locale/'
     | '/gaming-hub/'
-    | '/anime/dandadan/characters'
-    | '/anime/dandadan/episode-guide'
-    | '/anime/dandadan/occult-world'
-    | '/anime/dandadan/watch-guide'
+    | '/anime/dandadan_/characters'
+    | '/anime/dandadan_/episode-guide'
+    | '/anime/dandadan_/occult-world'
+    | '/anime/dandadan_/watch-guide'
     | '/ar/anime/$slug'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
@@ -1239,7 +1239,7 @@ export interface RootRouteChildren {
   LocaleSplatRoute: typeof LocaleSplatRoute
   LocaleStoreRoute: typeof LocaleStoreRoute
   AnimeSlugRoute: typeof AnimeSlugRoute
-  AnimeDandadanRoute: typeof AnimeDandadanRouteWithChildren
+  AnimeDandadanRoute: typeof AnimeDandadanRoute
   ArExploreRoute: typeof ArExploreRouteWithChildren
   ArticleSlugRoute: typeof ArticleSlugRoute
   CategorySlugRoute: typeof CategorySlugRoute
@@ -1257,6 +1257,10 @@ export interface RootRouteChildren {
   WatchSlugRoute: typeof WatchSlugRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   GamingHubIndexRoute: typeof GamingHubIndexRoute
+  AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
+  AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
+  AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
+  AnimeDandadanWatchGuideRoute: typeof AnimeDandadanWatchGuideRoute
   ArAnimeSlugRoute: typeof ArAnimeSlugRoute
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
@@ -1861,33 +1865,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WatchSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/anime/dandadan/characters': {
-      id: '/anime/dandadan/characters'
-      path: '/characters'
+    '/anime/dandadan_/characters': {
+      id: '/anime/dandadan_/characters'
+      path: '/anime/dandadan/characters'
       fullPath: '/anime/dandadan/characters'
       preLoaderRoute: typeof AnimeDandadanCharactersRouteImport
-      parentRoute: typeof AnimeDandadanRoute
+      parentRoute: typeof rootRouteImport
     }
-    '/anime/dandadan/episode-guide': {
-      id: '/anime/dandadan/episode-guide'
-      path: '/episode-guide'
+    '/anime/dandadan_/episode-guide': {
+      id: '/anime/dandadan_/episode-guide'
+      path: '/anime/dandadan/episode-guide'
       fullPath: '/anime/dandadan/episode-guide'
       preLoaderRoute: typeof AnimeDandadanEpisodeGuideRouteImport
-      parentRoute: typeof AnimeDandadanRoute
+      parentRoute: typeof rootRouteImport
     }
-    '/anime/dandadan/occult-world': {
-      id: '/anime/dandadan/occult-world'
-      path: '/occult-world'
+    '/anime/dandadan_/occult-world': {
+      id: '/anime/dandadan_/occult-world'
+      path: '/anime/dandadan/occult-world'
       fullPath: '/anime/dandadan/occult-world'
       preLoaderRoute: typeof AnimeDandadanOccultWorldRouteImport
-      parentRoute: typeof AnimeDandadanRoute
+      parentRoute: typeof rootRouteImport
     }
-    '/anime/dandadan/watch-guide': {
-      id: '/anime/dandadan/watch-guide'
-      path: '/watch-guide'
+    '/anime/dandadan_/watch-guide': {
+      id: '/anime/dandadan_/watch-guide'
+      path: '/anime/dandadan/watch-guide'
       fullPath: '/anime/dandadan/watch-guide'
       preLoaderRoute: typeof AnimeDandadanWatchGuideRouteImport
-      parentRoute: typeof AnimeDandadanRoute
+      parentRoute: typeof rootRouteImport
     }
     '/ar/anime/': {
       id: '/ar/anime/'
@@ -1944,24 +1948,6 @@ const ExploreRouteChildren: ExploreRouteChildren = {
 
 const ExploreRouteWithChildren =
   ExploreRoute._addFileChildren(ExploreRouteChildren)
-
-interface AnimeDandadanRouteChildren {
-  AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
-  AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
-  AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
-  AnimeDandadanWatchGuideRoute: typeof AnimeDandadanWatchGuideRoute
-}
-
-const AnimeDandadanRouteChildren: AnimeDandadanRouteChildren = {
-  AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
-  AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
-  AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,
-  AnimeDandadanWatchGuideRoute: AnimeDandadanWatchGuideRoute,
-}
-
-const AnimeDandadanRouteWithChildren = AnimeDandadanRoute._addFileChildren(
-  AnimeDandadanRouteChildren,
-)
 
 interface ArExploreRouteChildren {
   ArExploreSlugRoute: typeof ArExploreSlugRoute
@@ -2042,7 +2028,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleSplatRoute: LocaleSplatRoute,
   LocaleStoreRoute: LocaleStoreRoute,
   AnimeSlugRoute: AnimeSlugRoute,
-  AnimeDandadanRoute: AnimeDandadanRouteWithChildren,
+  AnimeDandadanRoute: AnimeDandadanRoute,
   ArExploreRoute: ArExploreRouteWithChildren,
   ArticleSlugRoute: ArticleSlugRoute,
   CategorySlugRoute: CategorySlugRoute,
@@ -2060,6 +2046,10 @@ const rootRouteChildren: RootRouteChildren = {
   WatchSlugRoute: WatchSlugRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   GamingHubIndexRoute: GamingHubIndexRoute,
+  AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
+  AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
+  AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,
+  AnimeDandadanWatchGuideRoute: AnimeDandadanWatchGuideRoute,
   ArAnimeSlugRoute: ArAnimeSlugRoute,
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,

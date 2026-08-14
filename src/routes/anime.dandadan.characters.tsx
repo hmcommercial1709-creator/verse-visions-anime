@@ -1,2 +1,0 @@
-import {createFileRoute} from "@tanstack/react-router";import {DandadanCharacters} from "@/components/dandadan-pages";import {dandadanHead} from "@/lib/dandadan-seo";
-export const Route=createFileRoute("/anime/dandadan/characters")({head:()=>dandadanHead("/anime/dandadan/characters","Dandadan Characters: Momo, Okarun, Aira, Jiji & Seiko","Understand Dandadan's main characters, powers, motivations, emotional growth, friendships, rivalries and romantic chemistry.","/anime/dandadan/characters.webp"),component:DandadanCharacters});

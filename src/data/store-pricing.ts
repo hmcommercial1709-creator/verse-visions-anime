@@ -99,7 +99,9 @@ const storePriceSeeds = {
 } satisfies Record<string, StorePriceSeed>;
 
 export function verifiedStorePrice(productId: string): StorePrice {
-  const seed = storePriceSeeds[productId as keyof typeof storePriceSeeds];
+  const seed = storePriceSeeds[
+    productId as keyof typeof storePriceSeeds
+  ] as StorePriceSeed | undefined;
 
   if (!seed) {
     throw new Error(`Missing verified store price for ${productId}`);

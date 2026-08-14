@@ -1,10 +1,58 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { arGuideBySlug, AR_GUIDES, type ArGuide } from "@/data/ar-guides";
 import { SITE_URL } from "@/lib/i18n";
+import { getAnimeBySlug } from "@/lib/content-registry";
+
+function guideForArabicSlug(slug: string): ArGuide | undefined {
+  const direct = arGuideBySlug(slug);
+  if (direct) return direct;
+
+  const watchOrder = arGuideBySlug(`${slug}-watch-order`);
+  if (watchOrder) return { ...watchOrder, slug, enPath: `/anime/${slug}` };
+
+  const anime = getAnimeBySlug(slug);
+  if (!anime) return undefined;
+  const episodeCount = anime.episodes === "?" ? "مستمر" : `${anime.episodes} حلقة`;
+  return {
+    slug,
+    enPath: `/anime/${slug}`,
+    titleTag: `${anime.title} بالعربية: القصة والمواسم وترتيب المشاهدة | GameCastle`,
+    h1: `دليل ${anime.title} بالعربية: القصة وترتيب المشاهدة والشخصيات`,
+    metaDescription: `دليل عربي شامل لأنمي ${anime.title}: القصة دون حرق، عدد الحلقات والمواسم، ترتيب المشاهدة، أبرز الأركات وإجابات أسئلة المتابعين.`,
+    keywords: [`${anime.title} بالعربي`, `قصة ${anime.title}`, `ترتيب مشاهدة ${anime.title}`, `حلقات ${anime.title}`],
+    intro: [
+      `${anime.title} عمل أنمي بدأ عرضه عام ${anime.year} وحصل على تقييم ${anime.rating} من 10 ضمن دليل GameCastle. تجمع هذه الصفحة المعلومات الأساسية التي يحتاجها المشاهد العربي قبل بدء السلسلة، مع فصل واضح بين الوصف العام والتفاصيل التي قد تكشف الأحداث.`,
+      `يعرض الدليل حالة العمل وعدد مواسمه وحلقاته وأبرز محاور عالمه، ثم يوصلك إلى الصفحة الإنجليزية الموسعة والمصادر الداخلية المرتبطة عند الحاجة إلى تحليل أعمق.`,
+    ],
+    table: {
+      caption: `معلومات ${anime.title} الأساسية`,
+      head: ["العنصر", "التفاصيل"],
+      rows: [
+        ["سنة البداية", String(anime.year)],
+        ["الحالة", anime.status === "Completed" ? "مكتمل" : anime.status === "Ongoing" ? "مستمر" : "قادم"],
+        ["الحلقات", episodeCount],
+        ["المواسم", String(anime.seasons)],
+        ["التقييم", `${anime.rating}/10`],
+      ],
+    },
+    sections: [
+      { h2: `ما قصة ${anime.title}؟`, body: [`تدور السلسلة حول ${anime.tagline} وتبني أحداثها عبر عالم متدرج وشخصيات تتغير مع كل مرحلة. ننصح بالبدء من الحلقة الأولى لأن العلاقات والقواعد الأساسية تُقدَّم تدريجياً.`] },
+      { h2: "كيف تشاهد السلسلة بالترتيب؟", body: [anime.watchOrder.length ? `الترتيب المقترح: ${anime.watchOrder.join("، ")}.` : "شاهد المواسم بترتيب الإصدار الرسمي، ثم انتقل إلى الأفلام أو الحلقات الخاصة بعد الموسم المرتبط بها."] },
+      { h2: "أهم ما يميز العالم والشخصيات", body: [`يركز العمل على موضوعات ${anime.themes.join("، ")}، ويستخدم نظاماً سردياً يجعل تطور الشخصيات جزءاً أساسياً من فهم الصراعات والعالم.`] },
+    ],
+    faqs: [
+      { q: `هل يستحق ${anime.title} المشاهدة؟`, a: `نعم، خصوصاً لمحبي ${anime.genres.join(" و")}، وتقييمه الحالي في دليل GameCastle هو ${anime.rating}/10.` },
+      { q: `كم عدد حلقات ${anime.title}؟`, a: `حالة الحلقات الحالية في الدليل: ${episodeCount} عبر ${anime.seasons} موسم/مواسم.` },
+      { q: "هل يحتوي الدليل على حرق؟", a: "المقدمة والمعلومات الأساسية خالية من الحرق، بينما تُعرض تحليلات الأركات في أقسام واضحة." },
+      { q: "أين أجد معلومات إضافية؟", a: "استخدم روابط GameCastle الداخلية للانتقال إلى الشخصيات والمقالات والتصنيفات المرتبطة بالسلسلة." },
+    ],
+    updated: "2026-08-14",
+  };
+}
 
 export const Route = createFileRoute("/ar/anime/$slug")({
   loader: ({ params }) => {
-    const guide = arGuideBySlug(params.slug);
+    const guide = guideForArabicSlug(params.slug);
     if (!guide) throw notFound();
     return { guide };
   },

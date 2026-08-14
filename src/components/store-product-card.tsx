@@ -4,6 +4,11 @@ import {
   storeRetailer,
   type StoreProduct,
 } from "@/data/store-products";
+import {
+  formatStorePriceAmount,
+  storePriceCheckedLabel,
+  storePriceLabel,
+} from "@/data/store-pricing";
 
 export function StoreProductImage({
   product,
@@ -31,6 +36,54 @@ export function StoreProductImage({
   );
 }
 
+export function StorePriceDisplay({
+  product,
+  className = "",
+  compact = false,
+}: {
+  product: StoreProduct;
+  className?: string;
+  compact?: boolean;
+}) {
+  const retailer = storeRetailer(product);
+  const { price } = product;
+  const isOutOfStock = price.availability === "OutOfStock";
+
+  return (
+    <div className={className}>
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <span
+          className={`inline-flex items-center gap-2 font-black text-foreground ${
+            compact ? "text-lg" : "text-2xl"
+          }`}
+        >
+          <ShoppingBag className="h-4 w-4 text-accent" />
+          {storePriceLabel(price)}
+        </span>
+        {price.originalAmount && !isOutOfStock ? (
+          <span className="text-sm font-semibold text-muted-foreground line-through">
+            {formatStorePriceAmount(price.originalAmount)}
+          </span>
+        ) : null}
+        {price.discountPercent && !isOutOfStock ? (
+          <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.08em] text-emerald-300">
+            Save {price.discountPercent}%
+          </span>
+        ) : null}
+        {isOutOfStock ? (
+          <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.08em] text-amber-300">
+            Currently sold out
+          </span>
+        ) : null}
+      </div>
+      <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+        Checked {storePriceCheckedLabel(price.checkedAt)}. Price and availability
+        may change at {retailer}.
+      </p>
+    </div>
+  );
+}
+
 export function StoreBuyButton({
   product,
   className = "",
@@ -39,6 +92,10 @@ export function StoreBuyButton({
   className?: string;
 }) {
   const retailer = storeRetailer(product);
+  const actionLabel =
+    product.price.availability === "OutOfStock"
+      ? `Check on ${retailer}`
+      : `Buy on ${retailer}`;
   const retailerStyle =
     retailer === "Amazon"
       ? "bg-[#ff9900] text-[#111827] hover:bg-[#ffad33] focus-visible:ring-[#ff9900]"
@@ -49,10 +106,10 @@ export function StoreBuyButton({
       href={product.affiliateUrl}
       target="_blank"
       rel="sponsored nofollow noopener noreferrer"
-      aria-label={`Buy ${product.shortTitle} on ${retailer}`}
+      aria-label={`${actionLabel}: ${product.shortTitle}`}
       className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-extrabold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${retailerStyle} ${className}`}
     >
-      Buy on {retailer} <ExternalLink className="h-4 w-4" />
+      {actionLabel} <ExternalLink className="h-4 w-4" />
     </a>
   );
 }
@@ -92,10 +149,7 @@ export function StoreProductCard({ product }: { product: StoreProduct }) {
           {product.description}
         </p>
         <div className="mt-auto pt-5">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-            <ShoppingBag className="h-4 w-4 text-accent" /> Check latest price
-            on {retailer}
-          </div>
+          <StorePriceDisplay product={product} compact className="mb-3" />
           <div className="grid grid-cols-1 gap-2">
             <Link
               to="/store/$slug"

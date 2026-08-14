@@ -10,6 +10,7 @@ import {
   StoreBuyButton,
   StoreProductGrid,
   StoreProductImage,
+  StorePriceDisplay,
 } from "@/components/store-product-card";
 import {
   getStoreProduct,
@@ -18,6 +19,7 @@ import {
   storeProductSku,
   storeRetailer,
 } from "@/data/store-products";
+import { storePriceLabel } from "@/data/store-pricing";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
 export const Route = createFileRoute("/store_/$slug")({
@@ -79,29 +81,20 @@ export const Route = createFileRoute("/store_/$slug")({
               "@type": "Brand",
               name: storeRetailer(product),
             },
-            ...(product.imageUrl.startsWith("http")
-              ? { image: [product.imageUrl] }
-              : {}),
+            image: [product.imageUrl],
             offers: {
               "@type": "Offer",
               price: storeProductPrice(product),
-              priceCurrency: "USD",
-              availability: "https://schema.org/InStock",
+              priceCurrency: product.price.currency,
+              availability:
+                product.price.availability === "OutOfStock"
+                  ? "https://schema.org/OutOfStock"
+                  : "https://schema.org/InStock",
               url: product.affiliateUrl,
               seller: {
                 "@type": "Organization",
                 name: storeRetailer(product),
               },
-              priceValidUntil: new Date(
-                Date.now() + 365 * 24 * 60 * 60 * 1000,
-              ).toISOString(),
-            },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: "4.5",
-              reviewCount: "12",
-              bestRating: "5",
-              worstRating: "1",
             },
           }),
         },
@@ -210,9 +203,10 @@ function ProductDetail() {
                 <ShoppingBag className="h-5 w-5 text-[#ff9900]" /> Price &amp;
                 availability
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                See the latest price, seller, delivery or digital-fulfilment
-                options and regional availability on {retailer}.
+              <StorePriceDisplay product={product} className="mt-3" />
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Final checkout price, seller, delivery, taxes and regional
+                availability are confirmed on {retailer} and may change.
               </p>
               <StoreBuyButton
                 product={product}
@@ -258,10 +252,7 @@ function ProductDetail() {
                 value={sku}
               />
               <Detail label="Retailer" value={retailer} />
-              <Detail
-                label="Price"
-                value={`Check latest price on ${retailer}`}
-              />
+              <Detail label="Price" value={storePriceLabel(product.price)} />
             </dl>
             <a
               href={product.affiliateUrl}

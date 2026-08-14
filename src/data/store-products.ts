@@ -1,3 +1,5 @@
+import { verifiedStorePrice, type StorePrice } from "@/data/store-pricing";
+
 export type StoreCollection =
   | "Anime Collectibles"
   | "Gaming Gear"
@@ -12,6 +14,7 @@ export type StoreProduct = {
   asin?: string;
   productCode?: string;
   retailer?: StoreRetailer;
+  price: StorePrice;
   title: string;
   shortTitle: string;
   description: string;
@@ -25,8 +28,6 @@ export type StoreProduct = {
   newArrival: boolean;
   purchaseNotice?: string;
   indexable?: boolean;
-  /** Optional USD price for structured data. Defaults to "0.00" when unset. */
-  price?: string;
 };
 
 const amazonImage = (asin: string) =>
@@ -1295,6 +1296,7 @@ const additionalPlayAsiaProducts: StoreProduct[] = additionalPlayAsiaSeeds.map(
     slug: seed.slug,
     productCode: seed.productCode,
     retailer: "Play-Asia",
+    price: verifiedStorePrice(seed.productCode),
     title: seed.title,
     shortTitle: seed.shortTitle,
     description: seed.description,
@@ -1324,6 +1326,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "my-dress-up-darling-taito-t-most-figure",
     asin: "B0DTP3MTX1",
+    price: verifiedStorePrice("B0DTP3MTX1"),
     title:
       "Taito T-Most My Dress-Up Darling Figure — Marin Kitagawa Collectible",
     shortTitle: "My Dress-Up Darling T-Most Figure",
@@ -1344,6 +1347,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "satoru-gojo-anime-heroes-jujutsu-kaisen-figure",
     asin: "B0DCQKYFT5",
+    price: verifiedStorePrice("B0DCQKYFT5"),
     title: "Satoru Gojo Anime Heroes Figure — Jujutsu Kaisen Collectible",
     shortTitle: "Satoru Gojo Anime Heroes Figure",
     description:
@@ -1363,6 +1367,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "nezuko-kamado-tamashii-nations-demon-slayer-figure",
     asin: "B084CB8VYP",
+    price: verifiedStorePrice("B084CB8VYP"),
     title: "Nezuko Kamado TAMASHII NATIONS Figure — Demon Slayer Collectible",
     shortTitle: "Nezuko Kamado TAMASHII NATIONS Figure",
     description:
@@ -1382,6 +1387,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "roronoa-zoro-funko-pop-one-piece",
     asin: "B08FMSC7NC",
+    price: verifiedStorePrice("B08FMSC7NC"),
     title: "Funko Pop! Roronoa Zoro — One Piece Anime Vinyl Collectible",
     shortTitle: "Roronoa Zoro Funko Pop!",
     description:
@@ -1401,6 +1407,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "deku-funko-pop-my-hero-academia",
     asin: "B07PGYF5QY",
+    price: verifiedStorePrice("B07PGYF5QY"),
     title: "Funko Pop! Deku — My Hero Academia Anime Vinyl Figure",
     shortTitle: "Deku Funko Pop!",
     description:
@@ -1420,6 +1427,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "steelseries-arctis-wireless-gaming-headset",
     asin: "B0D2YBQQ1P",
+    price: verifiedStorePrice("B0D2YBQQ1P"),
     title:
       "SteelSeries Arctis Wireless Gaming Headset — Multi-System Gaming Gear",
     shortTitle: "SteelSeries Arctis Wireless Headset",
@@ -1440,6 +1448,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "nintendo-switch-joy-con-pastel-purple-green",
     asin: "B0C7F58QFT",
+    price: verifiedStorePrice("B0C7F58QFT"),
     title: "Nintendo Switch Joy-Con Pair — Pastel Purple & Pastel Green",
     shortTitle: "Nintendo Switch Pastel Joy-Con Pair",
     description:
@@ -1460,6 +1469,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "fastsnail-joy-con-charging-dock",
     asin: "B07KYHBVYH",
+    price: verifiedStorePrice("B07KYHBVYH"),
     title: "FastSnail Joy-Con Charging Dock — Nintendo Switch Accessory",
     shortTitle: "FastSnail Joy-Con Charging Dock",
     description:
@@ -1479,6 +1489,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "nezuko-kamado-figuarts-mini-demon-slayer",
     asin: "B08FCGJY2P",
+    price: verifiedStorePrice("B08FCGJY2P"),
     title: "Nezuko Kamado Figuarts Mini — Premium Demon Slayer Figure",
     shortTitle: "Nezuko Kamado Figuarts Mini",
     description:
@@ -1502,6 +1513,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "banpresto-nezuko-kamado-vol-26-figure",
     asin: "B0B4V6ZDVT",
+    price: verifiedStorePrice("B0B4V6ZDVT"),
     title: "Banpresto Nezuko Kamado Vol. 26 — Demon Slayer Display Figure",
     shortTitle: "Banpresto Nezuko Kamado Vol. 26",
     description:
@@ -1521,6 +1533,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "like-a-dragon-gaiden-ps4-multi-language",
     productCode: "70gpd7",
+    price: verifiedStorePrice("70gpd7"),
     retailer: "Play-Asia",
     title:
       "Like a Dragon Gaiden: The Man Who Erased His Name — Multi-Language PS4 Edition",
@@ -1545,6 +1558,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "aikotoba-4-cd-dvd-limited-edition-yamazaru",
     productCode: "70b1h3",
+    price: verifiedStorePrice("70b1h3"),
     retailer: "Play-Asia",
     title: "Aikotoba 4 by Yamazaru — CD + DVD Limited Edition",
     shortTitle: "Aikotoba 4 CD+DVD Limited Edition",
@@ -1567,6 +1581,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "kimi-to-100-kaime-no-koi-original-soundtrack",
     productCode: "70ater",
+    price: verifiedStorePrice("70ater"),
     retailer: "Play-Asia",
     title: "Kimi To 100 Kaime No Koi — Original Soundtrack CD",
     shortTitle: "Kimi To 100 Kaime No Koi Soundtrack",
@@ -1589,6 +1604,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "go-go-b-t-train-shm-cd-buck-tick",
     productCode: "70erzh",
+    price: verifiedStorePrice("70erzh"),
     retailer: "Play-Asia",
     title: "Go-Go B-T Train by BUCK-TICK — Japanese SHM-CD",
     shortTitle: "Go-Go B-T Train SHM-CD",
@@ -1611,6 +1627,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "ma-ningen-limited-edition-vinyl-atarashii-gakko",
     productCode: "70hl09",
+    price: verifiedStorePrice("70hl09"),
     retailer: "Play-Asia",
     title: "Ma Ningen by Atarashii Gakko! — Limited Edition Vinyl",
     shortTitle: "Ma Ningen Limited Edition Vinyl",
@@ -1633,6 +1650,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "shikhondo-blue-pieta-steam-digital",
     productCode: "70jxj9",
+    price: verifiedStorePrice("70jxj9"),
     retailer: "Play-Asia",
     title: "Shikhondo: Blue Pieta — Region-Free Steam Digital Game",
     shortTitle: "Shikhondo: Blue Pieta Steam",
@@ -1655,6 +1673,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "horipad-mini-nintendo-switch-blue",
     productCode: "70dj7p",
+    price: verifiedStorePrice("70dj7p"),
     retailer: "Play-Asia",
     title: "HORIPAD Mini for Nintendo Switch — Blue USB Controller",
     shortTitle: "HORIPAD Mini Switch Controller",
@@ -1677,6 +1696,7 @@ export const storeProducts: StoreProduct[] = [
   {
     slug: "super-mario-earth-tube-3d-jigsaw-puzzle",
     productCode: "70gkwf",
+    price: verifiedStorePrice("70gkwf"),
     retailer: "Play-Asia",
     title: "Super Mario & Earth Tube — 3D Jigsaw Puzzle Collectible",
     shortTitle: "Super Mario 3D Jigsaw Puzzle",
@@ -1774,7 +1794,7 @@ export function storeProductSku(product: StoreProduct) {
 }
 
 export function storeProductPrice(product: StoreProduct): string {
-  return product.price ?? "0.00";
+  return product.price.amount.toFixed(2);
 }
 
 export function getStoreProduct(slug: string) {

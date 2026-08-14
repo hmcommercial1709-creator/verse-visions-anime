@@ -50,6 +50,21 @@ function inject(tags: Tag[]) {
   }
 }
 
+function tagsForCurrentPage() {
+  const path = window.location.pathname.replace(/\/$/, "");
+  const isDownloadExperience =
+    path === "/resources" ||
+    path === "/rewards/anime-wallpapers" ||
+    path === "/ar/rewards/anime-wallpapers";
+
+  // Download/reward pages promise immediate access. Loading AdSense here can
+  // activate an account-level offerwall that obscures language and download
+  // controls, so retain analytics while excluding only the ad library.
+  return isDownloadExperience
+    ? THIRD_PARTY_TAGS.filter((tag) => tag.id !== "adsense-lib")
+    : THIRD_PARTY_TAGS;
+}
+
 /**
  * Keep all non-essential third-party work outside the critical rendering
  * window. Engaged readers get analytics, the beacon and AdSense immediately on
@@ -68,7 +83,7 @@ export function DeferredScripts() {
     const load = () => {
       if (disposed || loaded) return;
       loaded = true;
-      inject(THIRD_PARTY_TAGS);
+      inject(tagsForCurrentPage());
     };
 
     const onIdle = (timeout: number) => {

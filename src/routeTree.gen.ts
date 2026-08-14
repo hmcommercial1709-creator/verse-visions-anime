@@ -87,6 +87,7 @@ import { Route as GamingHubIndexRouteImport } from './routes/gaming-hub.index'
 import { Route as GamingHubAnimeGamesRouteImport } from './routes/gaming-hub.anime-games'
 import { Route as GamingHubGameCodesDealsRouteImport } from './routes/gaming-hub.game-codes-deals'
 import { Route as GamingHubGenshinImpactUltimateGuideRouteImport } from './routes/gaming-hub.genshin-impact-ultimate-guide'
+import { Route as GamingHubHonkaiStarRailUltimateGuideRouteImport } from './routes/gaming-hub.honkai-star-rail-ultimate-guide'
 import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
 import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
 import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
@@ -503,6 +504,12 @@ const GamingHubGenshinImpactUltimateGuideRoute =
     path: '/gaming-hub/genshin-impact-ultimate-guide',
     getParentRoute: () => rootRouteImport,
   } as any)
+const GamingHubHonkaiStarRailUltimateGuideRoute =
+  GamingHubHonkaiStarRailUltimateGuideRouteImport.update({
+    id: '/gaming-hub/honkai-star-rail-ultimate-guide',
+    path: '/gaming-hub/honkai-star-rail-ultimate-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GamingHubRegionCurrencyGuideRoute =
   GamingHubRegionCurrencyGuideRouteImport.update({
     id: '/gaming-hub/region-currency-guide',
@@ -711,6 +718,7 @@ export interface FileRoutesByFullPath {
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
   '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
+  '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -815,6 +823,7 @@ export interface FileRoutesByTo {
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
   '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
+  '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -920,6 +929,7 @@ export interface FileRoutesById {
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
   '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
+  '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -1026,6 +1036,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
     | '/gaming-hub/genshin-impact-ultimate-guide'
+    | '/gaming-hub/honkai-star-rail-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
@@ -1130,6 +1141,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
     | '/gaming-hub/genshin-impact-ultimate-guide'
+    | '/gaming-hub/honkai-star-rail-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
@@ -1234,6 +1246,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
     | '/gaming-hub/genshin-impact-ultimate-guide'
+    | '/gaming-hub/honkai-star-rail-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
@@ -1338,6 +1351,7 @@ export interface RootRouteChildren {
   GamingHubAnimeGamesRoute: typeof GamingHubAnimeGamesRoute
   GamingHubGameCodesDealsRoute: typeof GamingHubGameCodesDealsRoute
   GamingHubGenshinImpactUltimateGuideRoute: typeof GamingHubGenshinImpactUltimateGuideRoute
+  GamingHubHonkaiStarRailUltimateGuideRoute: typeof GamingHubHonkaiStarRailUltimateGuideRoute
   GamingHubRegionCurrencyGuideRoute: typeof GamingHubRegionCurrencyGuideRoute
   GamingHubSafeGameCreditsGuideRoute: typeof GamingHubSafeGameCreditsGuideRoute
   GamingHubUltimateGamingSecretsGuideRoute: typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -1913,6 +1927,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamingHubGenshinImpactUltimateGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-hub/honkai-star-rail-ultimate-guide': {
+      id: '/gaming-hub/honkai-star-rail-ultimate-guide'
+      path: '/gaming-hub/honkai-star-rail-ultimate-guide'
+      fullPath: '/gaming-hub/honkai-star-rail-ultimate-guide'
+      preLoaderRoute: typeof GamingHubHonkaiStarRailUltimateGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gaming-hub/region-currency-guide': {
       id: '/gaming-hub/region-currency-guide'
       path: '/gaming-hub/region-currency-guide'
@@ -2184,6 +2205,8 @@ const rootRouteChildren: RootRouteChildren = {
   GamingHubGameCodesDealsRoute: GamingHubGameCodesDealsRoute,
   GamingHubGenshinImpactUltimateGuideRoute:
     GamingHubGenshinImpactUltimateGuideRoute,
+  GamingHubHonkaiStarRailUltimateGuideRoute:
+    GamingHubHonkaiStarRailUltimateGuideRoute,
   GamingHubRegionCurrencyGuideRoute: GamingHubRegionCurrencyGuideRoute,
   GamingHubSafeGameCreditsGuideRoute: GamingHubSafeGameCreditsGuideRoute,
   GamingHubUltimateGamingSecretsGuideRoute:

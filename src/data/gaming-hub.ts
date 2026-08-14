@@ -67,6 +67,12 @@ export const hubLinks: HubLink[] = [
     description: "Long-form pro settings, Spiral Abyss strategy, puzzle logic and efficient farming.",
     icon: Sparkles,
   },
+  {
+    to: "/gaming-hub/honkai-star-rail-ultimate-guide",
+    label: "Honkai: Star Rail Mastery",
+    description: "Advanced builds, endgame modes, action order, pro settings and efficient farming.",
+    icon: Sparkles,
+  },
 ];
 
 export type PlatformGuide = {

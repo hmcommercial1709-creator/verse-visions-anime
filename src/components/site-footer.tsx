@@ -51,6 +51,7 @@ const footerCols = [
       { to: "/soundtracks", label: "Soundtracks" },
       { to: "/store", label: "Anime Collectibles & Gaming Gear" },
       { to: "/wallpapers", label: "Artwork Gallery" },
+      { to: "/rewards/anime-wallpapers", label: "Free Anime Wallpaper Gift" },
       { to: "/streaming", label: "Legal Streaming" },
     ],
   },

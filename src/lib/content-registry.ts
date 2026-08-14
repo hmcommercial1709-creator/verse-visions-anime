@@ -318,6 +318,8 @@ const STATIC_CONTENT_PATHS = new Set([
   "/privacy-policy",
   "/quotes",
   "/recommendations",
+  "/rewards/anime-wallpapers",
+  "/ar/rewards/anime-wallpapers",
   "/resources",
   "/reviews",
   "/seasonal",

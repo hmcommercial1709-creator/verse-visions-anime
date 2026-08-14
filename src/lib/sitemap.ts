@@ -70,6 +70,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/manga-spoilers",
     "/timeline",
     "/wallpapers",
+    "/rewards/anime-wallpapers",
     "/resources",
     "/store",
     "/game-top-up",
@@ -217,12 +218,12 @@ export function sitemapIndexXml(): string {
 }
 
 /**
- * Arabic edition URLs (the /ar/anime hub + one entry per localized guide).
- * These are the only /ar/ paths with real translated content, so they are the
- * only ones we advertise to crawlers.
+ * Arabic edition URLs: the anime hub, localized guides and the fully translated
+ * reward gallery. Only paths with real Arabic content are advertised.
  */
 export const AR_ENTRIES: SitemapEntry[] = [
   { path: "/ar/anime", changefreq: "weekly", priority: "0.9" },
+  { path: "/ar/rewards/anime-wallpapers", changefreq: "weekly", priority: "0.8" },
   ...AR_GUIDES.map((g) => ({
     path: `/ar/anime/${g.slug}`,
     changefreq: "monthly" as const,
@@ -234,14 +235,18 @@ export const AR_ENTRIES: SitemapEntry[] = [
 export function arUrlsetXml(): string {
   const urls = AR_ENTRIES.map((e) => {
     const guide = AR_GUIDES.find((g) => `/ar/anime/${g.slug}` === e.path);
+    const enPath =
+      e.path === "/ar/rewards/anime-wallpapers"
+        ? "/rewards/anime-wallpapers"
+        : guide?.enPath;
     return [
       `  <url>`,
       `    <loc>${BASE_URL}${e.path}</loc>`,
       `    <xhtml:link rel="alternate" hreflang="ar" href="${BASE_URL}${e.path}" />`,
-      ...(guide
+      ...(enPath
         ? [
-            `    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}${guide.enPath}" />`,
-            `    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${guide.enPath}" />`,
+            `    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}${enPath}" />`,
+            `    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${enPath}" />`,
           ]
         : []),
       e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,

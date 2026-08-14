@@ -15,6 +15,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { PropellerConversion } from "@/components/propeller-conversion";
+import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 
 function NotFoundComponent() {
@@ -229,6 +230,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
+      <VisitorRewardTracker />
       <DeferredScripts />
       <PropellerConversion />
     </div>

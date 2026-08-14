@@ -36,6 +36,7 @@ const STATIC_HUBS: LinkNode[] = [
   { path: "/recommendations", label: "Recommendations", kind: "hub", topics: ["recommendation"] },
   { path: "/guides", label: "Anime Guides", kind: "hub", topics: ["guide"] },
   { path: "/reviews", label: "Reviews", kind: "hub", topics: ["review"] },
+  { path: "/rewards/anime-wallpapers", label: "Free Anime Wallpapers", kind: "hub", topics: ["wallpaper", "art", "download"] },
 ];
 
 let cache: { nodes: LinkNode[]; valid: Set<string> } | null = null;

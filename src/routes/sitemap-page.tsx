@@ -23,7 +23,7 @@ export const Route = createFileRoute("/sitemap-page")({
         <Section title="Characters">{publishedCharacters().map(c => <li key={c.slug}><Link to="/character/$slug" params={{ slug: c.slug }} className="text-sm text-foreground/85 hover:text-primary">{c.name}</Link></li>)}</Section>
         <Section title="Articles">{publishedArticles().map(a => <li key={a.slug}><Link to="/article/$slug" params={{ slug: a.slug }} className="text-sm text-foreground/85 hover:text-primary">{a.title}</Link></li>)}</Section>
         <Section title="Pages">
-          {["/","/browse","/trending","/top-rated","/upcoming","/new-releases","/completed","/classic","/news","/reviews","/guides","/top-lists","/editorial","/authors","/manga-spoilers","/power-scaling","/watch-order","/timeline","/recommendations","/quotes","/facts","/soundtracks","/openings","/wallpapers","/streaming","/statistics","/about","/contact","/faq","/privacy-policy","/terms-of-service","/cookies","/dmca","/editorial-policy"].map(p => (
+          {["/","/browse","/trending","/top-rated","/upcoming","/new-releases","/completed","/classic","/news","/reviews","/guides","/top-lists","/editorial","/authors","/manga-spoilers","/power-scaling","/watch-order","/timeline","/recommendations","/quotes","/facts","/soundtracks","/openings","/wallpapers","/rewards/anime-wallpapers","/ar/rewards/anime-wallpapers","/streaming","/statistics","/about","/contact","/faq","/privacy-policy","/terms-of-service","/cookies","/dmca","/editorial-policy"].map(p => (
             <li key={p}><Link to={p} className="text-sm text-foreground/85 hover:text-primary">{p}</Link></li>
           ))}
         </Section>

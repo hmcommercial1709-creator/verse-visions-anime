@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2, Download, ExternalLink } from "lucide-react";
 import type { ExplorePage } from "@/data/explore-pages";
+import { LOCALE_EXPLICIT_STORAGE_KEY } from "@/lib/i18n";
 
 const wallpaperAssets = [
   "pirate-ocean-sunset-hd.webp",
@@ -21,7 +22,11 @@ export function ExploreTopicPage({ page, language }: { page: ExplorePage; langua
         <p className="text-xs font-semibold uppercase tracking-[.2em] text-primary">{ar ? "دليل GameCastle" : "GameCastle guide"}</p>
         <h1 className="mt-3 font-display text-4xl font-black md:text-6xl">{copy.title}</h1>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">{copy.intro}</p>
-        <a href={`${ar ? "" : "/ar"}/explore/${page.slug}`} className="mt-6 inline-flex rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-primary">
+        <a
+          href={`${ar ? "" : "/ar"}/explore/${page.slug}`}
+          onClick={() => localStorage.setItem(LOCALE_EXPLICIT_STORAGE_KEY, ar ? "en" : "ar")}
+          className="mt-6 inline-flex rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-primary"
+        >
           {ar ? "English" : "العربية"}
         </a>
       </header>

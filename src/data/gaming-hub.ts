@@ -79,6 +79,12 @@ export const hubLinks: HubLink[] = [
     description: "Streaming schedules, episode analysis, receivers, walkthroughs and hardware fixes.",
     icon: Gamepad2,
   },
+  {
+    to: "/gaming-hub/global-gaming-hub-2026",
+    label: "Global Gaming Hub 2026",
+    description: "Upcoming releases, comparisons, performance fixes, walkthroughs and gear.",
+    icon: Gamepad2,
+  },
 ];
 
 export type PlatformGuide = {

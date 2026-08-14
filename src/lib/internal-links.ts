@@ -51,6 +51,11 @@ const STATIC_HUBS: LinkNode[] = [
   { path: "/gaming-hub/genshin-impact-ultimate-guide", label: "Genshin Impact Ultimate Guide", kind: "hub", topics: ["genshin impact", "spiral abyss", "settings", "walkthrough", "farming"] },
   { path: "/gaming-hub/honkai-star-rail-ultimate-guide", label: "Honkai Star Rail Ultimate Guide", kind: "hub", topics: ["honkai star rail", "endgame", "builds", "settings", "farming"] },
   { path: "/gaming-hub/ultimate-anime-gaming-hub-2026", label: "Ultimate Anime and Gaming Hub 2026", kind: "hub", topics: ["anime streaming", "episode schedules", "receivers", "game walkthroughs", "hardware troubleshooting"] },
+  { path: "/gaming-hub/global-gaming-hub-2026", label: "Ultimate Global Gaming Hub 2026", kind: "hub", topics: ["game releases", "comparisons", "walkthroughs", "hardware fixes", "gaming gear"] },
+  { path: "/gaming-hub/releases-2026-2027", label: "Upcoming Games 2026 and 2027", kind: "hub", topics: ["game releases", "preorders", "platforms", "upcoming games"] },
+  { path: "/gaming-hub/game-comparisons-performance", label: "Game Comparisons and Performance", kind: "hub", topics: ["game comparisons", "fps", "graphics settings", "rpg meta"] },
+  { path: "/gaming-hub/troubleshooting-performance", label: "Gaming Troubleshooting and Performance", kind: "hub", topics: ["crashes", "lag", "fps", "hardware fixes", "network"] },
+  { path: "/gaming-hub/pro-walkthroughs-endgame", label: "Pro Walkthroughs and Endgame", kind: "hub", topics: ["walkthroughs", "boss guides", "dungeons", "endgame", "builds"] },
 ];
 
 let cache: { nodes: LinkNode[]; valid: Set<string> } | null = null;

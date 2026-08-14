@@ -86,10 +86,15 @@ import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as GamingHubIndexRouteImport } from './routes/gaming-hub.index'
 import { Route as GamingHubAnimeGamesRouteImport } from './routes/gaming-hub.anime-games'
 import { Route as GamingHubGameCodesDealsRouteImport } from './routes/gaming-hub.game-codes-deals'
+import { Route as GamingHubGameComparisonsPerformanceRouteImport } from './routes/gaming-hub.game-comparisons-performance'
 import { Route as GamingHubGenshinImpactUltimateGuideRouteImport } from './routes/gaming-hub.genshin-impact-ultimate-guide'
+import { Route as GamingHubGlobalGamingHub2026RouteImport } from './routes/gaming-hub.global-gaming-hub-2026'
 import { Route as GamingHubHonkaiStarRailUltimateGuideRouteImport } from './routes/gaming-hub.honkai-star-rail-ultimate-guide'
+import { Route as GamingHubProWalkthroughsEndgameRouteImport } from './routes/gaming-hub.pro-walkthroughs-endgame'
 import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
+import { Route as GamingHubReleases20262027RouteImport } from './routes/gaming-hub.releases-2026-2027'
 import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
+import { Route as GamingHubTroubleshootingPerformanceRouteImport } from './routes/gaming-hub.troubleshooting-performance'
 import { Route as GamingHubUltimateAnimeGamingHub2026RouteImport } from './routes/gaming-hub.ultimate-anime-gaming-hub-2026'
 import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
@@ -499,10 +504,22 @@ const GamingHubGameCodesDealsRoute = GamingHubGameCodesDealsRouteImport.update({
   path: '/gaming-hub/game-codes-deals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamingHubGameComparisonsPerformanceRoute =
+  GamingHubGameComparisonsPerformanceRouteImport.update({
+    id: '/gaming-hub/game-comparisons-performance',
+    path: '/gaming-hub/game-comparisons-performance',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GamingHubGenshinImpactUltimateGuideRoute =
   GamingHubGenshinImpactUltimateGuideRouteImport.update({
     id: '/gaming-hub/genshin-impact-ultimate-guide',
     path: '/gaming-hub/genshin-impact-ultimate-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GamingHubGlobalGamingHub2026Route =
+  GamingHubGlobalGamingHub2026RouteImport.update({
+    id: '/gaming-hub/global-gaming-hub-2026',
+    path: '/gaming-hub/global-gaming-hub-2026',
     getParentRoute: () => rootRouteImport,
   } as any)
 const GamingHubHonkaiStarRailUltimateGuideRoute =
@@ -511,16 +528,34 @@ const GamingHubHonkaiStarRailUltimateGuideRoute =
     path: '/gaming-hub/honkai-star-rail-ultimate-guide',
     getParentRoute: () => rootRouteImport,
   } as any)
+const GamingHubProWalkthroughsEndgameRoute =
+  GamingHubProWalkthroughsEndgameRouteImport.update({
+    id: '/gaming-hub/pro-walkthroughs-endgame',
+    path: '/gaming-hub/pro-walkthroughs-endgame',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GamingHubRegionCurrencyGuideRoute =
   GamingHubRegionCurrencyGuideRouteImport.update({
     id: '/gaming-hub/region-currency-guide',
     path: '/gaming-hub/region-currency-guide',
     getParentRoute: () => rootRouteImport,
   } as any)
+const GamingHubReleases20262027Route =
+  GamingHubReleases20262027RouteImport.update({
+    id: '/gaming-hub/releases-2026-2027',
+    path: '/gaming-hub/releases-2026-2027',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GamingHubSafeGameCreditsGuideRoute =
   GamingHubSafeGameCreditsGuideRouteImport.update({
     id: '/gaming-hub/safe-game-credits-guide',
     path: '/gaming-hub/safe-game-credits-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GamingHubTroubleshootingPerformanceRoute =
+  GamingHubTroubleshootingPerformanceRouteImport.update({
+    id: '/gaming-hub/troubleshooting-performance',
+    path: '/gaming-hub/troubleshooting-performance',
     getParentRoute: () => rootRouteImport,
   } as any)
 const GamingHubUltimateAnimeGamingHub2026Route =
@@ -724,10 +759,15 @@ export interface FileRoutesByFullPath {
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/game-comparisons-performance': typeof GamingHubGameComparisonsPerformanceRoute
   '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
+  '/gaming-hub/global-gaming-hub-2026': typeof GamingHubGlobalGamingHub2026Route
   '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
+  '/gaming-hub/pro-walkthroughs-endgame': typeof GamingHubProWalkthroughsEndgameRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
+  '/gaming-hub/releases-2026-2027': typeof GamingHubReleases20262027Route
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/troubleshooting-performance': typeof GamingHubTroubleshootingPerformanceRoute
   '/gaming-hub/ultimate-anime-gaming-hub-2026': typeof GamingHubUltimateAnimeGamingHub2026Route
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
@@ -830,10 +870,15 @@ export interface FileRoutesByTo {
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/game-comparisons-performance': typeof GamingHubGameComparisonsPerformanceRoute
   '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
+  '/gaming-hub/global-gaming-hub-2026': typeof GamingHubGlobalGamingHub2026Route
   '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
+  '/gaming-hub/pro-walkthroughs-endgame': typeof GamingHubProWalkthroughsEndgameRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
+  '/gaming-hub/releases-2026-2027': typeof GamingHubReleases20262027Route
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/troubleshooting-performance': typeof GamingHubTroubleshootingPerformanceRoute
   '/gaming-hub/ultimate-anime-gaming-hub-2026': typeof GamingHubUltimateAnimeGamingHub2026Route
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
@@ -937,10 +982,15 @@ export interface FileRoutesById {
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/game-comparisons-performance': typeof GamingHubGameComparisonsPerformanceRoute
   '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
+  '/gaming-hub/global-gaming-hub-2026': typeof GamingHubGlobalGamingHub2026Route
   '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
+  '/gaming-hub/pro-walkthroughs-endgame': typeof GamingHubProWalkthroughsEndgameRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
+  '/gaming-hub/releases-2026-2027': typeof GamingHubReleases20262027Route
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/troubleshooting-performance': typeof GamingHubTroubleshootingPerformanceRoute
   '/gaming-hub/ultimate-anime-gaming-hub-2026': typeof GamingHubUltimateAnimeGamingHub2026Route
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
@@ -1045,10 +1095,15 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/game-comparisons-performance'
     | '/gaming-hub/genshin-impact-ultimate-guide'
+    | '/gaming-hub/global-gaming-hub-2026'
     | '/gaming-hub/honkai-star-rail-ultimate-guide'
+    | '/gaming-hub/pro-walkthroughs-endgame'
     | '/gaming-hub/region-currency-guide'
+    | '/gaming-hub/releases-2026-2027'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/troubleshooting-performance'
     | '/gaming-hub/ultimate-anime-gaming-hub-2026'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
@@ -1151,10 +1206,15 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/game-comparisons-performance'
     | '/gaming-hub/genshin-impact-ultimate-guide'
+    | '/gaming-hub/global-gaming-hub-2026'
     | '/gaming-hub/honkai-star-rail-ultimate-guide'
+    | '/gaming-hub/pro-walkthroughs-endgame'
     | '/gaming-hub/region-currency-guide'
+    | '/gaming-hub/releases-2026-2027'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/troubleshooting-performance'
     | '/gaming-hub/ultimate-anime-gaming-hub-2026'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
@@ -1257,10 +1317,15 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/game-comparisons-performance'
     | '/gaming-hub/genshin-impact-ultimate-guide'
+    | '/gaming-hub/global-gaming-hub-2026'
     | '/gaming-hub/honkai-star-rail-ultimate-guide'
+    | '/gaming-hub/pro-walkthroughs-endgame'
     | '/gaming-hub/region-currency-guide'
+    | '/gaming-hub/releases-2026-2027'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/troubleshooting-performance'
     | '/gaming-hub/ultimate-anime-gaming-hub-2026'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
@@ -1363,10 +1428,15 @@ export interface RootRouteChildren {
   CharacterSlugRoute: typeof CharacterSlugRoute
   GamingHubAnimeGamesRoute: typeof GamingHubAnimeGamesRoute
   GamingHubGameCodesDealsRoute: typeof GamingHubGameCodesDealsRoute
+  GamingHubGameComparisonsPerformanceRoute: typeof GamingHubGameComparisonsPerformanceRoute
   GamingHubGenshinImpactUltimateGuideRoute: typeof GamingHubGenshinImpactUltimateGuideRoute
+  GamingHubGlobalGamingHub2026Route: typeof GamingHubGlobalGamingHub2026Route
   GamingHubHonkaiStarRailUltimateGuideRoute: typeof GamingHubHonkaiStarRailUltimateGuideRoute
+  GamingHubProWalkthroughsEndgameRoute: typeof GamingHubProWalkthroughsEndgameRoute
   GamingHubRegionCurrencyGuideRoute: typeof GamingHubRegionCurrencyGuideRoute
+  GamingHubReleases20262027Route: typeof GamingHubReleases20262027Route
   GamingHubSafeGameCreditsGuideRoute: typeof GamingHubSafeGameCreditsGuideRoute
+  GamingHubTroubleshootingPerformanceRoute: typeof GamingHubTroubleshootingPerformanceRoute
   GamingHubUltimateAnimeGamingHub2026Route: typeof GamingHubUltimateAnimeGamingHub2026Route
   GamingHubUltimateGamingSecretsGuideRoute: typeof GamingHubUltimateGamingSecretsGuideRoute
   GenreSlugRoute: typeof GenreSlugRoute
@@ -1934,11 +2004,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamingHubGameCodesDealsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-hub/game-comparisons-performance': {
+      id: '/gaming-hub/game-comparisons-performance'
+      path: '/gaming-hub/game-comparisons-performance'
+      fullPath: '/gaming-hub/game-comparisons-performance'
+      preLoaderRoute: typeof GamingHubGameComparisonsPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gaming-hub/genshin-impact-ultimate-guide': {
       id: '/gaming-hub/genshin-impact-ultimate-guide'
       path: '/gaming-hub/genshin-impact-ultimate-guide'
       fullPath: '/gaming-hub/genshin-impact-ultimate-guide'
       preLoaderRoute: typeof GamingHubGenshinImpactUltimateGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/global-gaming-hub-2026': {
+      id: '/gaming-hub/global-gaming-hub-2026'
+      path: '/gaming-hub/global-gaming-hub-2026'
+      fullPath: '/gaming-hub/global-gaming-hub-2026'
+      preLoaderRoute: typeof GamingHubGlobalGamingHub2026RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gaming-hub/honkai-star-rail-ultimate-guide': {
@@ -1948,6 +2032,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamingHubHonkaiStarRailUltimateGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-hub/pro-walkthroughs-endgame': {
+      id: '/gaming-hub/pro-walkthroughs-endgame'
+      path: '/gaming-hub/pro-walkthroughs-endgame'
+      fullPath: '/gaming-hub/pro-walkthroughs-endgame'
+      preLoaderRoute: typeof GamingHubProWalkthroughsEndgameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gaming-hub/region-currency-guide': {
       id: '/gaming-hub/region-currency-guide'
       path: '/gaming-hub/region-currency-guide'
@@ -1955,11 +2046,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamingHubRegionCurrencyGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-hub/releases-2026-2027': {
+      id: '/gaming-hub/releases-2026-2027'
+      path: '/gaming-hub/releases-2026-2027'
+      fullPath: '/gaming-hub/releases-2026-2027'
+      preLoaderRoute: typeof GamingHubReleases20262027RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gaming-hub/safe-game-credits-guide': {
       id: '/gaming-hub/safe-game-credits-guide'
       path: '/gaming-hub/safe-game-credits-guide'
       fullPath: '/gaming-hub/safe-game-credits-guide'
       preLoaderRoute: typeof GamingHubSafeGameCreditsGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-hub/troubleshooting-performance': {
+      id: '/gaming-hub/troubleshooting-performance'
+      path: '/gaming-hub/troubleshooting-performance'
+      fullPath: '/gaming-hub/troubleshooting-performance'
+      preLoaderRoute: typeof GamingHubTroubleshootingPerformanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gaming-hub/ultimate-anime-gaming-hub-2026': {
@@ -2224,12 +2329,19 @@ const rootRouteChildren: RootRouteChildren = {
   CharacterSlugRoute: CharacterSlugRoute,
   GamingHubAnimeGamesRoute: GamingHubAnimeGamesRoute,
   GamingHubGameCodesDealsRoute: GamingHubGameCodesDealsRoute,
+  GamingHubGameComparisonsPerformanceRoute:
+    GamingHubGameComparisonsPerformanceRoute,
   GamingHubGenshinImpactUltimateGuideRoute:
     GamingHubGenshinImpactUltimateGuideRoute,
+  GamingHubGlobalGamingHub2026Route: GamingHubGlobalGamingHub2026Route,
   GamingHubHonkaiStarRailUltimateGuideRoute:
     GamingHubHonkaiStarRailUltimateGuideRoute,
+  GamingHubProWalkthroughsEndgameRoute: GamingHubProWalkthroughsEndgameRoute,
   GamingHubRegionCurrencyGuideRoute: GamingHubRegionCurrencyGuideRoute,
+  GamingHubReleases20262027Route: GamingHubReleases20262027Route,
   GamingHubSafeGameCreditsGuideRoute: GamingHubSafeGameCreditsGuideRoute,
+  GamingHubTroubleshootingPerformanceRoute:
+    GamingHubTroubleshootingPerformanceRoute,
   GamingHubUltimateAnimeGamingHub2026Route:
     GamingHubUltimateAnimeGamingHub2026Route,
   GamingHubUltimateGamingSecretsGuideRoute:

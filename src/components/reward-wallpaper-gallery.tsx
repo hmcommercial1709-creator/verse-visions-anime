@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { LOCALE_EXPLICIT_STORAGE_KEY } from "@/lib/i18n";
 import { rewardWallpapers, type RewardWallpaper } from "@/lib/reward-wallpapers";
 
 type Language = "en" | "ar";
@@ -235,6 +236,7 @@ export function RewardWallpaperGallery({ language }: { language: Language }) {
             </div>
             <Link
               to={t.switchPath}
+              onClick={() => localStorage.setItem(LOCALE_EXPLICIT_STORAGE_KEY, isArabic ? "en" : "ar")}
               className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline"
               hrefLang={isArabic ? "en" : "ar"}
             >

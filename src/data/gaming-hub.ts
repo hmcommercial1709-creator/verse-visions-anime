@@ -61,6 +61,12 @@ export const hubLinks: HubLink[] = [
     description: "Optimize controls, solve puzzles and prepare for difficult anime and adventure stages.",
     icon: Gamepad2,
   },
+  {
+    to: "/gaming-hub/genshin-impact-ultimate-guide",
+    label: "Genshin Impact Mastery",
+    description: "Long-form pro settings, Spiral Abyss strategy, puzzle logic and efficient farming.",
+    icon: Sparkles,
+  },
 ];
 
 export type PlatformGuide = {

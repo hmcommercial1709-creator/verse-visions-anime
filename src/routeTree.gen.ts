@@ -86,6 +86,7 @@ import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as GamingHubIndexRouteImport } from './routes/gaming-hub.index'
 import { Route as GamingHubAnimeGamesRouteImport } from './routes/gaming-hub.anime-games'
 import { Route as GamingHubGameCodesDealsRouteImport } from './routes/gaming-hub.game-codes-deals'
+import { Route as GamingHubGenshinImpactUltimateGuideRouteImport } from './routes/gaming-hub.genshin-impact-ultimate-guide'
 import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
 import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
 import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
@@ -496,6 +497,12 @@ const GamingHubGameCodesDealsRoute = GamingHubGameCodesDealsRouteImport.update({
   path: '/gaming-hub/game-codes-deals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamingHubGenshinImpactUltimateGuideRoute =
+  GamingHubGenshinImpactUltimateGuideRouteImport.update({
+    id: '/gaming-hub/genshin-impact-ultimate-guide',
+    path: '/gaming-hub/genshin-impact-ultimate-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GamingHubRegionCurrencyGuideRoute =
   GamingHubRegionCurrencyGuideRouteImport.update({
     id: '/gaming-hub/region-currency-guide',
@@ -703,6 +710,7 @@ export interface FileRoutesByFullPath {
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -806,6 +814,7 @@ export interface FileRoutesByTo {
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -910,6 +919,7 @@ export interface FileRoutesById {
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
+  '/gaming-hub/genshin-impact-ultimate-guide': typeof GamingHubGenshinImpactUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -1015,6 +1025,7 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/genshin-impact-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
@@ -1118,6 +1129,7 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/genshin-impact-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
@@ -1221,6 +1233,7 @@ export interface FileRouteTypes {
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
+    | '/gaming-hub/genshin-impact-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
@@ -1324,6 +1337,7 @@ export interface RootRouteChildren {
   CharacterSlugRoute: typeof CharacterSlugRoute
   GamingHubAnimeGamesRoute: typeof GamingHubAnimeGamesRoute
   GamingHubGameCodesDealsRoute: typeof GamingHubGameCodesDealsRoute
+  GamingHubGenshinImpactUltimateGuideRoute: typeof GamingHubGenshinImpactUltimateGuideRoute
   GamingHubRegionCurrencyGuideRoute: typeof GamingHubRegionCurrencyGuideRoute
   GamingHubSafeGameCreditsGuideRoute: typeof GamingHubSafeGameCreditsGuideRoute
   GamingHubUltimateGamingSecretsGuideRoute: typeof GamingHubUltimateGamingSecretsGuideRoute
@@ -1892,6 +1906,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamingHubGameCodesDealsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-hub/genshin-impact-ultimate-guide': {
+      id: '/gaming-hub/genshin-impact-ultimate-guide'
+      path: '/gaming-hub/genshin-impact-ultimate-guide'
+      fullPath: '/gaming-hub/genshin-impact-ultimate-guide'
+      preLoaderRoute: typeof GamingHubGenshinImpactUltimateGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gaming-hub/region-currency-guide': {
       id: '/gaming-hub/region-currency-guide'
       path: '/gaming-hub/region-currency-guide'
@@ -2161,6 +2182,8 @@ const rootRouteChildren: RootRouteChildren = {
   CharacterSlugRoute: CharacterSlugRoute,
   GamingHubAnimeGamesRoute: GamingHubAnimeGamesRoute,
   GamingHubGameCodesDealsRoute: GamingHubGameCodesDealsRoute,
+  GamingHubGenshinImpactUltimateGuideRoute:
+    GamingHubGenshinImpactUltimateGuideRoute,
   GamingHubRegionCurrencyGuideRoute: GamingHubRegionCurrencyGuideRoute,
   GamingHubSafeGameCreditsGuideRoute: GamingHubSafeGameCreditsGuideRoute,
   GamingHubUltimateGamingSecretsGuideRoute:

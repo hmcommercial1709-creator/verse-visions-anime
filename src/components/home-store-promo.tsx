@@ -14,6 +14,10 @@ const homeStoreProducts = HOME_STORE_SLUGS.map((slug) =>
   storeProducts.find((product) => product.slug === slug),
 ).filter((product): product is StoreProduct => Boolean(product));
 
+const crawlableStoreProducts = storeProducts.filter(
+  (product) => product.indexable !== false,
+);
+
 export function HomeStorePromo() {
   return (
     <section
@@ -92,6 +96,39 @@ export function HomeStorePromo() {
             </Link>
           ))}
         </div>
+
+        <nav
+          aria-label="Browse every indexable GameCastle product"
+          className="rounded-2xl border border-border/60 bg-card/50 p-5 lg:col-span-2"
+        >
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h3 className="font-display text-xl font-black">
+                Complete product directory
+              </h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Every indexable product is linked directly from the homepage for fast discovery.
+              </p>
+            </div>
+            <Link to="/store" className="text-sm font-bold text-[#ffb84d] hover:underline">
+              Browse the full catalog
+            </Link>
+          </div>
+          <ul className="mt-4 grid gap-x-5 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {crawlableStoreProducts.map((product) => (
+              <li key={product.slug}>
+                <Link
+                  to="/store/$slug"
+                  params={{ slug: product.slug }}
+                  className="block truncate text-sm text-foreground/80 transition hover:text-[#ffb84d] hover:underline"
+                  title={product.shortTitle}
+                >
+                  {product.shortTitle}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </section>
   );

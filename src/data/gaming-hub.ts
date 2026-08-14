@@ -73,6 +73,12 @@ export const hubLinks: HubLink[] = [
     description: "Advanced builds, endgame modes, action order, pro settings and efficient farming.",
     icon: Sparkles,
   },
+  {
+    to: "/gaming-hub/ultimate-anime-gaming-hub-2026",
+    label: "Ultimate Anime & Gaming Hub",
+    description: "Streaming schedules, episode analysis, receivers, walkthroughs and hardware fixes.",
+    icon: Gamepad2,
+  },
 ];
 
 export type PlatformGuide = {

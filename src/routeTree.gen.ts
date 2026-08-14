@@ -90,6 +90,7 @@ import { Route as GamingHubGenshinImpactUltimateGuideRouteImport } from './route
 import { Route as GamingHubHonkaiStarRailUltimateGuideRouteImport } from './routes/gaming-hub.honkai-star-rail-ultimate-guide'
 import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
 import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
+import { Route as GamingHubUltimateAnimeGamingHub2026RouteImport } from './routes/gaming-hub.ultimate-anime-gaming-hub-2026'
 import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as RewardsAnimeWallpapersRouteImport } from './routes/rewards.anime-wallpapers'
@@ -522,6 +523,12 @@ const GamingHubSafeGameCreditsGuideRoute =
     path: '/gaming-hub/safe-game-credits-guide',
     getParentRoute: () => rootRouteImport,
   } as any)
+const GamingHubUltimateAnimeGamingHub2026Route =
+  GamingHubUltimateAnimeGamingHub2026RouteImport.update({
+    id: '/gaming-hub/ultimate-anime-gaming-hub-2026',
+    path: '/gaming-hub/ultimate-anime-gaming-hub-2026',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GamingHubUltimateGamingSecretsGuideRoute =
   GamingHubUltimateGamingSecretsGuideRouteImport.update({
     id: '/gaming-hub/ultimate-gaming-secrets-guide',
@@ -721,6 +728,7 @@ export interface FileRoutesByFullPath {
   '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/ultimate-anime-gaming-hub-2026': typeof GamingHubUltimateAnimeGamingHub2026Route
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
@@ -826,6 +834,7 @@ export interface FileRoutesByTo {
   '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/ultimate-anime-gaming-hub-2026': typeof GamingHubUltimateAnimeGamingHub2026Route
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
@@ -932,6 +941,7 @@ export interface FileRoutesById {
   '/gaming-hub/honkai-star-rail-ultimate-guide': typeof GamingHubHonkaiStarRailUltimateGuideRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/ultimate-anime-gaming-hub-2026': typeof GamingHubUltimateAnimeGamingHub2026Route
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
@@ -1039,6 +1049,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/honkai-star-rail-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/ultimate-anime-gaming-hub-2026'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
@@ -1144,6 +1155,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/honkai-star-rail-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/ultimate-anime-gaming-hub-2026'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
@@ -1249,6 +1261,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/honkai-star-rail-ultimate-guide'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/ultimate-anime-gaming-hub-2026'
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
@@ -1354,6 +1367,7 @@ export interface RootRouteChildren {
   GamingHubHonkaiStarRailUltimateGuideRoute: typeof GamingHubHonkaiStarRailUltimateGuideRoute
   GamingHubRegionCurrencyGuideRoute: typeof GamingHubRegionCurrencyGuideRoute
   GamingHubSafeGameCreditsGuideRoute: typeof GamingHubSafeGameCreditsGuideRoute
+  GamingHubUltimateAnimeGamingHub2026Route: typeof GamingHubUltimateAnimeGamingHub2026Route
   GamingHubUltimateGamingSecretsGuideRoute: typeof GamingHubUltimateGamingSecretsGuideRoute
   GenreSlugRoute: typeof GenreSlugRoute
   RewardsAnimeWallpapersRoute: typeof RewardsAnimeWallpapersRoute
@@ -1948,6 +1962,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamingHubSafeGameCreditsGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-hub/ultimate-anime-gaming-hub-2026': {
+      id: '/gaming-hub/ultimate-anime-gaming-hub-2026'
+      path: '/gaming-hub/ultimate-anime-gaming-hub-2026'
+      fullPath: '/gaming-hub/ultimate-anime-gaming-hub-2026'
+      preLoaderRoute: typeof GamingHubUltimateAnimeGamingHub2026RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gaming-hub/ultimate-gaming-secrets-guide': {
       id: '/gaming-hub/ultimate-gaming-secrets-guide'
       path: '/gaming-hub/ultimate-gaming-secrets-guide'
@@ -2209,6 +2230,8 @@ const rootRouteChildren: RootRouteChildren = {
     GamingHubHonkaiStarRailUltimateGuideRoute,
   GamingHubRegionCurrencyGuideRoute: GamingHubRegionCurrencyGuideRoute,
   GamingHubSafeGameCreditsGuideRoute: GamingHubSafeGameCreditsGuideRoute,
+  GamingHubUltimateAnimeGamingHub2026Route:
+    GamingHubUltimateAnimeGamingHub2026Route,
   GamingHubUltimateGamingSecretsGuideRoute:
     GamingHubUltimateGamingSecretsGuideRoute,
   GenreSlugRoute: GenreSlugRoute,

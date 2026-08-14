@@ -94,6 +94,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/gaming-hub/ultimate-gaming-secrets-guide",
     "/gaming-hub/genshin-impact-ultimate-guide",
     "/gaming-hub/honkai-star-rail-ultimate-guide",
+    "/gaming-hub/ultimate-anime-gaming-hub-2026",
     "/authors",
     "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),

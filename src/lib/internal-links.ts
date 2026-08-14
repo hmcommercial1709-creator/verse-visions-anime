@@ -50,6 +50,7 @@ const STATIC_HUBS: LinkNode[] = [
   { path: "/gaming-hub/ultimate-gaming-secrets-guide", label: "Gaming Secrets, Settings & Walkthrough Guide", kind: "hub", topics: ["anime games", "nintendo", "settings", "walkthrough", "puzzles"] },
   { path: "/gaming-hub/genshin-impact-ultimate-guide", label: "Genshin Impact Ultimate Guide", kind: "hub", topics: ["genshin impact", "spiral abyss", "settings", "walkthrough", "farming"] },
   { path: "/gaming-hub/honkai-star-rail-ultimate-guide", label: "Honkai Star Rail Ultimate Guide", kind: "hub", topics: ["honkai star rail", "endgame", "builds", "settings", "farming"] },
+  { path: "/gaming-hub/ultimate-anime-gaming-hub-2026", label: "Ultimate Anime and Gaming Hub 2026", kind: "hub", topics: ["anime streaming", "episode schedules", "receivers", "game walkthroughs", "hardware troubleshooting"] },
 ];
 
 let cache: { nodes: LinkNode[]; valid: Set<string> } | null = null;

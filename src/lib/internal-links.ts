@@ -47,6 +47,7 @@ const STATIC_HUBS: LinkNode[] = [
   { path: "/anime/sakamoto-days/characters", label: "Sakamoto Days Characters", kind: "hub", topics: ["sakamoto days", "characters", "order"] },
   { path: "/anime/sakamoto-days/assassin-world", label: "Sakamoto Days Assassin World", kind: "hub", topics: ["sakamoto days", "jaa", "order", "powers"] },
   { path: "/anime/sakamoto-days/watch-guide", label: "How to Watch Sakamoto Days", kind: "hub", topics: ["sakamoto days", "watch-order", "beginner"] },
+  { path: "/gaming-hub/ultimate-gaming-secrets-guide", label: "Gaming Secrets, Settings & Walkthrough Guide", kind: "hub", topics: ["anime games", "nintendo", "settings", "walkthrough", "puzzles"] },
 ];
 
 let cache: { nodes: LinkNode[]; valid: Set<string> } | null = null;

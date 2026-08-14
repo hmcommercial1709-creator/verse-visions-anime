@@ -55,6 +55,12 @@ export const hubLinks: HubLink[] = [
       "Compare platforms and editions for major licensed anime games.",
     icon: Sparkles,
   },
+  {
+    to: "/gaming-hub/ultimate-gaming-secrets-guide",
+    label: "Gaming Secrets & Settings",
+    description: "Optimize controls, solve puzzles and prepare for difficult anime and adventure stages.",
+    icon: Gamepad2,
+  },
 ];
 
 export type PlatformGuide = {

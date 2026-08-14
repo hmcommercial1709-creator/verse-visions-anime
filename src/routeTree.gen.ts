@@ -88,6 +88,7 @@ import { Route as GamingHubAnimeGamesRouteImport } from './routes/gaming-hub.ani
 import { Route as GamingHubGameCodesDealsRouteImport } from './routes/gaming-hub.game-codes-deals'
 import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
 import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
+import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as RewardsAnimeWallpapersRouteImport } from './routes/rewards.anime-wallpapers'
 import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
@@ -507,6 +508,12 @@ const GamingHubSafeGameCreditsGuideRoute =
     path: '/gaming-hub/safe-game-credits-guide',
     getParentRoute: () => rootRouteImport,
   } as any)
+const GamingHubUltimateGamingSecretsGuideRoute =
+  GamingHubUltimateGamingSecretsGuideRouteImport.update({
+    id: '/gaming-hub/ultimate-gaming-secrets-guide',
+    path: '/gaming-hub/ultimate-gaming-secrets-guide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GenreSlugRoute = GenreSlugRouteImport.update({
   id: '/genre/$slug',
   path: '/genre/$slug',
@@ -698,6 +705,7 @@ export interface FileRoutesByFullPath {
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -800,6 +808,7 @@ export interface FileRoutesByTo {
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -903,6 +912,7 @@ export interface FileRoutesById {
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
+  '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
   '/store_/$slug': typeof StoreSlugRoute
@@ -1007,6 +1017,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/game-codes-deals'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
     | '/store/$slug'
@@ -1109,6 +1120,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/game-codes-deals'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
     | '/store/$slug'
@@ -1211,6 +1223,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/game-codes-deals'
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
+    | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
     | '/store_/$slug'
@@ -1313,6 +1326,7 @@ export interface RootRouteChildren {
   GamingHubGameCodesDealsRoute: typeof GamingHubGameCodesDealsRoute
   GamingHubRegionCurrencyGuideRoute: typeof GamingHubRegionCurrencyGuideRoute
   GamingHubSafeGameCreditsGuideRoute: typeof GamingHubSafeGameCreditsGuideRoute
+  GamingHubUltimateGamingSecretsGuideRoute: typeof GamingHubUltimateGamingSecretsGuideRoute
   GenreSlugRoute: typeof GenreSlugRoute
   RewardsAnimeWallpapersRoute: typeof RewardsAnimeWallpapersRoute
   StoreSlugRoute: typeof StoreSlugRoute
@@ -1892,6 +1906,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamingHubSafeGameCreditsGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-hub/ultimate-gaming-secrets-guide': {
+      id: '/gaming-hub/ultimate-gaming-secrets-guide'
+      path: '/gaming-hub/ultimate-gaming-secrets-guide'
+      fullPath: '/gaming-hub/ultimate-gaming-secrets-guide'
+      preLoaderRoute: typeof GamingHubUltimateGamingSecretsGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/genre/$slug': {
       id: '/genre/$slug'
       path: '/genre/$slug'
@@ -2142,6 +2163,8 @@ const rootRouteChildren: RootRouteChildren = {
   GamingHubGameCodesDealsRoute: GamingHubGameCodesDealsRoute,
   GamingHubRegionCurrencyGuideRoute: GamingHubRegionCurrencyGuideRoute,
   GamingHubSafeGameCreditsGuideRoute: GamingHubSafeGameCreditsGuideRoute,
+  GamingHubUltimateGamingSecretsGuideRoute:
+    GamingHubUltimateGamingSecretsGuideRoute,
   GenreSlugRoute: GenreSlugRoute,
   RewardsAnimeWallpapersRoute: RewardsAnimeWallpapersRoute,
   StoreSlugRoute: StoreSlugRoute,

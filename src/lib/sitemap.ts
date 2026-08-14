@@ -91,6 +91,7 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/gaming-hub/region-currency-guide",
     "/gaming-hub/safe-game-credits-guide",
     "/gaming-hub/anime-games",
+    "/gaming-hub/ultimate-gaming-secrets-guide",
     "/authors",
     "/faq",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),

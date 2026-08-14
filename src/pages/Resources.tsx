@@ -1,6 +1,7 @@
 import React from "react";
 import EmailSignup from "../components/EmailSignup";
 import WhereToBuy from "../components/WhereToBuy";
+import DownloadBanner from "../components/DownloadBanner";
 
 type Resource = {
   id: string;
@@ -124,6 +125,7 @@ type ResourcesProps = {
 const Resources: React.FC<ResourcesProps> = ({ onNotify = (id: string) => console.log("notify for", id) }) => {
   return (
     <main className="min-h-screen bg-[#0f0f1a] text-white py-16 px-4">
+      <DownloadBanner />
       <div className="max-w-6xl mx-auto">
         <header>
           <h1 className="text-4xl font-bold text-center mb-4">Free Anime Resources</h1>

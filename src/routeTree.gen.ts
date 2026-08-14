@@ -79,6 +79,7 @@ import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
 import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
 import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
+import { Route as RewardsAnimeWallpapersRouteImport } from './routes/rewards.anime-wallpapers'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as GamingHubSafeGameCreditsGuideRouteImport } from './routes/gaming-hub.safe-game-credits-guide'
 import { Route as GamingHubRegionCurrencyGuideRouteImport } from './routes/gaming-hub.region-currency-guide'
@@ -92,6 +93,7 @@ import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
+import { Route as ArRewardsAnimeWallpapersRouteImport } from './routes/ar.rewards.anime-wallpapers'
 import { Route as ArAnimeSlugRouteImport } from './routes/ar.anime.$slug'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
@@ -445,6 +447,11 @@ const StoreSlugRoute = StoreSlugRouteImport.update({
   path: '/store/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RewardsAnimeWallpapersRoute = RewardsAnimeWallpapersRouteImport.update({
+  id: '/rewards/anime-wallpapers',
+  path: '/rewards/anime-wallpapers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GenreSlugRoute = GenreSlugRouteImport.update({
   id: '/genre/$slug',
   path: '/genre/$slug',
@@ -512,6 +519,12 @@ const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
   path: '/sitemap/$locale/$file',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArRewardsAnimeWallpapersRoute =
+  ArRewardsAnimeWallpapersRouteImport.update({
+    id: '/ar/rewards/anime-wallpapers',
+    path: '/ar/rewards/anime-wallpapers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ArAnimeSlugRoute = ArAnimeSlugRouteImport.update({
   id: '/ar/anime/$slug',
   path: '/ar/anime/$slug',
@@ -598,6 +611,7 @@ export interface FileRoutesByFullPath {
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
   '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
@@ -606,6 +620,7 @@ export interface FileRoutesByFullPath {
   '/$locale/': typeof LocaleIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
+  '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
@@ -685,6 +700,7 @@ export interface FileRoutesByTo {
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
   '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
@@ -693,6 +709,7 @@ export interface FileRoutesByTo {
   '/$locale': typeof LocaleIndexRoute
   '/gaming-hub': typeof GamingHubIndexRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
+  '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime': typeof ArAnimeIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
@@ -773,6 +790,7 @@ export interface FileRoutesById {
   '/gaming-hub/region-currency-guide': typeof GamingHubRegionCurrencyGuideRoute
   '/gaming-hub/safe-game-credits-guide': typeof GamingHubSafeGameCreditsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
+  '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
   '/store_/$slug': typeof StoreSlugRoute
   '/store_/checkout': typeof StoreCheckoutRoute
   '/store_/thanks': typeof StoreThanksRoute
@@ -781,6 +799,7 @@ export interface FileRoutesById {
   '/$locale/': typeof LocaleIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
+  '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
@@ -862,6 +881,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/genre/$slug'
+    | '/rewards/anime-wallpapers'
     | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
@@ -870,6 +890,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/gaming-hub/'
     | '/ar/anime/$slug'
+    | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
     | '/ar/anime/'
     | '/anime/$slug/episode/$num'
@@ -949,6 +970,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/genre/$slug'
+    | '/rewards/anime-wallpapers'
     | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
@@ -957,6 +979,7 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/gaming-hub'
     | '/ar/anime/$slug'
+    | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
     | '/ar/anime'
     | '/anime/$slug/episode/$num'
@@ -1036,6 +1059,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/region-currency-guide'
     | '/gaming-hub/safe-game-credits-guide'
     | '/genre/$slug'
+    | '/rewards/anime-wallpapers'
     | '/store_/$slug'
     | '/store_/checkout'
     | '/store_/thanks'
@@ -1044,6 +1068,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/gaming-hub/'
     | '/ar/anime/$slug'
+    | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
     | '/ar/anime/'
     | '/anime_/$slug/episode/$num'
@@ -1124,6 +1149,7 @@ export interface RootRouteChildren {
   GamingHubRegionCurrencyGuideRoute: typeof GamingHubRegionCurrencyGuideRoute
   GamingHubSafeGameCreditsGuideRoute: typeof GamingHubSafeGameCreditsGuideRoute
   GenreSlugRoute: typeof GenreSlugRoute
+  RewardsAnimeWallpapersRoute: typeof RewardsAnimeWallpapersRoute
   StoreSlugRoute: typeof StoreSlugRoute
   StoreCheckoutRoute: typeof StoreCheckoutRoute
   StoreThanksRoute: typeof StoreThanksRoute
@@ -1132,6 +1158,7 @@ export interface RootRouteChildren {
   LocaleIndexRoute: typeof LocaleIndexRoute
   GamingHubIndexRoute: typeof GamingHubIndexRoute
   ArAnimeSlugRoute: typeof ArAnimeSlugRoute
+  ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   ArAnimeIndexRoute: typeof ArAnimeIndexRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
@@ -1629,6 +1656,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rewards/anime-wallpapers': {
+      id: '/rewards/anime-wallpapers'
+      path: '/rewards/anime-wallpapers'
+      fullPath: '/rewards/anime-wallpapers'
+      preLoaderRoute: typeof RewardsAnimeWallpapersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/genre/$slug': {
       id: '/genre/$slug'
       path: '/genre/$slug'
@@ -1718,6 +1752,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap/$locale/$file'
       fullPath: '/sitemap/$locale/$file'
       preLoaderRoute: typeof SitemapLocaleFileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/rewards/anime-wallpapers': {
+      id: '/ar/rewards/anime-wallpapers'
+      path: '/ar/rewards/anime-wallpapers'
+      fullPath: '/ar/rewards/anime-wallpapers'
+      preLoaderRoute: typeof ArRewardsAnimeWallpapersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ar/anime/$slug': {
@@ -1812,6 +1853,7 @@ const rootRouteChildren: RootRouteChildren = {
   GamingHubRegionCurrencyGuideRoute: GamingHubRegionCurrencyGuideRoute,
   GamingHubSafeGameCreditsGuideRoute: GamingHubSafeGameCreditsGuideRoute,
   GenreSlugRoute: GenreSlugRoute,
+  RewardsAnimeWallpapersRoute: RewardsAnimeWallpapersRoute,
   StoreSlugRoute: StoreSlugRoute,
   StoreCheckoutRoute: StoreCheckoutRoute,
   StoreThanksRoute: StoreThanksRoute,
@@ -1820,6 +1862,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleIndexRoute: LocaleIndexRoute,
   GamingHubIndexRoute: GamingHubIndexRoute,
   ArAnimeSlugRoute: ArAnimeSlugRoute,
+  ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   ArAnimeIndexRoute: ArAnimeIndexRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,

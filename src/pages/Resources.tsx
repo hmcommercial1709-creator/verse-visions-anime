@@ -141,6 +141,10 @@ const Resources: React.FC<ResourcesProps> = ({ onNotify = (id: string) => consol
           </ul>
         </section>
 
+        <div className="mt-12">
+          <EmailSignup />
+        </div>
+
         <section aria-labelledby="premium-coming" className="mt-16">
           <h2 id="premium-coming" className="text-2xl font-bold text-center mt-0 mb-8">
             🔒 Premium Tools Coming Soon
@@ -151,10 +155,6 @@ const Resources: React.FC<ResourcesProps> = ({ onNotify = (id: string) => consol
               <ComingSoonCard key={item.id} item={item} onNotify={onNotify} />
             ))}
           </ul>
-        </section>
-
-        <section className="mt-12">
-          <EmailSignup />
         </section>
       </div>
     </main>

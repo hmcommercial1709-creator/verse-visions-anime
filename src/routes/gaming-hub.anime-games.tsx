@@ -250,8 +250,8 @@ function AnimeGamesHub() {
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ["Dragon Ball anime", "/anime/dragon-ball-super"],
-              ["Naruto anime", "/anime/naruto-shippuden"],
+              ["Dragon Ball anime", "/anime/dragon-ball-z"],
+              ["Naruto anime", "/anime/naruto"],
               ["One Piece anime", "/anime/one-piece"],
               ["Anime collectibles", "/store"],
             ].map(([label, to]) => (

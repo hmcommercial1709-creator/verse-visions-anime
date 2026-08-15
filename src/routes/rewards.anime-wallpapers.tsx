@@ -84,13 +84,13 @@ function EnglishWallpaperRewards() {
           crisp 4K resolution for desktop and mobile.
         </p>
         <a
-          href="https://lamadventure4.gumroad.com/l/fovib"
+          href="https://lamadventure4.gumroad.com/l/fovib?wanted=true"
           target="_blank"
           rel="sponsored nofollow noopener noreferrer"
-          className="mt-6 inline-flex rounded-lg bg-[#ff3366] px-7 py-3 text-base font-black text-white shadow-lg transition hover:bg-[#ff1f57] focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2 focus:ring-offset-[#1a1a1a]"
-          aria-label="Buy and download the Ultimate Anime Samurai 4K Wallpapers pack for $5.99 on Gumroad"
+          className="mt-6 inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 px-8 py-4 text-lg font-bold text-white shadow-lg shadow-pink-500/25 transition-all duration-300 hover:from-pink-400 hover:to-purple-500 hover:scale-105 hover:shadow-pink-500/40 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2 focus:ring-offset-[#1a1a1a]"
+          aria-label="Buy the Ultimate Anime Samurai 4K Wallpapers pack now on Gumroad for $5.99"
         >
-          Buy &amp; Download Now — $5.99
+          Buy Now
         </a>
         <p className="mt-3 text-xs text-neutral-400">
           Secure checkout and digital delivery are handled by Gumroad.

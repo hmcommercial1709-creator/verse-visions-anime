@@ -106,6 +106,7 @@ import { Route as AnimeDandadanRouteImport } from './routes/anime.dandadan'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
+import { Route as ArExploreIndexRouteImport } from './routes/ar.explore.index'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as ArRewardsAnimeWallpapersRouteImport } from './routes/ar.rewards.anime-wallpapers'
@@ -617,6 +618,11 @@ const LocaleSplatRoute = LocaleSplatRouteImport.update({
   path: '/$locale/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArExploreIndexRoute = ArExploreIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ArExploreRoute,
+} as any)
 const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
   id: '/ar/anime/',
   path: '/ar/anime/',
@@ -806,6 +812,7 @@ export interface FileRoutesByFullPath {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
+  '/ar/explore/': typeof ArExploreIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesByTo {
@@ -877,7 +884,6 @@ export interface FileRoutesByTo {
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
   '/anime/sakamoto-days': typeof AnimeSakamotoDaysRoute
-  '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
@@ -918,6 +924,7 @@ export interface FileRoutesByTo {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime': typeof ArAnimeIndexRoute
+  '/ar/explore': typeof ArExploreIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesById {
@@ -1032,6 +1039,7 @@ export interface FileRoutesById {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
+  '/ar/explore/': typeof ArExploreIndexRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRouteTypes {
@@ -1147,6 +1155,7 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
     | '/ar/anime/'
+    | '/ar/explore/'
     | '/anime/$slug/episode/$num'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1218,7 +1227,6 @@ export interface FileRouteTypes {
     | '/anime/$slug'
     | '/anime/dandadan'
     | '/anime/sakamoto-days'
-    | '/ar/explore'
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
@@ -1259,6 +1267,7 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
     | '/ar/anime'
+    | '/ar/explore'
     | '/anime/$slug/episode/$num'
   id:
     | '__root__'
@@ -1372,6 +1381,7 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
     | '/ar/anime/'
+    | '/ar/explore/'
     | '/anime_/$slug/episode/$num'
   fileRoutesById: FileRoutesById
 }
@@ -2167,6 +2177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ar/explore/': {
+      id: '/ar/explore/'
+      path: '/'
+      fullPath: '/ar/explore/'
+      preLoaderRoute: typeof ArExploreIndexRouteImport
+      parentRoute: typeof ArExploreRoute
+    }
     '/ar/anime/': {
       id: '/ar/anime/'
       path: '/ar/anime'
@@ -2283,10 +2300,12 @@ const ExploreRouteWithChildren =
 
 interface ArExploreRouteChildren {
   ArExploreSlugRoute: typeof ArExploreSlugRoute
+  ArExploreIndexRoute: typeof ArExploreIndexRoute
 }
 
 const ArExploreRouteChildren: ArExploreRouteChildren = {
   ArExploreSlugRoute: ArExploreSlugRoute,
+  ArExploreIndexRoute: ArExploreIndexRoute,
 }
 
 const ArExploreRouteWithChildren = ArExploreRoute._addFileChildren(

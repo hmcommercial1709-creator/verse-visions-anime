@@ -141,8 +141,8 @@ export const episodes: Episode[] = [
     ],
     related: [
       { slug: "frieren", kind: "anime", label: "Frieren — full guide" },
-      { slug: "frieren-elf", kind: "character", label: "Frieren" },
-      { slug: "frieren-eulogy", kind: "article", label: "Frieren and the eulogy problem" },
+      { slug: "frieren", kind: "character", label: "Frieren" },
+      { slug: "frieren-and-the-slow-fantasy-movement", kind: "article", label: "Frieren and the rise of slow fantasy" },
     ],
   },
 ];

@@ -257,12 +257,14 @@ export function sitemapIndexXml(): string {
  */
 export const AR_ENTRIES: SitemapEntry[] = [
   { path: "/ar/anime", changefreq: "weekly", priority: "0.9" },
+  { path: "/ar/blog/roblox-syria-guide", changefreq: "monthly", priority: "0.7" },
   ...AR_GUIDES.map((g) => ({
     path: `/ar/anime/${g.slug}`,
     changefreq: "monthly" as const,
     priority: "0.8",
   })),
 ];
+
 
 /** urlset for the Arabic edition, with hreflang pairs to the English original. */
 export function arUrlsetXml(): string {

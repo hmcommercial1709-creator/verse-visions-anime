@@ -52,8 +52,8 @@ function TopRatedPage() {
       <p className="mt-3 max-w-3xl text-lg text-muted-foreground">
         These are the series our editors score highest — everything at 8.0 and above, sorted by editorial score and
         split by decade. It is a different lens from our{" "}
-        <Link to="/top" className="text-primary hover:underline">
-          all-time top ranking
+        <Link to="/top-lists" className="text-primary hover:underline">
+          curated top lists
         </Link>
         : instead of one fixed list, you can see which era produced the shows that still hold up.
       </p>

@@ -111,6 +111,7 @@ import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as ArRewardsAnimeWallpapersRouteImport } from './routes/ar.rewards.anime-wallpapers'
 import { Route as ArExploreSlugRouteImport } from './routes/ar.explore.$slug'
+import { Route as ArBlogRobloxSyriaGuideRouteImport } from './routes/ar.blog.roblox-syria-guide'
 import { Route as ArAnimeSlugRouteImport } from './routes/ar.anime.$slug'
 import { Route as AnimeSakamotoDaysWatchGuideRouteImport } from './routes/anime.sakamoto-days_.watch-guide'
 import { Route as AnimeSakamotoDaysEpisodeGuideRouteImport } from './routes/anime.sakamoto-days_.episode-guide'
@@ -644,6 +645,11 @@ const ArExploreSlugRoute = ArExploreSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ArExploreRoute,
 } as any)
+const ArBlogRobloxSyriaGuideRoute = ArBlogRobloxSyriaGuideRouteImport.update({
+  id: '/ar/blog/roblox-syria-guide',
+  path: '/ar/blog/roblox-syria-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArAnimeSlugRoute = ArAnimeSlugRouteImport.update({
   id: '/ar/anime/$slug',
   path: '/ar/anime/$slug',
@@ -808,6 +814,7 @@ export interface FileRoutesByFullPath {
   '/anime/sakamoto-days/episode-guide': typeof AnimeSakamotoDaysEpisodeGuideRoute
   '/anime/sakamoto-days/watch-guide': typeof AnimeSakamotoDaysWatchGuideRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
+  '/ar/blog/roblox-syria-guide': typeof ArBlogRobloxSyriaGuideRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
@@ -920,6 +927,7 @@ export interface FileRoutesByTo {
   '/anime/sakamoto-days/episode-guide': typeof AnimeSakamotoDaysEpisodeGuideRoute
   '/anime/sakamoto-days/watch-guide': typeof AnimeSakamotoDaysWatchGuideRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
+  '/ar/blog/roblox-syria-guide': typeof ArBlogRobloxSyriaGuideRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
@@ -1035,6 +1043,7 @@ export interface FileRoutesById {
   '/anime/sakamoto-days_/episode-guide': typeof AnimeSakamotoDaysEpisodeGuideRoute
   '/anime/sakamoto-days_/watch-guide': typeof AnimeSakamotoDaysWatchGuideRoute
   '/ar/anime/$slug': typeof ArAnimeSlugRoute
+  '/ar/blog/roblox-syria-guide': typeof ArBlogRobloxSyriaGuideRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
@@ -1151,6 +1160,7 @@ export interface FileRouteTypes {
     | '/anime/sakamoto-days/episode-guide'
     | '/anime/sakamoto-days/watch-guide'
     | '/ar/anime/$slug'
+    | '/ar/blog/roblox-syria-guide'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
@@ -1263,6 +1273,7 @@ export interface FileRouteTypes {
     | '/anime/sakamoto-days/episode-guide'
     | '/anime/sakamoto-days/watch-guide'
     | '/ar/anime/$slug'
+    | '/ar/blog/roblox-syria-guide'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
@@ -1377,6 +1388,7 @@ export interface FileRouteTypes {
     | '/anime/sakamoto-days_/episode-guide'
     | '/anime/sakamoto-days_/watch-guide'
     | '/ar/anime/$slug'
+    | '/ar/blog/roblox-syria-guide'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
@@ -1490,6 +1502,7 @@ export interface RootRouteChildren {
   AnimeSakamotoDaysEpisodeGuideRoute: typeof AnimeSakamotoDaysEpisodeGuideRoute
   AnimeSakamotoDaysWatchGuideRoute: typeof AnimeSakamotoDaysWatchGuideRoute
   ArAnimeSlugRoute: typeof ArAnimeSlugRoute
+  ArBlogRobloxSyriaGuideRoute: typeof ArBlogRobloxSyriaGuideRoute
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   ArAnimeIndexRoute: typeof ArAnimeIndexRoute
@@ -2212,6 +2225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArExploreSlugRouteImport
       parentRoute: typeof ArExploreRoute
     }
+    '/ar/blog/roblox-syria-guide': {
+      id: '/ar/blog/roblox-syria-guide'
+      path: '/ar/blog/roblox-syria-guide'
+      fullPath: '/ar/blog/roblox-syria-guide'
+      preLoaderRoute: typeof ArBlogRobloxSyriaGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ar/anime/$slug': {
       id: '/ar/anime/$slug'
       path: '/ar/anime/$slug'
@@ -2423,6 +2443,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnimeSakamotoDaysEpisodeGuideRoute: AnimeSakamotoDaysEpisodeGuideRoute,
   AnimeSakamotoDaysWatchGuideRoute: AnimeSakamotoDaysWatchGuideRoute,
   ArAnimeSlugRoute: ArAnimeSlugRoute,
+  ArBlogRobloxSyriaGuideRoute: ArBlogRobloxSyriaGuideRoute,
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   ArAnimeIndexRoute: ArAnimeIndexRoute,

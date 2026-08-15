@@ -625,7 +625,7 @@ export const AR_GUIDES: ArGuide[] = [
   },
   {
     slug: "vinland-saga-watch-order",
-    enPath: "/anime/vinland-saga",
+    enPath: "/browse",
     titleTag: "ترتيب مشاهدة فينلاند ساغا 2026 — الموسمان والمانغا",
     h1: "ترتيب مشاهدة فينلاند ساغا ولماذا يختلف الموسم الثاني كلياً",
     metaDescription:
@@ -724,7 +724,7 @@ export const AR_GUIDES: ArGuide[] = [
   },
   {
     slug: "tokyo-revengers-watch-order",
-    enPath: "/anime/tokyo-revengers",
+    enPath: "/browse",
     titleTag: "ترتيب مشاهدة طوكيو ريفنجرز 2026 — كل المواسم والأقواس",
     h1: "ترتيب مشاهدة طوكيو ريفنجرز: المواسم والأقواس الزمنية",
     metaDescription:
@@ -775,7 +775,7 @@ export const AR_GUIDES: ArGuide[] = [
   },
   {
     slug: "steins-gate-watch-order",
-    enPath: "/anime/steins-gate",
+    enPath: "/browse",
     titleTag: "ترتيب مشاهدة شتاينز غيت 2026 — والفرق مع Zero",
     h1: "ترتيب مشاهدة شتاينز غيت: أين تضع الحلقة 23β وZero؟",
     metaDescription:

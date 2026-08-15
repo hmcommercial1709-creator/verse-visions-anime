@@ -1,0 +1,130 @@
+import React from 'react';
+import { Link } from 'react-router-export'; // إذا كانت المكتبة تستخدم react-router-dom يمكنك تعديلها حسب باقي الملفات
+
+export default function PlayStationCryptoGuide() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans px-4 py-12">
+      <div className="max-w-4xl mx-auto space-y-12">
+        
+        {/* Breadcrumb / Internal Link for Fast Crawling */}
+        <nav className="text-sm text-slate-400">
+          <Link to="/" className="text-blue-400 hover:underline">GameCastle Store</Link> &gt; <span className="text-slate-200">PlayStation Crypto Guide</span>
+        </nav>
+
+        {/* H1 Heading targeting the PlayStation long-tail keyword */}
+        <header className="space-y-4">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            Buy PlayStation Network Gift Card with Cryptocurrency Instantly
+          </h1>
+          <p className="text-lg text-slate-300">
+            Looking for a secure way to fund your PSN wallet? Discover how to buy PlayStation Network gift cards with cryptocurrency instantly on <a href="https://gamecastle.store" className="text-blue-400 underline font-medium">GameCastle Store</a> with zero hassle and automated 24/7 delivery.
+          </p>
+        </header>
+
+        {/* Overview Section */}
+        <section className="space-y-4 bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+          <h2 className="text-2xl font-bold text-white">Why PlayStation Gamers Prefer Crypto Payments</h2>
+          <p className="text-slate-300 leading-relaxed">
+            Gamers worldwide face regional restrictions or lengthy payment verifications when trying to top up their PlayStation accounts. By leveraging decentralized stablecoins (USDT/USDC) on <a href="https://gamecastle.store/collections/playstation" className="text-blue-400 underline">GameCastle</a>, you can bypass traditional bank declines and enjoy instantaneous code delivery directly to your screen.
+          </p>
+        </section>
+
+        {/* Step-by-Step Guide */}
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold text-white">How to Purchase PSN Codes with Crypto in 3 Steps</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-3">
+              <div className="w-12 h-12 bg-blue-600/30 text-blue-400 rounded-full flex items-center justify-center text-3xl font-bold">1</div>
+              <h3 className="text-xl font-semibold text-white">Choose Your Region & Value</h3>
+              <p className="text-sm text-slate-300">Select your preferred PSN gift card region (US, UK, Europe, etc.) and matching monetary value.</p>
+            </div>
+
+            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-3">
+              <div className="w-12 h-12 bg-blue-600/30 text-blue-400 rounded-full flex items-center justify-center text-3xl font-bold">2</div>
+              <h3 className="text-xl font-semibold text-white">Pay Securely via Crypto</h3>
+              <p className="text-sm text-slate-300">Complete your checkout using safe and fast cryptocurrency networks with minimal fees.</p>
+            </div>
+
+            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-3">
+              <div className="w-12 h-12 bg-blue-600/30 text-blue-400 rounded-full flex items-center justify-center text-3xl font-bold">3</div>
+              <h3 className="text-xl font-semibold text-white">Redeem & Play</h3>
+              <p className="text-sm text-slate-300">Receive your 12-digit PlayStation Network code instantly on screen and redeem it on your console.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* PlayStation Comparison Table */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-white">Why GameCastle is the Best Choice for PSN Codes</h2>
+          <div className="overflow-x-auto rounded-xl border border-slate-800">
+            <table className="w-full text-left border-collapse bg-slate-900">
+              <thead>
+                <tr className="border-b border-slate-800 text-slate-400 bg-slate-950/50">
+                  <th className="p-4">Criteria</th>
+                  <th className="p-4">Standard Online Retailers</th>
+                  <th className="p-4 text-blue-400">GameCastle Crypto Store</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800 text-sm text-slate-300">
+                <tr>
+                  <td className="p-4 font-medium text-white">Delivery Time</td>
+                  <td className="p-4">Minutes to several hours (manual review)</td>
+                  <td className="p-4 text-emerald-400 font-semibold">Instant automated delivery 24/7</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-medium text-white">Global Access</td>
+                  <td className="p-4">Restricted by local bank cards</td>
+                  <td className="p-4 text-emerald-400 font-semibold">100% borderless with crypto</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-medium text-white">Privacy</td>
+                  <td className="p-4">Requires full personal billing info</td>
+                  <td className="p-4 text-emerald-400 font-semibold">High privacy and secure processing</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold text-white">PlayStation Crypto Purchases - FAQ</h2>
+          
+          <div className="space-y-4">
+            <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-2">
+              <h3 className="font-semibold text-white">Are PSN codes region locked?</h3>
+              <p className="text-sm text-slate-300">Yes, PlayStation Network gift cards are restricted to specific regions. Make sure to buy the card matching your PSN account country.</p>
+            </div>
+
+            <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-2">
+              <h3 className="font-semibold text-white">How do I receive the code after paying with crypto?</h3>
+              <p className="text-sm text-slate-300">As soon as the blockchain confirms your transaction, the code is displayed instantly on your checkout screen and sent to your email.</p>
+            </div>
+
+            <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-2">
+              <h3 className="font-semibold text-white">Is it safe to use crypto on GameCastle?</h3>
+              <p className="text-sm text-slate-300">Completely safe. We use enterprise-grade automated payment gateways to ensure your funds and data are protected.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action (CTA) */}
+        <footer className="text-center bg-gradient-to-r from-blue-900/40 to-slate-900 p-8 rounded-2xl border border-blue-500/30 space-y-4">
+          <h2 className="text-2xl font-bold text-white">Top Up Your PlayStation Wallet Today</h2>
+          <p className="text-slate-300 max-w-xl mx-auto">
+            Get your instant PSN gift cards using cryptocurrency right now. Fast, secure, and ready to play.
+          </p>
+          <div>
+            <a 
+              href="https://gamecastle.store/collections/playstation" 
+              className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition-transform transform hover:scale-105"
+            >
+              Buy PlayStation Cards Now
+            </a>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  );
+}

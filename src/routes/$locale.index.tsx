@@ -56,7 +56,12 @@ function LocalizedHome() {
           <Link to="/trending" className="font-bold text-purple-400 underline">
             Explore Trending Anime &amp; Gaming Hub
           </Link>
-        </div>
+        </div 
+          <div>
+              <Link to={`/${locale}/codes`} className="font-bold text-pink-400 underline">
+                  🔥 Browse Official Codes & Mega Hub
+              </Link>
+          </div>
       </div>
     </div>
   );

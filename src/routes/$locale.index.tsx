@@ -46,22 +46,17 @@ function LocalizedHome() {
   return (
     <div>
       <LocalizedEditionNotice locale={locale} path="/" />
-      <div className="text-center py-8 space-y-4">
+      <div className="space-y-4 py-8 text-center">
         <div>
-          <Link to="/crypto" className="text-purple-400 font-bold underline">
+          <Link to="/store" className="font-bold text-purple-400 underline">
             Guide to Buying with Crypto
           </Link>
         </div>
         <div>
-          <Link to="/trending" className="text-purple-400 font-bold underline">
-            Explore Trending Anime & Gaming Hub
+          <Link to="/trending" className="font-bold text-purple-400 underline">
+            Explore Trending Anime &amp; Gaming Hub
           </Link>
         </div>
-      </div>
-    </div>
-      </div>
-          Guide to Buying with Crypto
-        </Link>
       </div>
     </div>
   );

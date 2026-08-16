@@ -47,22 +47,33 @@ function LocalizedHome() {
     <div>
       <LocalizedEditionNotice locale={locale} path="/" />
       <div className="space-y-4 py-8 text-center">
-        <div>
-          <Link to="/store" className="font-bold text-purple-400 underline">
-            Guide to Buying with Crypto
-          </Link>
-        </div>
-        <div>
-          <Link to="/trending" className="font-bold text-purple-400 underline">
-            Explore Trending Anime &amp; Gaming Hub
-          </Link>
-        </div 
-          <div>
-              <Link to={`/${locale}/codes`} className="font-bold text-pink-400 underline">
-                  🔥 Browse Official Codes & Mega Hub
-              </Link>
-          </div>
-      </div>
+        <div className="space-y-4 py-8 text-center">
+  <div>
+    <Link to={`/${locale}/anime/goku`} className="font-bold text-indigo-400 underline">
+      ⚔️ Ultimate Anime Characters & Power Guide
+    </Link>
+  </div>
+  <div>
+    <Link to={`/${locale}/calc/robux`} className="font-bold text-purple-400 underline">
+      🧮 Interactive Gaming Resource Calculators
+    </Link>
+  </div>
+  <div>
+    <Link to={`/${locale}/wallpapers/anime-8k`} className="font-bold text-pink-400 underline">
+      🎨 8K AI Anime Wallpapers Gallery
+    </Link>
+  </div>
+  <div>
+    <Link to={`/${locale}/promo/gaming-codes`} className="font-bold text-emerald-400 underline">
+      🎟️ Official Gaming Promo Codes & Rewards Hub
+    </Link>
+  </div>
+  <div>
+    <Link to={`/${locale}/articles/top-gaming-trends`} className="font-bold text-amber-400 underline">
+      📚 Ultimate Gaming Articles & Guides
+    </Link>
+  </div>
+</div>
     </div>
   );
 }

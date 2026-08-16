@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getLocale, hreflangLinks, isLocaleCode, SITE_URL } from "@/lib/i18n";
 import { LocalizedEditionNotice } from "@/components/localized-edition";
 

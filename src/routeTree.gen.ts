@@ -106,6 +106,7 @@ import { Route as AnimeDandadanRouteImport } from './routes/anime.dandadan'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
+import { Route as LocaleTrendingRouteImport } from './routes/$-locale.trending'
 import { Route as ArExploreIndexRouteImport } from './routes/ar.explore.index'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
@@ -619,6 +620,11 @@ const LocaleSplatRoute = LocaleSplatRouteImport.update({
   path: '/$locale/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleTrendingRoute = LocaleTrendingRouteImport.update({
+  id: '/$-locale/trending',
+  path: '/$-locale/trending',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArExploreIndexRoute = ArExploreIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -772,6 +778,7 @@ export interface FileRoutesByFullPath {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
+  '/$-locale/trending': typeof LocaleTrendingRoute
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
@@ -886,6 +893,7 @@ export interface FileRoutesByTo {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
+  '/$-locale/trending': typeof LocaleTrendingRoute
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
@@ -1001,6 +1009,7 @@ export interface FileRoutesById {
   '/upcoming': typeof UpcomingRoute
   '/wallpapers': typeof WallpapersRoute
   '/watch-order': typeof WatchOrderRoute
+  '/$-locale/trending': typeof LocaleTrendingRoute
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
   '/anime/$slug': typeof AnimeSlugRoute
@@ -1118,6 +1127,7 @@ export interface FileRouteTypes {
     | '/upcoming'
     | '/wallpapers'
     | '/watch-order'
+    | '/$-locale/trending'
     | '/$locale/$'
     | '/$locale/store'
     | '/anime/$slug'
@@ -1232,6 +1242,7 @@ export interface FileRouteTypes {
     | '/upcoming'
     | '/wallpapers'
     | '/watch-order'
+    | '/$-locale/trending'
     | '/$locale/$'
     | '/$locale/store'
     | '/anime/$slug'
@@ -1346,6 +1357,7 @@ export interface FileRouteTypes {
     | '/upcoming'
     | '/wallpapers'
     | '/watch-order'
+    | '/$-locale/trending'
     | '/$locale/$'
     | '/$locale/store'
     | '/anime/$slug'
@@ -1462,6 +1474,7 @@ export interface RootRouteChildren {
   UpcomingRoute: typeof UpcomingRoute
   WallpapersRoute: typeof WallpapersRoute
   WatchOrderRoute: typeof WatchOrderRoute
+  LocaleTrendingRoute: typeof LocaleTrendingRoute
   LocaleSplatRoute: typeof LocaleSplatRoute
   LocaleStoreRoute: typeof LocaleStoreRoute
   AnimeSlugRoute: typeof AnimeSlugRoute
@@ -2190,6 +2203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$-locale/trending': {
+      id: '/$-locale/trending'
+      path: '/$-locale/trending'
+      fullPath: '/$-locale/trending'
+      preLoaderRoute: typeof LocaleTrendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ar/explore/': {
       id: '/ar/explore/'
       path: '/'
@@ -2397,6 +2417,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpcomingRoute: UpcomingRoute,
   WallpapersRoute: WallpapersRoute,
   WatchOrderRoute: WatchOrderRoute,
+  LocaleTrendingRoute: LocaleTrendingRoute,
   LocaleSplatRoute: LocaleSplatRoute,
   LocaleStoreRoute: LocaleStoreRoute,
   AnimeSlugRoute: AnimeSlugRoute,

@@ -43,5 +43,14 @@ export const Route = createFileRoute("/$locale/")({
 
 function LocalizedHome() {
   const { locale } = Route.useLoaderData();
-  return <LocalizedEditionNotice locale={locale} path="/" />;
+  return (
+    <div>
+      <LocalizedEditionNotice locale={locale} path="/" />
+      <div className="text-center py-8">
+        <Link to="/crypto" className="text-purple-400 font-bold underline">
+          Guide to Buying with Crypto
+        </Link>
+      </div>
+    </div>
+  );
 }

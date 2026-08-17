@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/$locale/codes/$slug')({
+export const Route = createFileRoute('/$-locale/codes/$slug')({
   component: MassiveCodesPage,
 })
 

@@ -81,6 +81,7 @@ import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
 import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
 import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
+import { Route as SitemapXmlRouteImport } from './routes/sitemap.xml'
 import { Route as RewardsAnimeWallpapersRouteImport } from './routes/rewards.anime-wallpapers'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
@@ -109,6 +110,7 @@ import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as LocaleTrendingRouteImport } from './routes/$-locale.trending'
 import { Route as ArExploreIndexRouteImport } from './routes/ar.explore.index'
 import { Route as ArAnimeIndexRouteImport } from './routes/ar.anime.index'
+import { Route as LocaleCodesIndexRouteImport } from './routes/$-locale.codes.index'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as ArRewardsAnimeWallpapersRouteImport } from './routes/ar.rewards.anime-wallpapers'
 import { Route as ArExploreSlugRouteImport } from './routes/ar.explore.$slug'
@@ -122,6 +124,12 @@ import { Route as AnimeDandadanWatchGuideRouteImport } from './routes/anime.dand
 import { Route as AnimeDandadanOccultWorldRouteImport } from './routes/anime.dandadan_.occult-world'
 import { Route as AnimeDandadanEpisodeGuideRouteImport } from './routes/anime.dandadan_.episode-guide'
 import { Route as AnimeDandadanCharactersRouteImport } from './routes/anime.dandadan_.characters'
+import { Route as LocaleWallpapersSlugRouteImport } from './routes/$-locale.wallpapers.$slug'
+import { Route as LocalePromoSlugRouteImport } from './routes/$-locale.promo.$slug'
+import { Route as LocaleCodesSlugRouteImport } from './routes/$-locale.codes.$slug'
+import { Route as LocaleCalcSlugRouteImport } from './routes/$-locale.calc.$slug'
+import { Route as LocaleArticlesSlugRouteImport } from './routes/$-locale.articles.$slug'
+import { Route as LocaleAnimeSlugRouteImport } from './routes/$-locale.anime.$slug'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
 const WatchOrderRoute = WatchOrderRouteImport.update({
@@ -484,6 +492,11 @@ const StoreSlugRoute = StoreSlugRouteImport.update({
   path: '/store/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapXmlRoute = SitemapXmlRouteImport.update({
+  id: '/sitemap/xml',
+  path: '/sitemap/xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RewardsAnimeWallpapersRoute = RewardsAnimeWallpapersRouteImport.update({
   id: '/rewards/anime-wallpapers',
   path: '/rewards/anime-wallpapers',
@@ -635,6 +648,11 @@ const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
   path: '/ar/anime/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleCodesIndexRoute = LocaleCodesIndexRouteImport.update({
+  id: '/$-locale/codes/',
+  path: '/$-locale/codes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
   id: '/sitemap/$locale/$file',
   path: '/sitemap/$locale/$file',
@@ -705,6 +723,36 @@ const AnimeDandadanEpisodeGuideRoute =
 const AnimeDandadanCharactersRoute = AnimeDandadanCharactersRouteImport.update({
   id: '/anime/dandadan_/characters',
   path: '/anime/dandadan/characters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleWallpapersSlugRoute = LocaleWallpapersSlugRouteImport.update({
+  id: '/$-locale/wallpapers/$slug',
+  path: '/$-locale/wallpapers/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalePromoSlugRoute = LocalePromoSlugRouteImport.update({
+  id: '/$-locale/promo/$slug',
+  path: '/$-locale/promo/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleCodesSlugRoute = LocaleCodesSlugRouteImport.update({
+  id: '/$-locale/codes/$slug',
+  path: '/$-locale/codes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleCalcSlugRoute = LocaleCalcSlugRouteImport.update({
+  id: '/$-locale/calc/$slug',
+  path: '/$-locale/calc/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleArticlesSlugRoute = LocaleArticlesSlugRouteImport.update({
+  id: '/$-locale/articles/$slug',
+  path: '/$-locale/articles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleAnimeSlugRoute = LocaleAnimeSlugRouteImport.update({
+  id: '/$-locale/anime/$slug',
+  path: '/$-locale/anime/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
@@ -804,6 +852,7 @@ export interface FileRoutesByFullPath {
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
@@ -812,6 +861,12 @@ export interface FileRoutesByFullPath {
   '/$locale/': typeof LocaleIndexRoute
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
+  '/$-locale/anime/$slug': typeof LocaleAnimeSlugRoute
+  '/$-locale/articles/$slug': typeof LocaleArticlesSlugRoute
+  '/$-locale/calc/$slug': typeof LocaleCalcSlugRoute
+  '/$-locale/codes/$slug': typeof LocaleCodesSlugRoute
+  '/$-locale/promo/$slug': typeof LocalePromoSlugRoute
+  '/$-locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -825,6 +880,7 @@ export interface FileRoutesByFullPath {
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/$-locale/codes/': typeof LocaleCodesIndexRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/ar/explore/': typeof ArExploreIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
@@ -918,6 +974,7 @@ export interface FileRoutesByTo {
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
@@ -926,6 +983,12 @@ export interface FileRoutesByTo {
   '/$locale': typeof LocaleIndexRoute
   '/explore': typeof ExploreIndexRoute
   '/gaming-hub': typeof GamingHubIndexRoute
+  '/$-locale/anime/$slug': typeof LocaleAnimeSlugRoute
+  '/$-locale/articles/$slug': typeof LocaleArticlesSlugRoute
+  '/$-locale/calc/$slug': typeof LocaleCalcSlugRoute
+  '/$-locale/codes/$slug': typeof LocaleCodesSlugRoute
+  '/$-locale/promo/$slug': typeof LocalePromoSlugRoute
+  '/$-locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -939,6 +1002,7 @@ export interface FileRoutesByTo {
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/$-locale/codes': typeof LocaleCodesIndexRoute
   '/ar/anime': typeof ArAnimeIndexRoute
   '/ar/explore': typeof ArExploreIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
@@ -1035,6 +1099,7 @@ export interface FileRoutesById {
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/store_/$slug': typeof StoreSlugRoute
   '/store_/checkout': typeof StoreCheckoutRoute
   '/store_/thanks': typeof StoreThanksRoute
@@ -1043,6 +1108,12 @@ export interface FileRoutesById {
   '/$locale/': typeof LocaleIndexRoute
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
+  '/$-locale/anime/$slug': typeof LocaleAnimeSlugRoute
+  '/$-locale/articles/$slug': typeof LocaleArticlesSlugRoute
+  '/$-locale/calc/$slug': typeof LocaleCalcSlugRoute
+  '/$-locale/codes/$slug': typeof LocaleCodesSlugRoute
+  '/$-locale/promo/$slug': typeof LocalePromoSlugRoute
+  '/$-locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/dandadan_/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan_/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan_/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -1056,6 +1127,7 @@ export interface FileRoutesById {
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/$-locale/codes/': typeof LocaleCodesIndexRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/ar/explore/': typeof ArExploreIndexRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
@@ -1153,6 +1225,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
+    | '/sitemap/xml'
     | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
@@ -1161,6 +1234,12 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/explore/'
     | '/gaming-hub/'
+    | '/$-locale/anime/$slug'
+    | '/$-locale/articles/$slug'
+    | '/$-locale/calc/$slug'
+    | '/$-locale/codes/$slug'
+    | '/$-locale/promo/$slug'
+    | '/$-locale/wallpapers/$slug'
     | '/anime/dandadan/characters'
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
@@ -1174,6 +1253,7 @@ export interface FileRouteTypes {
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
+    | '/$-locale/codes/'
     | '/ar/anime/'
     | '/ar/explore/'
     | '/anime/$slug/episode/$num'
@@ -1267,6 +1347,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
+    | '/sitemap/xml'
     | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
@@ -1275,6 +1356,12 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/explore'
     | '/gaming-hub'
+    | '/$-locale/anime/$slug'
+    | '/$-locale/articles/$slug'
+    | '/$-locale/calc/$slug'
+    | '/$-locale/codes/$slug'
+    | '/$-locale/promo/$slug'
+    | '/$-locale/wallpapers/$slug'
     | '/anime/dandadan/characters'
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
@@ -1288,6 +1375,7 @@ export interface FileRouteTypes {
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
+    | '/$-locale/codes'
     | '/ar/anime'
     | '/ar/explore'
     | '/anime/$slug/episode/$num'
@@ -1383,6 +1471,7 @@ export interface FileRouteTypes {
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
+    | '/sitemap/xml'
     | '/store_/$slug'
     | '/store_/checkout'
     | '/store_/thanks'
@@ -1391,6 +1480,12 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/explore/'
     | '/gaming-hub/'
+    | '/$-locale/anime/$slug'
+    | '/$-locale/articles/$slug'
+    | '/$-locale/calc/$slug'
+    | '/$-locale/codes/$slug'
+    | '/$-locale/promo/$slug'
+    | '/$-locale/wallpapers/$slug'
     | '/anime/dandadan_/characters'
     | '/anime/dandadan_/episode-guide'
     | '/anime/dandadan_/occult-world'
@@ -1404,6 +1499,7 @@ export interface FileRouteTypes {
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
+    | '/$-locale/codes/'
     | '/ar/anime/'
     | '/ar/explore/'
     | '/anime_/$slug/episode/$num'
@@ -1499,6 +1595,7 @@ export interface RootRouteChildren {
   GamingHubUltimateGamingSecretsGuideRoute: typeof GamingHubUltimateGamingSecretsGuideRoute
   GenreSlugRoute: typeof GenreSlugRoute
   RewardsAnimeWallpapersRoute: typeof RewardsAnimeWallpapersRoute
+  SitemapXmlRoute: typeof SitemapXmlRoute
   StoreSlugRoute: typeof StoreSlugRoute
   StoreCheckoutRoute: typeof StoreCheckoutRoute
   StoreThanksRoute: typeof StoreThanksRoute
@@ -1506,6 +1603,12 @@ export interface RootRouteChildren {
   WatchSlugRoute: typeof WatchSlugRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   GamingHubIndexRoute: typeof GamingHubIndexRoute
+  LocaleAnimeSlugRoute: typeof LocaleAnimeSlugRoute
+  LocaleArticlesSlugRoute: typeof LocaleArticlesSlugRoute
+  LocaleCalcSlugRoute: typeof LocaleCalcSlugRoute
+  LocaleCodesSlugRoute: typeof LocaleCodesSlugRoute
+  LocalePromoSlugRoute: typeof LocalePromoSlugRoute
+  LocaleWallpapersSlugRoute: typeof LocaleWallpapersSlugRoute
   AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
   AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
   AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
@@ -1518,6 +1621,7 @@ export interface RootRouteChildren {
   ArBlogRobloxSyriaGuideRoute: typeof ArBlogRobloxSyriaGuideRoute
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
+  LocaleCodesIndexRoute: typeof LocaleCodesIndexRoute
   ArAnimeIndexRoute: typeof ArAnimeIndexRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
 }
@@ -2028,6 +2132,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap/xml': {
+      id: '/sitemap/xml'
+      path: '/sitemap/xml'
+      fullPath: '/sitemap/xml'
+      preLoaderRoute: typeof SitemapXmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rewards/anime-wallpapers': {
       id: '/rewards/anime-wallpapers'
       path: '/rewards/anime-wallpapers'
@@ -2224,6 +2335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArAnimeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$-locale/codes/': {
+      id: '/$-locale/codes/'
+      path: '/$-locale/codes'
+      fullPath: '/$-locale/codes/'
+      preLoaderRoute: typeof LocaleCodesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap/$locale/$file': {
       id: '/sitemap/$locale/$file'
       path: '/sitemap/$locale/$file'
@@ -2313,6 +2431,48 @@ declare module '@tanstack/react-router' {
       path: '/anime/dandadan/characters'
       fullPath: '/anime/dandadan/characters'
       preLoaderRoute: typeof AnimeDandadanCharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$-locale/wallpapers/$slug': {
+      id: '/$-locale/wallpapers/$slug'
+      path: '/$-locale/wallpapers/$slug'
+      fullPath: '/$-locale/wallpapers/$slug'
+      preLoaderRoute: typeof LocaleWallpapersSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$-locale/promo/$slug': {
+      id: '/$-locale/promo/$slug'
+      path: '/$-locale/promo/$slug'
+      fullPath: '/$-locale/promo/$slug'
+      preLoaderRoute: typeof LocalePromoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$-locale/codes/$slug': {
+      id: '/$-locale/codes/$slug'
+      path: '/$-locale/codes/$slug'
+      fullPath: '/$-locale/codes/$slug'
+      preLoaderRoute: typeof LocaleCodesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$-locale/calc/$slug': {
+      id: '/$-locale/calc/$slug'
+      path: '/$-locale/calc/$slug'
+      fullPath: '/$-locale/calc/$slug'
+      preLoaderRoute: typeof LocaleCalcSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$-locale/articles/$slug': {
+      id: '/$-locale/articles/$slug'
+      path: '/$-locale/articles/$slug'
+      fullPath: '/$-locale/articles/$slug'
+      preLoaderRoute: typeof LocaleArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$-locale/anime/$slug': {
+      id: '/$-locale/anime/$slug'
+      path: '/$-locale/anime/$slug'
+      fullPath: '/$-locale/anime/$slug'
+      preLoaderRoute: typeof LocaleAnimeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anime_/$slug/episode/$num': {
@@ -2448,6 +2608,7 @@ const rootRouteChildren: RootRouteChildren = {
     GamingHubUltimateGamingSecretsGuideRoute,
   GenreSlugRoute: GenreSlugRoute,
   RewardsAnimeWallpapersRoute: RewardsAnimeWallpapersRoute,
+  SitemapXmlRoute: SitemapXmlRoute,
   StoreSlugRoute: StoreSlugRoute,
   StoreCheckoutRoute: StoreCheckoutRoute,
   StoreThanksRoute: StoreThanksRoute,
@@ -2455,6 +2616,12 @@ const rootRouteChildren: RootRouteChildren = {
   WatchSlugRoute: WatchSlugRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   GamingHubIndexRoute: GamingHubIndexRoute,
+  LocaleAnimeSlugRoute: LocaleAnimeSlugRoute,
+  LocaleArticlesSlugRoute: LocaleArticlesSlugRoute,
+  LocaleCalcSlugRoute: LocaleCalcSlugRoute,
+  LocaleCodesSlugRoute: LocaleCodesSlugRoute,
+  LocalePromoSlugRoute: LocalePromoSlugRoute,
+  LocaleWallpapersSlugRoute: LocaleWallpapersSlugRoute,
   AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
   AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
   AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,
@@ -2467,6 +2634,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArBlogRobloxSyriaGuideRoute: ArBlogRobloxSyriaGuideRoute,
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
+  LocaleCodesIndexRoute: LocaleCodesIndexRoute,
   ArAnimeIndexRoute: ArAnimeIndexRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,
 }

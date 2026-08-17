@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
-export const Route = createFileRoute('/$-locale/codes/$slug')({
+export const Route = createFileRoute('/$locale/codes/$slug')({
   component: MassiveCodesPage,
 })
 
 function MassiveCodesPage() {
-  const { "-locale": locale, slug } = Route.useParams()
+  const { locale, slug } = Route.useParams()
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
 
   // معالجة اسم اللعبة أو العنصر القادم من الرابط الديناميكي

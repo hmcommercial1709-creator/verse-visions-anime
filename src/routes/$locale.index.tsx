@@ -48,27 +48,27 @@ function LocalizedHome() {
       <LocalizedEditionNotice locale={locale} path="/" />
       <div className="space-y-4 py-8 text-center">
         <div>
-          <Link to="/$-locale/anime/$slug" params={{ "-locale": locale, slug: "goku" }} className="font-bold text-indigo-400 underline">
+          <Link to="/$locale/anime/$slug" params={{ locale, slug: "goku" }} className="font-bold text-indigo-400 underline">
             ⚔️ Ultimate Anime Characters &amp; Power Guide
           </Link>
         </div>
         <div>
-          <Link to="/$-locale/calc/$slug" params={{ "-locale": locale, slug: "robux" }} className="font-bold text-purple-400 underline">
+          <Link to="/$locale/calc/$slug" params={{ locale, slug: "robux" }} className="font-bold text-purple-400 underline">
             🧮 Interactive Gaming Resource Calculators
           </Link>
         </div>
         <div>
-          <Link to="/$-locale/wallpapers/$slug" params={{ "-locale": locale, slug: "anime-8k" }} className="font-bold text-pink-400 underline">
+          <Link to="/$locale/wallpapers/$slug" params={{ locale, slug: "anime-8k" }} className="font-bold text-pink-400 underline">
             🎨 8K AI Anime Wallpapers Gallery
           </Link>
         </div>
         <div>
-          <Link to="/$-locale/promo/$slug" params={{ "-locale": locale, slug: "gaming-codes" }} className="font-bold text-emerald-400 underline">
+          <Link to="/$locale/promo/$slug" params={{ locale, slug: "gaming-codes" }} className="font-bold text-emerald-400 underline">
             🎟️ Official Gaming Promo Codes &amp; Rewards Hub
           </Link>
         </div>
         <div>
-          <Link to="/$-locale/articles/$slug" params={{ "-locale": locale, slug: "top-gaming-trends" }} className="font-bold text-amber-400 underline">
+          <Link to="/$locale/articles/$slug" params={{ locale, slug: "top-gaming-trends" }} className="font-bold text-amber-400 underline">
             📚 Ultimate Gaming Articles &amp; Guides
           </Link>
         </div>

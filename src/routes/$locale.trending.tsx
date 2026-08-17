@@ -1,7 +1,7 @@
 import React from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/$-locale/trending')({
+export const Route = createFileRoute('/$locale/trending')({
   component: UniqueEmpireHub,
 });
 

@@ -5,7 +5,7 @@ export const Route = createFileRoute('/$-locale/codes/')({
 })
 
 function CodesIndexPage() {
-  const { locale } = Route.useParams()
+  const { "-locale": locale } = Route.useParams()
 
   // قائمة بأشهر الألعاب والأنمي التي ستولد آلاف الصفحات الفرعية
   const popularHubs = [

@@ -65,14 +65,19 @@ function LocalizedHome() {
         <div>
           <Link to="/$locale/promo/$slug" params={{ locale, slug: "gaming-codes" }} className="font-bold text-emerald-400 underline">
             🎟️ Official Gaming Promo Codes &amp; Rewards Hub
-          </Link>
+          </Link 
+            <div>
+  <Link to="/$locale/super-hub" params={{ locale }} className="font-bold text-emerald-400 underline">
+    🔥 Explore Ultimate Global Hub & Digital Vault
+  </Link>
+</div>
         </div>
         <div>
           <Link to="/$locale/articles/$slug" params={{ locale, slug: "top-gaming-trends" }} className="font-bold text-amber-400 underline">
             📚 Ultimate Gaming Articles &amp; Guides
           </Link>
         </div>
-      </div>
+      </div 
     </div>
   );
 }

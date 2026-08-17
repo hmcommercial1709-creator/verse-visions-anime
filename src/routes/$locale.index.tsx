@@ -73,5 +73,6 @@ function LocalizedHome() {
           </Link>
         </div>
       </div>
+    </div>
   );
 }

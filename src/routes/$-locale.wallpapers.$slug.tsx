@@ -18,7 +18,7 @@ function WallpapersPage() {
             خلفية 8K رقم {i}
           </div>
         ))}
-      </div 
+      </div>
         <div className="flex justify-center my-6">
   <a 
     href="https://lamadventure4.gumroad.com/l/fovib" 

@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/$locale/codes/')({
+export const Route = createFileRoute('/$-locale/codes/')({
   component: CodesIndexPage,
 })
 
 function CodesIndexPage() {
-  const { locale } = Route.useParams()
+  const { "-locale": locale } = Route.useParams()
 
   // قائمة بأشهر الألعاب والأنمي التي ستولد آلاف الصفحات الفرعية
   const popularHubs = [
@@ -36,7 +36,8 @@ function CodesIndexPage() {
         {popularHubs.map((hub, idx) => (
           <Link 
             key={idx} 
-            to={`/${locale}/codes/${hub.slug}`}
+            to="/$-locale/codes/$slug"
+            params={{ "-locale": locale, slug: hub.slug }}
             className="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 p-6 rounded-2xl transition transform hover:-translate-y-1 shadow-xl flex flex-col justify-between"
           >
             <div>

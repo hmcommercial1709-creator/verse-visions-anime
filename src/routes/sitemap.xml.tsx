@@ -5,7 +5,7 @@ const platforms = ["steam", "roblox", "pubg", "playstation", "xbox", "valorant",
 const regions = ["global", "usa", "eu", "mena", "asia"];
 const intents = ["buy-instant", "crypto-discount", "official-code"];
 
-export const Route = createFileRoute('/sitemap.xml')({
+export const Route = createFileRoute('/sitemap/xml')({
   loader: () => {
     const urls = platforms.flatMap(p => 
       regions.flatMap(r => 

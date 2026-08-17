@@ -87,5 +87,20 @@ export const Route = createFileRoute("/$locale/$")({
 
 function LocalizedPage() {
   const { locale, path } = Route.useLoaderData();
-  return <LocalizedEditionNotice locale={locale} path={path} />;
+  return (
+    <>
+      <LocalizedEditionNotice locale={locale} path={path} />
+      
+      {/* Global Floating CTA Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <a
+          href="/super-hub"
+          className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-extrabold p-4 rounded-full shadow-2xl hover:scale-110 transition duration-300 flex items-center justify-center border-2 border-white/20 animate-bounce"
+          title="Global Digital Vault"
+        >
+          🔥
+        </a>
+      </div>
+    </>
+  );
 }

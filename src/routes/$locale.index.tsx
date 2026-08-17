@@ -47,7 +47,6 @@ function LocalizedHome() {
     <div>
       <LocalizedEditionNotice locale={locale} path="/" />
       <div className="space-y-4 py-8 text-center">
-        <div className="space-y-4 py-8 text-center">
   <div>
     <Link to={`/${locale}/anime/goku`} className="font-bold text-indigo-400 underline">
       ⚔️ Ultimate Anime Characters & Power Guide

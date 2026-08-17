@@ -5,7 +5,7 @@ export const Route = createFileRoute('/$locale/codes/')({
 })
 
 function CodesIndexPage() {
-  const { "-locale": locale } = Route.useParams()
+  const { locale } = Route.useParams()
 
   // قائمة بأشهر الألعاب والأنمي التي ستولد آلاف الصفحات الفرعية
   const popularHubs = [
@@ -36,8 +36,8 @@ function CodesIndexPage() {
         {popularHubs.map((hub, idx) => (
           <Link 
             key={idx} 
-            to="/$-locale/codes/$slug"
-            params={{ "-locale": locale, slug: hub.slug }}
+            to="/$locale/codes/$slug"
+            params={{ locale, slug: hub.slug }}
             className="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 p-6 rounded-2xl transition transform hover:-translate-y-1 shadow-xl flex flex-col justify-between"
           >
             <div>

@@ -106,6 +106,7 @@ import { Route as AnimeSakamotoDaysRouteImport } from './routes/anime.sakamoto-d
 import { Route as AnimeDandadanRouteImport } from './routes/anime.dandadan'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as LocaleTrendingRouteImport } from './routes/$locale.trending'
+import { Route as LocaleSuperHubRouteImport } from './routes/$locale.super-hub'
 import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as ArExploreIndexRouteImport } from './routes/ar.explore.index'
@@ -628,6 +629,11 @@ const LocaleTrendingRoute = LocaleTrendingRouteImport.update({
   path: '/$locale/trending',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleSuperHubRoute = LocaleSuperHubRouteImport.update({
+  id: '/$locale/super-hub',
+  path: '/$locale/super-hub',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleStoreRoute = LocaleStoreRouteImport.update({
   id: '/$locale/store',
   path: '/$locale/store',
@@ -828,6 +834,7 @@ export interface FileRoutesByFullPath {
   '/watch-order': typeof WatchOrderRoute
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
+  '/$locale/super-hub': typeof LocaleSuperHubRoute
   '/$locale/trending': typeof LocaleTrendingRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
@@ -951,6 +958,7 @@ export interface FileRoutesByTo {
   '/watch-order': typeof WatchOrderRoute
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
+  '/$locale/super-hub': typeof LocaleSuperHubRoute
   '/$locale/trending': typeof LocaleTrendingRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
@@ -1075,6 +1083,7 @@ export interface FileRoutesById {
   '/watch-order': typeof WatchOrderRoute
   '/$locale/$': typeof LocaleSplatRoute
   '/$locale/store': typeof LocaleStoreRoute
+  '/$locale/super-hub': typeof LocaleSuperHubRoute
   '/$locale/trending': typeof LocaleTrendingRoute
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
@@ -1201,6 +1210,7 @@ export interface FileRouteTypes {
     | '/watch-order'
     | '/$locale/$'
     | '/$locale/store'
+    | '/$locale/super-hub'
     | '/$locale/trending'
     | '/anime/$slug'
     | '/anime/dandadan'
@@ -1324,6 +1334,7 @@ export interface FileRouteTypes {
     | '/watch-order'
     | '/$locale/$'
     | '/$locale/store'
+    | '/$locale/super-hub'
     | '/$locale/trending'
     | '/anime/$slug'
     | '/anime/dandadan'
@@ -1447,6 +1458,7 @@ export interface FileRouteTypes {
     | '/watch-order'
     | '/$locale/$'
     | '/$locale/store'
+    | '/$locale/super-hub'
     | '/$locale/trending'
     | '/anime/$slug'
     | '/anime/dandadan'
@@ -1572,6 +1584,7 @@ export interface RootRouteChildren {
   WatchOrderRoute: typeof WatchOrderRoute
   LocaleSplatRoute: typeof LocaleSplatRoute
   LocaleStoreRoute: typeof LocaleStoreRoute
+  LocaleSuperHubRoute: typeof LocaleSuperHubRoute
   LocaleTrendingRoute: typeof LocaleTrendingRoute
   AnimeSlugRoute: typeof AnimeSlugRoute
   AnimeDandadanRoute: typeof AnimeDandadanRoute
@@ -2307,6 +2320,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleTrendingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/super-hub': {
+      id: '/$locale/super-hub'
+      path: '/$locale/super-hub'
+      fullPath: '/$locale/super-hub'
+      preLoaderRoute: typeof LocaleSuperHubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/store': {
       id: '/$locale/store'
       path: '/$locale/store'
@@ -2579,6 +2599,7 @@ const rootRouteChildren: RootRouteChildren = {
   WatchOrderRoute: WatchOrderRoute,
   LocaleSplatRoute: LocaleSplatRoute,
   LocaleStoreRoute: LocaleStoreRoute,
+  LocaleSuperHubRoute: LocaleSuperHubRoute,
   LocaleTrendingRoute: LocaleTrendingRoute,
   AnimeSlugRoute: AnimeSlugRoute,
   AnimeDandadanRoute: AnimeDandadanRoute,

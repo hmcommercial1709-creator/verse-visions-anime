@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/$-locale/codes/')({
+export const Route = createFileRoute('/$locale/codes/')({
   component: CodesIndexPage,
 })
 

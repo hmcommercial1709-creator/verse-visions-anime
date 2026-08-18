@@ -1,77 +1,88 @@
 import { createFileRoute } from '@tanstack/react-router';
+import React from 'react';
 
 export const Route = createFileRoute('/$locale/product/$slug')({
-  head: ({ params }) => {
-    const productName = params.slug.replace(/-/g, ' ');
-    const title = `${productName} — GameCastle Store`;
-    const description = `Buy ${productName} from GameCastle with instant digital delivery and secure checkout.`;
-
-    return {
-      meta: [
-        { title },
-        { name: 'description', content: description },
-        { property: 'og:title', content: title },
-        { property: 'og:description', content: description },
-        { property: 'og:type', content: 'website' },
-        { name: 'twitter:card', content: 'summary_large_image' },
-      ],
-    };
-  },
-  component: ProductPage,
+  head: () => ({
+    meta: [
+      { title: "Official Global Store: Digital Game Keys & Gift Cards | GameCastle" },
+      { name: 'description', content: 'Instant global B2B digital delivery for game keys, Steam wallets, and premium streaming subscriptions at wholesale prices.' },
+      { property: 'og:title', content: 'GameCastle Global Store - Instant Digital Delivery' },
+      { property: 'og:description', content: 'Access instant activation codes for top gaming platforms worldwide with secure checkout.' },
+      { property: 'og:type', content: 'website' },
+    ],
+  }),
+  component: UltimateGlobalStore,
 });
 
-function ProductPage() {
-  const product = {
-    name: "Digital Game Key & Gift Card",
-    price: "9.99",
-    category: "Gaming Store",
-    platform: "Global / Instant Delivery",
-    sku: "BROLEXY-PROD-01"
-  };
+const products = [
+  { id: 1, name: "Steam Wallet 50$ Gift Card", price: "49.99", category: "Gift Cards", slug: "steam-wallet-50", image: "https://gamecastle.store/assets/steam-50.jpg" },
+  { id: 2, name: "Netflix Premium 1 Month Subscription", price: "15.99", category: "Subscriptions", slug: "netflix-1-month", image: "https://gamecastle.store/assets/netflix.jpg" },
+  { id: 3, name: "PlayStation Plus 1 Year Membership", price: "59.99", category: "Subscriptions", slug: "ps-plus-1-year", image: "https://gamecastle.store/assets/psplus.jpg" },
+  { id: 4, name: "Xbox Game Pass Ultimate 3 Months", price: "29.99", category: "Subscriptions", slug: "xbox-game-pass", image: "https://gamecastle.store/assets/xbox.jpg" },
+  { id: 5, name: "Spotify Family Plan 1 Month", price: "12.99", category: "Subscriptions", slug: "spotify-family", image: "https://gamecastle.store/assets/spotify.jpg" },
+  { id: 6, name: "Google Play Gift Card 25$", price: "24.99", category: "Gift Cards", slug: "google-play-25", image: "https://gamecastle.store/assets/googleplay.jpg" },
+];
 
-  const uniqueDescription = `Get your official ${product.name} instantly on GameCastle. Powered by secure B2B digital delivery, enjoy ${product.platform} activation with 24/7 support and unbeatable wholesale pricing.`;
+function UltimateGlobalStore() {
+  const globalSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": products.map((p, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Product",
+        "name": p.name,
+        "image": p.image,
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "USD",
+          "price": p.price,
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    }))
+  };
 
   return (
     <div style={styles.body}>
-      <div style={styles.container}>
-        <div style={styles.breadcrumb}>Home / Store / {product.category}</div>
-        
-        <h1 style={styles.title}>{product.name}</h1>
-        <p style={styles.subtitle}>{uniqueDescription}</p>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchema) }} />
 
-        <div style={styles.priceCard}>
-          <div style={styles.priceLabel}>Wholesale Price</div>
-          <div style={styles.price}>${product.price} USD</div>
-          <div style={styles.deliveryBadge}>⚡ Instant Automatic Delivery</div>
-          <a href="https://gamecastle.store" style={styles.ctaButton}>
-            Buy Now & Get Code Instantly
-          </a>
+      <div style={styles.container}>
+        <div style={styles.heroSection}>
+          <h1 style={styles.title}>Global Gaming & Digital Subscription Hub</h1>
+          <p style={styles.subtitle}>Direct automated infrastructure delivering keys and gift cards worldwide in seconds.</p>
         </div>
 
-        <section style={styles.featuresSection}>
-          <h2>Why GameCastle is #1 for Gamers:</h2>
-          <ul style={styles.list}>
-            <li>✔️ <strong>Direct Sourced:</strong> Authentic digital keys supplied straight through high-grade B2B infrastructure.</li>
-            <li>✔️ <strong>Instant Access:</strong> Automated system delivers your activation code seconds after payment verification.</li>
-            <li>✔️ <strong>Secure & Trusted:</strong> Fully encrypted checkout and global payment compatibility.</li>
-          </ul>
-        </section>
+        <div style={styles.grid}>
+          {products.map((product) => (
+            <div key={product.id} style={styles.card}>
+              <div style={styles.catBadge}>{product.category}</div>
+              <h3 style={styles.cardTitle}>{product.name}</h3>
+              <div style={styles.priceTag}>${product.price} USD</div>
+              <div style={styles.deliveryBadge}>⚡ Instant B2B Delivery</div>
+              <a href={`https://gamecastle.store/en/product/${product.slug}`} style={styles.ctaButton}>
+                Secure Checkout
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
 const styles = {
-  body: { fontFamily: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif", backgroundColor: '#0f172a', color: '#f8fafc', margin: 0, padding: '20px', minHeight: '100vh' },
-  container: { maxWidth: '800px', margin: '40px auto', backgroundColor: '#1e293b', padding: '40px', borderRadius: '16px', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.5)' },
-  breadcrumb: { color: '#94a3b8', fontSize: '0.85rem', marginBottom: '15px' },
-  title: { fontSize: '2.2rem', fontWeight: '800', color: '#ffffff', marginBottom: '10px' },
-  subtitle: { color: '#cbd5e1', fontSize: '1.05rem', lineHeight: '1.6', marginBottom: '30px' },
-  priceCard: { background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)', padding: '30px', borderRadius: '12px', textAlign: 'center' as const, marginBottom: '30px' },
-  priceLabel: { color: '#93c5fd', fontSize: '0.9rem', textTransform: 'uppercase' as const, letterSpacing: '1px' },
-  price: { fontSize: '3rem', fontWeight: '900', color: '#ffffff', margin: '10px 0' },
-  deliveryBadge: { background: '#22c55e', color: '#ffffff', display: 'inline-block', padding: '6px 14px', borderRadius: '20px', fontSize: '0.9rem', fontWeight: '600', marginBottom: '20px' },
-  ctaButton: { display: 'block', backgroundColor: '#ffffff', color: '#1d4ed8', padding: '15px 30px', borderRadius: '8px', fontWeight: 'bold', fontSize: '1.1rem', textDecoration: 'none', transition: 'all 0.2s', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' },
-  featuresSection: { marginTop: '40px', borderTop: '1px solid #334155', paddingTop: '20px' },
-  list: { paddingLeft: '20px', color: '#cbd5e1', lineHeight: '1.8' }
+  body: { fontFamily: "'Inter', system-ui, -apple-system, sans-serif", backgroundColor: '#090d16', color: '#f1f5f9', padding: '50px 20px', minHeight: '100vh' },
+  container: { maxWidth: '1280px', margin: '0 auto' },
+  heroSection: { textAlign: 'center' as const, marginBottom: '60px' },
+  title: { fontSize: '2.8rem', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.025em', marginBottom: '15px' },
+  subtitle: { color: '#94a3b8', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' },
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' },
+  card: { backgroundColor: '#131b2e', border: '1px solid #1e293b', padding: '30px', borderRadius: '20px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.4)', transition: 'transform 0.2s ease' },
+  catBadge: { fontSize: '0.7rem', color: '#60a5fa', fontWeight: '700', textTransform: 'uppercase' as const, letterSpacing: '1.5px', marginBottom: '12px' },
+  cardTitle: { fontSize: '1.3rem', fontWeight: '700', color: '#ffffff', marginBottom: '15px', lineHeight: '1.4' },
+  priceTag: { fontSize: '1.8rem', fontWeight: '900', color: '#4ade80', marginBottom: '10px' },
+  deliveryBadge: { fontSize: '0.85rem', color: '#94a3b8', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '6px' },
+  ctaButton: { display: 'block', textAlign: 'center' as const, backgroundColor: '#2563eb', color: '#ffffff', padding: '14px', borderRadius: '12px', textDecoration: 'none', fontWeight: '700', boxShadow: '0 10px 15px -3px rgba(37, 99, 235, 0.4)' }
 };

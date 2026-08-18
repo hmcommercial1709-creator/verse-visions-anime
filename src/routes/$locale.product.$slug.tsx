@@ -1,6 +1,26 @@
-import React from 'react';
+import { createFileRoute } from '@tanstack/react-router';
 
-export default function ProductPage() {
+export const Route = createFileRoute('/$locale/product/$slug')({
+  head: ({ params }) => {
+    const productName = params.slug.replace(/-/g, ' ');
+    const title = `${productName} — GameCastle Store`;
+    const description = `Buy ${productName} from GameCastle with instant digital delivery and secure checkout.`;
+
+    return {
+      meta: [
+        { title },
+        { name: 'description', content: description },
+        { property: 'og:title', content: title },
+        { property: 'og:description', content: description },
+        { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+      ],
+    };
+  },
+  component: ProductPage,
+});
+
+function ProductPage() {
   const product = {
     name: "Digital Game Key & Gift Card",
     price: "9.99",
@@ -54,4 +74,4 @@ const styles = {
   ctaButton: { display: 'block', backgroundColor: '#ffffff', color: '#1d4ed8', padding: '15px 30px', borderRadius: '8px', fontWeight: 'bold', fontSize: '1.1rem', textDecoration: 'none', transition: 'all 0.2s', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' },
   featuresSection: { marginTop: '40px', borderTop: '1px solid #334155', paddingTop: '20px' },
   list: { paddingLeft: '20px', color: '#cbd5e1', lineHeight: '1.8' }
-};]
+};

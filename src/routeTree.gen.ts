@@ -127,6 +127,7 @@ import { Route as AnimeDandadanEpisodeGuideRouteImport } from './routes/anime.da
 import { Route as AnimeDandadanCharactersRouteImport } from './routes/anime.dandadan_.characters'
 import { Route as LocaleWallpapersSlugRouteImport } from './routes/$locale.wallpapers.$slug'
 import { Route as LocalePromoSlugRouteImport } from './routes/$locale.promo.$slug'
+import { Route as LocaleProductSlugRouteImport } from './routes/$locale.product.$slug'
 import { Route as LocaleCodesSlugRouteImport } from './routes/$locale.codes.$slug'
 import { Route as LocaleCalcSlugRouteImport } from './routes/$locale.calc.$slug'
 import { Route as LocaleArticlesSlugRouteImport } from './routes/$locale.articles.$slug'
@@ -741,6 +742,11 @@ const LocalePromoSlugRoute = LocalePromoSlugRouteImport.update({
   path: '/$locale/promo/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleProductSlugRoute = LocaleProductSlugRouteImport.update({
+  id: '/$locale/product/$slug',
+  path: '/$locale/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleCodesSlugRoute = LocaleCodesSlugRouteImport.update({
   id: '/$locale/codes/$slug',
   path: '/$locale/codes/$slug',
@@ -872,6 +878,7 @@ export interface FileRoutesByFullPath {
   '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
+  '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
@@ -995,6 +1002,7 @@ export interface FileRoutesByTo {
   '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
+  '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
@@ -1121,6 +1129,7 @@ export interface FileRoutesById {
   '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
+  '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/dandadan_/characters': typeof AnimeDandadanCharactersRoute
@@ -1248,6 +1257,7 @@ export interface FileRouteTypes {
     | '/$locale/articles/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
+    | '/$locale/product/$slug'
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
     | '/anime/dandadan/characters'
@@ -1371,6 +1381,7 @@ export interface FileRouteTypes {
     | '/$locale/articles/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
+    | '/$locale/product/$slug'
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
     | '/anime/dandadan/characters'
@@ -1496,6 +1507,7 @@ export interface FileRouteTypes {
     | '/$locale/articles/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
+    | '/$locale/product/$slug'
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
     | '/anime/dandadan_/characters'
@@ -1620,6 +1632,7 @@ export interface RootRouteChildren {
   LocaleArticlesSlugRoute: typeof LocaleArticlesSlugRoute
   LocaleCalcSlugRoute: typeof LocaleCalcSlugRoute
   LocaleCodesSlugRoute: typeof LocaleCodesSlugRoute
+  LocaleProductSlugRoute: typeof LocaleProductSlugRoute
   LocalePromoSlugRoute: typeof LocalePromoSlugRoute
   LocaleWallpapersSlugRoute: typeof LocaleWallpapersSlugRoute
   AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
@@ -2467,6 +2480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePromoSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/product/$slug': {
+      id: '/$locale/product/$slug'
+      path: '/$locale/product/$slug'
+      fullPath: '/$locale/product/$slug'
+      preLoaderRoute: typeof LocaleProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/codes/$slug': {
       id: '/$locale/codes/$slug'
       path: '/$locale/codes/$slug'
@@ -2641,6 +2661,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleArticlesSlugRoute: LocaleArticlesSlugRoute,
   LocaleCalcSlugRoute: LocaleCalcSlugRoute,
   LocaleCodesSlugRoute: LocaleCodesSlugRoute,
+  LocaleProductSlugRoute: LocaleProductSlugRoute,
   LocalePromoSlugRoute: LocalePromoSlugRoute,
   LocaleWallpapersSlugRoute: LocaleWallpapersSlugRoute,
   AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,

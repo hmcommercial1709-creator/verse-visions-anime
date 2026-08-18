@@ -67,7 +67,9 @@ export function AdsenseUnit({
       const rect = wrapper.getBoundingClientRect();
       const style = window.getComputedStyle(wrapper);
       const hasUsableWidth =
-        rect.width >= 1 &&
+        wrapper.isConnected &&
+        rect.width >= 250 &&
+        node.getBoundingClientRect().width >= 250 &&
         style.display !== "none" &&
         style.visibility !== "hidden";
       if (!hasUsableWidth) return;

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/$locale/store')({
         headers: {
           'X-Public-Key': 'a0979781a31a52d6ab2159d59e2a450f358f267aadaada0ec07429c7ac',
           'X-Secret-Key': 'e9faee5f9b4f41e7938a972d008fce126474b46510f88125a7d214ae86e',
-          'Authorization': 'Basic ' + btoa('lamad5413899.api.user:R1nh5KYhFtQ1XaMaVn1'),
+          'Authorization': 'Basic bGFtYWQ1NDEzODk5LmFwaS51c2VyOlIxamg1S1loRlRRMVhhTWFWbjE=',
           'Content-Type': 'application/json'
         }
       });
@@ -26,7 +26,7 @@ function StorePage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredProducts = products.filter((p: any) => 
-    p.name && p.name.toLowerCase().includes(searchTerm.toLowerCase())
+    p && p.name && p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -46,10 +46,10 @@ function StorePage() {
 
         <div style={styles.grid}>
           {filteredProducts.slice(0, 12).map((p: any) => (
-            <div key={p.id} style={styles.card}>
+            <div key={p.id || Math.random()} style={styles.card}>
               <h3 style={styles.cardTitle}>{p.name}</h3>
-              <div style={styles.price}>${(p.price * 1.25).toFixed(2)} USD</div>
-              <a href={`/product/${p.slug}`} style={styles.button}>Buy Now ⚡</a>
+              <div style={styles.price}>${(Number(p.price || 0) * 1.25).toFixed(2)} USD</div>
+              <a href={`/product/${p.slug || ''}`} style={styles.button}>Buy Now ⚡</a>
             </div>
           ))}
         </div>

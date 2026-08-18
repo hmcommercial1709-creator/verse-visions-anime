@@ -22,7 +22,7 @@ export const jjkWatchOrderArticle: Article = {
   seoTitle: "Jujutsu Kaisen Watch Order: Anime, Movie & Manga Guide",
   excerpt:
     "Watch Jujutsu Kaisen in the correct order, including every season, Jujutsu Kaisen 0, chronological order and where to continue in the manga.",
-  ogImage: jjkWatchOrderArt.url,
+  ogImage: assetUrl(jjkWatchOrderArt.url),
   author: "hana-mori",
   date: "2026-07-31",
   updated: "2026-08-04",

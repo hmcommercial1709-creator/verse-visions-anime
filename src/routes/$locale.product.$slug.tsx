@@ -50,7 +50,7 @@ export const Route = createFileRoute('/$locale/product/$slug')({
         };
       });
     } catch (error) {
-      const massiveCatalog = [];
+      const massiveCatalog: Array<Record<string, unknown>> = [];
       const categories = ["Gift Cards", "Subscriptions", "Gaming Keys", "Streaming", "Software"];
       const regions = ["Global", "US", "EU", "UK", "TR", "BR", "JP", "CA", "AU", "AR"];
       const services = [

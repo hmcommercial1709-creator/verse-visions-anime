@@ -5,6 +5,7 @@
  * are no shared genre placeholders: the maps below are 1:1, so no two cards on
  * a page can ever render the same image.
  */
+import { assetUrl } from "@/lib/asset-url";
 import pNaruto from "@/assets/art/naruto.webp.asset.json";
 import pOnePiece from "@/assets/art/one-piece.webp.asset.json";
 import pAttackOnTitan from "@/assets/art/attack-on-titan.webp.asset.json";

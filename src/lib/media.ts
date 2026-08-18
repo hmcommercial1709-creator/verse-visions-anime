@@ -89,8 +89,8 @@ export type MediaArt = {
 };
 
 const art = (full: { url: string }, small: { url: string }, width: number, height: number): MediaArt => ({
-  src: full.url,
-  srcSet: `${small.url} ${Math.round(width / 2)}w, ${full.url} ${width}w`,
+  src: assetUrl(full.url),
+  srcSet: `${assetUrl(small.url)} ${Math.round(width / 2)}w, ${assetUrl(full.url)} ${width}w`,
   width,
   height,
 });

@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import soloLevelingArt from "@/assets/art/solo-leveling.webp.asset.json";
 

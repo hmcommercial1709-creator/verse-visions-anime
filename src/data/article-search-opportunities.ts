@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import frierenArt from "@/assets/art/frieren.webp.asset.json";
 import attackOnTitanArt from "@/assets/art/attack-on-titan.webp.asset.json";

@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import jjkWatchOrderArt from "@/assets/art/review-jujutsu-kaisen-s2.webp.asset.json";
 

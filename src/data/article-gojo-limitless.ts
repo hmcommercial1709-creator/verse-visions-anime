@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import limitlessArt from "@/assets/media/art-limitless.webp.asset.json";
 

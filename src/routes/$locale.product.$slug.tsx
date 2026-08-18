@@ -1,6 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router';
 import React, { useState } from 'react';
 
+type CatalogProduct = {
+  id: string | number;
+  name: string;
+  category: string;
+  slug: string;
+  wholesalePrice: number;
+  retailPrice: string;
+  description: string;
+  inStock: boolean;
+};
+
 export const Route = createFileRoute('/$locale/product/$slug')({
   head: ({ loaderData }) => {
     // توليد سيو خارق وفريد لكل منتج وفئة لجذب زحف محركات البحث بقوة
@@ -53,7 +64,7 @@ export const Route = createFileRoute('/$locale/product/$slug')({
       });
     } catch (error) {
       // محرك السيو البرمجي الضخم لتوليد آلاف المنتجات والصفحات الفريدة لضمان أرشفة جوجل الفورية
-      const massiveCatalog = [];
+      const massiveCatalog: CatalogProduct[] = [];
       const categories = ["Gift Cards", "Subscriptions", "Gaming Keys", "Streaming", "Software"];
       const regions = ["Global", "US", "EU", "UK", "TR", "BR", "JP", "CA", "AU", "AR"];
       const services = [

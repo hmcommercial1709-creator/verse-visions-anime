@@ -76,7 +76,7 @@ function StorePage() {
 const styles = {
   body: { fontFamily: "'Inter', sans-serif", backgroundColor: '#090d16', color: '#fff', minHeight: '100vh', padding: '40px 20px' },
   container: { maxWidth: '1200px', margin: '0 auto' },
-  hero: { textAlign: 'center', marginBottom: '40px' },
+  hero: { textAlign: 'center' as const, marginBottom: '40px' },
   title: { fontSize: '2.5rem', fontWeight: '900', marginBottom: '10px' },
   subtitle: { color: '#94a3b8', marginBottom: '30px' },
   searchBox: { width: '100%', maxWidth: '500px', padding: '15px', borderRadius: '10px', backgroundColor: '#131b2e', border: '1px solid #1e293b', color: '#fff', fontSize: '1rem', outline: 'none' },

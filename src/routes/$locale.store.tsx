@@ -1,76 +1,91 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
+import { createFileRoute } from '@tanstack/react-router';
+import React, { useState } from 'react';
 
-const title = "متجر GameCastle للأنمي والألعاب والإكسسوارات";
-const description =
-  "اكتشف أدلة الشراء وإكسسوارات الألعاب وبطاقات الهدايا ومنتجات الأنمي المختارة من GameCastle مع روابط آمنة إلى المتاجر الشريكة.";
-
-export const Route = createFileRoute("/$locale/store")({
-  beforeLoad: ({ params }) => {
-    if (params.locale !== "ar") throw notFound();
+export const Route = createFileRoute('/$locale/store')({
+  loader: async () => {
+    try {
+      const response = await fetch('https://api.brolexy.com/v1/products', {
+        headers: {
+          'X-Public-Key': 'a0979781a31a52d6ab2154ed59e2a450f358f267aadaada0ec07429c7ac550b8',
+          'X-Secret-Key': 'e9faee5f9b4f41e7938a972d008fce126474b46510f88125a7d214ae86e86d82',
+          'Authorization': 'Basic ' + btoa('lamad5413899.api.user:R1nh5KYhFtQlXaMaVn1'),
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      return data.products || [];
+    } catch { return []; }
   },
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: absoluteUrl("/ar/store") },
-    ],
-    links: [{ rel: "canonical", href: absoluteUrl("/ar/store") }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(
-          breadcrumbSchema([
-            { path: "/ar", name: "الرئيسية" },
-            { name: "المتجر" },
-          ]),
-        ),
-      },
-    ],
-  }),
-  component: ArabicStoreLanding,
+  component: StorePage,
 });
 
-function ArabicStoreLanding() {
+function StorePage() {
+  const products = Route.useLoaderData();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredProducts = products.filter((p: any) => 
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <main dir="rtl" className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-      <section className="overflow-hidden rounded-3xl border border-primary/30 bg-card p-7 shadow-2xl sm:p-12">
-        <p className="text-sm font-black tracking-wider text-primary">متجر GAMECASTLE</p>
-        <h1 className="mt-4 max-w-4xl font-display text-4xl font-black leading-tight sm:text-6xl">
-          منتجات الأنمي وإكسسوارات الألعاب المختارة للاعبين
-        </h1>
-        <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-          تصفّح أدلة GameCastle العربية، وقارن تجهيزات اللعب، ثم انتقل بأمان إلى
-          شركائنا لشراء المنتجات المتاحة في منطقتك. قد نحصل على عمولة من الروابط
-          التابعة دون تكلفة إضافية عليك.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link to="/gaming-hub" className="rounded-xl bg-primary px-6 py-3 font-black text-primary-foreground">
-            أدلة الألعاب والإعدادات
-          </Link>
-          <Link to="/ar/anime" className="rounded-xl border border-border px-6 py-3 font-black text-foreground">
-            استكشف دليل الأنمي العربي
-          </Link>
-          <Link to="/wallpapers" className="rounded-xl border border-border px-6 py-3 font-black text-foreground">
-            خلفيات الأنمي المجانية
-          </Link>
+    <div style={styles.body}>
+      <div style={styles.container}>
+        {/* القسم الأول: المنتجات الرقمية (الأولوية القصوى للأرباح والأرشفة) */}
+        <div style={styles.hero}>
+          <h1 style={styles.title}>GameCastle Global Digital Superstore</h1>
+          <p style={styles.subtitle}>Instant digital delivery. Wholesale pricing. 24/7 automated access.</p>
+          <input 
+            type="text" 
+            placeholder="🔍 Search digital keys & subscriptions..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={styles.searchBox}
+          />
         </div>
-      </section>
-      <section className="mt-10 grid gap-5 md:grid-cols-3">
-        {[
-          ["إكسسوارات اللعب", "اختيارات عملية لتحسين التحكم والصوت والراحة أثناء الجلسات الطويلة."],
-          ["بطاقات وهدايا رقمية", "إرشادات المنطقة والتوافق قبل شراء بطاقات الألعاب والرصيد الرقمي."],
-          ["مقتنيات الأنمي", "أدلة تساعدك على مقارنة المجسمات والمقتنيات والمنتجات المرخصة."],
-        ].map(([heading, text]) => (
-          <article key={heading} className="rounded-2xl border border-border bg-card/70 p-6">
-            <h2 className="text-xl font-black">{heading}</h2>
-            <p className="mt-3 leading-7 text-muted-foreground">{text}</p>
-          </article>
-        ))}
-      </section>
-    </main>
+
+        <div style={styles.grid}>
+          {filteredProducts.slice(0, 12).map((p: any) => (
+            <div key={p.id} style={styles.card}>
+              <h3 style={styles.cardTitle}>{p.name}</h3>
+              <div style={styles.price}>${(p.price * 1.25).toFixed(2)} USD</div>
+              <a href={`/en/product/${p.slug}`} style={styles.button}>Buy Now</a>
+            </div>
+          ))}
+        </div>
+
+        {/* القسم الثاني: مجسمات الأنمي (تسويق بالعمولة) */}
+        <div style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid #1e293b' }}>
+          <h2 style={{ color: '#fff', fontSize: '2rem', marginBottom: '30px', textAlign: 'center' }}>Featured Anime Figures</h2>
+          <div style={styles.grid}>
+             {/* يمكنك إضافة روابط التسويق بالعمولة الخاصة بك هنا */}
+             <div style={styles.card}>
+                <h4 style={styles.cardTitle}>Gojo Satoru Premium Figure</h4>
+                <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Amazon Affiliate Collection</p>
+                <a href="#" style={styles.secondaryButton}>View on Amazon</a>
+             </div>
+             <div style={styles.card}>
+                <h4 style={styles.cardTitle}>Nezuko Kamado Collectible</h4>
+                <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Demon Slayer Series</p>
+                <a href="#" style={styles.secondaryButton}>View on Amazon</a>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
+
+const styles = {
+  body: { fontFamily: "'Inter', sans-serif", backgroundColor: '#090d16', color: '#fff', padding: '50px 20px', minHeight: '100vh' },
+  container: { maxWidth: '1200px', margin: '0 auto' },
+  hero: { textAlign: 'center', marginBottom: '40px' },
+  title: { fontSize: '2.5rem', fontWeight: '900', marginBottom: '10px' },
+  subtitle: { color: '#94a3b8', marginBottom: '30px' },
+  searchBox: { width: '100%', maxWidth: '500px', padding: '15px', borderRadius: '10px', background: '#131b2e', border: '1px solid #334155', color: '#fff' },
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' },
+  card: { backgroundColor: '#131b2e', padding: '20px', borderRadius: '15px', border: '1px solid #1e293b' },
+  cardTitle: { fontSize: '1rem', marginBottom: '10px', minHeight: '3em' },
+  price: { fontSize: '1.4rem', color: '#4ade80', fontWeight: 'bold', marginBottom: '15px' },
+  button: { display: 'block', padding: '12px', background: '#2563eb', color: '#fff', textDecoration: 'none', borderRadius: '8px', textAlign: 'center', fontWeight: '700' },
+  secondaryButton: { display: 'block', padding: '10px', background: '#1e293b', color: '#fff', textDecoration: 'none', borderRadius: '8px', textAlign: 'center', fontSize: '0.9rem' }
+};

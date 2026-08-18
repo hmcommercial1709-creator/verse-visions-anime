@@ -5,8 +5,10 @@ export const Route = createFileRoute('/$locale/')({
   beforeLoad: ({ params }) => {
     if (!isLocaleCode(params.locale)) throw notFound();
   },
-  component: () => {
-    const { locale } = Route.useParams();
-    return <Navigate to={`/${locale}/store`} />;
-  },
+  component: HomeRedirect,
 });
+
+function HomeRedirect() {
+  const { locale } = Route.useParams();
+  return <Navigate to="/$locale/store" params={{ locale }} />;
+}

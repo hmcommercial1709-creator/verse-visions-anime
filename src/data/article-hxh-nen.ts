@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import hxhArt from "@/assets/art/hunter-x-hunter.webp.asset.json";
 
@@ -17,7 +18,7 @@ export const hxhNenArticle: Article = {
   seoTitle: "Hunter x Hunter Nen Explained: Types, Vows & Abilities",
   excerpt:
     "Learn how Nen works in Hunter x Hunter: Ten, Zetsu, Ren, Hatsu, six aura types, water divination, vows, restrictions and advanced techniques.",
-  ogImage: hxhArt.url,
+  ogImage: assetUrl(hxhArt.url),
   author: "hana-mori",
   date: "2026-04-11",
   updated: "2026-08-05",

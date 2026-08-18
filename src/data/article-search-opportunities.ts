@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import frierenArt from "@/assets/art/frieren.webp.asset.json";
 import attackOnTitanArt from "@/assets/art/attack-on-titan.webp.asset.json";
@@ -19,7 +20,7 @@ export const frierenMagicSystemArticle: Article = {
   seoTitle: "Frieren Magic System Explained: Mana, Spells & Mage Exam",
   excerpt:
     "How Frieren's magic system works: mana, suppression, spell analysis, Zoltraak, defensive magic and the rules behind the First-Class Mage Exam.",
-  ogImage: frierenArt.url,
+  ogImage: assetUrl(frierenArt.url),
   author: "aiko-tanaka",
   date: "2026-03-12",
   updated: "2026-08-05",
@@ -163,7 +164,7 @@ export const odmGearArticle: Article = {
   seoTitle: "Attack on Titan ODM Gear Explained: Meaning, Parts & Tactics",
   excerpt:
     "What ODM stands for in Attack on Titan, how the gear works, why gas and anchor points matter, and the tactics soldiers use to fight Titans.",
-  ogImage: attackOnTitanArt.url,
+  ogImage: assetUrl(attackOnTitanArt.url),
   author: "rowan-fitzgerald",
   date: "2026-03-05",
   updated: "2026-08-05",

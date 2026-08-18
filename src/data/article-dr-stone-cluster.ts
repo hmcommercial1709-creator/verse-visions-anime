@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import drStoneArt from "@/assets/art/dr-stone.webp.asset.json";
 
@@ -8,7 +9,7 @@ const shared = {
   author: "gamecastle-editorial",
   date: "2026-08-05",
   updated: "2026-08-05",
-  ogImage: drStoneArt.url,
+  ogImage: assetUrl(drStoneArt.url),
   cover: "linear-gradient(135deg, #16a34a, #052e16)",
 };
 

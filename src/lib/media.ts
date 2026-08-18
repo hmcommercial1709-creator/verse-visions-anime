@@ -5,6 +5,7 @@
  * are no shared genre placeholders: the maps below are 1:1, so no two cards on
  * a page can ever render the same image.
  */
+import { assetUrl } from "@/lib/asset-url";
 import pNaruto from "@/assets/art/naruto.webp.asset.json";
 import pOnePiece from "@/assets/art/one-piece.webp.asset.json";
 import pAttackOnTitan from "@/assets/art/attack-on-titan.webp.asset.json";
@@ -89,8 +90,8 @@ export type MediaArt = {
 };
 
 const art = (full: { url: string }, small: { url: string }, width: number, height: number): MediaArt => ({
-  src: full.url,
-  srcSet: `${small.url} ${Math.round(width / 2)}w, ${full.url} ${width}w`,
+  src: assetUrl(full.url),
+  srcSet: `${assetUrl(small.url)} ${Math.round(width / 2)}w, ${assetUrl(full.url)} ${width}w`,
   width,
   height,
 });

@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import drStoneArt from "@/assets/art/dr-stone.webp.asset.json";
 
@@ -20,7 +21,7 @@ export const drStoneInventionsArticle: Article = {
   excerpt:
     "The complete Dr. Stone inventions list in order, from revival fluid and the sulfa drug to the cell phone, aircraft and spacecraft, with real-science notes.",
 
-  ogImage: drStoneArt.url,
+  ogImage: assetUrl(drStoneArt.url),
   author: "hana-mori",
   date: "2026-02-05",
   updated: "2026-08-05",

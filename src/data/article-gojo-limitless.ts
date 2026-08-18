@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import limitlessArt from "@/assets/media/art-limitless.webp.asset.json";
 
@@ -15,7 +16,7 @@ export const gojoLimitlessArticle: Article = {
   seoTitle: "Gojo's Limitless Explained: Infinity, Blue, Red & Purple",
   excerpt:
     "A complete breakdown of Limitless — the infinity barrier, Blue, Red, Purple, Unlimited Void, and the specific conditions under which the strongest sorcerer alive can actually be beaten.",
-  ogImage: limitlessArt.url,
+  ogImage: assetUrl(limitlessArt.url),
   author: "rowan-fitzgerald",
   date: "2026-07-24",
   updated: "2026-08-05",

@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/asset-url";
 import type { Article } from "./articles";
 import soloLevelingArt from "@/assets/art/solo-leveling.webp.asset.json";
 
@@ -19,7 +20,7 @@ export const soloLevelingSystemArticle: Article = {
   updated: "2026-08-05",
   tag: "Guide",
   cover: "linear-gradient(135deg, #4c1d95, #0b1120)",
-  ogImage: soloLevelingArt.url,
+  ogImage: assetUrl(soloLevelingArt.url),
   body: [],
   related: ["solo-leveling"],
   sections: [

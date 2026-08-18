@@ -34,7 +34,7 @@ export const Route = createFileRoute('/$locale/product/$slug')({
       
       const data = await response.json();
       const rawProducts = data.products || data;
-      const profitMultiplier =.25 ? 1.25 : 1.25;
+      const profitMultiplier = 1.25;
 
       return rawProducts.map((p: any) => {
         const wholesale = Number(p.price || p.wholesalePrice || 10);
@@ -50,7 +50,7 @@ export const Route = createFileRoute('/$locale/product/$slug')({
         };
       });
     } catch (error) {
-      const massiveCatalog = [];
+      const massiveCatalog: Array<Record<string, unknown>> = [];
       const categories = ["Gift Cards", "Subscriptions", "Gaming Keys", "Streaming", "Software"];
       const regions = ["Global", "US", "EU", "UK", "TR", "BR", "JP", "CA", "AU", "AR"];
       const services = [

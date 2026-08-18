@@ -134,7 +134,7 @@ function UltimateGlobalStore() {
 
   return (
     <div style={styles.body}>
-      { حقن السيو الهيكلي لمحركات البحث مباشرة في الصفحة }
+      {/* Inject structured SEO data directly into the page. */}
       <script 
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredSchema) }} 

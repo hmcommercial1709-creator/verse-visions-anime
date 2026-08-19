@@ -20,7 +20,6 @@ export const CryptoCheckoutButton: React.FC<CryptoButtonProps> = ({ amount, orde
       });
 
       if (invoice && invoice.invoice_url) {
-        // توجيه العميل مباشرة إلى صفحة الدفع الآمنة في NOWPayments
         window.location.href = invoice.invoice_url;
       } else {
         alert("حدث خطأ أثناء توليد فاتورة الدفع.");
@@ -47,7 +46,7 @@ export const CryptoCheckoutButton: React.FC<CryptoButtonProps> = ({ amount, orde
         fontWeight: 'bold',
         fontSize: '16px',
         display: 'flex',
-        alignItem: 'center',
+        alignItems: 'center',
         gap: '8px'
       }}
     >

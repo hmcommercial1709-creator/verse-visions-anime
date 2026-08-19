@@ -1,5 +1,4 @@
 import React from 'react';
-import { CryptoCheckoutButton } from './CryptoCheckoutButton';
 
 interface StoreWidgetProps {
   limit?: number;
@@ -25,13 +24,6 @@ export function StoreWidget({ limit = 4 }: StoreWidgetProps) {
               <span className="text-xs text-muted-foreground">{product.category}</span>
               <h4 className="font-semibold text-foreground">{product.name}</h4>
               <p className="text-primary font-bold mt-2">${product.price}</p>
-            </div>
-            <div className="mt-4">
-              <CryptoCheckoutButton 
-                amount={Number(product.price)} 
-                orderId={product.id} 
-                productName={product.name} 
-              />
             </div>
           </div>
         ))}

@@ -172,6 +172,10 @@ function Home() {
         </div>
       </section>
 
+      {/* LIVE BROLEXY CATALOG — featured keys, gift cards and top-ups with
+          on-site modal checkout. */}
+      <FeaturedProducts limit={12} />
+
       <HomeStorePromo />
 
       <DownloadBanner />

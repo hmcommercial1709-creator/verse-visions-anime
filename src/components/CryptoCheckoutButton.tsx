@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { createNowPaymentsInvoice } from '../services/nowpayments';
+import { useState } from 'react';
+import { createNowPaymentsInvoice } from '@/services/nowpayments';
 
 interface CryptoButtonProps {
   amount: number;
@@ -7,15 +7,15 @@ interface CryptoButtonProps {
   productName: string;
 }
 
-export const CryptoCheckoutButton: React.FC<CryptoButtonProps> = ({ amount, orderId, productName }) => {
+export const CryptoCheckoutButton = ({ amount, orderId, productName }: CryptoButtonProps) => {
   const [loading, setLoading] = useState(false);
 
   const handlePayment = async () => {
     try {
       setLoading(true);
       const invoice = await createNowPaymentsInvoice({
-        amount: amount,
-        orderId: orderId,
+        amount,
+        orderId,
         description: `شراء منتج: ${productName}`,
       });
 
@@ -26,7 +26,7 @@ export const CryptoCheckoutButton: React.FC<CryptoButtonProps> = ({ amount, orde
       }
     } catch (error) {
       console.error(error);
-      alert("فشل الاتصال ببوابة الدفع، تأكد من البيانات.");
+      alert("فشل الاتصال ببوابة الدفع.");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,9 @@ export const CryptoCheckoutButton: React.FC<CryptoButtonProps> = ({ amount, orde
         fontSize: '16px',
         display: 'flex',
         alignItems: 'center',
-        gap: '8px'
+        justifyContent: 'center',
+        gap: '8px',
+        width: '100%'
       }}
     >
       {loading ? 'جاري تجهيز الدفع...' : 'الدفع بالعملات الرقمية (USDT)'}

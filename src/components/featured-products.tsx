@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Flame, Gamepad2, Loader2, ShieldCheck, X, Zap } from "lucide-react";
 import { getFeaturedProducts } from "@/lib/brolexy.functions";
-import type { FeaturedProduct } from "@/lib/brolexy.server";
+import type { FeaturedProduct } from "@/lib/brolexy-types";
 
 const WHOP_CHECKOUT_BASE = "https://whop.com/gamecastle/checkout";
 

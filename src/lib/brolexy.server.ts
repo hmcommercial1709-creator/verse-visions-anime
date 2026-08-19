@@ -8,26 +8,12 @@
  * the storefront never renders an empty section in production.
  */
 
-export interface BrolexyProduct {
-  productId: number;
-  category: string;
-  region: string;
-  name: string;
-  price: string;
-  priceCurrency: string;
-  inStock: number;
-}
+import type {
+  BrolexyProduct,
+  FeaturedProduct,
+} from "./brolexy-types";
 
-export interface FeaturedProduct {
-  id: string;
-  name: string;
-  category: string;
-  region: string;
-  price: number;
-  currency: string;
-  inStock: number;
-  live: boolean;
-}
+export type { BrolexyProduct, FeaturedProduct };
 
 /** Retail markup applied on top of wholesale cost. */
 const MARKUP = 1.25;

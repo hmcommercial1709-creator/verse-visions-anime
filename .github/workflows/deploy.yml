@@ -38,8 +38,8 @@ jobs:
           echo "Build output:"
           ls -la
           echo ""
-          echo "Dist folder:"
-          ls -la dist
+          echo "Output folder:"
+          ls -la .output
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: "./dist"
+          path: "./.output"
 
   deploy:
     environment:

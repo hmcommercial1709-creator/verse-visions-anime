@@ -13,6 +13,7 @@ export const Route = createFileRoute('/$locale/anime/$slug')({
 
     if (error) {
       console.error('Anime loading error:', error)
+
       return {
         anime: null,
         error: error.message,
@@ -39,9 +40,7 @@ function AnimeMegaPage() {
             حدث خطأ أثناء تحميل الأنمي
           </h1>
 
-          <p className="text-slate-300">
-            {error}
-          </p>
+          <p className="text-slate-300">{error}</p>
         </div>
       </main>
     )
@@ -66,7 +65,7 @@ function AnimeMegaPage() {
   const metadata =
     anime.metadata &&
     typeof anime.metadata === 'object'
-      ? anime.metadata as Record<string, unknown>
+      ? (anime.metadata as Record<string, unknown>)
       : {}
 
   const genres = Array.isArray(metadata.genres)
@@ -225,20 +224,25 @@ function AnimeMegaPage() {
 
               {studios.length > 0 ? (
                 <div className="space-y-3">
-                  {studios.map((studio, index) => (
-                    <div
-                      key={index}
-                      className="rounded-xl bg-slate-950 p-4 text-slate-300"
-                    >
-                      {typeof studio === 'object' &&
+                  {studios.map((studio, index) => {
+                    const studioName =
+                      typeof studio === 'object' &&
                       studio !== null &&
                       'name' in studio
                         ? String(
                             (studio as { name?: unknown }).name ?? '',
                           )
-                        : String(studio)}
-                    </div>
-                  ))}
+                        : String(studio)
+
+                    return (
+                      <div
+                        key={`${studioName}-${index}`}
+                        className="rounded-xl bg-slate-950 p-4 text-slate-300"
+                      >
+                        {studioName}
+                      </div>
+                    )
+                  })}
                 </div>
               ) : (
                 <p className="text-slate-500">

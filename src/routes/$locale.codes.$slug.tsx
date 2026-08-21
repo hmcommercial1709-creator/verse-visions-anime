@@ -1,79 +1,151 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { supabase } from '@/integrations/supabase/client'
+
+// --- Clean Ad Slot for Maximum Monetization ---
+const AdSlot = () => (
+  <div className="ad-container my-8 w-full flex justify-center overflow-hidden min-h-[100px]">
+    <div className="ads-placeholder w-full h-full" />
+  </div>
+);
 
 export const Route = createFileRoute('/$locale/codes/$slug')({
-  component: MassiveCodesPage,
+  loader: async ({ params }) => {
+    const { data, error } = await supabase
+      .from('entities')
+      .select('*')
+      .eq('entity_type', 'code') // أو نوع البيانات الخاص بالألعاب والبطاقات لديك
+      .eq('slug', params.slug)
+      .maybeSingle()
+
+    if (error) {
+      console.error('Code loading error:', error)
+      return { codeItem: null, error: error.message }
+    }
+
+    return { codeItem: data, error: null }
+  },
+  component: GamingCodeMegaPage,
 })
 
-function MassiveCodesPage() {
-  const { locale, slug } = Route.useParams()
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+function GamingCodeMegaPage() {
+  const { codeItem, error } = Route.useLoaderData()
 
-  // معالجة اسم اللعبة أو العنصر القادم من الرابط الديناميكي
-  const targetName = slug ? slug.replace(/-/g, ' ').toUpperCase() : 'GAME & ANIME'
-
-  // قائمة وهمية لأكواد ضخمة يتم توليدها ديناميكياً لكل صفحة فرعية
-  const codesList = [
-    { code: `${targetName}_VIP_2026`, reward: 'مكافأة نادرة وموارد مضاعفة' },
-    { code: `${targetName}_FREE_GEMS`, reward: 'شدات / جوهر مجاني فوري' },
-    { code: `ANIME_${targetName}_PRO`, reward: 'فتح الشخصيات الأسطورية' },
-    { code: `MEGA_BONUS_2026`, reward: 'خصم خاص وتفعيل فوري' },
-  ]
-
-  const handleCopy = (codeText: string, index: number) => {
-    navigator.clipboard.writeText(codeText)
-    setCopiedIndex(index)
-    setTimeout(() => setCopiedIndex(null), 2000)
+  if (error) {
+    return (
+      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-8">
+        <div className="max-w-2xl rounded-2xl border border-red-900 bg-red-950/30 p-8">
+          <h1 className="mb-4 text-3xl font-bold text-red-400">Error Loading Gaming Offer</h1>
+          <p className="text-slate-300">{error}</p>
+        </div>
+      </main>
+    )
   }
 
-  return (
-    <div className="massive-page-wrapper min-h-screen bg-slate-950 text-white p-6 md:p-12">
-      {/* رأس الصفحة الضخمة */}
-      <header className="max-w-4xl mx-auto text-center border-b border-slate-800 pb-8 mb-10">
-        <span className="bg-pink-600/20 text-pink-400 border border-pink-500/30 text-xs px-3 py-1 rounded-full font-bold uppercase">
-          {locale.toUpperCase()} - Official Codes Vault
-        </span>
-        <h1 className="text-3xl md:text-5xl font-extrabold mt-4 mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-indigo-400">
-          أكواد وتفعيلات {targetName} الحصرية (متجددة يومياً)
-        </h1>
-        <p className="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">
-          الموسوعة الأكبر المخصصة لجلب أحدث الأكواد والمكافآت المعتمدة لـ {targetName}. انسخ الكود وفعلّه فوراً لتكون في قمة اللاعبين.
-        </p>
-      </header>
+  if (!codeItem) {
+    return (
+      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold">Gaming Code Not Found</h1>
+          <p className="mt-3 text-slate-400">The requested digital card or game key could not be found.</p>
+        </div>
+      </main>
+    )
+  }
 
-      {/* شبكة الأكواد التفاعلية */}
-      <section className="max-w-4xl mx-auto mb-12">
-        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-          🎁 قائمة الأكواد الفعالة لـ {targetName}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {codesList.map((item, idx) => (
-            <div key={idx} className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex justify-between items-center shadow-md">
-              <div>
-                <span className="font-mono text-lg font-bold text-green-400 tracking-wider block">{item.code}</span>
-                <span className="text-xs text-slate-500">{item.reward}</span>
+  const itemName = codeItem.name
+  const itemDescription = codeItem.description || `Get instant digital delivery for ${itemName}. Secure activation codes, region-free options, and best market prices.`
+  const metadata = codeItem.metadata && typeof codeItem.metadata === 'object' ? (codeItem.metadata as Record<string, unknown>) : {}
+  const price = metadata.price ? String(metadata.price) : '19.99'
+
+  return (
+    <main className="min-h-screen bg-slate-950 text-slate-200">
+      {/* Schema.org E-commerce Product & Offer Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": itemName,
+            "image": codeItem.image_url,
+            "description": itemDescription,
+            "brand": {
+              "@type": "Brand",
+              "name": "GameCastle Store"
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": price,
+              "availability": "https://schema.org/InStock",
+              "url": window.location.href
+            }
+          })
+        }}
+      />
+
+      <AdSlot />
+
+      <section className="mx-auto max-w-5xl px-6 py-8">
+        <div className="grid gap-12 lg:grid-cols-[1fr_320px]">
+          
+          <div className="space-y-8">
+            <h1 className="text-4xl font-extrabold text-white tracking-tight md:text-5xl">{itemName}</h1>
+            
+            <AdSlot />
+
+            <div className="grid gap-8 md:grid-cols-2 items-center bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
+              {codeItem.image_url ? (
+                <img src={codeItem.image_url} alt={itemName} className="w-full rounded-xl object-cover aspect-video border border-slate-700" />
+              ) : (
+                <div className="aspect-video bg-slate-950 rounded-xl flex items-center justify-center text-slate-500">No Preview</div>
+              )}
+              <div className="space-y-4">
+                <div className="text-3xl font-black text-indigo-400">${price} USD</div>
+                <p className="text-sm text-slate-300">Instant digital code delivery directly to your email or account. 100% secure activation.</p>
+                <a 
+                  href={`https://www.gamivo.com/`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="block w-full text-center py-3 bg-indigo-600 hover:bg-indigo-500 font-bold text-white rounded-xl transition shadow-lg"
+                >
+                  Buy Now via Secure Partner ⚡
+                </a>
               </div>
-              <button
-                onClick={() => handleCopy(item.code, idx)}
-                className="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition"
-              >
-                {copiedIndex === idx ? 'تم النسخ!' : 'نسخ الكود'}
-              </button>
             </div>
-          ))}
+
+            <article className="prose prose-lg prose-invert max-w-none text-slate-300 leading-relaxed">
+              <p>{itemDescription}</p>
+            </article>
+
+            {/* Spider Web Internal Links */}
+            <article className="rounded-2xl border border-slate-800 bg-slate-950 p-8">
+              <h2 className="mb-4 text-xl font-bold text-white">Explore More Gaming Categories</h2>
+              <div className="flex flex-wrap gap-3">
+                <a href="/store" className="rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 px-4 py-2 text-sm text-indigo-300 font-medium transition">
+                  🎮 All Store Offers
+                </a>
+                <a href="/" className="rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 px-4 py-2 text-sm text-indigo-300 font-medium transition">
+                  🏠 Home Hub
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <aside className="space-y-8">
+            <AdSlot />
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl">
+              <h3 className="font-bold text-white mb-4">Quick Delivery Features</h3>
+              <ul className="space-y-3 text-sm text-slate-300">
+                <li className="flex items-center gap-2">✅ 24/7 Automated Delivery</li>
+                <li className="flex items-center gap-2">✅ Global Region Activation</li>
+                <li className="flex items-center gap-2">✅ Secure Payment Gateways</li>
+              </ul>
+            </div>
+          </aside>
+
         </div>
       </section>
-
-      {/* قسم التحويل والشحن المربط بالمتجر */}
-      <section className="max-w-4xl mx-auto bg-gradient-to-r from-slate-900 to-indigo-950 border border-indigo-500/30 p-8 rounded-3xl text-center shadow-2xl">
-        <h3 className="text-2xl font-bold mb-3">هل تحتاج إلى رصيد أو شحن سريع لـ {targetName}؟</h3>
-        <p className="text-slate-300 text-sm mb-6 max-w-xl mx-auto">
-          استمتع بالأسعار الأفضل والشحن الفوري الآمن فور تفعيل الـ API الخاص بنا قريباً.
-        </p>
-        <button className="bg-gradient-to-r from-pink-600 to-purple-600 px-8 py-3.5 rounded-xl font-bold text-sm shadow-lg hover:opacity-90 transition transform hover:scale-105">
-          الانتقال لمتجر البطاقات والروبوكس
-        </button>
-      </section>
-    </div>
+    </main>
   )
 }

@@ -1,89 +1,68 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState, useEffect } from 'react';
+import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/$locale/store')({
-  component: StorePage,
-});
+  component: GlobalAffiliateHub,
+})
 
-interface Product {
-  id: string | number;
-  name: string;
-  price: number;
-  slug: string;
-}
+const AFFILIATE_PRODUCTS = [
+  { id: 1, name: "Steam Gift Card $50", price: "48.99", provider: "Gamivo", link: "https://www.gamivo.com/product/your-ref-link-here" },
+  { id: 2, name: "PlayStation Plus 12 Months", price: "59.99", provider: "Amazon", link: "https://www.amazon.com/your-ref-link" },
+  { id: 3, name: "Xbox Game Pass Ultimate", price: "16.99", provider: "Gamivo", link: "https://www.gamivo.com/product/your-ref-link-here" },
+];
 
-function StorePage() {
-  const [products, setProducts] = useState<Product[]>([]);
+function GlobalAffiliateHub() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetch('https://api.brolexy.com/v1/products', {
-      headers: {
-        'X-Public-Key': 'a0979781a31a52d6ab2159d59e2a450f358f267aadaada0ec07429c7ac',
-        'X-Secret-Key': 'e9faee5f9b4f41e7938a972d008fce126474b46510f88125a7d214ae86e',
-        'Authorization': 'Basic bGFtYWQ1NDEzODk5LmFwaS51c2VyOlIxamg1S1loRlRRMVhhTWFWbjE=',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((res) => res.json())
-      .then((data: { products?: Product[] }) => {
-        setProducts(data.products || []);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
-  const filteredProducts = products.filter((p) => 
-    p.name && p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filtered = AFFILIATE_PRODUCTS.filter(p => 
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div style={styles.body}>
-      <div style={styles.container}>
-        <div style={styles.hero}>
-          <h1 style={styles.title}>GameCastle Global Digital Superstore</h1>
-          <p style={styles.subtitle}>Instant digital delivery. Wholesale pricing. 24/7 automated delivery.</p>
-          <input
-            type="text"
-            placeholder="🔍 Search digital keys & subscriptions..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={styles.searchBox}
-          />
+    <main className="min-h-screen bg-[#060913] text-slate-100 p-6 md:p-12 font-sans selection:bg-emerald-500">
+      <div className="max-w-7xl mx-auto">
+        
+        <div className="text-center mb-16 space-y-4">
+          <div className="inline-block px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-xs font-bold tracking-widest uppercase">
+            Global Digital Marketplace
+          </div>
+          <h1 className="text-5xl font-black text-white tracking-tight">GameCastle Digital Vault</h1>
+          <p className="text-slate-400 max-w-xl mx-auto">Instant digital delivery, verified affiliate partner keys, and automated routing.</p>
+          
+          <div className="max-w-lg mx-auto pt-4">
+            <input
+              type="text"
+              placeholder="Search verified catalog..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-800 p-4 rounded-2xl outline-none focus:border-emerald-500 text-white placeholder-slate-500 shadow-2xl transition"
+            />
+          </div>
         </div>
 
-        {isLoading ? (
-          <div style={styles.loading}>Loading digital keys & cards... ⚡</div>
-        ) : (
-          <div style={styles.grid}>
-            {filteredProducts.slice(0, 12).map((p) => (
-              <div key={p.id} style={styles.card}>
-                <h3 style={styles.cardTitle}>{p.name}</h3>
-                <div style={styles.price}>${(Number(p.price || 0) * 1.25).toFixed(2)} USD</div>
-                <a href={`/product/${p.slug}`} style={styles.button}>Buy Now ⚡</a>
+        <div className="grid md:grid-cols-3 gap-6">
+          {filtered.map((p) => (
+            <div key={p.id} className="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl hover:border-emerald-500/50 transition flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-2">PARTNER: {p.provider}</div>
+                <h3 className="text-lg font-bold text-white mb-3">{p.name}</h3>
               </div>
-            ))}
-          </div>
-        )}
+              <div>
+                <div className="text-2xl font-black text-emerald-400 mb-6">${p.price} <span className="text-xs font-normal text-slate-400">USD</span></div>
+                <a 
+                  href={p.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-center font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-lg shadow-emerald-600/20"
+                >
+                  Acquire Key ⚡
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
-    </div>
+    </main>
   );
 }
-
-const styles = {
-  body: { fontFamily: "'Inter', sans-serif", backgroundColor: '#090d16', color: '#fff', minHeight: '100vh', padding: '40px 20px' },
-  container: { maxWidth: '1200px', margin: '0 auto' },
-  hero: { textAlign: 'center' as const, marginBottom: '40px' },
-  title: { fontSize: '2.5rem', fontWeight: '900', marginBottom: '10px' },
-  subtitle: { color: '#94a3b8', marginBottom: '30px' },
-  searchBox: { width: '100%', maxWidth: '500px', padding: '15px', borderRadius: '10px', backgroundColor: '#131b2e', border: '1px solid #1e293b', color: '#fff', fontSize: '1rem', outline: 'none' },
-  loading: { textAlign: 'center' as const, color: '#94a3b8', fontSize: '1.2rem', padding: '50px' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' },
-  card: { backgroundColor: '#131b2e', padding: '20px', borderRadius: '15px', border: '1px solid #1e293b', display: 'flex', flexDirection: 'column' as const, justifyContent: 'space-between' },
-  cardTitle: { fontSize: '1rem', fontWeight: '700', marginBottom: '15px', minHeight: '3em' },
-  price: { fontSize: '1.4rem', color: '#4ade80', fontWeight: 'bold', marginBottom: '15px' },
-  button: { display: 'block', textAlign: 'center' as const, padding: '12px', backgroundColor: '#2563eb', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontWeight: '700' },
-};

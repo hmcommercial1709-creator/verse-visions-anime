@@ -135,14 +135,18 @@ function AnimeMegaPage() {
             <div>
               {genres.length > 0 && (
                 <div className="mb-4 flex flex-wrap gap-2">
-                  {genres.map((genre) => (
-                    <span
-                      key={genre}
-                      className="rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold text-indigo-300 tracking-wide uppercase"
-                    >
-                      {genre}
-                    </span>
-                  ))}
+                  {genres.map((genre) => {
+                    const genreSlug = genre.toLowerCase().replace(/\s+/g, '-');
+                    return (
+                      <a
+                        key={genre}
+                        href={`/category/${genreSlug}`}
+                        className="rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold text-indigo-300 tracking-wide uppercase hover:bg-indigo-500/20 transition"
+                      >
+                        {genre}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
 

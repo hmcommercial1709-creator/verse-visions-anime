@@ -1,40 +1,32 @@
-name: Build
+name: Deploy
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-concurrency:
-  group: "build"
-  cancel-in-progress: true
+    branches: [main, master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: 20
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build
+      - name: Build project
         run: npm run build
 
-      - name: Check build output
+      - name: Verify output folder
         run: |
-          echo "Build output:"
-          ls -la
-          echo ""
-          echo ".output folder:"
-          ls -la .output
+          if [ -d ".output" ]; then
+            echo "Found .output folder successfully."
+          else
+            echo "Error: .output folder not found!"
+            exit 1
+          fi

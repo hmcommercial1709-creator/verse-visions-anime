@@ -36,5 +36,5 @@ jobs:
           echo "Build output:"
           ls -la
           echo ""
-          echo "Dist folder:"
-          ls -la dist
+          echo ".output folder:"
+          ls -la .output

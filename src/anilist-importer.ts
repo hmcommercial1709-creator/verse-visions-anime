@@ -123,7 +123,6 @@ async function supabaseRequest(
 
   if (!response.ok) {
     const text = await response.text();
-
     throw new Error(
       `Supabase ${response.status}: ${text.slice(0, 1000)}`,
     );
@@ -167,7 +166,7 @@ async function fetchAniListPage(page: number, perPage: number) {
     });
 
     if (response.status === 429) {
-      await sleep(30000);
+      await sleep(30000); // Temporary pause to handle rate limits gracefully
       continue;
     }
 
@@ -201,13 +200,15 @@ async function saveAnime(
   const externalId = String(anime.id);
   const contentHash = await sha256(JSON.stringify(rawData));
 
+  // Check for existing records to prevent duplication and protect SEO ranking
   const existingResponse = await supabaseRequest(
     env,
-    `source_records?source_id=eq.${encodeURIComponent(sourceId)}&external_id=eq.${encodeURIComponent(externalId)}&entity_type=eq.anime&select=id&limit=1`,
+    `source_records?source_id=eq.${encodeURIComponent(sourceId)}&external_id=eq.${encodeURIComponent(externalId)}&entity_type=eq.anime&select=id,content_hash&limit=1`,
   );
 
   const existing = (await existingResponse.json()) as Array<{
     id: string;
+    content_hash: string;
   }>;
 
   const payload = {
@@ -221,18 +222,22 @@ async function saveAnime(
   };
 
   if (existing[0]?.id) {
-    await supabaseRequest(
-      env,
-      `source_records?id=eq.${existing[0].id}`,
-      {
-        method: "PATCH",
-        headers: {
-          Prefer: "return=minimal",
+    // Update only if content has changed to maintain data freshness and integrity
+    if (existing[0].content_hash !== contentHash) {
+      await supabaseRequest(
+        env,
+        `source_records?id=eq.${existing[0].id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      },
-    );
+      );
+    }
   } else {
+    // Insert brand new unique entry
     await supabaseRequest(env, "source_records", {
       method: "POST",
       headers: {
@@ -251,9 +256,10 @@ export async function importAnimeBatch(
     perPage?: number;
   } = {},
 ) {
+  // Configured boundaries optimized for high-volume scale and safety
   const startPage = options.startPage ?? 1;
-  const maxPages = Math.min(options.maxPages ?? 1, 5);
-  const perPage = Math.min(options.perPage ?? 25, 25);
+  const maxPages = Math.min(options.maxPages ?? 50, 100); // Expanded page limit per execution batch
+  const perPage = Math.min(options.perPage ?? 50, 50); // Rich content payload per page
 
   const sourceId = await getAniListSourceId(env);
 
@@ -272,7 +278,7 @@ export async function importAnimeBatch(
     hasNextPage = Boolean(result.pageInfo?.hasNextPage);
     page++;
 
-    await sleep(2500);
+    await sleep(1200); // Safe delay to protect against API throttling while maintaining high speed
   }
 
   await supabaseRequest(

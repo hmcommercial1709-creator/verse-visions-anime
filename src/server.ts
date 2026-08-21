@@ -1,6 +1,5 @@
 import "./lib/error-capture";
 
-import { importAnimeBatch } from "./anilist-importer";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
@@ -113,6 +112,7 @@ export default {
           url.searchParams.get("page") ?? "1",
         );
 
+        const { importAnimeBatch } = await import("./anilist-importer");
         const result = await importAnimeBatch(
           {
             SUPABASE_URL: importEnv.SUPABASE_URL,

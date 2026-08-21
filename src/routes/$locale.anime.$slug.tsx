@@ -8,7 +8,6 @@ export const Route = createFileRoute('/$locale/anime/$slug')({
       .select('*')
       .eq('entity_type', 'anime')
       .eq('slug', params.slug)
-      .eq('status', 'active')
       .maybeSingle()
 
     if (error) {
@@ -37,7 +36,7 @@ function AnimeMegaPage() {
       <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-8">
         <div className="max-w-2xl rounded-2xl border border-red-900 bg-red-950/30 p-8">
           <h1 className="mb-4 text-3xl font-bold text-red-400">
-            حدث خطأ أثناء تحميل الأنمي
+            Error loading anime
           </h1>
 
           <p className="text-slate-300">{error}</p>
@@ -51,11 +50,11 @@ function AnimeMegaPage() {
       <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold">
-            الأنمي غير موجود
+            Anime not found
           </h1>
 
           <p className="mt-3 text-slate-400">
-            لم يتم العثور على هذا الأنمي في قاعدة البيانات.
+            This anime could not be found in the database.
           </p>
         </div>
       </main>
@@ -76,25 +75,25 @@ function AnimeMegaPage() {
     metadata.episodes !== null &&
     metadata.episodes !== undefined
       ? String(metadata.episodes)
-      : 'غير محدد'
+      : 'N/A'
 
   const score =
     metadata.average_score !== null &&
     metadata.average_score !== undefined
       ? `${metadata.average_score}/100`
-      : 'غير محدد'
+      : 'N/A'
 
   const year =
     metadata.season_year !== null &&
     metadata.season_year !== undefined
       ? String(metadata.season_year)
-      : 'غير محدد'
+      : 'N/A'
 
   const animeStatus =
     metadata.status !== null &&
     metadata.status !== undefined
       ? String(metadata.status)
-      : 'غير محدد'
+      : 'N/A'
 
   const studios = Array.isArray(metadata.studios)
     ? metadata.studios
@@ -114,7 +113,7 @@ function AnimeMegaPage() {
                 />
               ) : (
                 <div className="flex aspect-[2/3] items-center justify-center rounded-2xl border border-slate-800 bg-slate-900 text-slate-500">
-                  لا توجد صورة
+                  No image available
                 </div>
               )}
             </div>
@@ -139,27 +138,27 @@ function AnimeMegaPage() {
 
               <p className="mt-6 max-w-4xl text-lg leading-8 text-slate-300">
                 {anime.description ||
-                  `دليل شامل عن ${anime.name} يتضمن المعلومات المتوفرة من قاعدة بيانات الأنمي.`}
+                  `A comprehensive guide about ${anime.name} including all available information from the anime database.`}
               </p>
 
               <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
                 <InfoCard
-                  title="الحلقات"
+                  title="Episodes"
                   value={episodes}
                 />
 
                 <InfoCard
-                  title="التقييم"
+                  title="Score"
                   value={score}
                 />
 
                 <InfoCard
-                  title="السنة"
+                  title="Year"
                   value={year}
                 />
 
                 <InfoCard
-                  title="الحالة"
+                  title="Status"
                   value={animeStatus}
                 />
               </div>
@@ -173,43 +172,43 @@ function AnimeMegaPage() {
           <div className="space-y-8 lg:col-span-2">
             <article className="rounded-2xl border border-slate-800 bg-slate-900 p-8">
               <h2 className="mb-5 text-3xl font-bold">
-                {anime.name} - الدليل الشامل
+                {anime.name} - Complete Guide
               </h2>
 
               <p className="leading-8 text-slate-300">
                 {anime.description ||
-                  `اكتشف جميع المعلومات المتوفرة عن ${anime.name}.`}
+                  `Discover all available details and information about ${anime.name}.`}
               </p>
             </article>
 
             <article className="rounded-2xl border border-slate-800 bg-slate-900 p-8">
               <h2 className="mb-6 text-2xl font-bold">
-                معلومات الأنمي
+                Anime Information
               </h2>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <InfoRow
-                  title="النوع"
+                  title="Type"
                   value="Anime"
                 />
 
                 <InfoRow
-                  title="عدد الحلقات"
+                  title="Episodes"
                   value={episodes}
                 />
 
                 <InfoRow
-                  title="التقييم"
+                  title="Score"
                   value={score}
                 />
 
                 <InfoRow
-                  title="سنة الإصدار"
+                  title="Release Year"
                   value={year}
                 />
 
                 <InfoRow
-                  title="الحالة"
+                  title="Status"
                   value={animeStatus}
                 />
               </div>
@@ -219,7 +218,7 @@ function AnimeMegaPage() {
           <aside>
             <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
               <h2 className="mb-5 text-xl font-bold">
-                الاستوديو
+                Studios
               </h2>
 
               {studios.length > 0 ? (
@@ -246,7 +245,7 @@ function AnimeMegaPage() {
                 </div>
               ) : (
                 <p className="text-slate-500">
-                  لا توجد معلومات عن الاستوديو.
+                  No studio information available.
                 </p>
               )}
             </div>
@@ -258,7 +257,7 @@ function AnimeMegaPage() {
                 rel="noreferrer"
                 className="mt-6 block rounded-xl bg-indigo-600 px-5 py-4 text-center font-bold transition hover:bg-indigo-500"
               >
-                المصدر الأصلي
+                Original Source
               </a>
             )}
           </aside>

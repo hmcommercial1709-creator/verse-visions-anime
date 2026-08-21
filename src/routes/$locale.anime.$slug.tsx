@@ -1,153 +1,78 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { supabase } from '@/integrations/supabase/client'
 
-const AdSlot = () => (
-  <div className="ad-container my-8 w-full flex justify-center overflow-hidden min-h-[100px] bg-slate-900/50 rounded-lg">
-    <div className="ads-placeholder w-full h-full" />
-  </div>
-);
-
-export const Route = createFileRoute('/$locale/anime/$slug')({
-  loader: async ({ params }) => {
-    const { data, error } = await supabase
+export const Route = createFileRoute('/$locale/$')({
+  loader: async () => {
+    // Fetch trending nodes to maintain high SEO authority and indexing speed
+    const { data: trendingNodes } = await supabase
       .from('entities')
-      .select('*')
-      .eq('entity_type', 'anime')
-      .eq('slug', params.slug)
-      .maybeSingle()
-    return { anime: data, error: error?.message || null }
+      .select('name, slug, entity_type')
+      .limit(12)
+    return { trendingNodes: trendingNodes || [] }
   },
-  component: AnimeMegaPage,
+  component: InfiniteGrowthEngine,
 })
 
-function AnimeMegaPage() {
-  const { anime } = Route.useLoaderData()
-  if (!anime) return <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">Loading Authority Node...</div>
-
-  const meta = (anime.metadata as any) || {}
-  const genres = Array.isArray(meta.genres) ? meta.genres : []
-  const studios = Array.isArray(meta.studios) ? meta.studios : []
-  const year = meta.season_year || '2026'
-  const episodes = meta.episodes || 'Ongoing'
-
-  // --- هيكلة الكيانات المتقدمة جداً (Multi-Entity Knowledge Graph Schema) ---
-  // هذا ما يجعل أكبر المواقع تتصدر، نحن نخبر جوجل بكل تفصيلة بطريقة برمجية معيارية
-  const advancedStructuredData = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gamecastle.store/" },
-          { "@type": "ListItem", "position": 2, "name": "Anime Hub", "item": "https://gamecastle.store/anime" },
-          { "@type": "ListItem", "position": 3, "name": anime.name, "item": `https://gamecastle.store/anime/${anime.slug}` }
-        ]
-      },
-      {
-        "@type": "TVSeries",
-        "name": anime.name,
-        "description": anime.description,
-        "image": anime.image_url,
-        "genre": genres,
-        "numberOfEpisodes": episodes,
-        "productionCompany": studios.map((s: any) => ({
-          "@type": "Organization",
-          "name": typeof s === 'string' ? s : s.name
-        })),
-        "releasedEvent": {
-          "@type": "PublicationEvent",
-          "startDate": year
-        }
-      }
-    ]
-  }
+function InfiniteGrowthEngine() {
+  const { trendingNodes } = Route.useLoaderData()
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
-      {/* ضخ البيانات المعيارية الخارقة */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(advancedStructuredData) }} />
+    <main className="min-h-screen bg-[#020205] text-white selection:bg-cyan-500 font-sans overflow-x-hidden">
+      
+      {/* 1. Global Authority Header */}
+      <header className="relative py-24 px-6 text-center">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(6,182,212,0.1),_transparent_70%)]" />
+        <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8 bg-gradient-to-b from-white to-slate-500 bg-clip-text text-transparent">
+          GLOBAL ANIME <br /> INTELLIGENCE HUB
+        </h1>
+        <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-12">
+          The ultimate decentralized archive. Real-time data streams, power-scaling analytics, and verified gaming assets optimized for instant indexing.
+        </p>
 
-      <div className="mx-auto max-w-7xl px-6 pt-12">
-        {/* مسار التنقل البرمجي */}
-        <nav className="text-sm text-slate-400 mb-8 flex gap-2 items-center font-medium">
-          <a href="/" className="hover:text-indigo-400 transition">الرئيسية</a> / 
-          <a href="/anime" className="hover:text-indigo-400 transition">دليل الأنمي</a> / 
-          <span className="text-indigo-300 font-bold">{anime.name}</span>
-        </nav>
-
-        <div className="grid lg:grid-cols-3 gap-12">
-          {/* المحتوى السيادة */}
-          <div className="lg:col-span-2 space-y-8">
-            <h1 className="text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-              {anime.name} <span className="block text-2xl font-normal text-indigo-400 mt-2">الملف الشامل، الدليل التقني والمحتوى الرقمي</span>
-            </h1>
-            
-            {/* فقرة السيمانكس العميق للذكاء الاصطناعي */}
-            <article className="prose prose-invert prose-lg max-w-none leading-relaxed text-slate-300 bg-slate-900/40 p-8 rounded-3xl border border-slate-800/80 shadow-2xl">
-              <p className="text-lg">
-                يُصنف العمل الفني <strong>{anime.name}</strong> كواحد من أهم إطلاقات موسم 
-                <a href={`/year/${year}`} className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4 mx-1 font-semibold">{year}</a>. 
-                وقد حظي بمتابعة جبارة بفضل الإنتاج التقني المتقن من قِبل 
-                {studios.map((s: any, i: number) => {
-                  const sName = typeof s === 'string' ? s : s.name;
-                  return (
-                    <a key={i} href={`/studio/${sName.toLowerCase().replace(/\s+/g, '-')}`} className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4 mx-1 font-semibold">
-                      {sName}
-                    </a>
-                  );
-                })} 
-                ، ليتربع على عرش فئات 
-                {genres.map((g: string, i: number) => (
-                  <a key={i} href={`/category/${g.toLowerCase().replace(/\s+/g, '-')}`} className="text-indigo-400 hover:text-indigo-300 underline underline-offset-4 mx-1 font-semibold">
-                    {g}
-                  </a>
-                ))}. يمتد هذا الإصدار عبر {episodes} حلقة مشوقة.
-              </p>
-              <p className="mt-4 text-slate-300">{anime.description}</p>
-            </article>
-
-            <AdSlot />
-
-            {/* مركز العمليات التفاعلي للزائر والذكاء الاصطناعي */}
-            <div className="bg-gradient-to-br from-slate-900 to-indigo-950/40 border border-indigo-500/30 p-8 rounded-3xl shadow-2xl">
-              <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-3">
-                <span>⚡</span> بوابتك الحصرية لـ {anime.name}
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4 text-slate-200">
-                <a href="/store" className="p-4 bg-slate-950/80 rounded-2xl border border-slate-800 hover:border-indigo-500 transition group">
-                  <div className="font-bold text-indigo-400 group-hover:text-indigo-300 mb-1">🎮 متجر الألعاب والأكواد</div>
-                  <p className="text-xs text-slate-400">احصل على بطاقات الهدايا والمحتوى المرتبط مباشرة.</p>
-                </a>
-                <a href="/downloads" className="p-4 bg-slate-950/80 rounded-2xl border border-slate-800 hover:border-indigo-500 transition group">
-                  <div className="font-bold text-indigo-400 group-hover:text-indigo-300 mb-1">📥 الخلفيات والوسائط</div>
-                  <p className="text-xs text-slate-400">خلفيات بجودة 8K وأصول رقمية أصلية.</p>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* الشريط الجانبي الفائق */}
-          <aside className="space-y-6">
-            <div className="bg-slate-900/90 p-6 rounded-3xl border border-slate-800 shadow-2xl backdrop-blur-md">
-              <h4 className="font-bold text-white mb-4 border-b border-slate-800 pb-3 text-lg">الشبكة الدلالية للأنمي</h4>
-              <div className="flex flex-wrap gap-2">
-                {genres.map((g: string) => (
-                   <a key={g} href={`/category/${g.toLowerCase().replace(/\s+/g, '-')}`} className="px-3.5 py-1.5 bg-slate-950 border border-slate-800/80 rounded-xl text-xs font-semibold text-indigo-300 hover:bg-indigo-600 hover:text-white transition shadow-sm">
-                     {g}
-                   </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-900/90 p-6 rounded-3xl border border-slate-800 shadow-2xl backdrop-blur-md text-center">
-              <p className="text-xs text-slate-400 mb-4">هل تبحث عن المزيد من التحديثات؟ استكشف أرشيف النظام بالكامل.</p>
-              <a href="/anime" className="block w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition shadow-lg text-sm">
-                الوصول لكل الأرشيف 🚀
-              </a>
-            </div>
-          </aside>
+        {/* 2. Global AI-Search */}
+        <div className="max-w-2xl mx-auto relative group">
+          <input 
+            type="text" 
+            placeholder="Search millions of entities, power levels, or game codes..." 
+            className="w-full bg-slate-900/50 border border-slate-700 rounded-2xl p-6 text-lg focus:ring-2 focus:ring-cyan-500 outline-none transition shadow-2xl"
+          />
+          <div className="absolute right-6 top-6 text-cyan-400 font-bold">AI SEARCH</div>
         </div>
-      </div>
+      </header>
+
+      {/* 3. Infinite Growth Grid */}
+      <section className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {trendingNodes.map((node: any) => (
+            <a 
+              key={node.slug}
+              href={`/${node.entity_type}/${node.slug}`}
+              className="group p-6 bg-slate-900/30 border border-slate-800 rounded-3xl hover:bg-cyan-950/20 hover:border-cyan-500/50 transition-all duration-300"
+            >
+              <span className="text-[10px] font-bold text-cyan-500 tracking-widest uppercase">{node.entity_type}</span>
+              <h3 className="text-lg font-bold mt-2 group-hover:text-cyan-300 transition">{node.name}</h3>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. SEO Authority Section */}
+      <section className="max-w-7xl mx-auto px-6 py-20 text-center">
+        <h2 className="text-3xl font-bold mb-12">Massive Entity Coverage</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { label: "Anime Entities", val: "150k+" },
+            { label: "Gaming Assets", val: "45k+" },
+            { label: "Power Scales", val: "Unlimited" },
+            { label: "Global Index", val: "100%" }
+          ].map((stat, i) => (
+            <div key={i} className="p-8 border border-slate-800 rounded-3xl">
+              <div className="text-4xl font-black text-cyan-400 mb-2">{stat.val}</div>
+              <div className="text-sm text-slate-500 uppercase tracking-widest">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
     </main>
   )
 }

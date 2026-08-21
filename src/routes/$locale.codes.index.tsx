@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client'
 const MonetizedAdSlot = ({ position }: { position: string }) => (
   <div className={`ad-container-${position} my-10 w-full flex flex-col items-center justify-center overflow-hidden min-h-[120px] rounded-2xl border border-indigo-500/20 bg-gradient-to-r from-slate-900/90 to-indigo-950/40 p-4 shadow-xl backdrop-blur`}>
     <div className="w-full h-full flex items-center justify-center min-h-[90px]">
-      {/* هنا يتم حقن وحدات AdSense و Monetag البرمجية تلقائياً عبر الـ Global Scripts */}
+      {/* AdSense and Monetag dynamic scripts container */}
       <div className="text-center text-xs text-slate-500 font-mono tracking-widest uppercase">
         ⚡ Game Castle Sponsored Grid • [{position}]
       </div>
@@ -60,7 +60,7 @@ function GameCastleUltimateCatalog() {
         }}
       />
 
-      {/* 1. إعلان علوي فائق الربح (Header Monetization) */}
+      {/* 1. Header Monetization Ad */}
       <div className="mx-auto max-w-7xl px-6">
         <MonetizedAdSlot position="Header-Top" />
       </div>
@@ -80,7 +80,7 @@ function GameCastleUltimateCatalog() {
         </div>
       </section>
 
-      {/* 2. إعلان في منتصف الصفحة قبل المنتجات (Pre-Grid Monetization) */}
+      {/* 2. Pre-Grid Monetization Ad */}
       <div className="mx-auto max-w-7xl px-6">
         <MonetizedAdSlot position="Pre-Grid-Banner" />
       </div>
@@ -144,7 +144,7 @@ function GameCastleUltimateCatalog() {
                     </div>
                   </div>
 
-                  {/* حقن إعلان داخل الشبكة كل 6 منتجات لرفع الأرباح بجنون */}
+                  {/* Grid Ad Injection every 6 items for maximum yield */}
                   {(index + 1) % 6 === 0 && (
                     <div className="col-span-full">
                       <MonetizedAdSlot position={`Grid-Injection-${index}`} />
@@ -157,7 +157,7 @@ function GameCastleUltimateCatalog() {
         )}
       </section>
 
-      {/* 3. إعلان قبل جدول المقارنات */}
+      {/* 3. Pre-Comparison Monetization Ad */}
       <div className="mx-auto max-w-5xl px-6">
         <MonetizedAdSlot position="Pre-Comparison-Banner" />
       </div>
@@ -209,7 +209,7 @@ function GameCastleUltimateCatalog() {
         </div>
       </section>
 
-      {/* 4. إعلان ختامي مدمر أسفل الصفحة (Footer Monetization) */}
+      {/* 4. Footer Bottom Monetization Ad */}
       <div className="mx-auto max-w-7xl px-6 pb-12">
         <MonetizedAdSlot position="Footer-Bottom" />
       </div>

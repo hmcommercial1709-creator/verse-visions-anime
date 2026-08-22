@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { supabase } from '@/integrations/supabase/client'
 
-export const Route = createFileRoute('/$locale/$')({
+export const Route = createFileRoute('/$locale/anime/$slug')({
   loader: async () => {
     // Fetch trending nodes to maintain high SEO authority and indexing speed
     const { data: trendingNodes } = await supabase

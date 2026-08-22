@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { supabase } from '@/integrations/supabase/client';
 
-export const Route = createFileRoute('/sitemap.xml')({
+export const Route = createFileRoute('/sitemap/xml')({
   loader: async ({ request }) => {
     try {
       // استخراج رقم الصفحة من الـ URL (مثلاً ?page=1) لو أردنا التصفح

@@ -13,7 +13,7 @@ const MonetizedAdSlot = ({ position }: { position: string }) => (
   </div>
 );
 
-export const Route = createFileRoute('/$locale/codes/index')({
+export const Route = createFileRoute('/$locale/codes/')({
   loader: async () => {
     const { data: codes, error } = await supabase
       .from('entities')

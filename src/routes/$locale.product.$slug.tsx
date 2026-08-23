@@ -17,6 +17,44 @@ export const Route = createFileRoute('/$locale/product/$slug')({
       .maybeSingle()
     return { product: data }
   },
+  head: ({ loaderData }) => {
+    if (!loaderData?.product) {
+      return { meta: [{ title: "Product not found | GameCastle" }, { name: "robots", content: "noindex" }] };
+    }
+    const { product } = loaderData;
+    const title = `${product.name} - Instant Access | GameCastle`;
+    const description = product.description || `Get ${product.name} instantly with secure delivery and best value at GameCastle.`;
+    
+    // Schema.org Structured Data for Product
+    const productSchema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": product.name,
+      "description": description,
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": "0.00", // قم بتحديثه إذا كان السعر متوفرًا في حقول الـ product
+        "availability": "https://schema.org/InStock"
+      }
+    };
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(productSchema)
+        }
+      ]
+    };
+  },
   component: ProductLandingPage,
 })
 

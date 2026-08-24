@@ -25,9 +25,7 @@ export const Route = createFileRoute('/$locale/articles/$slug')({
       metadata: {
         read_time: '4 min read',
         category: 'Global High-Yield Intelligence',
-        affiliate_link: 'https://www.gamivo.com',
-        rating: '4.95',
-        reviews_count: '3482190'
+        affiliate_link: 'https://www.gamivo.com'
       }
     }
 
@@ -49,8 +47,6 @@ function BillionScaleViralEcosystem() {
   const readTime = metadata.read_time ? String(metadata.read_time) : '4 min read'
   const category = metadata.category ? String(metadata.category) : 'Global High-Yield Intelligence'
   const affiliateLink = metadata.affiliate_link ? String(metadata.affiliate_link) : 'https://www.gamivo.com'
-  const rating = metadata.rating ? String(metadata.rating) : '4.95'
-  const reviewsCount = metadata.reviews_count ? String(metadata.reviews_count) : '3482190'
 
   return (
     <main className="min-h-screen bg-[#020204] text-slate-100 font-sans selection:bg-emerald-400 selection:text-black">
@@ -62,7 +58,6 @@ function BillionScaleViralEcosystem() {
         "description": article.description,
         "author": { "@type": "Organization", "name": "GameCastle Global Intelligence Syndicate" },
         "publisher": { "@type": "Organization", "name": "GameCastle", "logo": { "@type": "ImageObject", "url": "https://gamecastle.store/logo.png" } },
-        "aggregateRating": { "@type": "AggregateRating", "ratingValue": rating, "reviewCount": reviewsCount },
         "mainEntityOfPage": { "@type": "WebPage" }
       })}} />
 
@@ -95,7 +90,6 @@ function BillionScaleViralEcosystem() {
 
           <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-mono text-white/40 border-t border-white/10">
             <div>⏱️ Est. Read Time: <span className="text-white font-bold">{readTime}</span></div>
-            <div>⭐ Global Rating: <span className="text-emerald-400 font-bold">{rating} / 5.0 ({reviewsCount} Reviews)</span></div>
             <div>⚡ Protocol: <span className="text-emerald-400 font-bold">Encrypted S2S</span></div>
           </div>
         </header>

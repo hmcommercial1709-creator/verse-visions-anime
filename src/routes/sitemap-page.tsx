@@ -1,42 +1,119 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { publishedAnime, publishedArticles, publishedCharacters, populatedGenres, populatedStudios } from "@/lib/content-registry";
+import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
+import { EXPLORE_PAGES } from "@/data/explore-pages";
+import { storeProducts } from "@/data/store-products";
+import {
+  populatedCategorySlugs,
+  populatedGenres,
+  populatedStudios,
+  publishedAnime,
+  publishedArticles,
+  publishedCharacters,
+  publishedEpisodes,
+} from "@/lib/content-registry";
+
+const STATIC_PAGES = [
+  "/", "/blog", "/browse", "/explore", "/store",
+  "/gaming-hub/ultimate-gaming-secrets-guide",
+  "/anime/dandadan", "/anime/dandadan/episode-guide", "/anime/dandadan/characters",
+  "/anime/dandadan/occult-world", "/anime/dandadan/watch-guide",
+  "/anime/sakamoto-days", "/anime/sakamoto-days/episode-guide", "/anime/sakamoto-days/characters",
+  "/anime/sakamoto-days/assassin-world", "/anime/sakamoto-days/watch-guide",
+  "/trending", "/top-rated", "/upcoming", "/new-releases", "/completed", "/classic",
+  "/news", "/reviews", "/guides", "/top-lists", "/editorial", "/authors",
+  "/manga-spoilers", "/power-scaling", "/watch-order", "/timeline", "/recommendations",
+  "/quotes", "/facts", "/soundtracks", "/openings", "/wallpapers",
+  "/rewards/anime-wallpapers", "/streaming", "/statistics", "/about", "/contact", "/faq",
+  "/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy",
+] as const;
 
 export const Route = createFileRoute("/sitemap-page")({
-  head: () => ({ meta: [
+  head: () => ({
+    meta: [
+      { title: "HTML Sitemap · GameCastle Anime" },
+      { name: "description", content: "A complete, crawlable directory of published pages on GameCastle Anime." },
+      { property: "og:title", content: "Sitemap · GameCastle Anime" },
+      { property: "og:description", content: "All published pages on GameCastle Anime." },
       { property: "og:url", content: "https://gamecastle.store/sitemap-page" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-    { title: "HTML Sitemap · GameCastle Anime" },
-    { name: "description", content: "Every page on GameCastle Anime, organized by section." },
-    { property: "og:title", content: "Sitemap · GameCastle Anime" },
-    { property: "og:description", content: "All pages on GameCastle Anime." },
-  ], links: [{ rel: "canonical", href: "https://gamecastle.store/sitemap-page" }] }),
-  component: () => (
-    <div className="mx-auto max-w-5xl px-4 lg:px-6 py-10">
+    ],
+    links: [{ rel: "canonical", href: "https://gamecastle.store/sitemap-page" }],
+  }),
+  component: SitemapPage,
+});
+
+function SitemapPage() {
+  const anime = publishedAnime();
+  const articles = publishedArticles();
+  const characters = publishedCharacters();
+  const episodes = publishedEpisodes();
+  const genres = populatedGenres();
+  const studios = populatedStudios();
+  const categories = populatedCategorySlugs();
+  const animeTitles = new Map(anime.map((item) => [item.slug, item.title]));
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-10 lg:px-6">
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Sitemap" }]} />
       <h1 className="font-display text-4xl font-bold">HTML Sitemap</h1>
-      <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <Section title="Anime">{publishedAnime().map(a => <li key={a.slug}><Link to="/anime/$slug" params={{ slug: a.slug }} className="text-sm text-foreground/85 hover:text-primary">{a.title}</Link></li>)}</Section>
-        <Section title="Genres">{populatedGenres().map(g => <li key={g.slug}><Link to="/genre/$slug" params={{ slug: g.slug }} className="text-sm text-foreground/85 hover:text-primary">{g.name}</Link></li>)}</Section>
-        <Section title="Studios">{populatedStudios().map(s => <li key={s.slug}><Link to="/studio/$slug" params={{ slug: s.slug }} className="text-sm text-foreground/85 hover:text-primary">{s.name}</Link></li>)}</Section>
-        <Section title="Characters">{publishedCharacters().map(c => <li key={c.slug}><Link to="/character/$slug" params={{ slug: c.slug }} className="text-sm text-foreground/85 hover:text-primary">{c.name}</Link></li>)}</Section>
-        <Section title="Articles">{publishedArticles().map(a => <li key={a.slug}><Link to="/article/$slug" params={{ slug: a.slug }} className="text-sm text-foreground/85 hover:text-primary">{a.title}</Link></li>)}</Section>
-        <Section title="Pages">
-          {["/","/gaming-hub/ultimate-gaming-secrets-guide","/anime/dandadan","/anime/dandadan/episode-guide","/anime/dandadan/characters","/anime/dandadan/occult-world","/anime/dandadan/watch-guide","/anime/sakamoto-days","/anime/sakamoto-days/episode-guide","/anime/sakamoto-days/characters","/anime/sakamoto-days/assassin-world","/anime/sakamoto-days/watch-guide","/browse","/trending","/top-rated","/upcoming","/new-releases","/completed","/classic","/news","/reviews","/guides","/top-lists","/editorial","/authors","/manga-spoilers","/power-scaling","/watch-order","/timeline","/recommendations","/quotes","/facts","/soundtracks","/openings","/wallpapers","/rewards/anime-wallpapers","/streaming","/statistics","/about","/contact","/faq","/privacy-policy","/terms-of-service","/cookies","/dmca","/editorial-policy"].map(p => (
-            <li key={p}><Link to={p} className="text-sm text-foreground/85 hover:text-primary">{p}</Link></li>
+      <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
+        A complete directory of published content. This crawlable HTML sitemap complements our XML sitemap and helps visitors and search engines reach deep pages.
+      </p>
+
+      <div className="mt-8 grid items-start gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <Section title="Anime" count={anime.length}>
+          {anime.map((item) => <SiteLink key={item.slug} href={`/anime/${item.slug}`} label={item.title} />)}
+        </Section>
+        <Section title="Episodes" count={episodes.length}>
+          {episodes.map((episode) => (
+            <SiteLink key={`${episode.animeSlug}-${episode.number}`} href={`/anime/${episode.animeSlug}/episode/${episode.number}`} label={`${animeTitles.get(episode.animeSlug) ?? titleCase(episode.animeSlug)} — Episode ${episode.number}: ${episode.title}`} />
           ))}
+        </Section>
+        <Section title="Articles" count={articles.length}>
+          {articles.map((article) => <SiteLink key={article.slug} href={`/article/${article.slug}`} label={article.title} />)}
+        </Section>
+        <Section title="Characters" count={characters.length}>
+          {characters.map((character) => <SiteLink key={character.slug} href={`/character/${character.slug}`} label={character.name} />)}
+        </Section>
+        <Section title="Genres" count={genres.length}>
+          {genres.map((genre) => <SiteLink key={genre.slug} href={`/genre/${genre.slug}`} label={genre.name} />)}
+        </Section>
+        <Section title="Studios" count={studios.length}>
+          {studios.map((studio) => <SiteLink key={studio.slug} href={`/studio/${studio.slug}`} label={studio.name} />)}
+        </Section>
+        <Section title="Categories" count={categories.length}>
+          {categories.map((slug) => <SiteLink key={slug} href={`/category/${slug}`} label={titleCase(slug)} />)}
+        </Section>
+        <Section title="Explore" count={EXPLORE_PAGES.length}>
+          {EXPLORE_PAGES.map((page) => <SiteLink key={page.slug} href={`/explore/${page.slug}`} label={page.en.title} />)}
+        </Section>
+        <Section title="Store" count={storeProducts.length}>
+          {storeProducts.map((product) => <SiteLink key={product.slug} href={`/store/${product.slug}`} label={product.title} />)}
+        </Section>
+        <Section title="Pages" count={STATIC_PAGES.length}>
+          {STATIC_PAGES.map((path) => <SiteLink key={path} href={path} label={path === "/" ? "Home" : titleCase(path.split("/").filter(Boolean).at(-1) ?? path)} />)}
         </Section>
       </div>
     </div>
-  ),
-});
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <div className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-2">{title}</div>
-      <ul className="space-y-1">{children}</ul>
-    </div>
   );
+}
+
+function Section({ title, count, children }: { title: string; count: number; children: React.ReactNode }) {
+  return (
+    <section className="break-inside-avoid">
+      <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+        {title} <span className="text-muted-foreground">({count})</span>
+      </h2>
+      <ul className="space-y-1">{children}</ul>
+    </section>
+  );
+}
+
+function SiteLink({ href, label }: { href: string; label: string }) {
+  return <li><a href={href} className="text-sm text-foreground/85 hover:text-primary hover:underline">{label}</a></li>;
+}
+
+function titleCase(value: string) {
+  return value.split("-").filter(Boolean).map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 }

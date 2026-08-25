@@ -66,7 +66,24 @@ export const Route = createFileRoute("/")({
       },
       { name: "twitter:image", content: HOME_OG_IMAGE },
     ],
-    links: [{ rel: "canonical", href: `${SITE_URL}/` }, ...hreflangLinks("/")],
+    links: [
+      { rel: "canonical", href: `${SITE_URL}/` },
+      ...hreflangLinks("/"),
+    ],
+    scripts: [
+      {
+        async: true,
+        src: "https://www.googletagmanager.com/gtag/js?id=G-49JCHY3Z0W",
+      },
+      {
+        children: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-49JCHY3Z0W');
+        `,
+      },
+    ],
   }),
 
   component: Home,
@@ -173,20 +190,12 @@ function Home() {
         </div>
       </section>
 
-      {/* LIVE BROLEXY CATALOG — featured keys, gift cards and top-ups with
-          on-site modal checkout. */}
       <FeaturedProducts limit={12} />
-
       <HomeStorePromo />
-
       <DownloadBanner />
-
-      {/* ABOVE THE FOLD — latest episodes, trailer playback and search. */}
       <HomeStage trending={trending} />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        {/* CORE CONTENT — embedded YouTube summaries, AMVs and short reviews,
-            each with an Arabic SEO write-up and a CTA to the official platform. */}
         <section className="mt-12">
           <h2 className="font-display text-2xl font-bold sm:text-3xl">
             Anime summaries, AMVs &amp; reviews
@@ -214,8 +223,6 @@ function Home() {
           </div>
         </section>
 
-        {/* First display unit sits after the visitor has content, in the
-            natural gap between rails — reserved height, so no shift. */}
         <DisplayAd className="my-8" minHeight={280} />
 
         <Rail
@@ -303,7 +310,6 @@ function Home() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        {/* GENRE SHELVES */}
         <Section
           eyebrow="Browse by category"
           title="Every mood, every night"
@@ -340,7 +346,6 @@ function Home() {
           <StatPill label="Long reads" value={String(liveArticles.length)} />
         </div>
 
-        {/* FRANCHISE HUBS */}
         <Section
           eyebrow="Franchise hubs"
           title="Deep coverage, one series at a time"
@@ -358,7 +363,6 @@ function Home() {
         </Section>
 
         <LazySection minHeight={620}>
-          {/* FEATURED VIDEO TRAILER */}
           <Section
             eyebrow="Screening room"
             title="Featured video: this season's must-watch cut"
@@ -405,7 +409,6 @@ function Home() {
         <AdSlot placement="between" label="Native · Sponsored" />
 
         <LazySection minHeight={520}>
-          {/* ENGAGEMENT */}
           <Section
             eyebrow="Join in"
             title="Vote, argue, find your sorcerer"
@@ -426,7 +429,6 @@ function Home() {
         </Section>
 
         <LazySection minHeight={900}>
-          {/* EDITORIAL FEED — infinite scroll */}
           <Section
             eyebrow="Editorial"
             title="From the writers' room"
@@ -448,7 +450,6 @@ function Home() {
           <MultiplexAd title="More from GameCastle Anime" />
         </LazySection>
 
-        {/* STUDIOS */}
         <Section eyebrow="The people behind the frames" title="Studios shaping the medium">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {visibleStudios.slice(0, 8).map((s) => (
@@ -471,9 +472,7 @@ function Home() {
 
         <AdSlot placement="inline" />
 
-        {/* Watch order banner */}
         <section className="my-16 rounded-3xl border border-accent/30 bg-gradient-to-br from-accent/10 via-background to-primary/10 p-8 lg:p-12 relative overflow-hidden">
-          {/* Cheap masked glows: gradients/masks paint far faster than blur filters. */}
           <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-primary/25 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
           <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-accent/25 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
 

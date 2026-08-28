@@ -1,7 +1,25 @@
 import React from 'react';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/$locale/trending')({
+  head: () => ({
+    meta: [
+      { title: "Global Digital Entertainment & Gaming Assets Hub | GameCastle" },
+      { name: "description", content: "Explore the ultimate programmatic hub for global digital assets, game codes, gift cards, and instant delivery guides." },
+      { name: "robots", content: "index, follow, max-image-preview:large" }
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Global Digital Entertainment & Assets Hub",
+          "description": "Programmatically optimized hub for digital gaming assets, gift cards, and secure codes."
+        })
+      }
+    ]
+  }),
   component: UniqueEmpireHub,
 });
 
@@ -31,7 +49,9 @@ const intents = [
 ];
 
 function UniqueEmpireHub() {
-  // توليد مصفوفة ضخمة ببيانات فريدة تماماً لكل رابط لتجنب أي تكرار
+  const { locale } = Route.useParams();
+
+  // توليد مصفوفة ضخمة ببيانات فريدة تماماً لكل رابط
   const uniquePages = platforms.flatMap(platform => 
     regions.flatMap(region => 
       intents.map(intent => ({
@@ -62,27 +82,37 @@ function UniqueEmpireHub() {
           </div>
         </header>
 
-        {/* شبكة العرض الفريدة */}
+        {/* شبكة العرض الفريدة المدعومة بروابط حقيقية لزحف جوجل */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {uniquePages.slice(0, 40).map((page, index) => (
-            <div key={index} className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 hover:border-purple-500/50 transition flex flex-col justify-between">
+            <Link 
+              key={index} 
+              to="/$locale/codes/$slug" 
+              params={{ locale: locale || 'en', slug: page.slug }}
+              className="bg-slate-900/80 p-5 rounded-2xl border border-slate-800/80 hover:border-purple-500/50 transition flex flex-col justify-between group"
+            >
               <div>
-                <div className="overflow-hidden rounded-xl mb-4 bg-slate-950 h-32 flex items-center justify-center">
+                <div className="overflow-hidden rounded-xl mb-4 bg-slate-950 h-32 flex items-center justify-center relative">
                   <img 
                     src={page.image} 
                     alt={page.alt} 
                     loading="lazy"
-                    className="w-full h-full object-cover hover:scale-105 transition duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                   />
+                  <span className="absolute bottom-2 right-2 bg-purple-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">
+                    Instant
+                  </span>
                 </div>
-                <h2 className="text-base font-bold text-purple-300 mb-2 line-clamp-2">{page.title}</h2>
+                <h2 className="text-base font-bold text-purple-300 mb-2 line-clamp-2 group-hover:text-purple-200 transition-colors">{page.title}</h2>
                 <p className="text-slate-400 text-xs line-clamp-2 mb-4">{page.uniqueDescription}</p>
               </div>
               <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
                 <span className="text-[10px] text-slate-500 font-mono truncate max-w-[150px]">/{page.slug}</span>
-                <span className="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded font-mono">Unique SEO</span>
+                <span className="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded font-mono group-hover:bg-purple-500 group-hover:text-white transition">
+                  Crawl Link →
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

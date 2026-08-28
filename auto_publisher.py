@@ -3,7 +3,7 @@ import random
 import requests
 from bs4 import BeautifulSoup
 
-TELEGRAM_BOT_TOKEN = "8283282696:AAG8FaQzGs-cn0JuvSKEw6PO_aYkElKsxfc"
+TELEGRAM_BOT_TOKEN = "8283282696:AAG8faQzGs-cnOJuvSKEw6PO_aYkEIKsxfc"
 TELEGRAM_CHAT_ID = "@gamecastle_channel"
 WEBSITE_URL = "https://gamecastle.store"
 

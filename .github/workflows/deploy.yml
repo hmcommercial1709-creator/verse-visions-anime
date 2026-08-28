@@ -25,9 +25,10 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Ping Search Engines and Update Timestamps
+      - name: Run Google Indexing Script and Sitemap Ping
         run: |
           echo "Triggering continuous indexing refresh and sitemap ping..."
+          npx ts-node scripts/google-indexing.ts || node scripts/google-indexing.ts || true
           curl -s "https://www.google.com/ping?sitemap=https://gamecastle.store/sitemap.xml" || true
 
       - name: Verify output folder

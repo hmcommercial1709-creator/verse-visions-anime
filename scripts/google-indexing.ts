@@ -2,26 +2,32 @@ import fetch from 'node-fetch';
 
 const SITEMAP_URL = "https://gamecastle.store/sitemap.xml";
 
-async function pingGoogle() {
+const PING_SERVICES = [
+  "https://www.google.com/ping?sitemap=",
+  "http://rpc.pingomatic.com/?"
+];
+
+async function broadcastPing() {
   try {
-    console.log("Fetching sitemap URLs for instant ping...");
+    console.log("Fetching sitemap URLs for multi-service ping...");
     const response = await fetch(SITEMAP_URL);
     const xml = await response.text();
 
     const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
-    console.log(`Found ${urls.length} URLs to ping.`);
+    console.log(`Found ${urls.length} URLs to broadcast.`);
 
-    // إرسال إشارات زحف فورية لكل الروابط دفعة واحدة لمحركات البحث
     for (const url of urls) {
-      const pingUrl = `https://www.google.com/ping?sitemap=${encodeURIComponent(url)}`;
-      await fetch(pingUrl).catch(() => null);
-      console.log(`Pinged Google for: ${url}`);
+      for (const service of PING_SERVICES) {
+        const pingUrl = `${service}${encodeURIComponent(url)}`;
+        await fetch(pingUrl).catch(() => null);
+      }
+      console.log(`Broadcasted ping for: ${url}`);
     }
 
-    console.log("Google instant ping process completed successfully!");
+    console.log("All broadcast ping processes completed successfully!");
   } catch (error) {
-    console.error("Error pinging Google:", error);
+    console.error("Error in broadcast ping:", error);
   }
 }
 
-pingGoogle();
+broadcastPing();

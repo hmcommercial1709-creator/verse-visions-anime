@@ -19,8 +19,15 @@ jobs:
         with:
           node-version: 20
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          pip install requests
 
       - name: Build project
         run: npm run build
@@ -30,6 +37,9 @@ jobs:
           echo "Triggering continuous indexing refresh and sitemap ping..."
           npx ts-node scripts/google-indexing.ts || node scripts/google-indexing.ts || true
           curl -s "https://www.google.com/ping?sitemap=https://gamecastle.store/sitemap.xml" || true
+
+      - name: Run Pinterest Auto Poster
+        run: python scripts/pinterest-auto-poster.py
 
       - name: Verify output folder
         run: |

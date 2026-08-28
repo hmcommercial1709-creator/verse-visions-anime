@@ -3,6 +3,9 @@ name: Deploy
 on:
   push:
     branches: [main, master]
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,6 +24,11 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Ping Search Engines and Update Timestamps
+        run: |
+          echo "Triggering continuous indexing refresh and sitemap ping..."
+          curl -s "https://www.google.com/ping?sitemap=https://gamecastle.store/sitemap.xml" || true
 
       - name: Verify output folder
         run: |

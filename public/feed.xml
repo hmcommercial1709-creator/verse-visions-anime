@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>GameCastle Store</title>
+    <link>https://gamecastle.store</link>
+    <description>Latest updates and games from GameCastle</description>
+    <language>en</language>
+    <item>
+      <title>GameCastle Latest Updates</title>
+      <link>https://gamecastle.store/</link>
+      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Explore the latest gaming codes, keys, and digital assets.</description>
+    </item>
+  </channel>
+</rss>

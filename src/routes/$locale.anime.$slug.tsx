@@ -181,6 +181,13 @@ function GodTierAnimeHubPage() {
               <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-tight">{anime.name}</h1>
               <p className="text-xl text-slate-300 leading-relaxed font-light">{anime.description}</p>
               
+              {/* Added Rich Content SEO text block for Google Bot indexing */}
+              <div className="text-sm text-slate-400 leading-relaxed bg-slate-900/40 p-4 rounded-xl border border-slate-800">
+                <p>
+                  Welcome to the official <strong>{anime.name}</strong> hub on GameCastle. Explore complete episode lists, HD streaming servers, character backgrounds, and downloadable 4K wallpapers. Dive into the ultimate streaming experience with zero lag.
+                </p>
+              </div>
+
               {/* Trust Metrics Grid */}
               <div className="grid grid-cols-3 gap-4 p-5 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md shadow-xl">
                 <div className="flex items-center gap-3">

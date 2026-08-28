@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { supabase } from '@/integrations/supabase/client'
-import { ShieldCheck, Zap, Download, HelpCircle, Star, CheckCircle2, ArrowRight, Globe, Tag, Sparkles, Flame, PlayCircle, Eye, Share2, Award, Terminal, Activity, TrendingUp } from 'lucide-react'
+import { ShieldCheck, Zap, Download, HelpCircle, Star, CheckCircle2, ArrowRight, Globe, Sparkles, Flame, PlayCircle, Terminal, Activity } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 const AdSlot = () => (
-  <div className="ad-container my-8 w-full flex justify-center overflow-hidden min-h-[100px]">
-    <div className="ads-placeholder w-full h-full" />
+  <div className="ad-container my-8 w-full flex justify-center items-center overflow-hidden min-h-[120px] bg-slate-950/40 rounded-2xl border border-slate-900/60">
+    <span className="text-[10px] font-mono text-slate-600 uppercase tracking-widest">Global Ad Space</span>
   </div>
 );
 
@@ -121,6 +121,11 @@ export const Route = createFileRoute('/$locale/product/$slug')({
         { name: "twitter:description", content: description },
         { name: "twitter:image", content: imageUrl },
       ],
+      links: [
+        { rel: "canonical", href: `https://gamecastle.store/en/product/${product.slug}` },
+        { rel: "preconnect", href: "https://images.unsplash.com" },
+        { rel: "dns-prefetch", href: "https://images.unsplash.com" }
+      ],
       scripts: [
         { type: "application/ld+json", children: JSON.stringify(productSchema) },
         { type: "application/ld+json", children: JSON.stringify(softwareSchema) },
@@ -184,6 +189,7 @@ function GodTierGlobalProductPage() {
                   alt={`Official HD Artwork & Global License Key Box for ${product.name}`}
                   title={`${product.name} Ultimate Global Edition - GameCastle`}
                   loading="eager"
+                  fetchPriority="high"
                   className="w-full h-full object-cover transform group-hover:scale-105 transition duration-700"
                 />
                 <div className="absolute top-4 left-4 bg-indigo-600/95 backdrop-blur-md text-white px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-xl">

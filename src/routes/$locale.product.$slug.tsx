@@ -1,6 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { supabase } from '@/integrations/supabase/client'
-import { ShieldCheck, Zap, Download, HelpCircle, Star, CheckCircle2, ArrowRight, Globe, Sparkles, Flame, PlayCircle, Terminal, Activity } from 'lucide-react'
+import { 
+  ShieldCheck, Zap, Download, HelpCircle, Star, CheckCircle2, 
+  ArrowRight, Globe, Sparkles, Flame, PlayCircle, Terminal, 
+  Activity, Users 
+} from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 const AdSlot = () => (
@@ -166,7 +170,7 @@ function GodTierGlobalProductPage() {
         </span>
         <span>•</span>
         <span className="flex items-center gap-1">
-          <UsersIcon className="h-3.5 w-3.5 text-indigo-400" /> <strong className="text-white">{liveViewers} users</strong> viewing {product.name} right now
+          <Users className="h-3.5 w-3.5 text-indigo-400" /> <strong className="text-white">{liveViewers} users</strong> viewing {product.name} right now
         </span>
         <span>•</span>
         <span className="text-amber-300 font-semibold">⚡ Instant Global Key Dispatch Active</span>
@@ -518,16 +522,5 @@ function GodTierGlobalProductPage() {
         </div>
       </section>
     </main>
-  )
-}
-
-function UsersIcon(props: any) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
   )
 }

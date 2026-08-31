@@ -17,6 +17,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { PropellerConversion } from "@/components/propeller-conversion";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
+import { AddictionEngine } from "@/components/AddictionEngine";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 
 const SITE_URL = "https://gamecastle.store";
@@ -395,6 +396,8 @@ function RootComponent() {
       <SiteFooter />
 
       <VisitorRewardTracker />
+
+      <AddictionEngine />
 
       <DeferredScripts />
 

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useDialogReturnFocus } from "@/hooks/use-dialog-return-focus";
 import { X, Grid3x3, Zap, LinkIcon, ShieldCheck } from "lucide-react";
 
 const SECTIONS = [
@@ -45,11 +46,12 @@ export function GlobalMenu({
   open: boolean;
   onClose: () => void;
 }) {
+  const focusHandlers = useDialogReturnFocus();
   return (
     <Dialog.Root open={open} onOpenChange={(value) => { if (!value) onClose(); }}>
       <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 z-[60] bg-background/95" />
-      <Dialog.Content aria-describedby={undefined} className="fixed inset-0 z-[60] mx-auto flex h-dvh max-w-6xl flex-col px-4 py-6 lg:px-8">
+      <Dialog.Content {...focusHandlers} aria-describedby={undefined} className="fixed inset-0 z-[60] mx-auto flex h-dvh max-w-6xl flex-col px-4 py-6 lg:px-8">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-[0.3em] text-primary">

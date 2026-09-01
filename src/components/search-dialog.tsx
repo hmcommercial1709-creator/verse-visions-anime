@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useDialogReturnFocus } from "@/hooks/use-dialog-return-focus";
 import { Link } from "@tanstack/react-router";
 import { Search, X, Star } from "lucide-react";
 import { publishedAnime, populatedGenres, publishedCharacters, populatedStudios } from "@/lib/content-registry";
@@ -11,6 +12,7 @@ const studios = populatedStudios();
 
 export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const [q, setQ] = useState("");
+  const focusHandlers = useDialogReturnFocus();
 
   useEffect(() => {
     if (!open) setQ("");
@@ -32,7 +34,7 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 z-[80] bg-background/95" />
-      <Dialog.Content aria-describedby={undefined} className="fixed inset-x-0 top-4 z-[80] mx-auto max-w-2xl px-4 sm:top-20">
+      <Dialog.Content {...focusHandlers} aria-describedby={undefined} className="fixed inset-x-0 top-4 z-[80] mx-auto max-w-2xl px-4 sm:top-20">
         <Dialog.Title className="sr-only">Search GameCastle</Dialog.Title>
         <div className="overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl">
           <div className="flex items-center gap-3 border-b border-border px-4 py-3">

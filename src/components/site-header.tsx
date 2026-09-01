@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useDialogReturnFocus } from "@/hooks/use-dialog-return-focus";
 import {
   Search,
   Menu,
@@ -207,6 +208,7 @@ const categoryHubs = [
 ];
 
 export function SiteHeader() {
+  const focusHandlers = useDialogReturnFocus();
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -422,7 +424,7 @@ export function SiteHeader() {
       <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-50 bg-background/90" />
-          <Dialog.Content aria-describedby={undefined} className="fixed right-0 top-0 z-50 h-dvh w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
+          <Dialog.Content {...focusHandlers} aria-describedby={undefined} className="fixed right-0 top-0 z-50 h-dvh w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
             <div className="flex items-center justify-between mb-6">
               <Dialog.Title className="font-display text-lg font-bold">Menu</Dialog.Title>
               <button aria-label="Close full navigation" onClick={() => setMobileOpen(false)} className="rounded-md p-2">

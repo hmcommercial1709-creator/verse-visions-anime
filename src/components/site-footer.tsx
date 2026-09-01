@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { CreditCard, Flame, Rss, Shield, ShoppingBag, Wallet } from "lucide-react";
+import { Flame, Rss, ShoppingBag } from "lucide-react";
 import { LanguageSelector } from "./language-selector";
 
 const quickLinks = [
@@ -25,11 +25,7 @@ const connectLinks = [
 ];
 
 const paymentBadges = [
-  { icon: Shield, label: "Secure checkout", color: "text-emerald-400" },
-  { icon: ShoppingBag, label: "Powered by Gumroad", color: "text-pink-400" },
-  { icon: CreditCard, label: "Visa", color: "text-blue-400" },
-  { icon: CreditCard, label: "Mastercard", color: "text-orange-400" },
-  { icon: Wallet, label: "PayPal", color: "text-indigo-400" },
+  { icon: ShoppingBag, label: "Purchases handled by linked retailers", color: "text-emerald-400" },
 ];
 
 function PaymentBadges() {

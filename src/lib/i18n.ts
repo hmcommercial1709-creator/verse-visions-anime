@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useRouterState } from "@tanstack/react-router";
+import { getAnime } from "../data/animes.ts";
 
 export type LocaleCode =
   | "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id" | "hi" | "zh";
@@ -100,8 +101,10 @@ const LOCALE_ENTRY: Partial<Record<LocaleCode, string>> = {
 };
 
 export function localeEntryPath(pathname: string, locale: LocaleCode): string {
+  if (!isReadyLocale(locale)) return stripLocale(pathname);
   const target = localizePath(pathname, locale);
   const base = stripLocale(pathname);
+  if (locale === "en" && base === "/anime") return "/browse";
   if (
     (base === "/explore" || base.startsWith("/explore/")) &&
     (locale === "en" || locale === "ar")
@@ -110,6 +113,7 @@ export function localeEntryPath(pathname: string, locale: LocaleCode): string {
   }
   const entry = LOCALE_ENTRY[locale];
   if (!entry) return target;
+  if (!hasArabicEdition(base)) return entry;
   // Already inside the localized hub? keep the current page.
   return target.startsWith(entry) ? target : entry;
 }
@@ -127,7 +131,8 @@ export function isIndexableLocale(code: string | undefined): boolean {
 export function hasArabicEdition(pathname: string): boolean {
   const path = stripLocale(pathname);
   if (path === "/anime/dandadan" || path === "/anime/sakamoto-days") return false;
-  return path === "/explore" || path.startsWith("/explore/") || /^\/anime\/[^/]+$/.test(path);
+  return path === "/explore" || path.startsWith("/explore/") ||
+    (/^\/anime\/[^/]+$/.test(path) && !!getAnime(path.slice("/anime/".length)));
 }
 
 export function hreflangLinks(pathname: string) {

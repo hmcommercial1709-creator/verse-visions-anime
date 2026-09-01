@@ -14,7 +14,6 @@ import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
 import { HomeStorePromo } from "@/components/home-store-promo";
-import { FeaturedProducts } from "@/components/featured-products";
 import DownloadBanner from "@/components/DownloadBanner";
 
 import { FranchiseHubs } from "@/components/franchise-hubs";
@@ -190,7 +189,6 @@ function Home() {
         </div>
       </section>
 
-      <FeaturedProducts limit={12} />
       <HomeStorePromo />
       <DownloadBanner />
       <HomeStage trending={trending} />

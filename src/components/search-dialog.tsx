@@ -1,19 +1,19 @@
 import { useState, useMemo, useEffect } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { Link } from "@tanstack/react-router";
 import { Search, X, Star } from "lucide-react";
-import { animes } from "@/data/animes";
-import { genres } from "@/data/genres";
-import { characters } from "@/data/characters";
-import { studios } from "@/data/studios";
+import { publishedAnime, populatedGenres, publishedCharacters, populatedStudios } from "@/lib/content-registry";
+
+const animes = publishedAnime();
+const genres = populatedGenres();
+const characters = publishedCharacters();
+const studios = populatedStudios();
 
 export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const [q, setQ] = useState("");
 
   useEffect(() => {
     if (!open) setQ("");
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onOpenChange(false); };
-    if (open) window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
   }, [open, onOpenChange]);
 
   const results = useMemo(() => {
@@ -27,24 +27,28 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
     };
   }, [q]);
 
-  if (!open) return null;
+  const resultCount = Object.values(results).reduce((total, items) => total + items.length, 0);
   return (
-    <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-background/95" onClick={() => onOpenChange(false)} />
-      <div className="relative mx-auto mt-20 max-w-2xl px-4">
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+      <Dialog.Overlay className="fixed inset-0 z-[80] bg-background/95" />
+      <Dialog.Content aria-describedby={undefined} className="fixed inset-x-0 top-4 z-[80] mx-auto max-w-2xl px-4 sm:top-20">
+        <Dialog.Title className="sr-only">Search GameCastle</Dialog.Title>
         <div className="overflow-hidden rounded-2xl border border-border bg-popover shadow-2xl">
           <div className="flex items-center gap-3 border-b border-border px-4 py-3">
             <Search className="h-4 w-4 text-muted-foreground" />
             <input
               autoFocus
+              aria-label="Search anime, characters, genres, studios"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search anime, characters, genres, studios…"
               className="flex-1 bg-transparent outline-none text-sm placeholder:text-muted-foreground"
             />
-            <button onClick={() => onOpenChange(false)} className="rounded p-1 text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
+            <button aria-label="Close search" onClick={() => onOpenChange(false)} className="rounded p-1 text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
           </div>
-          <div className="max-h-[70vh] overflow-y-auto p-4 space-y-6">
+          <div className="max-h-[calc(100dvh-10rem)] overflow-y-auto p-4 space-y-6">
+            {resultCount === 0 && <p role="status" className="py-8 text-center text-muted-foreground">No results found. Try another title, character, genre or studio.</p>}
             {results.anime.length > 0 && (
               <div>
                 <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2">Anime</div>
@@ -112,7 +116,8 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
             <span>ESC to close</span>
           </div>
         </div>
-      </div>
-    </div>
+      </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

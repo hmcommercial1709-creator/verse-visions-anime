@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   Search,
   Menu,
@@ -222,8 +223,14 @@ export function SiteHeader() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || e.isComposing || e.repeat) return;
+      const target = e.target;
+      if (target instanceof HTMLElement && (target.isContentEditable || target.closest("input, textarea, select, [role='textbox']"))) return;
       if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
         e.preventDefault();
+        setMobileOpen(false);
+        setGlobalOpen(false);
+        setOpenMenu(null);
         setSearchOpen(true);
       }
     };
@@ -412,13 +419,13 @@ export function SiteHeader() {
       </header>
 
       {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 2xl:hidden">
-          <div className="absolute inset-0 bg-background/90" onClick={() => setMobileOpen(false)} />
-          <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
+      <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 z-50 bg-background/90" />
+          <Dialog.Content aria-describedby={undefined} className="fixed right-0 top-0 z-50 h-dvh w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
             <div className="flex items-center justify-between mb-6">
-              <span className="font-display text-lg font-bold">Menu</span>
-              <button onClick={() => setMobileOpen(false)} className="rounded-md p-2">
+              <Dialog.Title className="font-display text-lg font-bold">Menu</Dialog.Title>
+              <button aria-label="Close full navigation" onClick={() => setMobileOpen(false)} className="rounded-md p-2">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -449,7 +456,6 @@ export function SiteHeader() {
                   <ul className="space-y-1.5">
                     {g.columns
                       .flatMap((c) => c.links)
-                      .slice(0, 8)
                       .map((l) => (
                         <li key={l.to}>
                           <Link
@@ -488,9 +494,9 @@ export function SiteHeader() {
                 </ul>
               </div>
             </nav>
-          </div>
-        </div>
-      )}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
 
       <GlobalMenu open={globalOpen} onClose={() => setGlobalOpen(false)} />
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />

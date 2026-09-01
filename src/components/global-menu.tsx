@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { X, Grid3x3, Zap, LinkIcon, ShieldCheck } from "lucide-react";
 
 const SECTIONS = [
@@ -45,36 +45,19 @@ export function GlobalMenu({
   open: boolean;
   onClose: () => void;
 }) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-
-  if (!open) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-[60]"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Global navigation"
-    >
-      <button
-        aria-label="Close menu"
-        onClick={onClose}
-        className="absolute inset-0 h-full w-full cursor-default bg-background/95 animate-in fade-in duration-200"
-      />
-      <div className="relative mx-auto flex h-full max-w-6xl flex-col px-4 py-6 lg:px-8">
+    <Dialog.Root open={open} onOpenChange={(value) => { if (!value) onClose(); }}>
+      <Dialog.Portal>
+      <Dialog.Overlay className="fixed inset-0 z-[60] bg-background/95" />
+      <Dialog.Content aria-describedby={undefined} className="fixed inset-0 z-[60] mx-auto flex h-dvh max-w-6xl flex-col px-4 py-6 lg:px-8">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-[0.3em] text-primary">
               Navigation
             </div>
-            <h2 className="truncate font-display text-2xl font-bold">
+            <Dialog.Title className="truncate font-display text-2xl font-bold">
               Explore GameCastle Anime
-            </h2>
+            </Dialog.Title>
           </div>
           <button
             onClick={onClose}
@@ -116,7 +99,8 @@ export function GlobalMenu({
             </section>
           ))}
         </div>
-      </div>
-    </div>
+      </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

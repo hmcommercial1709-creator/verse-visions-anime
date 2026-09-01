@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,6 +31,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Check language navigation and rewards
+        run: node scripts/check-interaction-regressions.mjs
 
       - name: Verify published sitemap health
         run: node scripts/check-sitemaps.mjs

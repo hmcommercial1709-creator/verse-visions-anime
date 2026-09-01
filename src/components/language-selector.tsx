@@ -69,7 +69,7 @@ export function LanguageSelector({ variant = "header", align = "end", className 
             align === "end" ? "end-0" : "start-0"
           } ${variant === "footer" ? "bottom-full mb-2 mt-0" : ""}`}
         >
-          {LOCALES.map((l) => {
+          {LOCALES.filter((l) => isReadyLocale(l.code)).map((l) => {
             const isActive = l.code === active.code;
             return (
               <li key={l.code}>

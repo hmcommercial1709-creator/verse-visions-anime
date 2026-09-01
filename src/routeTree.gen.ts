@@ -109,6 +109,7 @@ import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
 import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
 import { Route as LocaleAnimeSlugRouteImport } from './routes/$locale.anime.$slug'
+import { Route as LocaleArticlesIndexRouteImport } from './routes/$locale.articles.index'
 import { Route as LocaleArticlesSlugRouteImport } from './routes/$locale.articles.$slug'
 import { Route as LocaleCalcSlugRouteImport } from './routes/$locale.calc.$slug'
 import { Route as LocaleCodesIndexRouteImport } from './routes/$locale.codes.index'
@@ -644,6 +645,11 @@ const LocaleAnimeSlugRoute = LocaleAnimeSlugRouteImport.update({
   path: '/$locale/anime/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleArticlesIndexRoute = LocaleArticlesIndexRouteImport.update({
+  id: '/$locale/articles/',
+  path: '/$locale/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleArticlesSlugRoute = LocaleArticlesSlugRouteImport.update({
   id: '/$locale/articles/$slug',
   path: '/$locale/articles/$slug',
@@ -887,6 +893,7 @@ export interface FileRoutesByFullPath {
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/ar/explore/': typeof ArExploreIndexRoute
@@ -1010,6 +1017,7 @@ export interface FileRoutesByTo {
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/$locale/articles': typeof LocaleArticlesIndexRoute
   '/$locale/codes': typeof LocaleCodesIndexRoute
   '/ar/anime': typeof ArAnimeIndexRoute
   '/ar/explore': typeof ArExploreIndexRoute
@@ -1136,6 +1144,7 @@ export interface FileRoutesById {
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
+  '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/ar/explore/': typeof ArExploreIndexRoute
@@ -1263,6 +1272,7 @@ export interface FileRouteTypes {
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
+    | '/$locale/articles/'
     | '/$locale/codes/'
     | '/ar/anime/'
     | '/ar/explore/'
@@ -1386,6 +1396,7 @@ export interface FileRouteTypes {
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
+    | '/$locale/articles'
     | '/$locale/codes'
     | '/ar/anime'
     | '/ar/explore'
@@ -1511,6 +1522,7 @@ export interface FileRouteTypes {
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
     | '/sitemap/$locale/$file'
+    | '/$locale/articles/'
     | '/$locale/codes/'
     | '/ar/anime/'
     | '/ar/explore/'
@@ -1634,6 +1646,7 @@ export interface RootRouteChildren {
   ArBlogRobloxSyriaGuideRoute: typeof ArBlogRobloxSyriaGuideRoute
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
+  LocaleArticlesIndexRoute: typeof LocaleArticlesIndexRoute
   LocaleCodesIndexRoute: typeof LocaleCodesIndexRoute
   ArAnimeIndexRoute: typeof ArAnimeIndexRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
@@ -2341,6 +2354,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAnimeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/articles/': {
+      id: '/$locale/articles/'
+      path: '/$locale/articles'
+      fullPath: '/$locale/articles/'
+      preLoaderRoute: typeof LocaleArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/articles/$slug': {
       id: '/$locale/articles/$slug'
       path: '/$locale/articles/$slug'
@@ -2655,6 +2675,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArBlogRobloxSyriaGuideRoute: ArBlogRobloxSyriaGuideRoute,
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
+  LocaleArticlesIndexRoute: LocaleArticlesIndexRoute,
   LocaleCodesIndexRoute: LocaleCodesIndexRoute,
   ArAnimeIndexRoute: ArAnimeIndexRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,

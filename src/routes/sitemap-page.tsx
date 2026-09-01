@@ -12,20 +12,14 @@ import {
   publishedEpisodes,
 } from "@/lib/content-registry";
 
-const STATIC_PAGES = [
-  "/", "/blog", "/browse", "/explore", "/store",
-  "/gaming-hub/ultimate-gaming-secrets-guide",
-  "/anime/dandadan", "/anime/dandadan/episode-guide", "/anime/dandadan/characters",
-  "/anime/dandadan/occult-world", "/anime/dandadan/watch-guide",
-  "/anime/sakamoto-days", "/anime/sakamoto-days/episode-guide", "/anime/sakamoto-days/characters",
-  "/anime/sakamoto-days/assassin-world", "/anime/sakamoto-days/watch-guide",
-  "/trending", "/top-rated", "/upcoming", "/new-releases", "/completed", "/classic",
-  "/news", "/reviews", "/guides", "/top-lists", "/editorial", "/authors",
-  "/manga-spoilers", "/power-scaling", "/watch-order", "/timeline", "/recommendations",
-  "/quotes", "/facts", "/soundtracks", "/openings", "/wallpapers",
-  "/rewards/anime-wallpapers", "/streaming", "/statistics", "/about", "/contact", "/faq",
-  "/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy",
-] as const;
+import { partitionEntries, AR_ENTRIES, urlsetXml } from "@/lib/sitemap";
+const STATIC_PAGES = partitionEntries("pages").map((entry) => entry.path);
+const ARABIC_PAGES = [...new Set([
+  ...AR_ENTRIES.map((entry) => entry.path),
+  ...["pages", "anime"].flatMap((partition) =>
+    [...urlsetXml(partitionEntries(partition as "pages" | "anime"), "ar").matchAll(/<loc>https:\/\/gamecastle.store([^<]+)<\/loc>/g)].map((match) => match[1])
+  ),
+])];
 
 export const Route = createFileRoute("/sitemap-page")({
   head: () => ({
@@ -90,6 +84,9 @@ function SitemapPage() {
         </Section>
         <Section title="Store" count={storeProducts.length}>
           {storeProducts.map((product) => <SiteLink key={product.slug} href={`/store/${product.slug}`} label={product.title} />)}
+        </Section>
+        <Section title="العربية" count={ARABIC_PAGES.length}>
+          {ARABIC_PAGES.map((path) => <SiteLink key={path} href={path} label={titleCase(path.split("/").at(-1) || "العربية")} />)}
         </Section>
         <Section title="Pages" count={STATIC_PAGES.length}>
           {STATIC_PAGES.map((path) => <SiteLink key={path} href={path} label={path === "/" ? "Home" : titleCase(path.split("/").filter(Boolean).at(-1) ?? path)} />)}

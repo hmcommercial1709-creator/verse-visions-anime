@@ -1,7 +1,7 @@
-Card artwork is sourced from the corresponding GAMIVO product and category pages for affiliate promotion.
+GameCastle category cards are original SVG typography and geometric illustrations. Product and platform names identify their respective categories; they are not official cover artwork.
 
 The Xbox logo path is derived from Font Awesome Free Brands, licensed under CC BY 4.0.
 Font Awesome: https://fontawesome.com
 License: https://creativecommons.org/licenses/by/4.0/
 
-Xbox is a trademark of Microsoft Corporation. GameCastle and GAMIVO are not affiliated with Microsoft.
+Product names and trademarks belong to their respective owners.

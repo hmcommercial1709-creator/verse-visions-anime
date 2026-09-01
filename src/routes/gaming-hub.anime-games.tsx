@@ -44,7 +44,7 @@ export const Route = createFileRoute("/gaming-hub/anime-games")({
       path: "/gaming-hub/anime-games",
       title,
       description,
-      image: "/gaming-hub/dragon-ball-sparking-zero.webp",
+      image: "/gaming-hub/dragon-ball-sparking-zero.svg",
       schemas: [
         {
           "@type": "ItemList",

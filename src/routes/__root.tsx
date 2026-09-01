@@ -7,27 +7,25 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { PropellerConversion } from "@/components/propeller-conversion";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
-import { AddictionEngine } from "@/components/AddictionEngine";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 
 const SITE_URL = "https://gamecastle.store";
-const SITE_NAME = "Verse Visions";
+const SITE_NAME = "GameCastle Anime";
 
 const SITE_TITLE =
-  "Verse Visions | Anime Guides, Characters & Watch Orders";
+  "GameCastle Anime | Anime Guides, Characters & Watch Orders";
 
 const SITE_DESCRIPTION =
-  "Verse Visions is a global English-language anime and entertainment guide covering anime stories, characters, episodes, watch orders, reviews, guides and more.";
+  "GameCastle Anime is a global English-language anime and entertainment guide covering anime stories, characters, episodes, watch orders, reviews, guides and more.";
 
 function NotFoundComponent() {
   return (
@@ -67,11 +65,6 @@ function ErrorComponent({
 
   const router = useRouter();
 
-  useEffect(() => {
-    reportLovableError(error, {
-      boundary: "tanstack_root_error_component",
-    });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -137,7 +130,7 @@ export const Route = createRootRoute({
 
       {
         name: "author",
-        content: "Verse Visions Editorial",
+        content: "GameCastle Anime Editorial",
       },
 
       {
@@ -272,7 +265,7 @@ export const Route = createRootRoute({
       {
         rel: "alternate",
         type: "application/rss+xml",
-        title: "Verse Visions RSS Feed",
+        title: "GameCastle Anime RSS Feed",
         href: `${SITE_URL}/rss.xml`,
       },
     ],
@@ -295,7 +288,7 @@ export const Route = createRootRoute({
               url: `${SITE_URL}/`,
 
               description:
-                "Verse Visions is an independent English-language anime and entertainment publication covering reviews, character deep-dives, watch orders, studio profiles, episode guides and long-form analysis.",
+                "GameCastle Anime is an independent English-language anime and entertainment publication covering reviews, character deep-dives, watch orders, studio profiles, episode guides and long-form analysis.",
             },
 
             {
@@ -394,7 +387,6 @@ function RootComponent() {
 
       <VisitorRewardTracker />
 
-      <AddictionEngine />
 
       <DeferredScripts />
 

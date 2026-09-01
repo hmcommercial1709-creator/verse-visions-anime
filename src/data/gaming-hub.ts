@@ -100,7 +100,7 @@ export type PlatformGuide = {
 export const platformGuides: PlatformGuide[] = [
   {
     name: "Steam Wallet",
-    image: "/gamivo/cards/steam.webp",
+    image: "/gamivo/cards/steam.svg",
     imageAlt: "Steam Wallet digital gift card",
     summary:
       "PC wallet credit offered in multiple currencies and regional catalogs.",
@@ -112,7 +112,7 @@ export const platformGuides: PlatformGuide[] = [
   },
   {
     name: "PlayStation Store",
-    image: "/gamivo/cards/playstation.webp",
+    image: "/gamivo/cards/playstation.svg",
     imageAlt: "PlayStation Store digital gift card",
     summary:
       "Wallet credit for PlayStation Store accounts in supported countries.",
@@ -136,7 +136,7 @@ export const platformGuides: PlatformGuide[] = [
   },
   {
     name: "Nintendo eShop",
-    image: "/gamivo/cards/nintendo.webp",
+    image: "/gamivo/cards/nintendo.svg",
     imageAlt: "Nintendo eShop digital gift card",
     summary:
       "Nintendo eShop credit tied to a particular country or regional store.",
@@ -148,7 +148,7 @@ export const platformGuides: PlatformGuide[] = [
   },
   {
     name: "Roblox Gift Cards",
-    image: "/gamivo/cards/roblox.webp",
+    image: "/gamivo/cards/roblox.svg",
     imageAlt: "Roblox digital gift card",
     summary:
       "Digital Roblox credit listings for different markets and denominations.",
@@ -160,7 +160,7 @@ export const platformGuides: PlatformGuide[] = [
   },
   {
     name: "PUBG Mobile UC",
-    image: "/gamivo/cards/pubg.webp",
+    image: "/gamivo/cards/pubg.svg",
     imageAlt: "PUBG Mobile UC top-up",
     summary:
       "Account-based PUBG Mobile credit options with country and player-ID requirements.",
@@ -185,7 +185,7 @@ export type AnimeGame = {
 export const animeGames: AnimeGame[] = [
   {
     name: "DRAGON BALL: Sparking! ZERO",
-    image: "/gaming-hub/dragon-ball-sparking-zero.webp",
+    image: "/gaming-hub/dragon-ball-sparking-zero.svg",
     imageAlt: "DRAGON BALL Sparking ZERO official key art",
     format: "3D arena fighting game",
     platforms:
@@ -198,7 +198,7 @@ export const animeGames: AnimeGame[] = [
   },
   {
     name: "NARUTO X BORUTO Ultimate Ninja STORM CONNECTIONS",
-    image: "/gaming-hub/naruto-storm-connections.webp",
+    image: "/gaming-hub/naruto-storm-connections.svg",
     imageAlt:
       "Naruto X Boruto Ultimate Ninja Storm Connections official artwork",
     format: "Anime fighting and story game",
@@ -213,7 +213,7 @@ export const animeGames: AnimeGame[] = [
   },
   {
     name: "ONE PIECE ODYSSEY",
-    image: "/gaming-hub/one-piece-odyssey.webp",
+    image: "/gaming-hub/one-piece-odyssey.svg",
     imageAlt: "One Piece Odyssey Deluxe Edition official product artwork",
     format: "Single-player role-playing game",
     platforms:

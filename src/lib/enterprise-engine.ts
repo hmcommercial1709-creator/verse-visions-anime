@@ -49,7 +49,7 @@ export function generateEnterpriseGlobalEngine(): EnterprisePseoPage[] {
           seoTitle: `Official ${cleanEntity} ${cleanIntent} — ${region.toUpperCase()} 2026`,
           description: `Access the verified ${cleanEntity} with ${cleanIntent} for ${region.toUpperCase()} in 2026. Instant delivery, high-speed execution, and complete optimization frameworks.`,
           keyword: `${entity} ${intent} ${region}`,
-          image: isAnime ? "/anime/hero-wallpaper.webp" : "/gamivo/direct-top-ups-hero.webp",
+          image: isAnime ? "/anime/hero-wallpaper.webp" : "/gamivo/direct-top-ups-hero.svg",
           region,
           faqs: [
             {

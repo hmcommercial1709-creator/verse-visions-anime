@@ -27,9 +27,13 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 }
 
 function createSupabaseClient() {
-  // وضع القيم مباشرة لتجنب مشكلة خطأ 500 وعدم قراءة المتغيرات
-  const SUPABASE_URL = 'https://saddhtpsomxtazrgeyed.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_rwkVYRSJPJ4-0EvrEBhhlg_CJR8E3M8';
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ||
+    (typeof process !== "undefined" ? process.env.SUPABASE_URL : undefined) || 'https://saddhtpsomxtazrgeyed.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    (typeof process !== "undefined" ? process.env.SUPABASE_PUBLISHABLE_KEY : undefined) || 'sb_publishable_rwkvYRSJPJ4-0EvrEBhhlg_CJR8E3M8';
+  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+    throw new Error("The catalog connection is not configured. Please try again later.");
+  }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {

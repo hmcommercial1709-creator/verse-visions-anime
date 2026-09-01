@@ -58,9 +58,9 @@ export function HeroSlider({ items }: { items: Article[] }) {
               </span>
             </div>
 
-            <h1 className="max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+            <h2 className="max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
               {active.title}
-            </h1>
+            </h2>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-foreground/85">{active.excerpt}</p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">

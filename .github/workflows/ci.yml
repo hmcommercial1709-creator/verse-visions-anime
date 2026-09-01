@@ -29,7 +29,10 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: npm ci --no-audit --no-fund
+
+      - name: Check TypeScript
+        run: bunx tsc --noEmit
 
       - name: Validate content registry
         run: bun run validate:content
@@ -37,7 +40,7 @@ jobs:
       - name: Lint changed source files
         shell: bash
         run: |
-          mapfile -d '' files < <(git diff --name-only --diff-filter=ACMR -z "origin/${{ github.base_ref }}...HEAD" -- '*.ts' '*.tsx')
+          mapfile -d '' files < <(git diff --name-only --diff-filter=ACMR -z "${{ github.event_name == 'pull_request' && format('origin/{0}...HEAD', github.base_ref) || 'HEAD~1' }}" -- '*.ts' '*.tsx')
           if ((${#files[@]})); then
             bunx eslint "${files[@]}" --rule 'prettier/prettier: off'
           fi

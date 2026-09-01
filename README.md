@@ -576,17 +576,15 @@ Write original, engaging, human-quality English.
 
 The final result should feel like one of the biggest anime websites on the internet.
 
-This project was built with [Lovable](https://lovable.dev).
+## Cloudflare hosting
 
-**Live app**: https://verse-visions-anime.lovable.app
+Production: https://gamecastle.store
 
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/de879c4f-dc90-4b0b-beba-7d068ab16cd3).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+Cloudflare Workers Builds deploys the `main` branch of this repository.
+Run `npm ci` and `npm run build`. Nitro generates the Wrangler deployment
+configuration for the existing `verse-visions-anime` Worker, including the
+apex and www custom domains. The application redirects www to the apex.
+No Lovable build tooling or runtime service is required.
 
 ## Development
 

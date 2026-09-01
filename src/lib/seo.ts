@@ -1,14 +1,14 @@
 /**
  * Shared SEO helpers for dynamic, high-volume routes.
  *
- * Brand: Verse Visions
+ * Brand: GameCastle Anime
  * Domain: gamecastle.store
  */
 
 export const SITE_URL = "https://gamecastle.store";
-export const SITE_NAME = "Verse Visions";
+export const SITE_NAME = "GameCastle Anime";
 export const SITE_DESCRIPTION =
-  "Verse Visions — anime, characters, episodes, guides, games, reviews and more.";
+  "GameCastle Anime — anime, characters, episodes, guides, games, reviews and more.";
 
 export function absoluteUrl(path: string) {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;

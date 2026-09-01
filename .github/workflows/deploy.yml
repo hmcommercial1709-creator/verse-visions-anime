@@ -26,17 +26,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install
+          npm ci --no-audit --no-fund
           pip install requests
 
       - name: Build project
         run: npm run build
 
-      - name: Run Google Indexing Script and Sitemap Ping
-        run: |
-          echo "Triggering continuous indexing refresh and sitemap ping..."
-          npx ts-node scripts/google-indexing.ts || node scripts/google-indexing.ts || true
-          curl -s "https://www.google.com/ping?sitemap=https://gamecastle.store/sitemap.xml" || true
+      - name: Verify published sitemap health
+        run: node scripts/check-sitemaps.mjs
 
       - name: Run Pinterest Auto Poster
         run: python scripts/pinterest-auto-poster.py

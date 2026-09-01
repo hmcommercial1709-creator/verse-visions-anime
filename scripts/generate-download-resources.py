@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import letter
@@ -176,7 +178,7 @@ def pdf_footer(canvas, doc) -> None:
     canvas.setStrokeColor(colors.HexColor("#312e47"))
     canvas.line(0.55 * inch, 0.46 * inch, 7.95 * inch, 0.46 * inch)
     canvas.setFillColor(colors.HexColor("#6b6a80"))
-    canvas.setFont("Helvetica", 8)
+    canvas.setFont("GameCastle", 8)
     canvas.drawString(0.55 * inch, 0.28 * inch, "GameCastle Anime - gamecastle.store/resources")
     canvas.drawRightString(7.95 * inch, 0.28 * inch, f"Page {doc.page}")
     canvas.restoreState()
@@ -202,6 +204,7 @@ def anime_card(item: Anime, styles) -> KeepTogether:
     table.setStyle(
         TableStyle(
             [
+                ("FONTNAME", (0, 0), (-1, -1), "GameCastle"),
                 ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#171525")),
                 ("BOX", (0, 0), (-1, -1), 1, colors.HexColor("#393452")),
                 ("LINEBELOW", (0, 0), (-1, 0), 1, colors.HexColor("#f04b75")),
@@ -216,6 +219,9 @@ def anime_card(item: Anime, styles) -> KeepTogether:
 
 
 def build_pdf(anime: list[Anime]) -> None:
+    pdfmetrics.registerFont(TTFont("GameCastle", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"))
+    pdfmetrics.registerFont(TTFont("GameCastle-Bold", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"))
+    pdfmetrics.registerFontFamily("GameCastle", normal="GameCastle", bold="GameCastle-Bold", italic="GameCastle", boldItalic="GameCastle-Bold")
     path = OUTPUT / "ultimate-anime-watchlist-2026.pdf"
     doc = SimpleDocTemplate(
         str(path),
@@ -229,11 +235,13 @@ def build_pdf(anime: list[Anime]) -> None:
         subject="A 23-title anime starter watchlist generated from the GameCastle catalog.",
     )
     base = getSampleStyleSheet()
+    for style in base.byName.values():
+        style.fontName = "GameCastle"
     styles = {
         "CoverTitle": ParagraphStyle(
             "CoverTitle",
             parent=base["Title"],
-            fontName="Helvetica-Bold",
+            fontName="GameCastle-Bold",
             fontSize=32,
             leading=36,
             textColor=colors.HexColor("#201d32"),
@@ -251,7 +259,7 @@ def build_pdf(anime: list[Anime]) -> None:
         "H1": ParagraphStyle(
             "H1",
             parent=base["Heading1"],
-            fontName="Helvetica-Bold",
+            fontName="GameCastle-Bold",
             fontSize=24,
             leading=28,
             textColor=colors.HexColor("#f04b75"),
@@ -260,7 +268,7 @@ def build_pdf(anime: list[Anime]) -> None:
         "H2": ParagraphStyle(
             "H2",
             parent=base["Heading2"],
-            fontName="Helvetica-Bold",
+            fontName="GameCastle-Bold",
             fontSize=17,
             leading=21,
             textColor=colors.HexColor("#201d32"),
@@ -284,7 +292,7 @@ def build_pdf(anime: list[Anime]) -> None:
         "CardTitle": ParagraphStyle(
             "CardTitle",
             parent=base["Heading2"],
-            fontName="Helvetica-Bold",
+            fontName="GameCastle-Bold",
             fontSize=16,
             leading=19,
             textColor=colors.HexColor("#ffffff"),
@@ -292,7 +300,7 @@ def build_pdf(anime: list[Anime]) -> None:
         "Meta": ParagraphStyle(
             "Meta",
             parent=base["BodyText"],
-            fontName="Helvetica-Bold",
+            fontName="GameCastle-Bold",
             fontSize=8.5,
             leading=11,
             textColor=colors.HexColor("#56d9d1"),
@@ -331,7 +339,7 @@ def build_pdf(anime: list[Anime]) -> None:
                 [
                     ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#201d32")),
                     ("TEXTCOLOR", (0, 0), (-1, -1), colors.HexColor("#ffffff")),
-                    ("FONTNAME", (0, 0), (-1, -1), "Helvetica-Bold"),
+                    ("FONTNAME", (0, 0), (-1, -1), "GameCastle-Bold"),
                     ("ALIGN", (0, 0), (-1, -1), "CENTER"),
                     ("BOX", (0, 0), (-1, -1), 1, colors.HexColor("#f04b75")),
                     ("INNERGRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#393452")),
@@ -381,7 +389,7 @@ def build_pdf(anime: list[Anime]) -> None:
                     ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#f04b75")),
                     ("TEXTCOLOR", (0, 0), (-1, -1), colors.HexColor("#ffffff")),
                     ("BACKGROUND", (0, 1), (-1, -1), colors.HexColor("#171525")),
-                    ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                    ("FONTNAME", (0, 0), (-1, 0), "GameCastle-Bold"),
                     ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#393452")),
                     ("VALIGN", (0, 0), (-1, -1), "TOP"),
                     ("TOPPADDING", (0, 0), (-1, -1), 8),

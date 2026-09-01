@@ -4,7 +4,7 @@ export function gamingHubHead({
   path,
   title,
   description,
-  image = "/gamivo/direct-top-ups-hero.webp",
+  image = "/gamivo/direct-top-ups-hero.svg",
   schemas = [],
 }: {
   path: string;

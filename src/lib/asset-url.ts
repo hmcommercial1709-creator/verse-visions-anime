@@ -1,15 +1,9 @@
-/**
- * CDN asset URL resolver.
- *
- * `.asset.json` pointers store root-relative paths (`/__l5e/assets-v1/...`)
- * that only resolve when the site is served by Lovable's own infrastructure.
- * When the build is deployed elsewhere (Netlify, Vercel, static hosts) those
- * paths 404 and every image breaks, so we always emit the absolute CDN origin.
- */
-const CDN_ORIGIN = "https://gamecastle.store";
-
-const ASSET_PREFIX = "/__l5e/";
+/** Original artwork is bundled with the site, independent of the old host. */
+const SITE_ORIGIN = "https://gamecastle.store";
+const ASSET_PREFIX = "/__l5e/assets-v1/";
 
 export function assetUrl(url: string): string {
-  return url.startsWith(ASSET_PREFIX) ? `${CDN_ORIGIN}${url}` : url;
+  return url.startsWith(ASSET_PREFIX)
+    ? `${SITE_ORIGIN}/media/${url.slice(ASSET_PREFIX.length)}`
+    : url;
 }

@@ -124,7 +124,14 @@ export function isIndexableLocale(code: string | undefined): boolean {
  * locales with indexable content. With a single active locale there is no
  * cluster to declare, so we emit nothing at all.
  */
+export function hasArabicEdition(pathname: string): boolean {
+  const path = stripLocale(pathname);
+  if (path === "/anime/dandadan" || path === "/anime/sakamoto-days") return false;
+  return path === "/explore" || path.startsWith("/explore/") || /^\/anime\/[^/]+$/.test(path);
+}
+
 export function hreflangLinks(pathname: string) {
+  if (!hasArabicEdition(pathname)) return [];
   if (INDEXABLE_LOCALES.length < 2) return [];
   const base = stripLocale(pathname);
   return [

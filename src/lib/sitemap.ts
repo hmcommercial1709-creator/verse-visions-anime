@@ -17,6 +17,7 @@ import { storeProducts } from "@/data/store-products";
 import { EXPLORE_PAGES } from "@/data/explore-pages";
 import {
   INDEXABLE_LOCALES,
+  hasArabicEdition,
   DEFAULT_LOCALE,
   getLocale,
   localizePath,
@@ -188,8 +189,8 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
  */
 export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_LOCALE): string {
   const withAlternates = INDEXABLE_LOCALES.length > 1;
-  const englishOnly = (path: string) =>
-    path === "/rewards/anime-wallpapers" || path === "/anime/dandadan" || path.startsWith("/anime/dandadan/") || path === "/anime/sakamoto-days" || path.startsWith("/anime/sakamoto-days/");
+  const englishOnly = (path: string) => !hasArabicEdition(path) ||
+    path === "/anime/dandadan" || path === "/anime/sakamoto-days";
   const seen = new Set<string>();
   const urls = entries
     .filter((e) => !englishOnly(e.path) || locale === "en")
@@ -238,7 +239,10 @@ export function partitionSitemapPath(
 export function sitemapIndexXml(): string {
   const children = [
     ...INDEXABLE_LOCALES.flatMap((locale) =>
-      PARTITIONS.map((p) => partitionSitemapPath(p, locale)),
+      PARTITIONS.filter((p) => locale === "en" ||
+        partitionEntries(p).some((e) => hasArabicEdition(e.path) &&
+          e.path !== "/anime/dandadan" && e.path !== "/anime/sakamoto-days")
+      ).map((p) => partitionSitemapPath(p, locale)),
     ),
     // Arabic cornerstone edition: real localized content, its own child sitemap.
     "/sitemap-ar.xml",

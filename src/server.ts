@@ -77,6 +77,12 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     const url = new URL(request.url);
+    if (url.hostname === "www.gamecastle.store" || url.hostname === "gamecastle.lovable.app" || url.hostname === "verse-visions-anime.lovable.app") {
+      url.protocol = "https:";
+      url.hostname = "gamecastle.store";
+      url.port = "";
+      return Response.redirect(url.toString(), 308);
+    }
     const legacyResponse = legacyUrlResponse(request);
     if (legacyResponse) return legacyResponse;
 

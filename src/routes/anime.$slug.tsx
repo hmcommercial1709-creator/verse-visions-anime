@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { hreflangLinks } from "@/lib/i18n";
 import { getAnime, animes } from "@/data/animes";
 import { getGenre } from "@/data/genres";
 import { getStudio } from "@/data/studios";
@@ -41,7 +42,7 @@ export const Route = createFileRoute("/anime/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:image", content: posterFor(a.slug).src },
       ],
-      links: [{ rel: "canonical", href: absoluteUrl(`/anime/${a.slug}`) }],
+      links: [{ rel: "canonical", href: absoluteUrl(`/anime/${a.slug}`) }, ...hreflangLinks(`/anime/${a.slug}`)],
       scripts: [{
         type: "application/ld+json",
         children: JSON.stringify({

@@ -20,7 +20,7 @@ const description =
   "Compare Steam, PlayStation, Xbox, Nintendo, Roblox and Fortnite gift cards, then buy digital codes securely on GAMIVO through GameCastle.";
 const pagePath = "/gaming-gift-cards";
 const pageUrl = absoluteUrl(pagePath);
-const heroImage = absoluteUrl("/gamivo/direct-top-ups-hero.webp");
+const heroImage = absoluteUrl("/gamivo/direct-top-ups-hero.svg");
 const GAMIVO_AFFILIATE_ID = "gkphy5wy";
 const secureExternalRel = "sponsored nofollow noopener noreferrer";
 
@@ -55,7 +55,7 @@ const giftCards: GiftCard[] = [
     category: "PC gaming credit",
     description:
       "Compare Steam Wallet digital code listings by currency and activation region before continuing to the marketplace.",
-    image: "/gamivo/cards/steam.webp",
+    image: "/gamivo/cards/steam.svg",
     imageAlt: "Steam Wallet gift card digital code",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/steam"),
     icon: WalletCards,
@@ -68,7 +68,7 @@ const giftCards: GiftCard[] = [
     category: "Console store credit",
     description:
       "Find PlayStation Store credit for the correct account country, currency and denomination before purchase.",
-    image: "/gamivo/cards/playstation.webp",
+    image: "/gamivo/cards/playstation.svg",
     imageAlt: "PlayStation Store gift card digital code",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/psn"),
     icon: Gamepad2,
@@ -96,7 +96,7 @@ const giftCards: GiftCard[] = [
     category: "Console store credit",
     description:
       "Choose Nintendo eShop credit that matches the country and currency configured on the receiving Nintendo account.",
-    image: "/gamivo/cards/nintendo.webp",
+    image: "/gamivo/cards/nintendo.svg",
     imageAlt: "Nintendo eShop gift card digital code",
     href: gamivoAffiliateUrl(
       "https://www.gamivo.com/store/gift-cards/nintendo",
@@ -111,7 +111,7 @@ const giftCards: GiftCard[] = [
     category: "Gaming gift card",
     description:
       "Compare Roblox gift card listings and confirm the applicable currency, region and redemption details before checkout.",
-    image: "/gamivo/cards/roblox.webp",
+    image: "/gamivo/cards/roblox.svg",
     imageAlt: "Roblox gift card digital code",
     href: gamivoAffiliateUrl("https://www.gamivo.com/store/gift-cards/roblox"),
     icon: WalletCards,
@@ -124,7 +124,7 @@ const giftCards: GiftCard[] = [
     category: "Game content and credit",
     description:
       "Explore current Fortnite digital listings and verify the game platform, region and included content on GAMIVO.",
-    image: "/gamivo/cards/fortnite.webp",
+    image: "/gamivo/cards/fortnite.svg",
     imageAlt: "Fortnite digital game credit listing",
     href: gamivoAffiliateUrl("https://www.gamivo.com/search/fortnite"),
     icon: Sparkles,
@@ -137,7 +137,7 @@ const giftCards: GiftCard[] = [
     category: "PC game credit",
     description:
       "Review League of Legends Riot Points options and confirm the correct server, account and regional requirements.",
-    image: "/gamivo/cards/league-of-legends.webp",
+    image: "/gamivo/cards/league-of-legends.svg",
     imageAlt: "League of Legends Riot Points digital credit",
     href: gamivoAffiliateUrl(
       "https://www.gamivo.com/direct-top-ups/league-of-legends-pc-id",

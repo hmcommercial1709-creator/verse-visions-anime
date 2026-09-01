@@ -212,11 +212,8 @@ export const Route = createRootRoute({
     ],
 
     links: [
-      {
-        rel: "canonical",
-        href: `${SITE_URL}/`,
-      },
-
+      // Canonicals belong to leaf routes. A root-level homepage canonical is
+      // inherited by every page and conflicts with each route's own URL.
       {
         rel: "stylesheet",
         href: appCss,

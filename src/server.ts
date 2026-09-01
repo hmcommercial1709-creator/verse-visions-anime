@@ -1,4 +1,5 @@
 import "./lib/error-capture";
+import { legacyUrlResponse } from "./lib/legacy-url-policy";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
@@ -76,6 +77,8 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     const url = new URL(request.url);
+    const legacyResponse = legacyUrlResponse(request);
+    if (legacyResponse) return legacyResponse;
 
     // Protected internal importer endpoint.
     // Nothing happens unless the request is explicitly made to this path.

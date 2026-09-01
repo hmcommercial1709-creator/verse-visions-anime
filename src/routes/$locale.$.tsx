@@ -1,8 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, notFound } from '@tanstack/react-router'
+import { isLocaleCode } from '@/lib/i18n'
 import { supabase } from '@/integrations/supabase/client'
 import { useState, useEffect } from 'react'
 
 export const Route = createFileRoute('/$locale/$')({
+  beforeLoad: ({ params }) => {
+    // Do not turn arbitrary missing URLs (e.g. /daily) into a 200 hub page.
+    if (!isLocaleCode(params.locale)) throw notFound();
+  },
   loader: async () => {
     const { data: recentAnime } = await supabase
       .from('entities')

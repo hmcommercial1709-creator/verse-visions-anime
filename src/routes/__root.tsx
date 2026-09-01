@@ -8,13 +8,13 @@ import {
 } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
+import { OFFERWALL_POLICY_SCRIPT } from "@/lib/offerwall-policy";
 
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
-import { PropellerConversion } from "@/components/propeller-conversion";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 
@@ -184,11 +184,6 @@ export const Route = createRootRoute({
       },
 
       {
-        name: "monetag",
-        content: "348a180a6837274a1caffc015dd1769f",
-      },
-
-      {
         name: "google-adsense-account",
         content: "ca-pub-6422431093727588",
       },
@@ -354,6 +349,7 @@ function RootShell({ children }: { children: ReactNode }) {
       className="dark"
     >
       <head>
+        <script id="gamecastle-offerwall-policy" dangerouslySetInnerHTML={{ __html: OFFERWALL_POLICY_SCRIPT }} />
         <HeadContent />
       </head>
 
@@ -390,7 +386,6 @@ function RootComponent() {
 
       <DeferredScripts />
 
-      <PropellerConversion />
     </div>
   );
 }

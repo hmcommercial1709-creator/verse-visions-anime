@@ -35,6 +35,9 @@ jobs:
       - name: Check language navigation and rewards
         run: node scripts/check-interaction-regressions.mjs
 
+      - name: Verify Offerwall policy preserves consent
+        run: node scripts/check-offerwall-policy.mjs
+
       - name: Verify published sitemap health
         run: node scripts/check-sitemaps.mjs
 

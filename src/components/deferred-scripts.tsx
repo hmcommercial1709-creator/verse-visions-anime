@@ -17,8 +17,7 @@ const THIRD_PARTY_TAGS: Tag[] = [
       "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-LETSF76JTN');",
   },
 
-  // NOTE: no Monetag in-page push / vignette / popunder zones. The homepage
-  // must be free of overlay and interstitial formats — display units only.
+  // Advertising uses Google AdSense only; no third-party push or popunder tags.
 
   {
     id: "cf-beacon",

@@ -36,7 +36,7 @@ const DECEPTIVE_PATTERNS: RegExp[] = [
   /update\s+your\s+(flash|player|browser)/i,
 ];
 
-/** Ad networks we intentionally run, including Monetag's vignette banner. */
+/** Only Google's configured display advertising networks are allowed. */
 const ALLOWED_AD_HOSTS = [
   // In-page display networks only. Overlay/interstitial/popunder hosts are
   // deliberately absent so their creatives get swept out of the DOM.
@@ -49,8 +49,12 @@ function isAllowedNetwork(el: HTMLElement): boolean {
   const nodes = [el, ...Array.from(el.querySelectorAll("iframe, img, a, script"))] as HTMLElement[];
   return nodes.some((n) => {
     const src = n.getAttribute?.("src") ?? n.getAttribute?.("href") ?? "";
-    const id = n.id ?? "";
-    return ALLOWED_AD_HOSTS.some((h) => src.includes(h)) || /monetag|vignette/i.test(id);
+    try {
+      const hostname = new URL(src, window.location.href).hostname;
+      return ALLOWED_AD_HOSTS.some((host) => hostname === host || hostname.endsWith(`.${host}`));
+    } catch {
+      return false;
+    }
   });
 }
 
@@ -72,8 +76,7 @@ function isIntrusiveOverlay(el: HTMLElement): boolean {
 
   const text0 = (el.textContent ?? "").slice(0, 600);
   const deceptive = text0.trim() !== "" && DECEPTIVE_PATTERNS.some((re) => re.test(text0));
-  // Creative from a network we configured ourselves (e.g. the Monetag vignette
-  // banner) is allowed through unless it carries deceptive scam copy.
+  // Google's configured display creatives remain unless deceptive.
   if (!deceptive && isAllowedNetwork(el)) return false;
 
 

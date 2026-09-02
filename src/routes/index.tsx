@@ -67,7 +67,7 @@ export default function Home() {
   };
 
   return (
-    <div style={{ "background-color": "#060709", color: "#e0e0e0", "font-family": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", "min-height": "100vh", padding: "0 0 50px 0" }}>
+    <main style={{ "background-color": "#060709", color: "#e0e0e0", "font-family": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", "min-height": "100vh", padding: "0 0 50px 0", display: "block", width: "100%" }}>
       
       <div style={{ display: "none" }}>
         <h1>GameCastle.store - Watch Free Anime Online & Play Instant Cloud HTML5 Games</h1>
@@ -172,6 +172,6 @@ export default function Home() {
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }

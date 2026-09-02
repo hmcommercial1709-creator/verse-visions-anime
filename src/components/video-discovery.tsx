@@ -195,13 +195,13 @@ export function VideoDiscovery() {
     initialPageParam: 1,
     enabled: discover,
     staleTime: 6 * 60 * 60 * 1000,
-    retry: true,
+    retry: 2,
     queryFn: async ({ pageParam, signal }) => {
-      const delay = Math.max(0, 800 - (Date.now() - lastRequest.current));
+      const delay = Math.max(0, 1000 - (Date.now() - lastRequest.current));
       if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
       signal.throwIfAborted();
       lastRequest.current = Date.now();
-      const response = await fetch(`https://api.jikan.moe/v4/top/anime?page=${pageParam}&limit=25&sfw=true&filter=bypopularity`, { signal: AbortSignal.any([signal, AbortSignal.timeout(10000)]) });
+      const response = await fetch(`https://api.jikan.moe/v4/top/anime?page=${pageParam}&limit=12&sfw=true&filter=bypopularity`, { signal: AbortSignal.any([signal, AbortSignal.timeout(10000)]) });
       if (!response.ok) throw new Error("Stream synchronization busy.");
       return parseTrailerPage(await response.json());
     },
@@ -213,19 +213,19 @@ export function VideoDiscovery() {
     return combined.filter((video) => category === "All" || video.category === category);
   }, [category, query.data]);
 
-  const { isFetching, isError, hasNextPage, fetchNextPage } = query;
+  const { isFetching, hasNextPage, fetchNextPage } = query;
 
   const loadMore = useCallback(() => {
     if (visible < videos.length) { 
       setVisible((count) => Math.min(count + 6, videos.length)); 
       return; 
     }
-    if (isFetching || isError) return;
+    if (isFetching) return;
     if (hasNextPage) {
       void fetchNextPage();
       setVisible((count) => count + 6);
     }
-  }, [visible, videos.length, isFetching, isError, hasNextPage, fetchNextPage]);
+  }, [visible, videos.length, isFetching, hasNextPage, fetchNextPage]);
 
   // Infinite Scroll Observer Intersection
   useEffect(() => {
@@ -243,7 +243,6 @@ export function VideoDiscovery() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "f" || e.key === "F") {
-        // Quick toggle fullscreen vibe
         triggerToast("🚀 Hyper-Focus Immersive Engine Triggered!");
       }
     };

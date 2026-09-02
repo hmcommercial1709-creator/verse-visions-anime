@@ -1,0 +1,229 @@
+[
+  {
+    "path": "/anime/naruto",
+    "title": "Naruto",
+    "topics": [
+      "action",
+      "adventure",
+      "fantasy",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/one-piece",
+    "title": "One Piece",
+    "topics": [
+      "action",
+      "adventure",
+      "fantasy",
+      "shonen",
+      "comedy"
+    ]
+  },
+  {
+    "path": "/anime/attack-on-titan",
+    "title": "Attack on Titan",
+    "topics": [
+      "action",
+      "drama",
+      "fantasy",
+      "psychological",
+      "horror"
+    ]
+  },
+  {
+    "path": "/anime/demon-slayer",
+    "title": "Demon Slayer",
+    "topics": [
+      "action",
+      "supernatural",
+      "historical",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/jujutsu-kaisen",
+    "title": "Jujutsu Kaisen",
+    "topics": [
+      "action",
+      "supernatural",
+      "school",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/death-note",
+    "title": "Death Note",
+    "topics": [
+      "mystery",
+      "psychological",
+      "supernatural",
+      "drama"
+    ]
+  },
+  {
+    "path": "/anime/fullmetal-alchemist-brotherhood",
+    "title": "Fullmetal Alchemist: Brotherhood",
+    "topics": [
+      "action",
+      "adventure",
+      "drama",
+      "fantasy",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/hunter-x-hunter",
+    "title": "Hunter x Hunter",
+    "topics": [
+      "action",
+      "adventure",
+      "fantasy",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/chainsaw-man",
+    "title": "Chainsaw Man",
+    "topics": [
+      "action",
+      "horror",
+      "supernatural",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/solo-leveling",
+    "title": "Solo Leveling",
+    "topics": [
+      "action",
+      "fantasy",
+      "supernatural"
+    ]
+  },
+  {
+    "path": "/anime/frieren",
+    "title": "Frieren: Beyond Journey's End",
+    "topics": [
+      "fantasy",
+      "adventure",
+      "drama",
+      "slice-of-life"
+    ]
+  },
+  {
+    "path": "/anime/spy-x-family",
+    "title": "Spy x Family",
+    "topics": [
+      "action",
+      "comedy",
+      "slice-of-life",
+      "family"
+    ]
+  },
+  {
+    "path": "/anime/dragon-ball-z",
+    "title": "Dragon Ball Z",
+    "topics": [
+      "action",
+      "adventure",
+      "shonen",
+      "supernatural"
+    ]
+  },
+  {
+    "path": "/anime/bleach",
+    "title": "Bleach",
+    "topics": [
+      "action",
+      "supernatural",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/my-hero-academia",
+    "title": "My Hero Academia",
+    "topics": [
+      "action",
+      "shonen",
+      "school",
+      "supernatural"
+    ]
+  },
+  {
+    "path": "/anime/jojos-bizarre-adventure",
+    "title": "JoJo's Bizarre Adventure",
+    "topics": [
+      "action",
+      "adventure",
+      "supernatural",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/one-punch-man",
+    "title": "One-Punch Man",
+    "topics": [
+      "action",
+      "comedy",
+      "supernatural"
+    ]
+  },
+  {
+    "path": "/anime/mob-psycho-100",
+    "title": "Mob Psycho 100",
+    "topics": [
+      "action",
+      "comedy",
+      "supernatural",
+      "school"
+    ]
+  },
+  {
+    "path": "/anime/haikyuu",
+    "title": "Haikyuu!!",
+    "topics": [
+      "sports",
+      "drama",
+      "school",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/blue-lock",
+    "title": "Blue Lock",
+    "topics": [
+      "sports",
+      "drama",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/black-clover",
+    "title": "Black Clover",
+    "topics": [
+      "action",
+      "fantasy",
+      "magic",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/dr-stone",
+    "title": "Dr. Stone",
+    "topics": [
+      "adventure",
+      "sci-fi",
+      "shonen"
+    ]
+  },
+  {
+    "path": "/anime/yu-yu-hakusho",
+    "title": "Yu Yu Hakusho",
+    "topics": [
+      "action",
+      "supernatural",
+      "shonen"
+    ]
+  }
+]

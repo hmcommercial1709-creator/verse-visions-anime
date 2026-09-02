@@ -45,6 +45,9 @@ jobs:
       - name: Check TypeScript
         run: bunx tsc --noEmit
 
+      - name: Reject weak or duplicate generated content
+        run: node scripts/check-content-quality.mjs
+
       - name: Validate content registry
         run: bun run validate:content
 

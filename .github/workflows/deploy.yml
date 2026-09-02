@@ -41,6 +41,9 @@ jobs:
       - name: Verify published sitemap health
         run: node scripts/check-sitemaps.mjs
 
+      - name: Reject weak or duplicate generated content
+        run: node scripts/check-content-quality.mjs
+
       - name: Run Pinterest Auto Poster
         run: python scripts/pinterest-auto-poster.py
 

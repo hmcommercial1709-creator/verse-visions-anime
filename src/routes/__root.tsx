@@ -16,6 +16,7 @@ import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
 import { DeferredScripts } from "@/components/deferred-scripts";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
+import { PersonalDiscovery } from "@/components/personal-discovery";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 
 const SITE_URL = "https://gamecastle.store";
@@ -377,6 +378,7 @@ function RootComponent() {
 
       <main className="flex-1">
         <Outlet />
+        <PersonalDiscovery />
       </main>
 
       <SiteFooter />

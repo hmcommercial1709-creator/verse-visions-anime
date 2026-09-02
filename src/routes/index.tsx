@@ -13,6 +13,7 @@ import { Rail, PosterRail } from "@/components/streaming-rails";
 import { Section, StatPill } from "@/components/ui-bits";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStage } from "@/components/home-stage";
+import { PersonalDiscovery } from "@/components/personal-discovery";
 import { HomeStorePromo } from "@/components/home-store-promo";
 import DownloadBanner from "@/components/DownloadBanner";
 
@@ -192,6 +193,7 @@ function Home() {
       <HomeStorePromo />
       <DownloadBanner />
       <HomeStage trending={trending} />
+      <PersonalDiscovery homeOnly />
 
       <div className="mx-auto max-w-7xl px-4 lg:px-6">
         <section className="mt-12">

@@ -14,6 +14,8 @@ const rich = { id: 123, isAdult: false, title: { english: 'Test anime' },
 assert.equal(assessAnime(rich).readyForReview, true);
 assert.equal(assessAnime(rich).content.editorial.status, 'required');
 assert.equal(assessAnime(rich).content.synopsis.editorial_original, false);
+assert.ok(assessAnime(rich).content.search_intents.some(q=>q.section==='characters'));
+assert.ok(!assessAnime({...rich,episodes:null,relations:{edges:[]}}).content.search_intents.some(q=>q.question.includes('How many episodes') || q.section==='franchise_relations'));
 assert.equal(assessAnime({...rich,description:'Short text'}).readyForReview, false);
 assert.equal(assessAnime({...rich,characters:{edges:[]}}).readyForReview, false);
 assert.equal(assessAnime({...rich,isAdult:true}).readyForReview, false);

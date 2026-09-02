@@ -34,7 +34,20 @@ export function assessAnime(anime) {
   if (characters.length < 3) reasons.push('insufficient_character_data');
   if (!links.length) reasons.push('missing_official_or_licensed_link');
   const source = { name: 'AniList', url: `https://anilist.co/anime/${anime.id}` };
+  const name = titleOf(anime);
+  // Cover distinct reader questions inside one dossier, not one URL per keyword.
+  const supportedQuestions = [
+    ...(synopsis ? [{question:`What is ${name} about?`, section:'synopsis'}] : []),
+    ...(anime.episodes ? [{question:`How many episodes does ${name} have?`, section:'facts'}] : []),
+    ...(anime.duration ? [{question:`How long is an episode of ${name}?`, section:'facts'}] : []),
+    ...(studios.length ? [{question:`Which animation studio made ${name}?`, section:'facts'}] : []),
+    ...(characters.length ? [{question:`Who are the main and supporting characters in ${name}?`, section:'characters'}] : []),
+    ...(relations.length ? [{question:`Which anime are related to ${name}?`, section:'franchise_relations'}] : []),
+    ...(links.length ? [{question:`Where can I check official information and viewing availability for ${name}?`, section:'official_links'}] : []),
+  ];
   const content = { generator_version: GENERATOR_VERSION, title: titleOf(anime), locale: 'en',
+    search_intents: supportedQuestions,
+    coverage_policy: 'One canonical topic; answer supported questions in sections; refresh existing records rather than generate keyword variants.',
     synopsis: { text: synopsis, attribution: source, editorial_original: false },
     facts, characters, franchise_relations: relations, official_links: links,
     alternative_titles: [...new Set([anime.title?.romaji, anime.title?.native, ...(anime.synonyms ?? [])].map(cleanText).filter(Boolean))],

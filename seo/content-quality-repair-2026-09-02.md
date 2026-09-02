@@ -17,13 +17,15 @@
 - Approval requires reviewer identity, review timestamp and original analysis; completeness alone does not establish quality or promise Google indexing.
 - Source attribution and checking timestamps are retained. Franchise relationships are not misrepresented as viewing order, nor are source summaries presented as our original reviews.
 - Draft internal links are drawn from the real published anime manifest. Matching existing editorial titles reuse their canonical path. CI detects a stale manifest.
-- The website gains a lightweight, bilingual discovery panel: current-topic/saved-interest recommendations, a local reading list, clearing controls and more suggestions. No additional API, images, videos or third-party tracker is introduced.
+- The website gains a bilingual visual discovery panel: current-topic/saved-interest recommendations, a local reading list, clearing controls and more suggestions. Three illustrated cards and two click-to-play trailers use existing responsive artwork. Images are lazy-loaded with reserved ratios; no video iframe loads before interaction. No new personalization API or tracker is introduced. The homepage panel follows the hero; relevant detail pages show it after the main content.
 
 ## Verification
 
 - First two live v7 batches: HTTP 200, 20 dossiers, 12 ready for review, 8 needing data, zero generated/publication pages. v8 adds validated editorial links.
 - Cron was paused during replacement and restored after the live test.
 - TypeScript, targeted ESLint, quality/discovery tests, locale/reward tests, Offerwall consent tests and the Cloudflare production build pass locally.
+- Initial discovery deployment was verified in production: saved Naruto persists after reload and the next-suggestions button changes the cards.
+- Supabase/GitHub migration history was synchronized using the exact three already-applied production versions; Cloudflare, GitHub build and Supabase Preview checks all succeeded on commit `3ba19d4`.
 
 ## Deliberate limits
 

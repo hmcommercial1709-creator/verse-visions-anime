@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ExternalLink, Play, X, Zap, Sparkles, Trophy, Radio, MessageSquare, Heart, Gift, Send, CheckCircle2, Flame, PlusCircle, Video } from "lucide-react";
+import { ExternalLink, Play, X, Zap, Sparkles, Trophy, Radio, MessageSquare, Heart, Gift, Send, CheckCircle2, Flame, PlusCircle, Video, Lock, Share2, Users } from "lucide-react";
 import { FreeVideoDownloads } from "@/components/free-video-downloads";
 import { animes } from "@/data/animes";
 import { TRAILERS } from "@/data/trailers";
@@ -25,6 +25,13 @@ const BASE_VIDEOS: FeedVideo[] = uniqueVideos([
 ]);
 
 interface CommentItem {
+  id: string;
+  user: string;
+  text: string;
+  time: string;
+}
+
+interface ChatMessage {
   id: string;
   user: string;
   text: string;
@@ -99,7 +106,6 @@ function VideoCard({
     onScore(25);
   };
 
-  // Helper to extract YouTube ID if it's a full URL or ID
   const getEmbedId = (idOrUrl: string) => {
     if (!idOrUrl) return "uHGShqcAHlQ";
     if (idOrUrl.includes("youtu.be/")) {
@@ -178,7 +184,7 @@ function VideoCard({
               </span>
             </span>
             <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-slate-900/90 backdrop-blur-md px-4 py-1.5 border border-cyan-500/40 text-xs font-black text-cyan-300 tracking-wider">
-              <Radio size={14} className="animate-pulse text-red-500" /> LIVE COMMUNITY FEED
+              <Radio size={14} className="animate-pulse text-red-500" /> LIVE VIRAL FEED
             </div>
           </button>
         )}
@@ -189,7 +195,7 @@ function VideoCard({
         <div className="absolute inset-x-0 bottom-0 top-16 z-30 flex flex-col bg-slate-950/98 backdrop-blur-2xl border-t border-cyan-500/50 p-5 animate-in fade-in slide-in-from-bottom duration-300">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 className="text-sm font-black text-cyan-300 flex items-center gap-2">
-              <MessageSquare size={18} /> Syndicate Community Discussion ({comments.length})
+              <MessageSquare size={18} /> Clip Discussion ({comments.length})
             </h3>
             <button 
               type="button" 
@@ -217,10 +223,10 @@ function VideoCard({
               type="text" 
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Drop your hype comment & earn bonus XP..."
-              className="flex-1 rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 shadow-inner"
+              placeholder="Write a comment & earn bonus XP..."
+              className="flex-1 rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
             />
-            <button type="submit" className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 text-slate-950 font-black hover:scale-105 transition shadow-lg shadow-cyan-500/20">
+            <button type="submit" className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 text-slate-950 font-black hover:scale-105 transition">
               <Send size={18} />
             </button>
           </form>
@@ -280,14 +286,27 @@ export function VideoDiscovery() {
   
   const [userXp, setUserXp] = useState(650);
   const [streakDays] = useState(7);
-  const [comboMultiplier] = useState(1.5);
-  const [unlockedBadges, setUnlockedBadges] = useState<string[]>(["Novice Explorer", "Stream Addict", "Combo Master"]);
-  const [notification, setNotification] = useState<string | null>("🔥 Community Arena Active: Upload Clips, Win Weekly Store Vouchers!");
+  const [notification, setNotification] = useState<string | null>("🔥 VIRAL ENGINE: Share to Unlock Live Streaming & Earn Store Vouchers!");
   const [rewardModal, setRewardModal] = useState(false);
   const [uploadModal, setUploadModal] = useState(false);
+  const [liveStreamModal, setLiveStreamModal] = useState(false);
+  const [globalChatModal, setGlobalChatModal] = useState(false);
   const [claimedCode, setClaimedCode] = useState<string | null>(null);
 
-  // Custom User Uploaded Videos State
+  // Viral Sharing Gate for Live Streaming
+  const [sharesCount, setSharesCount] = useState(0);
+  const requiredShares = 3;
+  const isLiveUnlocked = sharesCount >= requiredShares || userXp >= 1200;
+
+  // Global Chat Messages
+  const [globalMessages, setGlobalMessages] = useState<ChatMessage[]>([
+    { id: "1", user: "ApexPredator", text: "Who is online right now? Let's squad up!", time: "1m ago" },
+    { id: "2", user: "AnimeQueen", text: "Solo Leveling season 2 hype is unmatched!!", time: "5m ago" },
+    { id: "3", user: "GamerGod", text: "Check the store vault, got 20% off coupon easily!", time: "10m ago" }
+  ]);
+  const [globalInput, setGlobalInput] = useState("");
+
+  // Custom User Uploads
   const [userVideos, setUserVideos] = useState<FeedVideo[]>([]);
   const [newTitle, setNewTitle] = useState("");
   const [newCategory, setNewCategory] = useState("Gaming");
@@ -303,36 +322,48 @@ export function VideoDiscovery() {
     setTimeout(() => setNotification(null), 4500);
   }, []);
 
-  const handleEarnScore = useCallback((basePoints: number) => {
-    const earned = Math.round(basePoints * comboMultiplier);
-    setUserXp((prev) => {
-      const next = prev + earned;
-      if (next >= 1200 && !unlockedBadges.includes("Cyber Legend")) {
-        setUnlockedBadges((b) => [...b, "Cyber Legend"]);
-        triggerToast("🏆 Elite Status Unlocked: Cyber Legend Badge Acquired!");
-      }
-      return next;
-    });
-  }, [comboMultiplier, unlockedBadges, triggerToast]);
-
   const claimStoreReward = () => {
     if (userXp >= 500) {
       setUserXp(p => p - 500);
       setClaimedCode("GAMECASTLE-VIP-2026");
       triggerToast("🎁 Success! Store Voucher Unlocked & Credited.");
     } else {
-      triggerToast("⚠️ Insufficient XP! Watch more streams and engage to earn.");
+      triggerToast("⚠️ Insufficient XP! Engage more to unlock vouchers.");
     }
+  };
+
+  const handleSharePlatform = () => {
+    setSharesCount(c => {
+      const next = c + 1;
+      if (next >= requiredShares) {
+        triggerToast("🎉 CONGRATS! Live Streaming Feature UNLOCKED!");
+      } else {
+        triggerToast(`🔗 Shared! (${next}/${requiredShares}) Share more to unlock Live Streaming instantly.`);
+      }
+      return next;
+    });
+  };
+
+  const handleGlobalChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!globalInput.trim()) return;
+    const msg: ChatMessage = {
+      id: Date.now().toString(),
+      user: "Elite Member (You)",
+      text: globalInput.trim(),
+      time: "Just now"
+    };
+    setGlobalMessages([msg, ...globalMessages]);
+    setGlobalInput("");
+    setUserXp(p => p + 10);
   };
 
   const handleUploadSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim() || !newUrl.trim()) {
-      triggerToast("⚠️ Please provide both title and video link!");
+      triggerToast("⚠️ Provide title and link!");
       return;
     }
-
-    // Extract ID
     let ytId = newUrl.trim();
     if (ytId.includes("youtu.be/")) ytId = ytId.split("youtu.be/")[1]?.split("?")[0] || ytId;
     if (ytId.includes("watch?v=")) ytId = ytId.split("watch?v=")[1]?.split("&")[0] || ytId;
@@ -341,7 +372,7 @@ export function VideoDiscovery() {
       id: ytId,
       title: newTitle.trim(),
       category: newCategory,
-      description: newDesc.trim() || "Community submitted clip for the weekly GameCastle Arena tournament."
+      description: newDesc.trim() || "Community viral clip."
     };
 
     setUserVideos([newClip, ...userVideos]);
@@ -349,8 +380,8 @@ export function VideoDiscovery() {
     setNewUrl("");
     setNewDesc("");
     setUploadModal(false);
-    setUserXp(p => p + 150); // Massive bonus for uploading!
-    triggerToast("🚀 Clip successfully uploaded to the Live Arena! +150 XP earned.");
+    setUserXp(p => p + 150);
+    triggerToast("🚀 Clip published! +150 XP added.");
   };
 
   const videos = useMemo(() => {
@@ -389,13 +420,95 @@ export function VideoDiscovery() {
         </div>
       )}
 
+      {/* Global Live Chat Modal */}
+      {globalChatModal && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
+          <div className="w-full max-w-lg rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl flex flex-col h-[70vh]">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <h3 className="text-lg font-black text-cyan-300 flex items-center gap-2">
+                <Users className="text-cyan-400" /> Global Syndicate Chat & Hangout
+              </h3>
+              <button type="button" onClick={() => setGlobalChatModal(false)} className="text-slate-400 hover:text-white transition">
+                <X size={22} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto py-4 space-y-3">
+              {globalMessages.map(m => (
+                <div key={m.id} className="rounded-2xl bg-slate-900 border border-slate-800 p-3">
+                  <div className="flex justify-between text-[10px] text-slate-400 mb-1">
+                    <span className="font-bold text-cyan-400">{m.user}</span>
+                    <span>{m.time}</span>
+                  </div>
+                  <p className="text-sm text-slate-200">{m.text}</p>
+                </div>
+              ))}
+            </div>
+            <form onSubmit={handleGlobalChatSubmit} className="flex gap-2 pt-3 border-t border-slate-800">
+              <input 
+                type="text" 
+                value={globalInput}
+                onChange={e => setGlobalInput(e.target.value)}
+                placeholder="Chat with millions globally..."
+                className="flex-1 rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
+              />
+              <button type="submit" className="rounded-2xl bg-cyan-400 px-5 py-3 text-slate-950 font-black hover:scale-105 transition">
+                <Send size={16} />
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Live Stream Gate Modal */}
+      {liveStreamModal && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
+          <div className="w-full max-w-md rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl text-center space-y-4">
+            <div className="mx-auto w-16 h-16 rounded-full bg-red-500/20 border border-red-500/50 grid place-items-center text-red-400">
+              {isLiveUnlocked ? <Radio size={30} className="animate-pulse" /> : <Lock size={30} />}
+            </div>
+            <h3 className="text-lg font-black text-white">
+              {isLiveUnlocked ? "🔴 Go Live Studio Ready!" : "🔒 Live Streaming is Locked!"}
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              {isLiveUnlocked 
+                ? "You have successfully unlocked the viral streaming room! Broadcast your gameplay or anime reacts to the world instantly."
+                : `To prevent spam and keep quality elite, you must share the platform with friends (${sharesCount}/${requiredShares} shares) or reach 1200 XP to unlock Live Streaming.`}
+            </p>
+
+            {!isLiveUnlocked ? (
+              <div className="space-y-3 pt-2">
+                <button 
+                  type="button" 
+                  onClick={handleSharePlatform}
+                  className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 px-6 py-3.5 text-xs font-black text-white shadow-lg hover:scale-105 transition"
+                >
+                  <Share2 size={16} /> Share Platform with Friends ({sharesCount}/{requiredShares})
+                </button>
+                <p className="text-[10px] text-slate-500">Every share brings you closer to massive audience reach!</p>
+              </div>
+            ) : (
+              <div className="rounded-2xl bg-cyan-950/40 border border-cyan-500/50 p-4 space-y-3">
+                <p className="text-xs text-cyan-300 font-bold">You are live-ready! Click below to start broadcasting.</p>
+                <a href="https://gamecastle.store" target="_blank" rel="noreferrer" className="block rounded-xl bg-cyan-400 text-slate-950 py-3 text-xs font-black">
+                  Launch Broadcast Studio 🚀
+                </a>
+              </div>
+            )}
+
+            <button type="button" onClick={() => setLiveStreamModal(false)} className="text-xs font-bold text-slate-400 hover:text-white pt-2">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Upload Clip Modal */}
       {uploadModal && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
-          <div className="w-full max-w-lg rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+          <div className="w-full max-w-lg rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <h3 className="text-lg font-black text-cyan-300 flex items-center gap-2">
-                <Video className="text-cyan-400" /> Upload Clip to Weekly Arena
+                <Video className="text-cyan-400" /> Upload Viral Clip
               </h3>
               <button type="button" onClick={() => setUploadModal(false)} className="text-slate-400 hover:text-white transition">
                 <X size={22} />
@@ -404,19 +517,19 @@ export function VideoDiscovery() {
             
             <form onSubmit={handleUploadSubmit} className="py-5 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">Clip Title / Game Name</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Title</label>
                 <input 
                   type="text" 
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder="e.g., Insane 1v5 Clutch in Valorant"
+                  placeholder="e.g., Insane Boss Fight Clutch"
                   required
                   className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">YouTube Video Link or ID</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1">YouTube Link / ID</label>
                 <input 
                   type="text" 
                   value={newUrl}
@@ -439,127 +552,98 @@ export function VideoDiscovery() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">Description / Hype Note</label>
-                <textarea 
-                  value={newDesc}
-                  onChange={(e) => setNewDesc(e.target.value)}
-                  placeholder="Share a quick note about your clip..."
-                  rows={2}
-                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
-                />
-              </div>
-
-              <div className="pt-2 flex items-center justify-end gap-3">
-                <button type="button" onClick={() => setUploadModal(false)} className="px-4 py-2.5 text-xs font-bold text-slate-400 hover:text-white">
-                  Cancel
-                </button>
-                <button type="submit" className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition">
-                  Publish to Feed (+150 XP)
-                </button>
+              <div className="pt-2 flex justify-end gap-3">
+                <button type="button" onClick={() => setUploadModal(false)} className="px-4 py-2.5 text-xs font-bold text-slate-400">Cancel</button>
+                <button type="submit" className="rounded-2xl bg-cyan-400 px-6 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition">Publish (+150 XP)</button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* Store Voucher Redemption Modal */}
+      {/* Store Voucher Modal */}
       {rewardModal && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
           <div className="w-full max-w-md rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl">
             <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <h3 className="text-lg font-black text-cyan-300 flex items-center gap-2">
-                <Gift className="text-amber-400" /> GameCastle Store Rewards Vault
+                <Gift className="text-amber-400" /> Store Rewards Vault
               </h3>
               <button type="button" onClick={() => setRewardModal(false)} className="text-slate-400 hover:text-white transition">
                 <X size={22} />
               </button>
             </div>
             <div className="py-6 space-y-4">
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Exchange your accumulated XP for exclusive store vouchers on game keys and gift cards on <span className="text-cyan-400 font-bold">gamecastle.store</span>!
-              </p>
+              <p className="text-sm text-slate-300">Exchange XP for 20% OFF vouchers on <span className="text-cyan-400 font-bold">gamecastle.store</span>!</p>
               <div className="rounded-2xl bg-slate-900 border border-slate-800 p-4 flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-slate-400 font-semibold">Voucher Cost</p>
+                  <p className="text-xs text-slate-400">Cost</p>
                   <p className="font-display font-black text-amber-400 text-lg">500 XP</p>
                 </div>
-                <button 
-                  type="button" 
-                  onClick={claimStoreReward}
-                  className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition"
-                >
-                  Redeem Voucher
-                </button>
+                <button type="button" onClick={claimStoreReward} className="rounded-2xl bg-cyan-400 px-6 py-3 text-xs font-black text-slate-950">Redeem</button>
               </div>
-
               {claimedCode && (
                 <div className="rounded-2xl bg-cyan-950/40 border border-cyan-500/50 p-4 text-center space-y-2">
-                  <p className="text-xs text-cyan-300 font-black flex items-center justify-center gap-1.5">
-                    <CheckCircle2 size={16} /> Your Store Code:
-                  </p>
-                  <code className="block bg-black p-3 rounded-2xl font-mono text-amber-300 font-black text-xl tracking-wider">{claimedCode}</code>
-                  <a href="https://gamecastle.store" target="_blank" rel="noreferrer" className="inline-block text-xs text-cyan-400 font-bold underline pt-1">
-                    Visit gamecastle.store ↗
-                  </a>
+                  <p className="text-xs text-cyan-300 font-bold">Your Store Code:</p>
+                  <code className="block bg-black p-3 rounded-2xl font-mono text-amber-300 font-black text-xl">{claimedCode}</code>
+                  <a href="https://gamecastle.store" target="_blank" rel="noreferrer" className="text-xs text-cyan-400 underline pt-1 block">Visit gamecastle.store ↗</a>
                 </div>
               )}
-            </div>
-            <div className="pt-4 border-t border-slate-800 text-center">
-              <button type="button" onClick={() => setRewardModal(false)} className="text-xs font-black text-slate-400 hover:text-white transition">
-                Close Vault
-              </button>
             </div>
           </div>
         </div>
       )}
 
       <div className="relative mx-auto max-w-3xl">
-        {/* Top Dashboard & Action Bar */}
-        <div className="mb-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          <div className="flex items-center gap-3 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-3 backdrop-blur-xl shadow-lg">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 shadow">
-              <Trophy size={20} />
-            </span>
+        {/* Top Viral Toolbar */}
+        <div className="mb-4 grid grid-cols-2 sm:grid-cols-5 gap-2">
+          <div className="flex items-center gap-2.5 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-2.5">
+            <Trophy size={18} className="text-amber-400" />
             <div>
-              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">XP Vault</p>
-              <p className="font-display text-sm font-black text-amber-300">{userXp} XP</p>
+              <p className="text-[8px] font-black uppercase text-slate-400">XP</p>
+              <p className="text-xs font-black text-amber-300">{userXp}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-3 backdrop-blur-xl shadow-lg">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-red-500 to-pink-600 text-white shadow">
-              <Flame size={20} />
-            </span>
+          <div className="flex items-center gap-2.5 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-2.5">
+            <Flame size={18} className="text-red-500" />
             <div>
-              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Streak</p>
-              <p className="font-display text-sm font-black text-red-400">{streakDays} Days 🔥</p>
+              <p className="text-[8px] font-black uppercase text-slate-400">Streak</p>
+              <p className="text-xs font-black text-red-400">{streakDays}d 🔥</p>
             </div>
           </div>
+
+          <button 
+            type="button" 
+            onClick={() => setLiveStreamModal(true)}
+            className="flex items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 px-2.5 py-2.5 text-[11px] font-black text-white shadow-lg hover:scale-105 transition"
+          >
+            <Radio size={16} className="animate-pulse" /> Go Live {isLiveUnlocked ? "" : "🔒"}
+          </button>
+
+          <button 
+            type="button" 
+            onClick={() => setGlobalChatModal(true)}
+            className="flex items-center justify-center gap-1.5 rounded-2xl bg-slate-900 border border-cyan-500/40 px-2.5 py-2.5 text-[11px] font-black text-cyan-300 hover:bg-slate-800 transition"
+          >
+            <Users size={16} /> Global Chat
+          </button>
 
           <button 
             type="button" 
             onClick={() => setUploadModal(true)}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-3 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition"
+            className="col-span-2 sm:col-span-1 flex items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-2.5 py-2.5 text-[11px] font-black text-slate-950 shadow-lg"
           >
-            <PlusCircle size={18} /> Upload Clip
-          </button>
-
-          <button 
-            type="button" 
-            onClick={() => setRewardModal(true)}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition"
-          >
-            <Gift size={18} /> Store Vault
+            <PlusCircle size={16} /> Upload
           </button>
         </div>
 
-        {/* Category Filter */}
+        {/* Category Header */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-full bg-cyan-400 animate-ping" />
             <h1 className="font-display text-xl font-black tracking-tight sm:text-3xl bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent">
-              GameCastle Live Feed
+              GameCastle Viral Feed
             </h1>
           </div>
           <div className="flex gap-2">
@@ -568,10 +652,10 @@ export function VideoDiscovery() {
                 key={tab} 
                 type="button" 
                 onClick={() => { setCategory(tab); setVisible(10); stop(); feed.current?.scrollTo({ top: 0 }); }} 
-                className={`rounded-2xl border px-4 py-2 text-xs font-black transition-all duration-300 ${
+                className={`rounded-2xl border px-4 py-2 text-xs font-black transition-all ${
                   category === tab 
                     ? "border-cyan-400 bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.5)] scale-105" 
-                    : "border-slate-800 bg-slate-900/80 text-slate-300 hover:border-slate-600 hover:text-white"
+                    : "border-slate-800 bg-slate-900/80 text-slate-300 hover:text-white"
                 }`}
               >
                 {tab}
@@ -585,17 +669,17 @@ export function VideoDiscovery() {
           ref={feed} 
           tabIndex={0} 
           role="region" 
-          aria-label="TikTok vertical feed" 
-          className="h-[82vh] min-h-[600px] snap-y snap-mandatory overflow-y-auto overscroll-y-none rounded-3xl border border-slate-800 bg-black/95 p-2.5 shadow-2xl backdrop-blur-2xl focus-visible:outline-2 focus-visible:outline-cyan-400 scrollbar-none"
+          aria-label="Viral vertical feed" 
+          className="h-[82vh] min-h-[600px] snap-y snap-mandatory overflow-y-auto overscroll-y-none rounded-3xl border border-slate-800 bg-black/95 p-2.5 shadow-2xl backdrop-blur-2xl scrollbar-none"
         >
           {videos.slice(0, visible).map((video, idx) => (
             <div key={`${video.id}-${idx}`} className="mb-4 h-[82vh] min-h-[550px] snap-center snap-always last:mb-0">
               <VideoCard 
-                video={video} 
+                video= {video} 
                 playing={playing === `${video.id}-${idx}`} 
                 onPlay={() => setPlaying(`${video.id}-${idx}`)} 
                 onStop={stop} 
-                onScore={handleEarnScore}
+                onScore={(pts) => setUserXp(p => p + pts)}
                 index={idx}
               />
             </div>
@@ -604,12 +688,11 @@ export function VideoDiscovery() {
           <div ref={sentinel} className="h-20 w-full grid place-items-center" aria-hidden="true">
             {hasMore && (
               <div className="flex items-center gap-2 text-xs font-black text-cyan-400 animate-pulse bg-cyan-950/40 border border-cyan-500/30 px-5 py-2.5 rounded-full shadow-lg">
-                <Sparkles size={16} className="animate-spin" /> Summoning More Syndicate Content…
+                <Sparkles size={16} className="animate-spin" /> Summoning Viral Content…
               </div>
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

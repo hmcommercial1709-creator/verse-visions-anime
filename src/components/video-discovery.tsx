@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ExternalLink, Play, X, Zap, Sparkles, Trophy, Radio, MessageSquare, Heart, Gift, Send, CheckCircle2, Flame, ShieldAlert, Award } from "lucide-react";
+import { ExternalLink, Play, X, Zap, Sparkles, Trophy, Radio, MessageSquare, Heart, Gift, Send, CheckCircle2, Flame, PlusCircle, Video } from "lucide-react";
 import { FreeVideoDownloads } from "@/components/free-video-downloads";
 import { animes } from "@/data/animes";
 import { TRAILERS } from "@/data/trailers";
 import { uniqueVideos, type FeedVideo } from "@/lib/video-feed";
 
-const ALL_VIDEOS: FeedVideo[] = uniqueVideos([
+const BASE_VIDEOS: FeedVideo[] = uniqueVideos([
   ...animes.flatMap((anime): FeedVideo[] => TRAILERS[anime.slug] ? [{ id: TRAILERS[anime.slug], title: anime.title, category: "Anime", description: anime.synopsis, slug: anime.slug }] : []),
   { id: "uHGShqcAHlQ", title: "The Legend of Zelda: Tears of the Kingdom", category: "Gaming", description: "Nintendo's pre-launch epic trailer explores Hyrule's sky islands and Link's new powers." },
   { id: "lMdsrZ1otlA", title: "Genshin Impact — The Outlander Who Caught the Wind", category: "Gaming", description: "The iconic open-world introduction trailer setting the standard for immersive exploration." },
@@ -65,7 +65,7 @@ function VideoCard({
         onStop();
       } else if (!hasScored) {
         setHasScored(true);
-        onScore(35); // Reward for immersion
+        onScore(35);
       }
     }, { threshold: 0.6 });
     observer.observe(card.current);
@@ -96,15 +96,29 @@ function VideoCard({
     };
     setComments([newC, ...comments]);
     setCommentText("");
-    onScore(25); // High reward for community interaction
+    onScore(25);
   };
+
+  // Helper to extract YouTube ID if it's a full URL or ID
+  const getEmbedId = (idOrUrl: string) => {
+    if (!idOrUrl) return "uHGShqcAHlQ";
+    if (idOrUrl.includes("youtu.be/")) {
+      return idOrUrl.split("youtu.be/")[1]?.split("?")[0] || idOrUrl;
+    }
+    if (idOrUrl.includes("watch?v=")) {
+      return idOrUrl.split("watch?v=")[1]?.split("&")[0] || idOrUrl;
+    }
+    return idOrUrl;
+  };
+
+  const currentEmbedId = getEmbedId(video.id);
 
   return (
     <article ref={card} className="group relative flex h-[82vh] min-h-[550px] snap-center snap-always flex-col overflow-hidden rounded-3xl border border-cyan-500/40 bg-gradient-to-b from-[#0f172a] to-[#020617] shadow-[0_0_60px_rgba(6,182,212,0.25)] transition-all duration-500">
       <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none" />
       <div className="absolute -left-20 -bottom-20 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl pointer-events-none" />
 
-      {/* Side Action Bar (TikTok / Reels Style High Engagement) */}
+      {/* Side Action Bar */}
       <div className="absolute right-3 bottom-36 z-20 flex flex-col items-center gap-4 bg-slate-950/70 backdrop-blur-md p-2.5 rounded-2xl border border-cyan-500/30 shadow-2xl">
         <button 
           type="button" 
@@ -132,7 +146,7 @@ function VideoCard({
       <div className="relative min-h-0 flex-1 bg-black overflow-hidden">
         {playing ? (
           <iframe
-            src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
+            src={`https://www.youtube-nocookie.com/embed/${currentEmbedId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
             title={`${video.title} — Immersive Stream`}
             className="absolute inset-0 h-full w-full border-0 scale-[1.01]"
             allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
@@ -147,8 +161,8 @@ function VideoCard({
             aria-label={`Play ${video.title}`}
           >
             <img 
-              src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`} 
-              onError={(e)=>{(e.target as HTMLImageElement).src = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;}}
+              src={`https://i.ytimg.com/vi/${currentEmbedId}/maxresdefault.jpg`} 
+              onError={(e)=>{(e.target as HTMLImageElement).src = `https://i.ytimg.com/vi/${currentEmbedId}/hqdefault.jpg`;}}
               alt={video.title} 
               width={1280} 
               height={720} 
@@ -164,7 +178,7 @@ function VideoCard({
               </span>
             </span>
             <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-slate-900/90 backdrop-blur-md px-4 py-1.5 border border-cyan-500/40 text-xs font-black text-cyan-300 tracking-wider">
-              <Radio size={14} className="animate-pulse text-red-500" /> LIVE STREAM SYNDICATE
+              <Radio size={14} className="animate-pulse text-red-500" /> LIVE COMMUNITY FEED
             </div>
           </button>
         )}
@@ -243,7 +257,7 @@ function VideoCard({
             </Link>
           )}
           <a 
-            href={`https://www.youtube.com/watch?v=${video.id}`} 
+            href={`https://www.youtube.com/watch?v=${currentEmbedId}`} 
             target="_blank" 
             rel="noopener noreferrer" 
             className="inline-flex items-center gap-1.5 py-2 text-sm font-bold text-slate-300 underline underline-offset-4 hover:text-cyan-300 transition"
@@ -266,11 +280,19 @@ export function VideoDiscovery() {
   
   const [userXp, setUserXp] = useState(650);
   const [streakDays] = useState(7);
-  const [comboMultiplier, setComboMultiplier] = useState(1.5);
+  const [comboMultiplier] = useState(1.5);
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>(["Novice Explorer", "Stream Addict", "Combo Master"]);
-  const [notification, setNotification] = useState<string | null>("🔥 Retention Protocol Active: Stay & Watch to Maximize XP Multiplier!");
+  const [notification, setNotification] = useState<string | null>("🔥 Community Arena Active: Upload Clips, Win Weekly Store Vouchers!");
   const [rewardModal, setRewardModal] = useState(false);
+  const [uploadModal, setUploadModal] = useState(false);
   const [claimedCode, setClaimedCode] = useState<string | null>(null);
+
+  // Custom User Uploaded Videos State
+  const [userVideos, setUserVideos] = useState<FeedVideo[]>([]);
+  const [newTitle, setNewTitle] = useState("");
+  const [newCategory, setNewCategory] = useState("Gaming");
+  const [newUrl, setNewUrl] = useState("");
+  const [newDesc, setNewDesc] = useState("");
 
   const sentinel = useRef<HTMLDivElement>(null);
   const feed = useRef<HTMLDivElement>(null);
@@ -291,7 +313,6 @@ export function VideoDiscovery() {
       }
       return next;
     });
-    setComboMultiplier((c) => Math.min(c + 0.25, 3.0));
   }, [comboMultiplier, unlockedBadges, triggerToast]);
 
   const claimStoreReward = () => {
@@ -304,10 +325,39 @@ export function VideoDiscovery() {
     }
   };
 
+  const handleUploadSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTitle.trim() || !newUrl.trim()) {
+      triggerToast("⚠️ Please provide both title and video link!");
+      return;
+    }
+
+    // Extract ID
+    let ytId = newUrl.trim();
+    if (ytId.includes("youtu.be/")) ytId = ytId.split("youtu.be/")[1]?.split("?")[0] || ytId;
+    if (ytId.includes("watch?v=")) ytId = ytId.split("watch?v=")[1]?.split("&")[0] || ytId;
+
+    const newClip: FeedVideo = {
+      id: ytId,
+      title: newTitle.trim(),
+      category: newCategory,
+      description: newDesc.trim() || "Community submitted clip for the weekly GameCastle Arena tournament."
+    };
+
+    setUserVideos([newClip, ...userVideos]);
+    setNewTitle("");
+    setNewUrl("");
+    setNewDesc("");
+    setUploadModal(false);
+    setUserXp(p => p + 150); // Massive bonus for uploading!
+    triggerToast("🚀 Clip successfully uploaded to the Live Arena! +150 XP earned.");
+  };
+
   const videos = useMemo(() => {
-    const filtered = ALL_VIDEOS.filter((video) => category === "All" || video.category === category);
-    return [...filtered, ...filtered, ...filtered];
-  }, [category]);
+    const combined = [...userVideos, ...BASE_VIDEOS];
+    const filtered = combined.filter((video) => category === "All" || video.category === category);
+    return [...filtered, ...filtered];
+  }, [userVideos, category]);
 
   const hasMore = visible < videos.length;
 
@@ -339,6 +389,80 @@ export function VideoDiscovery() {
         </div>
       )}
 
+      {/* Upload Clip Modal */}
+      {uploadModal && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
+          <div className="w-full max-w-lg rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <h3 className="text-lg font-black text-cyan-300 flex items-center gap-2">
+                <Video className="text-cyan-400" /> Upload Clip to Weekly Arena
+              </h3>
+              <button type="button" onClick={() => setUploadModal(false)} className="text-slate-400 hover:text-white transition">
+                <X size={22} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleUploadSubmit} className="py-5 space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Clip Title / Game Name</label>
+                <input 
+                  type="text" 
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  placeholder="e.g., Insane 1v5 Clutch in Valorant"
+                  required
+                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">YouTube Video Link or ID</label>
+                <input 
+                  type="text" 
+                  value={newUrl}
+                  onChange={(e) => setNewUrl(e.target.value)}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  required
+                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Category</label>
+                <select 
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
+                >
+                  <option value="Gaming">Gaming</option>
+                  <option value="Anime">Anime</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">Description / Hype Note</label>
+                <textarea 
+                  value={newDesc}
+                  onChange={(e) => setNewDesc(e.target.value)}
+                  placeholder="Share a quick note about your clip..."
+                  rows={2}
+                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
+                />
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-3">
+                <button type="button" onClick={() => setUploadModal(false)} className="px-4 py-2.5 text-xs font-bold text-slate-400 hover:text-white">
+                  Cancel
+                </button>
+                <button type="submit" className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition">
+                  Publish to Feed (+150 XP)
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Store Voucher Redemption Modal */}
       {rewardModal && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
@@ -353,7 +477,7 @@ export function VideoDiscovery() {
             </div>
             <div className="py-6 space-y-4">
               <p className="text-sm text-slate-300 leading-relaxed">
-                Exchange your accumulated immersive XP for exclusive discount vouchers (20% OFF) on game keys, gift cards, and GAMIVO assets on <span className="text-cyan-400 font-bold">gamecastle.store</span>!
+                Exchange your accumulated XP for exclusive store vouchers on game keys and gift cards on <span className="text-cyan-400 font-bold">gamecastle.store</span>!
               </p>
               <div className="rounded-2xl bg-slate-900 border border-slate-800 p-4 flex items-center justify-between">
                 <div>
@@ -370,13 +494,13 @@ export function VideoDiscovery() {
               </div>
 
               {claimedCode && (
-                <div className="rounded-2xl bg-cyan-950/40 border border-cyan-500/50 p-4 text-center space-y-2 animate-in zoom-in-95 duration-300">
+                <div className="rounded-2xl bg-cyan-950/40 border border-cyan-500/50 p-4 text-center space-y-2">
                   <p className="text-xs text-cyan-300 font-black flex items-center justify-center gap-1.5">
-                    <CheckCircle2 size={16} /> Your Exclusive Store Code:
+                    <CheckCircle2 size={16} /> Your Store Code:
                   </p>
                   <code className="block bg-black p-3 rounded-2xl font-mono text-amber-300 font-black text-xl tracking-wider">{claimedCode}</code>
-                  <a href="https://gamecastle.store" target="_blank" rel="noreferrer" className="inline-block text-xs text-cyan-400 font-bold underline hover:text-cyan-300 pt-1">
-                    Visit gamecastle.store to apply code ↗
+                  <a href="https://gamecastle.store" target="_blank" rel="noreferrer" className="inline-block text-xs text-cyan-400 font-bold underline pt-1">
+                    Visit gamecastle.store ↗
                   </a>
                 </div>
               )}
@@ -391,43 +515,46 @@ export function VideoDiscovery() {
       )}
 
       <div className="relative mx-auto max-w-3xl">
-        {/* Top Engagement & XP Dashboard */}
-        <div className="mb-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {/* XP Vault */}
-          <div className="flex items-center gap-3 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-3.5 backdrop-blur-xl shadow-lg">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 shadow-md">
-              <Trophy size={22} />
+        {/* Top Dashboard & Action Bar */}
+        <div className="mb-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div className="flex items-center gap-3 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-3 backdrop-blur-xl shadow-lg">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 shadow">
+              <Trophy size={20} />
             </span>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">XP Vault</p>
-              <p className="font-display text-base font-black text-amber-300">{userXp} XP</p>
+              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">XP Vault</p>
+              <p className="font-display text-sm font-black text-amber-300">{userXp} XP</p>
             </div>
           </div>
 
-          {/* Daily Streak */}
-          <div className="flex items-center gap-3 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-3.5 backdrop-blur-xl shadow-lg">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-red-500 to-pink-600 text-white shadow-md">
-              <Flame size={22} />
+          <div className="flex items-center gap-3 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-3 backdrop-blur-xl shadow-lg">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-red-500 to-pink-600 text-white shadow">
+              <Flame size={20} />
             </span>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Daily Streak</p>
-              <p className="font-display text-base font-black text-red-400">{streakDays} Days 🔥</p>
+              <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Streak</p>
+              <p className="font-display text-sm font-black text-red-400">{streakDays} Days 🔥</p>
             </div>
           </div>
 
-          {/* Store Reward Button */}
-          <div className="col-span-2 sm:col-span-1 flex items-center">
-            <button 
-              type="button" 
-              onClick={() => setRewardModal(true)}
-              className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 px-4 py-3.5 text-xs font-black text-slate-950 shadow-xl hover:scale-105 transition"
-            >
-              <Gift size={18} /> Store Rewards
-            </button>
-          </div>
+          <button 
+            type="button" 
+            onClick={() => setUploadModal(true)}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-3 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition"
+          >
+            <PlusCircle size={18} /> Upload Clip
+          </button>
+
+          <button 
+            type="button" 
+            onClick={() => setRewardModal(true)}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition"
+          >
+            <Gift size={18} /> Store Vault
+          </button>
         </div>
 
-        {/* Category Header & Filter */}
+        {/* Category Filter */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-full bg-cyan-400 animate-ping" />
@@ -453,12 +580,12 @@ export function VideoDiscovery() {
           </div>
         </div>
 
-        {/* Infinite Vertical Feed */}
+        {/* Vertical Feed */}
         <div 
           ref={feed} 
           tabIndex={0} 
           role="region" 
-          aria-label="TikTok vertical immersive feed" 
+          aria-label="TikTok vertical feed" 
           className="h-[82vh] min-h-[600px] snap-y snap-mandatory overflow-y-auto overscroll-y-none rounded-3xl border border-slate-800 bg-black/95 p-2.5 shadow-2xl backdrop-blur-2xl focus-visible:outline-2 focus-visible:outline-cyan-400 scrollbar-none"
         >
           {videos.slice(0, visible).map((video, idx) => (

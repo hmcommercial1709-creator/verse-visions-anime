@@ -47,11 +47,8 @@ jobs:
       - name: Run Pinterest Auto Poster
         run: python scripts/pinterest-auto-poster.py
 
-      - name: Verify output folder
-        run: |
-          if [ -d ".output" ]; then
-            echo "Found .output folder successfully."
-          else
-            echo "Error: .output folder not found!"
-            exit 1
-          fi
+      - name: Check video feed and live channels
+        run: node scripts/check-video-feed.mjs
+
+      - name: Verify Cloudflare deployable output
+        run: node scripts/check-build-output.mjs

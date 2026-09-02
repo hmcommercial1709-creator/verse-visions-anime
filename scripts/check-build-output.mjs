@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+const configPath = '.output/server/wrangler.json';
+assert.ok(existsSync(configPath), 'Cloudflare runtime config was not generated');
+const config = JSON.parse(readFileSync(configPath, 'utf8'));
+assert.equal(config.name, 'verse-visions-anime');
+assert.ok(existsSync(resolve(dirname(configPath), config.main)), 'Worker entry is missing');
+assert.ok(existsSync(resolve(dirname(configPath), config.assets.directory)), 'Public assets are missing');
+assert.ok(existsSync('.wrangler/deploy/config.json'), 'Wrangler deploy redirect is missing');
+console.log('Cloudflare Worker entry, assets and deployment config exist.');

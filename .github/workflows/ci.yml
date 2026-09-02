@@ -64,5 +64,5 @@ jobs:
 
       - name: Check build output
         run: |
-          echo "Build output:"
-          ls -la .output
+          node scripts/check-build-output.mjs
+          node scripts/check-video-feed.mjs

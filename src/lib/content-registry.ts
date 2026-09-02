@@ -59,12 +59,41 @@ export function isPublished(
   return (status ?? "published") === "published";
 }
 
+/**
+ * Strict Quality Gate to prevent thin or incomplete content from being published
+ * or indexed in public sitemaps and search indexes.
+ */
+export function passesQualityGate(item: any): boolean {
+  // Article quality check: requires substantial body text (>= 350 words) and valid content blocks
+  if ("body" in item || "sections" in item) {
+    const paragraphs = articleParagraphs(item);
+    const totalWords = paragraphs.join(" ").split(/\s+/).filter(Boolean).length;
+    return totalWords >= 350 && articleHasContent(item);
+  }
+  
+  // Anime quality check: requires title, a descriptive synopsis (>= 100 chars), genres, and a studio
+  if ("synopsis" in item || "genres" in item) {
+    return Boolean(
+      item.title &&
+      item.synopsis &&
+      item.synopsis.length >= 100 &&
+      item.genres &&
+      item.genres.length > 0 &&
+      item.studio
+    );
+  }
+
+  return true;
+}
+
 // ---------------------------------------------------------------------
 // Anime
 // ---------------------------------------------------------------------
 
 export const allAnime = (): Anime[] => animes;
-export const publishedAnime = (): Anime[] => animes.filter(isPublished);
+export const publishedAnime = (): Anime[] => 
+  animes.filter((a) => isPublished(a) && passesQualityGate(a));
+
 export const getAnimeBySlug = (slug: string): Anime | undefined =>
   animes.find((a) => a.slug === slug);
 
@@ -114,7 +143,8 @@ export const relationshipsForCharacter = (slug: string): CharacterRelationship[]
 
 export const allArticles = (): Article[] => articles;
 export const publishedArticles = (): Article[] =>
-  articles.filter((article) => isPublished(article) && articleHasContent(article));
+  articles.filter((article) => isPublished(article) && articleHasContent(article) && passesQualityGate(article));
+
 export const getArticleBySlug = (slug: string): Article | undefined =>
   articles.find((a) => a.slug === slug);
 
@@ -181,7 +211,14 @@ export type SearchEntry = {
   title: string;
   subtitle?: string;
   kind:
-    "anime" | "character" | "studio" | "genre" | "article" | "episode" | "franchise" | "ranking";
+    | "anime"
+    | "character"
+    | "studio"
+    | "genre"
+    | "article"
+    | "episode"
+    | "franchise"
+    | "ranking";
   href: string;
   keywords: string[];
 };

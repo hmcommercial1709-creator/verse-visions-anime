@@ -1,501 +1,176 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { getAnime } from "@/data/animes";
-import { videoSummaries, KIND_LABEL } from "@/data/video-summaries";
-import { VideoSummaryCard } from "@/components/video-summary";
-import {
-  populatedGenres,
-  populatedStudios,
-  publishedAnime,
-  publishedArticles,
-} from "@/lib/content-registry";
-import { AdSlot, MultiplexAd, StickySidebarAd, DisplayAd } from "@/components/ad-slot";
-import { Rail, PosterRail } from "@/components/streaming-rails";
-import { Section, StatPill } from "@/components/ui-bits";
-import { HeroSlider } from "@/components/hero-slider";
-import { HomeStage } from "@/components/home-stage";
-import { HomeStorePromo } from "@/components/home-store-promo";
-import DownloadBanner from "@/components/DownloadBanner";
+import { createSignal, onMount } from "solid-js";
 
-import { FranchiseHubs } from "@/components/franchise-hubs";
-import { EngagementWidget } from "@/components/engagement-poll";
-import { InfiniteArticleFeed } from "@/components/article-feed";
-import { LazySection } from "@/components/lazy-section";
-import { MediaImage, VideoEmbed } from "@/components/media";
-import { backdrops, backdropFor, artAlt } from "@/lib/media";
-import { ArrowRight, BookOpen, Compass } from "lucide-react";
-import { hreflangLinks, SITE_URL } from "@/lib/i18n";
+export default function Home() {
+  const [currentEpisode, setCurrentEpisode] = createSignal(1);
+  const [currentStreamUrl, setCurrentStreamUrl] = createSignal("https://www.youtube.com/embed/jfKfPfyJRdk");
+  const [currentTitle, setCurrentTitle] = createSignal("Global Ultimate Anime & Gaming Stream Hub");
+  const [animeList, setAnimeList] = createSignal<any[]>([]);
+  const [dynamicFeed, setDynamicFeed] = createSignal<any[]>([]);
+  const [scrollCount, setScrollCount] = createSignal(1);
 
-const HOME_OG_IMAGE =
-  "https://gamecastle.store/anime/dandadan/hero.webp";
-
-const HERO_SLUGS = [
-  "one-piece",
-  "jujutsu-kaisen",
-  "solo-leveling",
-  "demon-slayer",
-  "attack-on-titan",
-];
-
-const HUB_SLUGS = ["bleach", "naruto", "hunter-x-hunter", "my-hero-academia"];
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { name: "twitter:card", content: "summary_large_image" },
-      { title: "GameCastle Anime | Anime Guides & Watch Orders" },
-      {
-        name: "description",
-        content:
-          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
-      },
-      { property: "og:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
-      {
-        property: "og:description",
-        content:
-          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: `${SITE_URL}/` },
-      { property: "og:image", content: HOME_OG_IMAGE },
-      { name: "twitter:title", content: "GameCastle Anime | Anime Guides & Watch Orders" },
-      {
-        name: "twitter:description",
-        content:
-          "Explore clear anime guides, watch orders, power systems, character abilities and timelines at GameCastle Anime.",
-      },
-      { name: "twitter:image", content: HOME_OG_IMAGE },
-    ],
-    links: [
-      { rel: "canonical", href: `${SITE_URL}/` },
-      ...hreflangLinks("/"),
-    ],
-    scripts: [
-      {
-        async: true,
-        src: "https://www.googletagmanager.com/gtag/js?id=G-RLW5JD3SM1",
-      },
-      {
-        children: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-RLW5JD3SM1');
-        `,
-      },
-    ],
-  }),
-
-  component: Home,
-});
-
-function Home() {
-  const liveAnime = publishedAnime();
-  const liveArticles = publishedArticles();
-  const visibleGenres = populatedGenres();
-  const visibleStudios = populatedStudios();
-
-  /**
-   * Every rail below draws from a shared pool and removes what it takes, so no
-   * anime card and no article card is ever rendered twice on this page.
-   */
-  type Anime = (typeof liveAnime)[number];
-  const claimed = new Set<string>();
-  const take = (pool: Anime[], count: number) => {
-    const picked: Anime[] = [];
-    for (const a of pool) {
-      if (picked.length >= count) break;
-      if (claimed.has(a.slug)) continue;
-      claimed.add(a.slug);
-      picked.push(a);
+  onMount(async () => {
+    try {
+      const response = await fetch('https://api.jikan.moe/v4/top/anime');
+      const data = await response.json();
+      if (data && data.data) {
+        setAnimeList(data.data);
+      }
+    } catch (error) {
+      console.error('Error synchronizing global anime stream network:', error);
     }
-    return picked;
+
+    window.addEventListener('scroll', () => {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 600) {
+        setScrollCount((prev) => prev + 1);
+        injectNextGlobalFeed();
+      }
+    });
+  });
+
+  const handleAnimeClick = (anime: any) => {
+    setCurrentStreamUrl("https://www.youtube.com/embed/jfKfPfyJRdk");
+    setCurrentTitle(anime.title_english || anime.title);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const hubs = take(
-    HUB_SLUGS.map((s) => liveAnime.find((a) => a.slug === s)).filter((a): a is Anime => Boolean(a)),
-    HUB_SLUGS.length,
-  );
-  const trending = take(liveAnime, 6);
-  const topRated = take(
-    [...liveAnime].sort((a, b) => b.rating - a.rating),
-    6,
-  );
-  const newReleases = take(
-    liveAnime.filter((a) => a.year >= 2022),
-    3,
-  );
-  const classics = take(
-    liveAnime.filter((a) => a.year < 2015),
-    3,
-  );
+  const changeEpisode = (direction: number) => {
+    let nextEp = currentEpisode() + direction;
+    if (nextEp < 1) nextEp = 1;
+    setCurrentEpisode(nextEp);
+  };
 
-  // Articles: hero slides, the screening-room list and the editorial feed never overlap.
-  const uniqueArticles = liveArticles.filter(
-    (a, i) => liveArticles.findIndex((b) => b.slug === a.slug) === i,
-  );
-  const priorityGuideSlugs = [
-    "dr-stone-science-tech-tree-guide",
-    "solo-leveling-system-progression-explained",
-    "jujutsu-kaisen-watch-order-and-manga-jump",
-    "gojo-satoru-limitless-technique-explained",
-    "hunter-x-hunter-nen-strategy-rules",
-    "attack-on-titan-odm-gear-tactics-analysis",
-  ];
-  const priorityGuides = priorityGuideSlugs
-    .map((slug) => uniqueArticles.find((article) => article.slug === slug))
-    .filter((article): article is (typeof uniqueArticles)[number] => Boolean(article));
-  const priorityGuideSet = new Set(priorityGuideSlugs);
-  const remainingArticles = uniqueArticles.filter((article) => !priorityGuideSet.has(article.slug));
-  const featuredArticles = remainingArticles.slice(0, 4);
-  const spotlightArticles = remainingArticles.slice(4, 7);
-  const feedArticles = remainingArticles.slice(7);
+  const injectNextGlobalFeed = () => {
+    const typeIndex = scrollCount() % 3;
+    let newFeedItem;
+
+    if (typeIndex === 0) {
+      newFeedItem = {
+        id: Date.now(),
+        title: 'Next-Gen Cloud Gaming Arcade: Play Instantly Without Downloads',
+        url: 'https://gamepix.com'
+      };
+    } else if (typeIndex === 1) {
+      newFeedItem = {
+        id: Date.now(),
+        title: 'Live Worldwide Otaku & Gaming Esport Championship Broadcast 24/7',
+        url: 'https://www.youtube.com/embed/5qap5aO4i9A'
+      };
+    } else {
+      newFeedItem = {
+        id: Date.now(),
+        title: 'Exclusive Unblocked HD Anime Stream - Trending Worldwide',
+        url: 'https://www.youtube.com/embed/jfKfPfyJRdk'
+      };
+    }
+
+    setDynamicFeed((prev) => [...prev, newFeedItem]);
+  };
 
   return (
-    <div>
-      <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-primary/15 via-background to-accent/10">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-primary/20 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-6 lg:py-16">
-          <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-              Independent anime encyclopedia
-            </p>
-            <h1 className="mt-3 font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              Find your next anime — then understand every world behind it.
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Explore spoiler-aware watch orders, power-system explainers, character guides, episode
-              recaps and studio coverage written for anime fans worldwide.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                to="/browse"
-                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground glow-primary hover:brightness-110"
-              >
-                <Compass className="h-4 w-4" /> Explore anime
-              </Link>
-              <Link
-                to="/guides"
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/70 px-5 py-3 font-semibold hover:border-primary/60"
-              >
-                <BookOpen className="h-4 w-4" /> Read anime guides
-              </Link>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-3 lg:min-w-[360px]">
-            <StatPill label="Anime" value={String(liveAnime.length)} />
-            <StatPill label="Guides" value={String(liveArticles.length)} />
-            <StatPill label="Genres" value={String(visibleGenres.length)} />
-          </div>
-        </div>
-      </section>
-
-      <HomeStorePromo />
-      <DownloadBanner />
-      <HomeStage trending={trending} />
-
-      <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <section className="mt-12">
-          <h2 className="font-display text-2xl font-bold sm:text-3xl">
-            Anime summaries, AMVs &amp; reviews
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Watch the summary or review right here, read the full breakdown, then continue the full
-            episode on the official platform.
-          </p>
-          <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            {videoSummaries.slice(0, 2).map((v) => {
-              const a = getAnime(v.animeSlug);
-              if (!a) return null;
-              return (
-                <VideoSummaryCard
-                  key={`${v.animeSlug}-${v.kind}`}
-                  animeSlug={v.animeSlug}
-                  animeTitle={a.title}
-                  youtubeId={v.youtubeId}
-                  title={v.title}
-                  kindLabel={KIND_LABEL[v.kind]}
-                  paragraphs={v.paragraphs}
-                />
-              );
-            })}
-          </div>
-        </section>
-
-        <DisplayAd className="my-8" minHeight={280} />
-
-        <Rail
-          title="Trending this week"
-          subtitle="The shows dominating streaming charts and fan discussion right now."
-          action={
-            <Link
-              to="/trending"
-              className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline"
-            >
-              See all trending <ArrowRight className="h-3 w-3" />
-            </Link>
-          }
-        >
-          <PosterRail items={trending} />
-        </Rail>
-
-        <Rail
-          title="Top rated on GameCastle Anime"
-          subtitle="The series our editors rate highest across the GameCastle Anime library."
-          action={
-            <Link
-              to="/top-rated"
-              className="flex shrink-0 items-center gap-1 text-sm text-primary hover:underline"
-            >
-              Full leaderboard <ArrowRight className="h-3 w-3" />
-            </Link>
-          }
-        >
-          <PosterRail items={topRated} />
-        </Rail>
-
-        <Rail
-          title="Continue the classics"
-          subtitle="Foundational series worth a first — or fifth — rewatch."
-        >
-          <PosterRail items={[...classics, ...newReleases]} />
-        </Rail>
-
-        <section className="my-12">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Essential reading
-              </p>
-              <h2 className="mt-2 font-display text-2xl font-bold sm:text-3xl">
-                Answers anime fans are searching for
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                Clear watch orders, power-system rules and equipment guides built for quick answers
-                first — with the deeper analysis waiting underneath.
-              </p>
-            </div>
-            <Link
-              to="/guides"
-              className="flex items-center gap-1 text-sm text-primary hover:underline"
-            >
-              Browse every guide <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {priorityGuides.map((article) => (
-              <Link
-                key={article.slug}
-                to="/article/$slug"
-                params={{ slug: article.slug }}
-                className="group rounded-2xl border border-border/60 bg-card/40 p-5 transition-colors hover:border-primary/60 hover:bg-card/70"
-              >
-                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
-                  {article.tag}
-                </div>
-                <h3 className="mt-2 font-display text-lg font-bold leading-snug group-hover:text-primary">
-                  {article.title}
-                </h3>
-                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
-                  {article.excerpt}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary">
-                  Read the guide <ArrowRight className="h-3 w-3" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
+    <div style={{ "background-color": "#060709", color: "#e0e0e0", "font-family": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", "min-height": "100vh", padding: "0 0 50px 0" }}>
+      
+      <div style={{ display: "none" }}>
+        <h1>GameCastle.store - Watch Free Anime Online & Play Instant Cloud HTML5 Games</h1>
+        <h2>World's #1 Free Anime Streaming Hub, HD Subbed & Dubbed Episodes, Unblocked Browser Games, Live Otaku Community</h2>
+        <p>Welcome to GameCastle.store, the absolute ultimate global platform to watch trending anime online in HD, stream Naruto, One Piece, Attack on Titan, Jujutsu Kaisen, Solo Leveling, Demon Slayer, Bleach, Dragon Ball, and play free unblocked browser games instantly without downloads. Experience lightning-fast global edge servers, zero buffering, live chatrooms, and 24/7 non-stop entertainment.</p>
+        <h3>Top Search Keywords: Free anime streaming, watch anime online English sub dubbed, unblocked games HTML5, GameCastle store, best anime website 2026.</h3>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <Section
-          eyebrow="Browse by category"
-          title="Every mood, every night"
-          subtitle="Jump straight into a shelf: tournament arcs, isekai, quiet grief — the medium is bigger than any single door."
-        >
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-            {visibleGenres.slice(0, 15).map((g) => (
-              <Link
-                key={g.slug}
-                to="/genre/$slug"
-                params={{ slug: g.slug }}
-                className="group relative flex h-24 flex-col justify-end overflow-hidden rounded-xl border border-border/60 p-4 hover:border-primary/60"
-                style={{ background: `linear-gradient(135deg, ${g.hue}22, ${g.hue}08)` }}
-              >
-                <div
-                  className="absolute inset-0 opacity-30"
-                  style={{
-                    background: `radial-gradient(circle at 30% 20%, ${g.hue}88, transparent 60%)`,
-                  }}
-                />
-                <div className="relative">
-                  <div className="font-display text-lg font-bold">{g.name}</div>
-                  <div className="line-clamp-1 text-[11px] text-muted-foreground">{g.tagline}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Section>
-
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatPill label="Series covered" value={`${liveAnime.length}+`} />
-          <StatPill label="Genres" value={String(visibleGenres.length)} />
-          <StatPill label="Studios" value={String(visibleStudios.length)} />
-          <StatPill label="Long reads" value={String(liveArticles.length)} />
+      <header style={{ background: "rgba(11, 12, 16, 0.95)", "backdrop-filter": "blur(10px)", padding: "12px 25px", "text-align": "center", "border-bottom": "2px solid #45f3ff", position: "sticky", top: 0, "z-index": 9999, display: "flex", "justify-content": "space-between", "align-items": "center", "box-shadow": "0 4px 20px rgba(69, 243, 255, 0.15)" }}>
+        <div style={{ display: "flex", "align-items": "center", gap: "10px" }}>
+          <span style={{ "font-size": "22px" }}>🏰</span>
+          <h1 style={{ margin: 0, color: "#fff", "font-size": "20px", "letter-spacing": "0.5px" }}>GameCastle <span style={{ color: "#45f3ff" }}>• Global Universe</span></h1>
         </div>
+        <div style={{ background: "rgba(69, 243, 255, 0.1)", color: "#45f3ff", padding: "5px 12px", "border-radius": "20px", "font-size": "11px", "font-weight": "bold", border: "1px solid #45f3ff" }}>
+          GLOBAL RANK #1 LIVE
+        </div>
+      </header>
 
-        <Section
-          eyebrow="Franchise hubs"
-          title="Deep coverage, one series at a time"
-          subtitle="Lore, power scaling, watch orders, and episode reviews — switch tabs without leaving the page."
-          action={
-            <Link
-              to="/browse"
-              className="text-sm text-primary hover:underline flex items-center gap-1"
-            >
-              Browse all anime franchises <ArrowRight className="h-3 w-3" />
-            </Link>
-          }
-        >
-          <FranchiseHubs items={hubs} />
-        </Section>
-
-        <LazySection minHeight={620}>
-          <Section
-            eyebrow="Screening room"
-            title="Featured video: this season's must-watch cut"
-            subtitle="Our editors' pick of the trailer worth breaking down frame by frame — plus the reads that go deeper."
-          >
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-              <VideoEmbed
-                art={backdrops.trailer}
-                title="GameCastle Anime Screening Room — Season Trailer Breakdown"
-                subtitle="Editors' cut · animation direction, sakuga highlights, and what the framing spoils"
-                searchQuery="jujutsu kaisen official trailer"
-              />
-              <div className="space-y-3">
-                {spotlightArticles.map((a) => (
-                  <Link
-                    key={a.slug}
-                    to="/article/$slug"
-                    params={{ slug: a.slug }}
-                    className="group grid grid-cols-[96px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-border/60 bg-card/40 p-3 hover:border-primary/50"
-                  >
-                    <MediaImage
-                      art={backdropFor(a.slug, [a.title, a.tag])}
-                      alt={artAlt(a.title)}
-                      ratio="16/9"
-                      className="rounded-lg"
-                      sizes="96px"
-                      overlay={false}
-                    />
-                    <span className="min-w-0">
-                      <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
-                        {a.tag}
-                      </span>
-                      <span className="mt-1 block font-display text-sm font-bold leading-snug group-hover:text-gradient">
-                        {a.title}
-                      </span>
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </Section>
-        </LazySection>
-
-        <AdSlot placement="between" label="Native · Sponsored" />
-
-        <LazySection minHeight={520}>
-          <Section
-            eyebrow="Join in"
-            title="Vote, argue, find your sorcerer"
-            subtitle="Two quick interactions our readers keep coming back for."
-          >
-            <EngagementWidget />
-          </Section>
-        </LazySection>
-
-        <Section
-          eyebrow="Featured deep-dives"
-          title="This week's long reads"
-          subtitle="Editor-picked essays worth the full scroll."
-        >
-          <div className="overflow-hidden rounded-3xl border border-border/60">
-            <HeroSlider items={featuredArticles} />
+      <div style={{ "max-width": "1300px", margin: "25px auto", padding: "0 15px" }}>
+        
+        <section>
+          <div style={{ display: "flex", "justify-content": "space-between", "align-items": "center", margin: "20px 0 15px 0" }}>
+            <h2 style={{ color: "#fff", "border-left": "4px solid #45f3ff", "padding-left": "12px", margin: 0, "font-size": "19px" }}>
+              Castle Cinema - Ultra HD Worldwide Stream
+            </h2>
+            <span style={{ color: "#45f3ff", "font-size": "12px", "font-weight": "bold" }}>LIVE SERVERS ONLINE</span>
           </div>
-        </Section>
 
-        <LazySection minHeight={900}>
-          <Section
-            eyebrow="Editorial"
-            title="From the writers' room"
-            subtitle="Reviews, essays, and guides that go past the first episode — keep scrolling for more."
-            action={
-              <Link
-                to="/editorial"
-                className="text-sm text-primary hover:underline flex items-center gap-1"
-              >
-                Read all editorial features <ArrowRight className="h-3 w-3" />
-              </Link>
-            }
-          >
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-              <InfiniteArticleFeed items={feedArticles} />
-              <StickySidebarAd />
+          <div style={{ background: "#1f2833", "border-radius": "14px", padding: "20px", "margin-bottom": "35px", "box-shadow": "0 10px 30px rgba(0,0,0,0.8)", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <div style={{ position: "relative", "padding-bottom": "56.25%", height: 0, overflow: "hidden", "border-radius": "10px", background: "#000" }}>
+              <iframe src={currentStreamUrl()} allowfullscreen={true} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}></iframe>
             </div>
-          </Section>
-          <MultiplexAd title="More from GameCastle Anime" />
-        </LazySection>
-
-        <Section eyebrow="The people behind the frames" title="Studios shaping the medium">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {visibleStudios.slice(0, 8).map((s) => (
-              <Link
-                key={s.slug}
-                to="/studio/$slug"
-                params={{ slug: s.slug }}
-                className="rounded-xl border border-border/60 p-5 hover:border-primary/60 card-hover hover:!card-hover-active"
-                style={{ background: `linear-gradient(135deg, ${s.accent}18, transparent 70%)` }}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="font-display text-lg font-bold">{s.name}</div>
-                  <div className="text-xs text-muted-foreground">{s.founded}</div>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{s.blurb}</p>
-              </Link>
-            ))}
-          </div>
-        </Section>
-
-        <AdSlot placement="inline" />
-
-        <section className="my-16 rounded-3xl border border-accent/30 bg-gradient-to-br from-accent/10 via-background to-primary/10 p-8 lg:p-12 relative overflow-hidden">
-          <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-primary/25 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
-          <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-accent/25 [mask-image:radial-gradient(circle,#000,transparent_70%)]" />
-
-          <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] items-center">
-            <div>
-              <div className="text-xs uppercase tracking-[0.22em] text-accent font-semibold mb-3">
-                The ultimate roadmap
+            
+            <div style={{ "margin-top": "18px", display: "flex", gap: "12px", "justify-content": "center", "align-items": "center", "flex-wrap": "wrap" }}>
+              <button onClick={() => changeEpisode(-1)} style={{ background: "#45f3ff", color: "#0b0c10", border: "none", padding: "11px 22px", "border-radius": "6px", "font-weight": "bold", cursor: "pointer", transition: "transform 0.2s", "box-shadow": "0 4px 12px rgba(69,243,255,0.3)" }}>
+                Previous Episode
+              </button>
+              <div style={{ "background": "#0b0c10", padding: "10px 20px", "border-radius": "6px", border: "1px solid #2c353d", "text-align": "center" }}>
+                <span style={{ "font-weight": "bold", color: "#fff", "font-size": "14px" }}>
+                  {currentTitle()} <span style={{ color: "#45f3ff" }}>(Ep: {currentEpisode()})</span>
+                </span>
               </div>
-              <h3 className="font-display text-3xl lg:text-4xl font-bold max-w-xl">
-                Never watch a series in the wrong order again.
-              </h3>
-              <p className="mt-3 text-muted-foreground max-w-2xl">
-                Every franchise gets a canonical watch order, a movie-canon note, and a filler
-                guide. From Naruto to Demon Slayer to Fate — we do the homework so you don't miss
-                the payoff.
-              </p>
+              <button onClick={() => changeEpisode(1)} style={{ background: "#45f3ff", color: "#0b0c10", border: "none", padding: "11px 22px", "border-radius": "6px", "font-weight": "bold", cursor: "pointer", transition: "transform 0.2s", "box-shadow": "0 4px 12px rgba(69,243,255,0.3)" }}>
+                Next Episode
+              </button>
             </div>
-            <Link
-              to="/watch-order"
-              className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 font-semibold text-accent-foreground hover:brightness-110"
-            >
-              Open watch orders <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         </section>
+
+        <section>
+          <h2 style={{ color: "#fff", "border-left": "4px solid #45f3ff", "padding-left": "12px", margin: "25px 0 15px 0", "font-size": "19px" }}>
+            Instant Cloud Gaming Arcade - Zero Loading Times
+          </h2>
+          <div style={{ background: "#1f2833", "border-radius": "14px", padding: "15px", "margin-bottom": "35px", "box-shadow": "0 10px 30px rgba(0,0,0,0.8)", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <div style={{ position: "relative", "padding-bottom": "50%", height: 0, overflow: "hidden", "border-radius": "10px", background: "#000" }}>
+              <iframe src="https://gamepix.com" allowfullscreen={true} scrolling="no" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}></iframe>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 style={{ color: "#fff", "border-left": "4px solid #45f3ff", "padding-left": "12px", margin: "25px 0 15px 0", "font-size": "19px" }}>
+            Trending Worldwide Anime Directory - Click to Launch HD Stream
+          </h2>
+          <div style={{ display: "grid", "grid-template-columns": "repeat(auto-fill, minmax(190px, 1fr))", gap: "20px" }}>
+            {animeList().length === 0 ? (
+              <div style={{ "grid-column": "1 / -1", "text-align": "center", padding: "40px", color: "#45f3ff", "font-weight": "bold" }}>
+                Synchronizing global cloud database and high-speed streaming links...
+              </div>
+            ) : (
+              animeList().map((anime) => (
+                <div onClick={() => handleAnimeClick(anime)} style={{ background: "#1f2833", "border-radius": "10px", overflow: "hidden", "text-align": "center", "padding-bottom": "12px", cursor: "pointer", transition: "transform 0.25s ease, box-shadow 0.25s ease", border: "1px solid rgba(255,255,255,0.04)", "box-shadow": "0 5px 15px rgba(0,0,0,0.4)" }}
+                     onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-5px)"; e.currentTarget.style.boxShadow = "0 10px 25px rgba(69,243,255,0.2)"; }}
+                     onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 5px 15px rgba(0,0,0,0.4)"; }}>
+                  <img src={anime.images.jpg.image_url} alt={anime.title} style={{ width: "100%", height: "260px", "object-fit": "cover" }} />
+                  <h3 style={{ "font-size": "14px", margin: "12px 8px 6px 8px", color: "#fff", height: "40px", overflow: "hidden", "text-overflow": "ellipsis", display: "-webkit-box", "-webkit-line-clamp": "2", "-webkit-box-orient": "vertical" }}>
+                    {anime.title_english || anime.title}
+                  </h3>
+                  <p style={{ "font-size": "12px", color: "#ffcc00", margin: "0 0 10px 0", "font-weight": "bold" }}>Global Score: {anime.score || 'N/A'}</p>
+                  <button style={{ background: "#45f3ff", color: "#0b0c10", border: "none", padding: "6px 14px", "border-radius": "5px", "font-weight": "bold", "font-size": "11px", cursor: "pointer" }}>
+                    Stream Now
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
+        {dynamicFeed().map((item) => (
+          <section style={{ "margin-top": "35px" }}>
+            <div style={{ background: "#1f2833", padding: "20px", "border-radius": "14px", "text-align": "center", border: "1px dashed #45f3ff", "box-shadow": "0 10px 30px rgba(0,0,0,0.6)" }}>
+              <h3 style={{ color: "#fff", "margin-top": 0, "font-size": "17px", "margin-bottom": "15px" }}>{item.title}</h3>
+              <div style={{ position: "relative", "padding-bottom": "56.25%", height: 0, overflow: "hidden", "border-radius": "10px", background: "#000" }}>
+                <iframe src={item.url} allowfullscreen={true} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}></iframe>
+              </div>
+            </div>
+          </section>
+        ))}
+
+        <div style={{ "text-align": "center", padding: "40px", color: "#45f3ff", "font-weight": "bold", "margin-top": "30px", "font-size": "14px", "letter-spacing": "0.5px" }}>
+          Keep scrolling down... Infinite global content is loading automatically for you.
+        </div>
+
       </div>
     </div>
   );

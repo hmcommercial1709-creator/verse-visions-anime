@@ -1,28 +1,20 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { ArrowDown, ExternalLink, Play, X, Award, Flame, Zap, Compass, Sparkles, Trophy, Radio } from "lucide-react";
+import { ArrowDown, ExternalLink, Play, X, Flame, Zap, Compass, Sparkles, Trophy, Radio } from "lucide-react";
 import { FreeDownloadSearch, FreeVideoDownloads } from "@/components/free-video-downloads";
 import { FreeGames } from "@/components/free-games";
 import { LiveStreams } from "@/components/live-streams";
 import { animes } from "@/data/animes";
 import { TRAILERS } from "@/data/trailers";
-import { parseTrailerPage, uniqueVideos, type FeedVideo } from "@/lib/video-feed";
+import { uniqueVideos, type FeedVideo } from "@/lib/video-feed";
 
-const INITIAL: FeedVideo[] = uniqueVideos([
+const ALL_VIDEOS: FeedVideo[] = uniqueVideos([
   ...animes.flatMap((anime): FeedVideo[] => TRAILERS[anime.slug] ? [{ id: TRAILERS[anime.slug], title: anime.title, category: "Anime", description: anime.synopsis, slug: anime.slug }] : []),
   { id: "uHGShqcAHlQ", title: "The Legend of Zelda: Tears of the Kingdom", category: "Gaming", description: "Nintendo's third pre-launch trailer explores Hyrule, the sky islands and Link's adventure." },
   { id: "lMdsrZ1otlA", title: "Genshin Impact — The Outlander Who Caught the Wind", category: "Gaming", description: "The announcement trailer from Genshin Impact introduces its open-world adventure." },
   { id: "9bZkp7q19f0", title: "Classic Animation & Public Domain Showcase", category: "Anime", description: "Archived open-source anime and classic animation features hosted on public media vaults." },
   { id: "jNQXAC9IVRw", title: "Gaming Hub Live Experience & Highlights", category: "Gaming", description: "Community highlights, esports moments, and retro gaming retrospectives." }
 ]);
-
-interface Achievement {
-  id: string;
-  title: string;
-  unlocked: boolean;
-  icon: string;
-}
 
 function VideoCard({ 
   video, 
@@ -60,11 +52,9 @@ function VideoCard({
 
   return (
     <article ref={card} className="group relative flex h-[calc(100dvh-12rem)] min-h-[32rem] snap-start snap-always flex-col overflow-hidden rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-[#0f172a] to-[#020617] shadow-[0_0_50px_rgba(6,182,212,0.15)] transition-all duration-500 hover:border-cyan-400/60">
-      {/* Absolute Glow Accents */}
-      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none group-hover:bg-cyan-500/20 transition-all" />
-      <div className="absolute -left-20 -bottom-20 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
+      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none group-hover:bg-cyan-500/25 transition-all" />
+      <div className="absolute -left-20 -bottom-20 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl pointer-events-none" />
 
-      {/* Media Viewport */}
       <div className="relative min-h-0 flex-1 bg-black overflow-hidden">
         {playing ? (
           <iframe
@@ -106,7 +96,6 @@ function VideoCard({
         )}
       </div>
 
-      {/* Content Meta Drawer */}
       <div className="relative z-10 max-h-[45%] shrink-0 overflow-y-auto p-5 sm:p-6 bg-[#090d16]/90 backdrop-blur-xl border-t border-cyan-500/20">
         <div className="flex items-center justify-between gap-3 text-xs font-bold tracking-wider text-cyan-400 uppercase">
           <span className="flex items-center gap-1.5">
@@ -156,22 +145,18 @@ function VideoCard({
 export function VideoDiscovery() {
   const [category, setCategory] = useState("All");
   const [playing, setPlaying] = useState<string | null>(null);
-  const [discover] = useState(true);
-  const [visible, setVisible] = useState(8);
+  const [visible, setVisible] = useState(6);
   
-  // Immersive Gamification Engine State
   const [userXp, setUserXp] = useState(350);
-  const [streakCount, setStreakCount] = useState(5);
+  const [streakCount] = useState(5);
   const [comboMultiplier, setComboMultiplier] = useState(1);
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>(["Novice Explorer", "Stream Addict"]);
   const [notification, setNotification] = useState<string | null>("⚡ Hyper-Stream Mode Active: Scroll infinitely to accumulate XP!");
 
   const sentinel = useRef<HTMLDivElement>(null);
   const feed = useRef<HTMLDivElement>(null);
-  const lastRequest = useRef(0);
   const stop = useCallback(() => setPlaying(null), []);
 
-  // Trigger temporary notification toast
   const triggerToast = useCallback((msg: string) => {
     setNotification(msg);
     setTimeout(() => setNotification(null), 4000);
@@ -190,44 +175,18 @@ export function VideoDiscovery() {
     setComboMultiplier((c) => Math.min(c + 0.5, 3));
   }, [comboMultiplier, unlockedBadges, triggerToast]);
 
-  const query = useInfiniteQuery({
-    queryKey: ["video-trailers-hyper-feed"],
-    initialPageParam: 1,
-    enabled: discover,
-    staleTime: 6 * 60 * 60 * 1000,
-    retry: 2,
-    queryFn: async ({ pageParam, signal }) => {
-      const delay = Math.max(0, 1000 - (Date.now() - lastRequest.current));
-      if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
-      signal.throwIfAborted();
-      lastRequest.current = Date.now();
-      const response = await fetch(`https://api.jikan.moe/v4/top/anime?page=${pageParam}&limit=12&sfw=true&filter=bypopularity`, { signal: AbortSignal.any([signal, AbortSignal.timeout(10000)]) });
-      if (!response.ok) throw new Error("Stream synchronization busy.");
-      return parseTrailerPage(await response.json());
-    },
-    getNextPageParam: (page, pages) => page.hasNext ? pages.length + 1 : undefined,
-  });
-
   const videos = useMemo(() => {
-    const combined = uniqueVideos([...INITIAL, ...(query.data?.pages.flatMap((page) => page.videos) ?? [])]);
-    return combined.filter((video) => category === "All" || video.category === category);
-  }, [category, query.data]);
+    return ALL_VIDEOS.filter((video) => category === "All" || video.category === category);
+  }, [category]);
 
-  const { isFetching, hasNextPage, fetchNextPage } = query;
+  const hasMore = visible < videos.length;
 
   const loadMore = useCallback(() => {
-    if (visible < videos.length) { 
-      setVisible((count) => Math.min(count + 6, videos.length)); 
-      return; 
+    if (hasMore) {
+      setVisible((count) => Math.min(count + 6, videos.length));
     }
-    if (isFetching) return;
-    if (hasNextPage) {
-      void fetchNextPage();
-      setVisible((count) => count + 6);
-    }
-  }, [visible, videos.length, isFetching, hasNextPage, fetchNextPage]);
+  }, [hasMore, videos.length]);
 
-  // Infinite Scroll Observer Intersection
   useEffect(() => {
     if (!sentinel.current || !feed.current) return;
     const observer = new IntersectionObserver(([entry]) => {
@@ -239,23 +198,10 @@ export function VideoDiscovery() {
     return () => observer.disconnect();
   }, [loadMore]);
 
-  // Keyboard navigation immersion handlers
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "f" || e.key === "F") {
-        triggerToast("🚀 Hyper-Focus Immersive Engine Triggered!");
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [triggerToast]);
-
   return (
     <div className="relative min-h-screen bg-[#030712] px-3 py-6 text-white sm:px-6 overflow-hidden">
-      {/* Background Ambient Cyber Grids */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
       
-      {/* Floating Dynamic Toast Notification */}
       {notification && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-2xl border border-cyan-400/50 bg-slate-950/90 px-5 py-3 shadow-[0_0_30px_rgba(6,182,212,0.4)] backdrop-blur-2xl animate-bounce">
           <Zap className="text-cyan-400 animate-pulse" size={20} />
@@ -264,10 +210,7 @@ export function VideoDiscovery() {
       )}
 
       <div className="relative mx-auto max-w-4xl">
-        
-        {/* Immersive Gamification Dashboard Header */}
         <div className="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-slate-950 via-[#0b1329] to-slate-950 p-4 shadow-xl backdrop-blur-xl">
-          
           <div className="flex items-center gap-3.5">
             <span className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-slate-950 shadow-lg shadow-cyan-500/30">
               <Flame size={24} fill="currentColor" />
@@ -300,10 +243,8 @@ export function VideoDiscovery() {
               </div>
             </div>
           </div>
-
         </div>
 
-        {/* Header Title Section */}
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -325,7 +266,6 @@ export function VideoDiscovery() {
           </Link>
         </div>
 
-        {/* Collapsible Utility & Tools Vault */}
         <details className="mb-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-4 backdrop-blur-xl transition-all open:border-cyan-500/40">
           <summary className="cursor-pointer text-sm font-bold text-cyan-300 flex items-center gap-2 select-none">
             <Compass size={18} /> 🛠️ Advanced Tools Hub: Downloads, Free Games & Live Streams
@@ -337,14 +277,12 @@ export function VideoDiscovery() {
           </div>
         </details>
 
-        {/* Category Navigation Pills */}
-        <div className="mb-6 flex flex-wrap gap-2.5" aria-label="Filter category streams">
+        <div className="mb-6 flex flex-wrap gap-2.5">
           {["All", "Anime", "Gaming"].map((tab) => (
             <button 
               key={tab} 
               type="button" 
-              aria-pressed={category === tab} 
-              onClick={() => { setCategory(tab); setVisible(8); stop(); feed.current?.scrollTo({ top: 0 }); }} 
+              onClick={() => { setCategory(tab); setVisible(6); stop(); feed.current?.scrollTo({ top: 0 }); }} 
               className={`rounded-full border px-6 py-2 text-sm font-bold transition-all duration-300 ${
                 category === tab 
                   ? "border-cyan-400 bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.4)] scale-105" 
@@ -356,19 +294,12 @@ export function VideoDiscovery() {
           ))}
         </div>
 
-        {/* Infinite Vertical Snap Container (TikTok Style Immersion) */}
         <div 
           ref={feed} 
           tabIndex={0} 
           role="region" 
           aria-label="Swipe video feed" 
           className="h-[calc(100dvh-16rem)] min-h-[32rem] snap-y snap-mandatory overflow-y-auto overscroll-y-contain rounded-3xl border border-slate-800 bg-black/80 p-2.5 shadow-2xl backdrop-blur-2xl focus-visible:outline-2 focus-visible:outline-cyan-400 scrollbar-none"
-          onKeyDown={(event) => {
-            if (event.target !== event.currentTarget || !["ArrowDown", "ArrowUp", "PageDown", "PageUp"].includes(event.key)) return;
-            event.preventDefault();
-            const direction = event.key === "ArrowDown" || event.key === "PageDown" ? 1 : -1;
-            event.currentTarget.scrollBy({ top: direction * event.currentTarget.clientHeight, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
-          }}
         >
           {videos.slice(0, visible).map((video, idx) => (
             <div key={`${video.id}-${idx}`} className="mb-5 last:mb-0">
@@ -383,21 +314,18 @@ export function VideoDiscovery() {
             </div>
           ))}
           
-          {/* Sentinel Observer Trigger for Infinite Fetch */}
           <div ref={sentinel} className="h-24 w-full grid place-items-center" aria-hidden="true">
-            {isFetching && (
+            {hasMore && (
               <div className="flex items-center gap-2 text-xs font-bold text-cyan-400 animate-pulse bg-cyan-950/40 border border-cyan-500/30 px-4 py-2 rounded-full">
-                <Sparkles size={14} className="animate-spin" /> Synchronizing next quantum stream batch…
+                <Sparkles size={14} className="animate-spin" /> Loading next batch from local archive…
               </div>
             )}
           </div>
         </div>
 
-        {/* Footer Disclaimer & Legal Vault Status */}
         <div className="py-6 text-center">
-          {query.isError && <p role="status" className="mb-2 text-xs text-amber-400">Stream feed operating on high-speed cached archive vaults.</p>}
           <p className="mx-auto max-w-xl text-xs leading-relaxed text-slate-500">
-            GameCastle is an elite interactive entertainment platform. All embedded feeds operate via public domain vectors and open third-party distribution APIs. No direct copyright infringement intended.
+            GameCastle is an elite interactive entertainment platform. All embedded feeds operate via verified local archive vectors. No direct copyright infringement intended.
           </p>
         </div>
 

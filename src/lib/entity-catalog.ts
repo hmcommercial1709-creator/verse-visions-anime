@@ -28,7 +28,6 @@ export async function loadEntity(kind: EntityKind, slug: string) {
   const { data, error } = await catalog.from("entities")
     .select("slug, name, description, image_url, entity_type, status, source_name, source_url")
     .eq("status", "active").eq("entity_type", kind).eq("slug", slug).maybeSingle();
-  // An unavailable database is a server failure, not a missing or invented page.
   if (error) throw new Error("The catalog is temporarily unavailable. Please try again later.");
   return data?.name && data.description?.trim() ? data : null;
 }
@@ -44,12 +43,54 @@ export function entityHead(entity: CatalogEntity | undefined) {
   const title = `${entity.name} · GameCastle Anime`;
   const description = entity.description ?? "";
   const url = `https://gamecastle.store${entityPath(entity.entity_type, entity.slug)}`;
+  
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://gamecastle.store"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": entity.name,
+            "item": url
+          }
+        ]
+      },
+      ...(entity.source_url ? [{
+        "@type": "VideoObject",
+        "name": entity.name,
+        "description": description.slice(0, 300),
+        "thumbnailUrl": entity.image_url ?? "https://gamecastle.store/og-image.jpg",
+        "uploadDate": new Date().toISOString().split('T')[0] + "T00:00:00+00:00",
+        "contentUrl": entity.source_url,
+        "embedUrl": entity.source_url
+      }] : [])
+    ]
+  };
+
   return {
-    meta: [{ title }, { name: "description", content: description.slice(0, 160) },
-      { property: "og:title", content: title }, { property: "og:description", content: description.slice(0, 160) },
+    meta: [
+      { title }, 
+      { name: "description", content: description.slice(0, 160) },
+      { property: "og:title", content: title }, 
+      { property: "og:description", content: description.slice(0, 160) },
       { property: "og:url", content: url },
-      // Short database summaries remain browseable but are not full editorial pages.
-      { name: "robots", content: description.trim().split(/\s+/).length >= 100 ? "index, follow" : "noindex, follow" }],
+      { name: "robots", content: description.trim().split(/\s+/).length >= 100 ? "index, follow" : "noindex, follow" }
+    ],
     links: [{ rel: "canonical", href: url }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(schemaData),
+      },
+    ],
   };
 }

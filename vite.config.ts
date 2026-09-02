@@ -10,15 +10,11 @@ export default defineConfig(({ command }) => ({
     tailwindcss(), tsconfigPaths(),
     tanstackStart({ server: { entry: "server" } }),
     ...(command === "build" ? [nitro({
-      preset: "cloudflare-pages",
-      cloudflare: { nodeCompat: true, deployConfig: true,
-        wrangler: { name: "verse-visions-anime",
-          routes: [
-            { pattern: "gamecastle.store", custom_domain: true },
-            { pattern: "www.gamecastle.store", custom_domain: true },
-          ],
-        },
-      },
+      preset: "cloudflare",
+      cloudflare: { 
+        nodeCompat: true, 
+        deployConfig: true 
+      }
     })] : []),
     react(),
   ],

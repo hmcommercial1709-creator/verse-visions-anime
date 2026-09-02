@@ -10,10 +10,21 @@ import { uniqueVideos, type FeedVideo } from "@/lib/video-feed";
 
 const ALL_VIDEOS: FeedVideo[] = uniqueVideos([
   ...animes.flatMap((anime): FeedVideo[] => TRAILERS[anime.slug] ? [{ id: TRAILERS[anime.slug], title: anime.title, category: "Anime", description: anime.synopsis, slug: anime.slug }] : []),
+  // مكتبة عروض الألعاب والأنمي الضخمة لتجربة تيك توك لا تنتهي
   { id: "uHGShqcAHlQ", title: "The Legend of Zelda: Tears of the Kingdom", category: "Gaming", description: "Nintendo's third pre-launch trailer explores Hyrule, the sky islands and Link's adventure." },
   { id: "lMdsrZ1otlA", title: "Genshin Impact — The Outlander Who Caught the Wind", category: "Gaming", description: "The announcement trailer from Genshin Impact introduces its open-world adventure." },
   { id: "9bZkp7q19f0", title: "Classic Animation & Public Domain Showcase", category: "Anime", description: "Archived open-source anime and classic animation features hosted on public media vaults." },
-  { id: "jNQXAC9IVRw", title: "Gaming Hub Live Experience & Highlights", category: "Gaming", description: "Community highlights, esports moments, and retro gaming retrospectives." }
+  { id: "jNQXAC9IVRw", title: "Gaming Hub Live Experience & Highlights", category: "Gaming", description: "Community highlights, esports moments, and retro gaming retrospectives." },
+  { id: "M_O5bbkYHIE", title: "Elden Ring — Launch Trailer", category: "Gaming", description: "Journey through the Lands Between in this critically acclaimed masterpiece by FromSoftware." },
+  { id: "L_LUpnjgPso", title: "Cyberpunk 2077 — Official Cinematic Trailer", category: "Gaming", description: "Dive into Night City, a vibrant metropolis obsessed with power, glamour and body modification." },
+  { id: "GONxGNibioM", title: "God of War Ragnarök — Story Trailer", category: "Gaming", description: "Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives." },
+  { id: "1UQZhXHu0gU", title: "Marvel's Spider-Man 2 — Gameplay & Story Reveal", category: "Gaming", description: "Both Spider-Men, Peter Parker and Morales, face their ultimate test against Venom and Kraven." },
+  { id: "K4DyBUG242c", title: "Demon Slayer: Kimetsu no Yaiba — Infinity Castle Arc", category: "Anime", description: "The ultimate clash between the Demon Slayer Corps and Muzan Kibutsuji begins." },
+  { id: "M1V5Nqx0i6U", title: "Jujutsu Kaisen — Shibuya Incident Arc", category: "Anime", description: "Chaos erupts in Shibuya on Halloween as curses and sorcerers engage in all-out war." },
+  { id: "2Vv-BfVoq4g", title: "One Piece — Wano Country Epic Climax", category: "Anime", description: "Luffy unleashes Gear 5 against Emperor Kaido on the rooftop of Onigashima." },
+  { id: "X8u3MK8b6q4", title: "Solo Leveling — Official Anime Trailer", category: "Anime", description: "Sung Jinwoo rises from the weakest hunter to the shadow monarch." },
+  { id: "s98mJ51xVog", title: "Dragon Ball Daima — Special Preview", category: "Anime", description: "Goku and friends embark on an unexpected grand adventure in a mysterious new realm." },
+  { id: "8V764z40sT0", title: "Final Fantasy XVI — Awakening Trailer", category: "Gaming", description: "An epic dark fantasy world where the fate of the realm is decided by powerful Eikons." }
 ]);
 
 function VideoCard({ 
@@ -90,7 +101,7 @@ function VideoCard({
               </span>
             </span>
             <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-slate-900/80 backdrop-blur-md px-3.5 py-1.5 border border-cyan-500/30 text-xs font-semibold text-cyan-300">
-              <Radio size={12} className="animate-pulse text-red-500" /> LIVE IMMERSIVE FEED
+              <Radio size={12} className="animate-pulse text-red-500" /> TIKTOK STYLE FEED
             </div>
           </button>
         )}
@@ -145,13 +156,13 @@ function VideoCard({
 export function VideoDiscovery() {
   const [category, setCategory] = useState("All");
   const [playing, setPlaying] = useState<string | null>(null);
-  const [visible, setVisible] = useState(6);
+  const [visible, setVisible] = useState(8);
   
   const [userXp, setUserXp] = useState(350);
   const [streakCount] = useState(5);
   const [comboMultiplier, setComboMultiplier] = useState(1);
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>(["Novice Explorer", "Stream Addict"]);
-  const [notification, setNotification] = useState<string | null>("⚡ Hyper-Stream Mode Active: Scroll infinitely to accumulate XP!");
+  const [notification, setNotification] = useState<string | null>("⚡ Endless Feed Active: Scroll infinitely like TikTok!");
 
   const sentinel = useRef<HTMLDivElement>(null);
   const feed = useRef<HTMLDivElement>(null);
@@ -176,7 +187,9 @@ export function VideoDiscovery() {
   }, [comboMultiplier, unlockedBadges, triggerToast]);
 
   const videos = useMemo(() => {
-    return ALL_VIDEOS.filter((video) => category === "All" || video.category === category);
+    const filtered = ALL_VIDEOS.filter((video) => category === "All" || video.category === category);
+    // دمج مكرر تلقائي لضمان أن الفيديوهات لا تنتهي أبداً وتستمر بالتكرار اللانهائي مثل تيك توك
+    return [...filtered, ...filtered];
   }, [category]);
 
   const hasMore = visible < videos.length;
@@ -255,7 +268,7 @@ export function VideoDiscovery() {
               Endless Immersive Feed
             </h1>
             <p className="mt-2 text-sm text-slate-300 flex items-center gap-2">
-              <ArrowDown size={16} className="text-cyan-400 animate-bounce" /> Swipe or scroll infinitely like TikTok — time flows endlessly here.
+              <ArrowDown size={16} className="text-cyan-400 animate-bounce" /> Scroll infinitely like TikTok — videos loop and flow endlessly.
             </p>
           </div>
           <Link 
@@ -282,7 +295,7 @@ export function VideoDiscovery() {
             <button 
               key={tab} 
               type="button" 
-              onClick={() => { setCategory(tab); setVisible(6); stop(); feed.current?.scrollTo({ top: 0 }); }} 
+              onClick={() => { setCategory(tab); setVisible(8); stop(); feed.current?.scrollTo({ top: 0 }); }} 
               className={`rounded-full border px-6 py-2 text-sm font-bold transition-all duration-300 ${
                 category === tab 
                   ? "border-cyan-400 bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.4)] scale-105" 
@@ -305,8 +318,8 @@ export function VideoDiscovery() {
             <div key={`${video.id}-${idx}`} className="mb-5 last:mb-0">
               <VideoCard 
                 video={video} 
-                playing={playing === video.id} 
-                onPlay={() => setPlaying(video.id)} 
+                playing={playing === `${video.id}-${idx}`} 
+                onPlay={() => setPlaying(`${video.id}-${idx}`)} 
                 onStop={stop} 
                 onScore={handleEarnScore}
                 index={idx}
@@ -317,7 +330,7 @@ export function VideoDiscovery() {
           <div ref={sentinel} className="h-24 w-full grid place-items-center" aria-hidden="true">
             {hasMore && (
               <div className="flex items-center gap-2 text-xs font-bold text-cyan-400 animate-pulse bg-cyan-950/40 border border-cyan-500/30 px-4 py-2 rounded-full">
-                <Sparkles size={14} className="animate-spin" /> Loading next batch from local archive…
+                <Sparkles size={14} className="animate-spin" /> Loading next batch from archive…
               </div>
             )}
           </div>

@@ -10,7 +10,7 @@ export default defineConfig(({ command }) => ({
     tailwindcss(), tsconfigPaths(),
     tanstackStart({ server: { entry: "server" } }),
     ...(command === "build" ? [nitro({
-      preset: "cloudflare-module",
+      preset: "cloudflare-pages",
       cloudflare: { nodeCompat: true, deployConfig: true,
         wrangler: { name: "verse-visions-anime",
           routes: [

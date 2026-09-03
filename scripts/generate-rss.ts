@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { longformArticles } from '../src/data/articles-longform';
+import { longformArticles } from '../src/data/articles-longform.ts';
 
 const siteUrl = 'https://gamecastle.store';
 

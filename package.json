@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "bun run scripts/generate-rss.ts && vite build",
+    "build": "npx tsx scripts/generate-rss.ts && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "validate:content": "bun run scripts/validate-content.ts"
+    "validate:content": "npx tsx scripts/validate-content.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -81,6 +81,7 @@
     "globals": "^15.15.0",
     "nitro": "3.0.260603-beta",
     "prettier": "^3.7.3",
+    "tsx": "^4.19.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.0.16"

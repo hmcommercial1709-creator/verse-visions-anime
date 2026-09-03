@@ -16,34 +16,24 @@ export const Route = createFileRoute("/$locale/articles/$slug")({
     return entity;
   },
   head: ({ loaderData }) => {
-    const headResult = entityHead(loaderData);
-    const imageUrl = loaderData?.image || loaderData?.coverImage || loaderData?.heroImage;
+    const baseHead = entityHead(loaderData) || {};
+    const imageUrl = (loaderData as any)?.image || (loaderData as any)?.coverImage || (loaderData as any)?.heroImage;
 
+    const links = Array.isArray((baseHead as any).links) ? [...(baseHead as any).links] : [];
+    
     if (imageUrl) {
-      if (Array.isArray(headResult)) {
-        headResult.push({
-          tag: "link",
-          attrs: {
-            rel: "preload",
-            as: "image",
-            href: imageUrl,
-            fetchpriority: "high",
-          },
-        });
-      } else if (typeof headResult === "object" && headResult !== null) {
-        headResult.links = [
-          ...(headResult.links || []),
-          {
-            rel: "preload",
-            as: "image",
-            href: imageUrl,
-            fetchpriority: "high",
-          },
-        ];
-      }
+      links.push({
+        rel: "preload",
+        as: "image",
+        href: imageUrl,
+        fetchpriority: "high",
+      });
     }
 
-    return headResult;
+    return {
+      ...(baseHead as object),
+      links,
+    };
   },
   component: function CatalogRoute() {
     return <CatalogEntityPage entity={Route.useLoaderData()} />;

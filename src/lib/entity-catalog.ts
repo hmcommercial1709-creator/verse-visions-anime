@@ -85,7 +85,10 @@ export function entityHead(entity: CatalogEntity | undefined) {
       { property: "og:url", content: url },
       { name: "robots", content: description.trim().split(/\s+/).length >= 100 ? "index, follow" : "noindex, follow" }
     ],
-    links: [{ rel: "canonical", href: url }],
+    links: [
+      { rel: "canonical", href: url },
+      ...(entity.image_url ? [{ rel: "preload", as: "image", href: entity.image_url, fetchpriority: "high" }] : [])
+    ],
     scripts: [
       {
         type: "application/ld+json",

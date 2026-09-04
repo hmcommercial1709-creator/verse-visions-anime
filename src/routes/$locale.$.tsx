@@ -105,7 +105,7 @@ export const Route = createFileRoute("/$locale/$")({
       return (localStorage.getItem("gc_faction") as any) || "pirates";
     });
     
-    const [activeWindow, setActiveWindow] = useState<"none" | "chat" | "factions" | "ai_story" | "vault">("none");
+    const [activeWindow, setActiveWindow] = useState<"none" | "chat" | "factions" | "ai_story" | "vault" | "loot_box" | "matchmaker">("none");
     const [activeUsers, setActiveUsers] = useState(7840);
 
     const [messages, setMessages] = useState([
@@ -116,6 +116,11 @@ export const Route = createFileRoute("/$locale/$")({
 
     const [storyVotes, setStoryVotes] = useState({ pathA: 2140, pathB: 1820 });
     const [votedStory, setVotedStory] = useState(false);
+
+    const [lootOpened, setLootOpened] = useState(false);
+    const [lootReward, setLootReward] = useState<{ title: string; code: string; link: string } | null>(null);
+    const [matchMood, setMatchMood] = useState("");
+    const [matchResult, setMatchResult] = useState<{ game: string; discount: string; link: string } | null>(null);
 
     useEffect(() => {
       const userInterval = setInterval(() => {
@@ -154,6 +159,32 @@ export const Route = createFileRoute("/$locale/$")({
       setXp(x => x + 50);
     };
 
+    const handleOpenLootBox = () => {
+      if (xp < 200) {
+        alert("You need at least 200 XP to open the neural mystery box!");
+        return;
+      }
+      setXp(x => x - 200);
+      const rewards = [
+        { title: "50% Exclusive Discount on Solo Leveling: Arise Key", code: "SOLO50GAMIVO", link: "https://www.gamivo.com?glv=gamecastle" },
+        { title: "Free Random AAA Game Key", code: "ANIMEKINGKEY", link: "https://www.gamivo.com?glv=gamecastle" },
+        { title: "$20 Steam Gift Card", code: "STEAM20GC", link: "https://www.gamivo.com?glv=gamecastle" }
+      ];
+      const selected = rewards[Math.floor(Math.random() * rewards.length)];
+      setLootReward(selected);
+      setLootOpened(true);
+    };
+
+    const handleAIAsyncMatch = (mood: string) => {
+      setMatchMood(mood);
+      const recommendations: Record<string, { game: string; discount: string; link: string }> = {
+        action: { game: "Elden Ring Deluxe Edition (GAMIVO)", discount: "65% OFF + GCBOX Code", link: "https://www.gamivo.com?glv=gamecastle" },
+        anime: { game: "Dragon Ball Sparking! ZERO Steam Key", discount: "45% OFF + Instant Delivery", link: "https://www.gamivo.com?glv=gamecastle" },
+        chill: { game: "Stardew Valley / RPG Master Bundle", discount: "70% Exclusive Discount", link: "https://www.gamivo.com?glv=gamecastle" }
+      };
+      setMatchResult(recommendations[mood] || recommendations.action);
+    };
+
     const factionColors = {
       pirates: "from-red-600/20 to-orange-600/20 border-red-500/40 text-red-500",
       monarchs: "from-purple-600/25 to-blue-600/25 border-purple-500/40 text-purple-400",
@@ -171,7 +202,7 @@ export const Route = createFileRoute("/$locale/$")({
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
             </span>
-            <span className="text-primary font-black">🔥 {activeUsers.toLocaleString()} Global Citizens Active (AI SEO Indexing Active)</span>
+            <span className="text-primary font-black">🔥 {activeUsers.toLocaleString()} Global Citizens Active (Neural AI & Affiliate Engine Active)</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-yellow-500 font-bold">👑 {xp.toLocaleString()} XP</span>
@@ -184,7 +215,7 @@ export const Route = createFileRoute("/$locale/$")({
           </div>
         </div>
 
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-card/80 backdrop-blur-2xl border border-primary/40 rounded-full px-6 py-3 shadow-2xl flex items-center gap-4 sm:gap-6">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-card/80 backdrop-blur-2xl border border-primary/40 rounded-full px-6 py-3 shadow-2xl flex items-center gap-3 sm:gap-5">
           <button 
             onClick={() => setActiveWindow(activeWindow === "chat" ? "none" : "chat")}
             className={`flex items-center gap-2 font-bold text-xs sm:text-sm hover:scale-110 transition ${activeWindow === "chat" ? "text-primary" : "text-muted-foreground"}`}
@@ -196,28 +227,35 @@ export const Route = createFileRoute("/$locale/$")({
             onClick={() => setActiveWindow(activeWindow === "ai_story" ? "none" : "ai_story")}
             className={`flex items-center gap-2 font-bold text-xs sm:text-sm hover:scale-110 transition ${activeWindow === "ai_story" ? "text-primary" : "text-muted-foreground"}`}
           >
-            ⚡ <span className="hidden sm:inline">AI Story Engine</span>
+            ⚡ <span className="hidden sm:inline">AI Story</span>
           </button>
           <div className="w-px h-4 bg-border" />
           <button 
-            onClick={() => setActiveWindow(activeWindow === "vault" ? "none" : "vault")}
-            className={`flex items-center gap-2 font-bold text-xs sm:text-sm hover:scale-110 transition ${activeWindow === "vault" ? "text-primary" : "text-muted-foreground"}`}
+            onClick={() => setActiveWindow(activeWindow === "matchmaker" ? "none" : "matchmaker")}
+            className={`flex items-center gap-2 font-bold text-xs sm:text-sm hover:scale-110 transition ${activeWindow === "matchmaker" ? "text-primary" : "text-muted-foreground"}`}
           >
-            🎁 <span className="hidden sm:inline">XP Vault & Store</span>
+            🎯 <span className="hidden sm:inline">AI Matchmaker</span>
+          </button>
+          <div className="w-px h-4 bg-border" />
+          <button 
+            onClick={() => setActiveWindow(activeWindow === "loot_box" ? "none" : "loot_box")}
+            className={`flex items-center gap-2 font-bold text-xs sm:text-sm hover:scale-110 transition ${activeWindow === "loot_box" ? "text-yellow-400" : "text-muted-foreground"}`}
+          >
+            🎁 <span className="hidden sm:inline">Neural Loot</span>
           </button>
         </div>
 
         <div className="w-full max-w-5xl text-center space-y-6 mt-12 z-20 mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-black tracking-widest uppercase">
-            ⚡ AI-Powered Global Search Magnet Active
+            ⚡ AI-Powered Global Search Magnet & Neural Vault Active
           </div>
 
           <h1 className="text-4xl sm:text-7xl font-black tracking-tight leading-tight">
-            Absolute Global Domination via <span className="text-primary underline decoration-primary/50">Neural SEO</span>
+            Absolute Global Domination via <span className="text-primary underline decoration-primary/50">Neural SEO & Loot</span>
           </h1>
 
           <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-            Engineered with multi-language hreflang alternates, automated JSON-LD semantic graphs, and real-time edge caching to capture top rankings across every search engine on Earth.
+            Engineered with multi-language hreflang alternates, automated JSON-LD semantic graphs, and real-time neural monetization loops to capture top rankings and convert traffic instantly.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
@@ -325,21 +363,90 @@ export const Route = createFileRoute("/$locale/$")({
           </div>
         )}
 
-        {activeWindow === "vault" && (
+        {activeWindow === "matchmaker" && (
           <div className="fixed inset-0 bg-background/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
-            <div className="max-w-md w-full bg-card border border-primary/40 rounded-3xl p-6 shadow-2xl space-y-4">
+            <div className="max-w-md w-full bg-card border border-primary/40 rounded-3xl p-6 shadow-2xl space-y-4 text-center">
               <div className="flex justify-between items-center">
-                <h3 className="font-black text-lg text-primary">🎁 Sovereign XP Reward Vault</h3>
+                <h3 className="font-black text-lg text-primary">🎯 AI Neural Game & Anime Matchmaker</h3>
                 <button onClick={() => setActiveWindow("none")} className="font-bold text-muted-foreground">✕</button>
               </div>
-              <p className="text-xs text-muted-foreground">You hold <strong className="text-yellow-500">{xp} XP</strong>. Redeem for GameCastle store rewards.</p>
-              
-              <button 
-                onClick={() => { setXp(x => x + 500); alert("Claimed +500 XP Daily Bonus!"); }}
-                className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-black text-sm shadow-xl hover:opacity-90 transition"
-              >
-                Claim Daily +500 XP Burst 🚀
-              </button>
+              <p className="text-xs text-muted-foreground">Select your current mood so the AI instantly retrieves the best deal and custom discount key for you via our partnership:</p>
+
+              {!matchResult ? (
+                <div className="grid grid-cols-1 gap-2 pt-2 text-left">
+                  <button onClick={() => handleAIAsyncMatch("action")} className="p-3 rounded-xl bg-background border border-border hover:border-primary text-xs font-bold transition">
+                    🔥 Action & Epic Adventure (Elden Ring / Solo Leveling)
+                  </button>
+                  <button onClick={() => handleAIAsyncMatch("anime")} className="p-3 rounded-xl bg-background border border-border hover:border-primary text-xs font-bold transition">
+                    ⚡ Anime & Battle Hype (Dragon Ball / One Piece)
+                  </button>
+                  <button onClick={() => handleAIAsyncMatch("chill")} className="p-3 rounded-xl bg-background border border-border hover:border-primary text-xs font-bold transition">
+                    🌿 Chill & World Building (RPG & Simulation)
+                  </button>
+                </div>
+              ) : (
+                <div className="p-4 rounded-2xl bg-primary/10 border border-primary/30 space-y-3 text-left">
+                  <div className="text-xs text-primary font-bold">✨ Your AI Recommendation:</div>
+                  <div className="font-black text-sm">{matchResult.game}</div>
+                  <div className="text-yellow-400 font-bold text-xs">{matchResult.discount}</div>
+                  <a 
+                    href={matchResult.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block w-full py-3 bg-primary text-primary-foreground font-black text-center rounded-xl text-xs shadow-lg hover:opacity-90 transition"
+                  >
+                    Buy Now at Best Price via Partner Store 🚀
+                  </a>
+                  <button onClick={() => setMatchResult(null)} className="block w-full text-center text-[10px] text-muted-foreground underline pt-1">
+                    Choose Another Mood
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeWindow === "loot_box" && (
+          <div className="fixed inset-0 bg-background/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+            <div className="max-w-md w-full bg-card border border-yellow-500/40 rounded-3xl p-6 shadow-2xl space-y-4 text-center">
+              <div className="flex justify-between items-center">
+                <h3 className="font-black text-lg text-yellow-400">🎁 Neural Mystery Loot Box</h3>
+                <button onClick={() => setActiveWindow("none")} className="font-bold text-muted-foreground">✕</button>
+              </div>
+              <p className="text-xs text-muted-foreground">Use <strong>200 XP</strong> to open the mystery box and claim exclusive discount codes or free game keys from our partner stores!</p>
+
+              {!lootOpened ? (
+                <div className="py-6 space-y-4">
+                  <div className="w-24 h-24 mx-auto bg-yellow-500/20 border-2 border-yellow-500 rounded-3xl flex items-center justify-center text-4xl animate-bounce shadow-xl">
+                    📦
+                  </div>
+                  <button 
+                    onClick={handleOpenLootBox}
+                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-amber-600 text-black font-black text-sm shadow-xl hover:opacity-90 transition"
+                  >
+                    Open Box Now (Costs 200 XP) ⚡
+                  </button>
+                </div>
+              ) : (
+                <div className="p-5 rounded-2xl bg-yellow-500/10 border border-yellow-500/40 space-y-3 text-center">
+                  <div className="text-xs text-yellow-400 font-black">🎉 Congratulations! You won a major prize:</div>
+                  <div className="font-black text-sm text-foreground">{lootReward?.title}</div>
+                  <div className="p-2 bg-background rounded-xl border border-border font-mono text-primary text-xs font-bold tracking-widest">
+                    {lootReward?.code}
+                  </div>
+                  <a 
+                    href={lootReward?.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block w-full py-3 bg-yellow-500 text-black font-black text-center rounded-xl text-xs shadow-lg hover:opacity-90 transition"
+                  >
+                    Use Code Now in Partner Store 💎
+                  </a>
+                  <button onClick={() => setLootOpened(false)} className="block w-full text-center text-[10px] text-muted-foreground underline pt-1">
+                    Open Another Box
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

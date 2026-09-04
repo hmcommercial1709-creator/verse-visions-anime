@@ -2,6 +2,7 @@ import { createFileRoute, notFound, redirect, Link } from "@tanstack/react-route
 import { isLocaleCode } from "@/lib/i18n";
 import { useState, useEffect } from "react";
 import { SovereignWatchPartyMesh } from "@/components/SovereignWatchPartyMesh";
+import { ViralLoopMatrix } from "@/components/ViralLoopMatrix";
 
 export const Route = createFileRoute("/$locale/$")({
   beforeLoad: ({ params }) => {
@@ -21,7 +22,6 @@ export const Route = createFileRoute("/$locale/$")({
   head: ({ params }) => {
     const currentPath = params._splat ? `/${params.locale}/${params._splat}` : `/${params.locale}`;
     
-    // Cutting-Edge AI Semantic SEO Graph (Optimized for Google SGE / AI Overviews & Global Indexing)
     const aiSeoGraph = {
       "@context": "https://schema.org",
       "@graph": [
@@ -163,10 +163,8 @@ export const Route = createFileRoute("/$locale/$")({
     return (
       <div className="relative min-h-screen bg-background text-foreground flex flex-col items-center p-4 sm:p-6 selection:bg-primary selection:text-primary-foreground overflow-x-hidden font-sans">
         
-        {/* Dynamic Faction Background Glow */}
         <div className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br ${factionColors[activeFaction]} rounded-full blur-[180px] pointer-events-none animate-pulse`} />
 
-        {/* 1. TOP SOVEREIGN HUD BAR */}
         <div className="w-full max-w-6xl bg-background/90 backdrop-blur-2xl border border-primary/20 rounded-2xl p-3 mb-6 shadow-2xl flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm z-30">
           <div className="flex items-center gap-3">
             <span className="flex h-3 w-3 relative">
@@ -186,7 +184,6 @@ export const Route = createFileRoute("/$locale/$")({
           </div>
         </div>
 
-        {/* 2. OS-WITHIN-AN-OS FLOATING DOCK */}
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-card/80 backdrop-blur-2xl border border-primary/40 rounded-full px-6 py-3 shadow-2xl flex items-center gap-4 sm:gap-6">
           <button 
             onClick={() => setActiveWindow(activeWindow === "chat" ? "none" : "chat")}
@@ -210,7 +207,6 @@ export const Route = createFileRoute("/$locale/$")({
           </button>
         </div>
 
-        {/* MAIN HERO LANDING INTERFACE */}
         <div className="w-full max-w-5xl text-center space-y-6 mt-12 z-20 mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-black tracking-widest uppercase">
             ⚡ AI-Powered Global Search Magnet Active
@@ -240,12 +236,14 @@ export const Route = createFileRoute("/$locale/$")({
           </div>
         </div>
 
-        {/* INTEGRATED SOVEREIGN WATCH PARTY MESH */}
-        <div className="w-full max-w-5xl z-20 mb-32">
+        <div className="w-full max-w-5xl z-20 mb-12">
           <SovereignWatchPartyMesh />
         </div>
 
-        {/* 3. FLOATING OS WINDOW MODALS */}
+        <div className="w-full max-w-5xl z-20 mb-32">
+          <ViralLoopMatrix />
+        </div>
+
         {activeWindow === "chat" && (
           <div className="fixed bottom-24 right-4 sm:right-10 w-96 max-w-[90vw] h-[450px] bg-card/90 backdrop-blur-2xl border border-primary/40 rounded-3xl p-5 shadow-2xl z-50 flex flex-col animate-fade-in">
             <div className="flex items-center justify-between pb-3 border-b border-border">

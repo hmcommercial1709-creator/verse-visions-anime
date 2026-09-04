@@ -188,8 +188,8 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
         {/* 2. CORE ENTERPRISE PAGE CONTENT */}
         <CatalogEntityPage entity={entity} />
 
-        {/* HIGH-CONVERSION ADSENSE BANNER SLOT #1 */}
-        <AdSenseSlot slotId="3344556671" format="auto" />
+        {/* UNIT 1: Display_Banner_Top (9027889883) */}
+        <AdSenseSlot slotId="9027889883" format="auto" />
 
         {/* 3. INTERACTIVE POWER SCALING & TIER VOTING MATRIX */}
         <section className="max-w-4xl mx-auto my-12 px-4">
@@ -214,6 +214,9 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
             </div>
           </div>
         </section>
+
+        {/* UNIT 2: hazzad - داخل المقالة (9312300696) */}
+        <AdSenseSlot slotId="9312300696" format="fluid" />
 
         {/* 4. REDDIT-STYLE MICRO-COMMUNITY DISCUSSION HUB */}
         <section className="max-w-4xl mx-auto my-12 px-4">
@@ -262,8 +265,8 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
           </div>
         </section>
 
-        {/* HIGH-CONVERSION ADSENSE BANNER SLOT #2 */}
-        <AdSenseSlot slotId="3344556672" format="fluid" />
+        {/* UNIT 3: hazza2 - متعدد (9734703029) */}
+        <AdSenseSlot slotId="9734703029" format="autorelaxed" />
 
         {/* 5. INSTANT GLOBAL VERDICT FLASH POLL */}
         <section className="max-w-4xl mx-auto my-12 px-4">
@@ -289,6 +292,9 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
             )}
           </div>
         </section>
+
+        {/* UNIT 4: hazza - إعلان صوري (5126563543) */}
+        <AdSenseSlot slotId="5126563543" format="auto" />
 
         {/* 6. SMART RECOMMENDATION MATRIX (TIKTOK-STYLE INFINITE BINGE STREAM) */}
         <div className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-3xl border-t border-primary/20 p-3.5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">

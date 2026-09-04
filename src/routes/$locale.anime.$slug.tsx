@@ -4,6 +4,38 @@ import { CatalogEntityPage } from "@/components/catalog-entity";
 import { getAnime } from "@/data/animes";
 import { useState, useEffect } from "react";
 
+const AdSenseSlot = ({ slotId, format = "auto" }: { slotId: string; format?: string }) => {
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined" && (window as any).adsbygoogle) {
+        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      }
+    } catch (e) {
+      console.error("AdSense execution error:", e);
+    }
+  }, []);
+
+  return (
+    <div className="max-w-4xl mx-auto my-8 px-4">
+      <div className="p-4 rounded-3xl border border-primary/20 bg-card/40 backdrop-blur-xl text-center overflow-hidden shadow-2xl relative">
+        <div className="absolute top-2 right-4 text-[9px] uppercase tracking-widest text-muted-foreground/60 font-black">
+          Sponsored Network Ad ⚡
+        </div>
+        <div className="min-h-[100px] flex items-center justify-center pt-2">
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block", width: "100%" }}
+            data-ad-client="ca-pub-6422431093727588"
+            data-ad-slot={slotId}
+            data-ad-format={format}
+            data-full-width-responsive="true"
+          ></ins>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const Route = createFileRoute("/$locale/anime/$slug")({
   beforeLoad: ({ params }) => {
     if (params.locale !== "en") throw notFound();
@@ -20,7 +52,6 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
   head: ({ loaderData }) => {
     const baseHead = entityHead(loaderData);
     
-    // Ultimate SEO Schema: TVSeries, AggregateRating, and BreadcrumbList for absolute Google Monopoly
     const ultimateMagnetSchema = {
       "@context": "https://schema.org",
       "@graph": [
@@ -74,7 +105,6 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
   component: function AbsoluteOmniMagnetRoute() {
     const entity = Route.useLoaderData();
     
-    // 1. Ultimate Gamification & Retention State Engines
     const [xp, setXp] = useState<number>(() => {
       if (typeof window === "undefined") return 350;
       return parseInt(localStorage.getItem("gc_user_xp") || "350", 10);
@@ -86,7 +116,6 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
     const [pollVoted, setPollVoted] = useState(false);
     const [activeReaders, setActiveReaders] = useState(2450);
 
-    // 2. Interactive Reddit-Style Comments State
     const [comments, setComments] = useState([
       { id: 1, user: "Zoro_King99", text: "The animation in the latest arc completely redefines shonen standards!", votes: 342, spoiler: false },
       { id: 2, user: "OtakuLord_X", text: "Wait until you see the plot twist revealed in chapter 1120...", votes: 189, spoiler: true },
@@ -94,10 +123,8 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
     const [newCommentText, setNewCommentText] = useState("");
     const [hasSpoilerToggle, setHasSpoilerToggle] = useState(false);
 
-    // 3. Power Scaling / Tier Voting State
     const [tierVotes, setTierVotes] = useState({ ss: 1420, s: 430, a: 85 });
 
-    // Dynamic Live FOMO Counter Simulator
     useEffect(() => {
       const interval = setInterval(() => {
         setActiveReaders(prev => Math.min(4500, Math.max(1500, prev + Math.floor(Math.random() * 35) - 17)));
@@ -112,7 +139,6 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
 
     const addXp = (amount: number) => setXp(prev => prev + amount);
 
-    // Rank calculation based on XP
     const getRank = (currentXp: number) => {
       if (currentXp < 500) return { title: "Novice Scout", badge: "🥉" };
       if (currentXp < 1000) return { title: "Lore Master", badge: "🥈" };
@@ -162,6 +188,9 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
         {/* 2. CORE ENTERPRISE PAGE CONTENT */}
         <CatalogEntityPage entity={entity} />
 
+        {/* HIGH-CONVERSION ADSENSE BANNER SLOT #1 */}
+        <AdSenseSlot slotId="3344556671" format="auto" />
+
         {/* 3. INTERACTIVE POWER SCALING & TIER VOTING MATRIX */}
         <section className="max-w-4xl mx-auto my-12 px-4">
           <div className="p-6 sm:p-8 rounded-3xl border border-primary/30 bg-card/60 backdrop-blur-xl shadow-2xl">
@@ -193,7 +222,6 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
               💬 Live Community Lore Threads
             </h3>
             
-            {/* Comment Form */}
             <form onSubmit={handleAddComment} className="mb-8">
               <textarea 
                 value={newCommentText}
@@ -212,7 +240,6 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
               </div>
             </form>
 
-            {/* Comment List */}
             <div className="space-y-4">
               {comments.map((comment) => (
                 <div key={comment.id} className="p-4 rounded-2xl bg-background/40 border border-border/60 flex items-start justify-between gap-4">
@@ -234,6 +261,9 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
             </div>
           </div>
         </section>
+
+        {/* HIGH-CONVERSION ADSENSE BANNER SLOT #2 */}
+        <AdSenseSlot slotId="3344556672" format="fluid" />
 
         {/* 5. INSTANT GLOBAL VERDICT FLASH POLL */}
         <section className="max-w-4xl mx-auto my-12 px-4">

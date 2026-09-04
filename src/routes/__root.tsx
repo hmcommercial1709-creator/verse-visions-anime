@@ -66,7 +66,6 @@ function ErrorComponent({
 
   const router = useRouter();
 
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
@@ -201,8 +200,6 @@ export const Route = createRootRoute({
     ],
 
     links: [
-      // Canonicals belong to leaf routes. A root-level homepage canonical is
-      // inherited by every page and conflicts with each route's own URL.
       {
         rel: "stylesheet",
         href: appCss,
@@ -351,6 +348,20 @@ function RootShell({ children }: { children: ReactNode }) {
     >
       <head>
         <script id="gamecastle-offerwall-policy" dangerouslySetInnerHTML={{ __html: OFFERWALL_POLICY_SCRIPT }} />
+        
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-RLW5JD3SM1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-RLW5JD3SM1');
+            `,
+          }}
+        />
+
         <HeadContent />
       </head>
 
@@ -384,7 +395,6 @@ function RootComponent() {
       <SiteFooter />
 
       <VisitorRewardTracker />
-
 
       <DeferredScripts />
 

@@ -1,6 +1,7 @@
 import { createFileRoute, notFound, redirect, Link } from "@tanstack/react-router";
 import { isLocaleCode } from "@/lib/i18n";
 import { useState, useEffect } from "react";
+import { SovereignWatchPartyMesh } from "@/components/SovereignWatchPartyMesh";
 
 export const Route = createFileRoute("/$locale/$")({
   beforeLoad: ({ params }) => {
@@ -210,7 +211,7 @@ export const Route = createFileRoute("/$locale/$")({
         </div>
 
         {/* MAIN HERO LANDING INTERFACE */}
-        <div className="w-full max-w-5xl text-center space-y-6 mt-12 z-20 mb-32">
+        <div className="w-full max-w-5xl text-center space-y-6 mt-12 z-20 mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-black tracking-widest uppercase">
             ⚡ AI-Powered Global Search Magnet Active
           </div>
@@ -237,6 +238,11 @@ export const Route = createFileRoute("/$locale/$")({
               Global Trending
             </Link>
           </div>
+        </div>
+
+        {/* INTEGRATED SOVEREIGN WATCH PARTY MESH */}
+        <div className="w-full max-w-5xl z-20 mb-32">
+          <SovereignWatchPartyMesh />
         </div>
 
         {/* 3. FLOATING OS WINDOW MODALS */}

@@ -1,12 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { VideoDiscovery } from "@/components/video-discovery";
-import { SpinWheel } from "@/components/SpinWheel";
 
 function Home() {
   return (
     <>
       <VideoDiscovery />
-      <SpinWheel />
     </>
   );
 }

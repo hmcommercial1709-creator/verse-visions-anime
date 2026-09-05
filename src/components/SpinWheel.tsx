@@ -391,3 +391,6 @@ export const SpinWheel: React.FC = () => {
     </div>
   );
 };
+
+// التصدير المزدوج لمنع أي خطأ في استدعاء المكون (Default & Named)
+export default SpinWheel;

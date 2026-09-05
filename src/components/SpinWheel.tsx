@@ -24,7 +24,7 @@ export const SpinWheel: React.FC = () => {
   const [rotation, setRotation] = useState(0);
   const [selectedPrize, setSelectedPrize] = useState<string | null>(null);
   const [spinsLeft, setSpinsLeft] = useState(2);
-  const [timeLeft, setTimeLeft] = useState<number>(1800); // 30 mins scarcity timer
+  const [timeLeft, setTimeLeft] = useState<number>(1800);
   
   const [showUsdtModal, setShowUsdtModal] = useState(false);
   const [usdtAmount, setUsdtAmount] = useState('10');
@@ -33,10 +33,7 @@ export const SpinWheel: React.FC = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [liveFeed, setLiveFeed] = useState(DOPAMINE_HOOK_FEED.slice(0, 2));
 
-  // Gated Mega-Reward State (Unlocked via store purchase)
   const [isMegaLocked, setIsMegaLocked] = useState(false);
-
-  // Psychological Exit-Intent Trap State
   const [showExitModal, setShowExitModal] = useState(false);
   const [exitIntentTriggered, setExitIntentTriggered] = useState(false);
 
@@ -178,26 +175,31 @@ export const SpinWheel: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 text-left font-sans" dir="ltr">
+    <div className="font-sans" dir="ltr">
       <div className="sr-only">
         <h1>Ultimate Gaming Rewards & Instant Digital Vault Deliveries</h1>
         <p>Win Gaming PCs, Steam gift cards, store credits, and instant bundle unlocks with secure checkout.</p>
       </div>
 
+      {/* Radiant Glowing Side Tab on the Left Edge */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="relative bg-gradient-to-r from-yellow-500 via-red-500 to-purple-600 text-white font-black p-4 rounded-full shadow-2xl animate-bounce hover:scale-110 transition-all flex items-center gap-2 border-2 border-yellow-300 shadow-yellow-500/60 cursor-pointer"
+          className="fixed left-0 top-1/2 -translate-y-1/2 z-50 bg-gradient-to-r from-yellow-500 via-red-500 to-purple-600 text-white font-black py-5 px-3 rounded-r-2xl shadow-[0_0_35px_rgba(255,215,0,0.8)] hover:scale-110 transition-all flex flex-col items-center gap-2 border-r-2 border-t-2 border-b-2 border-yellow-300 cursor-pointer group animate-pulse"
         >
-          <span className="text-2xl animate-spin">🎡</span>
-          <span className="hidden md:inline text-sm bg-black/60 px-3 py-1 rounded-full text-yellow-300">🔥 Claim Free Spin Now!</span>
-          <span className="absolute -top-2 -left-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full animate-ping font-bold">LIVE</span>
+          <span className="text-3xl animate-bounce">🎡</span>
+          <div className="text-[10px] tracking-widest uppercase bg-black/70 px-1.5 py-3 rounded text-yellow-300 font-extrabold [writing-mode:vertical-rl] rotate-180 shadow-inner">
+            SPIN & WIN
+          </div>
+          <span className="absolute -top-2 left-2 bg-red-600 text-white text-[9px] px-2 py-0.5 rounded-full animate-ping font-bold">
+            LIVE
+          </span>
         </button>
       )}
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className="bg-slate-900 border-2 border-yellow-500 rounded-3xl p-6 max-w-md w-full text-center relative shadow-2xl shadow-yellow-500/40 max-h-[95vh] overflow-y-auto">
+          <div className="bg-slate-900 border-2 border-yellow-500 rounded-3xl p-6 max-w-md w-full text-center relative shadow-[0_0_50px_rgba(234,179,8,0.5)] max-h-[95vh] overflow-y-auto">
             
             <button
               onClick={() => { setIsOpen(false); setShowExitModal(false); }}
@@ -238,7 +240,7 @@ export const SpinWheel: React.FC = () => {
               <div className="absolute -top-3 z-20 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[20px] border-t-yellow-400 drop-shadow-lg"></div>
 
               <div
-                className="w-full h-full rounded-full border-4 border-yellow-400 relative overflow-hidden transition-all duration-[4000ms] shadow-inner shadow-black"
+                className="w-full h-full rounded-full border-4 border-yellow-400 relative overflow-hidden transition-all duration-[4000ms] shadow-[0_0_25px_rgba(255,215,0,0.5)] shadow-black"
                 style={{
                   transform: `rotate(${rotation}deg)`,
                   background: 'conic-gradient(#FFD700 0deg 45deg, #FF4500 45deg 90deg, #9400D3 90deg 135deg, #00BFFF 135deg 180deg, #32CD32 180deg 225deg, #FF1493 225deg 270deg, #FF8C00 270deg 315deg, #483D8B 315deg 360deg)',

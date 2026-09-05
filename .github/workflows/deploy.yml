@@ -29,6 +29,12 @@ jobs:
           npm ci --no-audit --no-fund
           pip install requests
 
+      - name: Run Master Neural Core Automation
+        run: node scripts/master-neural-core.mjs
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
       - name: Build project
         run: npm run build
 

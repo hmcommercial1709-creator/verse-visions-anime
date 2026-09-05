@@ -1,3 +1,0 @@
-# TanStack Start routes are served by the Cloudflare Worker.
-# Do not add an SPA /* /index.html 200 fallback: Workers Assets rejects it
-# as an infinite redirect loop (100324).

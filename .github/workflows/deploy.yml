@@ -29,6 +29,9 @@ jobs:
           npm ci --no-audit --no-fund
           pip install requests
 
+      - name: Install Supabase client dependency
+        run: npm install @supabase/supabase-js
+
       - name: Run Master Neural Core Automation
         run: node scripts/master-neural-core.mjs
         env:

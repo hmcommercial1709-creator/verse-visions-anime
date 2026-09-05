@@ -1,5 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { VideoDiscovery } from "@/components/video-discovery";
+import { SpinWheel } from "@/components/SpinWheel";
+
+function Home() {
+  return (
+    <>
+      <VideoDiscovery />
+      <SpinWheel />
+    </>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -12,5 +22,5 @@ export const Route = createFileRoute("/")({
     ],
     links: [{ rel: "canonical", href: "https://gamecastle.store/" }],
   }),
-  component: VideoDiscovery,
+  component: Home,
 });

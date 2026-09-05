@@ -57,12 +57,16 @@ export const SpinWheel: React.FC = () => {
       }
     };
 
-    document.addEventListener('mouseleave', handleMouseLeave);
+    if (typeof document !== 'undefined') {
+      document.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     return () => {
       clearInterval(timer);
       clearInterval(feedTimer);
-      document.removeEventListener('mouseleave', handleMouseLeave);
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('mouseleave', handleMouseLeave);
+      }
     };
   }, [exitIntentTriggered]);
 
@@ -74,8 +78,10 @@ export const SpinWheel: React.FC = () => {
 
   const playTickSound = () => {
     try {
-      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AudioContext();
+      if (typeof window === 'undefined') return;
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'triangle';
@@ -92,8 +98,10 @@ export const SpinWheel: React.FC = () => {
 
   const playWinSound = () => {
     try {
-      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AudioContext();
+      if (typeof window === 'undefined') return;
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
       const notes = [523.25, 659.25, 783.99, 1046.50];
       notes.forEach((note, index) => {
         const osc = ctx.createOscillator();
@@ -149,9 +157,11 @@ export const SpinWheel: React.FC = () => {
   };
 
   const copyWalletAddress = () => {
-    navigator.clipboard.writeText(MY_USDT_WALLET);
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 3000);
+    if (typeof navigator !== 'undefined') {
+      navigator.clipboard.writeText(MY_USDT_WALLET);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 3000);
+    }
   };
 
   const verifyUsdtPayment = () => {
@@ -181,7 +191,6 @@ export const SpinWheel: React.FC = () => {
         <p>Win Gaming PCs, Steam gift cards, store credits, and instant bundle unlocks with secure checkout.</p>
       </div>
 
-      {/* Radiant Glowing Side Tab on the Left Edge */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}

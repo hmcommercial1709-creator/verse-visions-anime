@@ -1,8 +1,10 @@
-import { createFileRoute, notFound, redirect, Link } from "@tanstack/react-router";
-import { loadEntity, entityHead } from "@/lib/entity-catalog";
-import { CatalogEntityPage } from "@/components/catalog-entity";
-import { getAnime } from "@/data/animes";
+import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createClient } from '@supabase/supabase-js';
 import { useState, useEffect } from "react";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const AdSenseSlot = ({ slotId, format = "auto" }: { slotId: string; format?: string }) => {
   useEffect(() => {
@@ -37,73 +39,37 @@ const AdSenseSlot = ({ slotId, format = "auto" }: { slotId: string; format?: str
 };
 
 export const Route = createFileRoute("/$locale/anime/$slug")({
-  beforeLoad: ({ params }) => {
-    if (params.locale !== "en") throw notFound();
-    if (getAnime(params.slug)) throw redirect({ href: `/anime/${params.slug}`, statusCode: 301 });
-  },
   loader: async ({ params }) => {
-    const entity = await loadEntity("anime", params.slug);
-    if (!entity) throw notFound();
-    return entity;
+    const { locale, slug } = params;
+    
+    // Query the anime nexus matrix table from Supabase based on slug and target language
+    let { data, error } = await supabase
+      .from('anime_nexus_matrix')
+      .select('*')
+      .eq('slug', slug)
+      .eq('target_language', locale)
+      .single();
+
+    if (error || !data) {
+      // Fallback attempt to find any record matching the slug if the exact locale match fails
+      const { data: fallbackData } = await supabase
+        .from('anime_nexus_matrix')
+        .select('*')
+        .eq('slug', slug)
+        .limit(1)
+        .single();
+      
+      if (!fallbackData) throw notFound();
+      return fallbackData;
+    }
+
+    return data;
   },
   headers: () => ({
     "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
   }),
-  head: ({ loaderData }) => {
-    const baseHead = entityHead(loaderData);
-    
-    const ultimateMagnetSchema = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "TVSeries",
-          "@id": `https://gamecastle.store/anime/${loaderData.slug}#tvseries`,
-          "name": loaderData.title || loaderData.name,
-          "description": loaderData.description,
-          "image": loaderData.posterUrl || loaderData.image,
-          "genre": loaderData.genres || ["Anime", "Action", "Adventure", "Shonen", "Fantasy"],
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": loaderData.rating || "9.8",
-            "bestRating": "10",
-            "ratingCount": loaderData.ratingCount || "215400"
-          },
-          "productionCompany": {
-            "@type": "Organization",
-            "name": loaderData.studio || "Studio Glimmer"
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://gamecastle.store" },
-            { "@type": "ListItem", "position": 2, "name": "Anime Hub", "item": "https://gamecastle.store/anime" },
-            { "@type": "ListItem", "position": 3, "name": loaderData.title || loaderData.name, "item": `https://gamecastle.store/anime/${loaderData.slug}` }
-          ]
-        }
-      ]
-    };
-
-    return {
-      ...baseHead,
-      meta: [
-        ...(baseHead.meta || []),
-        { property: "og:type", content: "video.tv_show" },
-        { property: "og:site_name", content: "GameCastle Store" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:site", content: "@GameCastleStore" },
-      ],
-      scripts: [
-        ...(baseHead.scripts || []),
-        {
-          type: "application/ld+json",
-          children: JSON.stringify(ultimateMagnetSchema),
-        },
-      ],
-    };
-  },
-  component: function AbsoluteOmniMagnetRoute() {
-    const entity = Route.useLoaderData();
+  component: function AnimeMatrixRoute() {
+    const anime = Route.useLoaderData();
     
     const [xp, setXp] = useState<number>(() => {
       if (typeof window === "undefined") return 350;
@@ -111,7 +77,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
     });
     const [watched, setWatched] = useState<number>(() => {
       if (typeof window === "undefined") return 0;
-      return parseInt(localStorage.getItem(`progress_${entity.slug}`) || "0", 10);
+      return parseInt(localStorage.getItem(`progress_${anime.slug}`) || "0", 10);
     });
     const [pollVoted, setPollVoted] = useState(false);
     const [activeReaders, setActiveReaders] = useState(2450);
@@ -134,8 +100,8 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
 
     useEffect(() => {
       localStorage.setItem("gc_user_xp", xp.toString());
-      localStorage.setItem(`progress_${entity.slug}`, watched.toString());
-    }, [xp, watched, entity.slug]);
+      localStorage.setItem(`progress_${anime.slug}`, watched.toString());
+    }, [xp, watched, anime.slug]);
 
     const addXp = (amount: number) => setXp(prev => prev + amount);
 
@@ -163,7 +129,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1.5 font-black text-primary animate-pulse">
-                🔥 {activeReaders.toLocaleString()} Binging Live
+                🔥 {activeReaders.toLocaleString()} Binging Live ({anime.target_market})
               </span>
               <span className="hidden md:inline-block text-muted-foreground">|</span>
               <span className="hidden md:flex items-center gap-1.5 text-yellow-500 font-bold">
@@ -185,8 +151,30 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
           </div>
         </div>
 
-        {/* 2. CORE ENTERPRISE PAGE CONTENT */}
-        <CatalogEntityPage entity={entity} />
+        {/* 2. DYNAMIC MATRIX ENTERPRISE CONTENT */}
+        <main className="max-w-4xl mx-auto mt-12 px-4">
+          <div className="mb-4 text-xs font-mono text-cyan-400">
+            LOCALE: {anime.target_language.toUpperCase()} | STATUS: {anime.status}
+          </div>
+          <h1 className="text-4xl font-black mb-6 bg-gradient-to-r from-primary to-indigo-500 bg-clip-text text-transparent">
+            {anime.title}
+          </h1>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-card/60 border border-primary/20 p-6 rounded-3xl backdrop-blur-xl shadow-2xl mb-8">
+            <div>
+              <h3 className="text-lg font-bold mb-3 text-primary">Neural Node Data</h3>
+              <pre className="bg-background/80 p-4 rounded-2xl text-xs text-emerald-400 overflow-x-auto border border-border">
+                {JSON.stringify(anime.neural_node_data, null, 2)}
+              </pre>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold mb-3 text-indigo-400">Matrix Metrics</h3>
+              <pre className="bg-background/80 p-4 rounded-2xl text-xs text-purple-400 overflow-x-auto border border-border">
+                {JSON.stringify(anime.matrix_metrics, null, 2)}
+              </pre>
+            </div>
+          </div>
+        </main>
 
         {/* UNIT 1: Display_Banner_Top (9027889883) */}
         <AdSenseSlot slotId="9027889883" format="auto" />
@@ -311,7 +299,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
             <div className="flex items-center gap-2">
               <Link 
                 to="/$locale/anime/$slug" 
-                params={{ locale: "en", slug: "solo-leveling" }}
+                params={{ locale: anime.target_language || "en", slug: "omni-anime-0-1" }}
                 className="px-4 sm:px-6 py-2.5 rounded-2xl bg-primary text-primary-foreground font-black text-xs sm:text-sm shadow-xl hover:opacity-90 hover:scale-105 transition active:scale-95 whitespace-nowrap"
               >
                 Next Binge Universe ⚡

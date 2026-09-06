@@ -12,12 +12,12 @@ export const Route = createFileRoute('/sitemap-codes-1[.]xml')({
         const baseUrl = 'https://gamecastle.store';
         let allCodes: { slug: string; updated_at?: string }[] = [];
         let page = 0;
-        const pageSize = 10000; // رفع حجم الدفعة إلى 10,000 لتخفيض عدد الطلبات إلى 4 فقط
+        const pageSize = 10000;
         let fetchMore = true;
 
         while (fetchMore && allCodes.length < 40000) {
           const { data, error } = await supabase
-            .from('codes')
+            .from('generated_pages')
             .select('slug, updated_at')
             .range(page * pageSize, (page + 1) * pageSize - 1);
 

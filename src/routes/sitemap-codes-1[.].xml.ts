@@ -10,7 +10,6 @@ export const Route = createFileRoute('/sitemap-codes-1[.]xml')({
     handlers: {
       GET: async () => {
         const baseUrl = 'https://gamecastle.store';
-        
         const { data, error } = await supabase
           .from('game_nexus_matrix')
           .select('slug, updated_at')
@@ -21,7 +20,7 @@ export const Route = createFileRoute('/sitemap-codes-1[.]xml')({
         }
 
         const urlsXml = data
-          .map((item) => {
+          .map((item: any) => {
             const loc = `${baseUrl}/en/codes/${item.slug}`;
             const lastmod = item.updated_at 
               ? new Date(item.updated_at).toISOString().split('T')[0] 

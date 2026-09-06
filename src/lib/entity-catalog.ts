@@ -5,23 +5,30 @@ if (kind === "code") {
       .maybeSingle();
     
     if (error || !data) return null;
-    
-    // بناء محتوى غني ومتكامل يملأ الصفحة بالمعلومات
+
+    const market = data.target_market || "Global Market";
+    const lang = data.target_language || "EN";
+    const rating = data.aggregate_rating || 4.9;
+
     const richDescription = `
-      Official digital code overview and region activation guide for ${data.title}. 
-      Target Region: ${data.target_market || 'Global'} (${data.target_language || 'EN'}). 
-      ${data.sample_review || 'Redeem your code instantly to unlock exclusive digital rewards, premium in-game items, and verified community perks.'} 
-      How to use: Copy the secure code provided, navigate to your target gaming platform store, paste the code in the redemption field, and enjoy your instant rewards safely.
+      Complete activation guide, secure region keys, and verified user insights for ${data.title}. 
+      Engineered specifically for ${market} (${lang}) users. 
+      ${data.sample_review || 'Redeem instantly to unlock official digital rewards, high-speed regional server access, and premium gaming perks.'} 
+      Verified safety protocols, instant delivery code mapping, and step-by-step redemption instructions included.
     `.trim();
 
     return {
       slug: data.slug,
       name: data.title ?? data.slug,
       description: richDescription,
-      image_url: null,
+      image_url: "https://gamecastle.store/og-codes-nexus.jpg",
       entity_type: "code",
       status: "active",
-      source_name: null,
+      source_name: "GameCastle Nexus Engine",
       source_url: null,
+      aggregate_rating: rating,
+      target_market: market,
+      target_language: lang,
+      sample_review: data.sample_review,
     };
   }

@@ -1,3 +1,4 @@
+import { defineEventHandler, setHeader, createError } from 'h3';
 import { createClient } from "@supabase/supabase-js";
 
 const BASE_URL = "https://gamecastle.store";

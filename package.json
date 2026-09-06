@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "node --experimental-strip-types scripts/generate-rss.ts && vite build",
+    "build": "node --experimental-strip-types scripts/generate-rss.ts && node generate-sitemaps.js && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",

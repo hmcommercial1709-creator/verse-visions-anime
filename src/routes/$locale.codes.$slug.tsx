@@ -2,9 +2,9 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { loadEntity, entityHead } from "@/lib/entity-catalog";
 import { CatalogEntityPage } from "@/components/catalog-entity";
 
-
 export const Route = createFileRoute("/$locale/codes/$slug")({
   beforeLoad: ({ params }) => {
+    // قصر الصفحات على اللغة الإنجليزية حصراً نظراً لعدم توفر ترجمات أخرى
     if (params.locale !== "en") throw notFound();
   },
   loader: async ({ params }) => {
@@ -13,5 +13,7 @@ export const Route = createFileRoute("/$locale/codes/$slug")({
     return entity;
   },
   head: ({ loaderData }) => entityHead(loaderData),
-  component: function CatalogRoute() { return <CatalogEntityPage entity={Route.useLoaderData()} />; },
+  component: function CatalogRoute() { 
+    return <CatalogEntityPage entity={Route.useLoaderData()} />; 
+  },
 });

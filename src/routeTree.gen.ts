@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AnimeRouteImport } from './routes/anime'
 import { Route as ArchiveRouteImport } from './routes/archive'
 import { Route as AuthorsRouteImport } from './routes/authors'
 import { Route as AwardsRouteImport } from './routes/awards'
@@ -30,6 +31,7 @@ import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as FactsRouteImport } from './routes/facts'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as GameTopUpRouteImport } from './routes/game-top-up'
+import { Route as GamesRouteImport } from './routes/games'
 import { Route as GamingGiftCardsRouteImport } from './routes/gaming-gift-cards'
 import { Route as GenresRouteImport } from './routes/genres'
 import { Route as GuidesRouteImport } from './routes/guides'
@@ -102,7 +104,6 @@ import { Route as GamingHubUltimateAnimeGamingHub2026RouteImport } from './route
 import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
 import { Route as RewardsAnimeWallpapersRouteImport } from './routes/rewards.anime-wallpapers'
-import { Route as SitemapXmlRouteImport } from './routes/sitemap.xml'
 import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
 import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
 import { Route as StoreThanksRouteImport } from './routes/store_.thanks'
@@ -142,6 +143,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnimeRoute = AnimeRouteImport.update({
+  id: '/anime',
+  path: '/anime',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArchiveRoute = ArchiveRouteImport.update({
@@ -237,6 +243,11 @@ const FaqRoute = FaqRouteImport.update({
 const GameTopUpRoute = GameTopUpRouteImport.update({
   id: '/game-top-up',
   path: '/game-top-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamesRoute = GamesRouteImport.update({
+  id: '/games',
+  path: '/games',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GamingGiftCardsRoute = GamingGiftCardsRouteImport.update({
@@ -475,19 +486,19 @@ const LocaleTrendingRoute = LocaleTrendingRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeSlugRoute = AnimeSlugRouteImport.update({
-  id: '/anime/$slug',
-  path: '/anime/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AnimeRoute,
 } as any)
 const AnimeDandadanRoute = AnimeDandadanRouteImport.update({
-  id: '/anime/dandadan',
-  path: '/anime/dandadan',
-  getParentRoute: () => rootRouteImport,
+  id: '/dandadan',
+  path: '/dandadan',
+  getParentRoute: () => AnimeRoute,
 } as any)
 const AnimeSakamotoDaysRoute = AnimeSakamotoDaysRouteImport.update({
-  id: '/anime/sakamoto-days',
-  path: '/anime/sakamoto-days',
-  getParentRoute: () => rootRouteImport,
+  id: '/sakamoto-days',
+  path: '/sakamoto-days',
+  getParentRoute: () => AnimeRoute,
 } as any)
 const ArExploreRoute = ArExploreRouteImport.update({
   id: '/ar/explore',
@@ -610,11 +621,6 @@ const RewardsAnimeWallpapersRoute = RewardsAnimeWallpapersRouteImport.update({
   path: '/rewards/anime-wallpapers',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapXmlRoute = SitemapXmlRouteImport.update({
-  id: '/sitemap/xml',
-  path: '/sitemap/xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const StoreSlugRoute = StoreSlugRouteImport.update({
   id: '/store_/$slug',
   path: '/store/$slug',
@@ -686,50 +692,50 @@ const LocaleWallpapersSlugRoute = LocaleWallpapersSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeDandadanCharactersRoute = AnimeDandadanCharactersRouteImport.update({
-  id: '/anime/dandadan_/characters',
-  path: '/anime/dandadan/characters',
-  getParentRoute: () => rootRouteImport,
+  id: '/dandadan_/characters',
+  path: '/dandadan/characters',
+  getParentRoute: () => AnimeRoute,
 } as any)
 const AnimeDandadanEpisodeGuideRoute =
   AnimeDandadanEpisodeGuideRouteImport.update({
-    id: '/anime/dandadan_/episode-guide',
-    path: '/anime/dandadan/episode-guide',
-    getParentRoute: () => rootRouteImport,
+    id: '/dandadan_/episode-guide',
+    path: '/dandadan/episode-guide',
+    getParentRoute: () => AnimeRoute,
   } as any)
 const AnimeDandadanOccultWorldRoute =
   AnimeDandadanOccultWorldRouteImport.update({
-    id: '/anime/dandadan_/occult-world',
-    path: '/anime/dandadan/occult-world',
-    getParentRoute: () => rootRouteImport,
+    id: '/dandadan_/occult-world',
+    path: '/dandadan/occult-world',
+    getParentRoute: () => AnimeRoute,
   } as any)
 const AnimeDandadanWatchGuideRoute = AnimeDandadanWatchGuideRouteImport.update({
-  id: '/anime/dandadan_/watch-guide',
-  path: '/anime/dandadan/watch-guide',
-  getParentRoute: () => rootRouteImport,
+  id: '/dandadan_/watch-guide',
+  path: '/dandadan/watch-guide',
+  getParentRoute: () => AnimeRoute,
 } as any)
 const AnimeSakamotoDaysAssassinWorldRoute =
   AnimeSakamotoDaysAssassinWorldRouteImport.update({
-    id: '/anime/sakamoto-days_/assassin-world',
-    path: '/anime/sakamoto-days/assassin-world',
-    getParentRoute: () => rootRouteImport,
+    id: '/sakamoto-days_/assassin-world',
+    path: '/sakamoto-days/assassin-world',
+    getParentRoute: () => AnimeRoute,
   } as any)
 const AnimeSakamotoDaysCharactersRoute =
   AnimeSakamotoDaysCharactersRouteImport.update({
-    id: '/anime/sakamoto-days_/characters',
-    path: '/anime/sakamoto-days/characters',
-    getParentRoute: () => rootRouteImport,
+    id: '/sakamoto-days_/characters',
+    path: '/sakamoto-days/characters',
+    getParentRoute: () => AnimeRoute,
   } as any)
 const AnimeSakamotoDaysEpisodeGuideRoute =
   AnimeSakamotoDaysEpisodeGuideRouteImport.update({
-    id: '/anime/sakamoto-days_/episode-guide',
-    path: '/anime/sakamoto-days/episode-guide',
-    getParentRoute: () => rootRouteImport,
+    id: '/sakamoto-days_/episode-guide',
+    path: '/sakamoto-days/episode-guide',
+    getParentRoute: () => AnimeRoute,
   } as any)
 const AnimeSakamotoDaysWatchGuideRoute =
   AnimeSakamotoDaysWatchGuideRouteImport.update({
-    id: '/anime/sakamoto-days_/watch-guide',
-    path: '/anime/sakamoto-days/watch-guide',
-    getParentRoute: () => rootRouteImport,
+    id: '/sakamoto-days_/watch-guide',
+    path: '/sakamoto-days/watch-guide',
+    getParentRoute: () => AnimeRoute,
   } as any)
 const ArAnimeIndexRoute = ArAnimeIndexRouteImport.update({
   id: '/ar/anime/',
@@ -776,6 +782,7 @@ const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/anime': typeof AnimeRouteWithChildren
   '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
@@ -795,6 +802,7 @@ export interface FileRoutesByFullPath {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
+  '/games': typeof GamesRoute
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
@@ -865,7 +873,6 @@ export interface FileRoutesByFullPath {
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
-  '/sitemap/xml': typeof SitemapXmlRoute
   '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
@@ -902,6 +909,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/anime': typeof AnimeRouteWithChildren
   '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
@@ -920,6 +928,7 @@ export interface FileRoutesByTo {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
+  '/games': typeof GamesRoute
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
@@ -989,7 +998,6 @@ export interface FileRoutesByTo {
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
-  '/sitemap/xml': typeof SitemapXmlRoute
   '/store/$slug': typeof StoreSlugRoute
   '/store/checkout': typeof StoreCheckoutRoute
   '/store/thanks': typeof StoreThanksRoute
@@ -1027,6 +1035,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/anime': typeof AnimeRouteWithChildren
   '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
@@ -1046,6 +1055,7 @@ export interface FileRoutesById {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
+  '/games': typeof GamesRoute
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
@@ -1116,7 +1126,6 @@ export interface FileRoutesById {
   '/gaming-hub/ultimate-gaming-secrets-guide': typeof GamingHubUltimateGamingSecretsGuideRoute
   '/genre/$slug': typeof GenreSlugRoute
   '/rewards/anime-wallpapers': typeof RewardsAnimeWallpapersRoute
-  '/sitemap/xml': typeof SitemapXmlRoute
   '/store_/$slug': typeof StoreSlugRoute
   '/store_/checkout': typeof StoreCheckoutRoute
   '/store_/thanks': typeof StoreThanksRoute
@@ -1155,6 +1164,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/anime'
     | '/archive'
     | '/authors'
     | '/awards'
@@ -1174,6 +1184,7 @@ export interface FileRouteTypes {
     | '/facts'
     | '/faq'
     | '/game-top-up'
+    | '/games'
     | '/gaming-gift-cards'
     | '/genres'
     | '/guides'
@@ -1244,7 +1255,6 @@ export interface FileRouteTypes {
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
-    | '/sitemap/xml'
     | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
@@ -1281,6 +1291,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/anime'
     | '/archive'
     | '/authors'
     | '/awards'
@@ -1299,6 +1310,7 @@ export interface FileRouteTypes {
     | '/facts'
     | '/faq'
     | '/game-top-up'
+    | '/games'
     | '/gaming-gift-cards'
     | '/genres'
     | '/guides'
@@ -1368,7 +1380,6 @@ export interface FileRouteTypes {
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
-    | '/sitemap/xml'
     | '/store/$slug'
     | '/store/checkout'
     | '/store/thanks'
@@ -1405,6 +1416,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/anime'
     | '/archive'
     | '/authors'
     | '/awards'
@@ -1424,6 +1436,7 @@ export interface FileRouteTypes {
     | '/facts'
     | '/faq'
     | '/game-top-up'
+    | '/games'
     | '/gaming-gift-cards'
     | '/genres'
     | '/guides'
@@ -1494,7 +1507,6 @@ export interface FileRouteTypes {
     | '/gaming-hub/ultimate-gaming-secrets-guide'
     | '/genre/$slug'
     | '/rewards/anime-wallpapers'
-    | '/sitemap/xml'
     | '/store_/$slug'
     | '/store_/checkout'
     | '/store_/thanks'
@@ -1532,6 +1544,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AnimeRoute: typeof AnimeRouteWithChildren
   ArchiveRoute: typeof ArchiveRoute
   AuthorsRoute: typeof AuthorsRoute
   AwardsRoute: typeof AwardsRoute
@@ -1551,6 +1564,7 @@ export interface RootRouteChildren {
   FactsRoute: typeof FactsRoute
   FaqRoute: typeof FaqRoute
   GameTopUpRoute: typeof GameTopUpRoute
+  GamesRoute: typeof GamesRoute
   GamingGiftCardsRoute: typeof GamingGiftCardsRoute
   GenresRoute: typeof GenresRoute
   GuidesRoute: typeof GuidesRoute
@@ -1598,9 +1612,6 @@ export interface RootRouteChildren {
   LocaleStoreRoute: typeof LocaleStoreRoute
   LocaleSuperHubRoute: typeof LocaleSuperHubRoute
   LocaleTrendingRoute: typeof LocaleTrendingRoute
-  AnimeSlugRoute: typeof AnimeSlugRoute
-  AnimeDandadanRoute: typeof AnimeDandadanRoute
-  AnimeSakamotoDaysRoute: typeof AnimeSakamotoDaysRoute
   ArExploreRoute: typeof ArExploreRouteWithChildren
   ArticleSlugRoute: typeof ArticleSlugRoute
   CategorySlugRoute: typeof CategorySlugRoute
@@ -1620,7 +1631,6 @@ export interface RootRouteChildren {
   GamingHubUltimateGamingSecretsGuideRoute: typeof GamingHubUltimateGamingSecretsGuideRoute
   GenreSlugRoute: typeof GenreSlugRoute
   RewardsAnimeWallpapersRoute: typeof RewardsAnimeWallpapersRoute
-  SitemapXmlRoute: typeof SitemapXmlRoute
   StoreSlugRoute: typeof StoreSlugRoute
   StoreCheckoutRoute: typeof StoreCheckoutRoute
   StoreThanksRoute: typeof StoreThanksRoute
@@ -1634,14 +1644,6 @@ export interface RootRouteChildren {
   LocaleProductSlugRoute: typeof LocaleProductSlugRoute
   LocalePromoSlugRoute: typeof LocalePromoSlugRoute
   LocaleWallpapersSlugRoute: typeof LocaleWallpapersSlugRoute
-  AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
-  AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
-  AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
-  AnimeDandadanWatchGuideRoute: typeof AnimeDandadanWatchGuideRoute
-  AnimeSakamotoDaysAssassinWorldRoute: typeof AnimeSakamotoDaysAssassinWorldRoute
-  AnimeSakamotoDaysCharactersRoute: typeof AnimeSakamotoDaysCharactersRoute
-  AnimeSakamotoDaysEpisodeGuideRoute: typeof AnimeSakamotoDaysEpisodeGuideRoute
-  AnimeSakamotoDaysWatchGuideRoute: typeof AnimeSakamotoDaysWatchGuideRoute
   ArAnimeSlugRoute: typeof ArAnimeSlugRoute
   ArBlogRobloxSyriaGuideRoute: typeof ArBlogRobloxSyriaGuideRoute
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
@@ -1666,6 +1668,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anime': {
+      id: '/anime'
+      path: '/anime'
+      fullPath: '/anime'
+      preLoaderRoute: typeof AnimeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/archive': {
@@ -1799,6 +1808,13 @@ declare module '@tanstack/react-router' {
       path: '/game-top-up'
       fullPath: '/game-top-up'
       preLoaderRoute: typeof GameTopUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/games': {
+      id: '/games'
+      path: '/games'
+      fullPath: '/games'
+      preLoaderRoute: typeof GamesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gaming-gift-cards': {
@@ -2132,24 +2148,24 @@ declare module '@tanstack/react-router' {
     }
     '/anime/$slug': {
       id: '/anime/$slug'
-      path: '/anime/$slug'
+      path: '/$slug'
       fullPath: '/anime/$slug'
       preLoaderRoute: typeof AnimeSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/dandadan': {
       id: '/anime/dandadan'
-      path: '/anime/dandadan'
+      path: '/dandadan'
       fullPath: '/anime/dandadan'
       preLoaderRoute: typeof AnimeDandadanRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/sakamoto-days': {
       id: '/anime/sakamoto-days'
-      path: '/anime/sakamoto-days'
+      path: '/sakamoto-days'
       fullPath: '/anime/sakamoto-days'
       preLoaderRoute: typeof AnimeSakamotoDaysRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/ar/explore': {
       id: '/ar/explore'
@@ -2305,13 +2321,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RewardsAnimeWallpapersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sitemap/xml': {
-      id: '/sitemap/xml'
-      path: '/sitemap/xml'
-      fullPath: '/sitemap/xml'
-      preLoaderRoute: typeof SitemapXmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/store_/$slug': {
       id: '/store_/$slug'
       path: '/store/$slug'
@@ -2412,59 +2421,59 @@ declare module '@tanstack/react-router' {
     }
     '/anime/dandadan_/characters': {
       id: '/anime/dandadan_/characters'
-      path: '/anime/dandadan/characters'
+      path: '/dandadan/characters'
       fullPath: '/anime/dandadan/characters'
       preLoaderRoute: typeof AnimeDandadanCharactersRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/dandadan_/episode-guide': {
       id: '/anime/dandadan_/episode-guide'
-      path: '/anime/dandadan/episode-guide'
+      path: '/dandadan/episode-guide'
       fullPath: '/anime/dandadan/episode-guide'
       preLoaderRoute: typeof AnimeDandadanEpisodeGuideRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/dandadan_/occult-world': {
       id: '/anime/dandadan_/occult-world'
-      path: '/anime/dandadan/occult-world'
+      path: '/dandadan/occult-world'
       fullPath: '/anime/dandadan/occult-world'
       preLoaderRoute: typeof AnimeDandadanOccultWorldRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/dandadan_/watch-guide': {
       id: '/anime/dandadan_/watch-guide'
-      path: '/anime/dandadan/watch-guide'
+      path: '/dandadan/watch-guide'
       fullPath: '/anime/dandadan/watch-guide'
       preLoaderRoute: typeof AnimeDandadanWatchGuideRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/sakamoto-days_/assassin-world': {
       id: '/anime/sakamoto-days_/assassin-world'
-      path: '/anime/sakamoto-days/assassin-world'
+      path: '/sakamoto-days/assassin-world'
       fullPath: '/anime/sakamoto-days/assassin-world'
       preLoaderRoute: typeof AnimeSakamotoDaysAssassinWorldRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/sakamoto-days_/characters': {
       id: '/anime/sakamoto-days_/characters'
-      path: '/anime/sakamoto-days/characters'
+      path: '/sakamoto-days/characters'
       fullPath: '/anime/sakamoto-days/characters'
       preLoaderRoute: typeof AnimeSakamotoDaysCharactersRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/sakamoto-days_/episode-guide': {
       id: '/anime/sakamoto-days_/episode-guide'
-      path: '/anime/sakamoto-days/episode-guide'
+      path: '/sakamoto-days/episode-guide'
       fullPath: '/anime/sakamoto-days/episode-guide'
       preLoaderRoute: typeof AnimeSakamotoDaysEpisodeGuideRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/anime/sakamoto-days_/watch-guide': {
       id: '/anime/sakamoto-days_/watch-guide'
-      path: '/anime/sakamoto-days/watch-guide'
+      path: '/sakamoto-days/watch-guide'
       fullPath: '/anime/sakamoto-days/watch-guide'
       preLoaderRoute: typeof AnimeSakamotoDaysWatchGuideRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AnimeRoute
     }
     '/ar/anime/': {
       id: '/ar/anime/'
@@ -2525,6 +2534,36 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AnimeRouteChildren {
+  AnimeSlugRoute: typeof AnimeSlugRoute
+  AnimeDandadanRoute: typeof AnimeDandadanRoute
+  AnimeSakamotoDaysRoute: typeof AnimeSakamotoDaysRoute
+  AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
+  AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
+  AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
+  AnimeDandadanWatchGuideRoute: typeof AnimeDandadanWatchGuideRoute
+  AnimeSakamotoDaysAssassinWorldRoute: typeof AnimeSakamotoDaysAssassinWorldRoute
+  AnimeSakamotoDaysCharactersRoute: typeof AnimeSakamotoDaysCharactersRoute
+  AnimeSakamotoDaysEpisodeGuideRoute: typeof AnimeSakamotoDaysEpisodeGuideRoute
+  AnimeSakamotoDaysWatchGuideRoute: typeof AnimeSakamotoDaysWatchGuideRoute
+}
+
+const AnimeRouteChildren: AnimeRouteChildren = {
+  AnimeSlugRoute: AnimeSlugRoute,
+  AnimeDandadanRoute: AnimeDandadanRoute,
+  AnimeSakamotoDaysRoute: AnimeSakamotoDaysRoute,
+  AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
+  AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
+  AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,
+  AnimeDandadanWatchGuideRoute: AnimeDandadanWatchGuideRoute,
+  AnimeSakamotoDaysAssassinWorldRoute: AnimeSakamotoDaysAssassinWorldRoute,
+  AnimeSakamotoDaysCharactersRoute: AnimeSakamotoDaysCharactersRoute,
+  AnimeSakamotoDaysEpisodeGuideRoute: AnimeSakamotoDaysEpisodeGuideRoute,
+  AnimeSakamotoDaysWatchGuideRoute: AnimeSakamotoDaysWatchGuideRoute,
+}
+
+const AnimeRouteWithChildren = AnimeRoute._addFileChildren(AnimeRouteChildren)
+
 interface ExploreRouteChildren {
   ExploreSlugRoute: typeof ExploreSlugRoute
   ExploreIndexRoute: typeof ExploreIndexRoute
@@ -2555,6 +2594,7 @@ const ArExploreRouteWithChildren = ArExploreRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AnimeRoute: AnimeRouteWithChildren,
   ArchiveRoute: ArchiveRoute,
   AuthorsRoute: AuthorsRoute,
   AwardsRoute: AwardsRoute,
@@ -2574,6 +2614,7 @@ const rootRouteChildren: RootRouteChildren = {
   FactsRoute: FactsRoute,
   FaqRoute: FaqRoute,
   GameTopUpRoute: GameTopUpRoute,
+  GamesRoute: GamesRoute,
   GamingGiftCardsRoute: GamingGiftCardsRoute,
   GenresRoute: GenresRoute,
   GuidesRoute: GuidesRoute,
@@ -2621,9 +2662,6 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleStoreRoute: LocaleStoreRoute,
   LocaleSuperHubRoute: LocaleSuperHubRoute,
   LocaleTrendingRoute: LocaleTrendingRoute,
-  AnimeSlugRoute: AnimeSlugRoute,
-  AnimeDandadanRoute: AnimeDandadanRoute,
-  AnimeSakamotoDaysRoute: AnimeSakamotoDaysRoute,
   ArExploreRoute: ArExploreRouteWithChildren,
   ArticleSlugRoute: ArticleSlugRoute,
   CategorySlugRoute: CategorySlugRoute,
@@ -2649,7 +2687,6 @@ const rootRouteChildren: RootRouteChildren = {
     GamingHubUltimateGamingSecretsGuideRoute,
   GenreSlugRoute: GenreSlugRoute,
   RewardsAnimeWallpapersRoute: RewardsAnimeWallpapersRoute,
-  SitemapXmlRoute: SitemapXmlRoute,
   StoreSlugRoute: StoreSlugRoute,
   StoreCheckoutRoute: StoreCheckoutRoute,
   StoreThanksRoute: StoreThanksRoute,
@@ -2663,14 +2700,6 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleProductSlugRoute: LocaleProductSlugRoute,
   LocalePromoSlugRoute: LocalePromoSlugRoute,
   LocaleWallpapersSlugRoute: LocaleWallpapersSlugRoute,
-  AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
-  AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
-  AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,
-  AnimeDandadanWatchGuideRoute: AnimeDandadanWatchGuideRoute,
-  AnimeSakamotoDaysAssassinWorldRoute: AnimeSakamotoDaysAssassinWorldRoute,
-  AnimeSakamotoDaysCharactersRoute: AnimeSakamotoDaysCharactersRoute,
-  AnimeSakamotoDaysEpisodeGuideRoute: AnimeSakamotoDaysEpisodeGuideRoute,
-  AnimeSakamotoDaysWatchGuideRoute: AnimeSakamotoDaysWatchGuideRoute,
   ArAnimeSlugRoute: ArAnimeSlugRoute,
   ArBlogRobloxSyriaGuideRoute: ArBlogRobloxSyriaGuideRoute,
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,

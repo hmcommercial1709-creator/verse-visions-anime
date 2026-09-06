@@ -246,6 +246,7 @@ export function sitemapIndexXml(): string {
     ),
     // Arabic cornerstone edition: real localized content, its own child sitemap.
     "/sitemap-ar.xml",
+    "/sitemap-codes.xml", // تمت الإضافة هنا بأمان تام
   ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
@@ -268,7 +269,6 @@ export const AR_ENTRIES: SitemapEntry[] = [
     priority: "0.8",
   })),
 ];
-
 
 /** urlset for the Arabic edition, with hreflang pairs to the English original. */
 export function arUrlsetXml(): string {
@@ -300,7 +300,7 @@ export function arUrlsetXml(): string {
   ].join("\n");
 }
 
-export function xmlResponse(xml: string): Response {
+export function xmlResponse(xml: Response): Response {
   return new Response(xml, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",

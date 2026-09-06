@@ -7,14 +7,128 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.15"
   }
   public: {
     Tables: {
-      [_ in never]: never
+      anime_nexus_matrix: {
+        Row: {
+          slug: string
+          title: string
+          target_language: string
+          target_market: string
+          webRTC_voice_channels_active: boolean
+          neural_node_data: Json
+          matrix_metrics: Json
+          status: string
+        }
+        Insert: {
+          slug: string
+          title: string
+          target_language: string
+          target_market: string
+          webRTC_voice_channels_active?: boolean
+          neural_node_data?: Json
+          matrix_metrics?: Json
+          status?: string
+        }
+        Update: {
+          slug?: string
+          title?: string
+          target_language?: string
+          target_market?: string
+          webRTC_voice_channels_active?: boolean
+          neural_node_data?: Json
+          matrix_metrics?: Json
+          status?: string
+        }
+      }
+      game_nexus_matrix: {
+        Row: {
+          slug: string
+          title: string
+          target_language: string
+          target_market: string
+          ai_auto_localization: boolean
+          live_viewers_count: number
+          chat_activity_rate: string
+          webRTC_voice_channels_active: boolean
+          dopamine_multiplier: string
+          loot_box_drop_rate: string
+          daily_streak_bonus_active: boolean
+          web_push_notifications_enabled: boolean
+          algorithmic_feed_weight: string
+          loot_marketplace_token: string
+          ai_dynamic_event_active: boolean
+          aggregate_rating: string
+          reviews_count: number
+          sample_review: string
+          adsense_slot: string
+          updated_at: string
+        }
+        Insert: {
+          slug: string
+          title: string
+          target_language: string
+          target_market: string
+          ai_auto_localization?: boolean
+          live_viewers_count?: number
+          chat_activity_rate?: string
+          webRTC_voice_channels_active?: boolean
+          dopamine_multiplier?: string
+          loot_box_drop_rate?: string
+          daily_streak_bonus_active?: boolean
+          web_push_notifications_enabled?: boolean
+          algorithmic_feed_weight?: string
+          loot_marketplace_token?: string
+          ai_dynamic_event_active?: boolean
+          aggregate_rating?: string
+          reviews_count?: number
+          sample_review?: string
+          adsense_slot?: string
+          updated_at?: string
+        }
+        Update: {
+          slug?: string
+          title?: string
+          target_language?: string
+          target_market?: string
+          ai_auto_localization?: boolean
+          live_viewers_count?: number
+          chat_activity_rate?: string
+          webRTC_voice_channels_active?: boolean
+          dopamine_multiplier?: string
+          loot_box_drop_rate?: string
+          daily_streak_bonus_active?: boolean
+          web_push_notifications_enabled?: boolean
+          algorithmic_feed_weight?: string
+          loot_marketplace_token?: string
+          ai_dynamic_event_active?: boolean
+          aggregate_rating?: string
+          reviews_count?: number
+          sample_review?: string
+          adsense_slot?: string
+          updated_at?: string
+        }
+      }
+      automation_state: {
+        Row: {
+          key: string
+          value: Json
+          updated_at: string
+        }
+        Insert: {
+          key: string
+          value: Json
+          updated_at?: string
+        }
+        Update: {
+          key?: string
+          value?: Json
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

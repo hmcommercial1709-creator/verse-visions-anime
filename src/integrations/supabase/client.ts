@@ -27,8 +27,8 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 }
 
 function createSupabaseClient() {
-  const SUPABASE_URL = 'https://saddhtpsomxtazrgeyed.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_rwkvYRSJPJ4-0EvrEBhhlg_CJR8E3M8';
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://saddhtpsomxtazrgeyed.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_rwkvYRSJPJ4-0EvrEBhhlg_CJR8E3M8';
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {

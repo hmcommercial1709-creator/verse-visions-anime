@@ -17,7 +17,7 @@ export const Route = createFileRoute('/sitemap-codes-1[.]xml')({
 
         while (fetchMore && allCodes.length < 40000) {
           const { data, error } = await supabase
-            .from('generated_pages')
+            .from('game_nexus_matrix') // تم التعديل هنا لاستخدام الجدول الصحيح
             .select('slug, updated_at')
             .range(page * pageSize, (page + 1) * pageSize - 1);
 

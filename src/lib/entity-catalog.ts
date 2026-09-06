@@ -20,24 +20,64 @@ type CatalogDatabase = {
   };
 };
 const catalog = supabase as unknown as SupabaseClient<CatalogDatabase>;
+
 export function entityPath(kind: EntityKind, slug: string): string {
   const section = { anime: "anime", article: "articles", product: "product", code: "codes" }[kind];
   return `/en/${section}/${encodeURIComponent(slug)}`;
 }
+
 export async function loadEntity(kind: EntityKind, slug: string) {
+  if (kind === "code") {
+    const { data, error } = await supabase.from("generated_pages")
+      .select("slug, title, description, image_url, updated_at")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw new Error("The catalog is temporarily unavailable. Please try again later.");
+    if (!data) return null;
+    return {
+      slug: data.slug,
+      name: data.title ?? data.slug,
+      description: data.description ?? `GameCastle digital code and region guide for ${data.slug}.`,
+      image_url: data.image_url ?? null,
+      entity_type: "code" as EntityKind,
+      status: "active",
+      source_name: null,
+      source_url: null,
+    };
+  }
+
   const { data, error } = await catalog.from("entities")
     .select("slug, name, description, image_url, entity_type, status, source_name, source_url")
     .eq("status", "active").eq("entity_type", kind).eq("slug", slug).maybeSingle();
   if (error) throw new Error("The catalog is temporarily unavailable. Please try again later.");
   return data?.name && data.description?.trim() ? data : null;
 }
+
 export async function loadEntities(kind: EntityKind) {
+  if (kind === "code") {
+    const { data, error } = await supabase.from("generated_pages")
+      .select("slug, title, description, image_url, updated_at")
+      .limit(100);
+    if (error) throw new Error("The catalog is temporarily unavailable. Please try again later.");
+    return (data ?? []).map((item) => ({
+      slug: item.slug,
+      name: item.title ?? item.slug,
+      description: item.description ?? `GameCastle digital code and region guide for ${item.slug}.`,
+      image_url: item.image_url ?? null,
+      entity_type: "code" as EntityKind,
+      status: "active",
+      source_name: null,
+      source_url: null,
+    }));
+  }
+
   const { data, error } = await catalog.from("entities")
     .select("slug, name, description, image_url, entity_type, status, source_name, source_url")
     .eq("status", "active").eq("entity_type", kind).order("slug").limit(100);
   if (error) throw new Error("The catalog is temporarily unavailable. Please try again later.");
   return (data ?? []).filter((item) => item.name && item.description?.trim());
 }
+
 export function entityHead(entity: CatalogEntity | undefined) {
   if (!entity) return { meta: [{ name: "robots", content: "noindex, follow" }] };
   const title = `${entity.name} · GameCastle Anime`;

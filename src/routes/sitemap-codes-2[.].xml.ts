@@ -11,7 +11,6 @@ export const Route = createFileRoute('/sitemap-codes-2[.]xml')({
       GET: async () => {
         const baseUrl = 'https://gamecastle.store';
         
-        // جلب الدفعة الثانية بثبات (من 10000 إلى 19999) دون حلقة تكرار تستهلك الذاكرة
         const { data, error } = await supabase
           .from('game_nexus_matrix')
           .select('slug, updated_at')

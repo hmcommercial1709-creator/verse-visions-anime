@@ -1,5 +1,8 @@
-import { sitemapIndexXml, xmlResponse } from '@/lib/sitemap';
+import { defineEventHandler, setHeader } from 'h3';
+import { sitemapIndexXml } from '@/lib/sitemap';
 
-export async function GET() {
-  return xmlResponse(sitemapIndexXml());
-}
+export default defineEventHandler(async (event) => {
+  setHeader(event, 'Content-Type', 'application/xml; charset=utf-8');
+  setHeader(event, 'Cache-Control', 'public, max-age=3600');
+  return sitemapIndexXml();
+});

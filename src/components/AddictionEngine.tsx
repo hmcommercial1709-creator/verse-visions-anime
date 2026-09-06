@@ -2,27 +2,35 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface AddictionEngineProps {
-  initialSlug: string;
-  initialData: {
-    name: string;
-    description: string;
+  initialSlug?: string;
+  initialData?: {
+    name?: string;
+    description?: string;
     target_market?: string;
     target_language?: string;
     aggregate_rating?: number;
   };
 }
 
-export function AddictionEngine({ initialSlug, initialData }: AddictionEngineProps) {
+export function AddictionEngine({ initialSlug = "omni-ar-supreme-node-10001", initialData }: AddictionEngineProps) {
   const [streamItems, setStreamItems] = useState<any[]>([]);
   const [unlocked, setUnlocked] = useState(false);
 
+  const data = initialData || {
+    name: "GameCastle Absolute Universal Nexus Matrix",
+    description: "Explore verified digital keys, high-speed regional server mappings, and secure activation protocols.",
+    target_market: "Global Verified",
+    target_language: "EN",
+    aggregate_rating: 4.9
+  };
+
   useEffect(() => {
     async function fetchInfiniteMatrixStream() {
-      const { data } = await supabase
+      const { data: matrixData } = await supabase
         .from('game_nexus_matrix')
         .select('slug, title, sample_review, target_market')
         .limit(9);
-      if (data) setStreamItems(data);
+      if (matrixData) setStreamItems(matrixData);
     }
     fetchInfiniteMatrixStream();
   }, [initialSlug]);
@@ -32,14 +40,14 @@ export function AddictionEngine({ initialSlug, initialData }: AddictionEnginePro
       {/* High-Impact Conversion & Dopamine Trigger Box */}
       <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 p-8 rounded-3xl shadow-2xl border border-pink-500/40 mb-10 relative overflow-hidden">
         <div className="absolute top-0 right-0 bg-pink-600 text-xs font-bold px-4 py-1.5 rounded-bl-xl uppercase tracking-wider">
-          {initialData?.target_market || 'Global Verified'}
+          {data.target_market}
         </div>
-        <h1 className="text-4xl font-black mb-4 tracking-tight leading-tight">{initialData?.name}</h1>
-        <p className="text-gray-300 text-lg mb-6 leading-relaxed">{initialData?.description}</p>
+        <h1 className="text-4xl font-black mb-4 tracking-tight leading-tight">{data.name}</h1>
+        <p className="text-gray-300 text-lg mb-6 leading-relaxed">{data.description}</p>
         
         <div className="flex flex-wrap gap-4 items-center">
           <button 
-            onClick={() => { navigator.clipboard.writeText(initialSlug); setUnlocked(true); }}
+            onClick={() => { navigator.clipboard.writeText(initialSlug || 'code'); setUnlocked(true); }}
             className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-extrabold px-8 py-4 rounded-2xl transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer">
             {unlocked ? '✨ Code Unlocked & Copied Successfully!' : '🔓 Reveal Secret Key & Instant Access'}
           </button>

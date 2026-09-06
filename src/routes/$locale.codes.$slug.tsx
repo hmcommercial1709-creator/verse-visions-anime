@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { loadEntity, entityHead } from "@/lib/entity-catalog";
+import { loadEntity } from "@/lib/entity-catalog.functions";
+import { entityHead } from "@/lib/entity-catalog";
 import { CatalogEntityPage } from "@/components/catalog-entity";
 
 export const Route = createFileRoute("/$locale/codes/$slug")({
@@ -8,7 +9,7 @@ export const Route = createFileRoute("/$locale/codes/$slug")({
     if (params.locale !== "en") throw notFound();
   },
   loader: async ({ params }) => {
-    const entity = await loadEntity("code", params.slug);
+    const entity = await loadEntity({ data: { kind: "code", slug: params.slug } });
     if (!entity) throw notFound();
     return entity;
   },

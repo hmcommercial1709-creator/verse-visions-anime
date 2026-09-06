@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
-import { loadEntity, entityHead } from "@/lib/entity-catalog";
+import { loadEntity } from "@/lib/entity-catalog.functions";
+import { entityHead } from "@/lib/entity-catalog";
 import { CatalogEntityPage } from "@/components/catalog-entity";
 import { publishedArticles } from "@/lib/content-registry";
 
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/$locale/articles/$slug")({
     }
   },
   loader: async ({ params }) => {
-    const entity = await loadEntity("article", params.slug);
+    const entity = await loadEntity({ data: { kind: "article", slug: params.slug } });
     if (!entity) throw notFound();
     return entity;
   },

@@ -1,10 +1,10 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { loadEntities } from "@/lib/entity-catalog";
+import { loadEntities } from "@/lib/entity-catalog.functions";
 import { CatalogIndex } from "@/components/catalog-entity";
 
 export const Route = createFileRoute("/$locale/articles/")({
   beforeLoad: ({ params }) => { if (params.locale !== "en") throw notFound(); },
-  loader: () => loadEntities("article"),
+  loader: () => loadEntities({ data: { kind: "article" } }),
   head: ({ loaderData }) => ({
     meta: [{ title: "Articles · GameCastle Anime" },
       { name: "description", content: "Browse published articles on GameCastle Anime." },

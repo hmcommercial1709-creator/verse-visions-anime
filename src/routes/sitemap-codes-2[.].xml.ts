@@ -11,11 +11,10 @@ export const Route = createFileRoute('/sitemap-codes-2[.]xml')({
       GET: async () => {
         const baseUrl = 'https://gamecastle.store';
         let allCodes: { slug: string; updated_at?: string }[] = [];
-        let page = 40; // يبدأ من الصفحة رقم 40 (أي بعد أول 40,000 كود)
-        const pageSize = 1000;
+        let page = 4; // يبدأ من الصفحة رقم 4 (أي بعد تخطي أول 40,000 كود)
+        const pageSize = 10000; // حجم دفعة كبير وسريع (يقلل عدد الطلبات)
         let fetchMore = true;
 
-        // جلب باقي الأكواد بالكامل حتى النهاية
         while (fetchMore) {
           const { data, error } = await supabase
             .from('codes')

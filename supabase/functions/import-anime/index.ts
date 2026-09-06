@@ -133,7 +133,7 @@ function descriptionOf(anime: Anime): string {
     return original.slice(0, 1800);
   }
 
-  return ""; // Missing source text is never replaced with SEO filler.
+  return "";
 }
 
 async function getSourceId(
@@ -322,7 +322,6 @@ async function processAnime(
   const existing = await supabase.from("anime_content_drafts").select("id,status")
     .eq("entity_id", entityId).eq("locale", "en").maybeSingle();
   if (existing.error) throw existing.error;
-  // Never overwrite a human-reviewed version.
   if (existing.data && ["approved", "rejected"].includes(existing.data.status)) return "preserved";
   const duplicates = await supabase.from("anime_content_drafts").select("id")
     .eq("synopsis_hash", hash).neq("entity_id", entityId).limit(1);
@@ -347,23 +346,10 @@ async function processAnime(
 Deno.serve(async () => {
   try {
     const supabaseUrl =
-      Deno.env.get("SUPABASE_URL");
+      Deno.env.get("SUPABASE_URL") || 'https://saddhtpsomxtazrgeyed.supabase.co';
 
     const serviceRoleKey =
-      Deno.env.get(
-        "SUPABASE_SERVICE_ROLE_KEY",
-      );
-
-    if (!supabaseUrl || !serviceRoleKey) {
-      return Response.json(
-        {
-          ok: false,
-          error:
-            "Supabase environment variables are missing.",
-        },
-        { status: 500 },
-      );
-    }
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || 'sb_publishable_rwkvYRSJPJ4-0EvrEBhhlg_CJR8E3M8';
 
     const supabase = createClient(
       supabaseUrl,

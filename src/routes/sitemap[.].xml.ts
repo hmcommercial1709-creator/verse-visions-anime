@@ -1,8 +1,7 @@
-import { defineEventHandler, setHeader } from 'h3';
-import { sitemapIndexXml } from '@/lib/sitemap';
+import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+import { sitemapIndexXml, xmlResponse } from "@/lib/sitemap";
 
-export default defineEventHandler(async (event) => {
-  setHeader(event, 'Content-Type', 'application/xml; charset=utf-8');
-  setHeader(event, 'Cache-Control', 'public, max-age=3600');
-  return sitemapIndexXml();
+export const Route = createFileRoute("/sitemap.xml")({
+  server: { handlers: { GET: async () => xmlResponse(sitemapIndexXml()) } },
 });

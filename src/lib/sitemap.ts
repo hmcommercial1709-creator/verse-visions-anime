@@ -246,7 +246,8 @@ export function sitemapIndexXml(): string {
     ),
     // Arabic cornerstone edition: real localized content, its own child sitemap.
     "/sitemap-ar.xml",
-    "/sitemap-codes.xml", // تمت الإضافة هنا بأمان تام
+    "/sitemap-codes-1.xml", // القسم الأول (يضمن أرشفة الدفعة الأولى بالكامل دون تجاوز حدود جوجل)
+    "/sitemap-codes-2.xml", // القسم الثاني (يضمن أرشفة الـ 30 ألف المتبقية بالكامل)
   ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
@@ -300,7 +301,7 @@ export function arUrlsetXml(): string {
   ].join("\n");
 }
 
-export function xmlResponse(xml: Response): Response {
+export function xmlResponse(xml: string): Response {
   return new Response(xml, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",

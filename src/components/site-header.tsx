@@ -190,12 +190,13 @@ const megaGroups = [
   },
 ];
 
-/** Direct category hubs surfaced in the main navigation. */
+/** Direct category hubs surfaced in the main navigation with Anime & Games at the very beginning. */
 const categoryHubs = [
+  { to: "/browse", label: "Anime" },
+  { to: "/gaming-hub", label: "Games" },
   { to: "/explore", label: "Explore" },
   { to: "/store", label: "Store" },
   { to: "/rewards/anime-wallpapers", label: "🎁 Free Gift" },
-  { to: "/gaming-hub", label: "Gaming Hub" },
   { to: "/guides", label: "Guides" },
   { to: "/resources", label: "Free Resources" },
   { to: "/watch-order", label: "Watch Orders" },

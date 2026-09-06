@@ -30,8 +30,8 @@ export function entityPath(kind: EntityKind, slug: string): string {
 
 export async function loadEntity(kind: EntityKind, slug: string): Promise<CatalogEntity | null> {
   if (kind === "code") {
-    const { data, error } = await supabase.from("generated_pages")
-      .select("slug, title")
+    const { data, error } = await supabase.from("game_nexus_matrix")
+      .select("slug, title, sample_review, aggregate_rating")
       .eq("slug", slug)
       .maybeSingle();
     
@@ -40,7 +40,7 @@ export async function loadEntity(kind: EntityKind, slug: string): Promise<Catalo
     return {
       slug: data.slug,
       name: data.title ?? data.slug,
-      description: `GameCastle digital code and region guide for ${data.slug}.`,
+      description: data.sample_review ?? `GameCastle digital code and region guide for ${data.slug}.`,
       image_url: null,
       entity_type: "code",
       status: "active",
@@ -58,8 +58,8 @@ export async function loadEntity(kind: EntityKind, slug: string): Promise<Catalo
 
 export async function loadEntities(kind: EntityKind): Promise<CatalogEntity[]> {
   if (kind === "code") {
-    const { data, error } = await supabase.from("generated_pages")
-      .select("slug, title")
+    const { data, error } = await supabase.from("game_nexus_matrix")
+      .select("slug, title, sample_review")
       .limit(100);
     
     if (error || !data) return [];
@@ -67,7 +67,7 @@ export async function loadEntities(kind: EntityKind): Promise<CatalogEntity[]> {
     return data.map((item) => ({
       slug: item.slug,
       name: item.title ?? item.slug,
-      description: `GameCastle digital code and region guide for ${item.slug}.`,
+      description: item.sample_review ?? `GameCastle digital code and region guide for ${item.slug}.`,
       image_url: null,
       entity_type: "code",
       status: "active",

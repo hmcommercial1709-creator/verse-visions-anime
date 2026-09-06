@@ -12,12 +12,12 @@ export const Route = createFileRoute('/sitemap-codes-2[.]xml')({
         const baseUrl = 'https://gamecastle.store';
         let allCodes: { slug: string; updated_at?: string }[] = [];
         let page = 4; // يبدأ من الصفحة رقم 4 (أي بعد تخطي أول 40,000 كود)
-        const pageSize = 10000; // حجم دفعة كبير وسريع (يقلل عدد الطلبات)
+        const pageSize = 10000;
         let fetchMore = true;
 
         while (fetchMore) {
           const { data, error } = await supabase
-            .from('generated_pages') // تم تعديل اسم الجدول هنا ليطابق قاعدة البيانات
+            .from('game_nexus_matrix') // تم التعديل هنا لاستخدام الجدول الصحيح
             .select('slug, updated_at')
             .range(page * pageSize, (page + 1) * pageSize - 1);
 

@@ -1,23 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { VideoDiscovery } from "@/components/video-discovery";
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    const { data: animeData } = await supabase
-      .from("generated_pages")
-      .select("slug, title")
-      .limit(8);
+    try {
+      const { data: animeData } = await supabase
+        .from("generated_pages")
+        .select("slug, title")
+        .limit(8);
 
-    const { data: gamesData } = await supabase
-      .from("game_nexus_matrix")
-      .select("slug, title")
-      .limit(8);
+      const { data: gamesData } = await supabase
+        .from("game_nexus_matrix")
+        .select("slug, title")
+        .limit(8);
 
-    return {
-      animePages: animeData || [],
-      gamePages: gamesData || [],
-    };
+      return {
+        animePages: animeData || [],
+        gamePages: gamesData || [],
+      };
+    } catch (error) {
+      console.error("Home loader error:", error);
+      return {
+        animePages: [],
+        gamePages: [],
+      };
+    }
   },
   head: () => ({
     meta: [

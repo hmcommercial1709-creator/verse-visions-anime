@@ -11,7 +11,6 @@ export const Route = createFileRoute('/sitemap-codes-1[.]xml')({
       GET: async () => {
         const baseUrl = 'https://gamecastle.store';
         
-        // جلب الدفعة الأولى فقط (من 0 إلى 9999) لتجنب انقطاع الاتصال وسرعة الاستجابة
         const { data, error } = await supabase
           .from('game_nexus_matrix')
           .select('slug, updated_at')

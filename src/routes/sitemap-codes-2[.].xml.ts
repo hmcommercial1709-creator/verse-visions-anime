@@ -17,7 +17,7 @@ export const Route = createFileRoute('/sitemap-codes-2[.]xml')({
 
         while (fetchMore) {
           const { data, error } = await supabase
-            .from('codes')
+            .from('generated_pages') // تم تعديل اسم الجدول هنا ليطابق قاعدة البيانات
             .select('slug, updated_at')
             .range(page * pageSize, (page + 1) * pageSize - 1);
 

@@ -1,111 +1,72 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
-const liveNotifications = [
-  "🔥 A gamer from Tokyo unlocked a free Steam key!",
-  "⚡ Flash drop: 95% off active for 3 minutes!",
-  "💎 New user from London claimed a rare 4K anime pack."
-];
-
-export function AddictionEngine() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [countdown, setCountdown] = useState(30);
-  const [currentNote, setCurrentNote] = useState(liveNotifications[0]);
-  const [rewardCode, setRewardCode] = useState<string | null>(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const randomIdx = Math.floor(Math.random() * liveNotifications.length);
-      setCurrentNote(liveNotifications[randomIdx]);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleViralShare = (platform: 'telegram' | 'whatsapp' | 'discord' | 'twitter') => {
-    const siteUrl = encodeURIComponent(window.location.origin + "?ref=viral_box");
-    const text = encodeURIComponent("🔥 Get Free Steam Keys & Legendary Anime Wallpapers Instantly here:");
-    
-    let shareUrl = "";
-    if (platform === 'telegram') {
-      shareUrl = `https://t.me/share/url?url=${siteUrl}&text=${text}`;
-    } else if (platform === 'whatsapp') {
-      shareUrl = `https://api.whatsapp.com/send?text=${text}%20${siteUrl}`;
-    } else if (platform === 'twitter') {
-      shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${siteUrl}`;
-    } else {
-      // Discord / General Copy Fallback
-      navigator.clipboard.writeText(window.location.origin + "?ref=viral_box");
-      alert("Link copied! Paste it in Discord servers to unlock your reward!");
-    }
-
-    if (platform !== 'discord') {
-      window.open(shareUrl, '_blank');
-    }
-
-    // تفعيل الجائزة مباشرة بعد المشاركة
-    setIsOpen(true);
-    setRewardCode("GAME-KEY-8821-ULTRA-FREE");
+export interface AddictionEngineProps {
+  initialSlug: string;
+  initialData: {
+    name: string;
+    description: string;
+    target_market?: string;
+    target_language?: string;
+    aggregate_rating?: number;
   };
+}
+
+export function AddictionEngine({ initialSlug, initialData }: AddictionEngineProps) {
+  const [streamItems, setStreamItems] = useState<any[]>([]);
+  const [unlocked, setUnlocked] = useState(false);
+
+  useEffect(() => {
+    async function fetchInfiniteMatrixStream() {
+      const { data } = await supabase
+        .from('game_nexus_matrix')
+        .select('slug, title, sample_review, target_market')
+        .limit(9);
+      if (data) setStreamItems(data);
+    }
+    fetchInfiniteMatrixStream();
+  }, [initialSlug]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2 items-end pointer-events-auto">
-      {/* شريط التنبيهات الحية العالمية */}
-      <div className="bg-black/95 border border-purple-500 text-purple-300 px-4 py-2 rounded-full text-xs shadow-xl animate-pulse max-w-xs">
-        {currentNote}
+    <div className="max-w-5xl mx-auto px-4 py-8 text-white">
+      {/* High-Impact Conversion & Dopamine Trigger Box */}
+      <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 p-8 rounded-3xl shadow-2xl border border-pink-500/40 mb-10 relative overflow-hidden">
+        <div className="absolute top-0 right-0 bg-pink-600 text-xs font-bold px-4 py-1.5 rounded-bl-xl uppercase tracking-wider">
+          {initialData?.target_market || 'Global Verified'}
+        </div>
+        <h1 className="text-4xl font-black mb-4 tracking-tight leading-tight">{initialData?.name}</h1>
+        <p className="text-gray-300 text-lg mb-6 leading-relaxed">{initialData?.description}</p>
+        
+        <div className="flex flex-wrap gap-4 items-center">
+          <button 
+            onClick={() => { navigator.clipboard.writeText(initialSlug); setUnlocked(true); }}
+            className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white font-extrabold px-8 py-4 rounded-2xl transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer">
+            {unlocked ? '✨ Code Unlocked & Copied Successfully!' : '🔓 Reveal Secret Key & Instant Access'}
+          </button>
+          <div className="flex items-center gap-2 text-sm text-green-400 bg-green-950/40 px-4 py-2 rounded-xl border border-green-500/20">
+            <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping"></span>
+            <span>Over 18,400 users interacted with this code today</span>
+          </div>
+        </div>
       </div>
 
-      {/* صندوق الغموض الفيروسي متعدد المنصات */}
-      <div className="p-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-2xl text-white max-w-xs border border-white/20">
-        {!isOpen ? (
-          <div className="text-center">
-            <p className="font-bold text-sm">📦 Global Mystery Box</p>
-            {countdown > 0 ? (
-              <p className="text-xs mt-1 text-yellow-300">Unlocks in: {countdown}s</p>
-            ) : (
-              <div className="mt-3 flex flex-col gap-2">
-                <p className="text-[11px] text-yellow-200 font-semibold">Share to 1 Group to Unlock Free Key:</p>
-                <div className="grid grid-cols-2 gap-1.5">
-                  <button 
-                    onClick={() => handleViralShare('telegram')}
-                    className="bg-blue-500 hover:bg-blue-600 text-white text-[11px] font-bold py-1 px-2 rounded transition"
-                  >
-                    🚀 Telegram
-                  </button>
-                  <button 
-                    onClick={() => handleViralShare('whatsapp')}
-                    className="bg-green-600 hover:bg-green-700 text-white text-[11px] font-bold py-1 px-2 rounded transition"
-                  >
-                    💬 WhatsApp
-                  </button>
-                  <button 
-                    onClick={() => handleViralShare('discord')}
-                    className="bg-indigo-700 hover:bg-indigo-800 text-white text-[11px] font-bold py-1 px-2 rounded transition"
-                  >
-                    🎮 Discord
-                  </button>
-                  <button 
-                    onClick={() => handleViralShare('twitter')}
-                    className="bg-sky-500 hover:bg-sky-600 text-white text-[11px] font-bold py-1 px-2 rounded transition"
-                  >
-                    🐦 Twitter/X
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="text-center">
-            <p className="font-bold text-sm text-yellow-300">🎉 Key Unlocked!</p>
-            <p className="text-xs mt-1 bg-black/40 p-1.5 rounded select-all font-mono text-green-400">{rewardCode}</p>
-            <p className="text-[10px] mt-1 text-gray-200">Share with more friends to get unlimited keys!</p>
-          </div>
-        )}
+      {/* Infinite Discovery & Addiction Stream */}
+      <div className="mb-12">
+        <h3 className="text-2xl font-bold mb-6 text-pink-400 flex items-center gap-2">
+          <span>⚡ Continuous Discovery Stream (Recommended For You)</span>
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {streamItems.map((item) => (
+            <a 
+              key={item.slug} 
+              href={`/en/codes/${item.slug}`} 
+              className="bg-gray-900/90 hover:bg-gray-800/90 p-5 rounded-2xl border border-gray-800 hover:border-pink-500/60 transition-all duration-300 shadow-lg group block">
+              <span className="text-xs text-purple-400 font-semibold uppercase">{item.target_market || 'Verified Region'}</span>
+              <h4 className="font-bold text-base my-2 text-white group-hover:text-pink-300 transition-colors line-clamp-1">{item.title}</h4>
+              <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed">{item.sample_review || 'Click for instant access, code decoding, and verified digital key retrieval.'}</p>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );

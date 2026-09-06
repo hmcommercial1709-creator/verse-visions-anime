@@ -25,4 +25,4 @@ jobs:
 
     - name: Run Publisher Script
       run: |
-        python auto_publisher.py
+        python auto_publisher.py 

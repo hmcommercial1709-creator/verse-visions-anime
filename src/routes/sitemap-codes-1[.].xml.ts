@@ -10,30 +10,18 @@ export const Route = createFileRoute('/sitemap-codes-1[.]xml')({
     handlers: {
       GET: async () => {
         const baseUrl = 'https://gamecastle.store';
-        let allCodes: { slug: string; updated_at?: string }[] = [];
-        let page = 0;
-        const pageSize = 10000;
-        let fetchMore = true;
+        
+        // جلب الدفعة الأولى فقط (من 0 إلى 9999) لتجنب انقطاع الاتصال وسرعة الاستجابة
+        const { data, error } = await supabase
+          .from('game_nexus_matrix')
+          .select('slug, updated_at')
+          .range(0, 9999);
 
-        while (fetchMore && allCodes.length < 40000) {
-          const { data, error } = await supabase
-            .from('game_nexus_matrix') // تم التعديل هنا لاستخدام الجدول الصحيح
-            .select('slug, updated_at')
-            .range(page * pageSize, (page + 1) * pageSize - 1);
-
-          if (error || !data || data.length === 0) {
-            fetchMore = false;
-          } else {
-            allCodes.push(...data);
-            if (data.length < pageSize || allCodes.length >= 40000) {
-              fetchMore = false;
-            } else {
-              page++;
-            }
-          }
+        if (error || !data) {
+          return new Response('Error loading sitemap data', { status: 500 });
         }
 
-        const urlsXml = allCodes
+        const urlsXml = data
           .map((item) => {
             const loc = `${baseUrl}/en/codes/${item.slug}`;
             const lastmod = item.updated_at 

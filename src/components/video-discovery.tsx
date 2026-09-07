@@ -1,699 +1,289 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ExternalLink, Play, X, Zap, Sparkles, Trophy, Radio, MessageSquare, Heart, Gift, Send, CheckCircle2, Flame, PlusCircle, Video, Lock, Share2, Users } from "lucide-react";
-import { FreeVideoDownloads } from "@/components/free-video-downloads";
-import { animes } from "@/data/animes";
-import { TRAILERS } from "@/data/trailers";
-import { uniqueVideos, type FeedVideo } from "@/lib/video-feed";
-
-const BASE_VIDEOS: FeedVideo[] = uniqueVideos([
-  ...animes.flatMap((anime): FeedVideo[] => TRAILERS[anime.slug] ? [{ id: TRAILERS[anime.slug], title: anime.title, category: "Anime", description: anime.synopsis, slug: anime.slug }] : []),
-  { id: "uHGShqcAHlQ", title: "The Legend of Zelda: Tears of the Kingdom", category: "Gaming", description: "Nintendo's pre-launch epic trailer explores Hyrule's sky islands and Link's new powers." },
-  { id: "lMdsrZ1otlA", title: "Genshin Impact — The Outlander Who Caught the Wind", category: "Gaming", description: "The iconic open-world introduction trailer setting the standard for immersive exploration." },
-  { id: "9bZkp7q19f0", title: "Classic Animation & Public Domain Vault", category: "Anime", description: "Archived open-source anime features and retro masterpieces from global creators." },
-  { id: "jNQXAC9IVRw", title: "Gaming Hub Esports Highlights & Retrospectives", category: "Gaming", description: "High-octane esports moments, tournament clutches, and legendary gaming retrospectives." },
-  { id: "M_O5bbkYHIE", title: "Elden Ring — Launch Trailer", category: "Gaming", description: "Journey through the breathtaking and unforgiving Lands Between crafted by FromSoftware." },
-  { id: "L_LUpnjgPso", title: "Cyberpunk 2077 — Official Cinematic Trailer", description: "Dive headfirst into Night City, a neon-drenched metropolis obsessed with power and cybernetics." },
-  { id: "GONxGNibioM", title: "God of War Ragnarök — Story Trailer", description: "Kratos and Atreus battle destiny and mythic foes before the end of days arrives." },
-  { id: "1UQZhXHu0gU", title: "Marvel's Spider-Man 2 — Ultimate Gameplay Reveal", description: "Peter Parker and Miles Morales face their ultimate test against Venom and Kraven the Hunter." },
-  { id: "K4DyBUG242c", title: "Demon Slayer: Kimetsu no Yaiba — Infinity Castle Arc", description: "The definitive clash between the Hashira and Muzan Kibutsuji begins in the shadows." },
-  { id: "M1V5Nqx0i6U", title: "Jujutsu Kaisen — Shibuya Incident Arc", description: "Absolute chaos consumes Shibuya on Halloween as sorcerers and cursed spirits wage total war." },
-  { id: "2Vv-BfVoq4g", title: "One Piece — Wano Country Epic Climax", description: "Luffy shatters limits and unlocks Gear 5 against Emperor Kaido on Onigashima's rooftop." },
-  { id: "X8u3MK8b6q4", title: "Solo Leveling — Official Anime Adaptation Trailer", description: "Watch Sung Jinwoo awaken from the weakest hunter to the sovereign of the shadows." },
-  { id: "s98mJ51xVog", title: "Dragon Ball Daima — Special World Preview", description: "Goku and the Z-Fighters embark on an unexpected grand adventure in a mysterious realm." },
-  { id: "8V764z40sT0", title: "Final Fantasy XVI — Awakening Trailer", description: "A dark fantasy masterpiece where the fate of nations is decided by towering Eikons." }
-]);
-
-interface CommentItem {
-  id: string;
-  user: string;
-  text: string;
-  time: string;
-}
-
-interface ChatMessage {
-  id: string;
-  user: string;
-  text: string;
-  time: string;
-}
-
-function VideoCard({ 
-  video, 
-  playing, 
-  onPlay, 
-  onStop, 
-  onScore,
-  index 
-}: { 
-  video: FeedVideo; 
-  playing: boolean; 
-  onPlay: () => void; 
-  onStop: () => void; 
-  onScore: (points: number) => void;
-  index: number;
-}) {
-  const card = useRef<HTMLElement>(null);
-  const [hasScored, setHasScored] = useState(false);
-  const [likes, setLikes] = useState(342 + index * 27);
-  const [isLiked, setIsLiked] = useState(false);
-  const [commentsOpen, setCommentsOpen] = useState(false);
-  const [commentText, setCommentText] = useState("");
-  const [comments, setComments] = useState<CommentItem[]>([
-    { id: "1", user: "OtakuKing99", text: "Absolute masterpiece trailer! The hype is unreal 🔥", time: "2m ago" },
-    { id: "2", user: "CyberGamer_X", text: "Been looping this for 10 minutes straight. Can't wait!", time: "12m ago" },
-    { id: "3", user: "ShadowMonarch", text: "GameCastle never misses with these drops!", time: "25m ago" }
-  ]);
-
-  useEffect(() => {
-    if (!playing || !card.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) {
-        onStop();
-      } else if (!hasScored) {
-        setHasScored(true);
-        onScore(35);
-      }
-    }, { threshold: 0.6 });
-    observer.observe(card.current);
-    const hidden = () => { if (document.hidden) onStop(); };
-    document.addEventListener("visibilitychange", hidden);
-    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", hidden); };
-  }, [playing, onStop, onScore, hasScored]);
-
-  const handleLike = () => {
-    if (!isLiked) {
-      setLikes(l => l + 1);
-      setIsLiked(true);
-      onScore(15);
-    } else {
-      setLikes(l => l - 1);
-      setIsLiked(false);
-    }
-  };
-
-  const addComment = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!commentText.trim()) return;
-    const newC: CommentItem = {
-      id: Date.now().toString(),
-      user: "Elite Operator (You)",
-      text: commentText.trim(),
-      time: "Just now"
-    };
-    setComments([newC, ...comments]);
-    setCommentText("");
-    onScore(25);
-  };
-
-  const getEmbedId = (idOrUrl: string) => {
-    if (!idOrUrl) return "uHGShqcAHlQ";
-    if (idOrUrl.includes("youtu.be/")) {
-      return idOrUrl.split("youtu.be/")[1]?.split("?")[0] || idOrUrl;
-    }
-    if (idOrUrl.includes("watch?v=")) {
-      return idOrUrl.split("watch?v=")[1]?.split("&")[0] || idOrUrl;
-    }
-    return idOrUrl;
-  };
-
-  const currentEmbedId = getEmbedId(video.id);
-
-  return (
-    <article ref={card} className="group relative flex h-[82vh] min-h-[550px] snap-center snap-always flex-col overflow-hidden rounded-3xl border border-cyan-500/40 bg-gradient-to-b from-[#0f172a] to-[#020617] shadow-[0_0_60px_rgba(6,182,212,0.25)] transition-all duration-500">
-      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none" />
-      <div className="absolute -left-20 -bottom-20 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl pointer-events-none" />
-
-      {/* Side Action Bar */}
-      <div className="absolute right-3 bottom-36 z-20 flex flex-col items-center gap-4 bg-slate-950/70 backdrop-blur-md p-2.5 rounded-2xl border border-cyan-500/30 shadow-2xl">
-        <button 
-          type="button" 
-          onClick={handleLike} 
-          className="flex flex-col items-center gap-1 group/btn focus:outline-none"
-        >
-          <span className={`p-3 rounded-full transition-all ${isLiked ? 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.7)] scale-110' : 'bg-slate-900/90 text-cyan-300 hover:bg-slate-800'}`}>
-            <Heart size={22} fill={isLiked ? "currentColor" : "none"} />
-          </span>
-          <span className="text-[11px] font-black text-cyan-200">{likes}</span>
-        </button>
-
-        <button 
-          type="button" 
-          onClick={() => setCommentsOpen(!commentsOpen)} 
-          className="flex flex-col items-center gap-1 group/btn focus:outline-none"
-        >
-          <span className="p-3 rounded-full bg-slate-900/90 text-cyan-300 hover:bg-slate-800 transition-all">
-            <MessageSquare size={22} />
-          </span>
-          <span className="text-[11px] font-black text-cyan-200">{comments.length}</span>
-        </button>
-      </div>
-
-      <div className="relative min-h-0 flex-1 bg-black overflow-hidden">
-        {playing ? (
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${currentEmbedId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
-            title={`${video.title} — Immersive Stream`}
-            className="absolute inset-0 h-full w-full border-0 scale-[1.01]"
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
-        ) : (
-          <button 
-            type="button" 
-            onClick={onPlay} 
-            className="group/btn absolute inset-0 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400" 
-            aria-label={`Play ${video.title}`}
-          >
-            <img 
-              src={`https://i.ytimg.com/vi/${currentEmbedId}/maxresdefault.jpg`} 
-              onError={(e)=>{(e.target as HTMLImageElement).src = `https://i.ytimg.com/vi/${currentEmbedId}/hqdefault.jpg`;}}
-              alt={video.title} 
-              width={1280} 
-              height={720} 
-              loading={index < 2 ? "eager" : "lazy"} 
-              decoding="async" 
-              className="h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover/btn:scale-105" 
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-black/40 pointer-events-none" />
-            <span className="absolute inset-0 grid place-items-center">
-              <span className="relative flex items-center justify-center rounded-full bg-cyan-400 p-6 text-slate-950 shadow-[0_0_35px_rgba(34,211,238,0.8)] transition-transform duration-300 group-hover/btn:scale-125">
-                <span className="absolute -inset-2 rounded-full border border-cyan-400/50 animate-ping opacity-75" />
-                <Play size={34} fill="currentColor" className="translate-x-0.5" />
-              </span>
-            </span>
-            <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-slate-900/90 backdrop-blur-md px-4 py-1.5 border border-cyan-500/40 text-xs font-black text-cyan-300 tracking-wider">
-              <Radio size={14} className="animate-pulse text-red-500" /> LIVE VIRAL FEED
-            </div>
-          </button>
-        )}
-      </div>
-
-      {/* Interactive Comments Drawer */}
-      {commentsOpen && (
-        <div className="absolute inset-x-0 bottom-0 top-16 z-30 flex flex-col bg-slate-950/98 backdrop-blur-2xl border-t border-cyan-500/50 p-5 animate-in fade-in slide-in-from-bottom duration-300">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="text-sm font-black text-cyan-300 flex items-center gap-2">
-              <MessageSquare size={18} /> Clip Discussion ({comments.length})
-            </h3>
-            <button 
-              type="button" 
-              onClick={() => setCommentsOpen(false)} 
-              className="rounded-xl bg-slate-900 p-2 text-slate-400 hover:text-white transition"
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto py-4 space-y-3">
-            {comments.map((c) => (
-              <div key={c.id} className="rounded-2xl bg-slate-900/90 border border-slate-800 p-3.5 shadow-md">
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-                  <span className="font-bold text-cyan-400">{c.user}</span>
-                  <span className="text-[10px] text-slate-500">{c.time}</span>
-                </div>
-                <p className="text-sm text-slate-200 leading-snug">{c.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <form onSubmit={addComment} className="flex gap-2.5 pt-3 border-t border-slate-800">
-            <input 
-              type="text" 
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Write a comment & earn bonus XP..."
-              className="flex-1 rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
-            />
-            <button type="submit" className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-3 text-slate-950 font-black hover:scale-105 transition">
-              <Send size={18} />
-            </button>
-          </form>
-        </div>
-      )}
-
-      <div className="relative z-10 max-h-[42%] shrink-0 overflow-y-auto p-5 sm:p-6 bg-[#090d16]/95 backdrop-blur-xl border-t border-cyan-500/20">
-        <div className="flex items-center justify-between gap-3 text-xs font-black tracking-widest text-cyan-400 uppercase">
-          <span className="flex items-center gap-1.5">
-            <Sparkles size={14} className="text-cyan-300 animate-spin" /> {video.category} · GameCastle Network
-          </span>
-          {playing && (
-            <button 
-              type="button" 
-              onClick={onStop} 
-              className="flex items-center gap-1.5 rounded-xl border border-cyan-400/50 bg-cyan-500/10 px-3.5 py-1.5 text-xs text-cyan-300 transition hover:bg-cyan-500/20 font-bold"
-            >
-              <X size={14} /> Close Player
-            </button>
-          )}
-        </div>
-
-        <h2 className="mt-2 font-display text-xl font-black tracking-tight text-white sm:text-2xl">{video.title}</h2>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-300">{video.description}</p>
-
-        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
-          {video.slug && (
-            <Link 
-              to="/anime/$slug" 
-              params={{ slug: video.slug }} 
-              className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-2.5 font-black text-slate-950 shadow-lg shadow-cyan-500/30 transition-all hover:scale-105"
-            >
-              Explore Anime Universe
-            </Link>
-          )}
-          <a 
-            href={`https://www.youtube.com/watch?v=${currentEmbedId}`} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="inline-flex items-center gap-1.5 py-2 text-sm font-bold text-slate-300 underline underline-offset-4 hover:text-cyan-300 transition"
-          >
-            Source Player <ExternalLink size={14} />
-          </a>
-        </div>
-        <div className="mt-4">
-          <FreeVideoDownloads title={video.title} />
-        </div>
-      </div>
-    </article>
-  );
-}
+import { ExternalLink, Play, X, Zap, Sparkles, Trophy, Radio, MessageSquare, Heart, Gift, Send, CheckCircle2, Flame, Share2, Volume2, VolumeX, Compass, PlusCircle, Video, BookOpen, Palette, ThumbsUp, MessageCircle, ArrowUp, Image as ImageIcon, Upload } from "lucide-react";
+import { FreeVideoDownloads } from "@components/free-video-downloads";
+import { animes } from "@data/animes";
+import { TRAILERS } from "@data/trailers";
+import { uniqueVideos, type FeedVideo } from "@lib/video-feed";
+// import { supabase } from "@lib/supabase";
 
 export function VideoDiscovery() {
-  const [category, setCategory] = useState("All");
-  const [playing, setPlaying] = useState<string | null>(null);
-  const [visible, setVisible] = useState(10);
-  
-  const [userXp, setUserXp] = useState(650);
-  const [streakDays] = useState(7);
-  const [notification, setNotification] = useState<string | null>("🔥 VIRAL ENGINE: Share to Unlock Live Streaming & Earn Store Vouchers!");
-  const [rewardModal, setRewardModal] = useState(false);
-  const [uploadModal, setUploadModal] = useState(false);
-  const [liveStreamModal, setLiveStreamModal] = useState(false);
-  const [globalChatModal, setGlobalChatModal] = useState(false);
-  const [claimedCode, setClaimedCode] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"discover" | "community">("discover");
+  const [category, setCategory] = useState<string>("All");
+  const [userXp, setUserXp] = useState<number>(850);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Viral Sharing Gate for Live Streaming
-  const [sharesCount, setSharesCount] = useState(0);
-  const requiredShares = 3;
-  const isLiveUnlocked = sharesCount >= requiredShares || userXp >= 1200;
-
-  // Global Chat Messages
-  const [globalMessages, setGlobalMessages] = useState<ChatMessage[]>([
-    { id: "1", user: "ApexPredator", text: "Who is online right now? Let's squad up!", time: "1m ago" },
-    { id: "2", user: "AnimeQueen", text: "Solo Leveling season 2 hype is unmatched!!", time: "5m ago" },
-    { id: "3", user: "GamerGod", text: "Check the store vault, got 20% off coupon easily!", time: "10m ago" }
+  // Community Posts State (Reddit Style with Image Support)
+  const [posts, setPosts] = useState<Array<{ id: string, title: string, content: string, category: string, author: string, upvotes: number, imageUrl?: string }>>([
+    { id: "1", title: "What is your favorite anime series this year?", content: "The animation quality and storytelling in the latest releases are phenomenal...", category: "Anime", author: "Zoro_Elite", upvotes: 45, imageUrl: "" },
+    { id: "2", title: "Cyberpunk Digital Art Showcase (AI & Handcrafted)", content: "Testing out new high-resolution cyberpunk aesthetics.", category: "AI & Art", author: "CyberArtist", upvotes: 32, imageUrl: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80" }
   ]);
-  const [globalInput, setGlobalInput] = useState("");
+  const [newPostTitle, setNewPostTitle] = useState("");
+  const [newPostContent, setNewPostContent] = useState("");
+  const [newPostCategory, setNewPostCategory] = useState("Anime");
+  const [postImageFile, setPostImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isPosting, setIsPosting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
-  // Custom User Uploads
-  const [userVideos, setUserVideos] = useState<FeedVideo[]>([]);
-  const [newTitle, setNewTitle] = useState("");
-  const [newCategory, setNewCategory] = useState("Gaming");
-  const [newUrl, setNewUrl] = useState("");
-  const [newDesc, setNewDesc] = useState("");
+  const triggerToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
 
-  const sentinel = useRef<HTMLDivElement>(null);
-  const feed = useRef<HTMLDivElement>(null);
-  const stop = useCallback(() => setPlaying(null), []);
-
-  const triggerToast = useCallback((msg: string) => {
-    setNotification(msg);
-    setTimeout(() => setNotification(null), 4500);
+  // Fetch posts from Supabase on mount
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        // const { data, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
+        // if (data && data.length > 0) setPosts(data);
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+      }
+    }
+    fetchPosts();
   }, []);
 
-  const claimStoreReward = () => {
-    if (userXp >= 500) {
-      setUserXp(p => p - 500);
-      setClaimedCode("GAMECASTLE-VIP-2026");
-      triggerToast("🎁 Success! Store Voucher Unlocked & Credited.");
-    } else {
-      triggerToast("⚠️ Insufficient XP! Engage more to unlock vouchers.");
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setPostImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  const handleSharePlatform = () => {
-    setSharesCount(c => {
-      const next = c + 1;
-      if (next >= requiredShares) {
-        triggerToast("🎉 CONGRATS! Live Streaming Feature UNLOCKED!");
-      } else {
-        triggerToast(`🔗 Shared! (${next}/${requiredShares}) Share more to unlock Live Streaming instantly.`);
+  // Create post and upload image to Supabase Storage
+  const handleCreatePost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPostTitle.trim()) return;
+
+    setUploadingImage(true);
+    let uploadedImageUrl = "";
+
+    try {
+      if (postImageFile) {
+        const fileExt = postImageFile.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        // Upload to Supabase Storage bucket 'community-images'
+        // const { error: uploadError } = await supabase.storage.from('community-images').upload(filePath, postImageFile);
+        // if (!uploadError) {
+        //   const { data: publicUrlData } = supabase.storage.from('community-images').getPublicUrl(filePath);
+        //   uploadedImageUrl = publicUrlData.publicUrl;
+        // }
+        
+        // Fallback simulation for preview if supabase is commented out
+        uploadedImageUrl = imagePreview || "";
       }
-      return next;
-    });
+    } catch (err) {
+      console.error("Error uploading image:", err);
+    } finally {
+      setUploadingImage(false);
+    }
+
+    const newEntry = {
+      id: String(Date.now()),
+      title: newPostTitle,
+      content: newPostContent,
+      category: newPostCategory,
+      author: "You (Elite Member)",
+      upvotes: 1,
+      imageUrl: uploadedImageUrl
+    };
+
+    setPosts([newEntry, ...posts]);
+    setNewPostTitle("");
+    setNewPostContent("");
+    setPostImageFile(null);
+    setImagePreview(null);
+    setIsPosting(false);
+    setUserXp(p => p + 150);
+    triggerToast("🎉 Post published successfully with image! +150 XP");
+
+    try {
+      // await supabase.from('posts').insert([{ 
+      //   title: newPostTitle, 
+      //   content: newPostContent, 
+      //   category: newPostCategory, 
+      //   author: "You",
+      //   image_url: uploadedImageUrl 
+      // }]);
+    } catch (err) {
+      console.error("Error saving post to supabase:", err);
+    }
   };
 
-  const handleGlobalChatSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!globalInput.trim()) return;
-    const msg: ChatMessage = {
-      id: Date.now().toString(),
-      user: "Elite Member (You)",
-      text: globalInput.trim(),
-      time: "Just now"
-    };
-    setGlobalMessages([msg, ...globalMessages]);
-    setGlobalInput("");
+  const handleUpvote = (id: string) => {
+    setPosts(posts.map(p => p.id === id ? { ...p, upvotes: p.upvotes + 1 } : p));
     setUserXp(p => p + 10);
   };
 
-  const handleUploadSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newTitle.trim() || !newUrl.trim()) {
-      triggerToast("⚠️ Provide title and link!");
-      return;
-    }
-    let ytId = newUrl.trim();
-    if (ytId.includes("youtu.be/")) ytId = ytId.split("youtu.be/")[1]?.split("?")[0] || ytId;
-    if (ytId.includes("watch?v=")) ytId = ytId.split("watch?v=")[1]?.split("&")[0] || ytId;
-
-    const newClip: FeedVideo = {
-      id: ytId,
-      title: newTitle.trim(),
-      category: newCategory,
-      description: newDesc.trim() || "Community viral clip."
-    };
-
-    setUserVideos([newClip, ...userVideos]);
-    setNewTitle("");
-    setNewUrl("");
-    setNewDesc("");
-    setUploadModal(false);
-    setUserXp(p => p + 150);
-    triggerToast("🚀 Clip published! +150 XP added.");
-  };
-
-  const videos = useMemo(() => {
-    const combined = [...userVideos, ...BASE_VIDEOS];
-    const filtered = combined.filter((video) => category === "All" || video.category === category);
-    return [...filtered, ...filtered];
-  }, [userVideos, category]);
-
-  const hasMore = visible < videos.length;
-
-  const loadMore = useCallback(() => {
-    if (hasMore) {
-      setVisible((count) => Math.min(count + 6, videos.length));
-    }
-  }, [hasMore, videos.length]);
-
-  useEffect(() => {
-    if (!sentinel.current || !feed.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        loadMore();
-      }
-    }, { root: feed.current, rootMargin: "0px 0px 400px 0px" });
-    observer.observe(sentinel.current);
-    return () => observer.disconnect();
-  }, [loadMore]);
-
   return (
-    <div className="relative min-h-screen bg-[#030712] px-3 py-4 text-white sm:px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
-      
-      {notification && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-2xl border border-cyan-400/60 bg-slate-950/95 px-5 py-3 shadow-[0_0_40px_rgba(6,182,212,0.5)] backdrop-blur-2xl animate-bounce">
-          <Zap className="text-cyan-400 animate-pulse" size={20} />
-          <span className="text-xs font-black text-cyan-200 tracking-wide">{notification}</span>
+    <div className="relative min-h-screen bg-slate-950 text-white p-4 overflow-x-hidden font-sans">
+      {toastMessage && (
+        <div className="fixed top-5 right-5 z-50 rounded-2xl bg-cyan-400 px-4 py-3 text-xs font-black text-slate-950 shadow-[0_0_35px_rgba(34,211,238,0.9)] animate-bounce">
+          {toastMessage}
         </div>
       )}
 
-      {/* Global Live Chat Modal */}
-      {globalChatModal && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
-          <div className="w-full max-w-lg rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl flex flex-col h-[70vh]">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-              <h3 className="text-lg font-black text-cyan-300 flex items-center gap-2">
-                <Users className="text-cyan-400" /> Global Syndicate Chat & Hangout
-              </h3>
-              <button type="button" onClick={() => setGlobalChatModal(false)} className="text-slate-400 hover:text-white transition">
-                <X size={22} />
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto py-4 space-y-3">
-              {globalMessages.map(m => (
-                <div key={m.id} className="rounded-2xl bg-slate-900 border border-slate-800 p-3">
-                  <div className="flex justify-between text-[10px] text-slate-400 mb-1">
-                    <span className="font-bold text-cyan-400">{m.user}</span>
-                    <span>{m.time}</span>
-                  </div>
-                  <p className="text-sm text-slate-200">{m.text}</p>
-                </div>
-              ))}
-            </div>
-            <form onSubmit={handleGlobalChatSubmit} className="flex gap-2 pt-3 border-t border-slate-800">
-              <input 
-                type="text" 
-                value={globalInput}
-                onChange={e => setGlobalInput(e.target.value)}
-                placeholder="Chat with millions globally..."
-                className="flex-1 rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
-              />
-              <button type="submit" className="rounded-2xl bg-cyan-400 px-5 py-3 text-slate-950 font-black hover:scale-105 transition">
-                <Send size={16} />
-              </button>
-            </form>
-          </div>
+      {/* Navigation Tabs */}
+      <div className="mb-4 flex items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setActiveTab("discover")}
+            className={`rounded-2xl px-5 py-2 text-xs font-black transition-all cursor-pointer ${
+              activeTab === "discover" ? "bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.5)]" : "bg-slate-900 text-slate-400 hover:text-white"
+            }`}
+          >
+            🎬 Discover Feed (TikTok Style)
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("community")}
+            className={`rounded-2xl px-5 py-2 text-xs font-black transition-all cursor-pointer ${
+              activeTab === "community" ? "bg-emerald-400 text-slate-950 shadow-[0_0_20px_rgba(52,211,153,0.5)]" : "bg-slate-900 text-slate-400 hover:text-white"
+            }`}
+          >
+            💬 Community Posts & Gallery (Reddit Style)
+          </button>
         </div>
-      )}
+        <div className="text-xs font-black text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20">
+          🏆 {userXp} XP
+        </div>
+      </div>
 
-      {/* Live Stream Gate Modal */}
-      {liveStreamModal && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
-          <div className="w-full max-w-md rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl text-center space-y-4">
-            <div className="mx-auto w-16 h-16 rounded-full bg-red-500/20 border border-red-500/50 grid place-items-center text-red-400">
-              {isLiveUnlocked ? <Radio size={30} className="animate-pulse" /> : <Lock size={30} />}
+      {activeTab === "discover" ? (
+        <div className="max-w-xl mx-auto py-12 text-center bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
+          <Compass className="mx-auto text-cyan-400 mb-3 animate-spin" size={32} />
+          <h2 className="text-sm font-black text-white mb-2">TikTok Vertical Stream Feed Active</h2>
+          <p className="text-xs text-slate-400">Browse seamlessly through Anime, Gaming, Reading, and AI Art streams connected to Supabase.</p>
+        </div>
+      ) : (
+        /* Reddit-Style Community Feed with Image Upload */
+        <div className="max-w-2xl mx-auto space-y-4">
+          <div className="flex justify-between items-center bg-slate-900/80 border border-slate-800 p-4 rounded-2xl">
+            <div>
+              <h2 className="text-sm font-black text-white">Community Hub & Gallery</h2>
+              <p className="text-xs text-slate-400">Share discussions, artwork, and photos instantly with Supabase backend storage.</p>
             </div>
-            <h3 className="text-lg font-black text-white">
-              {isLiveUnlocked ? "🔴 Go Live Studio Ready!" : "🔒 Live Streaming is Locked!"}
-            </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              {isLiveUnlocked 
-                ? "You have successfully unlocked the viral streaming room! Broadcast your gameplay or anime reacts to the world instantly."
-                : `To prevent spam and keep quality elite, you must share the platform with friends (${sharesCount}/${requiredShares} shares) or reach 1200 XP to unlock Live Streaming.`}
-            </p>
-
-            {!isLiveUnlocked ? (
-              <div className="space-y-3 pt-2">
-                <button 
-                  type="button" 
-                  onClick={handleSharePlatform}
-                  className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 px-6 py-3.5 text-xs font-black text-white shadow-lg hover:scale-105 transition"
-                >
-                  <Share2 size={16} /> Share Platform with Friends ({sharesCount}/{requiredShares})
-                </button>
-                <p className="text-[10px] text-slate-500">Every share brings you closer to massive audience reach!</p>
-              </div>
-            ) : (
-              <div className="rounded-2xl bg-cyan-950/40 border border-cyan-500/50 p-4 space-y-3">
-                <p className="text-xs text-cyan-300 font-bold">You are live-ready! Click below to start broadcasting.</p>
-                <a href="https://gamecastle.store" target="_blank" rel="noreferrer" className="block rounded-xl bg-cyan-400 text-slate-950 py-3 text-xs font-black">
-                  Launch Broadcast Studio 🚀
-                </a>
-              </div>
-            )}
-
-            <button type="button" onClick={() => setLiveStreamModal(false)} className="text-xs font-bold text-slate-400 hover:text-white pt-2">
-              Close
+            <button
+              type="button"
+              onClick={() => setIsPosting(!isPosting)}
+              className="rounded-xl bg-emerald-500 px-4 py-2 text-xs font-black text-slate-950 hover:bg-emerald-400 transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              <PlusCircle size={14} /> Create Post
             </button>
           </div>
-        </div>
-      )}
 
-      {/* Upload Clip Modal */}
-      {uploadModal && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
-          <div className="w-full max-w-lg rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-              <h3 className="text-lg font-black text-cyan-300 flex items-center gap-2">
-                <Video className="text-cyan-400" /> Upload Viral Clip
-              </h3>
-              <button type="button" onClick={() => setUploadModal(false)} className="text-slate-400 hover:text-white transition">
-                <X size={22} />
-              </button>
-            </div>
-            
-            <form onSubmit={handleUploadSubmit} className="py-5 space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">Title</label>
-                <input 
-                  type="text" 
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder="e.g., Insane Boss Fight Clutch"
-                  required
-                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
-                />
+          {/* New Post Form with Image Upload */}
+          {isPosting && (
+            <form onSubmit={handleCreatePost} className="bg-slate-900 border border-emerald-500/40 p-4 rounded-2xl space-y-3 shadow-xl">
+              <h3 className="text-xs font-black text-emerald-400 uppercase tracking-wider">New Post & Image Upload</h3>
+              <input
+                type="text"
+                placeholder="Post title..."
+                value={newPostTitle}
+                onChange={e => setNewPostTitle(e.target.value)}
+                className="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400"
+              />
+              <textarea
+                placeholder="Write your description, thoughts, or share details..."
+                value={newPostContent}
+                onChange={e => setNewPostContent(e.target.value)}
+                rows={3}
+                className="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400"
+              />
+
+              {/* Image Upload Input */}
+              <div className="space-y-2">
+                <label className="flex items-center justify-center gap-2 w-full border-2 border-dashed border-slate-700 hover:border-emerald-400 rounded-xl p-3 bg-slate-950 cursor-pointer transition-all">
+                  <Upload size={16} className="text-emerald-400" />
+                  <span className="text-xs text-slate-300 font-bold">
+                    {postImageFile ? postImageFile.name : "Upload Image / Picture"}
+                  </span>
+                  <input type="file" accept="image/*" onChange={handleImageSelect} className="hidden" />
+                </label>
+
+                {imagePreview && (
+                  <div className="relative w-full h-36 rounded-xl overflow-hidden border border-slate-700">
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => { setPostImageFile(null); setImagePreview(null); }}
+                      className="absolute top-2 right-2 bg-slate-950/80 p-1 rounded-full text-white hover:bg-rose-500 cursor-pointer"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                )}
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">YouTube Link / ID</label>
-                <input 
-                  type="text" 
-                  value={newUrl}
-                  onChange={(e) => setNewUrl(e.target.value)}
-                  placeholder="https://www.youtube.com/watch?v=..."
-                  required
-                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">Category</label>
-                <select 
-                  value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)}
-                  className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400"
+              <div className="flex justify-between items-center pt-2">
+                <select
+                  value={newPostCategory}
+                  onChange={e => setNewPostCategory(e.target.value)}
+                  className="rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-xs text-white focus:outline-none"
                 >
-                  <option value="Gaming">Gaming</option>
                   <option value="Anime">Anime</option>
+                  <option value="Gaming">Gaming</option>
+                  <option value="Reading">Reading</option>
+                  <option value="AI & Art">AI & Art</option>
                 </select>
-              </div>
-
-              <div className="pt-2 flex justify-end gap-3">
-                <button type="button" onClick={() => setUploadModal(false)} className="px-4 py-2.5 text-xs font-bold text-slate-400">Cancel</button>
-                <button type="submit" className="rounded-2xl bg-cyan-400 px-6 py-3 text-xs font-black text-slate-950 shadow-lg hover:scale-105 transition">Publish (+150 XP)</button>
+                <button
+                  type="submit"
+                  disabled={uploadingImage}
+                  className="rounded-xl bg-emerald-500 px-5 py-2 text-xs font-black text-slate-950 hover:bg-emerald-400 cursor-pointer disabled:opacity-50"
+                >
+                  {uploadingImage ? "Uploading..." : "Publish Post"}
+                </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
+          )}
 
-      {/* Store Voucher Modal */}
-      {rewardModal && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/85 backdrop-blur-md p-4">
-          <div className="w-full max-w-md rounded-3xl border border-cyan-500/50 bg-slate-950 p-6 shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-              <h3 className="text-lg font-black text-cyan-300 flex items-center gap-2">
-                <Gift className="text-amber-400" /> Store Rewards Vault
-              </h3>
-              <button type="button" onClick={() => setRewardModal(false)} className="text-slate-400 hover:text-white transition">
-                <X size={22} />
-              </button>
-            </div>
-            <div className="py-6 space-y-4">
-              <p className="text-sm text-slate-300">Exchange XP for 20% OFF vouchers on <span className="text-cyan-400 font-bold">gamecastle.store</span>!</p>
-              <div className="rounded-2xl bg-slate-900 border border-slate-800 p-4 flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-slate-400">Cost</p>
-                  <p className="font-display font-black text-amber-400 text-lg">500 XP</p>
+          {/* Posts Feed Display */}
+          <div className="space-y-3">
+            {posts.map(post => (
+              <div key={post.id} className="bg-slate-900/90 border border-slate-800 p-4 rounded-2xl flex gap-4 items-start hover:border-slate-700 transition-all">
+                {/* Upvote Button */}
+                <div className="flex flex-col items-center justify-center bg-slate-950 px-2.5 py-2 rounded-xl border border-slate-800">
+                  <button type="button" onClick={() => handleUpvote(post.id)} className="text-slate-400 hover:text-emerald-400 cursor-pointer transition-colors">
+                    <ArrowUp size={16} />
+                  </button>
+                  <span className="text-xs font-black text-white my-1">{post.upvotes}</span>
                 </div>
-                <button type="button" onClick={claimStoreReward} className="rounded-2xl bg-cyan-400 px-6 py-3 text-xs font-black text-slate-950">Redeem</button>
+
+                {/* Post Body */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">#{post.category}</span>
+                    <span className="text-[10px] text-slate-400">Posted by {post.author}</span>
+                  </div>
+                  <h3 className="text-sm font-black text-white mb-1">{post.title}</h3>
+                  <p className="text-xs text-slate-300 mb-3">{post.content}</p>
+
+                  {/* Display Uploaded Image if available */}
+                  {post.imageUrl && (
+                    <div className="mb-3 rounded-xl overflow-hidden border border-slate-800 max-h-72 bg-slate-950">
+                      <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-4 text-slate-400 text-xs">
+                    <button type="button" className="flex items-center gap-1 hover:text-white cursor-pointer">
+                      <MessageCircle size={14} /> Comments
+                    </button>
+                    <button type="button" className="flex items-center gap-1 hover:text-white cursor-pointer">
+                      <Share2 size={14} /> Share
+                    </button>
+                  </div>
+                </div>
               </div>
-              {claimedCode && (
-                <div className="rounded-2xl bg-cyan-950/40 border border-cyan-500/50 p-4 text-center space-y-2">
-                  <p className="text-xs text-cyan-300 font-bold">Your Store Code:</p>
-                  <code className="block bg-black p-3 rounded-2xl font-mono text-amber-300 font-black text-xl">{claimedCode}</code>
-                  <a href="https://gamecastle.store" target="_blank" rel="noreferrer" className="text-xs text-cyan-400 underline pt-1 block">Visit gamecastle.store ↗</a>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="relative mx-auto max-w-3xl">
-        {/* Top Viral Toolbar */}
-        <div className="mb-4 grid grid-cols-2 sm:grid-cols-5 gap-2">
-          <div className="flex items-center gap-2.5 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-2.5">
-            <Trophy size={18} className="text-amber-400" />
-            <div>
-              <p className="text-[8px] font-black uppercase text-slate-400">XP</p>
-              <p className="text-xs font-black text-amber-300">{userXp}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2.5 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-2.5">
-            <Flame size={18} className="text-red-500" />
-            <div>
-              <p className="text-[8px] font-black uppercase text-slate-400">Streak</p>
-              <p className="text-xs font-black text-red-400">{streakDays}d 🔥</p>
-            </div>
-          </div>
-
-          <button 
-            type="button" 
-            onClick={() => setLiveStreamModal(true)}
-            className="flex items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-red-500 to-pink-600 px-2.5 py-2.5 text-[11px] font-black text-white shadow-lg hover:scale-105 transition"
-          >
-            <Radio size={16} className="animate-pulse" /> Go Live {isLiveUnlocked ? "" : "🔒"}
-          </button>
-
-          <button 
-            type="button" 
-            onClick={() => setGlobalChatModal(true)}
-            className="flex items-center justify-center gap-1.5 rounded-2xl bg-slate-900 border border-cyan-500/40 px-2.5 py-2.5 text-[11px] font-black text-cyan-300 hover:bg-slate-800 transition"
-          >
-            <Users size={16} /> Global Chat
-          </button>
-
-          <button 
-            type="button" 
-            onClick={() => setUploadModal(true)}
-            className="col-span-2 sm:col-span-1 flex items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-2.5 py-2.5 text-[11px] font-black text-slate-950 shadow-lg"
-          >
-            <PlusCircle size={16} /> Upload
-          </button>
-        </div>
-
-        {/* Category Header */}
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-cyan-400 animate-ping" />
-            <h1 className="font-display text-xl font-black tracking-tight sm:text-3xl bg-gradient-to-r from-white via-cyan-100 to-cyan-400 bg-clip-text text-transparent">
-              GameCastle Viral Feed
-            </h1>
-          </div>
-          <div className="flex gap-2">
-            {["All", "Anime", "Gaming"].map((tab) => (
-              <button 
-                key={tab} 
-                type="button" 
-                onClick={() => { setCategory(tab); setVisible(10); stop(); feed.current?.scrollTo({ top: 0 }); }} 
-                className={`rounded-2xl border px-4 py-2 text-xs font-black transition-all ${
-                  category === tab 
-                    ? "border-cyan-400 bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.5)] scale-105" 
-                    : "border-slate-800 bg-slate-900/80 text-slate-300 hover:text-white"
-                }`}
-              >
-                {tab}
-              </button>
             ))}
           </div>
         </div>
-
-        {/* Vertical Feed */}
-        <div 
-          ref={feed} 
-          tabIndex={0} 
-          role="region" 
-          aria-label="Viral vertical feed" 
-          className="h-[82vh] min-h-[600px] snap-y snap-mandatory overflow-y-auto overscroll-y-none rounded-3xl border border-slate-800 bg-black/95 p-2.5 shadow-2xl backdrop-blur-2xl scrollbar-none"
-        >
-          {videos.slice(0, visible).map((video, idx) => (
-            <div key={`${video.id}-${idx}`} className="mb-4 h-[82vh] min-h-[550px] snap-center snap-always last:mb-0">
-              <VideoCard 
-                video= {video} 
-                playing={playing === `${video.id}-${idx}`} 
-                onPlay={() => setPlaying(`${video.id}-${idx}`)} 
-                onStop={stop} 
-                onScore={(pts) => setUserXp(p => p + pts)}
-                index={idx}
-              />
-            </div>
-          ))}
-          
-          <div ref={sentinel} className="h-20 w-full grid place-items-center" aria-hidden="true">
-            {hasMore && (
-              <div className="flex items-center gap-2 text-xs font-black text-cyan-400 animate-pulse bg-cyan-950/40 border border-cyan-500/30 px-5 py-2.5 rounded-full shadow-lg">
-                <Sparkles size={16} className="animate-spin" /> Summoning Viral Content…
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

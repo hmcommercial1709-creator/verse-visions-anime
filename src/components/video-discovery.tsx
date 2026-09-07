@@ -4,7 +4,6 @@ import {
   Upload, Sparkles, Trophy, Search, 
   Flame, Clock, Send, X, Crown, Activity 
 } from "lucide-react";
-// تم تصحيح مسار الاستيراد هنا ليكون متوافقاً 100% مع بناء Vite
 import { supabase } from "../lib/supabase";
 
 interface Post {
@@ -631,9 +630,9 @@ export function VideoDiscovery() {
                           />
                           <button
                             type="submit"
-                            className="rounded-xl bg-emerald-500 px-4 py-2 text-xs font-black text-slate-950 hover:bg-emerald-400 cursor-pointer"
+                            className="rounded-2xl bg-emerald-500 px-4 py-2 text-xs font-black text-slate-950 hover:bg-emerald-400 cursor-pointer flex items-center justify-center"
                           >
-                            <Send size=size={14} />
+                            <Send size={14} />
                           </button>
                         </form>
                       </div>

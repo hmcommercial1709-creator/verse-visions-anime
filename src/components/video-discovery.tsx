@@ -1,52 +1,18 @@
-import React, { useEffect, useState, type FormEvent, type ChangeEvent } from "react";
-import { 
-  Compass, PlusCircle, MessageCircle, Share2, ArrowUp, 
-  Upload, Sparkles, Trophy, Search, 
-  Flame, Clock, Send, X, Crown, Activity 
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Compass, Sparkles, Send, MessageCircle, ArrowUp, PlusCircle, Trophy, Search, Flame, Clock, Upload, X, Crown, Activity, Share2 } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  category: string;
-  author: string;
-  upvotes: number;
-  imageUrl?: string;
-  created_at?: string;
-  reactions?: { fire: number; love: number; mindblown: number };
-}
-
-interface Comment {
-  id: string;
-  post_id: string;
-  author: string;
-  content: string;
-  created_at?: string;
-}
-
-interface LeaderboardUser {
-  rank: number;
-  name: string;
-  xp: number;
-  badge: string;
-}
-
 export function VideoDiscovery() {
-  const [isMounted, setIsMounted] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<"discover" | "community" | "leaderboard">("community");
+  const [isMounted, setIsMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("community");
   const [categoryFilter, setCategoryFilter] = useState<string>("All");
-  const [sortBy, setSortBy] = useState<"trending" | "latest">("trending");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  
   const [userXp, setUserXp] = useState<number>(1450);
   const [userStreak] = useState<number>(5);
-  const [userRankTitle, setUserRankTitle] = useState<string>("Elite Otaku");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [liveTickerText, setLiveTickerText] = useState<string>("🔥 Zoro_Elite just unlocked 'Legendary Creator' badge (+500 XP)!");
+  const [liveTickerText, setLiveTickerText] = useState<string>("🔥 Community milestone reached: 10,000 active anime fans online!");
 
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [isPosting, setIsPosting] = useState<boolean>(false);
   const [newPostTitle, setNewPostTitle] = useState<string>("");
   const [newPostContent, setNewPostContent] = useState<string>("");
@@ -56,17 +22,17 @@ export function VideoDiscovery() {
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
 
   const [activeCommentPostId, setActiveCommentPostId] = useState<string | null>(null);
-  const [commentsMap, setCommentsMap] = useState<Record<string, Comment[]>>({});
+  const [commentsMap, setCommentsMap] = useState<Record<string, any[]>>({});
   const [newCommentText, setNewCommentText] = useState<string>("");
   const [loadingComments, setLoadingComments] = useState<boolean>(false);
 
-  const leaderboardUsers: LeaderboardUser[] = [
+  const leaderboardUsers = [
     { rank: 1, name: "Zoro_King_99", xp: 14200, badge: "👑 Anime Overlord" },
     { rank: 2, name: "Akame_Gamer", xp: 11850, badge: "⚡ Cyberpunk Master" },
     { rank: 3, name: "Luffy_Pirat", xp: 9600, badge: "🔥 Trendsetter" },
     { rank: 4, name: "Gojo_Infinite", xp: 8400, badge: "💎 Elite Curator" },
     { rank: 5, name: "You (Elite Creator)", xp: userXp, badge: "🚀 Rising Star" },
-  ].sort((a, b) => b.xp - a.xp);
+  ];
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
@@ -78,47 +44,20 @@ export function VideoDiscovery() {
     fetchPosts();
   }, []);
 
-  useEffect(() => {
-    const tickers = [
-      "⚡ New high-res Cyberpunk wallpaper added in Wallpapers!",
-      "🔥 Community milestone reached: 10,000 active anime fans online!",
-      "🏆 User Gojo_Infinite just claimed the Weekly Crown!",
-      "💎 Daily streak bonus available: Check-in now for +250 XP!"
-    ];
-    const interval = setInterval(() => {
-      const randomMsg = tickers[Math.floor(Math.random() * tickers.length)];
-      setLiveTickerText(randomMsg);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
-
   async function fetchPosts() {
     try {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('posts')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (!error && data && data.length > 0) {
-        const formatted: Post[] = data.map((item: Record<string, any>) => ({
-          id: String(item.id),
-          title: String(item.title || ""),
-          content: String(item.content || ""),
-          category: String(item.category || "General"),
-          author: String(item.author || "Elite Member"),
-          upvotes: Number(item.upvotes || 0),
-          imageUrl: String(item.image_url || ""),
-          created_at: item.created_at,
-          reactions: { fire: 12, love: 8, mindblown: 5 }
-        }));
-        setPosts(formatted);
-      }
+      if (data) setPosts(data);
     } catch (err) {
-      console.error("Error fetching posts:", err);
+      console.error(err);
     }
   }
 
-  const handleImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = (e: any) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setPostImageFile(file);
@@ -126,7 +65,7 @@ export function VideoDiscovery() {
     }
   };
 
-  const handleCreatePost = async (e: FormEvent) => {
+  const handleCreatePost = async (e: any) => {
     e.preventDefault();
     if (!newPostTitle.trim()) return;
 
@@ -137,7 +76,6 @@ export function VideoDiscovery() {
       if (postImageFile) {
         const fileExt = postImageFile.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-        
         const { error: uploadError } = await supabase.storage
           .from('community-images')
           .upload(fileName, postImageFile);
@@ -146,11 +84,11 @@ export function VideoDiscovery() {
           const { data: publicUrlData } = supabase.storage
             .from('community-images')
             .getPublicUrl(fileName);
-          uploadedImageUrl = publicUrlData.publicUrl;
+          uploadedImageUrl = publicUrlData.publicUrl || "";
         }
       }
     } catch (err) {
-      console.error("Error uploading image:", err);
+      console.error(err);
     } finally {
       setUploadingImage(false);
     }
@@ -169,27 +107,12 @@ export function VideoDiscovery() {
         .select();
 
       if (!error && data) {
-        const newXp = userXp + 300;
-        setUserXp(newXp);
-        if (newXp > 2000) setUserRankTitle("Anime Overlord 👑");
-        triggerToast("🚀 Masterpiece Published! +300 XP & Streak Bonus!");
-        
-        const newEntry: Post = {
-          id: String(data[0]?.id || Date.now()),
-          title: newPostTitle,
-          content: newPostContent,
-          category: newPostCategory,
-          author: "Elite Creator",
-          upvotes: 1,
-          imageUrl: uploadedImageUrl,
-          created_at: new Date().toISOString(),
-          reactions: { fire: 1, love: 0, mindblown: 0 }
-        };
-        setPosts(prev => [newEntry, ...prev]);
+        setUserXp(prev => prev + 300);
+        triggerToast("🚀 Masterpiece Published! +300 XP");
+        setPosts(prev => [data[0], ...prev]);
       }
     } catch (err) {
-      console.error("Error saving post:", err);
-      triggerToast("⚠️ Failed to publish post.");
+      console.error(err);
     }
 
     setNewPostTitle("");
@@ -200,24 +123,9 @@ export function VideoDiscovery() {
   };
 
   const handleUpvote = (id: string) => {
-    setPosts(posts.map(p => p.id === id ? { ...p, upvotes: p.upvotes + 1 } : p));
+    setPosts(posts.map(p => (p.id === id ? { ...p, upvotes: (p.upvotes || 0) + 1 } : p)));
     setUserXp(prev => prev + 25);
-    triggerToast("🔥 Massive Upvote! +25 XP");
-  };
-
-  const handleReaction = (id: string, type: 'fire' | 'love' | 'mindblown') => {
-    setPosts(posts.map(p => {
-      if (p.id === id) {
-        const currentReactions = p.reactions || { fire: 0, love: 0, mindblown: 0 };
-        return {
-          ...p,
-          reactions: { ...currentReactions, [type]: currentReactions[type] + 1 }
-        };
-      }
-      return p;
-    }));
-    setUserXp(prev => prev + 10);
-    triggerToast(`✨ Reaction added! +10 XP`);
+    triggerToast("🔥 Upvoted! +25 XP");
   };
 
   const fetchComments = async (postId: string) => {
@@ -229,23 +137,23 @@ export function VideoDiscovery() {
     setLoadingComments(true);
 
     try {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('comments')
         .select('*')
         .eq('post_id', postId)
         .order('created_at', { ascending: true });
 
-      if (!error && data) {
+      if (data) {
         setCommentsMap(prev => ({ ...prev, [postId]: data }));
       }
     } catch (err) {
-      console.error("Error fetching comments:", err);
+      console.error(err);
     } finally {
       setLoadingComments(false);
     }
   };
 
-  const handleAddComment = async (postId: string, e: FormEvent) => {
+  const handleAddComment = async (postId: string, e: any) => {
     e.preventDefault();
     if (!newCommentText.trim()) return;
 
@@ -256,396 +164,163 @@ export function VideoDiscovery() {
         .select();
 
       if (!error && data) {
-        const addedComment = data[0] as Comment;
         setCommentsMap(prev => ({
           ...prev,
-          [postId]: [...(prev[postId] || []), addedComment]
+          [postId]: [...(prev[postId] || []), data[0]]
         }));
         setNewCommentText("");
         setUserXp(prev => prev + 50);
         triggerToast("💬 Reply posted! +50 XP");
       }
     } catch (err) {
-      console.error("Error adding comment:", err);
+      console.error(err);
     }
   };
 
   const filteredPosts = posts.filter(post => {
     const matchesCategory = categoryFilter === "All" || post.category === categoryFilter;
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          post.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = (post.title || "").toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          (post.content || "").toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
-  }).sort((a, b) => {
-    if (sortBy === "trending") return b.upvotes - a.upvotes;
-    return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
   });
 
   if (!isMounted) {
-    return <div className="min-h-screen bg-slate-950 text-white p-6">Loading Verse Visions Anime...</div>;
+    return <div className="min-h-screen bg-slate-950 text-white p-6">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-3 md:p-6 font-sans">
+    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-6 font-sans">
       {toastMessage && (
         <div className="fixed top-6 right-6 z-50 rounded-2xl bg-gradient-to-r from-cyan-400 via-emerald-400 to-amber-400 px-5 py-3 text-xs font-black text-slate-950 shadow-xl animate-bounce">
           {toastMessage}
         </div>
       )}
 
-      <div className="max-w-4xl mx-auto mb-4 bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/30 rounded-2xl px-4 py-2 flex items-center justify-between text-xs shadow-lg">
-        <div className="flex items-center gap-2 overflow-hidden">
-          <Activity size={16} className="text-cyan-400 animate-pulse shrink-0" />
-          <span className="text-slate-300 font-bold truncate">{liveTickerText}</span>
+      <div className="max-w-4xl mx-auto mb-4 bg-slate-900 border border-purple-500/30 rounded-2xl px-4 py-2 flex items-center justify-between text-xs shadow-lg">
+        <div className="flex items-center gap-2">
+          <Activity size={16} className="text-cyan-400 animate-pulse" />
+          <span className="text-slate-300 font-bold">{liveTickerText}</span>
         </div>
-        <div className="hidden md:flex items-center gap-3 shrink-0 text-[11px] font-black text-emerald-400">
-          <span>🔥 {userStreak} Days Streak</span>
+        <div className="text-emerald-400 font-black">🔥 {userStreak} Days Streak</div>
+      </div>
+
+      <div className="max-w-4xl mx-auto mb-6 flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex gap-2">
+          <button onClick={() => setActiveTab("community")} className={`px-5 py-2.5 rounded-2xl text-xs font-black cursor-pointer ${activeTab === "community" ? "bg-emerald-500 text-slate-950" : "bg-slate-900 text-slate-400"}`}>
+            Community & Gallery
+          </button>
+          <button onClick={() => setActiveTab("leaderboard")} className={`px-5 py-2.5 rounded-2xl text-xs font-black cursor-pointer ${activeTab === "leaderboard" ? "bg-amber-500 text-slate-950" : "bg-slate-900 text-slate-400"}`}>
+            Leaderboard
+          </button>
+        </div>
+        <div className="text-xs font-black text-amber-400 bg-amber-500/10 px-4 py-2 rounded-2xl border border-amber-500/30">
+          🏆 {userXp} XP
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto mb-6 flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
-        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-          <button
-            type="button"
-            onClick={() => setActiveTab("discover")}
-            className={`rounded-2xl px-5 py-2.5 text-xs font-black transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
-              activeTab === "discover" 
-                ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md scale-105" 
-                : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
-            }`}
-          >
-            <Compass size={16} /> Discover Feed
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("community")}
-            className={`rounded-2xl px-5 py-2.5 text-xs font-black transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
-              activeTab === "community" 
-                ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 shadow-md scale-105 font-extrabold" 
-                : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
-            }`}
-          >
-            <Sparkles size={16} /> Community & Gallery
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("leaderboard")}
-            className={`rounded-2xl px-5 py-2.5 text-xs font-black transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
-              activeTab === "leaderboard" 
-                ? "bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 shadow-md scale-105 font-extrabold" 
-                : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
-            }`}
-          >
-            <Trophy size={16} /> Leaderboard
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-          <div className="text-xs font-black text-amber-400 bg-amber-500/10 px-4 py-2 rounded-2xl border border-amber-500/30 flex items-center gap-2">
-            <Trophy size={15} /> {userXp} XP • <span className="text-cyan-400">{userRankTitle}</span>
-          </div>
-        </div>
-      </div>
-
-      {activeTab === "discover" ? (
-        <div className="max-w-3xl mx-auto py-16 text-center bg-slate-900/40 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-xl shadow-2xl">
-          <div className="w-16 h-16 bg-cyan-500/10 border border-cyan-500/30 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <Compass className="text-cyan-400" size={32} />
-          </div>
-          <h2 className="text-lg font-black text-white mb-2">Discovery Stream Active</h2>
-          <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
-            Immerse yourself in top-tier anime feeds, high-definition digital aesthetics, and cutting-edge visual streams.
-          </p>
-        </div>
-      ) : activeTab === "leaderboard" ? (
-        <div className="max-w-2xl mx-auto space-y-6 bg-slate-900/80 border border-amber-500/30 p-6 rounded-3xl backdrop-blur-xl shadow-2xl">
-          <div className="text-center space-y-2">
-            <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/40 rounded-2xl flex items-center justify-center mx-auto text-amber-400">
-              <Crown size={28} />
+      {activeTab === "leaderboard" ? (
+        <div className="max-w-2xl mx-auto space-y-3 bg-slate-900 p-6 rounded-3xl border border-amber-500/30">
+          <h2 className="text-sm font-black text-white mb-4 flex items-center gap-2"><Crown className="text-amber-400" /> Leaderboard</h2>
+          {leaderboardUsers.map(u => (
+            <div key={u.rank} className="flex justify-between items-center p-3 bg-slate-950 rounded-2xl border border-slate-800 text-xs">
+              <span className="font-black text-amber-400">#{u.rank} {u.name}</span>
+              <span className="text-cyan-400 font-bold">{u.xp} XP</span>
             </div>
-            <h2 className="text-base font-black text-white">Global Weekly Elite Leaderboard</h2>
-            <p className="text-xs text-slate-400">Compete with creators worldwide, earn XP, and claim the weekly throne.</p>
-          </div>
-
-          <div className="space-y-3">
-            {leaderboardUsers.map((user) => (
-              <div 
-                key={user.rank} 
-                className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
-                  user.rank === 1 
-                    ? "bg-gradient-to-r from-amber-500/20 to-slate-900 border-amber-500/60 shadow-lg" 
-                    : "bg-slate-950/80 border-slate-800 hover:border-slate-700"
-                }`}
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs ${
-                    user.rank === 1 ? "bg-amber-400 text-slate-950" :
-                    user.rank === 2 ? "bg-slate-300 text-slate-950" :
-                    user.rank === 3 ? "bg-amber-700 text-white" : "bg-slate-900 text-slate-400"
-                  }`}>
-                    #{user.rank}
-                  </div>
-                  <div>
-                    <h3 className="text-xs font-black text-white">{user.name}</h3>
-                    <span className="text-[10px] text-amber-400 font-bold">{user.badge}</span>
-                  </div>
-                </div>
-
-                <div className="text-right">
-                  <span className="text-xs font-black text-cyan-400">{user.xp.toLocaleString()} XP</span>
-                </div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       ) : (
         <div className="max-w-3xl mx-auto space-y-6">
-          <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-3xl backdrop-blur-md shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="relative w-full md:w-72">
-              <Search className="absolute left-3 top-3 text-slate-500" size={16} />
-              <input
-                type="text"
-                placeholder="Search community posts..."
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className="w-full rounded-2xl bg-slate-950 border border-slate-800 pl-9 pr-4 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
-              />
-            </div>
-
-            <div className="flex items-center gap-2 w-full md:w-auto justify-end">
-              <button
-                type="button"
-                onClick={() => setSortBy(sortBy === "trending" ? "latest" : "trending")}
-                className="rounded-2xl bg-slate-950 border border-slate-800 px-4 py-2 text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer"
-              >
-                {sortBy === "trending" ? <Flame size={14} className="text-amber-400" /> : <Clock size={14} className="text-cyan-400" />}
-                {sortBy === "trending" ? "Trending" : "Latest"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsPosting(!isPosting)}
-                className="rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2 text-xs font-black text-slate-950 hover:opacity-90 transition-all cursor-pointer flex items-center gap-1.5 shadow-lg"
-              >
-                <PlusCircle size={15} /> Create Post
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 overflow-x-auto pb-2">
-            {["All", "Anime", "Gaming", "AI & Art", "Wallpapers"].map(cat => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setCategoryFilter(cat)}
-                className={`rounded-xl px-4 py-1.5 text-xs font-black transition-all whitespace-nowrap cursor-pointer ${
-                  categoryFilter === cat 
-                    ? "bg-emerald-400 text-slate-950 shadow-md scale-105" 
-                    : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
-                }`}
-              >
-                #{cat}
-              </button>
-            ))}
+          <div className="flex justify-between items-center bg-slate-900 p-4 rounded-3xl border border-slate-800">
+            <input
+              type="text"
+              placeholder="Search posts..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="bg-slate-950 border border-slate-800 rounded-2xl px-4 py-2 text-xs text-white w-64 focus:outline-none"
+            />
+            <button onClick={() => setIsPosting(!isPosting)} className="bg-emerald-500 text-slate-950 px-5 py-2 rounded-2xl text-xs font-black cursor-pointer flex items-center gap-1.5">
+              <PlusCircle size={15} /> Create Post
+            </button>
           </div>
 
           {isPosting && (
-            <form onSubmit={handleCreatePost} className="bg-slate-900/95 border border-emerald-500/50 p-6 rounded-3xl space-y-4 shadow-2xl">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 className="text-xs font-black text-emerald-400 uppercase tracking-widest flex items-center gap-2">
-                  <Sparkles size={16} /> Publish New Community Post (+300 XP)
-                </h3>
-                <button type="button" onClick={() => setIsPosting(false)} className="text-slate-400 hover:text-white cursor-pointer">
-                  <X size={16} />
-                </button>
-              </div>
-
+            <form onSubmit={handleCreatePost} className="bg-slate-900 border border-emerald-500/40 p-6 rounded-3xl space-y-4 shadow-xl">
+              <h3 className="text-xs font-black text-emerald-400 uppercase">Publish New Post (+300 XP)</h3>
               <input
                 type="text"
-                placeholder="Catchy title for your post..."
+                placeholder="Title..."
                 value={newPostTitle}
                 onChange={e => setNewPostTitle(e.target.value)}
-                className="w-full rounded-2xl bg-slate-950 border border-slate-800 px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-400"
+                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-white focus:outline-none"
                 required
               />
               <textarea
-                placeholder="Write your thoughts or review..."
+                placeholder="Content..."
                 value={newPostContent}
                 onChange={e => setNewPostContent(e.target.value)}
-                rows={4}
-                className="w-full rounded-2xl bg-slate-950 border border-slate-800 px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-400 resize-none"
+                rows={3}
+                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-white focus:outline-none resize-none"
               />
-
-              <div className="space-y-3">
-                <label className="flex flex-col items-center justify-center gap-2 w-full border-2 border-dashed border-slate-800 hover:border-emerald-400 rounded-2xl p-4 bg-slate-950/60 cursor-pointer group">
-                  <Upload size={20} className="text-emerald-400 group-hover:scale-110 transition-transform" />
-                  <span className="text-xs text-slate-300 font-bold">
-                    {postImageFile ? postImageFile.name : "Click to upload image or wallpaper"}
-                  </span>
-                  <input type="file" accept="image/*" onChange={handleImageSelect} className="hidden" />
-                </label>
-
-                {imagePreview && (
-                  <div className="relative w-full h-44 rounded-2xl overflow-hidden border border-slate-800 shadow-lg">
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => { setPostImageFile(null); setImagePreview(null); }}
-                      className="absolute top-3 right-3 bg-slate-950/80 p-1.5 rounded-full text-white hover:bg-rose-500 cursor-pointer"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-2">
-                <select
-                  value={newPostCategory}
-                  onChange={e => setNewPostCategory(e.target.value)}
-                  className="w-full md:w-auto rounded-2xl bg-slate-950 border border-slate-800 px-4 py-2.5 text-xs text-white focus:outline-none"
-                >
-                  <option value="Anime">Anime</option>
-                  <option value="Gaming">Gaming</option>
-                  <option value="AI & Art">AI & Art</option>
-                  <option value="Wallpapers">Wallpapers</option>
-                </select>
-
-                <button
-                  type="submit"
-                  disabled={uploadingImage}
-                  className="w-full md:w-auto rounded-2xl bg-emerald-500 px-8 py-2.5 text-xs font-black text-slate-950 hover:bg-emerald-400 cursor-pointer disabled:opacity-50 shadow-lg"
-                >
-                  {uploadingImage ? "Syncing..." : "Publish Now (+300 XP)"}
-                </button>
-              </div>
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-2xl p-4 bg-slate-950 cursor-pointer">
+                <Upload size={20} className="text-emerald-400 mb-1" />
+                <span className="text-xs text-slate-300 font-bold">{postImageFile ? postImageFile.name : "Upload Image"}</span>
+                <input type="file" accept="image/*" onChange={handleImageSelect} className="hidden" />
+              </label>
+              <button type="submit" disabled={uploadingImage} className="w-full bg-emerald-500 text-slate-950 py-2.5 rounded-2xl text-xs font-black cursor-pointer">
+                {uploadingImage ? "Uploading..." : "Publish Post"}
+              </button>
             </form>
           )}
 
           <div className="space-y-4">
-            {filteredPosts.length === 0 ? (
-              <div className="text-center py-12 bg-slate-900/40 border border-slate-800 rounded-3xl">
-                <p className="text-xs text-slate-400 font-bold">No posts found matching your criteria.</p>
-              </div>
-            ) : (
-              filteredPosts.map(post => (
-                <div key={post.id} className="bg-slate-900/90 border border-slate-800/80 p-5 rounded-3xl flex gap-4 items-start shadow-xl">
-                  <div className="flex flex-col items-center justify-center bg-slate-950 px-3 py-2.5 rounded-2xl border border-slate-800/80">
-                    <button 
-                      type="button" 
-                      onClick={() => handleUpvote(post.id)} 
-                      className="text-slate-400 hover:text-emerald-400 cursor-pointer p-1"
-                    >
-                      <ArrowUp size={18} />
-                    </button>
-                    <span className="text-xs font-black text-white my-1">{post.upvotes}</span>
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[10px] font-extrabold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-lg">
-                        #{post.category}
-                      </span>
-                      <span className="text-[10px] text-slate-400 font-medium">By {post.author}</span>
-                    </div>
-
-                    <h3 className="text-sm font-black text-white mb-2">{post.title}</h3>
-                    <p className="text-xs text-slate-300 mb-4 leading-relaxed whitespace-pre-line">{post.content}</p>
-
-                    {post.imageUrl && (
-                      <div className="mb-4 rounded-2xl overflow-hidden border border-slate-800 max-h-96 bg-slate-950 shadow-2xl">
-                        <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-3 mb-3">
-                      <button 
-                        type="button" 
-                        onClick={() => handleReaction(post.id, 'fire')}
-                        className="bg-slate-950 border border-slate-800 hover:border-amber-500 px-3 py-1 rounded-xl text-[11px] font-bold text-slate-300 cursor-pointer"
-                      >
-                        🔥 {post.reactions?.fire || 12}
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={() => handleReaction(post.id, 'love')}
-                        className="bg-slate-950 border border-slate-800 hover:border-rose-500 px-3 py-1 rounded-xl text-[11px] font-bold text-slate-300 cursor-pointer"
-                      >
-                        💖 {post.reactions?.love || 8}
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={() => handleReaction(post.id, 'mindblown')}
-                        className="bg-slate-950 border border-slate-800 hover:border-cyan-500 px-3 py-1 rounded-xl text-[11px] font-bold text-slate-300 cursor-pointer"
-                      >
-                        🤯 {post.reactions?.mindblown || 5}
-                      </button>
-                    </div>
-
-                    <div className="flex items-center gap-6 text-slate-400 text-xs border-t border-slate-800/80 pt-3">
-                      <button 
-                        type="button" 
-                        onClick={() => fetchComments(post.id)}
-                        className="flex items-center gap-1.5 hover:text-emerald-400 cursor-pointer font-bold"
-                      >
-                        <MessageCircle size={15} /> 
-                        {activeCommentPostId === post.id ? "Hide Comments" : "Comments"}
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={() => {
-                          if (typeof window !== 'undefined') {
-                            navigator.clipboard.writeText(window.location.href);
-                            triggerToast("📋 Post link copied! +10 XP");
-                            setUserXp(prev => prev + 10);
-                          }
-                        }}
-                        className="flex items-center gap-1.5 hover:text-cyan-400 cursor-pointer font-bold"
-                      >
-                        <Share2 size={15} /> Share
-                      </button>
-                    </div>
-
-                    {activeCommentPostId === post.id && (
-                      <div className="mt-4 pt-4 border-t border-slate-800 space-y-3 bg-slate-950/60 p-4 rounded-2xl">
-                        <h4 className="text-[11px] font-black text-slate-300 uppercase tracking-wider">Discussion Thread</h4>
-                        
-                        {loadingComments ? (
-                          <p className="text-xs text-slate-500 py-2">Loading comments...</p>
-                        ) : (
-                          <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-                            {(!commentsMap[post.id] || commentsMap[post.id].length === 0) ? (
-                              <p className="text-xs text-slate-500 italic">No comments yet. Be the first!</p>
-                            ) : (
-                              commentsMap[post.id].map(comm => (
-                                <div key={comm.id} className="bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-xs">
-                                  <span className="font-bold text-emerald-400 mr-2">{comm.author}:</span>
-                                  <span className="text-slate-200">{comm.content}</span>
-                                </div>
-                              ))
-                            )}
-                          </div>
-                        )}
-
-                        <form onSubmit={(e) => handleAddComment(post.id, e)} className="flex gap-2 mt-2">
-                          <input
-                            type="text"
-                            placeholder="Write a reply (+50 XP)..."
-                            value={newCommentText}
-                            onChange={e => setNewCommentText(e.target.value)}
-                            className="flex-1 rounded-xl bg-slate-900 border border-slate-800 px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400"
-                          />
-                          <button
-                            type="submit"
-                            className="rounded-2xl bg-emerald-500 px-4 py-2 text-xs font-black text-slate-950 hover:bg-emerald-400 cursor-pointer flex items-center justify-center"
-                          >
-                            <Send size={14} />
-                          </button>
-                        </form>
-                      </div>
-                    )}
-                  </div>
+            {filteredPosts.map(post => (
+              <div key={post.id} className="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex gap-4 shadow-lg">
+                <div className="flex flex-col items-center bg-slate-950 px-3 py-2.5 rounded-2xl border border-slate-800">
+                  <button onClick={() => handleUpvote(post.id)} className="text-slate-400 hover:text-emerald-400 cursor-pointer"><ArrowUp size={18} /></button>
+                  <span className="text-xs font-black text-white my-1">{post.upvotes || 0}</span>
                 </div>
-              ))
-            )}
+                <div className="flex-1">
+                  <span className="text-[10px] font-extrabold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-lg">#{post.category || 'Anime'}</span>
+                  <h3 className="text-sm font-black text-white mt-2 mb-1">{post.title}</h3>
+                  <p className="text-xs text-slate-300 mb-3">{post.content}</p>
+                  {post.image_url && (
+                    <div className="mb-3 rounded-2xl overflow-hidden border border-slate-800 max-h-72">
+                      <img src={post.image_url} alt="Post attachment" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <div className="flex gap-4 text-slate-400 text-xs border-t border-slate-800 pt-3">
+                    <button onClick={() => fetchComments(post.id)} className="flex items-center gap-1 hover:text-emerald-400 cursor-pointer font-bold">
+                      <MessageCircle size={15} /> Comments
+                    </button>
+                  </div>
+
+                  {activeCommentPostId === post.id && (
+                    <div className="mt-4 pt-4 border-t border-slate-800 space-y-3 bg-slate-950 p-4 rounded-2xl">
+                      {loadingComments ? <p className="text-xs text-slate-500">Loading...</p> : (
+                        <div className="space-y-2">
+                          {(commentsMap[post.id] || []).map((comm, idx) => (
+                            <div key={comm.id || idx} className="bg-slate-900 p-2 rounded-xl text-xs">
+                              <span className="font-bold text-emerald-400 mr-2">{comm.author}:</span>
+                              <span className="text-slate-200">{comm.content}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <form onSubmit={e => handleAddComment(post.id, e)} className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Write a reply..."
+                          value={newCommentText}
+                          onChange={e => setNewCommentText(e.target.value)}
+                          className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
+                        />
+                        <button type="submit" className="bg-emerald-500 px-4 py-2 rounded-xl text-xs font-black text-slate-950 cursor-pointer">Send</button>
+                      </form>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

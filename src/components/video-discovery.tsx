@@ -34,6 +34,7 @@ interface LeaderboardUser {
 }
 
 export function VideoDiscovery() {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<"discover" | "community" | "leaderboard">("community");
   const [categoryFilter, setCategoryFilter] = useState<string>("All");
   const [sortBy, setSortBy] = useState<"trending" | "latest">("trending");
@@ -73,6 +74,11 @@ export function VideoDiscovery() {
   };
 
   useEffect(() => {
+    setIsMounted(true);
+    fetchPosts();
+  }, []);
+
+  useEffect(() => {
     const tickers = [
       "⚡ New high-res Cyberpunk wallpaper added in Wallpapers!",
       "🔥 Community milestone reached: 10,000 active anime fans online!",
@@ -86,34 +92,31 @@ export function VideoDiscovery() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const { data, error } = await supabase
-          .from('posts')
-          .select('*')
-          .order('created_at', { ascending: false });
+  async function fetchPosts() {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-        if (!error && data && data.length > 0) {
-          const formatted: Post[] = data.map((item: any) => ({
-            id: String(item.id),
-            title: String(item.title || ""),
-            content: String(item.content || ""),
-            category: String(item.category || "General"),
-            author: String(item.author || "Elite Member"),
-            upvotes: Number(item.upvotes || 0),
-            imageUrl: String(item.image_url || ""),
-            created_at: item.created_at,
-            reactions: { fire: 12, love: 8, mindblown: 5 }
-          }));
-          setPosts(formatted);
-        }
-      } catch (err) {
-        console.error("Error fetching posts:", err);
+      if (!error && data && data.length > 0) {
+        const formatted: Post[] = data.map((item: Record<string, any>) => ({
+          id: String(item.id),
+          title: String(item.title || ""),
+          content: String(item.content || ""),
+          category: String(item.category || "General"),
+          author: String(item.author || "Elite Member"),
+          upvotes: Number(item.upvotes || 0),
+          imageUrl: String(item.image_url || ""),
+          created_at: item.created_at,
+          reactions: { fire: 12, love: 8, mindblown: 5 }
+        }));
+        setPosts(formatted);
       }
+    } catch (err) {
+      console.error("Error fetching posts:", err);
     }
-    fetchPosts();
-  }, []);
+  }
 
   const handleImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -276,6 +279,10 @@ export function VideoDiscovery() {
     if (sortBy === "trending") return b.upvotes - a.upvotes;
     return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
   });
+
+  if (!isMounted) {
+    return <div className="min-h-screen bg-slate-950 text-white p-6">Loading Verse Visions Anime...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 p-3 md:p-6 font-sans">

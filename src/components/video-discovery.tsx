@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, type FormEvent, type ChangeEvent } from "react";
 import { 
   Compass, PlusCircle, MessageCircle, Share2, ArrowUp, 
   Upload, Sparkles, Trophy, Search, 
@@ -39,14 +39,12 @@ export function VideoDiscovery() {
   const [sortBy, setSortBy] = useState<"trending" | "latest">("trending");
   const [searchQuery, setSearchQuery] = useState<string>("");
   
-  // Gamification State
   const [userXp, setUserXp] = useState<number>(1450);
   const [userStreak] = useState<number>(5);
   const [userRankTitle, setUserRankTitle] = useState<string>("Elite Otaku");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [liveTickerText, setLiveTickerText] = useState<string>("🔥 Zoro_Elite just unlocked 'Legendary Creator' badge (+500 XP)!");
 
-  // Posts State
   const [posts, setPosts] = useState<Post[]>([]);
   const [isPosting, setIsPosting] = useState<boolean>(false);
   const [newPostTitle, setNewPostTitle] = useState<string>("");
@@ -56,13 +54,11 @@ export function VideoDiscovery() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
 
-  // Comments State
   const [activeCommentPostId, setActiveCommentPostId] = useState<string | null>(null);
-  const [commentsMap, setCommentsMap] = useState<{ [postId: string]: Comment[] }>({});
+  const [commentsMap, setCommentsMap] = useState<Record<string, Comment[]>>({});
   const [newCommentText, setNewCommentText] = useState<string>("");
   const [loadingComments, setLoadingComments] = useState<boolean>(false);
 
-  // Leaderboard Mock Data
   const leaderboardUsers: LeaderboardUser[] = [
     { rank: 1, name: "Zoro_King_99", xp: 14200, badge: "👑 Anime Overlord" },
     { rank: 2, name: "Akame_Gamer", xp: 11850, badge: "⚡ Cyberpunk Master" },
@@ -93,20 +89,20 @@ export function VideoDiscovery() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('posts')
           .select('*')
           .order('created_at', { ascending: false });
 
-        if (data && data.length > 0) {
-          const formatted = data.map((item: any) => ({
-            id: item.id,
-            title: item.title,
-            content: item.content,
-            category: item.category || "General",
-            author: item.author || "Elite Member",
-            upvotes: item.upvotes || 0,
-            imageUrl: item.image_url || "",
+        if (!error && data && data.length > 0) {
+          const formatted: Post[] = data.map((item: any) => ({
+            id: String(item.id),
+            title: String(item.title || ""),
+            content: String(item.content || ""),
+            category: String(item.category || "General"),
+            author: String(item.author || "Elite Member"),
+            upvotes: Number(item.upvotes || 0),
+            imageUrl: String(item.image_url || ""),
             created_at: item.created_at,
             reactions: { fire: 12, love: 8, mindblown: 5 }
           }));
@@ -119,7 +115,7 @@ export function VideoDiscovery() {
     fetchPosts();
   }, []);
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setPostImageFile(file);
@@ -127,7 +123,7 @@ export function VideoDiscovery() {
     }
   };
 
-  const handleCreatePost = async (e: React.FormEvent) => {
+  const handleCreatePost = async (e: FormEvent) => {
     e.preventDefault();
     if (!newPostTitle.trim()) return;
 
@@ -176,7 +172,7 @@ export function VideoDiscovery() {
         triggerToast("🚀 Masterpiece Published! +300 XP & Streak Bonus!");
         
         const newEntry: Post = {
-          id: data[0]?.id || String(Date.now()),
+          id: String(data[0]?.id || Date.now()),
           title: newPostTitle,
           content: newPostContent,
           category: newPostCategory,
@@ -186,7 +182,7 @@ export function VideoDiscovery() {
           created_at: new Date().toISOString(),
           reactions: { fire: 1, love: 0, mindblown: 0 }
         };
-        setPosts([newEntry, ...posts]);
+        setPosts(prev => [newEntry, ...prev]);
       }
     } catch (err) {
       console.error("Error saving post:", err);
@@ -200,7 +196,7 @@ export function VideoDiscovery() {
     setIsPosting(false);
   };
 
-  const handleUpvote = async (id: string) => {
+  const handleUpvote = (id: string) => {
     setPosts(posts.map(p => p.id === id ? { ...p, upvotes: p.upvotes + 1 } : p));
     setUserXp(prev => prev + 25);
     triggerToast("🔥 Massive Upvote! +25 XP");
@@ -246,7 +242,7 @@ export function VideoDiscovery() {
     }
   };
 
-  const handleAddComment = async (postId: string, e: React.FormEvent) => {
+  const handleAddComment = async (postId: string, e: FormEvent) => {
     e.preventDefault();
     if (!newCommentText.trim()) return;
 
@@ -589,9 +585,11 @@ export function VideoDiscovery() {
                       <button 
                         type="button" 
                         onClick={() => {
-                          navigator.clipboard.writeText(window.location.href);
-                          triggerToast("📋 Post link copied! +10 XP");
-                          setUserXp(prev => prev + 10);
+                          if (typeof window !== 'undefined') {
+                            navigator.clipboard.writeText(window.location.href);
+                            triggerToast("📋 Post link copied! +10 XP");
+                            setUserXp(prev => prev + 10);
+                          }
                         }}
                         className="flex items-center gap-1.5 hover:text-cyan-400 cursor-pointer font-bold"
                       >

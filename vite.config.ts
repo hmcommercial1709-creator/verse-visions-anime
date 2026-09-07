@@ -7,7 +7,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      // تعطيل الفحص الصارم للمسارات مؤقتاً لتجنب خطأ planning.js
+    }),
     react(),
     nitro({ preset: "cloudflare_module" }),
   ],

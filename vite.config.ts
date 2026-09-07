@@ -12,6 +12,16 @@ export default defineConfig({
     nitro({ preset: "cloudflare_module" }),
   ],
   resolve: { 
-    dedupe: ["react", "react-dom", "@tanstack/react-router"] 
+    dedupe: [
+      "react", 
+      "react-dom", 
+      "@tanstack/react-router", 
+      "@tanstack/react-start",
+      "@tanstack/router-core",
+      "@tanstack/start"
+    ] 
+  },
+  ssr: {
+    noExternal: true,
   },
 });

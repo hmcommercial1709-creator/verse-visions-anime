@@ -4,7 +4,8 @@ import {
   Upload, Sparkles, Trophy, Search, 
   Flame, Clock, Send, X, Crown, Activity 
 } from "lucide-react";
-import { supabase } from "@lib/supabase";
+// تم تصحيح مسار الاستيراد هنا ليكون متوافقاً 100% مع بناء Vite
+import { supabase } from "../lib/supabase";
 
 interface Post {
   id: string;
@@ -632,7 +633,7 @@ export function VideoDiscovery() {
                             type="submit"
                             className="rounded-xl bg-emerald-500 px-4 py-2 text-xs font-black text-slate-950 hover:bg-emerald-400 cursor-pointer"
                           >
-                            <Send size={14} />
+                            <Send size=size={14} />
                           </button>
                         </form>
                       </div>

@@ -4,7 +4,7 @@ import { supabase } from "../lib/supabase";
 
 export function VideoDiscovery() {
   const [isMounted, setIsMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<string>("community");
+  const [activeTab, setActiveTab] = useState<string>("streams");
   const [categoryFilter, setCategoryFilter] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [userXp, setUserXp] = useState<number>(1450);
@@ -13,6 +13,9 @@ export function VideoDiscovery() {
   const [liveTickerText, setLiveTickerText] = useState<string>("🔥 Community milestone reached: 10,000 active anime fans online!");
 
   const [posts, setPosts] = useState<any[]>([]);
+  const [reels, setReels] = useState<any[]>([]);
+  const [loadingReels, setLoadingReels] = useState<boolean>(true);
+
   const [isPosting, setIsPosting] = useState<boolean>(false);
   const [newPostTitle, setNewPostTitle] = useState<string>("");
   const [newPostContent, setNewPostContent] = useState<string>("");
@@ -42,6 +45,7 @@ export function VideoDiscovery() {
   useEffect(() => {
     setIsMounted(true);
     fetchPosts();
+    fetchReels();
   }, []);
 
   async function fetchPosts() {
@@ -54,6 +58,22 @@ export function VideoDiscovery() {
       if (data) setPosts(data);
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  async function fetchReels() {
+    try {
+      setLoadingReels(true);
+      const { data } = await supabase
+        .from('reels')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (data) setReels(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingReels(false);
     }
   }
 
@@ -204,12 +224,24 @@ export function VideoDiscovery() {
         <div className="text-emerald-400 font-black">🔥 {userStreak} Days Streak</div>
       </div>
 
-      <div className="max-w-4xl mx-auto mb-6 flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="max-w-4xl mx-auto mb-6 flex flex-wrap items-center justify-between border-b border-slate-800 pb-4 gap-2">
         <div className="flex gap-2">
-          <button onClick={() => setActiveTab("community")} className={`px-5 py-2.5 rounded-2xl text-xs font-black cursor-pointer ${activeTab === "community" ? "bg-emerald-500 text-slate-950" : "bg-slate-900 text-slate-400"}`}>
-            Community & Gallery
+          <button 
+            onClick={() => setActiveTab("streams")} 
+            className={`px-5 py-2.5 rounded-2xl text-xs font-black cursor-pointer ${activeTab === "streams" ? "bg-cyan-400 text-slate-950" : "bg-slate-900 text-slate-400 hover:text-white"}`}
+          >
+            Live Streams & Reels
           </button>
-          <button onClick={() => setActiveTab("leaderboard")} className={`px-5 py-2.5 rounded-2xl text-xs font-black cursor-pointer ${activeTab === "leaderboard" ? "bg-amber-500 text-slate-950" : "bg-slate-900 text-slate-400"}`}>
+          <button 
+            onClick={() => setActiveTab("community")} 
+            className={`px-5 py-2.5 rounded-2xl text-xs font-black cursor-pointer ${activeTab === "community" ? "bg-emerald-500 text-slate-950" : "bg-slate-900 text-slate-400 hover:text-white"}`}
+          >
+            Community Hub & Gallery
+          </button>
+          <button 
+            onClick={() => setActiveTab("leaderboard")} 
+            className={`px-5 py-2.5 rounded-2xl text-xs font-black cursor-pointer ${activeTab === "leaderboard" ? "bg-amber-500 text-slate-950" : "bg-slate-900 text-slate-400 hover:text-white"}`}
+          >
             Leaderboard
           </button>
         </div>
@@ -227,6 +259,49 @@ export function VideoDiscovery() {
               <span className="text-cyan-400 font-bold">{u.xp} XP</span>
             </div>
           ))}
+        </div>
+      ) : activeTab === "streams" ? (
+        <div className="max-w-md mx-auto space-y-6">
+          <div className="bg-slate-900 border border-cyan-500/30 p-4 rounded-3xl text-center shadow-lg">
+            <Activity size={22} className="text-cyan-400 mx-auto mb-2 animate-pulse" />
+            <h3 className="text-sm font-black text-white">Live Vertical Streams & Highlights</h3>
+            <p className="text-[11px] text-slate-400 mt-1">Browse seamless anime channels, gaming highlights, and AI art streams.</p>
+          </div>
+
+          {loadingReels ? (
+            <div className="text-center text-xs text-slate-400 py-10">Loading streams...</div>
+          ) : reels.length === 0 ? (
+            <div className="text-center text-xs text-slate-400 py-10 bg-slate-900 rounded-3xl border border-slate-800 p-6">
+              No active streams found. Add reels to database!
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {reels.map((reel) => (
+                <div key={reel.id} className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-black text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">@{reel.author || "Creator"}</span>
+                    <span className="text-[10px] text-slate-500">HD Stream</span>
+                  </div>
+                  <h4 className="text-sm font-black text-white mb-3">{reel.title}</h4>
+                  <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[9/16] flex items-center justify-center border border-slate-800 shadow-inner">
+                    <video 
+                      src={reel.video_url} 
+                      controls 
+                      className="w-full h-full object-cover"
+                      loop
+                      playsInline
+                    />
+                  </div>
+                  <div className="mt-3 text-xs text-slate-400 flex items-center justify-between px-1">
+                    <span className="font-bold text-emerald-400">🔥 {reel.likes || 0} Likes</span>
+                    <button onClick={() => triggerToast("🔗 Stream link copied!")} className="hover:text-white cursor-pointer flex items-center gap-1 font-bold">
+                      <Share2 size={14} /> Share
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <div className="max-w-3xl mx-auto space-y-6">

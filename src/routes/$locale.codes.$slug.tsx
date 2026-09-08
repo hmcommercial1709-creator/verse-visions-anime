@@ -1,13 +1,11 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "../integrations/supabase/client";
 
 export const Route = createFileRoute("/$locale/codes/$slug")({
   beforeLoad: ({ params }) => {
-    // قصر الصفحات على اللغة الإنجليزية حصراً لاستهداف السوق العالمي
     if (params.locale !== "en") throw notFound();
   },
   loader: async ({ params }) => {
-    // الاستعلام المباشر فائق السرعة من جدول السيو البرمجي الجديد
     const { data, error } = await supabase
       .from("programmatic_pages")
       .select("*")
@@ -42,18 +40,15 @@ export const Route = createFileRoute("/$locale/codes/$slug")({
 
     return (
       <main className="max-w-4xl mx-auto px-4 py-12 text-slate-100">
-        {/* عنوان الصفحة المتسابق عالمياً */}
         <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-6 text-white">
           {page.title}
         </h1>
 
-        {/* المحتوى الديناميكي الغني الوارد من قاعدة البيانات */}
         <div 
           className="prose prose-invert max-w-none mb-12 text-lg leading-relaxed space-y-4"
           dangerouslySetInnerHTML={{ __html: page.content?.html || page.content?.body || '' }} 
         />
 
-        {/* قسم الأسئلة الشائعة (FAQs Schema Integration) */}
         {page.faqs && Array.isArray(page.faqs) && page.faqs.length > 0 && (
           <section className="my-12 bg-slate-900/60 border border-slate-800 p-6 rounded-2xl">
             <h2 className="text-2xl font-bold mb-6 text-cyan-400">Frequently Asked Questions</h2>
@@ -68,7 +63,6 @@ export const Route = createFileRoute("/$locale/codes/$slug")({
           </section>
         )}
 
-        {/* شبكة الروابط الداخلية الأوتوماتيكية لتدفق الزحف (Link Juice) */}
         {page.related_slugs && page.related_slugs.length > 0 && (
           <section className="mt-16 border-t border-slate-800 pt-8">
             <h3 className="text-xl font-bold mb-4 text-slate-200">Related Codes & Guides</h3>

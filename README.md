@@ -1,5 +1,11 @@
 # Anime Nexus
 
+## IndexNow search ingestion
+
+The `index-engine` workflow runs every four hours and submits every same-origin URL discovered through the sitemap index to IndexNow in retryable batches. Configure these GitHub Actions repository secrets: `INDEXNOW_KEY`, `OPENROUTER_API_KEY`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY`. The OpenRouter and Supabase values are passed only to the workflow environment for future ingestion checks; they are never logged.
+
+IndexNow also requires the public verification file `https://gamecastle.store/<INDEXNOW_KEY>.txt` containing the key. Keep that file available through the deployed site before enabling the workflow. The script exits successfully with a clear skip message when `INDEXNOW_KEY` is absent.
+
 ## Google Search Console sitemap submission
 
 The daily SEO maintenance workflow submits `https://gamecastle.store/sitemap.xml` to Google Search Console using a Google Cloud service account. Add these GitHub Actions repository secrets:

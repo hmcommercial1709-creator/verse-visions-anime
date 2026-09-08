@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "indexnow": "node --experimental-strip-types scripts/ping-search.ts",
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts"
   },
   "dependencies": {
@@ -53,6 +54,7 @@
     "embla-carousel-react": "^8.6.0",
     "googleapis": "^159.0.0",
     "input-otp": "^1.4.2",
+    "node-fetch": "^3.3.2",
     "lucide-react": "^0.575.0",
     "react": "^19.2.0",
     "react-day-picker": "^9.14.0",

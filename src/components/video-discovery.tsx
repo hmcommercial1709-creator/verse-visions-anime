@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Compass, Sparkles, Send, MessageCircle, ArrowUp, PlusCircle, Trophy, Search, Flame, Clock, Upload, X, Crown, Activity, Share2 } from "lucide-react";
-import { supabase } from "../lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 
 export function VideoDiscovery() {
   const [isMounted, setIsMounted] = useState(false);

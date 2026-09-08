@@ -14,7 +14,6 @@ import {
   Users,
   Building2,
   ChevronDown,
-  ShoppingBag,
 } from "lucide-react";
 import { SearchDialog } from "./search-dialog";
 import { GlobalMenu } from "./global-menu";
@@ -215,6 +214,7 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [globalOpen, setGlobalOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+    const [mobileSections, setMobileSections] = useState<string[]>(["Browse"]);
   const t = useUi();
 
   useEffect(() => {
@@ -269,7 +269,7 @@ export function SiteHeader() {
             </div>
           </Link>
 
-          <nav className="ml-4 hidden items-center gap-1 2xl:flex">
+          <nav className="ml-4 hidden items-center gap-1 xl:flex">
             {megaGroups.map((g) => (
               <button
                 key={g.label}
@@ -339,81 +339,22 @@ export function SiteHeader() {
           </div>
         </div>
 
-        {/* Category hubs + quick genre filter strip */}
-        <div className="border-t border-border/40 bg-background/40">
-          <div className="mx-auto flex max-w-7xl items-center gap-2 overflow-x-auto px-4 py-2 lg:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {categoryHubs.map((h) => (
-              <Link
-                key={h.to}
-                to={h.to}
-                className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
-                  h.to === "/store"
-                    ? "inline-flex items-center gap-1.5 border-[#ff9900]/50 bg-[#ff9900]/10 text-[#ffb84d] hover:bg-[#ff9900]/20"
-                    : "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
-                }`}
-              >
-                {h.to === "/store" ? (
-                  <>
-                    <ShoppingBag className="h-3.5 w-3.5" />
-                    <span>{h.label}</span>
-                    <span className="rounded-full bg-[#ff9900] px-1.5 py-0.5 text-[8px] font-black leading-none text-[#111827]">
-                      NEW
-                    </span>
-                  </>
-                ) : (
-                  h.label
-                )}
-              </Link>
-            ))}
-            <span className="h-4 w-px shrink-0 bg-border/70" aria-hidden="true" />
-            <Link
-              to="/browse"
-              className="shrink-0 rounded-full border border-border/60 px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
-            >
-              All anime
-            </Link>
-
-            {navGenres.slice(0, 14).map((g) => (
-              <Link
-                key={g.slug}
-                to="/genre/$slug"
-                params={{ slug: g.slug }}
-                className="shrink-0 rounded-full border border-border/60 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
-              >
-                {g.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Mega menu */}
+        {/* Structured mega menu */}
         {openMenu && (
-          <div className="absolute inset-x-0 top-full hidden 2xl:block" onMouseEnter={() => {}}>
-            <div className="mx-auto max-w-7xl px-4 lg:px-6 pb-6">
-              <div className="rounded-2xl border border-border/60 bg-popover shadow-2xl p-6">
+          <div className="absolute inset-x-0 top-full hidden xl:block" onMouseEnter={() => {}}>
+            <div className="mx-auto max-w-7xl px-4 pb-6 lg:px-6">
+              <div className="rounded-2xl border border-border/60 bg-popover p-6 shadow-2xl">
                 <div className="grid grid-cols-3 gap-8">
-                  {megaGroups
-                    .find((g) => g.label === openMenu)!
-                    .columns.map((col) => (
-                      <div key={col.title}>
-                        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-3">
-                          {col.title}
-                        </div>
-                        <ul className="space-y-1.5">
-                          {col.links.map((l) => (
-                            <li key={l.to}>
-                              <Link
-                                to={l.to}
-                                onClick={() => setOpenMenu(null)}
-                                className="block text-sm text-foreground/90 hover:text-primary transition-colors"
-                              >
-                                {l.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                  {megaGroups.find((g) => g.label === openMenu)?.columns.map((column) => (
+                    <div key={column.title}>
+                      <div className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{column.title}</div>
+                      <ul className="space-y-1.5">
+                        {column.links.map((link) => <li key={link.to}>
+                          <Link to={link.to} onClick={() => setOpenMenu(null)} className="block text-sm text-foreground/90 transition-colors hover:text-primary">{link.label}</Link>
+                        </li>)}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -451,28 +392,30 @@ export function SiteHeader() {
                   ))}
                 </ul>
               </div>
-              {megaGroups.map((g) => (
-                <div key={g.label}>
-                  <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
-                    {g.label}
+              {megaGroups.map((g) => {
+                const expanded = mobileSections.includes(g.label);
+                return (
+                  <div key={g.label} className="border-b border-border/60 pb-3">
+                    <button
+                      type="button"
+                      onClick={() => setMobileSections((sections) => expanded ? sections.filter((section) => section !== g.label) : [...sections, g.label])}
+                      className="flex w-full items-center justify-between py-2 text-left text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground"
+                    >
+                      {g.label}
+                      <ChevronDown className={`h-4 w-4 transition-transform ${expanded ? "rotate-180 text-primary" : ""}`} />
+                    </button>
+                    {expanded && (
+                      <ul className="grid gap-1.5 pb-2 sm:grid-cols-2">
+                        {g.columns.flatMap((c) => c.links).map((link) => (
+                          <li key={link.to}>
+                            <Link to={link.to} onClick={() => setMobileOpen(false)} className="block rounded-lg px-2 py-1.5 text-sm text-foreground/85 hover:bg-primary/10 hover:text-primary">{link.label}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
-                  <ul className="space-y-1.5">
-                    {g.columns
-                      .flatMap((c) => c.links)
-                      .map((l) => (
-                        <li key={l.to}>
-                          <Link
-                            to={l.to}
-                            onClick={() => setMobileOpen(false)}
-                            className="block py-1 text-sm"
-                          >
-                            {l.label}
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              ))}
+                );
+              })}
               <div>
                 <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
                   About &amp; legal

@@ -1,5 +1,16 @@
 # Anime Nexus
 
+## Google Search Console sitemap submission
+
+The daily SEO maintenance workflow submits `https://gamecastle.store/sitemap.xml` to Google Search Console using a Google Cloud service account. Add these GitHub Actions repository secrets:
+
+- `GSC_CLIENT_EMAIL`: the service account email address.
+- `GSC_PRIVATE_KEY`: the complete service account private key, including the `BEGIN PRIVATE KEY` and `END PRIVATE KEY` lines. Escaped `\\n` characters are restored at runtime.
+
+In Google Search Console, add the service account email as an owner or full user of the `https://gamecastle.store/` URL-prefix property. The workflow runs daily and can also be started manually. If the secrets are absent, the submission step logs a skip and does not fail the maintenance build.
+
+The SEO endpoint check also verifies that the AI manifest reports at least 80,000 programmatic records. Configure the `OPENROUTER_API_KEY` GitHub Actions secret separately for any AI automation that consumes the maintenance environment; the key is never committed to this repository.
+
 You are a senior software architect, UX designer, SEO specialist, AI engineer, content strategist, and media library manager.
 
 Your mission is NOT to build a simple blog.

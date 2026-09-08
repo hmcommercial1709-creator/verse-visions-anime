@@ -36,6 +36,8 @@ jobs:
         run: npm run build
 
       - name: Validate AI-ready manifests and edge caching
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: node scripts/check-seo-endpoints.mjs
 
       - name: Validate partitioned XML sitemaps
@@ -43,3 +45,9 @@ jobs:
 
       - name: Verify internal navigation and cross-linking
         run: node scripts/check-interaction-regressions.mjs
+
+      - name: Submit sitemap index to Google Search Console
+        env:
+          GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
+          GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}
+        run: node scripts/ping-gsc.js

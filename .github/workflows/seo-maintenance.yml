@@ -1,0 +1,45 @@
+name: SEO and AI maintenance
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-maintenance
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate SEO, AI manifests and cross-links
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://gamecastle.store' }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Type-check and build dynamic route matrix
+        run: npm run build
+
+      - name: Validate AI-ready manifests and edge caching
+        run: node scripts/check-seo-endpoints.mjs
+
+      - name: Validate partitioned XML sitemaps
+        run: node scripts/check-sitemaps.mjs
+
+      - name: Verify internal navigation and cross-linking
+        run: node scripts/check-interaction-regressions.mjs

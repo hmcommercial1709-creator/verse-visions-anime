@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AiIndexDotjsonRouteImport } from './routes/ai-index[.]json'
 import { Route as AnimeRouteImport } from './routes/anime'
 import { Route as ArchiveRouteImport } from './routes/archive'
 import { Route as AuthorsRouteImport } from './routes/authors'
@@ -54,6 +55,8 @@ import { Route as SitemapAnimeDotxmlRouteImport } from './routes/sitemap-anime[.
 import { Route as SitemapArDotxmlRouteImport } from './routes/sitemap-ar[.]xml'
 import { Route as SitemapArticlesDotxmlRouteImport } from './routes/sitemap-articles[.]xml'
 import { Route as SitemapCharactersDotxmlRouteImport } from './routes/sitemap-characters[.]xml'
+import { Route as SitemapCodes1DotxmlRouteImport } from './routes/sitemap-codes-1[.]xml'
+import { Route as SitemapCodes2DotxmlRouteImport } from './routes/sitemap-codes-2[.]xml'
 import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
@@ -143,6 +146,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiIndexDotjsonRoute = AiIndexDotjsonRouteImport.update({
+  id: '/ai-index.json',
+  path: '/ai-index.json',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnimeRoute = AnimeRouteImport.update({
@@ -358,6 +366,16 @@ const SitemapArticlesDotxmlRoute = SitemapArticlesDotxmlRouteImport.update({
 const SitemapCharactersDotxmlRoute = SitemapCharactersDotxmlRouteImport.update({
   id: '/sitemap-characters.xml',
   path: '/sitemap-characters.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCodes1DotxmlRoute = SitemapCodes1DotxmlRouteImport.update({
+  id: '/sitemap-codes-1.xml',
+  path: '/sitemap-codes-1.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCodes2DotxmlRoute = SitemapCodes2DotxmlRouteImport.update({
+  id: '/sitemap-codes-2.xml',
+  path: '/sitemap-codes-2.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapEpisodesDotxmlRoute = SitemapEpisodesDotxmlRouteImport.update({
@@ -782,6 +800,7 @@ const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-index.json': typeof AiIndexDotjsonRoute
   '/anime': typeof AnimeRouteWithChildren
   '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
@@ -825,6 +844,8 @@ export interface FileRoutesByFullPath {
   '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
+  '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
+  '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
@@ -909,6 +930,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-index.json': typeof AiIndexDotjsonRoute
   '/anime': typeof AnimeRouteWithChildren
   '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
@@ -951,6 +973,8 @@ export interface FileRoutesByTo {
   '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
+  '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
+  '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
@@ -1035,6 +1059,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-index.json': typeof AiIndexDotjsonRoute
   '/anime': typeof AnimeRouteWithChildren
   '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
@@ -1078,6 +1103,8 @@ export interface FileRoutesById {
   '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
+  '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
+  '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
@@ -1164,6 +1191,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/ai-index.json'
     | '/anime'
     | '/archive'
     | '/authors'
@@ -1207,6 +1235,8 @@ export interface FileRouteTypes {
     | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
     | '/sitemap-characters.xml'
+    | '/sitemap-codes-1.xml'
+    | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
@@ -1291,6 +1321,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/ai-index.json'
     | '/anime'
     | '/archive'
     | '/authors'
@@ -1333,6 +1364,8 @@ export interface FileRouteTypes {
     | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
     | '/sitemap-characters.xml'
+    | '/sitemap-codes-1.xml'
+    | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
@@ -1416,6 +1449,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/ai-index.json'
     | '/anime'
     | '/archive'
     | '/authors'
@@ -1459,6 +1493,8 @@ export interface FileRouteTypes {
     | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
     | '/sitemap-characters.xml'
+    | '/sitemap-codes-1.xml'
+    | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
@@ -1544,6 +1580,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AiIndexDotjsonRoute: typeof AiIndexDotjsonRoute
   AnimeRoute: typeof AnimeRouteWithChildren
   ArchiveRoute: typeof ArchiveRoute
   AuthorsRoute: typeof AuthorsRoute
@@ -1587,6 +1624,8 @@ export interface RootRouteChildren {
   SitemapArDotxmlRoute: typeof SitemapArDotxmlRoute
   SitemapArticlesDotxmlRoute: typeof SitemapArticlesDotxmlRoute
   SitemapCharactersDotxmlRoute: typeof SitemapCharactersDotxmlRoute
+  SitemapCodes1DotxmlRoute: typeof SitemapCodes1DotxmlRoute
+  SitemapCodes2DotxmlRoute: typeof SitemapCodes2DotxmlRoute
   SitemapEpisodesDotxmlRoute: typeof SitemapEpisodesDotxmlRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapPagesDotxmlRoute: typeof SitemapPagesDotxmlRoute
@@ -1668,6 +1707,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-index.json': {
+      id: '/ai-index.json'
+      path: '/ai-index.json'
+      fullPath: '/ai-index.json'
+      preLoaderRoute: typeof AiIndexDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anime': {
@@ -1969,6 +2015,20 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-characters.xml'
       fullPath: '/sitemap-characters.xml'
       preLoaderRoute: typeof SitemapCharactersDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-codes-1.xml': {
+      id: '/sitemap-codes-1.xml'
+      path: '/sitemap-codes-1.xml'
+      fullPath: '/sitemap-codes-1.xml'
+      preLoaderRoute: typeof SitemapCodes1DotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-codes-2.xml': {
+      id: '/sitemap-codes-2.xml'
+      path: '/sitemap-codes-2.xml'
+      fullPath: '/sitemap-codes-2.xml'
+      preLoaderRoute: typeof SitemapCodes2DotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap-episodes.xml': {
@@ -2594,6 +2654,7 @@ const ArExploreRouteWithChildren = ArExploreRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AiIndexDotjsonRoute: AiIndexDotjsonRoute,
   AnimeRoute: AnimeRouteWithChildren,
   ArchiveRoute: ArchiveRoute,
   AuthorsRoute: AuthorsRoute,
@@ -2637,6 +2698,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapArDotxmlRoute: SitemapArDotxmlRoute,
   SitemapArticlesDotxmlRoute: SitemapArticlesDotxmlRoute,
   SitemapCharactersDotxmlRoute: SitemapCharactersDotxmlRoute,
+  SitemapCodes1DotxmlRoute: SitemapCodes1DotxmlRoute,
+  SitemapCodes2DotxmlRoute: SitemapCodes2DotxmlRoute,
   SitemapEpisodesDotxmlRoute: SitemapEpisodesDotxmlRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapPagesDotxmlRoute: SitemapPagesDotxmlRoute,

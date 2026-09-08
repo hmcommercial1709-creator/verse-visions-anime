@@ -18,6 +18,7 @@ import { DeferredScripts } from "@/components/deferred-scripts";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
 import { PersonalDiscovery } from "@/components/personal-discovery";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
+import { siteKnowledgeGraph } from "@/lib/seo";
 
 const SITE_URL = "https://gamecastle.store";
 const SITE_NAME = "GameCastle Anime";
@@ -266,53 +267,7 @@ export const Route = createRootRoute({
     scripts: [
       {
         type: "application/ld+json",
-
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-
-          "@graph": [
-            {
-              "@type": "Organization",
-
-              "@id": `${SITE_URL}/#organization`,
-
-              name: SITE_NAME,
-
-              url: `${SITE_URL}/`,
-
-              description:
-                "GameCastle Anime is an independent English-language anime and entertainment publication covering reviews, character deep-dives, watch orders, studio profiles, episode guides and long-form analysis.",
-            },
-
-            {
-              "@type": "WebSite",
-
-              "@id": `${SITE_URL}/#website`,
-
-              name: SITE_NAME,
-
-              url: `${SITE_URL}/`,
-
-              inLanguage: "en",
-
-              publisher: {
-                "@id": `${SITE_URL}/#organization`,
-              },
-
-              potentialAction: {
-                "@type": "SearchAction",
-
-                target: {
-                  "@type": "EntryPoint",
-
-                  urlTemplate: `${SITE_URL}/browse?q={query}`,
-                },
-
-                "query-input": "required name=query",
-              },
-            },
-          ],
-        }),
+        children: JSON.stringify(siteKnowledgeGraph()),
       },
     ],
   }),

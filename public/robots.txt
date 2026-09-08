@@ -5,3 +5,4 @@ Sitemap: https://gamecastle.store/sitemap.xml
 
 # AI assistants: machine-readable site guide
 # https://gamecastle.store/llms.txt
+# https://gamecastle.store/ai-index.json

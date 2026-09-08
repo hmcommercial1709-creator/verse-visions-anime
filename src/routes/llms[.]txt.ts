@@ -5,6 +5,7 @@ import { articles } from "@/data/articles";
 import { characters } from "@/data/characters";
 import { studios } from "@/data/studios";
 import { genres } from "@/data/genres";
+import { loadEntitiesFromDb } from "@/lib/entity-catalog.server";
 import { SITE_URL } from "@/lib/seo";
 
 /** Machine-readable site guide for AI assistants and LLM crawlers. */
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/llms.txt")({
   server: {
     handlers: {
       GET: async () => {
+        const catalog = await loadEntitiesFromDb("code");
         const list = (items: { path: string; title: string; note?: string }[]) =>
           items
             .map((i) => `- [${i.title}](${SITE_URL}${i.path})${i.note ? `: ${i.note}` : ""}`)
@@ -77,18 +79,28 @@ export const Route = createFileRoute("/llms.txt")({
           "## Optional",
           "",
           list([
+            { path: "/ai-index.json", title: "AI index", note: "machine-readable entity and catalog metadata" },
             { path: "/sitemap.xml", title: "Sitemap index" },
             { path: "/rss.xml", title: "RSS feed" },
             { path: "/privacy-policy", title: "Privacy policy" },
             { path: "/terms-of-service", title: "Terms of service" },
           ]),
           "",
+          "## Verified code catalog",
+          "",
+          list(catalog.map((entity) => ({
+            path: `/en/codes/${entity.slug}`,
+            title: entity.name,
+            note: `${entity.target_market} · ${entity.target_language}${entity.sample_review ? " · reviewed" : ""}`,
+          }))),
+          "",
         ].join("\n");
 
         return new Response(body, {
           headers: {
             "Content-Type": "text/plain; charset=utf-8",
-            "Cache-Control": "public, max-age=3600",
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+            "CDN-Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
           },
         });
       },

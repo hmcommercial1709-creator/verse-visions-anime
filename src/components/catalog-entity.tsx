@@ -7,6 +7,15 @@ export function CatalogEntityPage({ entity }: { entity: CatalogEntity }) {
     <h1 className="mt-6 font-display text-4xl font-bold">{entity.name}</h1>
     {entity.description?.split(/\n\s*\n/).map((paragraph, index) =>
       <p key={index} className="mt-5 whitespace-pre-line leading-8 text-muted-foreground">{paragraph}</p>)}
+    <section className="mt-10" aria-labelledby="catalog-faq-heading">
+      <h2 id="catalog-faq-heading" className="font-display text-2xl font-bold">Frequently asked questions</h2>
+      <div className="mt-5 space-y-5">
+        {entity.localized_faqs.map((faq) => <div key={faq.question}>
+          <h3 className="font-semibold">{faq.question}</h3>
+          <p className="mt-2 leading-7 text-muted-foreground">{faq.answer}</p>
+        </div>)}
+      </div>
+    </section>
     {entity.source_name && <p className="mt-6 text-sm text-muted-foreground">Synopsis source: {entity.source_url && /^https:\/\//.test(entity.source_url) ? <a href={entity.source_url} rel="noopener noreferrer" className="underline">{entity.source_name}</a> : entity.source_name}</p>}
     <nav className="mt-10 flex flex-wrap gap-6" aria-label="Related sections">
       <Link to="/guides">Anime guides</Link><Link to="/store">Browse the store</Link>

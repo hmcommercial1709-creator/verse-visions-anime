@@ -246,8 +246,8 @@ export function sitemapIndexXml(): string {
     ),
     // Arabic cornerstone edition: real localized content, its own child sitemap.
     "/sitemap-ar.xml",
-    "/sitemap-codes-1.xml", // القسم الأول (يضمن أرشفة الدفعة الأولى بالكامل دون تجاوز حدود جوجل)
-    "/sitemap-codes-2.xml", // القسم الثاني (يضمن أرشفة الـ 30 ألف المتبقية بالكامل)
+    "/sitemap-codes-1.xml",
+    "/sitemap-codes-2.xml",
   ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
@@ -305,7 +305,8 @@ export function xmlResponse(xml: string): Response {
   return new Response(xml, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      "CDN-Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
       "X-Robots-Tag": "all",
     },
   });

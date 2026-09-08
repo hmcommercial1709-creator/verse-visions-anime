@@ -10,6 +10,53 @@ export const SITE_NAME = "GameCastle Anime";
 export const SITE_DESCRIPTION =
   "GameCastle Anime — anime, characters, episodes, guides, games, reviews and more.";
 
+export function siteKnowledgeGraph() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        url: `${SITE_URL}/`,
+        description: SITE_DESCRIPTION,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: `${SITE_URL}/`,
+        description: SITE_DESCRIPTION,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${SITE_URL}/browse?q={query}`,
+          "query-input": "required name=query",
+        },
+      },
+      {
+        "@type": "Dataset",
+        "@id": `${SITE_URL}/#catalog-dataset`,
+        name: "GameCastle Anime knowledge catalog",
+        description: "Curated anime, gaming, guide, market and localization metadata maintained by GameCastle Anime.",
+        url: `${SITE_URL}/ai-index.json`,
+        isAccessibleForFree: true,
+        creator: { "@id": `${SITE_URL}/#organization` },
+        license: `${SITE_URL}/terms-of-service`,
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${SITE_URL}/#application`,
+        name: SITE_NAME,
+        applicationCategory: "EntertainmentApplication",
+        operatingSystem: "Web",
+        url: SITE_URL,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+    ],
+  };
+}
+
 export function absoluteUrl(path: string) {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }

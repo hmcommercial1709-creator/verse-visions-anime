@@ -30,6 +30,11 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Generate IndexNow verification asset
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: node --experimental-strip-types scripts/generate-indexnow-key.ts
+
       - name: Broadcast current sitemap URLs
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}

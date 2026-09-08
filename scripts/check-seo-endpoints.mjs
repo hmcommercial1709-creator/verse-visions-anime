@@ -15,6 +15,19 @@ const llms = await read("/llms.txt", "text/plain");
 assert.match(llms, /\/ai-index\.json/);
 assert.match(llms, /\/sitemap\.xml/);
 
+const feed = await read("/rss.xml", "application/rss\\+xml");
+assert.match(feed, /<rss\b/);
+assert.match(feed, /xmlns:atom=/);
+assert.match(feed, /<item>/);
+
+const sitemap = await read("/sitemap.xml", "application/xml");
+assert.match(sitemap, /<sitemapindex\b/);
+assert.ok((sitemap.match(/<sitemap>/g) || []).length >= 2);
+
+const browsePage = await read("/browse?page=2", "text/html");
+assert.match(browsePage, /Full anime catalog/);
+assert.match(browsePage, /browse\?page=3|browse\?page=1/);
+
 const aiIndex = JSON.parse(await read("/ai-index.json", "application/json"));
 assert.equal(aiIndex.schema_version, "1.0");
 assert.equal(aiIndex.publisher.url, origin);

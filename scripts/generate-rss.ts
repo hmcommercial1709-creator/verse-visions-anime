@@ -1,16 +1,32 @@
 import fs from 'fs';
 import { longformArticles } from '../src/data/articles-longform.ts';
+import { animes } from '../src/data/animes.ts';
 
 const siteUrl = 'https://gamecastle.store';
 
 function generateRss() {
-  const items = longformArticles.map(article => `
+  const articleItems = longformArticles.map(article => ({
+    title: article.title,
+    path: `/article/${article.slug}`,
+    description: article.excerpt,
+    date: new Date(article.date),
+  }));
+  const animeItems = animes.map(anime => ({
+    title: anime.title,
+    path: `/anime/${anime.slug}`,
+    description: anime.synopsis,
+    date: new Date(`${anime.year}-01-01T00:00:00Z`),
+  }));
+  const items = [...articleItems, ...animeItems]
+    .sort((a, b) => b.date.getTime() - a.date.getTime())
+    .slice(0, 50)
+    .map(item => `
     <item>
-      <title><![CDATA[${article.title}]]></title>
-      <link>${siteUrl}/article/${article.slug}</link>
-      <guid>${siteUrl}/article/${article.slug}</guid>
-      <pubDate>${new Date(article.date).toUTCString()}</pubDate>
-      <description><![CDATA[${article.excerpt}]]></description>
+      <title><![CDATA[${item.title}]]></title>
+      <link>${siteUrl}${item.path}</link>
+      <guid>${siteUrl}${item.path}</guid>
+      <pubDate>${item.date.toUTCString()}</pubDate>
+      <description><![CDATA[${item.description}]]></description>
     </item>
   `).join('');
 
@@ -25,7 +41,7 @@ function generateRss() {
     </channel>
   </rss>`;
 
-  fs.writeFileSync('public/rss.xml', rssContent);
+  fs.writeFileSync('public/rss.xml', rssContent.replace(/[ \t]+\n/g, '\n').trim() + '\n');
   console.log('RSS feed generated successfully in public/rss.xml');
 }
 

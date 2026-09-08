@@ -23,13 +23,34 @@ export function CatalogEntityPage({ entity }: { entity: CatalogEntity }) {
     </nav>
   </article>;
 }
-export function CatalogIndex({ title, entities }: { title: string; entities: CatalogEntity[] }) {
+export function CatalogIndex({
+  title,
+  entities,
+  total,
+  page,
+  pageSize,
+  basePath,
+}: {
+  title: string;
+  entities: CatalogEntity[];
+  total: number;
+  page: number;
+  pageSize: number;
+  basePath: string;
+}) {
+  const totalPages = Math.ceil(total / pageSize);
   return <section className="mx-auto max-w-6xl px-4 py-12">
     <h1 className="font-display text-4xl font-bold">{title}</h1>
+    <p className="mt-2 text-sm text-muted-foreground">{total.toLocaleString()} published entries · Page {page} of {totalPages || 1}</p>
     {entities.length === 0 ? <p className="mt-6">No published entries are available yet. <Link to="/browse">Browse anime</Link>.</p> :
       <div className="mt-8 grid gap-6 md:grid-cols-3">{entities.map((entity) =>
         <a key={entity.slug} href={entityPath(entity.entity_type, entity.slug)} className="rounded-xl border border-border bg-card p-6">
           <h2 className="text-xl font-semibold">{entity.name}</h2><p className="mt-3 line-clamp-4 text-muted-foreground">{entity.description}</p>
         </a>)}</div>}
+    <nav className="mt-8 flex items-center justify-between border-t border-border/60 pt-4" aria-label={`${title} pagination`}>
+      {page > 1 ? <a href={`${basePath}?page=${page - 1}`} className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-primary">Previous page</a> : <span />}
+      <span className="text-sm text-muted-foreground">Page {page} of {totalPages || 1}</span>
+      {page < totalPages ? <a href={`${basePath}?page=${page + 1}`} className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-primary">Next page</a> : <span />}
+    </nav>
   </section>;
 }

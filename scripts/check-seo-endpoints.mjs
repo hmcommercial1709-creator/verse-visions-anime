@@ -20,5 +20,7 @@ assert.equal(aiIndex.publisher.url, origin);
 assert.ok(Array.isArray(aiIndex.entities.anime));
 assert.ok(Array.isArray(aiIndex.entities.articles));
 assert.ok(Array.isArray(aiIndex.entities.code_catalog));
+assert.ok(aiIndex.pagination.code_catalog_total >= aiIndex.entities.code_catalog.length);
+assert.match(aiIndex.pagination.page_url_template, /\/en\/codes\?page=\{page\}/);
 
 console.log(`Verified AI manifests at ${origin}: ${aiIndex.entities.code_catalog.length} quality-gated catalog entities.`);

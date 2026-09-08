@@ -124,6 +124,39 @@ export async function loadEntitiesFromDb(kind: CatalogEntity["entity_type"]): Pr
   return [];
 }
 
+export async function loadEntityPageFromDb(
+  kind: CatalogEntity["entity_type"],
+  page: number,
+  pageSize = 36,
+): Promise<{ entities: CatalogEntity[]; total: number; page: number; pageSize: number }> {
+  const safePage = Math.max(1, Math.floor(page) || 1);
+  const safePageSize = Math.min(100, Math.max(1, Math.floor(pageSize) || 36));
+
+  if (kind !== "code") return { entities: [], total: 0, page: safePage, pageSize: safePageSize };
+
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const from = (safePage - 1) * safePageSize;
+    const { data, count, error } = await supabaseAdmin
+      .from("game_nexus_matrix")
+      .select(CODE_SELECT, { count: "exact" })
+      .order("slug", { ascending: true })
+      .range(from, from + safePageSize - 1);
+
+    if (error || !data) return { entities: [], total: count || 0, page: safePage, pageSize: safePageSize };
+    return {
+      entities: (data as CatalogEntityRow[])
+        .map(toCatalogEntity)
+        .filter((entity): entity is CatalogEntity => entity !== null),
+      total: count || 0,
+      page: safePage,
+      pageSize: safePageSize,
+    };
+  } catch {
+    return { entities: [], total: 0, page: safePage, pageSize: safePageSize };
+  }
+}
+
 export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapEntry[]> {
   const entities = await loadEntitiesFromDb("code");
   const partitionSize = 40000;

@@ -5,7 +5,7 @@ import { articles } from "@/data/articles";
 import { characters } from "@/data/characters";
 import { studios } from "@/data/studios";
 import { genres } from "@/data/genres";
-import { loadEntitiesFromDb } from "@/lib/entity-catalog.server";
+import { loadEntityPageFromDb } from "@/lib/entity-catalog.server";
 import { SITE_URL } from "@/lib/seo";
 
 /** Machine-readable site guide for AI assistants and LLM crawlers. */
@@ -13,7 +13,8 @@ export const Route = createFileRoute("/llms.txt")({
   server: {
     handlers: {
       GET: async () => {
-        const catalog = await loadEntitiesFromDb("code");
+        const catalogPage = await loadEntityPageFromDb("code", 1, 100);
+        const catalog = catalogPage.entities;
         const list = (items: { path: string; title: string; note?: string }[]) =>
           items
             .map((i) => `- [${i.title}](${SITE_URL}${i.path})${i.note ? `: ${i.note}` : ""}`)
@@ -87,6 +88,8 @@ export const Route = createFileRoute("/llms.txt")({
           ]),
           "",
           "## Verified code catalog",
+          "",
+          `The verified code catalog contains ${catalogPage.total.toLocaleString()} published entries. The first ${catalogPage.pageSize} are listed below; continue through ${SITE_URL}/en/codes?page={page} for the complete paginated index.`,
           "",
           list(catalog.map((entity) => ({
             path: `/en/codes/${entity.slug}`,

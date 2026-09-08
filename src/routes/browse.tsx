@@ -84,7 +84,7 @@ export const Route = createFileRoute("/browse")({
       };
     }
   },
-  head: () => ({
+  head: ({ loaderData }) => ({
     meta: [
       { property: "og:url", content: "https://gamecastle.store/browse" },
       { property: "og:type", content: "website" },
@@ -105,7 +105,18 @@ export const Route = createFileRoute("/browse")({
           "Search and filter GameCastle Anime's published series guides.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://gamecastle.store/browse" }],
+    links: [
+      {
+        rel: "canonical",
+        href: `https://gamecastle.store/browse${(loaderData?.page ?? 1) > 1 ? `?page=${loaderData?.page}` : ""}`,
+      },
+      ...((loaderData?.page ?? 1) > 1
+        ? [{ rel: "prev", href: `https://gamecastle.store/browse?page=${(loaderData?.page ?? 1) - 1}` }]
+        : []),
+      ...((loaderData?.page ?? 1) < Math.ceil((loaderData?.totalProgrammaticPages ?? 0) / (loaderData?.pageSize ?? 36))
+        ? [{ rel: "next", href: `https://gamecastle.store/browse?page=${(loaderData?.page ?? 1) + 1}` }]
+        : []),
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -393,23 +404,15 @@ function Browse() {
         )}
 
         <nav className="mt-6 flex items-center justify-between border-t border-border/60 pt-4" aria-label="Full catalog pagination">
-          {page > 1 ? (
-            <a
-              href={`/browse?page=${page - 1}`}
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-primary hover:text-primary"
-            >
-              Previous page
-            </a>
-          ) : <span />}
+          <div className="flex items-center gap-2">
+            {page > 2 ? <a href="/browse" className="rounded-lg border border-border px-3 py-2 text-sm font-semibold hover:border-primary hover:text-primary">First</a> : null}
+            {page > 1 ? <a href={`/browse?page=${page - 1}`} className="rounded-lg border border-border px-3 py-2 text-sm font-semibold hover:border-primary hover:text-primary">Previous</a> : null}
+          </div>
           <span className="text-sm text-muted-foreground">Page {page} of {totalPages || 1}</span>
-          {page < totalPages ? (
-            <a
-              href={`/browse?page=${page + 1}`}
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-primary hover:text-primary"
-            >
-              Next page
-            </a>
-          ) : <span />}
+          <div className="flex items-center gap-2">
+            {page < totalPages ? <a href={`/browse?page=${page + 1}`} className="rounded-lg border border-border px-3 py-2 text-sm font-semibold hover:border-primary hover:text-primary">Next</a> : null}
+            {page < totalPages - 1 ? <a href={`/browse?page=${totalPages}`} className="rounded-lg border border-border px-3 py-2 text-sm font-semibold hover:border-primary hover:text-primary">Last</a> : null}
+          </div>
         </nav>
       </section>
 

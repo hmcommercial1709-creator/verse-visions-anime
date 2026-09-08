@@ -2,14 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { animes } from "@/data/animes";
 import { articles } from "@/data/articles";
-import { loadEntitiesFromDb } from "@/lib/entity-catalog.server";
+import { loadEntityPageFromDb } from "@/lib/entity-catalog.server";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/ai-index.json")({
   server: {
     handlers: {
       GET: async () => {
-        const catalog = await loadEntitiesFromDb("code");
+        const catalogPage = await loadEntityPageFromDb("code", 1, 100);
+        const catalog = catalogPage.entities;
         const body = {
           schema_version: "1.0",
           generated_at: new Date().toISOString(),
@@ -27,6 +28,14 @@ export const Route = createFileRoute("/ai-index.json")({
             llms: absoluteUrl("/llms.txt"),
             sitemap: absoluteUrl("/sitemap.xml"),
             rss: absoluteUrl("/rss.xml"),
+            browse: absoluteUrl("/browse"),
+            code_catalog: absoluteUrl("/en/codes"),
+          },
+          pagination: {
+            code_catalog_total: catalogPage.total,
+            page_size: catalogPage.pageSize,
+            next_page: catalogPage.total > catalogPage.pageSize ? absoluteUrl("/en/codes?page=2") : null,
+            page_url_template: absoluteUrl("/en/codes?page={page}"),
           },
           entities: {
             anime: animes.map((item) => ({

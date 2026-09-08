@@ -10,9 +10,11 @@ import { AnimeCard } from "@/components/anime-card";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { AdSlot } from "@/components/ad-slot";
 import { Filter, Search, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 type Sort = "rating" | "year" | "popularity" | "title";
 type BrowseSearch = {
+  page?: number;
   q?: string;
   genre?: string;
   studio?: string;
@@ -21,12 +23,15 @@ type BrowseSearch = {
   sort?: Sort;
 };
 
+type ProgrammaticPage = { slug: string; title: string | null };
+
 const parseSort = (value: unknown): Sort | undefined =>
   value === "year" || value === "popularity" || value === "title"
     ? value
     : undefined;
 
 const parseSearch = (search: Record<string, unknown>): BrowseSearch => ({
+  page: Math.max(1, Number(search.page) || 1),
   q: typeof search.q === "string" && search.q.trim() ? search.q : undefined,
   genre:
     typeof search.genre === "string" && search.genre !== "all"
@@ -49,6 +54,36 @@ const parseSearch = (search: Record<string, unknown>): BrowseSearch => ({
 
 export const Route = createFileRoute("/browse")({
   validateSearch: parseSearch,
+  loaderDeps: ({ search }) => ({ page: search.page }),
+  loader: async ({ deps }) => {
+    const page = deps.page ?? 1;
+    const pageSize = 36;
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    try {
+      const { data, count } = await supabase
+        .from("generated_pages")
+        .select("slug, title", { count: "exact" })
+        .order("slug", { ascending: true })
+        .range(from, to);
+
+      return {
+        programmaticPages: (data || []) as ProgrammaticPage[],
+        totalProgrammaticPages: count || 0,
+        page,
+        pageSize,
+      };
+    } catch (error) {
+      console.error("Browse catalog error:", error);
+      return {
+        programmaticPages: [],
+        totalProgrammaticPages: 0,
+        page,
+        pageSize,
+      };
+    }
+  },
   head: () => ({
     meta: [
       { property: "og:url", content: "https://gamecastle.store/browse" },
@@ -90,6 +125,12 @@ export const Route = createFileRoute("/browse")({
 
 function Browse() {
   const search = Route.useSearch();
+  const {
+    programmaticPages,
+    totalProgrammaticPages,
+    page,
+    pageSize,
+  } = Route.useLoaderData();
   const navigate = Route.useNavigate();
   const anime = publishedAnime();
   const genres = populatedGenres();
@@ -101,6 +142,7 @@ function Browse() {
   const status = search.status ?? "all";
   const decade = search.decade ?? "all";
   const sort = search.sort ?? "rating";
+  const totalPages = Math.ceil(totalProgrammaticPages / pageSize);
 
   const decades = useMemo(
     () =>
@@ -316,6 +358,60 @@ function Browse() {
       </div>
 
       <AdSlot placement="between" />
+
+      <section className="mt-8" aria-labelledby="programmatic-catalog-heading">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 id="programmatic-catalog-heading" className="font-display text-2xl font-bold">
+              Full anime catalog
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {totalProgrammaticPages.toLocaleString()} published pages, listed alphabetically.
+            </p>
+          </div>
+          <span className="text-sm text-muted-foreground" aria-live="polite">
+            Page {page} of {totalPages || 1}
+          </span>
+        </div>
+
+        {programmaticPages.length > 0 ? (
+          <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+            {programmaticPages.map((item) => (
+              <a
+                key={item.slug}
+                href={`/${item.slug}`}
+                className="rounded-xl border border-border/60 bg-card/50 p-4 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
+              >
+                {item.title || item.slug}
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 rounded-xl border border-border/60 bg-card/50 p-6 text-sm text-muted-foreground">
+            The full catalog is temporarily unavailable. Please try again shortly.
+          </p>
+        )}
+
+        <nav className="mt-6 flex items-center justify-between border-t border-border/60 pt-4" aria-label="Full catalog pagination">
+          {page > 1 ? (
+            <a
+              href={`/browse?page=${page - 1}`}
+              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-primary hover:text-primary"
+            >
+              Previous page
+            </a>
+          ) : <span />}
+          <span className="text-sm text-muted-foreground">Page {page} of {totalPages || 1}</span>
+          {page < totalPages ? (
+            <a
+              href={`/browse?page=${page + 1}`}
+              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:border-primary hover:text-primary"
+            >
+              Next page
+            </a>
+          ) : <span />}
+        </nav>
+      </section>
 
       {list.length > 0 ? (
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">

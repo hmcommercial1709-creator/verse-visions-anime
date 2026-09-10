@@ -29,7 +29,8 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: npm ci --no-audit --no-fund
+        run: |
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -41,9 +42,6 @@ jobs:
 
       - name: Verify Offerwall policy preserves consent
         run: node scripts/check-offerwall-policy.mjs
-
-      - name: Check TypeScript
-        run: bunx tsc --noEmit
 
       - name: Reject weak or duplicate generated content
         run: node scripts/check-content-quality.mjs
@@ -62,8 +60,15 @@ jobs:
       - name: Build production bundle
         run: bun run build
 
+      - name: Check TypeScript after route generation
+        run: bunx tsc --noEmit
+
+      - name: Check Harbor Island rules
+        run: node scripts/check-harbor.mjs
+
       - name: Check build output
         run: |
           node scripts/check-build-output.mjs
           node scripts/check-video-feed.mjs
           
+

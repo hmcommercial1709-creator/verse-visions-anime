@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /** The homepage renders no game engine, audio or iframe until an explicit click. */
 export function HarborGame() {
   const [source, setSource] = useState<string | null>(null);
+  const frame = useRef<HTMLIFrameElement>(null);
+  const [frameHeight, setFrameHeight] = useState<number | null>(null);
+  useEffect(() => {
+    const resize = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin || !frame.current || event.source !== frame.current.contentWindow) return;
+      if (event.data?.type === "harbor:resize" && Number.isFinite(event.data.height)) {
+        setFrameHeight(Math.min(3000, Math.max(400, event.data.height)));
+      }
+    };
+    window.addEventListener("message", resize);
+    return () => window.removeEventListener("message", resize);
+  }, []);
   const launch = () => {
     const challenge = new URLSearchParams(window.location.search).get("challenge");
     setSource(`/harbor/index.html${challenge && /^\d{1,9}$/.test(challenge) ? `?challenge=${challenge}` : ""}`);
@@ -15,7 +27,7 @@ export function HarborGame() {
             <span>جزيرة الميناء · تقدمك محفوظ على هذا المتصفح</span>
             <button onClick={() => { if (window.confirm("إغلاق اللعبة؟ تقدم البناء محفوظ، لكن المعركة الحالية لن تُحفظ.")) setSource(null); }} className="rounded-lg border border-white/20 px-3 py-2">إغلاق اللعبة</button>
           </div>
-          <iframe src={source} title="جزيرة الميناء — لعبة بناء ومعارك بحرية" className="block h-[1180px] w-full border-0 min-[801px]:h-[760px]" allow="autoplay; fullscreen; clipboard-write; web-share" allowFullScreen />
+          <iframe ref={frame} src={source} title="جزيرة الميناء — لعبة بناء ومعارك بحرية" style={frameHeight ? { height: frameHeight } : undefined} className="block h-[1180px] w-full border-0 min-[801px]:h-[760px]" allow="autoplay; fullscreen; clipboard-write; web-share" allowFullScreen />
         </div>
       ) : (
         <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-6 py-12 md:grid-cols-2 md:py-16">

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"><title>جزيرة الميناء — GameCastle</title><link rel="stylesheet" href="./style.css"></head>
+<body>
+<div id="app">
+ <header class="top"><a href="/" target="_top" class="brand">✦ <span>GAMECASTLE<small>جزيرة الميناء</small></span></a><div class="resources" aria-label="الموارد"><span>🪵 <b id="wood">180</b></span><span>◉ <b id="gold">120</b></span><span>◆ <b id="gems">0</b></span></div><button id="settings" aria-label="إعدادات الصوت">♫ الصوت</button></header>
+ <main class="layout">
+  <section class="battle" aria-label="الجزيرة والمعركة">
+   <div class="scene-top"><div><span class="eyebrow">HARBOR ISLAND · SEASON 01</span><h1 id="island-title">جزيرة الفجر</h1><p id="captain">اكتب قصتك فوق الأمواج</p></div><div class="wave">الموجة <b id="wave">1</b><span id="phase">استعداد</span></div></div>
+   <div id="scene" role="application" aria-label="المعركة: اضغط على السفن للتصويب. بلوحة المفاتيح استخدم الأسهم للتصويب والمسافة للإطلاق."></div>
+   <div class="health"><span>دفاع الميناء <b id="health">100%</b></span><progress id="health-bar" max="100" value="100"></progress></div>
+   <div class="scene-bottom"><span id="hint">ابنِ دفاعاتك. البحر يخفي أسطولاً قادماً.</span><button id="pause" disabled>إيقاف مؤقت</button></div>
+   <div id="loading" class="veil"><span class="loader"></span><p>نجهّز البحر وجزيرتك…</p><p id="load-error"></p></div>
+  </section>
+  <aside class="panel">
+   <div class="commander"><div id="companion" class="portrait">🦊</div><div><span class="eyebrow">رفيق القائد</span><h2 id="companion-name">كاي · حارس الميناء</h2></div><span class="streak" id="streak">🔥 1</span></div>
+   <p id="message" role="status" aria-live="polite">مرحباً أيها القائد. سفينتك الأولى تنتظرك!</p>
+   <div class="tabs"><button id="tab-build" aria-pressed="true">البناء</button><button id="tab-missions" aria-pressed="false">المهمات</button><button id="tab-social" aria-pressed="false">التحدّي</button></div>
+   <div id="build-panel">
+    <article class="upgrade"><div class="building-icon">⚔</div><div><h3>مدفع البرق <small id="cannon-level">المستوى 1</small></h3><p>قوة أكبر ومقذوفات أسرع</p><span id="cannon-cost"></span></div><button id="upgrade-cannon">طوّر</button></article>
+    <article class="upgrade"><div class="building-icon">♜</div><div><h3>حصن الميناء <small id="harbor-level">المستوى 1</small></h3><p>درع أقوى ضد قذائف الأسطول</p><span id="harbor-cost"></span></div><button id="upgrade-harbor">ابنِ</button></article>
+    <div id="construction" hidden><p id="timer"></p><progress id="build-progress" max="100" value="0"></progress><button id="rush">إكمال الآن · 5 ◆</button></div>
+    <button id="legendary" class="legendary">✦ سلاح العاصفة · 25 ◆ <small>اربح الجواهر بإتقان المعارك</small></button>
+    <p class="save-note">تقدم هذه النسخة محفوظ على هذا المتصفح. الجواهر مكافآت لعب محلية؛ الشراء غير مفعّل بعد.</p>
+   </div>
+   <div id="missions-panel" hidden><h3>طريق قائد الأسطول</h3><ul class="missions"><li id="mission-first">⚑ انتصر في معركتك الأولى</li><li id="mission-perfect">✧ حافظ على الميناء دون ضرر: +3 ◆</li><li id="mission-upgrade">⚒ طوّر المدفع إلى المستوى 3</li></ul><p>كل انتصار يمنحك خشباً وذهباً. عد غداً لتحصل على إمدادات جديدة.</p><strong id="wins">0 انتصارات</strong></div>
+   <div id="social-panel" hidden><h3>تحدَّ أصدقاءك بنفس الأسطول</h3><p>رابط التحدي يمنح صديقك الموجة نفسها والقوة نفسها. قارنوا النتيجة وشاركوا بطاقة إنجازكم.</p><button id="share-challenge">↗ مشاركة التحدّي</button><button id="share-card">▣ تنزيل بطاقة القائد</button><p class="save-note">غارات اللاعبين والدعم المباشر والتصنيف العالمي تحتاج اتصالاً بالخادم؛ ليست مفعلة في النسخة المحلية.</p></div>
+   <div class="launch"><button id="start" disabled>⚔ أبحر إلى المعركة</button><span>انقر السفن لتطلق النار · الأسهم + المسافة</span></div>
+  </aside>
+ </main>
+ <dialog id="welcome"><form id="identity"><span class="eyebrow">YOUR ISLAND. YOUR LEGEND.</span><h2>كل جزيرة تحتاج قائداً.</h2><p>اختر اسمك وارفع رايتك. مغامرتك تبدأ هنا.</p><label>اسم القائد<input id="name" maxlength="24" required autocomplete="nickname" placeholder="كيف يناديك رفيقك؟"></label><label>اسم الجزيرة<input id="island" maxlength="30" required placeholder="جزيرة الفجر"></label><div class="identity-row"><label>الراية<select id="flag"><option>☀</option><option>☽</option><option>⚡</option><option>✦</option></select></label><label>رفيقك<select id="friend"><option value="fox">🦊 كاي — الثعلب</option><option value="hawk">🦅 رين — الصقر</option><option value="spirit">🐉 آو — التنين</option></select></label></div><button type="submit">ارفع الراية وابدأ ←</button><small>لا تحتاج حساباً لبدء المغامرة.</small></form></dialog>
+ <dialog id="audio-dialog"><h2>صوت المغامرة</h2><label><input type="checkbox" id="music" checked> الموسيقى التصويرية</label><label><input type="checkbox" id="sfx" checked> المؤثرات والأمواج</label><label><input type="checkbox" id="effects" checked> الحركة والمؤثرات البصرية</label><button id="close-settings">العودة للجزيرة</button></dialog>
+ <dialog id="result"><span id="result-icon">✦</span><h2 id="result-title"></h2><p id="result-text"></p><button id="continue">العودة إلى الميناء</button><button id="result-card">تنزيل بطاقة الإنجاز</button></dialog>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js" integrity="sha384-AvQiDMZAVLda3VtAoU5MCfBz8pzXhteb2CiUJeKBmPlWzpXj1uJ96Km11+YuFNu/" crossorigin="anonymous" defer></script>
+<script type="module" src="./game.mjs"></script>
+</body></html>

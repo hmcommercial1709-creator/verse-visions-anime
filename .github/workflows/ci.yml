@@ -47,7 +47,7 @@ jobs:
         run: node scripts/check-content-quality.mjs
 
       - name: Validate content registry
-        run: bun run validate:content
+        run: bun run scripts/validate-content.ts
 
       - name: Lint changed source files
         shell: bash

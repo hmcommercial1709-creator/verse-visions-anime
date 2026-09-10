@@ -1134,7 +1134,7 @@ const drafts: Draft[] = [
         heading: "Production and Craft Terms",
         paragraphs: [
           "Sakuga refers to the standout animation cuts a studio invests in; our [sakuga explainer](/editorial) covers the vocabulary in depth. Key animation, in-betweens and douga describe the labour stages behind those cuts.",
-          "A production committee is the funding consortium behind a show, explained in full in [how anime actually gets made](/article/how-anime-gets-made-production-committees). Seiyuu are voice actors, and gekiga is an older term for dramatic, adult-oriented manga.",
+          "A production committee is the funding consortium behind a show. Seiyuu are voice actors, and gekiga is an older term for dramatic, adult-oriented manga.",
           "Keep this page bookmarked — we extend it every time a term starts showing up in comment threads without explanation.",
         ],
       },

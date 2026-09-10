@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { HarborGame } from "@/components/harbor-game";
 import { HomeStage } from "@/components/home-stage";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStorePromo } from "@/components/home-store-promo";
@@ -53,6 +54,7 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <HarborGame />
       <HomeStage trending={trending} />
 
       <div className="border-b border-border/50 bg-background">
@@ -122,3 +124,4 @@ function Home() {
     </div>
   );
 }
+

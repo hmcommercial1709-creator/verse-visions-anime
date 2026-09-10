@@ -63,4 +63,7 @@ function card(){if(!state)return;const canvas=document.createElement('canvas');c
 $('share-card').onclick=card;$('result-card').onclick=card;
 const buildTimer=setInterval(()=>{if(!state?.upgrade)return;const next=finishUpgrade(state);if(next){state=next;save();render();scene?.drawIsland();sound('win');announce(`${state.name}، اكتمل البناء. دفاعاتك أقوى الآن!`);}else{const left=Math.max(0,Math.ceil((state.upgrade.end-Date.now())/1000));$('timer').textContent=`البناؤون يعملون · ${left} ثانية`;$('build-progress').value=Math.max(0,100-left/cost(state,state.upgrade.kind).seconds*100);$('rush').disabled=state.gems<5||running;}},1000);
 window.addEventListener('pagehide',()=>{clearInterval(buildTimer);clearInterval(musicTimer);audioContext?.close();engine?.destroy(true);},{once:true});
+const sizeObserver=new ResizeObserver(()=>{if(parent!==window)parent.postMessage({type:'harbor:resize',height:Math.ceil($('app').getBoundingClientRect().height)},location.origin);});
+sizeObserver.observe($('app'));
+window.addEventListener('pagehide',()=>sizeObserver.disconnect(),{once:true});
 if(document.readyState==='complete')boot();else window.addEventListener('load',boot,{once:true});

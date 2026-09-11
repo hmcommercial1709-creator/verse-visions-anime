@@ -38,7 +38,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
   loader: async ({ params }) => {
     const { locale, slug } = params;
     
-    // Query the anime nexus matrix table from Supabase based on slug and target language
+    // جلب البيانات من جدول الأنمي مع مطابقة اللغة أو الـ slug
     let { data, error } = await supabase
       .from('anime_nexus_matrix')
       .select('*')
@@ -47,11 +47,10 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
       .single();
 
     if (error || !data) {
-      // Fallback attempt to find any record matching the slug if the exact locale match fails
       const { data: fallbackData } = await supabase
         .from('anime_nexus_matrix')
         .select('*')
-        .eq('slug', slug)
+        .or(`slug.eq.${slug},slug_ar.eq.${slug}`)
         .limit(1)
         .single();
       
@@ -84,7 +83,6 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
     ]);
     const [newCommentText, setNewCommentText] = useState("");
     const [hasSpoilerToggle, setHasSpoilerToggle] = useState(false);
-
     const [tierVotes, setTierVotes] = useState({ ss: 1420, s: 430, a: 85 });
 
     useEffect(() => {
@@ -118,6 +116,9 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
       addXp(75);
     };
 
+    const displayTitle = anime.title_ar || anime.title || anime.name;
+    const displayDescription = anime.description_ar || anime.description;
+
     return (
       <div className="relative min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground pb-32">
         {/* 1. STICKY OMNI-RETENTION HUD & GAMIFICATION HEADER */}
@@ -125,7 +126,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1.5 font-black text-primary animate-pulse">
-                🔥 {activeReaders.toLocaleString()} Binging Live ({anime.target_market})
+                🔥 {activeReaders.toLocaleString()} Binging Live ({anime.target_market || 'Global'})
               </span>
               <span className="hidden md:inline-block text-muted-foreground">|</span>
               <span className="hidden md:flex items-center gap-1.5 text-yellow-500 font-bold">
@@ -150,29 +151,35 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
         {/* 2. DYNAMIC MATRIX ENTERPRISE CONTENT */}
         <main className="max-w-4xl mx-auto mt-12 px-4">
           <div className="mb-4 text-xs font-mono text-cyan-400">
-            LOCALE: {anime.target_language.toUpperCase()} | STATUS: {anime.status}
+            LOCALE: {(anime.target_language || 'ar').toUpperCase()} | STATUS: {anime.status || 'Active'}
           </div>
           <h1 className="text-4xl font-black mb-6 bg-gradient-to-r from-primary to-indigo-500 bg-clip-text text-transparent">
-            {anime.title}
+            {displayTitle}
           </h1>
+
+          {displayDescription && (
+            <p className="text-muted-foreground mb-8 text-base leading-relaxed">
+              {displayDescription}
+            </p>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-card/60 border border-primary/20 p-6 rounded-3xl backdrop-blur-xl shadow-2xl mb-8">
             <div>
               <h3 className="text-lg font-bold mb-3 text-primary">Neural Node Data</h3>
               <pre className="bg-background/80 p-4 rounded-2xl text-xs text-emerald-400 overflow-x-auto border border-border">
-                {JSON.stringify(anime.neural_node_data, null, 2)}
+                {JSON.stringify(anime.neural_node_data || {}, null, 2)}
               </pre>
             </div>
             <div>
               <h3 className="text-lg font-bold mb-3 text-indigo-400">Matrix Metrics</h3>
               <pre className="bg-background/80 p-4 rounded-2xl text-xs text-purple-400 overflow-x-auto border border-border">
-                {JSON.stringify(anime.matrix_metrics, null, 2)}
+                {JSON.stringify(anime.matrix_metrics || {}, null, 2)}
               </pre>
             </div>
           </div>
         </main>
 
-        {/* UNIT 1: Display_Banner_Top (9027889883) */}
+        {/* UNIT 1: Display_Banner_Top */}
         <AdSenseSlot slotId="9027889883" format="auto" />
 
         {/* 3. INTERACTIVE POWER SCALING & TIER VOTING MATRIX */}
@@ -199,7 +206,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
           </div>
         </section>
 
-        {/* UNIT 2: hazzad - داخل المقالة (9312300696) */}
+        {/* UNIT 2: hazzad - داخل المقالة */}
         <AdSenseSlot slotId="9312300696" format="fluid" />
 
         {/* 4. REDDIT-STYLE MICRO-COMMUNITY DISCUSSION HUB */}
@@ -249,7 +256,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
           </div>
         </section>
 
-        {/* UNIT 3: hazza2 - متعدد (9734703029) */}
+        {/* UNIT 3: hazza2 - متعدد */}
         <AdSenseSlot slotId="9734703029" format="autorelaxed" />
 
         {/* 5. INSTANT GLOBAL VERDICT FLASH POLL */}
@@ -277,7 +284,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
           </div>
         </section>
 
-        {/* UNIT 4: hazza - إعلان صوري (5126563543) */}
+        {/* UNIT 4: hazza - إعلان صوري */}
         <AdSenseSlot slotId="5126563543" format="auto" />
 
         {/* 6. SMART RECOMMENDATION MATRIX (TIKTOK-STYLE INFINITE BINGE STREAM) */}
@@ -295,7 +302,7 @@ export const Route = createFileRoute("/$locale/anime/$slug")({
             <div className="flex items-center gap-2">
               <Link 
                 to="/$locale/anime/$slug" 
-                params={{ locale: anime.target_language || "en", slug: "omni-anime-0-1" }}
+                params={{ locale: anime.target_language || "ar", slug: anime.slug || "omni-anime-0-1" }}
                 className="px-4 sm:px-6 py-2.5 rounded-2xl bg-primary text-primary-foreground font-black text-xs sm:text-sm shadow-xl hover:opacity-90 hover:scale-105 transition active:scale-95 whitespace-nowrap"
               >
                 Next Binge Universe ⚡

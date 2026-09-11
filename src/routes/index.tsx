@@ -8,20 +8,35 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/")({
   loader: async () => {
     try {
-      const { data: animeData } = await supabase
+      // 1. جلب بيانات الأنمي باستخدام * لجلب كل السجلات والأسماء المتاحة
+      const { data: animeData, error: animeError } = await supabase
         .from("anime_nexus_matrix")
-        .select("slug, title, name, image")
+        .select("*")
         .limit(8);
 
-      const { data: gamesData } = await supabase
+      if (animeError) console.error("Anime fetch error:", animeError);
+
+      // 2. جلب بيانات الألعاب وتضمين الـ slug_ar و title_ar
+      const { data: gamesData, error: gamesError } = await supabase
         .from("game_nexus_matrix")
-        .select("slug, slug_ar, title, title_ar, description_ar")
+        .select("*")
         .limit(8);
 
-      const { data: storiesData } = await supabase
+      if (gamesError) console.error("Games fetch error:", gamesError);
+
+      // 3. جلب القصص والمسودات، مع وضع Fallback تلقائي إذا كان الجدول فارغاً
+      let { data: storiesData, error: storiesError } = await supabase
         .from("anime_content_drafts")
-        .select("slug, title, description, image")
+        .select("*")
         .limit(8);
+
+      if (storiesError || !storiesData || storiesData.length === 0) {
+        const { data: fallbackStories } = await supabase
+          .from("anime_nexus_matrix")
+          .select("*")
+          .limit(8);
+        storiesData = fallbackStories || [];
+      }
 
       return {
         animePages: animeData || [],
@@ -102,19 +117,19 @@ function Home() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {storiesPages.map((story) => (
             <a
-              key={story.slug}
+              key={story.slug || story.id}
               href={`/anime/${story.slug}`}
               className="group rounded-2xl border border-border/60 bg-card/70 p-4 transition hover:border-primary/60 hover:bg-card flex flex-col justify-between"
             >
               <div>
-                {story.image && (
+                {(story.image || story.image_url) && (
                   <div className="mb-3 aspect-video overflow-hidden rounded-xl bg-secondary/60">
-                    <img src={story.image} alt={story.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    <img src={story.image || story.image_url} alt={story.title || story.title_ar} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   </div>
                 )}
-                <h3 className="font-display text-base font-bold line-clamp-2 text-foreground group-hover:text-primary transition">{story.title}</h3>
-                {story.description && (
-                  <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{story.description}</p>
+                <h3 className="font-display text-base font-bold line-clamp-2 text-foreground group-hover:text-primary transition">{story.title || story.title_ar}</h3>
+                {(story.description || story.description_ar) && (
+                  <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{story.description || story.description_ar}</p>
                 )}
               </div>
               <div className="mt-4 flex items-center text-xs font-semibold text-primary">
@@ -132,18 +147,18 @@ function Home() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {gamePages.map((game) => {
-            const gameTitle = game.title_ar || game.title;
+            const gameTitle = game.title_ar || game.title || game.name;
             const gameSlug = game.slug_ar || game.slug;
             return (
               <a
-                key={game.slug}
+                key={game.slug || game.slug_ar}
                 href={`/games/${gameSlug}`}
                 className="rounded-2xl border border-border/60 bg-card/70 p-5 transition hover:border-accent/60 hover:bg-card flex flex-col justify-between"
               >
                 <div>
                   <h3 className="font-display text-base font-bold line-clamp-1">{gameTitle}</h3>
-                  {game.description_ar && (
-                    <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{game.description_ar}</p>
+                  {(game.description_ar || game.description) && (
+                    <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{game.description_ar || game.description}</p>
                   )}
                 </div>
               </a>
@@ -164,7 +179,7 @@ function Home() {
               href={`/anime/${page.slug}`}
               className="rounded-2xl border border-border/60 bg-card/70 p-5 text-sm font-semibold transition hover:border-primary/60 hover:bg-card"
             >
-              {page.title || page.name}
+              {page.title_ar || page.title || page.name}
             </a>
           ))}
         </div>

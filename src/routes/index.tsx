@@ -9,19 +9,16 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/")({
   loader: async () => {
     try {
-      // 1. جلب الأنمي من anime_nexus_matrix
       const { data: animeData } = await supabase
         .from("anime_nexus_matrix")
         .select("slug, title, name, image")
         .limit(8);
 
-      // 2. جلب الألعاب من game_nexus_matrix
       const { data: gamesData } = await supabase
         .from("game_nexus_matrix")
-        .select("slug, title, name")
+        .select("slug, slug_ar, title, title_ar, description_ar, target_market")
         .limit(8);
 
-      // 3. جلب القصص والمسودات من anime_content_drafts (الـ 4,999 سجل)
       const { data: storiesData } = await supabase
         .from("anime_content_drafts")
         .select("slug, title, description, image")
@@ -96,14 +93,13 @@ function Home() {
 
       <HomeStorePromo />
 
-      {/* قسم القصص والمسودات الجديد (من جدول anime_content_drafts) */}
       <div className="mx-auto max-w-7xl border-t border-border/60 px-4 py-12 lg:px-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-primary">Exclusive Stories & Drafts</p>
-            <h2 className="mt-1 font-display text-2xl font-bold">أحدث القصص والمسودات الخاصة بالأنمي</h2>
+            <h2 className="mt-1 font-display text-2xl font-bold">Latest programmatic stories & drafts</h2>
           </div>
-          <a href="/anime" className="text-sm font-semibold text-primary hover:underline">عرض الكل</a>
+          <a href="/anime" className="text-sm font-semibold text-primary hover:underline">View all</a>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {storiesPages.map((story) => (
@@ -124,33 +120,45 @@ function Home() {
                 )}
               </div>
               <div className="mt-4 flex items-center text-xs font-semibold text-primary">
-                قراءة القصة &larr;
+                Read story &larr;
               </div>
             </a>
           ))}
         </div>
       </div>
 
-      {/* قسم الألعاب */}
       <div className="mx-auto max-w-7xl border-t border-border/60 px-4 py-12 lg:px-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h2 className="font-display text-2xl font-bold text-accent">Latest gaming guides & hubs</h2>
           <a href="/gaming-hub" className="text-sm font-semibold text-accent hover:underline">Explore games</a>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {gamePages.map((page) => (
-            <a
-              key={page.slug}
-              href={`/games/${page.slug}`}
-              className="rounded-2xl border border-border/60 bg-card/70 p-5 text-sm font-semibold transition hover:border-accent/60 hover:bg-card"
-            >
-              {page.title || page.name}
-            </a>
-          ))}
+          {gamePages.map((game) => {
+            const gameTitle = game.title_ar || game.title;
+            const gameSlug = game.slug_ar || game.slug;
+            return (
+              <a
+                key={game.slug}
+                href={`/games/${gameSlug}`}
+                className="rounded-2xl border border-border/60 bg-card/70 p-5 transition hover:border-accent/60 hover:bg-card flex flex-col justify-between"
+              >
+                <div>
+                  <h3 className="font-display text-base font-bold line-clamp-1">{gameTitle}</h3>
+                  {game.description_ar && (
+                    <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{game.description_ar}</p>
+                  )}
+                </div>
+                {game.target_market && (
+                  <span className="mt-3 inline-block rounded bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent w-fit">
+                    {game.target_market}
+                  </span>
+                )}
+              </a>
+            );
+          })}
         </div>
       </div>
 
-      {/* قسم أدلة الأنمي */}
       <div className="mx-auto max-w-7xl border-t border-border/60 px-4 py-12 lg:px-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h2 className="font-display text-2xl font-bold text-primary">Latest anime guides & reviews</h2>

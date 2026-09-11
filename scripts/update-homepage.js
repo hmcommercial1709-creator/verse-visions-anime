@@ -1,4 +1,19 @@
-import { Link } from '@tanstack/react-router';
+import fs from 'fs';
+import path from 'path';
+
+const possiblePaths = [
+    path.join(process.cwd(), 'src', 'routes', 'index.tsx'),
+    path.join(process.cwd(), 'src', 'pages', 'index.tsx'),
+    path.join(process.cwd(), 'src', 'App.tsx')
+];
+
+let targetPath = possiblePaths.find(p => fs.existsSync(p));
+if (!targetPath) {
+    targetPath = path.join(process.cwd(), 'src', 'routes', 'index.tsx');
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+}
+
+const homepageContent = `import { Link } from '@tanstack/react-router';
 
 export default function Home() {
   return (
@@ -125,3 +140,7 @@ export default function Home() {
     </div>
   );
 }
+`;
+
+fs.writeFileSync(targetPath, homepageContent, 'utf8');
+console.log('✅ Homepage updated successfully with Anime, Games, and Stories units!');

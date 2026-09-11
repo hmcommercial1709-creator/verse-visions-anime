@@ -26,7 +26,6 @@ export const Route = createFileRoute("/$locale/$")({
     const slug = segments[segments.length - 1] || "nexus-core";
     const category = segments.length > 1 ? segments[0] : "anime";
 
-    // 1. Safe Supabase lookup without breaking (.single() avoided)
     let { data } = await supabase
       .from('anime_nexus_matrix')
       .select('*')
@@ -37,7 +36,6 @@ export const Route = createFileRoute("/$locale/$")({
       return { type: "programmatic", item: data[0] };
     }
 
-    // 2. On-the-fly programmatic generation fallback for the 80,000+ indexed URLs
     const cleanTitle = slug.replace(/-/g, " ");
     const generatedItem = {
       slug,
@@ -124,7 +122,6 @@ export const Route = createFileRoute("/$locale/$")({
   component: function UnifiedMultiverseRouter() {
     const data = Route.useLoaderData() as any;
 
-    // IF IT'S A PROGRAMMATIC PAGE (Fixes the 80,000 empty pages issue completely)
     if (data?.type === "programmatic") {
       const item = data.item;
       return (
@@ -155,10 +152,9 @@ export const Route = createFileRoute("/$locale/$")({
               </div>
             </div>
 
-            {/* Programmatic Affiliate & Internal Linking Engine */}
             <div className="p-6 rounded-3xl bg-primary/10 border border-primary/30 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <h4 className="font-black text-primary text-base">احصل على أكخصم وأكواد الألعاب الحصرية ⚡</h4>
+                <h4 className="font-black text-primary text-base">احصل على خصم وأكواد الألعاب الحصرية ⚡</h4>
                 <p className="text-xs text-muted-foreground">تصفح متجر جيم كاسل للحصول على أرخص مفاتيح الألعاب وبطاقات الشحن.</p>
               </div>
               <a 
@@ -175,12 +171,10 @@ export const Route = createFileRoute("/$locale/$")({
       );
     }
 
-    // OTHERWISE: RENDER THE FULL INTERACTIVE HOMEPAGE
     return <SovereignMultiverseOSHome />;
   },
 });
 
-// Full Homepage Component extracted cleanly
 function SovereignMultiverseOSHome() {
   const [xp, setXp] = useState<number>(() => {
     if (typeof window === "undefined") return 1500;
@@ -193,6 +187,14 @@ function SovereignMultiverseOSHome() {
   
   const [activeWindow, setActiveWindow] = useState<"none" | "chat" | "factions" | "ai_story" | "vault" | "loot_box" | "matchmaker">("none");
   const [activeUsers, setActiveUsers] = useState(7840);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    const slug = searchQuery.trim().toLowerCase().replace(/\s+/g, '-');
+    window.location.href = `/ar/anime/${slug}`;
+  };
 
   const [messages, setMessages] = useState([
     { id: 1, user: "Monarch_Jinwoo", text: "Global SEO crawler indexing speed is maxed out! ⚡", time: "Now" },
@@ -318,8 +320,22 @@ function SovereignMultiverseOSHome() {
         </h1>
 
         <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-          Engineered with multi-language hreflang alternates, automated JSON-LD semantic graphs, and real-time neural monetization loops to capture top rankings and convert traffic instantly.
+          Engineer your traffic with instant programmatic URL generation and live search resolution.
         </p>
+
+        {/* شريط البحث المباشر للموقع */}
+        <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 max-w-xl mx-auto pt-2">
+          <input 
+            type="text" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="ابحث عن أي أنمي أو لعبة لتوليد صفحتها فوراً..." 
+            className="flex-1 px-4 py-3.5 rounded-2xl bg-card/80 border border-primary/30 text-foreground text-sm focus:outline-none focus:border-primary shadow-2xl backdrop-blur-xl"
+          />
+          <button type="submit" className="px-6 py-3.5 bg-primary text-primary-foreground font-black rounded-2xl text-sm shadow-lg hover:opacity-90 transition whitespace-nowrap">
+            بحث 🔍
+          </button>
+        </form>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
           <Link to="/ar/anime" className="p-6 rounded-3xl border border-border bg-card/50 hover:border-primary hover:bg-primary/5 transition font-bold shadow-xl group">

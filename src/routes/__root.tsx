@@ -8,7 +8,6 @@ import {
 } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
-import { OFFERWALL_POLICY_SCRIPT } from "@/lib/offerwall-policy";
 
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
@@ -299,8 +298,6 @@ function RootShell({ children }: { children: ReactNode }) {
       className="dark"
     >
       <head>
-        <script id="gamecastle-offerwall-policy" dangerouslySetInnerHTML={{ __html: OFFERWALL_POLICY_SCRIPT }} />
-        
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-RLW5JD3SM1" />
         <script

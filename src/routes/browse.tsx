@@ -1,43 +1,33 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
+import { useState } from 'react'
 
 export const Route = createFileRoute('/browse')({
   component: BrowseCatalog,
 })
 
-function BrowseCatalog() {
-  const [items, setItems] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState('all')
+const sampleAnime = [
+  { id: 1, title: 'One Piece', genre: 'Action', episodes: '1100+', rating: '9.1', slug: 'one-piece' },
+  { id: 2, title: 'Attack on Titan', genre: 'Action', episodes: '89', rating: '9.0', slug: 'attack-on-titan' },
+  { id: 3, title: 'Fullmetal Alchemist: Brotherhood', genre: 'Adventure', episodes: '64', rating: '9.2', slug: 'fullmetal-alchemist' },
+  { id: 4, title: 'Hunter x Hunter', genre: 'Adventure', episodes: '148', rating: '9.1', slug: 'hunter-x-hunter' },
+  { id: 5, title: 'Demon Slayer', genre: 'Action', episodes: '55', rating: '8.7', slug: 'demon-slayer' },
+  { id: 6, title: 'Frieren: Beyond Journey\'s End', genre: 'Fantasy', episodes: '28', rating: '9.0', slug: 'frieren' },
+  { id: 7, title: 'Jujutsu Kaisen', genre: 'Action', episodes: '47', rating: '8.6', slug: 'jujutsu-kaisen' },
+  { id: 8, title: 'Solo Leveling', genre: 'Action', episodes: '12', rating: '8.5', slug: 'solo-leveling' },
+]
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true)
-      let query = supabase.from('anime').select('*').limit(50)
-      if (filter !== 'all') {
-        query = query.eq('genre', filter)
-      }
-      const { data, error } = await query
-      if (!error && data) {
-        setItems(data)
-      }
-      setLoading(false)
-    }
-    fetchData()
-  }, [filter])
+function BrowseCatalog() {
+  const [filter, setFilter] = useState('all')
+  const filteredItems = filter === 'all' ? sampleAnime : sampleAnime.filter(i => i.genre === filter)
 
   return (
     <div className="min-h-screen bg-[#0b0f19] text-white p-6 md:p-12" dir="rtl">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-rose-500">تصفح الأنمي والقصص والتصنيفات</h1>
+        <h1 className="text-3xl font-bold mb-2 text-rose-500">تصفح الأنمي والقصص والوِحدات</h1>
+        <p className="text-gray-400 mb-8">قائمة كاملة بالأنميات والقصص المتاحة للمشاهدة الفورية والضغط المباشر.</p>
         
         <div className="flex flex-wrap gap-3 mb-8">
-          {['all', 'Action', 'Adventure', 'Fantasy', 'Drama', 'Sci-Fi'].map((genre) => (
+          {['all', 'Action', 'Adventure', 'Fantasy'].map((genre) => (
             <button
               key={genre}
               onClick={() => setFilter(genre)}
@@ -50,31 +40,24 @@ function BrowseCatalog() {
           ))}
         </div>
 
-        {loading ? (
-          <div className="text-center py-20 text-gray-400">جاري جلب المحتوى من قاعدة البيانات...</div>
-        ) : items.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">لا توجد عناصر متاحة في هذا التصنيف حالياً.</div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {items.map((item) => (
-              <a
-                key={item.id || item.slug}
-                href={`/${item.slug}`}
-                className="bg-[#13182b] border border-[#1f293d] rounded-xl p-3 hover:border-rose-500 transition group block"
-              >
-                <div className="aspect-[3/4] bg-[#1a2238] rounded-lg mb-3 overflow-hidden relative">
-                  {item.image_url ? (
-                    <img src={item.image_url} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition" />
-                  ) : (
-                    <div className="flex items-center justify-center h-full text-gray-500 text-xs">GameCastle</div>
-                  )}
-                </div>
-                <h3 className="font-bold text-sm truncate group-hover:text-rose-400">{item.title || item.name}</h3>
-                <span className="text-xs text-gray-400 mt-1 block">{item.genre || 'أنمي'}</span>
-              </a>
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
+          {filteredItems.map((item) => (
+            <div
+              key={item.id}
+              className="bg-[#13182b] border border-[#1f293d] rounded-xl p-4 hover:border-rose-500 transition group block shadow-lg"
+            >
+              <div className="aspect-[16/9] bg-[#1a2238] rounded-lg mb-3 overflow-hidden relative flex items-center justify-center">
+                <span className="text-rose-400 font-bold text-lg">{item.title}</span>
+              </div>
+              <h3 className="font-bold text-base text-white group-hover:text-rose-400 mb-1">{item.title}</h3>
+              <div className="flex justify-between items-center text-xs text-gray-400 mt-2">
+                <span>التصنيف: {item.genre}</span>
+                <span className="text-amber-400 font-bold">⭐ {item.rating}</span>
+              </div>
+              <span className="text-xs text-gray-500 mt-1 block">الحلقات: {item.episodes}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

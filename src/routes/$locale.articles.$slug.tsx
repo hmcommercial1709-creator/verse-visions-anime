@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 
-export const Route = createFileRoute("/$locale/articles")({
+export const Route = createFileRoute("/$locale/articles/$slug")({
   loader: async () => {
     // جلب القصص والمقالات من Supabase مع جلب كميات كبيرة
     const { data, error } = await supabase

@@ -8,11 +8,11 @@ export const Route = createFileRoute("/sitemap-anime.xml")({
       GET: async () => {
         const xmlContent = urlsetXml(partitionEntries("anime"));
         return new Response(xmlContent, {
+          status: 200,
           headers: {
             "Content-Type": "application/xml; charset=utf-8",
-            "Cache-Control": "public, max-age=3600",
           },
-        });
+        }) as any;
       } 
     } 
   },

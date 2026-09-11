@@ -9,27 +9,35 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/")({
   loader: async () => {
     try {
-      // تم التعديل للاستعلام من جدول anime_nexus_matrix (31,250 سجل حقيقي)
+      // 1. جلب الأنمي من anime_nexus_matrix
       const { data: animeData } = await supabase
         .from("anime_nexus_matrix")
-        .select("slug, title, name")
+        .select("slug, title, name, image")
         .limit(8);
 
-      // الاستعلام من جدول الألعاب game_nexus_matrix (50,000 سجل حقيقي)
+      // 2. جلب الألعاب من game_nexus_matrix
       const { data: gamesData } = await supabase
         .from("game_nexus_matrix")
         .select("slug, title, name")
         .limit(8);
 
+      // 3. جلب القصص والمسودات من anime_content_drafts (الـ 4,999 سجل)
+      const { data: storiesData } = await supabase
+        .from("anime_content_drafts")
+        .select("slug, title, description, image")
+        .limit(8);
+
       return {
         animePages: animeData || [],
         gamePages: gamesData || [],
+        storiesPages: storiesData || [],
       };
     } catch (error) {
       console.error("Home loader error:", error);
       return {
         animePages: [],
         gamePages: [],
+        storiesPages: [],
       };
     }
   },
@@ -47,7 +55,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { animePages, gamePages } = Route.useLoaderData();
+  const { animePages, gamePages, storiesPages } = Route.useLoaderData();
   const trending = publishedAnime()
     .slice()
     .sort((a, b) => b.rating - a.rating)
@@ -88,6 +96,42 @@ function Home() {
 
       <HomeStorePromo />
 
+      {/* قسم القصص والمسودات الجديد (من جدول anime_content_drafts) */}
+      <div className="mx-auto max-w-7xl border-t border-border/60 px-4 py-12 lg:px-6">
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-primary">Exclusive Stories & Drafts</p>
+            <h2 className="mt-1 font-display text-2xl font-bold">أحدث القصص والمسودات الخاصة بالأنمي</h2>
+          </div>
+          <a href="/anime" className="text-sm font-semibold text-primary hover:underline">عرض الكل</a>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {storiesPages.map((story) => (
+            <a
+              key={story.slug}
+              href={`/anime/${story.slug}`}
+              className="group rounded-2xl border border-border/60 bg-card/70 p-4 transition hover:border-primary/60 hover:bg-card flex flex-col justify-between"
+            >
+              <div>
+                {story.image && (
+                  <div className="mb-3 aspect-video overflow-hidden rounded-xl bg-secondary/60">
+                    <img src={story.image} alt={story.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                  </div>
+                )}
+                <h3 className="font-display text-base font-bold line-clamp-2 text-foreground group-hover:text-primary transition">{story.title}</h3>
+                {story.description && (
+                  <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{story.description}</p>
+                )}
+              </div>
+              <div className="mt-4 flex items-center text-xs font-semibold text-primary">
+                قراءة القصة &larr;
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* قسم الألعاب */}
       <div className="mx-auto max-w-7xl border-t border-border/60 px-4 py-12 lg:px-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h2 className="font-display text-2xl font-bold text-accent">Latest gaming guides & hubs</h2>
@@ -106,6 +150,7 @@ function Home() {
         </div>
       </div>
 
+      {/* قسم أدلة الأنمي */}
       <div className="mx-auto max-w-7xl border-t border-border/60 px-4 py-12 lg:px-6">
         <div className="mb-6 flex items-center justify-between gap-4">
           <h2 className="font-display text-2xl font-bold text-primary">Latest anime guides & reviews</h2>

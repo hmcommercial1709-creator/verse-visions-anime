@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { HarborGame } from "@/components/harbor-game";
 import { HomeStage } from "@/components/home-stage";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStorePromo } from "@/components/home-store-promo";
@@ -16,7 +15,7 @@ export const Route = createFileRoute("/")({
 
       const { data: gamesData } = await supabase
         .from("game_nexus_matrix")
-        .select("slug, slug_ar, title, title_ar, description_ar, target_market")
+        .select("slug, slug_ar, title, title_ar, description_ar")
         .limit(8);
 
       const { data: storiesData } = await supabase
@@ -61,7 +60,6 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <HarborGame />
       <HomeStage trending={trending} />
 
       <div className="border-b border-border/50 bg-background">
@@ -148,11 +146,6 @@ function Home() {
                     <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{game.description_ar}</p>
                   )}
                 </div>
-                {game.target_market && (
-                  <span className="mt-3 inline-block rounded bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent w-fit">
-                    {game.target_market}
-                  </span>
-                )}
               </a>
             );
           })}

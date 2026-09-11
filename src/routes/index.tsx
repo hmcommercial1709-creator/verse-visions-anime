@@ -1,127 +1,126 @@
-import { Link } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router'
+import { useState, useMemo } from 'react'
 
-export default function Home() {
+export const Route = createFileRoute('/')({
+  component: HomePage,
+})
+
+const generateLibrary = (category: string, count: number) => {
+  return Array.from({ length: count }, (_, i) => {
+    const id = i + 1
+    return {
+      id,
+      title: `${category} Masterpiece Edition #${id}`,
+      description: `Complete archive and streaming details for ${category.toLowerCase()} item #${id}. High-speed access and interactive database records.`,
+      slug: `${category.toLowerCase()}-item-${id}`,
+      category: category.toLowerCase(),
+      rating: (7.5 + (i % 25) / 10).toFixed(1),
+      metaInfo: category === 'anime' ? `${(i % 50) + 12} Episodes` : category === 'games' ? `Instant Key #${id}` : `Chapter #${id}`
+    }
+  })
+}
+
+const masterDatabase = {
+  anime: generateLibrary('Anime', 300),
+  games: generateLibrary('Games', 300),
+  stories: generateLibrary('Stories', 300),
+}
+
+function HomePage() {
+  const [activeTab, setActiveTab] = useState<'anime' | 'games' | 'stories'>('anime')
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const currentList = masterDatabase[activeTab]
+
+  const filteredItems = useMemo(() => {
+    if (!searchQuery.trim()) return currentList
+    const query = searchQuery.toLowerCase()
+    return currentList.filter(item => 
+      item.title.toLowerCase().includes(query) || 
+      item.description.toLowerCase().includes(query)
+    )
+  }, [currentList, searchQuery])
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-purple-500 selection:text-white" dir="rtl">
-      {/* Hero Section */}
-      <header className="relative overflow-hidden border-b border-slate-800 bg-gradient-to-b from-purple-950/40 via-slate-950 to-slate-950 py-20 px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
-            🎮 GameCastle Store & Anime Nexus
-          </span>
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-purple-400 via-pink-400 to-amber-400 bg-clip-text text-transparent">
-            عالم الأنمي، الألعاب، والقصص الملحمية
-          </h1>
-          <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto">
-            وجهتك الأولى لأحدث خلفيات الأنمي، بطاقات الألعاب الرقمية، والدليل الشامل لأكثر من 600,000 صفحة مرتبطة بالمحتوى المفضل لديك.
-          </p>
-        </div>
-      </header>
-
-      {/* Main Hub Categories */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Anime Hub */}
-          <div className="group relative bg-slate-900/80 border border-slate-800 rounded-2xl p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 flex flex-col justify-between">
-            <div>
-              <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-400 text-xl font-bold group-hover:scale-110 transition-transform">
-                🌸
-              </div>
-              <h2 className="text-2xl font-bold text-slate-100 mb-3 group-hover:text-purple-400 transition-colors">
-                وحدة الأنمي والخلفيات
-              </h2>
-              <p className="text-slate-400 mb-6 text-sm leading-relaxed">
-                استكشف أضخم مكتبة لخلفيات الأنمي بدقة 8K، عروض الفيديو الترويجية، وأرشيف أشهر السلاسل (One Piece, Jujutsu Kaisen, Attack on Titan والمزيد).
-              </p>
-              <div className="space-y-2 mb-8 text-xs text-slate-400">
-                <div className="flex items-center gap-2"><span>✨</span> خلفيات عمودية للهواتف الذكية</div>
-                <div className="flex items-center gap-2"><span>🎬</span> مقاطع دعائية وتصاميم شخصيات</div>
-              </div>
-            </div>
-            <Link 
-              to="/anime" 
-              className="inline-flex items-center justify-center w-full py-3 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-medium transition-colors shadow-lg shadow-purple-600/20"
-            >
-              استعرض كافة صفحات الأنمي ←
-            </Link>
-          </div>
-
-          {/* Games & Gift Cards Hub */}
-          <div className="group relative bg-slate-900/80 border border-slate-800 rounded-2xl p-8 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/10 flex flex-col justify-between">
-            <div>
-              <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 text-xl font-bold group-hover:scale-110 transition-transform">
-                🎮
-              </div>
-              <h2 className="text-2xl font-bold text-slate-100 mb-3 group-hover:text-cyan-400 transition-colors">
-                وحدة الألعاب والبطاقات
-              </h2>
-              <p className="text-slate-400 mb-6 text-sm leading-relaxed">
-                احصل على أفضل عروض بطاقات الألعاب الرقمية (Steam, PlayStation, Xbox, Roblox, PUBG) مع حاسبات العملات ومراكز الموارد.
-              </p>
-              <div className="space-y-2 mb-8 text-xs text-slate-400">
-                <div className="flex items-center gap-2"><span>💳</span> بطاقات هدايا الألعاب الرسمية</div>
-                <div className="flex items-center gap-2"><span>⚡</span> أدلة الشحن وأسعار العملات</div>
-              </div>
-            </div>
-            <Link 
-              to="/games" 
-              className="inline-flex items-center justify-center w-full py-3 px-4 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-medium transition-colors shadow-lg shadow-cyan-600/20"
-            >
-              استعرض كافة صفحات الألعاب ←
-            </Link>
-          </div>
-
-          {/* Stories & Manga Hub */}
-          <div className="group relative bg-slate-900/80 border border-slate-800 rounded-2xl p-8 hover:border-amber-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 flex flex-col justify-between">
-            <div>
-              <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2 w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 text-xl font-bold group-hover:scale-110 transition-transform">
-                📖
-              </div>
-              <h2 className="text-2xl font-bold text-slate-100 mb-3 group-hover:text-amber-400 transition-colors">
-                وحدة القصص والمانغا
-              </h2>
-              <p className="text-slate-400 mb-6 text-sm leading-relaxed">
-                أرشيف عميق يضم أكثر من 500,000 قصة وفصل مانغا وتحليلات شاملة لأحداث وشخصيات العوالم الخيالية المختلفة.
-              </p>
-              <div className="space-y-2 mb-8 text-xs text-slate-400">
-                <div className="flex items-center gap-2"><span>📚</span> فصول وقصص متجددة باستمرار</div>
-                <div className="flex items-center gap-2"><span>🔍</span> أدلة تحليلية وتغطيات عميقة</div>
-              </div>
-            </div>
-            <Link 
-              to="/stories" 
-              className="inline-flex items-center justify-center w-full py-3 px-4 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-medium transition-colors shadow-lg shadow-amber-600/20"
-            >
-              استعرض كافة صفحات القصص ←
-            </Link>
-          </div>
-
+    <div className="min-h-screen bg-[#0b0f19] text-white p-6 md:p-12 font-sans">
+      <div className="max-w-6xl mx-auto">
+        
+        <div className="text-center mb-10">
+          <h1 className="text-4xl md:text-6xl font-black text-rose-500 mb-3 tracking-wider">GAMECASTLE NEXUS</h1>
+          <p className="text-gray-400 text-sm md:text-base">Massive Digital Library: Seamlessly interconnected Anime, Games, and Stories.</p>
         </div>
 
-        {/* Programmatic SEO Quick Discovery Section */}
-        <div className="mt-16 bg-slate-900/40 border border-slate-800/80 rounded-2xl p-8 text-center">
-          <h3 className="text-xl font-semibold text-slate-200 mb-4">فهرس المحتوى الشامل (600,000+ صفحة مرتبطة)</h3>
-          <p className="text-slate-400 text-sm max-w-3xl mx-auto mb-6">
-            اضغط على أي من المواضيع أدناه للانتقال المباشر إلى الأرشيف المرتبط والصفحات الفرعية المؤرشفة:
-          </p>
-          <div className="flex flex-wrap justify-center gap-3 text-xs">
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-purple-900/50 transition-colors cursor-pointer">One Piece</span>
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-purple-900/50 transition-colors cursor-pointer">Jujutsu Kaisen</span>
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-purple-900/50 transition-colors cursor-pointer">Attack on Titan</span>
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-cyan-900/50 transition-colors cursor-pointer">Steam Cards</span>
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-cyan-900/50 transition-colors cursor-pointer">PlayStation Network</span>
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-cyan-900/50 transition-colors cursor-pointer">Roblox Gift Cards</span>
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-amber-900/50 transition-colors cursor-pointer">Solo Leveling</span>
-            <span className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-amber-900/50 transition-colors cursor-pointer">Dragon Ball</span>
+        <div className="flex justify-center gap-4 mb-8">
+          {(['anime', 'games', 'stories'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => { setActiveTab(tab); setSearchQuery(''); }}
+              className={`px-8 py-4 rounded-xl font-bold text-lg uppercase tracking-wide transition-all shadow-lg ${
+                activeTab === tab 
+                  ? 'bg-rose-600 text-white scale-105 shadow-rose-600/50 ring-2 ring-rose-400' 
+                  : 'bg-[#13182b] text-gray-300 hover:bg-[#1f293d]'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="mb-10">
+          <input
+            type="text"
+            placeholder="Can't find what you want? Type any name or keyword to search the massive library..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-[#13182b] border border-[#1f293d] rounded-xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-rose-500 transition text-base shadow-inner"
+          />
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between bg-[#13182b]/50 border border-[#1f293d] rounded-xl p-4 mb-8 text-sm text-gray-400">
+          <span>Active Category: <strong className="text-rose-400 uppercase">{activeTab}</strong> ({filteredItems.length} items available)</span>
+          <div className="flex gap-4">
+            <span className="cursor-pointer hover:text-white transition" onClick={() => setActiveTab('anime')}>Anime Hub</span>
+            <span>•</span>
+            <span className="cursor-pointer hover:text-white transition" onClick={() => setActiveTab('games')}>Games Hub</span>
+            <span>•</span>
+            <span className="cursor-pointer hover:text-white transition" onClick={() => setActiveTab('stories')}>Stories Hub</span>
           </div>
         </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800 py-8 text-center text-slate-500 text-xs">
-        <p>© 2026 GameCastle Store. جميع الحقوق محفوظة. منصة الأنمي والبطاقات الرقمية الأولى.</p>
-      </footer>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filteredItems.slice(0, 60).map((item) => (
+            <div
+              key={item.id}
+              className="bg-[#13182b] border border-[#1f293d] rounded-xl p-5 hover:border-rose-500 transition-all flex flex-col justify-between shadow-md group"
+            >
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-xs px-2.5 py-1 rounded bg-rose-500/20 text-rose-400 font-bold uppercase">{item.category}</span>
+                  <span className="text-xs text-amber-400 font-bold">⭐ {item.rating}</span>
+                </div>
+                <h3 className="font-bold text-lg text-white group-hover:text-rose-400 transition mb-2">{item.title}</h3>
+                <p className="text-xs text-gray-400 mb-4 line-clamp-2">{item.description}</p>
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-[#1f293d]/50">
+                <span className="text-xs text-gray-500">{item.metaInfo}</span>
+                <a
+                  href={`/${item.slug}`}
+                  className="bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white px-4 py-2 rounded-lg font-semibold text-xs transition"
+                >
+                  Open Page →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filteredItems.length === 0 && (
+          <div className="text-center py-20 text-gray-500">
+            No items found matching "{searchQuery}". Try another keyword or explore our interconnected sections above!
+          </div>
+        )}
+
+      </div>
     </div>
-  );
+  )
 }

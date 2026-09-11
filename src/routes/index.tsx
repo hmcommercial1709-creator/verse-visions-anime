@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { HarborGame } from "@/components/harbor-game";
 import { HomeStage } from "@/components/home-stage";
 import { HeroSlider } from "@/components/hero-slider";
 import { HomeStorePromo } from "@/components/home-store-promo";
@@ -8,14 +9,16 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/")({
   loader: async () => {
     try {
+      // تم التعديل للاستعلام من جدول anime_nexus_matrix (31,250 سجل حقيقي)
       const { data: animeData } = await supabase
-        .from("generated_pages")
-        .select("slug, title")
+        .from("anime_nexus_matrix")
+        .select("slug, title, name")
         .limit(8);
 
+      // الاستعلام من جدول الألعاب game_nexus_matrix (50,000 سجل حقيقي)
       const { data: gamesData } = await supabase
         .from("game_nexus_matrix")
-        .select("slug, title")
+        .select("slug, title, name")
         .limit(8);
 
       return {
@@ -53,6 +56,7 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <HarborGame />
       <HomeStage trending={trending} />
 
       <div className="border-b border-border/50 bg-background">
@@ -93,10 +97,10 @@ function Home() {
           {gamePages.map((page) => (
             <a
               key={page.slug}
-              href={`/${page.slug}`}
+              href={`/games/${page.slug}`}
               className="rounded-2xl border border-border/60 bg-card/70 p-5 text-sm font-semibold transition hover:border-accent/60 hover:bg-card"
             >
-              {page.title}
+              {page.title || page.name}
             </a>
           ))}
         </div>
@@ -111,10 +115,10 @@ function Home() {
           {animePages.map((page) => (
             <a
               key={page.slug}
-              href={`/${page.slug}`}
+              href={`/anime/${page.slug}`}
               className="rounded-2xl border border-border/60 bg-card/70 p-5 text-sm font-semibold transition hover:border-primary/60 hover:bg-card"
             >
-              {page.title}
+              {page.title || page.name}
             </a>
           ))}
         </div>

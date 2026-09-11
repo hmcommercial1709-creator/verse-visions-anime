@@ -3,251 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صراع الجزر: دفاع الميناء التكتيكي | ألعاب أنمي سيبرانية مجانية - Game Castle</title>
-    
-    <!-- Advanced SEO Meta Tags -->
-    <meta name="description" content="العب صراع الجزر، أفضل لعبة استراتيجية أنمي سيبرانية مجانية على منصة Game Castle. قم ببناء دفاعات الميناء، طوّر القواعد، واستخدم نظام الجواهر والفلكس للتطوير الفوري!">
-    <meta name="keywords" content="ألعاب أنمي, صراع الجزر, ألعاب استراتيجية, جيم كاسل, جواهر وفلكس, ألعاب متصفح, خلفيات أنمي, gamecastle">
-    <meta name="author" content="Game Castle">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    <link rel="canonical" href="https://gamecastle.store/games/island-clash">
-
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="صراع الجزر: دفاع الميناء التكتيكي | Game Castle">
-    <meta property="og:description" content="انضم إلى معركة الأنمي السيبرانية، دافع عن جزيرتك، ونافس الأصدقاء بكود الغارة الخاص بك على Game Castle!">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gamecastle.store/games/island-clash">
-    <meta property="og:locale" content="ar_AR">
-    <meta property="og:site_name" content="Game Castle">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="صراع الجزر: دفاع الميناء التكتيكي | Game Castle">
-    <meta name="twitter:description" content="لعبة استراتيجية أنمي سيبرانية مجانية. طوّر قاعدتك الآن واستخدم الجواهر الفورية!">
-
-    <!-- JSON-LD Structured Data: VideoGame & Breadcrumb Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "VideoGame",
-          "@id": "https://gamecastle.store/games/island-clash#game",
-          "name": "صراع الجزر: دفاع الميناء التكتيكي",
-          "url": "https://gamecastle.store/games/island-clash",
-          "inLanguage": "ar",
-          "genre": ["Strategy", "Anime", "Cyberpunk"],
-          "playMode": "SinglePlayer",
-          "applicationCategory": "BrowserGame",
-          "operatingSystem": "All",
-          "description": "لعبة استراتيجية تفاعلية بأسلوب الأنمي السيبراني تتيح بناء وتطوير القواعد الحربية باستخدام نظام الجواهر والفلكس.",
-          "publisher": {
-            "@type": "Organization",
-            "name": "Game Castle",
-            "url": "https://gamecastle.store"
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "الرئيسية",
-              "item": "https://gamecastle.store"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "ألعاب الأنمي الاستراتيجية",
-              "item": "https://gamecastle.store/category/anime-strategy"
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "صراع الجزر",
-              "item": "https://gamecastle.store/games/island-clash"
-            }
-          ]
-        }
-      ]
-    }
-    </script>
-
+    <title>صراع الجزر: الأنمي السيبراني المتقدم | Game Castle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap');
         body { font-family: 'Cairo', sans-serif; background-color: #030712; color: #22d3ee; overflow-x: hidden; }
         .cyber-grid {
-            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-image: radial-gradient(rgba(6, 182, 212, 0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
-        .glow-box { box-shadow: 0 0 30px rgba(6, 182, 212, 0.25); }
-        .radar-sweep { animation: sweep 4s linear infinite; }
+        .neon-glow { box-shadow: 0 0 25px rgba(6, 182, 212, 0.35); }
+        .neon-border { border: 1px solid rgba(6, 182, 212, 0.4); }
+        .radar-line { animation: sweep 3s linear infinite; transform-origin: center; }
         @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
-<body class="min-h-screen cyber-grid flex flex-col justify-between p-4">
+<body class="min-h-screen cyber-grid flex flex-col p-4 md:p-6 gap-6">
 
-    <!-- Top HUD Header -->
-    <header class="flex flex-wrap justify-between items-center bg-[#0B162C]/90 border border-cyan-500/30 p-4 rounded-2xl shadow-xl backdrop-blur-md" role="banner">
+    <!-- Top Status Bar -->
+    <header class="flex flex-wrap justify-between items-center bg-[#090D16]/95 neon-border p-4 rounded-2xl shadow-2xl backdrop-blur-xl">
         <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-400 flex items-center justify-center animate-pulse" aria-hidden="true">
-                <i data-lucide="anchor" class="w-6 h-6 text-cyan-400"></i>
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 neon-border flex items-center justify-center animate-pulse">
+                <i data-lucide="shield-alert" class="w-6 h-6 text-cyan-400"></i>
             </div>
             <div>
-                <h1 class="text-lg font-black tracking-wider text-white">صراع الجزر: الأنمي السيبراني</h1>
-                <p class="text-xs text-cyan-400/60">Game Castle Tactical Command v6.2 SEO Pro</p>
+                <h1 class="text-base font-black tracking-wider text-white">صراع الجزر: الميناء السيبراني</h1>
+                <p class="text-xs text-cyan-400/70">Game Castle Tactical Core v7.0</p>
             </div>
         </div>
-        <div class="flex items-center gap-3 mt-2 sm:mt-0" aria-label="رصيد الموارد والتحكم بالصوت">
-            <div class="bg-black/50 border border-purple-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2" title="رصيد الجواهر الفورية">
-                <i data-lucide="gem" class="w-4 h-4 text-purple-400" aria-hidden="true"></i>
-                <span id="gem-count" class="text-white font-bold text-sm">3,500</span>
+        <div class="flex items-center gap-4 mt-2 sm:mt-0">
+            <div class="bg-black/60 neon-border px-4 py-2 rounded-xl flex items-center gap-2.5 shadow-inner">
+                <i data-lucide="gem" class="w-4 h-4 text-purple-400 animate-bounce"></i>
+                <span id="gem-count" class="text-white font-black text-sm">3,500</span>
             </div>
-            <div class="bg-black/50 border border-yellow-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2" title="طاقة الفلكس">
-                <i data-lucide="zap" class="w-4 h-4 text-yellow-400" aria-hidden="true"></i>
-                <span id="flux-count" class="text-white font-bold text-sm">1,500</span>
+            <div class="bg-black/60 neon-border px-4 py-2 rounded-xl flex items-center gap-2.5 shadow-inner">
+                <i data-lucide="zap" class="w-4 h-4 text-yellow-400"></i>
+                <span id="flux-count" class="text-white font-black text-sm">1,500</span>
             </div>
-            <button onclick="toggleAudio()" id="audio-btn" class="p-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 rounded-xl transition" aria-label="تشغيل أو إيقاف الصوت">
+            <button onclick="toggleAudio()" id="audio-btn" class="p-2.5 bg-cyan-500/10 hover:bg-cyan-500/20 neon-border rounded-xl transition">
                 <i data-lucide="volume-2" class="w-5 h-5 text-cyan-400"></i>
             </button>
         </div>
     </header>
 
     <!-- Navigation Tabs -->
-    <nav class="flex flex-wrap gap-2 my-4" aria-label="أقسام اللعبة الرئيسية">
-        <button onclick="switchTab('game')" id="tab-game" class="px-4 py-2 rounded-xl font-bold text-xs bg-cyan-500 text-black shadow-lg transition flex items-center gap-2">
-            <i data-lucide="shield" class="w-4 h-4" aria-hidden="true"></i> ساحة المعركة
+    <nav class="flex gap-3 overflow-x-auto pb-1">
+        <button onclick="switchTab('game')" id="tab-game" class="px-5 py-2.5 rounded-xl font-bold text-xs bg-cyan-500 text-black shadow-lg shadow-cyan-500/20 transition flex items-center gap-2">
+            <i data-lucide="crosshair" class="w-4 h-4"></i> ساحة المعركة والتحكم
         </button>
-        <button onclick="switchTab('upgrades')" id="tab-upgrades" class="px-4 py-2 rounded-xl font-bold text-xs bg-[#0B162C] text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10 transition flex items-center gap-2">
-            <i data-lucide="cpu" class="w-4 h-4" aria-hidden="true"></i> ترقيات المنشآت
+        <button onclick="switchTab('upgrades')" id="tab-upgrades" class="px-5 py-2.5 rounded-xl font-bold text-xs bg-[#090D16] text-cyan-400 neon-border hover:bg-cyan-500/10 transition flex items-center gap-2">
+            <i data-lucide="cpu" class="w-4 h-4"></i> ترقية الدفاعات والبناء
         </button>
-        <button onclick="switchTab('store')" id="tab-store" class="px-4 py-2 rounded-xl font-bold text-xs bg-[#0B162C] text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10 transition flex items-center gap-2">
-            <i data-lucide="gift" class="w-4 h-4" aria-hidden="true"></i> متجر الجواهر الفوري
+        <button onclick="switchTab('store')" id="tab-store" class="px-5 py-2.5 rounded-xl font-bold text-xs bg-[#090D16] text-purple-400 border border-purple-500/40 hover:bg-purple-500/10 transition flex items-center gap-2">
+            <i data-lucide="gem" class="w-4 h-4"></i> متجر الجواهر الفوري
         </button>
     </nav>
 
-    <!-- Main Dynamic Area -->
-    <main class="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4" role="main">
+    <!-- Main Content Grid -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <!-- BATTLEGROUND VIEW -->
-        <div id="view-game" class="contents">
-            <div class="bg-[#0B162C]/90 border border-cyan-500/30 p-5 rounded-2xl flex flex-col gap-4 backdrop-blur-md">
-                <h2 class="text-sm font-bold text-white border-b border-cyan-500/20 pb-2 flex items-center gap-2">
-                    <i data-lucide="crosshair" class="w-4 h-4 text-cyan-400" aria-hidden="true"></i> الأوامر القتالية السريعة
-                </h2>
-                <div class="space-y-3">
-                    <button onclick="triggerStrike('VLS Cruise Missile')" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition active:scale-95">
-                        <i data-lucide="zap" class="w-4 h-4" aria-hidden="true"></i> إطلاق صواريخ كروز VLS (تكلفة: 150)
-                    </button>
-                    <button onclick="triggerStrike('Railgun Heavy Strike')" class="w-full bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition active:scale-95">
-                        مدفع ريلجان السيبراني (تكلفة: 250)
-                    </button>
+        <!-- Center Arena (Island View) -->
+        <section id="view-game" class="lg:col-span-8 flex flex-col gap-6">
+            <div class="bg-[#060A13] neon-border rounded-3xl p-6 relative min-h-[440px] flex flex-col justify-between overflow-hidden neon-glow">
+                <!-- Cyberpunk Radar Background Grid -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                    <div class="w-[450px] h-[450px] border border-cyan-500/30 rounded-full absolute"></div>
+                    <div class="w-[280px] h-[280px] border border-cyan-500/30 rounded-full absolute"></div>
+                    <div class="w-[450px] h-[450px] border-r-2 border-cyan-400 rounded-full radar-line absolute"></div>
                 </div>
 
-                <div class="mt-auto bg-black/60 border border-cyan-500/20 p-4 rounded-xl">
-                    <p class="text-white font-bold text-xs mb-2 flex items-center gap-1">
-                        <i data-lucide="radio" class="w-3.5 h-3.5 text-cyan-400" aria-hidden="true"></i> سجل العمليات الحربية:
-                    </p>
-                    <div id="combat-logs" class="space-y-1.5 text-[11px] text-cyan-300/80 max-h-36 overflow-y-auto pr-1">
-                        <p class="border-b border-cyan-950 pb-1">[00:00] النظام الدفاعي نشط وجاهز للأرشفة التكتيكية.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Central Visual Canvas -->
-            <section class="lg:col-span-2 bg-[#060B18] border border-cyan-500/30 rounded-2xl p-6 relative min-h-[480px] flex flex-col justify-between overflow-hidden glow-box" aria-label="رادار المعركة البصري">
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-25" aria-hidden="true">
-                    <div class="w-[500px] h-[500px] border border-cyan-500/40 rounded-full absolute"></div>
-                    <div class="w-[300px] h-[300px] border border-cyan-500/40 rounded-full absolute"></div>
-                    <div class="w-[500px] h-[500px] border-r-2 border-cyan-400 rounded-full radar-sweep absolute origin-center"></div>
-                </div>
-
-                <div class="flex justify-between items-center z-10 bg-red-950/50 border border-red-500/40 px-4 py-2.5 rounded-xl backdrop-blur-sm">
+                <!-- Wave Header Status -->
+                <div class="flex justify-between items-center z-10 bg-red-950/40 border border-red-500/30 px-4 py-2 rounded-xl backdrop-blur-md">
                     <span class="text-xs text-red-400 font-bold flex items-center gap-2">
-                        <i data-lucide="flame" class="w-4 h-4 animate-bounce" aria-hidden="true"></i> هجوم أسطول العدو نشط
+                        <i data-lucide="flame" class="w-4 h-4 animate-bounce"></i> حالة الهجوم: الأسطول المعادي يقترب
                     </span>
-                    <span class="text-xs bg-red-500/20 text-red-300 px-3 py-1 rounded-lg animate-pulse font-bold">موجة تكتيكية</span>
+                    <span class="text-xs bg-red-500/20 text-red-300 px-3 py-1 rounded-lg font-black animate-pulse">موجة تكتيكية #3</span>
                 </div>
 
-                <div class="my-auto py-10 flex flex-col items-center justify-center relative z-10">
-                    <div class="w-40 h-40 rounded-full bg-gradient-to-b from-cyan-500/20 via-blue-600/30 to-purple-600/20 border-2 border-cyan-400 flex items-center justify-center relative shadow-[0_0_50px_rgba(6,182,212,0.4)]">
-                        <div class="w-24 h-24 rounded-full bg-cyan-400/20 animate-ping absolute" aria-hidden="true"></div>
-                        <i data-lucide="shield" class="w-16 h-16 text-cyan-300" aria-hidden="true"></i>
+                <!-- Central Island Visual Artwork -->
+                <div class="my-auto py-6 flex flex-col items-center justify-center relative z-10">
+                    <div class="w-48 h-48 rounded-full bg-gradient-to-b from-cyan-500/20 via-blue-600/30 to-purple-600/20 border-2 border-cyan-400/80 flex items-center justify-center relative shadow-[0_0_60px_rgba(6,182,212,0.3)]">
+                        <div class="w-32 h-32 rounded-full bg-cyan-400/10 pulse-slow absolute"></div>
+                        <i data-lucide="shield-check" class="w-20 h-20 text-cyan-300 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]"></i>
                     </div>
-                    <div class="mt-5 text-center">
-                        <h3 class="text-white font-black tracking-widest text-sm">قلعة الميناء السيبرانية (Port Island Core)</h3>
-                        <p id="island-status-text" class="text-xs text-cyan-400/70 mt-1">طاقة النواة مستقرة وجاهزة للصد</p>
+                    <div class="mt-4 text-center">
+                        <h2 class="text-white font-black tracking-widest text-sm">قلعة الميناء السيبرانية المركزية</h2>
+                        <p class="text-xs text-cyan-400/70 mt-1">درع الأمان نشط والموارد قيد التوليد</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 z-10">
-                    <button onclick="switchTab('store')" class="bg-purple-600 hover:bg-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-1.5">
-                        <i data-lucide="gem" class="w-4 h-4" aria-hidden="true"></i> شراء جواهر وتطوير فوري
+                <!-- Quick Action Footer Inside Arena -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 z-10">
+                    <button onclick="triggerStrike('VLS Cruise Missile')" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-4 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2 active:scale-95">
+                        <i data-lucide="zap" class="w-4 h-4"></i> إطلاق صواريخ كروز (150 فلكس)
                     </button>
-                    <button onclick="shareVictoryRaid()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-black p-2.5 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-1.5">
-                        <i data-lucide="share-2" class="w-4 h-4" aria-hidden="true"></i> مشاركة الغارة والنصر
+                    <button onclick="switchTab('store')" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-4 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2 active:scale-95">
+                        <i data-lucide="gem" class="w-4 h-4"></i> شراء جواهر وتطوير فوري
                     </button>
                 </div>
-            </section>
-        </div>
+            </div>
 
-        <!-- UPGRADES TAB CONTENT -->
-        <div id="view-upgrades" class="hidden lg:col-span-3 bg-[#0B162C]/90 border border-cyan-500/30 p-6 rounded-2xl space-y-5 backdrop-blur-md">
-            <h2 class="text-lg font-black text-white border-b border-cyan-500/20 pb-3 flex items-center gap-2">
-                <i data-lucide="cpu" class="w-5 h-5 text-cyan-400" aria-hidden="true"></i> ترقيات المنشآت والدفاعات العسكرية
+            <!-- Combat Logs Box -->
+            <div class="bg-[#090D16] neon-border p-4 rounded-2xl">
+                <p class="text-white font-bold text-xs mb-2 flex items-center gap-2">
+                    <i data-lucide="radio" class="w-4 h-4 text-cyan-400"></i> سجل القيادة والعمليات:
+                </p>
+                <div id="combat-logs" class="space-y-1 text-xs text-cyan-300/80 max-h-28 overflow-y-auto pr-2">
+                    <p class="border-b border-cyan-950 pb-1">[00:00] نظام الدفاع الاستراتيجي متصل ويعمل بكفاءة.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upgrades & Buildings Panel -->
+        <section id="view-upgrades" class="hidden lg:col-span-4 bg-[#090D16] neon-border p-5 rounded-3xl flex flex-col gap-4">
+            <h2 class="text-sm font-black text-white border-b border-cyan-500/20 pb-3 flex items-center gap-2">
+                <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i> ترقية منشآت الدفاع
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-black/50 border border-cyan-500/20 p-5 rounded-xl flex justify-between items-center">
-                    <div>
-                        <p class="text-white font-bold text-sm">قاعدة الجزيرة المركزية</p>
-                        <p id="up-lvl-core" class="text-xs text-gray-400 mt-1">المستوى الحالي: 1</p>
+            <div class="space-y-3">
+                <div class="bg-black/50 neon-border p-4 rounded-2xl flex flex-col gap-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-white font-bold text-xs">مدفع البرق السيبراني</p>
+                            <p id="up-lvl-core" class="text-[11px] text-cyan-400/70 mt-0.5">المستوى الحالي: 1</p>
+                        </div>
+                        <span class="text-xs bg-yellow-500/20 text-yellow-300 px-2.5 py-1 rounded-lg font-bold">400 فلكس</span>
                     </div>
-                    <div class="flex gap-2">
-                        <button onclick="upgradeFacility('core', 400)" class="bg-cyan-500 hover:bg-cyan-400 text-black px-3 py-2 rounded-lg font-bold text-xs">ترقية (400 فلكس)</button>
-                        <button onclick="instantUpgradeWithGems('قاعدة الجزيرة', 50)" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1"><i data-lucide="gem" class="w-3 h-3" aria-hidden="true"></i> 50 جوهرة</button>
+                    <div class="grid grid-cols-2 gap-2 mt-1">
+                        <button onclick="upgradeFacility('core', 400)" class="bg-cyan-500 hover:bg-cyan-400 text-black py-2 rounded-xl font-bold text-xs transition">ترقية عادية</button>
+                        <button onclick="instantUpgradeWithGems('مدفع البرق', 50)" class="bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-xl font-bold text-xs transition flex items-center justify-center gap-1"><i data-lucide="gem" class="w-3 h-3"></i> 50 جوهرة</button>
                     </div>
                 </div>
-                <div class="bg-black/50 border border-cyan-500/20 p-5 rounded-xl flex justify-between items-center">
-                    <div>
-                        <p class="text-white font-bold text-sm">صوامع صواريخ VLS</p>
-                        <p id="up-lvl-vls" class="text-xs text-gray-400 mt-1">المستوى الحالي: 1</p>
+                <div class="bg-black/50 neon-border p-4 rounded-2xl flex flex-col gap-3">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-white font-bold text-xs">حصن الميناء الحصين</p>
+                            <p id="up-lvl-vls" class="text-[11px] text-cyan-400/70 mt-0.5">المستوى الحالي: 1</p>
+                        </div>
+                        <span class="text-xs bg-yellow-500/20 text-yellow-300 px-2.5 py-1 rounded-lg font-bold">350 فلكس</span>
                     </div>
-                    <div class="flex gap-2">
-                        <button onclick="upgradeFacility('vls', 350)" class="bg-cyan-500 hover:bg-cyan-400 text-black px-3 py-2 rounded-lg font-bold text-xs">ترقية (350 فلكس)</button>
-                        <button onclick="instantUpgradeWithGems('صوامع VLS', 40)" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1"><i data-lucide="gem" class="w-3 h-3" aria-hidden="true"></i> 40 جوهرة</button>
+                    <div class="grid grid-cols-2 gap-2 mt-1">
+                        <button onclick="upgradeFacility('vls', 350)" class="bg-cyan-500 hover:bg-cyan-400 text-black py-2 rounded-xl font-bold text-xs transition">ترقية عادية</button>
+                        <button onclick="instantUpgradeWithGems('حصن الميناء', 40)" class="bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-xl font-bold text-xs transition flex items-center justify-center gap-1"><i data-lucide="gem" class="w-3 h-3"></i> 40 جوهرة</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- STORE TAB (Gems & Instant Exchange) -->
-        <div id="view-store" class="hidden lg:col-span-3 bg-[#0B162C]/90 border border-cyan-500/30 p-6 rounded-2xl space-y-5 backdrop-blur-md">
-            <h2 class="text-lg font-black text-white border-b border-cyan-500/20 pb-3 flex items-center gap-2">
-                <i data-lucide="gift" class="w-5 h-5 text-purple-400" aria-hidden="true"></i> متجر الجواهر وتحويل الموارد الفوري
+        <!-- Store Panel -->
+        <section id="view-store" class="hidden lg:col-span-4 bg-[#090D16] border border-purple-500/40 p-5 rounded-3xl flex flex-col gap-4">
+            <h2 class="text-sm font-black text-white border-b border-purple-500/20 pb-3 flex items-center gap-2">
+                <i data-lucide="gift" class="w-4 h-4 text-purple-400"></i> متجر الجواهر الفوري
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-black/50 border border-purple-500/30 p-5 rounded-xl text-center space-y-4">
-                    <i data-lucide="gem" class="w-10 h-10 text-purple-400 mx-auto animate-pulse" aria-hidden="true"></i>
+            <div class="space-y-3">
+                <div class="bg-black/50 border border-purple-500/30 p-4 rounded-2xl text-center space-y-3">
+                    <i data-lucide="zap" class="w-8 h-8 text-yellow-400 mx-auto animate-pulse"></i>
                     <div>
-                        <p class="text-white font-bold text-sm">حزمة الفلكس السريعة</p>
-                        <p class="text-xs text-purple-300 mt-1">تحويل 100 جوهرة مقابل 500 طاقة فلكس</p>
+                        <p class="text-white font-bold text-xs">حزمة الفلكس السريعة</p>
+                        <p class="text-[11px] text-purple-300 mt-0.5">تحويل 100 جوهرة مقابل 500 طاقة فلكس</p>
                     </div>
                     <button onclick="exchangeGemsForFlux(100, 500)" class="w-full bg-purple-600 hover:bg-purple-500 text-white py-2.5 rounded-xl font-bold text-xs transition shadow-md">شراء فلكس بالجواهر</button>
                 </div>
-                <div class="bg-black/50 border border-purple-500/30 p-5 rounded-xl text-center space-y-4">
-                    <i data-lucide="award" class="w-10 h-10 text-cyan-400 mx-auto animate-pulse" aria-hidden="true"></i>
+                <div class="bg-black/50 border border-purple-500/30 p-4 rounded-2xl text-center space-y-3">
+                    <i data-lucide="award" class="w-8 h-8 text-cyan-400 mx-auto animate-pulse"></i>
                     <div>
-                        <p class="text-white font-bold text-sm">المنحة الملكية اليومية</p>
-                        <p class="text-xs text-cyan-300 mt-1">+500 جوهرة مجانية لدعم تطور الميناء</p>
+                        <p class="text-white font-bold text-xs">المنحة الملكية اليومية</p>
+                        <p class="text-[11px] text-cyan-300 mt-0.5">+500 جوهرة مجانية لدعم الميناء</p>
                     </div>
                     <button onclick="claimDailyGems(500)" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black py-2.5 rounded-xl font-bold text-xs transition shadow-md">استلام الهدية اليومية</button>
                 </div>
             </div>
-        </div>
+        </section>
 
     </main>
 
@@ -264,26 +191,24 @@
         function playSound(type) {
             if (!soundEnabled) return;
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             if (type === 'click') {
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(600, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.08);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
                 gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.08);
             } else if (type === 'victory') {
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(300, audioCtx.currentTime);
                 osc.frequency.setValueAtTime(450, audioCtx.currentTime + 0.15);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
             }
         }
 
@@ -298,12 +223,22 @@
         function switchTab(tab) {
             playSound('click');
             ['game', 'upgrades', 'store'].forEach(t => {
-                document.getElementById(`view-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = "px-4 py-2 rounded-xl font-bold text-xs bg-[#0B162C] text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10 transition flex items-center gap-2";
+                const el = document.getElementById(`view-${t}`);
+                if(el) el.classList.add('hidden');
+                const btn = document.getElementById(`tab-${t}`);
+                if(btn) btn.className = "px-5 py-2.5 rounded-xl font-bold text-xs bg-[#090D16] text-cyan-400 neon-border hover:bg-cyan-500/10 transition flex items-center gap-2";
             });
-            document.getElementById(`view-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-${tab}`).className = "px-4 py-2 rounded-xl font-bold text-xs bg-cyan-500 text-black shadow-lg transition flex items-center gap-2";
-            if(tab === 'game') document.getElementById('view-game').className = "contents";
+            const targetView = document.getElementById(`view-${tab}`);
+            if(targetView) {
+                targetView.classList.remove('hidden');
+                if(tab === 'game') targetView.classList.add('flex');
+            }
+            const targetBtn = document.getElementById(`tab-${tab}`);
+            if(targetBtn) {
+                targetBtn.className = tab === 'store' 
+                    ? "px-5 py-2.5 rounded-xl font-bold text-xs bg-purple-600 text-white shadow-lg shadow-purple-600/20 transition flex items-center gap-2"
+                    : "px-5 py-2.5 rounded-xl font-bold text-xs bg-cyan-500 text-black shadow-lg shadow-cyan-500/20 transition flex items-center gap-2";
+            }
         }
 
         function triggerStrike(name) {
@@ -313,7 +248,7 @@
                 flux -= cost;
                 document.getElementById('flux-count').innerText = flux;
                 const logs = document.getElementById('combat-logs');
-                logs.innerHTML = `<p class="border-b border-cyan-950 pb-1 text-cyan-200">إطلاق ${name} بنجاح!</p>` + logs.innerHTML;
+                logs.innerHTML = `<p class="border-b border-cyan-950 pb-1 text-cyan-200">إطلاق ${name} بنجاح وتدمير سفن العدو!</p>` + logs.innerHTML;
             } else {
                 alert('طاقة الفلكس غير كافية!');
             }
@@ -328,7 +263,7 @@
                 document.getElementById(`up-lvl-${type}`).innerText = `المستوى الحالي: ${upgradeLevels[type]}`;
                 alert(`تمت ترقية المنشأة بنجاح بالموارد العادية!`);
             } else {
-                alert('رصيد الفلكس غير كافٍ. يمكنك استخدام الجواهر للتطوير الفوري!');
+                alert('رصيد الفلكس غير كافٍ. استخدم الجواهر للتطوير الفوري!');
             }
         }
 
@@ -361,14 +296,6 @@
             gems += amount;
             document.getElementById('gem-count').innerText = gems;
             alert(`تم إضافة ${amount} جوهرة ملكية لحسابك بنجاح!`);
-        }
-
-        function shareVictoryRaid() {
-            playSound('victory');
-            const raidCode = "GC-RAID-" + Math.floor(Math.random() * 89999 + 10000);
-            const shareText = `🔥 معركة حية على Game Castle! كود الغارة: ${raidCode} - العب الآن وتحدى أسطولي!`;
-            navigator.clipboard?.writeText(shareText);
-            alert(`📋 تم نسخ رابط الغارة والتحدي:\n\n${shareText}`);
         }
     </script>
 </body>

@@ -42,6 +42,7 @@ import { Route as MerchRouteImport } from './routes/merch'
 import { Route as NewReleasesRouteImport } from './routes/new-releases'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as OpeningsRouteImport } from './routes/openings'
+import { Route as PlayRouteImport } from './routes/play'
 import { Route as PowerScalingRouteImport } from './routes/power-scaling'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
@@ -301,6 +302,11 @@ const NewsRoute = NewsRouteImport.update({
 const OpeningsRoute = OpeningsRouteImport.update({
   id: '/openings',
   path: '/openings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayRoute = PlayRouteImport.update({
+  id: '/play',
+  path: '/play',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PowerScalingRoute = PowerScalingRouteImport.update({
@@ -831,6 +837,7 @@ export interface FileRoutesByFullPath {
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/play': typeof PlayRoute
   '/power-scaling': typeof PowerScalingRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -960,6 +967,7 @@ export interface FileRoutesByTo {
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/play': typeof PlayRoute
   '/power-scaling': typeof PowerScalingRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -1090,6 +1098,7 @@ export interface FileRoutesById {
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
+  '/play': typeof PlayRoute
   '/power-scaling': typeof PowerScalingRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -1222,6 +1231,7 @@ export interface FileRouteTypes {
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/play'
     | '/power-scaling'
     | '/privacy'
     | '/privacy-policy'
@@ -1351,6 +1361,7 @@ export interface FileRouteTypes {
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/play'
     | '/power-scaling'
     | '/privacy'
     | '/privacy-policy'
@@ -1480,6 +1491,7 @@ export interface FileRouteTypes {
     | '/new-releases'
     | '/news'
     | '/openings'
+    | '/play'
     | '/power-scaling'
     | '/privacy'
     | '/privacy-policy'
@@ -1611,6 +1623,7 @@ export interface RootRouteChildren {
   NewReleasesRoute: typeof NewReleasesRoute
   NewsRoute: typeof NewsRoute
   OpeningsRoute: typeof OpeningsRoute
+  PlayRoute: typeof PlayRoute
   PowerScalingRoute: typeof PowerScalingRoute
   PrivacyRoute: typeof PrivacyRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -1924,6 +1937,13 @@ declare module '@tanstack/react-router' {
       path: '/openings'
       fullPath: '/openings'
       preLoaderRoute: typeof OpeningsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play': {
+      id: '/play'
+      path: '/play'
+      fullPath: '/play'
+      preLoaderRoute: typeof PlayRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/power-scaling': {
@@ -2685,6 +2705,7 @@ const rootRouteChildren: RootRouteChildren = {
   NewReleasesRoute: NewReleasesRoute,
   NewsRoute: NewsRoute,
   OpeningsRoute: OpeningsRoute,
+  PlayRoute: PlayRoute,
   PowerScalingRoute: PowerScalingRoute,
   PrivacyRoute: PrivacyRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,

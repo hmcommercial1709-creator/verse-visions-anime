@@ -5,7 +5,6 @@ import { publishedAnime } from "@/lib/content-registry";
 import { publishedArticleList } from "@/data/articles";
 import { supabase } from "@/integrations/supabase/client";
 import { canonicalMeta, websiteSchema, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
-import { FleetCommanderTeaser } from "@/components/fleet-commander/FleetCommanderTeaser";
 
 const ANIME_PREVIEW_LIMIT = 6;
 const GAMES_PREVIEW_LIMIT = 6;
@@ -98,10 +97,6 @@ function HomePage() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-14 lg:px-6">
-        <div className="mb-12">
-          <FleetCommanderTeaser />
-        </div>
-
         {/* Category tabs */}
         <nav aria-label="Browse by category" className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {CATEGORY_TABS.map((tab) => (

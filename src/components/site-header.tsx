@@ -49,6 +49,8 @@ const megaGroups = [
         title: "Discovery",
         links: [
           { to: "/browse", label: "All Anime" },
+          { to: "/catalog/anime", label: "Anime Catalog" },
+          { to: "/catalog/games", label: "Free-to-Play Games" },
           { to: "/seasonal", label: "Seasonal" },
           { to: "/trending", label: "Trending" },
           { to: "/top-rated", label: "Top Rated" },
@@ -193,6 +195,8 @@ const megaGroups = [
 const categoryHubs = [
   { to: "/browse", label: "Anime" },
   { to: "/gaming-hub", label: "Games" },
+  { to: "/catalog/anime", label: "Anime Catalog" },
+  { to: "/catalog/games", label: "Free Games" },
   { to: "/explore", label: "Explore" },
   { to: "/store", label: "Store" },
   { to: "/rewards/anime-wallpapers", label: "🎁 Free Gift" },

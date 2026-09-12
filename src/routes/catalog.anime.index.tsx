@@ -7,10 +7,14 @@ const PATH = "/catalog/anime";
 const MAX_PAGE = 40; // Jikan paginates 25/page; bounded so crawlers can't walk forever.
 
 export const Route = createFileRoute("/catalog/anime/")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    page: Math.min(MAX_PAGE, Math.max(1, Number(search?.page) || 1)),
-  }),
-  loaderDeps: ({ search }) => ({ page: search.page }),
+  // page is omitted entirely on page 1 so the canonical URL stays clean —
+  // otherwise the router normalises /catalog/anime to ?page=1 and the
+  // sitemap ends up listing a URL that redirects.
+  validateSearch: (search: Record<string, unknown>): { page?: number } => {
+    const page = Math.min(MAX_PAGE, Math.max(1, Number(search?.page) || 1));
+    return page > 1 ? { page } : {};
+  },
+  loaderDeps: ({ search }) => ({ page: search.page ?? 1 }),
   loader: async ({ deps }) => {
     const result = await getTopAnime(deps.page);
     if (!result.ok) {

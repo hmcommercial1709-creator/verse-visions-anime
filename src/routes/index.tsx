@@ -75,6 +75,20 @@ const CATEGORY_TABS = [
   },
 ];
 
+/** Live catalogs backed by the public Jikan and FreeToGame APIs. */
+const CATALOG_LINKS = [
+  {
+    to: "/catalog/anime" as const,
+    label: "Anime Catalog",
+    blurb: "Top-rated series with scores, studios and genres — linked to our guides",
+  },
+  {
+    to: "/catalog/games" as const,
+    label: "Free-to-Play Games",
+    blurb: "Free games with platforms, developers and system requirements",
+  },
+];
+
 function HomePage() {
   const { games } = Route.useLoaderData();
   const anime = publishedAnime().slice(0, ANIME_PREVIEW_LIMIT);
@@ -117,6 +131,23 @@ function HomePage() {
                 Browse {tab.label}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>
+            </Link>
+          ))}
+        </nav>
+
+        {/* Live catalogs */}
+        <nav aria-label="Live catalogs" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {CATALOG_LINKS.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="group flex items-center justify-between gap-4 rounded-2xl border border-border/60 bg-card/40 px-5 py-4 card-hover hover:border-primary/50"
+            >
+              <span>
+                <span className="block font-semibold group-hover:text-primary">{item.label}</span>
+                <span className="mt-0.5 block text-xs text-muted-foreground">{item.blurb}</span>
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </Link>
           ))}
         </nav>

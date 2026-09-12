@@ -55,6 +55,7 @@ import { Route as SeasonalRouteImport } from './routes/seasonal'
 import { Route as SitemapAnimeDotxmlRouteImport } from './routes/sitemap-anime[.]xml'
 import { Route as SitemapArDotxmlRouteImport } from './routes/sitemap-ar[.]xml'
 import { Route as SitemapArticlesDotxmlRouteImport } from './routes/sitemap-articles[.]xml'
+import { Route as SitemapCatalogDotxmlRouteImport } from './routes/sitemap-catalog[.]xml'
 import { Route as SitemapCharactersDotxmlRouteImport } from './routes/sitemap-characters[.]xml'
 import { Route as SitemapCodes1DotxmlRouteImport } from './routes/sitemap-codes-1[.]xml'
 import { Route as SitemapCodes2DotxmlRouteImport } from './routes/sitemap-codes-2[.]xml'
@@ -371,6 +372,11 @@ const SitemapArDotxmlRoute = SitemapArDotxmlRouteImport.update({
 const SitemapArticlesDotxmlRoute = SitemapArticlesDotxmlRouteImport.update({
   id: '/sitemap-articles.xml',
   path: '/sitemap-articles.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapCatalogDotxmlRoute = SitemapCatalogDotxmlRouteImport.update({
+  id: '/sitemap-catalog.xml',
+  path: '/sitemap-catalog.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapCharactersDotxmlRoute = SitemapCharactersDotxmlRouteImport.update({
@@ -874,6 +880,7 @@ export interface FileRoutesByFullPath {
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
   '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
+  '/sitemap-catalog.xml': typeof SitemapCatalogDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
   '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
@@ -1008,6 +1015,7 @@ export interface FileRoutesByTo {
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
   '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
+  '/sitemap-catalog.xml': typeof SitemapCatalogDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
   '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
@@ -1143,6 +1151,7 @@ export interface FileRoutesById {
   '/sitemap-anime.xml': typeof SitemapAnimeDotxmlRoute
   '/sitemap-ar.xml': typeof SitemapArDotxmlRoute
   '/sitemap-articles.xml': typeof SitemapArticlesDotxmlRoute
+  '/sitemap-catalog.xml': typeof SitemapCatalogDotxmlRoute
   '/sitemap-characters.xml': typeof SitemapCharactersDotxmlRoute
   '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
@@ -1280,6 +1289,7 @@ export interface FileRouteTypes {
     | '/sitemap-anime.xml'
     | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
+    | '/sitemap-catalog.xml'
     | '/sitemap-characters.xml'
     | '/sitemap-codes-1.xml'
     | '/sitemap-codes-2.xml'
@@ -1414,6 +1424,7 @@ export interface FileRouteTypes {
     | '/sitemap-anime.xml'
     | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
+    | '/sitemap-catalog.xml'
     | '/sitemap-characters.xml'
     | '/sitemap-codes-1.xml'
     | '/sitemap-codes-2.xml'
@@ -1548,6 +1559,7 @@ export interface FileRouteTypes {
     | '/sitemap-anime.xml'
     | '/sitemap-ar.xml'
     | '/sitemap-articles.xml'
+    | '/sitemap-catalog.xml'
     | '/sitemap-characters.xml'
     | '/sitemap-codes-1.xml'
     | '/sitemap-codes-2.xml'
@@ -1684,6 +1696,7 @@ export interface RootRouteChildren {
   SitemapAnimeDotxmlRoute: typeof SitemapAnimeDotxmlRoute
   SitemapArDotxmlRoute: typeof SitemapArDotxmlRoute
   SitemapArticlesDotxmlRoute: typeof SitemapArticlesDotxmlRoute
+  SitemapCatalogDotxmlRoute: typeof SitemapCatalogDotxmlRoute
   SitemapCharactersDotxmlRoute: typeof SitemapCharactersDotxmlRoute
   SitemapCodes1DotxmlRoute: typeof SitemapCodes1DotxmlRoute
   SitemapCodes2DotxmlRoute: typeof SitemapCodes2DotxmlRoute
@@ -2080,6 +2093,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-articles.xml'
       fullPath: '/sitemap-articles.xml'
       preLoaderRoute: typeof SitemapArticlesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-catalog.xml': {
+      id: '/sitemap-catalog.xml'
+      path: '/sitemap-catalog.xml'
+      fullPath: '/sitemap-catalog.xml'
+      preLoaderRoute: typeof SitemapCatalogDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap-characters.xml': {
@@ -2798,6 +2818,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapAnimeDotxmlRoute: SitemapAnimeDotxmlRoute,
   SitemapArDotxmlRoute: SitemapArDotxmlRoute,
   SitemapArticlesDotxmlRoute: SitemapArticlesDotxmlRoute,
+  SitemapCatalogDotxmlRoute: SitemapCatalogDotxmlRoute,
   SitemapCharactersDotxmlRoute: SitemapCharactersDotxmlRoute,
   SitemapCodes1DotxmlRoute: SitemapCodes1DotxmlRoute,
   SitemapCodes2DotxmlRoute: SitemapCodes2DotxmlRoute,

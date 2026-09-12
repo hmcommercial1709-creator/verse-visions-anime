@@ -250,6 +250,8 @@ export function sitemapIndexXml(): string {
     "/sitemap-ar.xml",
     "/sitemap-codes-1.xml",
     "/sitemap-codes-2.xml",
+    // API-backed catalog: game detail URLs plus the paginated anime index.
+    "/sitemap-catalog.xml",
   ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,

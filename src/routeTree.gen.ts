@@ -136,6 +136,10 @@ import { Route as ArBlogRobloxSyriaGuideRouteImport } from './routes/ar.blog.rob
 import { Route as ArExploreIndexRouteImport } from './routes/ar.explore.index'
 import { Route as ArExploreSlugRouteImport } from './routes/ar.explore.$slug'
 import { Route as ArRewardsAnimeWallpapersRouteImport } from './routes/ar.rewards.anime-wallpapers'
+import { Route as CatalogAnimeIndexRouteImport } from './routes/catalog.anime.index'
+import { Route as CatalogAnimeSlugRouteImport } from './routes/catalog.anime.$slug'
+import { Route as CatalogGamesIndexRouteImport } from './routes/catalog.games.index'
+import { Route as CatalogGamesSlugRouteImport } from './routes/catalog.games.$slug'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
@@ -792,6 +796,26 @@ const ArRewardsAnimeWallpapersRoute =
     path: '/ar/rewards/anime-wallpapers',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CatalogAnimeIndexRoute = CatalogAnimeIndexRouteImport.update({
+  id: '/catalog/anime/',
+  path: '/catalog/anime/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogAnimeSlugRoute = CatalogAnimeSlugRouteImport.update({
+  id: '/catalog/anime/$slug',
+  path: '/catalog/anime/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogGamesIndexRoute = CatalogGamesIndexRouteImport.update({
+  id: '/catalog/games/',
+  path: '/catalog/games/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogGamesSlugRoute = CatalogGamesSlugRouteImport.update({
+  id: '/catalog/games/$slug',
+  path: '/catalog/games/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
   id: '/sitemap/$locale/$file',
   path: '/sitemap/$locale/$file',
@@ -927,11 +951,15 @@ export interface FileRoutesByFullPath {
   '/ar/blog/roblox-syria-guide': typeof ArBlogRobloxSyriaGuideRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
+  '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
+  '/catalog/games/$slug': typeof CatalogGamesSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/ar/explore/': typeof ArExploreIndexRoute
+  '/catalog/anime/': typeof CatalogAnimeIndexRoute
+  '/catalog/games/': typeof CatalogGamesIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesByTo {
@@ -1056,11 +1084,15 @@ export interface FileRoutesByTo {
   '/ar/blog/roblox-syria-guide': typeof ArBlogRobloxSyriaGuideRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
+  '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
+  '/catalog/games/$slug': typeof CatalogGamesSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles': typeof LocaleArticlesIndexRoute
   '/$locale/codes': typeof LocaleCodesIndexRoute
   '/ar/anime': typeof ArAnimeIndexRoute
   '/ar/explore': typeof ArExploreIndexRoute
+  '/catalog/anime': typeof CatalogAnimeIndexRoute
+  '/catalog/games': typeof CatalogGamesIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRoutesById {
@@ -1188,11 +1220,15 @@ export interface FileRoutesById {
   '/ar/blog/roblox-syria-guide': typeof ArBlogRobloxSyriaGuideRoute
   '/ar/explore/$slug': typeof ArExploreSlugRoute
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
+  '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
+  '/catalog/games/$slug': typeof CatalogGamesSlugRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
   '/ar/anime/': typeof ArAnimeIndexRoute
   '/ar/explore/': typeof ArExploreIndexRoute
+  '/catalog/anime/': typeof CatalogAnimeIndexRoute
+  '/catalog/games/': typeof CatalogGamesIndexRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
 }
 export interface FileRouteTypes {
@@ -1321,11 +1357,15 @@ export interface FileRouteTypes {
     | '/ar/blog/roblox-syria-guide'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
+    | '/catalog/anime/$slug'
+    | '/catalog/games/$slug'
     | '/sitemap/$locale/$file'
     | '/$locale/articles/'
     | '/$locale/codes/'
     | '/ar/anime/'
     | '/ar/explore/'
+    | '/catalog/anime/'
+    | '/catalog/games/'
     | '/anime/$slug/episode/$num'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1450,11 +1490,15 @@ export interface FileRouteTypes {
     | '/ar/blog/roblox-syria-guide'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
+    | '/catalog/anime/$slug'
+    | '/catalog/games/$slug'
     | '/sitemap/$locale/$file'
     | '/$locale/articles'
     | '/$locale/codes'
     | '/ar/anime'
     | '/ar/explore'
+    | '/catalog/anime'
+    | '/catalog/games'
     | '/anime/$slug/episode/$num'
   id:
     | '__root__'
@@ -1581,11 +1625,15 @@ export interface FileRouteTypes {
     | '/ar/blog/roblox-syria-guide'
     | '/ar/explore/$slug'
     | '/ar/rewards/anime-wallpapers'
+    | '/catalog/anime/$slug'
+    | '/catalog/games/$slug'
     | '/sitemap/$locale/$file'
     | '/$locale/articles/'
     | '/$locale/codes/'
     | '/ar/anime/'
     | '/ar/explore/'
+    | '/catalog/anime/'
+    | '/catalog/games/'
     | '/anime_/$slug/episode/$num'
   fileRoutesById: FileRoutesById
 }
@@ -1699,10 +1747,14 @@ export interface RootRouteChildren {
   ArAnimeSlugRoute: typeof ArAnimeSlugRoute
   ArBlogRobloxSyriaGuideRoute: typeof ArBlogRobloxSyriaGuideRoute
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
+  CatalogAnimeSlugRoute: typeof CatalogAnimeSlugRoute
+  CatalogGamesSlugRoute: typeof CatalogGamesSlugRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   LocaleArticlesIndexRoute: typeof LocaleArticlesIndexRoute
   LocaleCodesIndexRoute: typeof LocaleCodesIndexRoute
   ArAnimeIndexRoute: typeof ArAnimeIndexRoute
+  CatalogAnimeIndexRoute: typeof CatalogAnimeIndexRoute
+  CatalogGamesIndexRoute: typeof CatalogGamesIndexRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
 }
 
@@ -2597,6 +2649,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArRewardsAnimeWallpapersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalog/anime/': {
+      id: '/catalog/anime/'
+      path: '/catalog/anime'
+      fullPath: '/catalog/anime/'
+      preLoaderRoute: typeof CatalogAnimeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog/anime/$slug': {
+      id: '/catalog/anime/$slug'
+      path: '/catalog/anime/$slug'
+      fullPath: '/catalog/anime/$slug'
+      preLoaderRoute: typeof CatalogAnimeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog/games/': {
+      id: '/catalog/games/'
+      path: '/catalog/games'
+      fullPath: '/catalog/games/'
+      preLoaderRoute: typeof CatalogGamesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog/games/$slug': {
+      id: '/catalog/games/$slug'
+      path: '/catalog/games/$slug'
+      fullPath: '/catalog/games/$slug'
+      preLoaderRoute: typeof CatalogGamesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap/$locale/$file': {
       id: '/sitemap/$locale/$file'
       path: '/sitemap/$locale/$file'
@@ -2787,10 +2867,14 @@ const rootRouteChildren: RootRouteChildren = {
   ArAnimeSlugRoute: ArAnimeSlugRoute,
   ArBlogRobloxSyriaGuideRoute: ArBlogRobloxSyriaGuideRoute,
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
+  CatalogAnimeSlugRoute: CatalogAnimeSlugRoute,
+  CatalogGamesSlugRoute: CatalogGamesSlugRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   LocaleArticlesIndexRoute: LocaleArticlesIndexRoute,
   LocaleCodesIndexRoute: LocaleCodesIndexRoute,
   ArAnimeIndexRoute: ArAnimeIndexRoute,
+  CatalogAnimeIndexRoute: CatalogAnimeIndexRoute,
+  CatalogGamesIndexRoute: CatalogGamesIndexRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,
 }
 export const routeTree = rootRouteImport

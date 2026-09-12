@@ -116,7 +116,6 @@ import { Route as StudioSlugRouteImport } from './routes/studio.$slug'
 import { Route as WatchSlugRouteImport } from './routes/watch.$slug'
 import { Route as LocaleAnimeSlugRouteImport } from './routes/$locale.anime.$slug'
 import { Route as LocaleArticlesIndexRouteImport } from './routes/$locale.articles.index'
-import { Route as LocaleArticlesSlugRouteImport } from './routes/$locale.articles.$slug'
 import { Route as LocaleCalcSlugRouteImport } from './routes/$locale.calc.$slug'
 import { Route as LocaleCodesIndexRouteImport } from './routes/$locale.codes.index'
 import { Route as LocaleCodesSlugRouteImport } from './routes/$locale.codes.$slug'
@@ -686,11 +685,6 @@ const LocaleArticlesIndexRoute = LocaleArticlesIndexRouteImport.update({
   path: '/$locale/articles/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocaleArticlesSlugRoute = LocaleArticlesSlugRouteImport.update({
-  id: '/$locale/articles/$slug',
-  path: '/$locale/articles/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LocaleCalcSlugRoute = LocaleCalcSlugRouteImport.update({
   id: '/$locale/calc/$slug',
   path: '/$locale/calc/$slug',
@@ -916,7 +910,6 @@ export interface FileRoutesByFullPath {
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
-  '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
@@ -1046,7 +1039,6 @@ export interface FileRoutesByTo {
   '/explore': typeof ExploreIndexRoute
   '/gaming-hub': typeof GamingHubIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
-  '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
@@ -1179,7 +1171,6 @@ export interface FileRoutesById {
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
-  '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
@@ -1313,7 +1304,6 @@ export interface FileRouteTypes {
     | '/explore/'
     | '/gaming-hub/'
     | '/$locale/anime/$slug'
-    | '/$locale/articles/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
     | '/$locale/product/$slug'
@@ -1443,7 +1433,6 @@ export interface FileRouteTypes {
     | '/explore'
     | '/gaming-hub'
     | '/$locale/anime/$slug'
-    | '/$locale/articles/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
     | '/$locale/product/$slug'
@@ -1575,7 +1564,6 @@ export interface FileRouteTypes {
     | '/explore/'
     | '/gaming-hub/'
     | '/$locale/anime/$slug'
-    | '/$locale/articles/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
     | '/$locale/product/$slug'
@@ -1703,7 +1691,6 @@ export interface RootRouteChildren {
   WatchSlugRoute: typeof WatchSlugRoute
   GamingHubIndexRoute: typeof GamingHubIndexRoute
   LocaleAnimeSlugRoute: typeof LocaleAnimeSlugRoute
-  LocaleArticlesSlugRoute: typeof LocaleArticlesSlugRoute
   LocaleCalcSlugRoute: typeof LocaleCalcSlugRoute
   LocaleCodesSlugRoute: typeof LocaleCodesSlugRoute
   LocaleProductSlugRoute: typeof LocaleProductSlugRoute
@@ -2470,13 +2457,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleArticlesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$locale/articles/$slug': {
-      id: '/$locale/articles/$slug'
-      path: '/$locale/articles/$slug'
-      fullPath: '/$locale/articles/$slug'
-      preLoaderRoute: typeof LocaleArticlesSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$locale/calc/$slug': {
       id: '/$locale/calc/$slug'
       path: '/$locale/calc/$slug'
@@ -2799,7 +2779,6 @@ const rootRouteChildren: RootRouteChildren = {
   WatchSlugRoute: WatchSlugRoute,
   GamingHubIndexRoute: GamingHubIndexRoute,
   LocaleAnimeSlugRoute: LocaleAnimeSlugRoute,
-  LocaleArticlesSlugRoute: LocaleArticlesSlugRoute,
   LocaleCalcSlugRoute: LocaleCalcSlugRoute,
   LocaleCodesSlugRoute: LocaleCodesSlugRoute,
   LocaleProductSlugRoute: LocaleProductSlugRoute,

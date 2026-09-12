@@ -1,15 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
+/** Defensive ceiling so the archive never has to paginate an unbounded catalog. */
+const MAX_GAMES = 1000;
+
 export const Route = createFileRoute("/games")({
   validateSearch: (search: Record<string, unknown>) => ({
-    page: Number(search?.page ?? 1),
+    page: Math.max(1, Number(search?.page) || 1),
   }),
-  loader: async ({ search }) => {
-    const page = Number(search.page) || 1;
+  loaderDeps: ({ search }) => ({ page: search.page }),
+  loader: async ({ deps }) => {
+    const page = deps.page;
     const pageSize = 36;
     const from = (page - 1) * pageSize;
-    const to = from + pageSize - 1;
+    const to = Math.min(from + pageSize - 1, MAX_GAMES - 1);
 
     try {
       const { data, count } = await supabase
@@ -19,7 +23,7 @@ export const Route = createFileRoute("/games")({
 
       return {
         pages: data || [],
-        total: count || 0,
+        total: Math.min(count || 0, MAX_GAMES),
         page,
         pageSize,
       };

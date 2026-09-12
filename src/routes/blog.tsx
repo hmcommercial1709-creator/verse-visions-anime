@@ -20,7 +20,9 @@ const TITLE = "Blog & News Archive";
 const META =
   "Search GameCastle Anime's published English archive: watch orders, power-system guides, reviews, explainers and original analysis.";
 const PER_PAGE = 9;
-const articles = publishedArticleList();
+/** Defensive ceiling so the archive never has to render an unbounded list. */
+const MAX_STORIES = 1500;
+const articles = publishedArticleList().slice(0, MAX_STORIES);
 const categories = populatedCategories();
 
 export const Route = createFileRoute("/blog")({

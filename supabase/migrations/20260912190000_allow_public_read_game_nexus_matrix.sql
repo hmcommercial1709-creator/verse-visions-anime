@@ -17,5 +17,6 @@ grant select (
   sample_review,
   updated_at
 ) on public.game_nexus_matrix to anon, authenticated;
+drop policy if exists game_nexus_matrix_public_read on public.game_nexus_matrix;
 create policy game_nexus_matrix_public_read on public.game_nexus_matrix
   for select to anon, authenticated using (true);

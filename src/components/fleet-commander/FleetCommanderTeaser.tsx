@@ -36,7 +36,7 @@ export function FleetCommanderTeaser() {
         <div className="text-xs font-mono uppercase tracking-widest text-primary mb-1">New — Playable Demo</div>
         <h2 className="text-xl sm:text-2xl font-black mb-1">Fleet Commander</h2>
         <p className="text-sm text-muted-foreground">
-          A quick tactical naval combat demo, playable right here — no download, no account.
+          Build up a naval base, upgrade defenses, and train a fleet — playable right here, no download, no account.
         </p>
       </div>
       <button

@@ -59,6 +59,7 @@ import { Route as SitemapCharactersDotxmlRouteImport } from './routes/sitemap-ch
 import { Route as SitemapCodes1DotxmlRouteImport } from './routes/sitemap-codes-1[.]xml'
 import { Route as SitemapCodes2DotxmlRouteImport } from './routes/sitemap-codes-2[.]xml'
 import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
+import { Route as SitemapIndexDotxmlRouteImport } from './routes/sitemap-index[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
 import { Route as SitemapProductsDotxmlRouteImport } from './routes/sitemap-products[.]xml'
@@ -387,6 +388,11 @@ const SitemapCodes2DotxmlRoute = SitemapCodes2DotxmlRouteImport.update({
 const SitemapEpisodesDotxmlRoute = SitemapEpisodesDotxmlRouteImport.update({
   id: '/sitemap-episodes.xml',
   path: '/sitemap-episodes.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapIndexDotxmlRoute = SitemapIndexDotxmlRouteImport.update({
+  id: '/sitemap-index.xml',
+  path: '/sitemap-index.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapPageRoute = SitemapPageRouteImport.update({
@@ -854,6 +860,7 @@ export interface FileRoutesByFullPath {
   '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap-products.xml': typeof SitemapProductsDotxmlRoute
@@ -984,6 +991,7 @@ export interface FileRoutesByTo {
   '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap-products.xml': typeof SitemapProductsDotxmlRoute
@@ -1115,6 +1123,7 @@ export interface FileRoutesById {
   '/sitemap-codes-1.xml': typeof SitemapCodes1DotxmlRoute
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
+  '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap-products.xml': typeof SitemapProductsDotxmlRoute
@@ -1248,6 +1257,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-1.xml'
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
+    | '/sitemap-index.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap-products.xml'
@@ -1378,6 +1388,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-1.xml'
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
+    | '/sitemap-index.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap-products.xml'
@@ -1508,6 +1519,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-1.xml'
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
+    | '/sitemap-index.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap-products.xml'
@@ -1640,6 +1652,7 @@ export interface RootRouteChildren {
   SitemapCodes1DotxmlRoute: typeof SitemapCodes1DotxmlRoute
   SitemapCodes2DotxmlRoute: typeof SitemapCodes2DotxmlRoute
   SitemapEpisodesDotxmlRoute: typeof SitemapEpisodesDotxmlRoute
+  SitemapIndexDotxmlRoute: typeof SitemapIndexDotxmlRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapPagesDotxmlRoute: typeof SitemapPagesDotxmlRoute
   SitemapProductsDotxmlRoute: typeof SitemapProductsDotxmlRoute
@@ -2056,6 +2069,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-episodes.xml'
       fullPath: '/sitemap-episodes.xml'
       preLoaderRoute: typeof SitemapEpisodesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-index.xml': {
+      id: '/sitemap-index.xml'
+      path: '/sitemap-index.xml'
+      fullPath: '/sitemap-index.xml'
+      preLoaderRoute: typeof SitemapIndexDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap-page': {
@@ -2722,6 +2742,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapCodes1DotxmlRoute: SitemapCodes1DotxmlRoute,
   SitemapCodes2DotxmlRoute: SitemapCodes2DotxmlRoute,
   SitemapEpisodesDotxmlRoute: SitemapEpisodesDotxmlRoute,
+  SitemapIndexDotxmlRoute: SitemapIndexDotxmlRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapPagesDotxmlRoute: SitemapPagesDotxmlRoute,
   SitemapProductsDotxmlRoute: SitemapProductsDotxmlRoute,

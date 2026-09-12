@@ -1,19 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { partitionEntries, urlsetXml } from "@lib/sitemap";
+import { partitionEntries, urlsetXml, xmlResponse } from "@/lib/sitemap";
 
 export const Route = createFileRoute("/sitemap-anime.xml")({
-  server: { 
-    handlers: { 
-      GET: async () => {
-        const xmlContent = urlsetXml(partitionEntries("anime"));
-        return new Response(xmlContent, {
-          status: 200,
-          headers: {
-            "Content-Type": "application/xml; charset=utf-8",
-          },
-        }) as any;
-      } 
-    } 
-  },
+  server: { handlers: { GET: async () => xmlResponse(urlsetXml(partitionEntries("anime"))) } },
 });

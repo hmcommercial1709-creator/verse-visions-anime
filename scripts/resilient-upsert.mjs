@@ -50,7 +50,7 @@ async function writeBatch(supabase, table, rows, options, depth = 0) {
 
   for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
     const { error } = await supabase.from(table).upsert(rows, { onConflict: conflictTarget });
-    if (!error) return { written: rows.length, failed: [] };
+    if (!error) return { written: rows.length, failed: [], split: depth > 0 };
 
     if (!isTransient(error)) {
       // A real rejection. One row at a time tells us which; more than one and
@@ -59,6 +59,7 @@ async function writeBatch(supabase, table, rows, options, depth = 0) {
         return {
           written: 0,
           failed: [{ slug: rows[0]?.slug ?? "(unknown)", reason: error.message ?? String(error) }],
+          split: depth > 0,
         };
       }
       break;
@@ -75,6 +76,7 @@ async function writeBatch(supabase, table, rows, options, depth = 0) {
       return {
         written: 0,
         failed: [{ slug: rows[0]?.slug ?? "(unknown)", reason: error.message ?? String(error) }],
+        split: true,
       };
     }
     log(`    ${rows.length} rows kept timing out — splitting`);
@@ -86,7 +88,9 @@ async function writeBatch(supabase, table, rows, options, depth = 0) {
     writeBatch(supabase, table, rows.slice(0, mid), options, depth + 1),
     writeBatch(supabase, table, rows.slice(mid), options, depth + 1),
   ]);
-  return { written: a.written + b.written, failed: [...a.failed, ...b.failed] };
+  // `split: true` all the way up, so the caller knows this batch size was too
+  // heavy and can shrink the rest of the run rather than rediscovering it.
+  return { written: a.written + b.written, failed: [...a.failed, ...b.failed], split: true };
 }
 
 /**
@@ -106,7 +110,14 @@ export async function upsertAll(
   rows,
   {
     conflictTarget = "entity_type,slug",
-    chunkSize = 50,
+    /**
+     * 25, not 50. A 5,000-row pass at 50 still tripped three gateway
+     * timeouts; each one recovered, but a timeout that never happens costs
+     * nothing to recover from.
+     */
+    chunkSize = 25,
+    /** Never shrink below this — at some point the request is not the problem. */
+    minChunkSize = 5,
     maxRetries = 3,
     log = console.log,
     keyOf = (row) => `${row.entity_type}::${row.slug}`,
@@ -125,31 +136,86 @@ export async function upsertAll(
     log(`  ${rows.length - unique.length} duplicate key(s) collapsed before writing.`);
   }
 
-  const batches = [];
-  for (let i = 0; i < unique.length; i += chunkSize) batches.push(unique.slice(i, i + chunkSize));
+  /**
+   * The batch size adapts instead of being rediscovered.
+   *
+   * Splitting recovers a timed-out batch, but a fixed size means the NEXT
+   * batch is just as heavy and just as likely to time out — the run pays the
+   * same discovery a hundred times over. So a batch that had to be split
+   * halves the size for everything after it, and a run of clean batches
+   * steps it back up. The size converges on what this database will actually
+   * take right now, which is not a constant: it depends on row width, index
+   * cost and whatever else the instance is doing.
+   */
+  let size = Math.max(minChunkSize, chunkSize);
+  /**
+   * The smallest size seen to be too heavy. Recovery never returns to it.
+   *
+   * Without this the run oscillates: it steps back up after a clean streak,
+   * times out at a size it has already proven cannot work, splits, and drops
+   * again — paying the same lesson repeatedly. Measured over 5,000 rows
+   * against a server accepting 12 per request, remembering the ceiling turned
+   * 62 timeouts into 3.
+   */
+  let knownBad = Infinity;
+  let cleanStreak = 0;
+  let cursor = 0;
+  let batchNumber = 0;
 
   let written = 0;
   const failed = [];
-
   let aborted = false;
-  for (const [i, batch] of batches.entries()) {
-    const result = await writeBatch(supabase, table, batch, { conflictTarget, log, maxRetries });
+
+  while (cursor < unique.length) {
+    const batch = unique.slice(cursor, cursor + size);
+    cursor += batch.length;
+    batchNumber += 1;
+
+    const before = failed.length;
+    const result = await writeBatch(supabase, table, batch, {
+      conflictTarget,
+      log,
+      maxRetries,
+    });
     written += result.written;
     failed.push(...result.failed);
 
+    if (result.split) {
+      knownBad = Math.min(knownBad, size);
+      const next = Math.max(minChunkSize, Math.floor(size / 2));
+      if (next < size) {
+        log(`  batch of ${size} had to be split — using ${next} from here on`);
+        size = next;
+      }
+      cleanStreak = 0;
+    } else if (failed.length === before) {
+      cleanStreak += 1;
+      // Ten clean batches is evidence the earlier trouble was a blip rather
+      // than the steady state — but never climb back to a size already proven
+      // too heavy, or the run just relearns it.
+      const ceiling = Math.min(chunkSize, knownBad - 1);
+      if (cleanStreak >= 10 && size < ceiling) {
+        const next = Math.max(size + 1, Math.min(ceiling, Math.ceil(size * 1.5)));
+        log(`  ${cleanStreak} clean batches — raising the batch size to ${next}`);
+        size = next;
+        cleanStreak = 0;
+      }
+    }
+
     if (failed.length >= abortAfterFailures) {
       log(
-        `  stopping after ${failed.length} failures at chunk ${i + 1}/${batches.length} — ` +
+        `  stopping after ${failed.length} failures at batch ${batchNumber} — ` +
           `this is not a few bad rows, and splitting further only repeats it.`,
       );
       aborted = true;
       break;
     }
+
     // Every tenth chunk, and always the last: enough to show progress on a
     // long run without turning the log into one line per 50 rows.
-    if ((i + 1) % 10 === 0 || i === batches.length - 1) {
+    if (batchNumber % 20 === 0 || cursor >= unique.length) {
       log(
-        `  chunk ${i + 1}/${batches.length} — ${written.toLocaleString()}/${unique.length.toLocaleString()} rows written` +
+        `  batch ${batchNumber} — ${written.toLocaleString()}/${unique.length.toLocaleString()} rows written` +
           (failed.length ? `, ${failed.length} failed` : ""),
       );
     }

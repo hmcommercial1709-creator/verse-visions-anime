@@ -40,6 +40,7 @@
 import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 import { resolveMetadataColumn } from "./metadata-column.mjs";
+import { assertCredentials } from "./supabase-preflight.mjs";
 import { annotate } from "./derive-facts.mjs";
 import { writeMatrixIndex } from "./write-matrix-index.mjs";
 import { buildFacetIndex, buildComparisonIndex } from "./facet-index.mjs";
@@ -352,6 +353,11 @@ async function main() {
   let withMetadata = false;
   if (!DRY_RUN) {
     supabase = makeClient();
+    // Credentials first. An unusable key makes every column probe fail, so a
+    // schema conclusion drawn before this passes would be meaningless — which
+    // is exactly how a rotated key spent several runs masquerading as a
+    // missing migration.
+    await assertCredentials(supabase, TABLE, { log });
     withMetadata = await resolveMetadataColumn(supabase, TABLE, {
       requireMetadata: REQUIRE_METADATA,
       log,

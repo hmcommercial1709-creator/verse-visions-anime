@@ -133,3 +133,55 @@ export async function resolveMetadataColumn(
 
   return false;
 }
+
+/* ------------------------------------------------------- optional columns */
+
+/**
+ * Which of these columns public.entities actually has.
+ *
+ * scripts/ingest-catalog.mjs has always treated `categories` and `updated_at`
+ * as optional, probing before writing them. The AniList and Steam ingesters
+ * did not carry that over and always sent `categories`, which is why a run
+ * that had already fetched 5,000 titles, derived every fact and passed 4,571
+ * through the quality gate then failed on:
+ *
+ *     Could not find the 'categories' column of 'entities' in the schema cache
+ *
+ * PostgREST rejects the whole request for one unknown key rather than
+ * ignoring it, so a single absent column loses the entire batch. Probing once
+ * and stripping what is not there costs three queries and makes the write
+ * work against whatever shape the table is in.
+ */
+export async function resolveOptionalColumns(supabase, table, columns, { log = console.log } = {}) {
+  const present = new Set();
+  const missing = [];
+
+  for (const column of columns) {
+    const result = await probeColumn(supabase, table, column, { log: () => {} });
+    if (result.present) {
+      present.add(column);
+    } else if (result.absent) {
+      missing.push(column);
+    } else {
+      throw new Error(
+        `Could not determine whether ${table}.${column} exists.\n` +
+          `  ${result.error?.code ? `[${result.error.code}] ` : ""}${result.error?.message ?? "unknown error"}`,
+      );
+    }
+  }
+
+  log(`Optional columns present: ${[...present].join(", ") || "none"}`);
+  if (missing.length)
+    log(`Optional columns MISSING (values will not be written): ${missing.join(", ")}`);
+  return { present, missing };
+}
+
+/** Drops keys the table does not have, so PostgREST never sees an unknown one. */
+export function stripAbsentColumns(rows, optionalColumns, present) {
+  for (const row of rows) {
+    for (const column of optionalColumns) {
+      if (!present.has(column)) delete row[column];
+    }
+  }
+  return rows;
+}

@@ -34,8 +34,22 @@ export interface DbCatalogItem {
   metadata?: unknown;
 }
 
-const DETAIL_COLUMNS = "slug, name, description, image_url, categories, source_url, source_name";
-const DETAIL_COLUMNS_WITH_METADATA = `${DETAIL_COLUMNS}, metadata`;
+/**
+ * Column sets tried in order, widest first.
+ *
+ * PostgREST fails the whole query for one column the table does not have, so
+ * a single optional column missing takes the entire read with it. `metadata`
+ * and `categories` are both optional in this schema — ingest-catalog.mjs has
+ * always probed for `categories` — and a detail page that silently fell back
+ * to the API because of one absent column is exactly the kind of degradation
+ * that is invisible until someone reads the logs.
+ */
+const DETAIL_COLUMN_SETS = [
+  "slug, name, description, image_url, categories, source_url, source_name, metadata",
+  "slug, name, description, image_url, categories, source_url, source_name",
+  "slug, name, description, image_url, source_url, source_name",
+  "slug, name, description, image_url",
+];
 
 export interface DbCatalogPage {
   items: DbCatalogItem[];
@@ -101,11 +115,14 @@ export async function loadCatalogItemFromDb(
       .eq("slug", slug)
       .maybeSingle();
 
-  // metadata is selected by name, and PostgREST fails the whole query for a
-  // column that does not exist. So ask for it, and retry without it — the
-  // page still renders on a schema that has not had the migration applied.
-  let { data, error } = await read(DETAIL_COLUMNS_WITH_METADATA);
-  if (error) ({ data, error } = await read(DETAIL_COLUMNS));
+  // Widest set first, narrowing on each failure, so the page renders whatever
+  // the table can actually give it rather than nothing at all.
+  let data = null;
+  let error = null;
+  for (const columns of DETAIL_COLUMN_SETS) {
+    ({ data, error } = await read(columns));
+    if (!error) break;
+  }
 
   if (error || !data) return null;
   const row = data as Partial<DbCatalogItem>;

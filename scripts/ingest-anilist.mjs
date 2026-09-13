@@ -39,7 +39,11 @@
 
 import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
-import { resolveMetadataColumn } from "./metadata-column.mjs";
+import {
+  resolveMetadataColumn,
+  resolveOptionalColumns,
+  stripAbsentColumns,
+} from "./metadata-column.mjs";
 import { assertCredentials } from "./supabase-preflight.mjs";
 import { upsertAll } from "./resilient-upsert.mjs";
 import { annotate } from "./derive-facts.mjs";
@@ -71,6 +75,9 @@ const ANILIST_URL = process.env.ANILIST_URL || "https://graphql.anilist.co";
 const PER_PAGE = 50; // AniList's documented maximum
 const CONFLICT_TARGET = process.env.INGEST_CONFLICT_TARGET || "entity_type,slug";
 const CHUNK_SIZE = Number(process.env.INGEST_CHUNK_SIZE ?? 50);
+
+/** Written only when the table actually has them; see metadata-column.mjs. */
+const OPTIONAL_COLUMNS = ["categories", "updated_at"];
 
 /**
  * AniList publishes a 90 requests/minute limit. 1.4s between calls stays
@@ -326,6 +333,7 @@ async function main() {
 
   let supabase = null;
   let withMetadata = false;
+  let optionalColumns = new Set(OPTIONAL_COLUMNS);
   if (!DRY_RUN) {
     supabase = makeClient();
     // Credentials first. An unusable key makes every column probe fail, so a
@@ -337,6 +345,25 @@ async function main() {
       requireMetadata: REQUIRE_METADATA,
       log,
     });
+    // categories and updated_at have always been optional in this schema —
+    // ingest-catalog.mjs probes for them. This script assumed they existed
+    // and lost a whole 5,000-title run to one absent column, because
+    // PostgREST rejects the entire request for a single unknown key.
+    ({ present: optionalColumns } = await resolveOptionalColumns(
+      supabase,
+      TABLE,
+      OPTIONAL_COLUMNS,
+      { log },
+    ));
+    if (!optionalColumns.has("categories")) {
+      log("");
+      log("NOTE: without a categories column, genre pages and the genre facet of");
+      log("the matrix cannot be served. To enable them:");
+      log("    alter table public.entities add column if not exists categories text[];");
+      log("    grant select (categories) on public.entities to anon, authenticated;");
+      log("    notify pgrst, 'reload schema';");
+      log("");
+    }
     log("");
   }
 
@@ -433,6 +460,8 @@ async function main() {
 
   /* -------------------------------------------------------------- 4. write */
 
+  stripAbsentColumns(rows, OPTIONAL_COLUMNS, optionalColumns);
+
   const { written, failed, total, aborted } = await upsertAll(supabase, TABLE, rows, {
     conflictTarget: CONFLICT_TARGET,
     chunkSize: CHUNK_SIZE,
@@ -463,10 +492,15 @@ async function main() {
   // genre is queried out of metadata, so an index written now would publish
   // URLs whose row lookup cannot succeed. They would 404 rather than break,
   // but advertising pages that cannot render is worse than not having them.
-  if (withMetadata) {
+  // Also needs categories: `genre` appears in nearly every allowed
+  // combination, and loadFacetRows queries it with .contains("categories").
+  // Publishing those URLs without the column would advertise pages whose row
+  // lookup cannot succeed — the same mistake as advertising a sitemap before
+  // its data exists.
+  if (withMetadata && optionalColumns.has("categories")) {
     await writeMatrixIndex(supabase, records, "anime", log);
   } else {
-    log("Matrix index skipped — it needs the metadata column to query its facets.");
+    log("Matrix index skipped — it needs the metadata and categories columns to query its facets.");
   }
 
   log(`\nDone. ${written} rows upserted, ${active} of them active.\n`);

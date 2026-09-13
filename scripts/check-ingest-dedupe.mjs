@@ -47,4 +47,41 @@ assert.equal(dedupeByKey([row("anime", "21-x", "a"), row("game", "21-x", "g")]).
 assert.deepEqual(dedupeByKey([]), []);
 assert.equal(dedupeByKey([row("anime", "a", "A"), row("anime", "b", "B")]).length, 2);
 
+/* ------------------------------------------------- verify-catalog-data.mjs */
+
+// The verifier reports on the same key. Its scan must agree with the dedupe
+// above, or the two could disagree about whether the catalog is clean.
+const { findDuplicates, summarise } = await import("./verify-catalog-data.mjs");
+
+assert.deepEqual(findDuplicates([]), []);
+assert.deepEqual(findDuplicates([row("anime", "a"), row("anime", "b")]), []);
+
+// The same slug under two entity_types is not a duplicate, matching dedupeByKey.
+assert.deepEqual(findDuplicates([row("anime", "21-x"), row("game", "21-x")]), []);
+
+const dupes = findDuplicates([
+  row("anime", "a"),
+  row("anime", "a"),
+  row("anime", "a"),
+  row("game", "b"),
+  row("game", "b"),
+]);
+assert.deepEqual(dupes, [
+  { key: "anime::a", count: 3 },
+  { key: "game::b", count: 2 },
+]);
+
+// A batch dedupeByKey has collapsed must leave the verifier nothing to report.
+assert.deepEqual(findDuplicates(dedupeByKey(repeated)), []);
+
+const tally = summarise([
+  { entity_type: "anime", status: "active" },
+  { entity_type: "anime", status: "incomplete" },
+  { entity_type: "anime", status: "draft" },
+  { entity_type: "game", status: "active" },
+]);
+assert.deepEqual(tally.get("anime"), { total: 3, active: 1, incomplete: 1, other: 1 });
+assert.deepEqual(tally.get("game"), { total: 1, active: 1, incomplete: 0, other: 0 });
+
 console.log("Ingestion batch dedupe (entity_type + slug) checks passed.");
+console.log("Catalog verification helpers (duplicate scan, inventory) checks passed.");

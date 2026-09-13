@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getAnime, malIdFromSlug, displayTitle } from "@/lib/catalog/jikan";
+import { getAnime, malIdFromSlug, displayTitle, type JikanAnime } from "@/lib/catalog/jikan";
+import { loadCatalogItemFromDb, type DbCatalogItem } from "@/lib/catalog/db-catalog";
 import { CATALOG_HEADERS } from "@/lib/catalog/http";
 import { publishedAnime } from "@/lib/content-registry";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
@@ -19,19 +20,53 @@ function ownGuideFor(titles: string[]) {
   });
 }
 
+/**
+ * Renders a stored row in the shape the page already expects.
+ *
+ * public.entities predates the ingest script and holds slugs that carry no
+ * MAL id — "a-wild-last-boss-appeared" rather than "52505-a-wild-last-boss".
+ * This route used to 404 the moment a slug had no leading number, so every
+ * such row in the listing led to a dead page. Adapting the row here keeps the
+ * component untouched; the fields the database does not carry (score, episode
+ * count, genres) simply do not render.
+ */
+function fromDbRow(row: DbCatalogItem): JikanAnime {
+  return {
+    mal_id: 0,
+    url: "https://myanimelist.net/",
+    title: row.name,
+    synopsis: row.description ?? null,
+    images: {
+      jpg: { image_url: row.image_url ?? null, large_image_url: row.image_url ?? null },
+    },
+    genres: [],
+    themes: [],
+    studios: [],
+  };
+}
+
 export const Route = createFileRoute("/catalog/anime/$slug")({
   loader: async ({ params }) => {
     const malId = malIdFromSlug(params.slug);
-    if (malId === null) throw notFound();
 
-    const result = await getAnime(malId);
-    if (!result.ok) {
-      if (result.reason === "not_found" || result.reason === "invalid_shape") throw notFound();
-      throw new Error(`Anime unavailable (${result.reason})`);
+    // Jikan first when the slug carries an id, since it is much richer.
+    if (malId !== null) {
+      const result = await getAnime(malId);
+      if (result.ok) {
+        const anime = result.data;
+        const guide = ownGuideFor([anime.title, anime.title_english ?? ""]);
+        return { anime, guideSlug: guide?.slug ?? null, guideTitle: guide?.title ?? null };
+      }
+      // Fall through to the database rather than failing: a row we hold is a
+      // better answer than a 404 Google caches or a 500 on a transient
+      // upstream error.
     }
 
-    const anime = result.data;
-    const guide = ownGuideFor([anime.title, anime.title_english ?? ""]);
+    const row = await loadCatalogItemFromDb("anime", params.slug);
+    if (!row) throw notFound();
+
+    const anime = fromDbRow(row);
+    const guide = ownGuideFor([anime.title]);
     return { anime, guideSlug: guide?.slug ?? null, guideTitle: guide?.title ?? null };
   },
   headers: () => CATALOG_HEADERS,

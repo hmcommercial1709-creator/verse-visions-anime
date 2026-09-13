@@ -78,3 +78,25 @@ export async function countDbCatalogPages(
   if (error || !count) return 0;
   return Math.ceil(count / pageSize);
 }
+
+/** One catalog row by slug, or null when the table has no such row. */
+export async function loadCatalogItemFromDb(
+  entityType: "anime" | "game",
+  slug: string,
+): Promise<DbCatalogItem | null> {
+  const { data, error } = await supabase
+    .from("entities")
+    .select("slug, name, description, image_url")
+    .eq("entity_type", entityType)
+    .eq("status", "active")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  const row = data as Partial<DbCatalogItem>;
+  // Checking the fields the page renders, not just truthiness: a partial row
+  // would otherwise produce a page headed "undefined" with a 200, which
+  // Google files as a soft 404.
+  if (!row.slug || !row.name) return null;
+  return row as DbCatalogItem;
+}

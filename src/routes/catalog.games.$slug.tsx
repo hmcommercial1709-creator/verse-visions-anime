@@ -1,27 +1,56 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getGame, listGames, idFromSlug, gameSlug } from "@/lib/catalog/freetogame";
+import {
+  getGame,
+  listGames,
+  idFromSlug,
+  gameSlug,
+  type FreeToGameDetail,
+} from "@/lib/catalog/freetogame";
+import { loadCatalogItemFromDb, type DbCatalogItem } from "@/lib/catalog/db-catalog";
 import { CATALOG_HEADERS } from "@/lib/catalog/http";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
+
+/** Renders a stored row in the shape the page already expects. */
+function fromDbRow(row: DbCatalogItem): FreeToGameDetail {
+  return {
+    id: 0,
+    title: row.name,
+    thumbnail: row.image_url ?? "",
+    short_description: row.description ?? "",
+    game_url: "",
+    genre: "",
+    platform: "",
+    publisher: "",
+    developer: "",
+    release_date: "",
+  } as FreeToGameDetail;
+}
 
 export const Route = createFileRoute("/catalog/games/$slug")({
   loader: async ({ params }) => {
     const id = idFromSlug(params.slug);
-    if (id === null) throw notFound();
 
-    const game = await getGame(id);
-    if (!game.ok) {
-      if (game.reason === "not_found" || game.reason === "invalid_shape") throw notFound();
-      throw new Error(`Game unavailable (${game.reason})`);
+    // FreeToGame first when the slug carries an id, since it is much richer.
+    if (id !== null) {
+      const game = await getGame(id);
+      if (game.ok) {
+        // Related titles come from the same cached list request the index
+        // uses, so this costs no extra upstream call in practice.
+        const all = await listGames();
+        const related = all.ok
+          ? all.data.filter((g) => g.id !== id && g.genre === game.data.genre).slice(0, 6)
+          : [];
+        return { game: game.data, related };
+      }
+      // Fall through to the database rather than failing.
     }
 
-    // Related titles come from the same cached list request the index uses,
-    // so this costs no extra upstream call in practice.
-    const all = await listGames();
-    const related = all.ok
-      ? all.data.filter((g) => g.id !== id && g.genre === game.data.genre).slice(0, 6)
-      : [];
-
-    return { game: game.data, related };
+    // Rows stored in public.entities carry slugs that may have no numeric id,
+    // and this route used to 404 on sight of one. A row we hold beats a 404
+    // Google caches or a 500 on a transient upstream error.
+    const row = await loadCatalogItemFromDb("game", params.slug);
+    if (!row) throw notFound();
+    return { game: fromDbRow(row), related: [] };
   },
   headers: () => CATALOG_HEADERS,
   head: ({ loaderData, params }) => {
@@ -29,7 +58,8 @@ export const Route = createFileRoute("/catalog/games/$slug")({
     const g = loaderData.game;
     const url = absoluteUrl(`/catalog/games/${params.slug}`);
     const description =
-      g.short_description?.slice(0, 300) ?? `${g.title} — free-to-play ${g.genre} game on ${g.platform}.`;
+      g.short_description?.slice(0, 300) ??
+      `${g.title} — free-to-play ${g.genre} game on ${g.platform}.`;
 
     return {
       meta: [
@@ -60,7 +90,12 @@ export const Route = createFileRoute("/catalog/games/$slug")({
             ...(g.release_date && /^\d{4}-\d{2}-\d{2}$/.test(g.release_date)
               ? { datePublished: g.release_date }
               : {}),
-            offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+            },
           }),
         },
         {
@@ -86,8 +121,13 @@ function GameDetail() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 lg:px-6">
       <nav aria-label="Breadcrumb" className="mb-4 text-xs text-muted-foreground">
-        <Link to="/" className="hover:text-foreground">Home</Link> <span className="mx-1">/</span>
-        <Link to="/catalog/games" className="hover:text-foreground">Game Catalog</Link>{" "}
+        <Link to="/" className="hover:text-foreground">
+          Home
+        </Link>{" "}
+        <span className="mx-1">/</span>
+        <Link to="/catalog/games" className="hover:text-foreground">
+          Game Catalog
+        </Link>{" "}
         <span className="mx-1">/</span> {game.title}
       </nav>
 
@@ -102,8 +142,12 @@ function GameDetail() {
         <div>
           <h1 className="font-display text-3xl font-bold sm:text-4xl">{game.title}</h1>
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
-            <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-primary">{game.genre}</span>
-            <span className="rounded-full border border-border/60 px-3 py-1 text-muted-foreground">{game.platform}</span>
+            <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-primary">
+              {game.genre}
+            </span>
+            <span className="rounded-full border border-border/60 px-3 py-1 text-muted-foreground">
+              {game.platform}
+            </span>
             {game.release_date && (
               <span className="rounded-full border border-border/60 px-3 py-1 text-muted-foreground">
                 Released {game.release_date}
@@ -138,11 +182,21 @@ function GameDetail() {
         <section className="mt-10">
           <h2 className="font-display text-xl font-bold">Minimum system requirements</h2>
           <dl className="mt-3 grid gap-2 rounded-2xl border border-border/60 bg-card/40 p-4 text-sm sm:grid-cols-2">
-            {([["OS", req.os], ["Processor", req.processor], ["Memory", req.memory], ["Graphics", req.graphics], ["Storage", req.storage]] as const)
+            {(
+              [
+                ["OS", req.os],
+                ["Processor", req.processor],
+                ["Memory", req.memory],
+                ["Graphics", req.graphics],
+                ["Storage", req.storage],
+              ] as const
+            )
               .filter(([, value]) => !!value)
               .map(([label, value]) => (
                 <div key={label}>
-                  <dt className="text-xs uppercase tracking-wider text-muted-foreground">{label}</dt>
+                  <dt className="text-xs uppercase tracking-wider text-muted-foreground">
+                    {label}
+                  </dt>
                   <dd>{value}</dd>
                 </div>
               ))}
@@ -171,7 +225,12 @@ function GameDetail() {
 
       <p className="mt-10 text-xs text-muted-foreground">
         Game data from the{" "}
-        <a href={game.freetogame_profile_url} rel="noopener noreferrer nofollow" target="_blank" className="underline">
+        <a
+          href={game.freetogame_profile_url}
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+          className="underline"
+        >
           FreeToGame
         </a>{" "}
         public API.

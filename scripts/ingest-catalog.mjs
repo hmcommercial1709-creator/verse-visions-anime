@@ -45,6 +45,7 @@
  * Node cannot find the script file itself.
  */
 import { readFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 
 if (!globalThis.fetch) {
   console.error(
@@ -158,7 +159,10 @@ function chunk(items, size) {
 
 async function getJson(url, attempt = 1) {
   const res = await fetch(url, {
-    headers: { Accept: "application/json", "User-Agent": "GameCastle/1.0 (+https://gamecastle.store)" },
+    headers: {
+      Accept: "application/json",
+      "User-Agent": "GameCastle/1.0 (+https://gamecastle.store)",
+    },
     signal: AbortSignal.timeout(20000),
   });
   if (res.status === 429 && attempt <= 5) {
@@ -185,12 +189,17 @@ function incompletenessReasons(record) {
     reasons.push(`summary under ${MIN_SUMMARY_CHARS} chars`);
   }
   if (!record.image_url || !/^https?:\/\//i.test(record.image_url)) reasons.push("missing image");
-  if (!Array.isArray(record.categories) || record.categories.length === 0) reasons.push("no categories");
+  if (!Array.isArray(record.categories) || record.categories.length === 0)
+    reasons.push("no categories");
   return reasons;
 }
 
 const slugify = (value, id) =>
-  `${id}-${String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60)}`;
+  `${id}-${String(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 60)}`;
 
 /* ----------------------------------------------------------------- sources */
 
@@ -208,7 +217,10 @@ async function* fetchAnime(startPage = 1) {
         [COLUMNS.name]: a.title_english?.trim() || a.title || "",
         [COLUMNS.description]: (a.synopsis ?? "").trim(),
         [COLUMNS.imageUrl]:
-          a.images?.webp?.large_image_url || a.images?.jpg?.large_image_url || a.images?.jpg?.image_url || "",
+          a.images?.webp?.large_image_url ||
+          a.images?.jpg?.large_image_url ||
+          a.images?.jpg?.image_url ||
+          "",
         [COLUMNS.entityType]: "anime",
         [COLUMNS.sourceName]: "MyAnimeList (Jikan)",
         [COLUMNS.sourceUrl]: a.url ?? "",
@@ -269,11 +281,34 @@ function makeClient() {
         "      npm run ingest:catalog -- --dry-run",
     );
   }
-  return createClient(resolveUrl(), key, { auth: { persistSession: false, autoRefreshToken: false } });
+  return createClient(resolveUrl(), key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }
 
 /** Set false the first time Postgres tells us the conflict target has no index. */
 let conflictTargetUsable = true;
+
+/** Composite identity of a row, matching CONFLICT_TARGET. */
+const rowKey = (row) => `${row[COLUMNS.entityType]}::${row[COLUMNS.slug]}`;
+
+/**
+ * Collapses rows sharing a conflict key, keeping the last occurrence.
+ *
+ * Postgres rejects an INSERT ... ON CONFLICT DO UPDATE whose VALUES list
+ * contains the same key twice (21000, "cannot affect row a second time"),
+ * because it will not update one row twice in a single command. Upstream
+ * genuinely produces repeats — Jikan's paginated /top/anime can return the
+ * same mal_id on more than one page as the ranking shifts between requests
+ * — so the batch is collapsed immediately before every write. The
+ * read-then-write fallback needs this too: it would otherwise try to insert
+ * the same key twice, or issue two updates for one row.
+ */
+function dedupeByKey(rows) {
+  const byKey = new Map();
+  for (const row of rows) byKey.set(rowKey(row), row);
+  return [...byKey.values()];
+}
 
 /**
  * Writes rows, preferring a real ON CONFLICT upsert.
@@ -285,7 +320,10 @@ let conflictTargetUsable = true;
  * request per existing row — so the index is still the right fix and the
  * warning says so once.
  */
-async function upsertRows(supabase, rows) {
+async function upsertRows(supabase, unsafeRows) {
+  // Deduped here rather than only at the call site, so every path into a
+  // write — chunk flush, preflight probe, fallback — is covered.
+  const rows = dedupeByKey(unsafeRows);
   if (rows.length === 0) return;
 
   if (conflictTargetUsable) {
@@ -318,12 +356,13 @@ async function readThenWrite(supabase, rows) {
     .in(COLUMNS.slug, slugs);
   if (readError) throw new Error(readError.message);
 
-  const seen = new Set((existing ?? []).map((r) => `${r[COLUMNS.entityType]} ${r[COLUMNS.slug]}`));
+  // Existing rows come back with the same column names, so rowKey reads both
+  // sides identically and the two halves can never disagree on key shape.
+  const seen = new Set((existing ?? []).map(rowKey));
   const inserts = [];
   const updates = [];
   for (const row of rows) {
-    const key = `${row[COLUMNS.entityType]} ${row[COLUMNS.slug]}`;
-    (seen.has(key) ? updates : inserts).push(row);
+    (seen.has(rowKey(row)) ? updates : inserts).push(row);
   }
 
   if (inserts.length) {
@@ -385,11 +424,7 @@ async function preflight(supabase) {
         `Adjust the COLUMNS map at the top of this script to match your schema.`,
     );
   }
-  await supabase
-    .from(TABLE)
-    .delete()
-    .eq(COLUMNS.slug, probeSlug)
-    .eq(COLUMNS.entityType, "probe");
+  await supabase.from(TABLE).delete().eq(COLUMNS.slug, probeSlug).eq(COLUMNS.entityType, "probe");
 
   return optional;
 }
@@ -405,10 +440,14 @@ async function loadCursor(supabase, source) {
 }
 
 async function saveCursor(supabase, source, page) {
-  await supabase
-    .from(STATE_TABLE)
-    .upsert({ key: `${STATE_KEY_PREFIX}${source}`, value: { page }, updated_at: new Date().toISOString() },
-      { onConflict: "key" });
+  await supabase.from(STATE_TABLE).upsert(
+    {
+      key: `${STATE_KEY_PREFIX}${source}`,
+      value: { page },
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "key" },
+  );
 }
 
 /* -------------------------------------------------------------------- main */
@@ -451,10 +490,13 @@ async function ingest(source, supabase, optional) {
   if (startPage > 1) log(`  resuming from page ${startPage}`);
 
   const generator = source === "anime" ? fetchAnime(startPage) : fetchGames();
-  const stats = { fetched: 0, active: 0, incomplete: 0, written: 0 };
+  const stats = { fetched: 0, active: 0, incomplete: 0, written: 0, duplicates: 0 };
   const reasonCounts = new Map();
   let buffer = [];
   let chunkNo = 0;
+  // Run-level identity set. Per-batch dedupe alone would miss a repeat
+  // that straddles two chunks, which then costs a redundant write.
+  const seenKeys = new Set();
 
   const flush = async () => {
     if (buffer.length === 0) return;
@@ -479,12 +521,24 @@ async function ingest(source, supabase, optional) {
 
   for await (const raw of generator) {
     stats.fetched++;
+    // Checked before toRow: it is toRow that tallies publishable/held-back,
+    // so screening afterwards would count a discarded row against the
+    // quality gate and leave the summary line not adding up.
+    const key = rowKey(raw);
+    if (seenKeys.has(key)) {
+      stats.duplicates++;
+      continue;
+    }
+    seenKeys.add(key);
     buffer.push(toRow(raw, optional, stats, reasonCounts));
     if (buffer.length >= CHUNK_SIZE) await flush();
   }
   await flush();
 
-  log(`  fetched ${stats.fetched} · publishable ${stats.active} · held back ${stats.incomplete}`);
+  log(
+    `  fetched ${stats.fetched} · publishable ${stats.active} · held back ${stats.incomplete}` +
+      (stats.duplicates ? ` · ${stats.duplicates} duplicate(s) collapsed` : ""),
+  );
   for (const [reason, count] of [...reasonCounts].sort((a, b) => b[1] - a[1])) {
     log(`    held back — ${reason}: ${count}`);
   }
@@ -509,9 +563,14 @@ async function main() {
     supabase = makeClient();
     log("Live run — rows will be upserted.\n");
     optional = await preflight(supabase);
-    log(`Preflight OK. Optional columns present: ${
-      Object.entries(optional).filter(([, v]) => v).map(([k]) => k).join(", ") || "none"
-    }`);
+    log(
+      `Preflight OK. Optional columns present: ${
+        Object.entries(optional)
+          .filter(([, v]) => v)
+          .map(([k]) => k)
+          .join(", ") || "none"
+      }`,
+    );
   } else if (hasKey) {
     supabase = makeClient();
     log(
@@ -519,9 +578,14 @@ async function main() {
         "mapping is probed too (one sentinel row is written and immediately deleted).\n",
     );
     optional = await preflight(supabase);
-    log(`Preflight OK. Optional columns present: ${
-      Object.entries(optional).filter(([, v]) => v).map(([k]) => k).join(", ") || "none"
-    }`);
+    log(
+      `Preflight OK. Optional columns present: ${
+        Object.entries(optional)
+          .filter(([, v]) => v)
+          .map(([k]) => k)
+          .join(", ") || "none"
+      }`,
+    );
   } else {
     log(
       "Dry run — no credentials found, so the database is not contacted at all.\n" +
@@ -531,7 +595,7 @@ async function main() {
   }
 
   const sources = SOURCE === "all" ? ["anime", "games"] : [SOURCE];
-  const totals = { fetched: 0, active: 0, incomplete: 0, written: 0 };
+  const totals = { fetched: 0, active: 0, incomplete: 0, written: 0, duplicates: 0 };
 
   for (const source of sources) {
     if (!["anime", "games"].includes(source)) throw new Error(`Unknown source: ${source}`);
@@ -541,13 +605,24 @@ async function main() {
 
   log(
     `\nDone. fetched ${totals.fetched} · publishable ${totals.active} · held back ${totals.incomplete}` +
+      (totals.duplicates ? ` · ${totals.duplicates} duplicate(s) collapsed` : "") +
       `${DRY_RUN ? " · nothing written (dry run)" : ` · upserted ${totals.written}`}`,
   );
-  log("Records marked 'incomplete' stay hidden from the public client by the active_catalog_read policy.");
+  log(
+    "Records marked 'incomplete' stay hidden from the public client by the active_catalog_read policy.",
+  );
 }
 
+// Exported so scripts/check-ingest-dedupe.mjs exercises the shipped functions
+// rather than a copy that could drift out of step with them.
+export { rowKey, dedupeByKey };
+
+// Only run when invoked directly; importing this module for the checks above
+// must not start an ingestion.
+const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
 try {
-  await main();
+  if (invokedDirectly) await main();
 } catch (error) {
   // Operational failures (unreachable host, wrong key, schema mismatch) are
   // expected states, not bugs — report them legibly instead of dumping a

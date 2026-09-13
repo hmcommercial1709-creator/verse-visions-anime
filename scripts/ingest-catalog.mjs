@@ -92,6 +92,14 @@ const COLUMNS = {
   sourceUrl: "source_url",
 };
 
+/**
+ * Natural key for upserts. entities keys on `id`, and slug alone is not
+ * safe: slugs are `{sourceId}-{title}` and both Jikan and FreeToGame use
+ * small integer ids, so the same slug can arise from either source. The
+ * pair is unambiguous and matches the type-scoped catalog routes.
+ */
+const CONFLICT_TARGET = process.env.INGEST_CONFLICT_TARGET || "entity_type,slug";
+
 /** Optional columns, written only if the preflight finds them present. */
 const OPTIONAL_COLUMNS = { categories: "categories", updatedAt: "updated_at" };
 
@@ -264,6 +272,84 @@ function makeClient() {
   return createClient(resolveUrl(), key, { auth: { persistSession: false, autoRefreshToken: false } });
 }
 
+/** Set false the first time Postgres tells us the conflict target has no index. */
+let conflictTargetUsable = true;
+
+/**
+ * Writes rows, preferring a real ON CONFLICT upsert.
+ *
+ * public.entities keys on `id`; slug carries no unique constraint, so
+ * ON CONFLICT has nothing to match and Postgres raises 42P10. Where the
+ * index is missing we fall back to reading the existing keys and splitting
+ * the batch into inserts and updates. That is correct but chattier — one
+ * request per existing row — so the index is still the right fix and the
+ * warning says so once.
+ */
+async function upsertRows(supabase, rows) {
+  if (rows.length === 0) return;
+
+  if (conflictTargetUsable) {
+    const { error } = await supabase.from(TABLE).upsert(rows, { onConflict: CONFLICT_TARGET });
+    if (!error) return;
+    // 42P10 — the conflict target has no matching unique/exclusion constraint.
+    if (error.code !== "42P10" && !/no unique or exclusion constraint/i.test(error.message)) {
+      throw new Error(error.message);
+    }
+    conflictTargetUsable = false;
+    log(
+      `\n  ! No unique index matches (${CONFLICT_TARGET}), so upsert is falling back to\n` +
+        `    read-then-write. This works, but it is slower and races if two ingests run at\n` +
+        `    once. Apply the migration to fix it properly:\n` +
+        `        supabase/migrations/20260913000000_entities_unique_type_slug.sql\n` +
+        `    or run: create unique index concurrently entities_entity_type_slug_key\n` +
+        `              on public.entities (${COLUMNS.entityType}, ${COLUMNS.slug});\n`,
+    );
+  }
+
+  await readThenWrite(supabase, rows);
+}
+
+/** Fallback path: partition the batch against existing keys, then write. */
+async function readThenWrite(supabase, rows) {
+  const slugs = rows.map((r) => r[COLUMNS.slug]);
+  const { data: existing, error: readError } = await supabase
+    .from(TABLE)
+    .select(`${COLUMNS.slug},${COLUMNS.entityType}`)
+    .in(COLUMNS.slug, slugs);
+  if (readError) throw new Error(readError.message);
+
+  const seen = new Set((existing ?? []).map((r) => `${r[COLUMNS.entityType]} ${r[COLUMNS.slug]}`));
+  const inserts = [];
+  const updates = [];
+  for (const row of rows) {
+    const key = `${row[COLUMNS.entityType]} ${row[COLUMNS.slug]}`;
+    (seen.has(key) ? updates : inserts).push(row);
+  }
+
+  if (inserts.length) {
+    const { error } = await supabase.from(TABLE).insert(inserts);
+    if (error) throw new Error(error.message);
+  }
+
+  // Updates have to go one row at a time; bounded concurrency keeps it from
+  // opening hundreds of sockets at once.
+  const CONCURRENCY = 8;
+  for (let i = 0; i < updates.length; i += CONCURRENCY) {
+    const slice = updates.slice(i, i + CONCURRENCY);
+    const results = await Promise.all(
+      slice.map((row) =>
+        supabase
+          .from(TABLE)
+          .update(row)
+          .eq(COLUMNS.slug, row[COLUMNS.slug])
+          .eq(COLUMNS.entityType, row[COLUMNS.entityType]),
+      ),
+    );
+    const failed = results.find((r) => r.error);
+    if (failed) throw new Error(failed.error.message);
+  }
+}
+
 /**
  * Confirms the table is reachable and that our column mapping is accepted,
  * before any real rows are written. Uses a rolled-back-style probe: a single
@@ -291,14 +377,19 @@ async function preflight(supabase) {
     optional[key] = !error;
   }
 
-  const { error: writeError } = await supabase.from(TABLE).upsert(probe, { onConflict: COLUMNS.slug });
-  if (writeError) {
+  try {
+    await upsertRows(supabase, [probe]);
+  } catch (error) {
     throw new Error(
-      `Preflight write to ${TABLE} failed: ${writeError.message}\n` +
+      `Preflight write to ${TABLE} failed: ${error.message}\n` +
         `Adjust the COLUMNS map at the top of this script to match your schema.`,
     );
   }
-  await supabase.from(TABLE).delete().eq(COLUMNS.slug, probeSlug);
+  await supabase
+    .from(TABLE)
+    .delete()
+    .eq(COLUMNS.slug, probeSlug)
+    .eq(COLUMNS.entityType, "probe");
 
   return optional;
 }
@@ -371,8 +462,11 @@ async function ingest(source, supabase, optional) {
     if (DRY_RUN) {
       log(`  [dry-run] chunk ${chunkNo} — ${buffer.length} rows (not written)`);
     } else {
-      const { error } = await supabase.from(TABLE).upsert(buffer, { onConflict: COLUMNS.slug });
-      if (error) throw new Error(`Chunk ${chunkNo} failed after ${stats.written} rows: ${error.message}`);
+      try {
+        await upsertRows(supabase, buffer);
+      } catch (error) {
+        throw new Error(`Chunk ${chunkNo} failed after ${stats.written} rows: ${error.message}`);
+      }
       stats.written += buffer.length;
       log(`  chunk ${chunkNo} — ${buffer.length} rows upserted`);
       if (source === "anime") {

@@ -31,9 +31,11 @@
  *   7. Does the publishable key see active rows and not incomplete ones?
  *      This is what visitors and Googlebot get.
  *
- * Checks 2 and 6 need the service role key and report as skipped without it.
- * A failure never stops the remaining checks, so one run reports everything
- * that is wrong rather than only the first problem.
+ * Checks 2 and 6 are the two that write, so both need the service role key and
+ * both are skipped under --read-only — check 2 included, because the only way
+ * to ask PostgREST whether the index exists is to attempt an upsert. A failure
+ * never stops the remaining checks, so one run reports everything that is
+ * wrong rather than only the first problem.
  *
  * Config comes from the environment, falling back to .env in the repo root,
  * exactly as scripts/ingest-catalog.mjs resolves it. Reads need only the
@@ -171,7 +173,7 @@ async function fetchActiveRows(client, cap) {
   for (let from = 0; rows.length < cap; from += PAGE_SIZE) {
     const { data, error } = await client
       .from(TABLE)
-      .select("slug,name,description,image_url,entity_type,status")
+      .select("slug,name,description,image_url,entity_type,status,source_name")
       .eq("status", "active")
       .order("slug", { ascending: true })
       .range(from, from + PAGE_SIZE - 1);
@@ -278,7 +280,14 @@ async function main() {
   // Probed rather than read from pg_indexes, because PostgREST exposes no
   // catalog view: an upsert naming the conflict target either works or comes
   // back 42P10, which is the exact condition the ingester cares about.
-  if (!admin) {
+  if (READ_ONLY) {
+    // The probe is a write, sentinel or not, and --read-only promises none.
+    // There is no read-only way to ask PostgREST whether the index exists.
+    skip(
+      `Unique index on (${KEY_COLUMNS.join(", ")})`,
+      "--read-only was passed, and the only way to test this is to attempt a write.",
+    );
+  } else if (!admin) {
     skip(
       `Unique index on (${KEY_COLUMNS.join(", ")})`,
       "Needs SUPABASE_SERVICE_ROLE_KEY — the publishable key cannot write.",
@@ -364,7 +373,12 @@ async function main() {
         : `all ${activeRows.length} active row(s)`;
 
     misgraded = activeRows
-      .map((row) => ({ slug: row.slug, entityType: row.entity_type, reasons: gateFailures(row) }))
+      .map((row) => ({
+        slug: row.slug,
+        entityType: row.entity_type,
+        sourceName: row.source_name ?? "(none)",
+        reasons: gateFailures(row),
+      }))
       .filter((r) => r.reasons.length > 0);
 
     if (misgraded.length === 0) {
@@ -381,6 +395,23 @@ async function main() {
         .sort((a, b) => b[1] - a[1])
         .map(([reason, n]) => `  ${reason}: ${n}`)
         .join("\n");
+
+      // By source, because it decides the remedy. Rows from Jikan or
+      // FreeToGame are re-ingestable: the ingester rebuilds their slug from
+      // the source id and upserts over them. Rows from anywhere else carry
+      // slugs the ingester never generates, so no re-ingest will ever match
+      // them — they need their own backfill, or removing.
+      const bySource = new Map();
+      for (const row of misgraded) {
+        bySource.set(row.sourceName, (bySource.get(row.sourceName) ?? 0) + 1);
+      }
+      const sources = [...bySource.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .map(([source, n]) => {
+          const reingestable = source === "Jikan" || source === "FreeToGame";
+          return `  ${source}: ${n}${reingestable ? " (re-ingest fills these)" : " (re-ingest will NOT match these)"}`;
+        })
+        .join("\n");
       const examples = misgraded
         .slice(0, 5)
         .map((m) => `  ${m.slug}: ${m.reasons.join(", ")}`)
@@ -390,6 +421,7 @@ async function main() {
         GATE_CHECK,
         `${misgraded.length} of ${scope} would not pass the gate today.\n` +
           `By reason:\n${breakdown}\n` +
+          `By source:\n${sources}\n` +
           `Examples:\n${examples}` +
           (misgraded.length > 5 ? `\n  … and ${misgraded.length - 5} more` : "") +
           "\nThese are publicly visible but thin. Re-grade them with --regrade,\n" +
@@ -461,8 +493,11 @@ async function main() {
 function writeReport(misgraded) {
   const lines = [
     `# Active rows failing the quality gate — ${new Date().toISOString()}`,
-    `# ${misgraded.length} row(s). Columns: entity_type\tslug\treasons`,
-    ...misgraded.map((m) => `${m.entityType}\t${m.slug}\t${m.reasons.join("; ")}`),
+    `# ${misgraded.length} row(s). Columns: entity_type\tslug\tsource_name\treasons`,
+    `# source_name decides the remedy: Jikan and FreeToGame rows are rebuilt`,
+    `# by a re-ingest; rows from any other source carry slugs the ingester`,
+    `# never generates, so they need their own backfill or removal.`,
+    ...misgraded.map((m) => `${m.entityType}\t${m.slug}\t${m.sourceName}\t${m.reasons.join("; ")}`),
   ];
   try {
     writeFileSync(REPORT_PATH, lines.join("\n") + "\n");

@@ -484,32 +484,67 @@ function writeReport(misgraded) {
  */
 async function regrade(admin, misgraded) {
   const name = "Re-grade thin rows to 'incomplete'";
+
+  // One PATCH per batch rather than per row. PostgREST carries filters in the
+  // query string, so the batch is kept small enough that the `in.(…)` list
+  // cannot overflow the URL; 100 slugs is roughly 3KB.
   const BATCH = 100;
-  let updated = 0;
-  for (let i = 0; i < misgraded.length; i += BATCH) {
-    const slice = misgraded.slice(i, i + BATCH);
-    // Scoped by entity_type as well as slug: slug alone is not unique.
-    const results = await Promise.all(
-      slice.map((row) =>
-        admin
-          .from(TABLE)
-          .update({ status: "incomplete" })
-          .eq("slug", row.slug)
-          .eq("entity_type", row.entityType),
-      ),
-    );
-    const failed = results.find((r) => r.error);
-    if (failed) {
-      fail(name, `stopped after ${updated} row(s): ${failed.error.message}`);
-      return;
-    }
-    updated += slice.length;
+
+  // Grouped by entity_type so each batch can be scoped with a single eq() —
+  // slug alone is not unique, and mixing types in one `in.(…)` would demote
+  // the wrong row where an anime and a game share a slug.
+  const byType = new Map();
+  for (const row of misgraded) {
+    if (!byType.has(row.entityType)) byType.set(row.entityType, []);
+    byType.get(row.entityType).push(row.slug);
   }
-  pass(
-    name,
-    `${updated} row(s) moved from 'active' to 'incomplete'. They are no longer\n` +
-      "publicly readable. Re-run the ingester to refill and re-promote them.",
-  );
+
+  const total = misgraded.length;
+  let updated = 0;
+  let batches = 0;
+  log(`          re-grading ${total} row(s)…`);
+
+  for (const [entityType, slugs] of byType) {
+    for (let i = 0; i < slugs.length; i += BATCH) {
+      const slice = slugs.slice(i, i + BATCH);
+      // select() asks for the updated rows back, so `updated` counts what the
+      // database actually changed rather than what was requested.
+      const { data, error } = await admin
+        .from(TABLE)
+        .update({ status: "incomplete" })
+        .eq("entity_type", entityType)
+        .eq("status", "active")
+        .in("slug", slice)
+        .select("slug");
+      if (error) {
+        fail(
+          name,
+          `stopped after ${updated} of ${total} row(s): ${error.message}\n` +
+            "Rows already re-graded stay re-graded; re-run to finish the rest.",
+        );
+        return;
+      }
+      updated += data?.length ?? 0;
+      batches++;
+      if (batches % 10 === 0) log(`          … ${updated}/${total}`);
+    }
+  }
+
+  const detail =
+    `${updated} row(s) moved from 'active' to 'incomplete' in ${batches} request(s).\n` +
+    "They are no longer publicly readable. Re-run the ingester to refill and\n" +
+    "re-promote them.";
+  // A shortfall is not fatal, but it means the table moved under us: another
+  // writer changed those rows between the scan and the write.
+  if (updated < total) {
+    warn(
+      name,
+      `${detail}\n${total - updated} row(s) were already not 'active' by the time the\n` +
+        "write ran, so they were left alone. Re-run to confirm the current state.",
+    );
+  } else {
+    pass(name, detail);
+  }
 }
 
 /**

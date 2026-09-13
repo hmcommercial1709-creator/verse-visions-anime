@@ -2,10 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/games")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    page: Math.max(1, Number(search?.page) || 1),
-  }),
-  loaderDeps: ({ search }) => ({ page: search.page }),
+  // page is omitted on page 1 so /games is itself canonical. Normalising it to
+  // { page: 1 } made the router redirect /games → /games?page=1, and /games is
+  // listed in the sitemap, so every crawl of it was a wasted redirect hop.
+  // Matches catalog.anime.index.tsx.
+  validateSearch: (search: Record<string, unknown>): { page?: number } => {
+    const page = Math.max(1, Number(search?.page) || 1);
+    return page > 1 ? { page } : {};
+  },
+  loaderDeps: ({ search }) => ({ page: search.page ?? 1 }),
   loader: async ({ deps }) => {
     const page = deps.page;
     const pageSize = 36;
@@ -57,7 +62,12 @@ function GamesArchive() {
           <h1 className="text-3xl font-bold text-purple-400">🎮 Game Codes Archive</h1>
           <p className="text-sm text-slate-400 mt-1">{total.toLocaleString()} codes indexed</p>
         </div>
-        <a href="/" className="text-xs bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg hover:border-purple-500 transition">← Back to Home</a>
+        <a
+          href="/"
+          className="text-xs bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg hover:border-purple-500 transition"
+        >
+          ← Back to Home
+        </a>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
@@ -75,16 +85,28 @@ function GamesArchive() {
 
       <div className="flex justify-between items-center mt-8 pt-4 border-t border-slate-900">
         {page > 1 ? (
-          <a href={`/games?page=${page - 1}`} className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg hover:border-purple-500 text-sm">
+          <a
+            href={page - 1 === 1 ? "/games" : `/games?page=${page - 1}`}
+            className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg hover:border-purple-500 text-sm"
+          >
             ← Previous
           </a>
-        ) : <div />}
-        <span className="text-sm text-slate-400">Page {page} of {totalPages || 1}</span>
+        ) : (
+          <div />
+        )}
+        <span className="text-sm text-slate-400">
+          Page {page} of {totalPages || 1}
+        </span>
         {page < totalPages ? (
-          <a href={`/games?page=${page + 1}`} className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg hover:border-purple-500 text-sm">
+          <a
+            href={`/games?page=${page + 1}`}
+            className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg hover:border-purple-500 text-sm"
+          >
             Next →
           </a>
-        ) : <div />}
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );

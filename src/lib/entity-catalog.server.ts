@@ -98,8 +98,8 @@ export async function loadEntityFromDb(
 ): Promise<CatalogEntity | null> {
   if (kind === "code") {
     try {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const { data, error } = await supabaseAdmin
+      const { supabaseServer } = await import("@/integrations/supabase/client.server");
+      const { data, error } = await supabaseServer
         .from("game_nexus_matrix")
         .select(CODE_SELECT)
         .eq("slug", slug)
@@ -120,8 +120,8 @@ export async function loadEntitiesFromDb(
 ): Promise<CatalogEntity[]> {
   if (kind === "code") {
     try {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const { data, error } = await supabaseAdmin
+      const { supabaseServer } = await import("@/integrations/supabase/client.server");
+      const { data, error } = await supabaseServer
         .from("game_nexus_matrix")
         .select(CODE_SELECT)
         .range(0, 999);
@@ -138,7 +138,7 @@ export async function loadEntitiesFromDb(
         }
         if (rows.length < 1000) break;
         offset += 1000;
-        const next = await supabaseAdmin
+        const next = await supabaseServer
           .from("game_nexus_matrix")
           .select(CODE_SELECT)
           .range(offset, offset + 999);
@@ -165,9 +165,9 @@ export async function loadEntityPageFromDb(
   if (kind !== "code") return { entities: [], total: 0, page: safePage, pageSize: safePageSize };
 
   try {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseServer } = await import("@/integrations/supabase/client.server");
     const from = (safePage - 1) * safePageSize;
-    const { data, count, error } = await supabaseAdmin
+    const { data, count, error } = await supabaseServer
       .from("game_nexus_matrix")
       .select(CODE_SELECT, { count: "exact" })
       .order("slug", { ascending: true })
@@ -212,7 +212,7 @@ export const CODE_PARTITION_SIZE = 25000;
  * entities. The same 50,000 rows come to ~1.3MB of slugs.
  */
 export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapEntry[]> {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { supabaseServer } = await import("@/integrations/supabase/client.server");
 
   const first = (partition - 1) * CODE_PARTITION_SIZE;
   const last = first + CODE_PARTITION_SIZE - 1;
@@ -223,7 +223,7 @@ export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapE
     const to = Math.min(from + PAGE - 1, last);
     // Ordered explicitly: range() over an unordered query has no stable row
     // order, so the two partitions could otherwise overlap or skip rows.
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await supabaseServer
       .from("game_nexus_matrix")
       .select("slug")
       .order("slug", { ascending: true })

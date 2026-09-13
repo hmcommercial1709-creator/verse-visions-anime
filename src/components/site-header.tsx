@@ -49,7 +49,7 @@ const megaGroups = [
         title: "Discovery",
         links: [
           { to: "/browse", label: "All Anime" },
-          { to: "/catalog/anime", label: "Anime Catalog" },
+          { to: "/anime", label: "Anime Catalog" },
           { to: "/catalog/games", label: "Free-to-Play Games" },
           { to: "/seasonal", label: "Seasonal" },
           { to: "/trending", label: "Trending" },
@@ -195,7 +195,7 @@ const megaGroups = [
 const categoryHubs = [
   { to: "/browse", label: "Anime" },
   { to: "/gaming-hub", label: "Games" },
-  { to: "/catalog/anime", label: "Anime Catalog" },
+  { to: "/anime", label: "Anime Catalog" },
   { to: "/catalog/games", label: "Free Games" },
   { to: "/explore", label: "Explore" },
   { to: "/store", label: "Store" },
@@ -218,7 +218,7 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [globalOpen, setGlobalOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-    const [mobileSections, setMobileSections] = useState<string[]>(["Browse"]);
+  const [mobileSections, setMobileSections] = useState<string[]>(["Browse"]);
   const t = useUi();
 
   useEffect(() => {
@@ -232,7 +232,11 @@ export function SiteHeader() {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.isComposing || e.repeat) return;
       const target = e.target;
-      if (target instanceof HTMLElement && (target.isContentEditable || target.closest("input, textarea, select, [role='textbox']"))) return;
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable || target.closest("input, textarea, select, [role='textbox']"))
+      )
+        return;
       if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
         e.preventDefault();
         setMobileOpen(false);
@@ -349,16 +353,28 @@ export function SiteHeader() {
             <div className="mx-auto max-w-7xl px-4 pb-6 lg:px-6">
               <div className="rounded-2xl border border-border/60 bg-popover p-6 shadow-2xl">
                 <div className="grid grid-cols-3 gap-8">
-                  {megaGroups.find((g) => g.label === openMenu)?.columns.map((column) => (
-                    <div key={column.title}>
-                      <div className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{column.title}</div>
-                      <ul className="space-y-1.5">
-                        {column.links.map((link) => <li key={link.to}>
-                          <Link to={link.to} onClick={() => setOpenMenu(null)} className="block text-sm text-foreground/90 transition-colors hover:text-primary">{link.label}</Link>
-                        </li>)}
-                      </ul>
-                    </div>
-                  ))}
+                  {megaGroups
+                    .find((g) => g.label === openMenu)
+                    ?.columns.map((column) => (
+                      <div key={column.title}>
+                        <div className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                          {column.title}
+                        </div>
+                        <ul className="space-y-1.5">
+                          {column.links.map((link) => (
+                            <li key={link.to}>
+                              <Link
+                                to={link.to}
+                                onClick={() => setOpenMenu(null)}
+                                className="block text-sm text-foreground/90 transition-colors hover:text-primary"
+                              >
+                                {link.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -370,10 +386,18 @@ export function SiteHeader() {
       <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-50 bg-background/90" />
-          <Dialog.Content {...focusHandlers} aria-describedby={undefined} className="fixed right-0 top-0 z-50 h-dvh w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6">
+          <Dialog.Content
+            {...focusHandlers}
+            aria-describedby={undefined}
+            className="fixed right-0 top-0 z-50 h-dvh w-[86%] max-w-sm overflow-y-auto bg-card border-l border-border p-6"
+          >
             <div className="flex items-center justify-between mb-6">
               <Dialog.Title className="font-display text-lg font-bold">Menu</Dialog.Title>
-              <button aria-label="Close full navigation" onClick={() => setMobileOpen(false)} className="rounded-md p-2">
+              <button
+                aria-label="Close full navigation"
+                onClick={() => setMobileOpen(false)}
+                className="rounded-md p-2"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -402,19 +426,35 @@ export function SiteHeader() {
                   <div key={g.label} className="border-b border-border/60 pb-3">
                     <button
                       type="button"
-                      onClick={() => setMobileSections((sections) => expanded ? sections.filter((section) => section !== g.label) : [...sections, g.label])}
+                      onClick={() =>
+                        setMobileSections((sections) =>
+                          expanded
+                            ? sections.filter((section) => section !== g.label)
+                            : [...sections, g.label],
+                        )
+                      }
                       className="flex w-full items-center justify-between py-2 text-left text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground"
                     >
                       {g.label}
-                      <ChevronDown className={`h-4 w-4 transition-transform ${expanded ? "rotate-180 text-primary" : ""}`} />
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform ${expanded ? "rotate-180 text-primary" : ""}`}
+                      />
                     </button>
                     {expanded && (
                       <ul className="grid gap-1.5 pb-2 sm:grid-cols-2">
-                        {g.columns.flatMap((c) => c.links).map((link) => (
-                          <li key={link.to}>
-                            <Link to={link.to} onClick={() => setMobileOpen(false)} className="block rounded-lg px-2 py-1.5 text-sm text-foreground/85 hover:bg-primary/10 hover:text-primary">{link.label}</Link>
-                          </li>
-                        ))}
+                        {g.columns
+                          .flatMap((c) => c.links)
+                          .map((link) => (
+                            <li key={link.to}>
+                              <Link
+                                to={link.to}
+                                onClick={() => setMobileOpen(false)}
+                                className="block rounded-lg px-2 py-1.5 text-sm text-foreground/85 hover:bg-primary/10 hover:text-primary"
+                              >
+                                {link.label}
+                              </Link>
+                            </li>
+                          ))}
                       </ul>
                     )}
                   </div>

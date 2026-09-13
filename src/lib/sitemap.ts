@@ -71,7 +71,6 @@ const PAGE_ENTRIES: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
   ...[
     "/browse",
-    "/anime",
     "/seasonal",
     "/trending",
     "/top-rated",

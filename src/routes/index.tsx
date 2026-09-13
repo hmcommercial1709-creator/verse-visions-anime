@@ -84,7 +84,7 @@ const CATEGORY_TABS = [
 /** Live catalogs backed by the public Jikan and FreeToGame APIs. */
 const CATALOG_LINKS = [
   {
-    to: "/catalog/anime" as const,
+    to: "/anime" as const,
     label: "Anime Catalog",
     blurb: "Top-rated series with scores, studios and genres — linked to our guides",
   },

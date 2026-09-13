@@ -22,19 +22,21 @@ import { urlsetXml, xmlResponse, type SitemapEntry } from "@/lib/sitemap";
  * breaking it.
  */
 
-const ANIME_INDEX_PAGES = 40; // matches MAX_PAGE in catalog.anime.index.tsx
+const ANIME_INDEX_PAGES = 40; // matches MAX_PAGE in anime.index.tsx
 
 export const Route = createFileRoute("/sitemap-catalog.xml")({
   server: {
     handlers: {
       GET: async () => {
         const entries: SitemapEntry[] = [
-          { path: "/catalog/anime", changefreq: "daily", priority: "0.8" },
+          // The anime catalog index moved to /anime; /catalog/anime now 301s
+          // there, and a sitemap must list the final URL.
+          { path: "/anime", changefreq: "daily", priority: "0.9" },
           { path: "/catalog/games", changefreq: "daily", priority: "0.8" },
         ];
 
         for (let page = 2; page <= ANIME_INDEX_PAGES; page++) {
-          entries.push({ path: `/catalog/anime?page=${page}`, changefreq: "weekly", priority: "0.5" });
+          entries.push({ path: `/anime?page=${page}`, changefreq: "weekly", priority: "0.5" });
         }
 
         const games = await listGames();

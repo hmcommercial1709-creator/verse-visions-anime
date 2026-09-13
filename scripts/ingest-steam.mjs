@@ -4,37 +4,41 @@
  *
  *   node scripts/ingest-steam.mjs --dry-run --limit=50
  *   node scripts/ingest-steam.mjs --limit=2000
- *   node scripts/ingest-steam.mjs --resume --limit=2000
+ *   node scripts/ingest-steam.mjs --limit=2000        # repeat: skips what it holds
  *
- * Why Steam: FreeToGame publishes roughly 400 games in total, so the games
- * half of the catalog was capped at 400 no matter how often it ran. Steam's
- * app list is over 100,000 entries and needs no API key at all.
+ * On the "400 game cap": that was FreeToGame's catalog size, not a limit in
+ * this script, which never had one. What bounds a run here is appdetails —
+ * one app per request, throttled to roughly 200 requests per five minutes.
+ * Discovery is cheap; enrichment is the budget, and no amount of appid
+ * harvesting changes that. So a run discovers only as many NEW apps as it can
+ * afford to enrich, and repeat runs continue from what the table already
+ * holds rather than re-walking the same ground.
  *
- * Two endpoints, with very different costs:
+ * Discovery, in order:
  *
- *   ISteamApps/GetAppList   one request, the whole list of {appid, name}.
- *                           Cheap, and mostly noise — DLC, soundtracks,
- *                           videos, demos, server tools and test apps all
- *                           share the namespace with actual games.
- *   store/api/appdetails    the real record, and ONE APP PER REQUEST. Steam
- *                           throttles this to roughly 200 requests per five
- *                           minutes per IP.
+ *   1. ISteamApps/GetAppList — one request for every appid in existence.
+ *      Tried first and currently gone: every spelling answers
+ *      "Method 'GetAppList' not found in interface 'ISteamApps'". Valve's
+ *      replacement, IStoreService/GetAppList, needs a publisher key. Kept
+ *      because if it returns, it is by far the cheapest path.
  *
- * That second limit is the whole design constraint. 100,000 apps at 200 per
- * five minutes is about 42 hours, so this script is built to be resumable and
- * run repeatedly rather than to finish in one pass: it records the last appid
- * it reached in automation_state and --resume picks up from there. Ingesting
- * the catalog is a background job measured in nights, not a deploy step.
+ *   2. Faceted store search. The store's own search needs no key and pages
+ *      cleanly, but any single query runs out of depth, so one query cannot
+ *      enumerate the store. Rotating a matrix of genre x sort order does:
+ *      each facet surfaces a different slice, "Action by release date" and
+ *      "Action by review count" overlap only partially, and twelve genres
+ *      across four orders reach tens of thousands of distinct appids. Every
+ *      query is filtered to category 998 — GAMES — so the soundtracks, demos
+ *      and server tools that made the raw app list mostly noise never arrive.
  *
- * Quality gate: the shared one, unchanged. Steam's short_description is
- * frequently under the minimum, and those rows are written 'incomplete' and
- * stay invisible rather than being padded to pass.
- *
- * Needs the metadata column from
- * supabase/migrations/20260913120000_entities_metadata_jsonb.sql.
+ * Already-stored apps are skipped before a single appdetails request is spent
+ * on them, which is what makes the nightly job accumulate instead of
+ * repeating. That replaced a lastAppId cursor: the cursor assumed discovery
+ * arrived in appid order, which faceted search does not.
  */
 
 import { readFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 import {
   resolveMetadataColumn,
@@ -66,8 +70,6 @@ try {
 /* ----------------------------------------------------------- configuration */
 
 const TABLE = "entities";
-const STATE_TABLE = "automation_state";
-const STATE_KEY = "catalog_ingest:steam";
 const CONFLICT_TARGET = process.env.INGEST_CONFLICT_TARGET || "entity_type,slug";
 const CHUNK_SIZE = Number(process.env.INGEST_CHUNK_SIZE ?? 50);
 
@@ -96,7 +98,6 @@ const DRY_RUN = args.has("dry-run");
  *  without extras would quietly produce exactly the thin pages this
  *  pipeline exists to stop. */
 const REQUIRE_METADATA = args.has("require-metadata");
-const RESUME = args.has("resume");
 const LIMIT = Number(args.get("limit") ?? 0) || 500;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -147,7 +148,7 @@ const APP_LIST_PATHS = [
   "/ISteamApps/GetAppList/v1/",
 ];
 
-async function getAppList() {
+async function getAppList(needed, known) {
   const failures = [];
 
   for (const path of APP_LIST_PATHS) {
@@ -191,14 +192,16 @@ async function getAppList() {
     }
 
     log(`  app list from ${path} — ${apps.length.toLocaleString()} apps before filtering`);
-    return apps.filter((a) => a?.appid && a?.name && !NON_GAME_NAME.test(a.name));
+    return apps
+      .filter((a) => a?.appid && a?.name && !NON_GAME_NAME.test(a.name))
+      .filter((a) => !known.has(a.appid));
   }
 
   log("  the ISteamApps app list is unavailable:");
   for (const f of failures) log(`    ${f}`);
   log("  falling back to the store search, which needs no key either.");
 
-  const fromStore = await getAppListFromStore();
+  const fromStore = await getAppListFromStore(needed, known);
   if (fromStore.length > 0) return fromStore;
 
   throw new Error(
@@ -209,87 +212,142 @@ async function getAppList() {
 }
 
 /**
- * The store's own search, used when the app-list method is not available.
+ * Faceted discovery: rotate genre x sort order until enough NEW apps surface.
  *
- * Steam answered every app-list spelling with "Method 'GetAppList' not found
- * in interface 'ISteamApps'", which is not a rate limit or an IP block — it is
- * the method being gone. The documented replacement, IStoreService/GetAppList,
- * requires a publisher API key, which this pipeline deliberately does not have.
+ * A single store query runs out of depth long before it has enumerated the
+ * store, so one query cannot be the whole strategy. Each facet surfaces a
+ * different slice — "Action by release date" and "Action by review count"
+ * overlap only partially — and the union across the matrix reaches tens of
+ * thousands of distinct appids.
  *
- * The store search behind store.steampowered.com/search needs no key, pages
- * cleanly, and has one real advantage over the raw app list: filtering by
- * category 998 returns GAMES, so the soundtracks, demos and server tools that
- * made up most of the app list never arrive. Fewer entries, but almost all of
- * them worth a lookup — and appdetails, at one request each, is the expensive
- * part of this pipeline.
- *
- * It is a store endpoint rather than a documented Web API one, so its shape is
- * read defensively: an appid may arrive as a field or only inside an image URL.
+ * It stops as soon as it has `needed` apps not already in the table, because
+ * appdetails is the real budget: discovering fifty thousand appids the run
+ * cannot afford to enrich is work thrown away.
  */
-async function getAppListFromStore() {
-  const PAGE = 100;
-  // Enough candidates to satisfy --limit even after appdetails rejects some.
-  const wanted = Math.min(Math.max(LIMIT * 3, 300), 5000);
+const STORE_GENRES = [
+  "Action",
+  "Adventure",
+  "RPG",
+  "Strategy",
+  "Simulation",
+  "Indie",
+  "Casual",
+  "Sports",
+  "Racing",
+  "Massively Multiplayer",
+  "Free to Play",
+  "Early Access",
+];
+
+// Different orderings of the same genre return genuinely different slices:
+// newest, best reviewed, and alphabetical reach opposite ends of the catalog.
+const STORE_SORTS = ["Released_DESC", "Reviews_DESC", "Name_ASC", "Price_DESC"];
+
+/** How deep to page one facet before moving on. Depth has diminishing returns. */
+const FACET_PAGES = Number(process.env.STEAM_FACET_PAGES ?? 10);
+const STORE_PAGE = 100;
+
+/**
+ * One page of the store search. Returns [] on any failure rather than
+ * throwing: a facet that breaks must not end the whole rotation.
+ */
+async function storeSearchPage({ genre, sort, start }) {
+  const params = new URLSearchParams({
+    json: "1",
+    start: String(start),
+    count: String(STORE_PAGE),
+    category1: "998", // Games — excludes DLC, soundtracks, videos, tools
+    cc: "us",
+    l: "en",
+    sort_by: sort,
+  });
+  if (genre) params.set("genre", genre);
+
+  try {
+    const res = await fetch(`${STEAM_STORE}/search/results/?${params}`, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "GameCastle/1.0 (+https://gamecastle.store)",
+      },
+      signal: AbortSignal.timeout(30000),
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return Array.isArray(json?.items) ? json.items : [];
+  } catch {
+    return [];
+  }
+}
+
+/** The appid is a field on some entries and only in the capsule URL on others. */
+function appIdOf(item) {
+  const fromField = Number(item?.id);
+  if (Number.isInteger(fromField) && fromField > 0) return fromField;
+  const fromLogo = Number(String(item?.logo ?? "").match(/\/apps\/(\d+)\//)?.[1]);
+  return Number.isInteger(fromLogo) && fromLogo > 0 ? fromLogo : null;
+}
+
+export async function getAppListFromStore(needed, known = new Set()) {
   const apps = [];
   const seen = new Set();
+  let queries = 0;
 
-  for (let start = 0; apps.length < wanted; start += PAGE) {
-    const url =
-      `${STEAM_STORE}/search/results/?json=1&start=${start}&count=${PAGE}` +
-      `&category1=998&cc=us&l=en&sort_by=Released_DESC`;
+  // The unfiltered sweep first — it is the broadest single facet — then the
+  // genre matrix.
+  const facets = [
+    ...STORE_SORTS.map((sort) => ({ genre: null, sort })),
+    ...STORE_GENRES.flatMap((genre) => STORE_SORTS.map((sort) => ({ genre, sort }))),
+  ];
 
-    let json;
-    try {
-      const res = await fetch(url, {
-        headers: {
-          accept: "application/json",
-          "user-agent": "GameCastle/1.0 (+https://gamecastle.store)",
-        },
-        signal: AbortSignal.timeout(30000),
-      });
-      if (!res.ok) {
-        log(`    store search HTTP ${res.status} at start=${start}`);
-        break;
+  for (const facet of facets) {
+    if (apps.length >= needed) break;
+
+    let added = 0;
+    for (let page = 0; page < FACET_PAGES; page++) {
+      if (apps.length >= needed) break;
+      const items = await storeSearchPage({ ...facet, start: page * STORE_PAGE });
+      queries += 1;
+      if (items.length === 0) break;
+
+      for (const item of items) {
+        const appid = appIdOf(item);
+        const name = String(item?.name ?? "").trim();
+        if (!appid || !name) continue;
+        if (seen.has(appid)) continue;
+        seen.add(appid);
+        // Skipped before any appdetails request is spent: this is what makes
+        // repeat runs accumulate rather than re-walk.
+        if (known.has(appid)) continue;
+        if (NON_GAME_NAME.test(name)) continue;
+        apps.push({ appid, name });
+        added += 1;
       }
-      json = await res.json();
-    } catch (error) {
-      log(`    store search failed at start=${start}: ${error.message}`);
-      break;
+
+      if (items.length < STORE_PAGE) break;
+      await sleep(400);
     }
 
-    const items = Array.isArray(json?.items) ? json.items : [];
-    if (items.length === 0) break;
-
-    for (const item of items) {
-      // The id is sometimes a field and sometimes only in the capsule image
-      // path (…/steam/apps/<appid>/capsule…). Both are accepted; neither is
-      // assumed.
-      const fromField = Number(item?.id);
-      const fromLogo = Number(String(item?.logo ?? "").match(/\/apps\/(\d+)\//)?.[1]);
-      const appid = Number.isInteger(fromField) && fromField > 0 ? fromField : fromLogo;
-      const name = String(item?.name ?? "").trim();
-      if (!Number.isInteger(appid) || appid <= 0 || !name) continue;
-      if (seen.has(appid)) continue;
-      if (NON_GAME_NAME.test(name)) continue;
-      seen.add(appid);
-      apps.push({ appid, name });
+    if (added > 0) {
+      log(
+        `    ${facet.genre ?? "all genres"} / ${facet.sort}: +${added} new ` +
+          `(${apps.length.toLocaleString()}/${needed.toLocaleString()})`,
+      );
     }
-
-    if (items.length < PAGE) break;
-    await sleep(500);
   }
 
-  if (apps.length > 0) {
-    log(`  store search — ${apps.length.toLocaleString()} game entries`);
-  }
+  log(
+    `  store search — ${apps.length.toLocaleString()} new game entries from ` +
+      `${queries} queries across ${facets.length} facets ` +
+      `(${seen.size.toLocaleString()} appids seen, ${(seen.size - apps.length).toLocaleString()} already held or filtered)`,
+  );
   return apps;
 }
 
 /**
  * One app's store record. Returns null for anything that is not a game, and
  * for the throttled/absent cases — a null here means "skip", never "retry
- * forever", because Steam returns success:false for delisted and region-locked
- * apps too and those never become available.
+ * forever", because Steam returns success:false for delisted and
+ * region-locked apps too and those never become available.
  */
 async function getAppDetails(appid, attempt = 1) {
   const url = `${STEAM_STORE}/api/appdetails?appids=${appid}&cc=us&l=en`;
@@ -440,27 +498,35 @@ function makeClient() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-async function readCursor(supabase) {
-  const { data, error } = await supabase
-    .from(STATE_TABLE)
-    .select("value")
-    .eq("key", STATE_KEY)
-    .maybeSingle();
-  if (error || !data) return 0;
-  const value = Number(data.value?.lastAppId ?? 0);
-  return Number.isFinite(value) ? value : 0;
-}
-
-async function writeCursor(supabase, lastAppId) {
-  const { error } = await supabase
-    .from(STATE_TABLE)
-    .upsert(
-      { key: STATE_KEY, value: { lastAppId, updatedAt: new Date().toISOString() } },
-      { onConflict: "key" },
-    );
-  // A lost cursor costs a repeated pass, not corruption, so it must never
-  // fail a run that has already written rows successfully.
-  if (error) log(`  (could not save resume cursor: ${error.message})`);
+/**
+ * Every Steam appid already in the table.
+ *
+ * This replaced a lastAppId cursor. The cursor assumed discovery arrived in
+ * appid order, which was true of the raw app list and is not true of faceted
+ * search — so it would have skipped whole ranges. A set of what we hold is
+ * order-independent and correct however the appids were found.
+ *
+ * Read from the slug rather than metadata: slugs are `{appid}-{title}`, the
+ * column is indexed, and this works even on a schema with no metadata column.
+ */
+async function loadKnownAppIds(supabase) {
+  const known = new Set();
+  const PAGE = 1000;
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await supabase
+      .from(TABLE)
+      .select("slug")
+      .eq("entity_type", "game")
+      .order("slug", { ascending: true })
+      .range(from, from + PAGE - 1);
+    if (error || !data?.length) break;
+    for (const row of data) {
+      const appid = Number(String(row.slug).split("-")[0]);
+      if (Number.isInteger(appid) && appid > 0) known.add(appid);
+    }
+    if (data.length < PAGE) break;
+  }
+  return known;
 }
 
 /**
@@ -502,7 +568,7 @@ async function main() {
   let supabase = null;
   let withMetadata = false;
   let optionalColumns = new Set(OPTIONAL_COLUMNS);
-  let cursor = 0;
+  let known = new Set();
 
   if (!DRY_RUN) {
     supabase = makeClient();
@@ -534,32 +600,34 @@ async function main() {
       log("    notify pgrst, 'reload schema';");
       log("");
     }
-    if (RESUME) {
-      cursor = await readCursor(supabase);
-      log(`Resuming after appid ${cursor}.`);
-    }
+    // Always loaded, not only with --resume: skipping what we hold is not an
+    // opt-in behaviour, it is the only way a nightly run accumulates instead
+    // of re-enriching the same few hundred games every night.
+    known = await loadKnownAppIds(supabase);
+    log(`${known.size.toLocaleString()} Steam app(s) already in the catalog — they are skipped.`);
     log("");
   }
 
   /* ------------------------------------------------------- 1. the app list */
 
-  log("Fetching the Steam app list (one request)…");
-  const apps = (await getAppList())
-    .filter((a) => a.appid > cursor)
-    .sort((a, b) => a.appid - b.appid);
-  log(`  ${apps.length.toLocaleString()} candidate apps after name filtering.\n`);
+  // Discovery is sized to what this run can actually enrich. appdetails is
+  // one request per app at roughly 200 per five minutes, so harvesting fifty
+  // thousand appids a run cannot afford to look up is work thrown away. The
+  // margin covers apps appdetails rejects as DLC or delisted.
+  const needed = Math.ceil(LIMIT * 1.5);
+  log(`Discovering up to ${needed.toLocaleString()} apps not already held…`);
+  const apps = await getAppList(needed, known);
+  log(`  ${apps.length.toLocaleString()} candidate apps.\n`);
 
   /* ------------------------------------------- 2. details, one app at a time */
 
   const records = [];
   let looked = 0;
-  let lastAppId = cursor;
   const started = Date.now();
 
   for (const app of apps) {
     if (records.length >= LIMIT) break;
     looked += 1;
-    lastAppId = app.appid;
 
     const data = await getAppDetails(app.appid);
     if (data) {
@@ -678,13 +746,20 @@ async function main() {
   } else {
     log("Matrix index skipped — it needs the metadata and categories columns to query its facets.");
   }
-  await writeCursor(supabase, lastAppId);
-
-  log(`\nDone. ${written} rows upserted, ${active} active. Cursor at appid ${lastAppId}.`);
-  log(`Run again with --resume to continue from there.\n`);
+  log(`\nDone. ${written} rows upserted, ${active} active.`);
+  log(
+    `Run it again to continue — the ${(known.size + written).toLocaleString()} apps now held are skipped next time.\n`,
+  );
 }
 
-main().catch((error) => {
-  console.error(`\nFailed: ${error.message}\n`);
-  process.exit(1);
-});
+// Only when run as a script. Guarding this lets the discovery above be
+// imported and tested directly — the known-appid skip is what makes the
+// nightly job accumulate rather than re-walk, so it is worth testing rather
+// than assuming.
+const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (invokedDirectly) {
+  main().catch((error) => {
+    console.error(`\nFailed: ${error.message}\n`);
+    process.exit(1);
+  });
+}

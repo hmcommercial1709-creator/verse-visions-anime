@@ -172,16 +172,19 @@ jobs:
         continue-on-error: true
         run: npm run ingest:manga -- --limit=3000
 
-      # continue-on-error because the two sources are independent and Steam is
-      # the flakier one: it refuses requests from data-centre IP ranges, which
-      # is exactly what a CI runner is. The previous run imported 5,000 anime
-      # rows successfully and was then reported as a failure because Steam
-      # answered 404 — which reads as "the ingest is broken" when the ingest
-      # had in fact just done its job. A Steam outage now shows as a warning
-      # annotation on this step instead of discarding that signal.
-      - name: Ingest games from Steam (resumable)
+      # continue-on-error because the sources are independent and Steam is the
+      # flakiest: its app-list method is gone entirely and the store search is
+      # an undocumented endpoint. An earlier run imported 5,000 anime rows
+      # successfully and was then reported as a failure because Steam answered
+      # 404 — which reads as "the ingest is broken" when it had just done its
+      # job. A Steam outage shows as a warning annotation instead.
+      #
+      # No --resume: the script now skips every appid already in the table, so
+      # each night reaches further into the store on its own. appdetails at
+      # ~200 requests per five minutes is what sizes the limit, not discovery.
+      - name: Ingest games from Steam
         continue-on-error: true
-        run: npm run ingest:steam -- --resume --limit=300
+        run: npm run ingest:steam -- --limit=400
 
       - name: Verify the catalog after ingest
         run: npm run verify:catalog -- --read-only

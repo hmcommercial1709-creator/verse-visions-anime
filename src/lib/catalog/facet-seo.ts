@@ -38,7 +38,7 @@ const label = (part: { dim: string; value: string }) => {
 
 /** "Action anime from Madhouse, 2020" — reads as a phrase, not a path. */
 export function facetTitle(type: CatalogType, entry: FacetEntry): string {
-  const noun = type === "game" ? "games" : "anime";
+  const noun = type === "game" ? "games" : type === "manga" ? "manga" : "anime";
   const by = (dim: string) => entry.parts.find((p) => p.dim === dim);
   const genre = by("genre");
   const studio = by("studio");
@@ -63,7 +63,7 @@ export function facetTitle(type: CatalogType, entry: FacetEntry): string {
  * clause is produced only when the rows support it.
  */
 export function facetStatements(type: CatalogType, data: FacetPageData): string[] {
-  const noun = type === "game" ? "games" : "titles";
+  const noun = type === "game" ? "games" : type === "manga" ? "series" : "titles";
   const out: string[] = [];
   const metas = data.rows.map((r) => parseMeta(r.metadata)).filter(Boolean);
 
@@ -99,7 +99,7 @@ export function facetStatements(type: CatalogType, data: FacetPageData): string[
   }
   const top = [...makers].sort((a, b) => b[1] - a[1]).slice(0, 3);
   if (top.length >= 2 && top[0][1] > 1) {
-    const word = type === "game" ? "developers" : "studios";
+    const word = type === "game" ? "developers" : type === "manga" ? "authors" : "studios";
     out.push(
       `The most frequent ${word} here are ${top.map(([n, c]) => `${n} (${c})`).join(", ")}.`,
     );
@@ -114,8 +114,9 @@ export function facetHead(type: CatalogType, data: FacetPageData | undefined) {
   const url = absoluteUrl(data.canonical);
   const statements = facetStatements(type, data);
   const description = statements.slice(0, 2).join(" ").slice(0, 300);
-  const parentPath = type === "game" ? "/catalog/games" : "/anime";
-  const parentName = type === "game" ? "Game Catalog" : "Anime Catalog";
+  const parentPath = type === "game" ? "/catalog/games" : type === "manga" ? "/manga" : "/anime";
+  const parentName =
+    type === "game" ? "Game Catalog" : type === "manga" ? "Manga Catalog" : "Anime Catalog";
 
   return {
     meta: [
@@ -168,7 +169,11 @@ export function facetHead(type: CatalogType, data: FacetPageData | undefined) {
               position: i + 1,
               name: row.name,
               url: absoluteUrl(
-                type === "game" ? `/catalog/games/${row.slug}` : `/catalog/anime/${row.slug}`,
+                type === "game"
+                  ? `/catalog/games/${row.slug}`
+                  : type === "manga"
+                    ? `/catalog/manga/${row.slug}`
+                    : `/catalog/anime/${row.slug}`,
               ),
             })),
           },

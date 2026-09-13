@@ -61,6 +61,7 @@ import { Route as SitemapCodes1DotxmlRouteImport } from './routes/sitemap-codes-
 import { Route as SitemapCodes2DotxmlRouteImport } from './routes/sitemap-codes-2[.]xml'
 import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
 import { Route as SitemapIndexDotxmlRouteImport } from './routes/sitemap-index[.]xml'
+import { Route as SitemapMangaDotxmlRouteImport } from './routes/sitemap-manga[.]xml'
 import { Route as SitemapMatrixDotxmlRouteImport } from './routes/sitemap-matrix[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
@@ -114,6 +115,7 @@ import { Route as GamingHubTroubleshootingPerformanceRouteImport } from './route
 import { Route as GamingHubUltimateAnimeGamingHub2026RouteImport } from './routes/gaming-hub.ultimate-anime-gaming-hub-2026'
 import { Route as GamingHubUltimateGamingSecretsGuideRouteImport } from './routes/gaming-hub.ultimate-gaming-secrets-guide'
 import { Route as GenreSlugRouteImport } from './routes/genre.$slug'
+import { Route as MangaIndexRouteImport } from './routes/manga.index'
 import { Route as RewardsAnimeWallpapersRouteImport } from './routes/rewards.anime-wallpapers'
 import { Route as StoreSlugRouteImport } from './routes/store_.$slug'
 import { Route as StoreCheckoutRouteImport } from './routes/store_.checkout'
@@ -148,9 +150,12 @@ import { Route as CatalogAnimeIndexRouteImport } from './routes/catalog.anime.in
 import { Route as CatalogAnimeSlugRouteImport } from './routes/catalog.anime.$slug'
 import { Route as CatalogGamesIndexRouteImport } from './routes/catalog.games.index'
 import { Route as CatalogGamesSlugRouteImport } from './routes/catalog.games.$slug'
+import { Route as CatalogMangaSlugRouteImport } from './routes/catalog.manga.$slug'
 import { Route as CompareAnimePairRouteImport } from './routes/compare.anime.$pair'
 import { Route as CompareGamesPairRouteImport } from './routes/compare.games.$pair'
+import { Route as CompareMangaPairRouteImport } from './routes/compare.manga.$pair'
 import { Route as GamesBrowseSplatRouteImport } from './routes/games.browse.$'
+import { Route as MangaBrowseSplatRouteImport } from './routes/manga.browse.$'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 import { Route as ArAnimeBrowseSplatRouteImport } from './routes/ar.anime.browse.$'
@@ -413,6 +418,11 @@ const SitemapEpisodesDotxmlRoute = SitemapEpisodesDotxmlRouteImport.update({
 const SitemapIndexDotxmlRoute = SitemapIndexDotxmlRouteImport.update({
   id: '/sitemap-index.xml',
   path: '/sitemap-index.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapMangaDotxmlRoute = SitemapMangaDotxmlRouteImport.update({
+  id: '/sitemap-manga.xml',
+  path: '/sitemap-manga.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapMatrixDotxmlRoute = SitemapMatrixDotxmlRouteImport.update({
@@ -691,6 +701,11 @@ const GenreSlugRoute = GenreSlugRouteImport.update({
   path: '/genre/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MangaIndexRoute = MangaIndexRouteImport.update({
+  id: '/manga/',
+  path: '/manga/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RewardsAnimeWallpapersRoute = RewardsAnimeWallpapersRouteImport.update({
   id: '/rewards/anime-wallpapers',
   path: '/rewards/anime-wallpapers',
@@ -868,6 +883,11 @@ const CatalogGamesSlugRoute = CatalogGamesSlugRouteImport.update({
   path: '/catalog/games/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogMangaSlugRoute = CatalogMangaSlugRouteImport.update({
+  id: '/catalog/manga/$slug',
+  path: '/catalog/manga/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompareAnimePairRoute = CompareAnimePairRouteImport.update({
   id: '/compare/anime/$pair',
   path: '/compare/anime/$pair',
@@ -878,10 +898,20 @@ const CompareGamesPairRoute = CompareGamesPairRouteImport.update({
   path: '/compare/games/$pair',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompareMangaPairRoute = CompareMangaPairRouteImport.update({
+  id: '/compare/manga/$pair',
+  path: '/compare/manga/$pair',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GamesBrowseSplatRoute = GamesBrowseSplatRouteImport.update({
   id: '/browse/$',
   path: '/browse/$',
   getParentRoute: () => GamesRoute,
+} as any)
+const MangaBrowseSplatRoute = MangaBrowseSplatRouteImport.update({
+  id: '/manga/browse/$',
+  path: '/manga/browse/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
   id: '/sitemap/$locale/$file',
@@ -952,6 +982,7 @@ export interface FileRoutesByFullPath {
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/sitemap-manga.xml': typeof SitemapMangaDotxmlRoute
   '/sitemap-matrix.xml': typeof SitemapMatrixDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
@@ -1011,6 +1042,7 @@ export interface FileRoutesByFullPath {
   '/codes/': typeof CodesIndexRoute
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
+  '/manga/': typeof MangaIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
@@ -1033,9 +1065,12 @@ export interface FileRoutesByFullPath {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
   '/catalog/games/$slug': typeof CatalogGamesSlugRoute
+  '/catalog/manga/$slug': typeof CatalogMangaSlugRoute
   '/compare/anime/$pair': typeof CompareAnimePairRoute
   '/compare/games/$pair': typeof CompareGamesPairRoute
+  '/compare/manga/$pair': typeof CompareMangaPairRoute
   '/games/browse/$': typeof GamesBrowseSplatRoute
+  '/manga/browse/$': typeof MangaBrowseSplatRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
@@ -1097,6 +1132,7 @@ export interface FileRoutesByTo {
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/sitemap-manga.xml': typeof SitemapMangaDotxmlRoute
   '/sitemap-matrix.xml': typeof SitemapMatrixDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
@@ -1155,6 +1191,7 @@ export interface FileRoutesByTo {
   '/codes': typeof CodesIndexRoute
   '/explore': typeof ExploreIndexRoute
   '/gaming-hub': typeof GamingHubIndexRoute
+  '/manga': typeof MangaIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
@@ -1177,9 +1214,12 @@ export interface FileRoutesByTo {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
   '/catalog/games/$slug': typeof CatalogGamesSlugRoute
+  '/catalog/manga/$slug': typeof CatalogMangaSlugRoute
   '/compare/anime/$pair': typeof CompareAnimePairRoute
   '/compare/games/$pair': typeof CompareGamesPairRoute
+  '/compare/manga/$pair': typeof CompareMangaPairRoute
   '/games/browse/$': typeof GamesBrowseSplatRoute
+  '/manga/browse/$': typeof MangaBrowseSplatRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles': typeof LocaleArticlesIndexRoute
   '/$locale/codes': typeof LocaleCodesIndexRoute
@@ -1244,6 +1284,7 @@ export interface FileRoutesById {
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/sitemap-manga.xml': typeof SitemapMangaDotxmlRoute
   '/sitemap-matrix.xml': typeof SitemapMatrixDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
@@ -1303,6 +1344,7 @@ export interface FileRoutesById {
   '/codes/': typeof CodesIndexRoute
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
+  '/manga/': typeof MangaIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
   '/$locale/calc/$slug': typeof LocaleCalcSlugRoute
   '/$locale/codes/$slug': typeof LocaleCodesSlugRoute
@@ -1325,9 +1367,12 @@ export interface FileRoutesById {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
   '/catalog/games/$slug': typeof CatalogGamesSlugRoute
+  '/catalog/manga/$slug': typeof CatalogMangaSlugRoute
   '/compare/anime/$pair': typeof CompareAnimePairRoute
   '/compare/games/$pair': typeof CompareGamesPairRoute
+  '/compare/manga/$pair': typeof CompareMangaPairRoute
   '/games/browse/$': typeof GamesBrowseSplatRoute
+  '/manga/browse/$': typeof MangaBrowseSplatRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
@@ -1393,6 +1438,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-index.xml'
+    | '/sitemap-manga.xml'
     | '/sitemap-matrix.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
@@ -1452,6 +1498,7 @@ export interface FileRouteTypes {
     | '/codes/'
     | '/explore/'
     | '/gaming-hub/'
+    | '/manga/'
     | '/$locale/anime/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
@@ -1474,9 +1521,12 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/catalog/anime/$slug'
     | '/catalog/games/$slug'
+    | '/catalog/manga/$slug'
     | '/compare/anime/$pair'
     | '/compare/games/$pair'
+    | '/compare/manga/$pair'
     | '/games/browse/$'
+    | '/manga/browse/$'
     | '/sitemap/$locale/$file'
     | '/$locale/articles/'
     | '/$locale/codes/'
@@ -1538,6 +1588,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-index.xml'
+    | '/sitemap-manga.xml'
     | '/sitemap-matrix.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
@@ -1596,6 +1647,7 @@ export interface FileRouteTypes {
     | '/codes'
     | '/explore'
     | '/gaming-hub'
+    | '/manga'
     | '/$locale/anime/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
@@ -1618,9 +1670,12 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/catalog/anime/$slug'
     | '/catalog/games/$slug'
+    | '/catalog/manga/$slug'
     | '/compare/anime/$pair'
     | '/compare/games/$pair'
+    | '/compare/manga/$pair'
     | '/games/browse/$'
+    | '/manga/browse/$'
     | '/sitemap/$locale/$file'
     | '/$locale/articles'
     | '/$locale/codes'
@@ -1684,6 +1739,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-index.xml'
+    | '/sitemap-manga.xml'
     | '/sitemap-matrix.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
@@ -1743,6 +1799,7 @@ export interface FileRouteTypes {
     | '/codes/'
     | '/explore/'
     | '/gaming-hub/'
+    | '/manga/'
     | '/$locale/anime/$slug'
     | '/$locale/calc/$slug'
     | '/$locale/codes/$slug'
@@ -1765,9 +1822,12 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/catalog/anime/$slug'
     | '/catalog/games/$slug'
+    | '/catalog/manga/$slug'
     | '/compare/anime/$pair'
     | '/compare/games/$pair'
+    | '/compare/manga/$pair'
     | '/games/browse/$'
+    | '/manga/browse/$'
     | '/sitemap/$locale/$file'
     | '/$locale/articles/'
     | '/$locale/codes/'
@@ -1832,6 +1892,7 @@ export interface RootRouteChildren {
   SitemapCodes2DotxmlRoute: typeof SitemapCodes2DotxmlRoute
   SitemapEpisodesDotxmlRoute: typeof SitemapEpisodesDotxmlRoute
   SitemapIndexDotxmlRoute: typeof SitemapIndexDotxmlRoute
+  SitemapMangaDotxmlRoute: typeof SitemapMangaDotxmlRoute
   SitemapMatrixDotxmlRoute: typeof SitemapMatrixDotxmlRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapPagesDotxmlRoute: typeof SitemapPagesDotxmlRoute
@@ -1885,6 +1946,7 @@ export interface RootRouteChildren {
   WatchSlugRoute: typeof WatchSlugRoute
   CodesIndexRoute: typeof CodesIndexRoute
   GamingHubIndexRoute: typeof GamingHubIndexRoute
+  MangaIndexRoute: typeof MangaIndexRoute
   LocaleAnimeSlugRoute: typeof LocaleAnimeSlugRoute
   LocaleCalcSlugRoute: typeof LocaleCalcSlugRoute
   LocaleCodesSlugRoute: typeof LocaleCodesSlugRoute
@@ -1896,8 +1958,11 @@ export interface RootRouteChildren {
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   CatalogAnimeSlugRoute: typeof CatalogAnimeSlugRoute
   CatalogGamesSlugRoute: typeof CatalogGamesSlugRoute
+  CatalogMangaSlugRoute: typeof CatalogMangaSlugRoute
   CompareAnimePairRoute: typeof CompareAnimePairRoute
   CompareGamesPairRoute: typeof CompareGamesPairRoute
+  CompareMangaPairRoute: typeof CompareMangaPairRoute
+  MangaBrowseSplatRoute: typeof MangaBrowseSplatRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   LocaleArticlesIndexRoute: typeof LocaleArticlesIndexRoute
   LocaleCodesIndexRoute: typeof LocaleCodesIndexRoute
@@ -2274,6 +2339,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapIndexDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap-manga.xml': {
+      id: '/sitemap-manga.xml'
+      path: '/sitemap-manga.xml'
+      fullPath: '/sitemap-manga.xml'
+      preLoaderRoute: typeof SitemapMangaDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap-matrix.xml': {
       id: '/sitemap-matrix.xml'
       path: '/sitemap-matrix.xml'
@@ -2645,6 +2717,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GenreSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manga/': {
+      id: '/manga/'
+      path: '/manga'
+      fullPath: '/manga/'
+      preLoaderRoute: typeof MangaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rewards/anime-wallpapers': {
       id: '/rewards/anime-wallpapers'
       path: '/rewards/anime-wallpapers'
@@ -2883,6 +2962,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogGamesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalog/manga/$slug': {
+      id: '/catalog/manga/$slug'
+      path: '/catalog/manga/$slug'
+      fullPath: '/catalog/manga/$slug'
+      preLoaderRoute: typeof CatalogMangaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compare/anime/$pair': {
       id: '/compare/anime/$pair'
       path: '/compare/anime/$pair'
@@ -2897,12 +2983,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompareGamesPairRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compare/manga/$pair': {
+      id: '/compare/manga/$pair'
+      path: '/compare/manga/$pair'
+      fullPath: '/compare/manga/$pair'
+      preLoaderRoute: typeof CompareMangaPairRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/games/browse/$': {
       id: '/games/browse/$'
       path: '/browse/$'
       fullPath: '/games/browse/$'
       preLoaderRoute: typeof GamesBrowseSplatRouteImport
       parentRoute: typeof GamesRoute
+    }
+    '/manga/browse/$': {
+      id: '/manga/browse/$'
+      path: '/manga/browse/$'
+      fullPath: '/manga/browse/$'
+      preLoaderRoute: typeof MangaBrowseSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/sitemap/$locale/$file': {
       id: '/sitemap/$locale/$file'
@@ -3054,6 +3154,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapCodes2DotxmlRoute: SitemapCodes2DotxmlRoute,
   SitemapEpisodesDotxmlRoute: SitemapEpisodesDotxmlRoute,
   SitemapIndexDotxmlRoute: SitemapIndexDotxmlRoute,
+  SitemapMangaDotxmlRoute: SitemapMangaDotxmlRoute,
   SitemapMatrixDotxmlRoute: SitemapMatrixDotxmlRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapPagesDotxmlRoute: SitemapPagesDotxmlRoute,
@@ -3113,6 +3214,7 @@ const rootRouteChildren: RootRouteChildren = {
   WatchSlugRoute: WatchSlugRoute,
   CodesIndexRoute: CodesIndexRoute,
   GamingHubIndexRoute: GamingHubIndexRoute,
+  MangaIndexRoute: MangaIndexRoute,
   LocaleAnimeSlugRoute: LocaleAnimeSlugRoute,
   LocaleCalcSlugRoute: LocaleCalcSlugRoute,
   LocaleCodesSlugRoute: LocaleCodesSlugRoute,
@@ -3124,8 +3226,11 @@ const rootRouteChildren: RootRouteChildren = {
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   CatalogAnimeSlugRoute: CatalogAnimeSlugRoute,
   CatalogGamesSlugRoute: CatalogGamesSlugRoute,
+  CatalogMangaSlugRoute: CatalogMangaSlugRoute,
   CompareAnimePairRoute: CompareAnimePairRoute,
   CompareGamesPairRoute: CompareGamesPairRoute,
+  CompareMangaPairRoute: CompareMangaPairRoute,
+  MangaBrowseSplatRoute: MangaBrowseSplatRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   LocaleArticlesIndexRoute: LocaleArticlesIndexRoute,
   LocaleCodesIndexRoute: LocaleCodesIndexRoute,

@@ -106,6 +106,15 @@ const COMBOS = {
     ["platform", "year"],
     ["genre", "platform", "year"],
   ],
+  // `studio` carries the author for manga — one dimension, two meanings, the
+  // same arithmetic. "Seinen manga", "Naoki Urasawa manga" and "2019 romance
+  // manga" are all real queries; format crossings are not, so there are none.
+  manga: [
+    ["genre", "year"],
+    ["genre", "studio"],
+    ["studio", "year"],
+    ["genre", "studio", "year"],
+  ],
 };
 
 const keyOf = (parts) => parts.map((p) => `${p.dim}:${facetSlug(p.value)}`).join("|");
@@ -189,9 +198,15 @@ export function buildFacetIndex(records, entityType) {
  */
 const DIM_ORDER = ["genre", "studio", "platform", "season", "format", "year"];
 
+const BROWSE_BASE = {
+  anime: "/anime/browse",
+  game: "/games/browse",
+  manga: "/manga/browse",
+};
+
 export function facetPath(entityType, parts) {
   const sorted = [...parts].sort((a, b) => DIM_ORDER.indexOf(a.dim) - DIM_ORDER.indexOf(b.dim));
-  const base = entityType === "game" ? "/games/browse" : "/anime/browse";
+  const base = BROWSE_BASE[entityType] ?? "/anime/browse";
   return `${base}/${sorted.map((p) => `${p.dim}-${facetSlug(p.value)}`).join("/")}`;
 }
 
@@ -260,6 +275,11 @@ export function buildComparisonIndex(records, entityType) {
 
 export function comparisonPath(entityType, a, b) {
   const [first, second] = [a, b].sort();
-  const base = entityType === "game" ? "/compare/games" : "/compare/anime";
+  const base =
+    entityType === "game"
+      ? "/compare/games"
+      : entityType === "manga"
+        ? "/compare/manga"
+        : "/compare/anime";
   return `${base}/${first}-vs-${second}`;
 }

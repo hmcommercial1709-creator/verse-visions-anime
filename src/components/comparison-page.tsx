@@ -12,8 +12,13 @@ import type { ComparisonData } from "@/lib/catalog/comparison";
  * supports — an opinion would be us inventing one.
  */
 export function ComparisonPage({ type, data }: { type: CatalogType; data: ComparisonData }) {
-  const detailRoute = type === "game" ? "/catalog/games/$slug" : "/catalog/anime/$slug";
-  const parentPath = type === "game" ? "/catalog/games" : "/anime";
+  const detailRoute =
+    type === "game"
+      ? "/catalog/games/$slug"
+      : type === "manga"
+        ? "/catalog/manga/$slug"
+        : "/catalog/anime/$slug";
+  const parentPath = type === "game" ? "/catalog/games" : type === "manga" ? "/manga" : "/anime";
   const heading = `${data.a.name} vs ${data.b.name}`;
 
   const Side = ({ side }: { side: ComparisonData["a"] }) => (
@@ -43,7 +48,7 @@ export function ComparisonPage({ type, data }: { type: CatalogType; data: Compar
         </Link>{" "}
         <span className="mx-1">/</span>
         <Link to={parentPath as "/anime"} className="hover:text-foreground">
-          {type === "game" ? "Games" : "Anime"}
+          {type === "game" ? "Games" : type === "manga" ? "Manga" : "Anime"}
         </Link>{" "}
         <span className="mx-1">/</span> {heading}
       </nav>
@@ -51,7 +56,7 @@ export function ComparisonPage({ type, data }: { type: CatalogType; data: Compar
       <h1 className="font-display text-3xl font-bold sm:text-4xl">{heading}</h1>
       <p className="mt-3 text-muted-foreground">
         {data.shared.length > 0
-          ? `Both are ${data.shared.join(" and ")} ${type === "game" ? "games" : "titles"}, compared on the ${data.rows.length} figures the catalog stores for each.`
+          ? `Both are ${data.shared.join(" and ")} ${type === "game" ? "games" : type === "manga" ? "series" : "titles"}, compared on the ${data.rows.length} figures the catalog stores for each.`
           : `Compared on the ${data.rows.length} figures the catalog stores for each.`}
       </p>
 

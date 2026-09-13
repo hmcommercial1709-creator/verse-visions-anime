@@ -3,6 +3,7 @@ import type {} from "@tanstack/react-start";
 import { sitemapIndexXml, xmlResponse, CODE_SITEMAP_PARTITIONS } from "@/lib/sitemap";
 import { countCodePartitions } from "@/lib/entity-catalog.server";
 import { loadMatrixIndex } from "@/lib/catalog/matrix";
+import { countDbCatalogPages } from "@/lib/catalog/db-catalog";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
@@ -37,7 +38,15 @@ export const Route = createFileRoute("/sitemap.xml")({
           /* leave it unadvertised */
         }
 
-        return xmlResponse(sitemapIndexXml(codePartitions, hasMatrix));
+        // And the manga child only once the table holds manga rows.
+        let hasManga = false;
+        try {
+          hasManga = (await countDbCatalogPages("manga", 36)) > 0;
+        } catch {
+          /* leave it unadvertised */
+        }
+
+        return xmlResponse(sitemapIndexXml(codePartitions, hasMatrix, hasManga));
       },
     },
   },

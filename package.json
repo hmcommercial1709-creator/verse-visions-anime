@@ -15,6 +15,7 @@
     "ingest:catalog": "node scripts/ingest-catalog.mjs",
     "ingest:anilist": "node scripts/ingest-anilist.mjs",
     "ingest:steam": "node scripts/ingest-steam.mjs",
+    "ingest:manga": "node scripts/ingest-manga.mjs",
     "verify:apis": "node scripts/verify-catalog-apis.mjs",
     "verify:catalog": "node scripts/verify-catalog-data.mjs",
     "crawl": "node scripts/crawl-site.mjs"

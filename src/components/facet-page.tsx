@@ -27,9 +27,20 @@ export function FacetPage({
   const ar = locale === "ar";
   const title = ar ? facetTitleAr(type, data.entry) : facetTitle(type, data.entry);
   const statements = ar ? facetStatementsAr(type, data) : facetStatements(type, data);
-  const detailRoute = type === "game" ? "/catalog/games/$slug" : "/catalog/anime/$slug";
-  const parentPath = ar ? "/ar/anime" : type === "game" ? "/catalog/games" : "/anime";
-  const parentName = ar ? "أنمي" : type === "game" ? "Games" : "Anime";
+  const detailRoute =
+    type === "game"
+      ? "/catalog/games/$slug"
+      : type === "manga"
+        ? "/catalog/manga/$slug"
+        : "/catalog/anime/$slug";
+  const parentPath = ar
+    ? "/ar/anime"
+    : type === "game"
+      ? "/catalog/games"
+      : type === "manga"
+        ? "/manga"
+        : "/anime";
+  const parentName = ar ? "أنمي" : type === "game" ? "Games" : type === "manga" ? "Manga" : "Anime";
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6" dir={ar ? "rtl" : "ltr"}>

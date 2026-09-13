@@ -280,6 +280,7 @@ export function partitionSitemapPath(
 export function sitemapIndexXml(
   codePartitions = CODE_SITEMAP_PARTITIONS,
   hasMatrix = false,
+  hasManga = false,
 ): string {
   const children = [
     ...INDEXABLE_LOCALES.flatMap((locale) =>
@@ -310,6 +311,9 @@ export function sitemapIndexXml(
     // which is precisely the sitemap-codes-1.xml error this site spent weeks
     // clearing. It appears on its own the first time the pipeline runs.
     ...(hasMatrix ? ["/sitemap-matrix.xml"] : []),
+    // Same rule again: advertised only once the manga ingest has put rows in
+    // the table, so the index never names a child that answers with an error.
+    ...(hasManga ? ["/sitemap-manga.xml"] : []),
   ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,

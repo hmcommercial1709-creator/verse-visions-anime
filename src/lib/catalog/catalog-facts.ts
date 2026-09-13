@@ -77,6 +77,18 @@ export interface CatalogMeta {
   website?: string | null;
   screenshots?: string[];
   features?: string[];
+  /** Manga. */
+  provider?: string;
+  chapters?: number | null;
+  volumes?: number | null;
+  publishedFrom?: string | null;
+  publishedTo?: string | null;
+  malScore?: number | null;
+  scoredBy?: number | null;
+  authors?: string[];
+  serializations?: string[];
+  demographics?: string[];
+  mangaType?: string | null;
   status?: string | null;
   season?: string | null;
   seasonYear?: number | null;
@@ -104,7 +116,7 @@ export function parseMeta(value: unknown): CatalogMeta | null {
 
 const titleCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 
-export type CatalogKind = "anime" | "game";
+export type CatalogKind = "anime" | "game" | "manga";
 
 const SEASON_LABEL: Record<string, string> = {
   WINTER: "Winter",
@@ -146,11 +158,12 @@ export function positioningStatements(
   const d = meta?.derived;
   if (!d) return [];
   const out: string[] = [];
-  const noun = kind === "game" ? "games" : "titles";
+  const noun = kind === "game" ? "games" : kind === "manga" ? "series" : "titles";
 
   if (d.genreRank) {
     const { genre, rank, total } = d.genreRank;
-    const basis = kind === "game" ? "Metacritic score" : "average score";
+    const basis =
+      kind === "game" ? "Metacritic score" : kind === "manga" ? "MAL score" : "average score";
     out.push(
       `Within this catalog, ${name} ranks #${rank.toLocaleString()} of ${total.toLocaleString()} ${genre} ${noun} by ${basis}.`,
     );
@@ -175,7 +188,9 @@ export function positioningStatements(
     out.push(
       kind === "game"
         ? `It released in ${label}, one of ${d.cohort.size.toLocaleString()} games from that year in this catalog.`
-        : `It premiered in ${label}, one of ${d.cohort.size.toLocaleString()} titles from that season in this catalog.`,
+        : kind === "manga"
+          ? `Serialisation began in ${label}, one of ${d.cohort.size.toLocaleString()} series starting that year in this catalog.`
+          : `It premiered in ${label}, one of ${d.cohort.size.toLocaleString()} titles from that season in this catalog.`,
     );
   }
 
@@ -207,6 +222,7 @@ export function generatedFaq(
   const faq: { question: string; answer: string }[] = [];
 
   if (kind === "game") return gameFaq(meta, name, faq);
+  if (kind === "manga") return mangaFaq(meta, name, faq);
 
   if (typeof meta.episodes === "number" && meta.episodes > 0) {
     const runtime =
@@ -357,6 +373,65 @@ function gameFaq(
         (rank
           ? `, placing it #${rank.rank} of ${rank.total} ${rank.genre} games in this catalog.`
           : ". Compare it against the similar games listed on this page."),
+    });
+  }
+
+  return faq;
+}
+
+/**
+ * The manga FAQ. Same rule as the others: every answer is read out of a
+ * stored value, so a question whose answer is unknown is never asked.
+ */
+function mangaFaq(
+  meta: CatalogMeta,
+  name: string,
+  faq: { question: string; answer: string }[],
+): { question: string; answer: string }[] {
+  if (typeof meta.chapters === "number" && meta.chapters > 0) {
+    const volumes =
+      typeof meta.volumes === "number" && meta.volumes > 0 ? ` across ${meta.volumes} volumes` : "";
+    faq.push({
+      question: `How many chapters does ${name} have?`,
+      answer: `${name} has ${meta.chapters} chapters${volumes}.`,
+    });
+  }
+
+  if (meta.authors?.length) {
+    faq.push({
+      question: `Who wrote ${name}?`,
+      answer: `${name} is by ${meta.authors.join(", ")}.`,
+    });
+  }
+
+  if (meta.publishedFrom) {
+    const from = meta.publishedFrom.slice(0, 4);
+    const to = meta.publishedTo ? meta.publishedTo.slice(0, 4) : null;
+    faq.push({
+      question: `When was ${name} published?`,
+      answer:
+        to && to !== from
+          ? `${name} was serialised from ${from} to ${to}.`
+          : `${name} began serialisation in ${from}${meta.status ? ` and is ${meta.status.toLowerCase()}` : ""}.`,
+    });
+  }
+
+  if (meta.serializations?.length) {
+    faq.push({
+      question: `Where was ${name} serialised?`,
+      answer: `${name} ran in ${meta.serializations.join(", ")}.`,
+    });
+  }
+
+  if (typeof meta.malScore === "number" && meta.malScore > 0) {
+    const rank = meta.derived?.genreRank;
+    faq.push({
+      question: `Is ${name} worth reading?`,
+      answer:
+        `Readers rate it ${meta.malScore}/10 on MyAnimeList` +
+        (rank
+          ? `, placing it #${rank.rank} of ${rank.total} ${rank.genre} series in this catalog.`
+          : ". Compare it against the similar series listed on this page."),
     });
   }
 

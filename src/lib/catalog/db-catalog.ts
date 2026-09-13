@@ -58,7 +58,7 @@ export interface DbCatalogPage {
 }
 
 export async function loadCatalogFromDb(
-  entityType: "anime" | "game",
+  entityType: "anime" | "game" | "manga",
   page: number,
   pageSize: number,
 ): Promise<DbCatalogPage | null> {
@@ -89,7 +89,7 @@ export async function loadCatalogFromDb(
 
 /** How many pages the database can serve, or 0 when it holds nothing. */
 export async function countDbCatalogPages(
-  entityType: "anime" | "game",
+  entityType: "anime" | "game" | "manga",
   pageSize: number,
 ): Promise<number> {
   const { count, error } = await supabase
@@ -103,7 +103,7 @@ export async function countDbCatalogPages(
 
 /** One catalog row by slug, or null when the table has no such row. */
 export async function loadCatalogItemFromDb(
-  entityType: "anime" | "game",
+  entityType: "anime" | "game" | "manga",
   slug: string,
 ): Promise<DbCatalogItem | null> {
   const read = (columns: string) =>

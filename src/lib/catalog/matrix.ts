@@ -41,9 +41,16 @@ export interface MatrixIndex {
   comparisons: ComparisonEntry[];
 }
 
-export type CatalogType = "anime" | "game";
+export type CatalogType = "anime" | "game" | "manga";
 
 const DIM_ORDER = ["genre", "studio", "platform", "season", "format", "year"];
+
+/** Must match BROWSE_BASE in scripts/facet-index.mjs. */
+const BROWSE_BASE: Record<CatalogType, string> = {
+  anime: "/anime/browse",
+  game: "/games/browse",
+  manga: "/manga/browse",
+};
 
 export const facetSlug = (value: string) =>
   value
@@ -88,8 +95,7 @@ export function parseFacetSegments(segments: string[]): FacetPart[] | null {
 /** The canonical path for an intersection — one page, one URL. */
 export function facetPath(type: CatalogType, parts: FacetPart[]): string {
   const sorted = [...parts].sort((a, b) => DIM_ORDER.indexOf(a.dim) - DIM_ORDER.indexOf(b.dim));
-  const base = type === "game" ? "/games/browse" : "/anime/browse";
-  return `${base}/${sorted.map((p) => `${p.dim}-${facetSlug(p.value)}`).join("/")}`;
+  return `${BROWSE_BASE[type]}/${sorted.map((p) => `${p.dim}-${facetSlug(p.value)}`).join("/")}`;
 }
 
 /**

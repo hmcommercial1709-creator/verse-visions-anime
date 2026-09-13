@@ -50,9 +50,15 @@ export function parsePair(pair: string): [string, string] | null {
   return [a, b];
 }
 
+const COMPARE_BASE: Record<CatalogType, string> = {
+  anime: "/compare/anime",
+  game: "/compare/games",
+  manga: "/compare/manga",
+};
+
 export const comparisonPath = (type: CatalogType, a: string, b: string) => {
   const [first, second] = [a, b].sort();
-  return `${type === "game" ? "/compare/games" : "/compare/anime"}/${first}-vs-${second}`;
+  return `${COMPARE_BASE[type]}/${first}-vs-${second}`;
 };
 
 const num = (value: unknown) => (typeof value === "number" && value > 0 ? value : null);
@@ -82,7 +88,17 @@ function buildRows(type: CatalogType, a: CatalogMeta | null, b: CatalogMeta | nu
     });
   };
 
-  if (type === "game") {
+  if (type === "manga") {
+    add("MAL score", a?.malScore, b?.malScore);
+    add("Chapters", a?.chapters, b?.chapters);
+    add("Volumes", a?.volumes, b?.volumes);
+    add(
+      "First published",
+      a?.publishedFrom?.slice(0, 4) ?? "",
+      b?.publishedFrom?.slice(0, 4) ?? "",
+    );
+    add("Author", a?.authors?.[0] ?? "", b?.authors?.[0] ?? "");
+  } else if (type === "game") {
     add("Metacritic score", a?.metacritic, b?.metacritic);
     add("Release year", a?.releaseYear, b?.releaseYear, false);
     add("Steam achievements", a?.achievements, b?.achievements);

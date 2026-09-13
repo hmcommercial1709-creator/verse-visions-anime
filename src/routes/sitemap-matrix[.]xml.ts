@@ -31,7 +31,7 @@ export const Route = createFileRoute("/sitemap-matrix.xml")({
         try {
           const entries: SitemapEntry[] = [];
 
-          for (const type of ["anime", "game"] as const) {
+          for (const type of ["anime", "game", "manga"] as const) {
             const index = await loadMatrixIndex(type);
             if (!index) continue;
 

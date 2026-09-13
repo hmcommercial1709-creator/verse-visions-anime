@@ -163,6 +163,15 @@ jobs:
       # last run reached, so the 100,000-app list accumulates a few hundred
       # games a night instead of being attempted in one impossible pass.
       # The limit is sized to finish inside this job's timeout.
+      # Manga is a separate entity type with no overlap against anime, so it
+      # is real catalog growth rather than a second page for titles already
+      # held. Jikan leads (25 entries with genres, authors and serializations
+      # per request) and Kitsu supplements what its ranked list does not
+      # reach; both feed one cross-source dedupe.
+      - name: Ingest manga from Jikan and Kitsu
+        continue-on-error: true
+        run: npm run ingest:manga -- --limit=3000
+
       # continue-on-error because the two sources are independent and Steam is
       # the flakier one: it refuses requests from data-centre IP ranges, which
       # is exactly what a CI runner is. The previous run imported 5,000 anime

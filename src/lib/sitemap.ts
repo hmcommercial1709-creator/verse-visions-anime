@@ -27,6 +27,24 @@ import {
 
 export const BASE_URL = "https://gamecastle.store";
 
+/**
+ * Entity-escapes a URL for use inside <loc> or an href attribute.
+ *
+ * The sitemaps.org spec requires this, and it is not cosmetic: a single
+ * unescaped "&" in one slug makes the whole file fail to parse, so Google
+ * rejects every URL in it, not just the offending one. Paths here are built
+ * from database slugs, which we do not control, so the escape belongs at the
+ * point of rendering rather than in a hope that upstream stays clean.
+ */
+export function xmlEscape(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 export type ChangeFreq = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 
 export interface SitemapEntry {
@@ -201,33 +219,33 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
  */
 export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_LOCALE): string {
   const withAlternates = INDEXABLE_LOCALES.length > 1;
-  const englishOnly = (path: string) => !hasArabicEdition(path) ||
-    path === "/anime/dandadan" || path === "/anime/sakamoto-days";
+  const englishOnly = (path: string) =>
+    !hasArabicEdition(path) || path === "/anime/dandadan" || path === "/anime/sakamoto-days";
   const seen = new Set<string>();
   const urls = entries
     .filter((e) => !englishOnly(e.path) || locale === "en")
     .filter((e) => (seen.has(e.path) ? false : (seen.add(e.path), true)))
     .map((e) => {
       const locales = englishOnly(e.path) ? ["en" as const] : INDEXABLE_LOCALES;
-      return (
-      [
+      return [
         `  <url>`,
-        `    <loc>${BASE_URL}${localizePath(e.path, locale)}</loc>`,
+        `    <loc>${xmlEscape(BASE_URL + localizePath(e.path, locale))}</loc>`,
         ...(withAlternates && locales.length > 1
-          ? locales.map(
-              (code) =>
-                `    <xhtml:link rel="alternate" hreflang="${getLocale(code).hrefLang}" href="${BASE_URL}${localizePath(e.path, code)}" />`,
-            ).concat([
-              `    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${e.path}" />`,
-            ])
+          ? locales
+              .map(
+                (code) =>
+                  `    <xhtml:link rel="alternate" hreflang="${getLocale(code).hrefLang}" href="${xmlEscape(BASE_URL + localizePath(e.path, code))}" />`,
+              )
+              .concat([
+                `    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(BASE_URL + e.path)}" />`,
+              ])
           : []),
         e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
         e.priority ? `    <priority>${e.priority}</priority>` : null,
         `  </url>`,
       ]
         .filter(Boolean)
-        .join("\n")
-      );
+        .join("\n");
     });
 
   return [
@@ -251,9 +269,15 @@ export function partitionSitemapPath(
 export function sitemapIndexXml(): string {
   const children = [
     ...INDEXABLE_LOCALES.flatMap((locale) =>
-      PARTITIONS.filter((p) => locale === "en" ||
-        partitionEntries(p).some((e) => hasArabicEdition(e.path) &&
-          e.path !== "/anime/dandadan" && e.path !== "/anime/sakamoto-days")
+      PARTITIONS.filter(
+        (p) =>
+          locale === "en" ||
+          partitionEntries(p).some(
+            (e) =>
+              hasArabicEdition(e.path) &&
+              e.path !== "/anime/dandadan" &&
+              e.path !== "/anime/sakamoto-days",
+          ),
       ).map((p) => partitionSitemapPath(p, locale)),
     ),
     // Arabic cornerstone edition: real localized content, its own child sitemap.
@@ -266,7 +290,9 @@ export function sitemapIndexXml(): string {
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-    ...children.map((path) => `  <sitemap>\n    <loc>${BASE_URL}${path}</loc>\n  </sitemap>`),
+    ...children.map(
+      (path) => `  <sitemap>\n    <loc>${xmlEscape(BASE_URL + path)}</loc>\n  </sitemap>`,
+    ),
     `</sitemapindex>`,
   ].join("\n");
 }
@@ -292,12 +318,12 @@ export function arUrlsetXml(): string {
     const enPath = guide?.enPath;
     return [
       `  <url>`,
-      `    <loc>${BASE_URL}${e.path}</loc>`,
-      `    <xhtml:link rel="alternate" hreflang="ar" href="${BASE_URL}${e.path}" />`,
+      `    <loc>${xmlEscape(BASE_URL + e.path)}</loc>`,
+      `    <xhtml:link rel="alternate" hreflang="ar" href="${xmlEscape(BASE_URL + e.path)}" />`,
       ...(enPath
         ? [
-            `    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}${enPath}" />`,
-            `    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${enPath}" />`,
+            `    <xhtml:link rel="alternate" hreflang="en" href="${xmlEscape(BASE_URL + enPath)}" />`,
+            `    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(BASE_URL + enPath)}" />`,
           ]
         : []),
       e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
@@ -313,6 +339,31 @@ export function arUrlsetXml(): string {
     ...urls,
     `</urlset>`,
   ].join("\n");
+}
+
+/**
+ * 503 for a sitemap whose data source failed.
+ *
+ * The alternative — catching the error and serving an empty <urlset> with a
+ * 200 — is worse than it looks: Google treats that as an authoritative "these
+ * URLs are gone", records 0 discovered pages, and can drop what it had already
+ * indexed. A 503 with Retry-After is a transient signal it comes back to, so
+ * the previously discovered URLs survive the outage.
+ */
+export function sitemapUnavailable(error: unknown): Response {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`sitemap unavailable: ${message}`);
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<!-- sitemap temporarily unavailable -->`,
+    {
+      status: 503,
+      headers: {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Retry-After": "3600",
+        "Cache-Control": "no-store",
+      },
+    },
+  );
 }
 
 export function xmlResponse(xml: string): Response {

@@ -92,6 +92,7 @@ import { Route as ArExploreRouteImport } from './routes/ar.explore'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as CharacterSlugRouteImport } from './routes/character.$slug'
+import { Route as CodesSlugRouteImport } from './routes/codes.$slug'
 import { Route as ExploreIndexRouteImport } from './routes/explore.index'
 import { Route as ExploreSlugRouteImport } from './routes/explore.$slug'
 import { Route as GamingHubIndexRouteImport } from './routes/gaming-hub.index'
@@ -560,6 +561,11 @@ const CharacterSlugRoute = CharacterSlugRouteImport.update({
   path: '/character/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CodesSlugRoute = CodesSlugRouteImport.update({
+  id: '/codes/$slug',
+  path: '/codes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExploreIndexRoute = ExploreIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -923,6 +929,7 @@ export interface FileRoutesByFullPath {
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
+  '/codes/$slug': typeof CodesSlugRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
@@ -1058,6 +1065,7 @@ export interface FileRoutesByTo {
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
+  '/codes/$slug': typeof CodesSlugRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
@@ -1196,6 +1204,7 @@ export interface FileRoutesById {
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
+  '/codes/$slug': typeof CodesSlugRoute
   '/explore/$slug': typeof ExploreSlugRoute
   '/gaming-hub/anime-games': typeof GamingHubAnimeGamesRoute
   '/gaming-hub/game-codes-deals': typeof GamingHubGameCodesDealsRoute
@@ -1335,6 +1344,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
+    | '/codes/$slug'
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
@@ -1470,6 +1480,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
+    | '/codes/$slug'
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
@@ -1607,6 +1618,7 @@ export interface FileRouteTypes {
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
+    | '/codes/$slug'
     | '/explore/$slug'
     | '/gaming-hub/anime-games'
     | '/gaming-hub/game-codes-deals'
@@ -1742,6 +1754,7 @@ export interface RootRouteChildren {
   ArticleSlugRoute: typeof ArticleSlugRoute
   CategorySlugRoute: typeof CategorySlugRoute
   CharacterSlugRoute: typeof CharacterSlugRoute
+  CodesSlugRoute: typeof CodesSlugRoute
   GamingHubAnimeGamesRoute: typeof GamingHubAnimeGamesRoute
   GamingHubGameCodesDealsRoute: typeof GamingHubGameCodesDealsRoute
   GamingHubGameComparisonsPerformanceRoute: typeof GamingHubGameComparisonsPerformanceRoute
@@ -2366,6 +2379,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CharacterSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/codes/$slug': {
+      id: '/codes/$slug'
+      path: '/codes/$slug'
+      fullPath: '/codes/$slug'
+      preLoaderRoute: typeof CodesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/explore/': {
       id: '/explore/'
       path: '/'
@@ -2873,6 +2893,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticleSlugRoute: ArticleSlugRoute,
   CategorySlugRoute: CategorySlugRoute,
   CharacterSlugRoute: CharacterSlugRoute,
+  CodesSlugRoute: CodesSlugRoute,
   GamingHubAnimeGamesRoute: GamingHubAnimeGamesRoute,
   GamingHubGameCodesDealsRoute: GamingHubGameCodesDealsRoute,
   GamingHubGameComparisonsPerformanceRoute:

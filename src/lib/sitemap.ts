@@ -300,6 +300,10 @@ export function sitemapIndexXml(codePartitions = CODE_SITEMAP_PARTITIONS): strin
     ),
     // API-backed catalog: game detail URLs plus the paginated anime index.
     "/sitemap-catalog.xml",
+    // The programmatic matrix: facet intersections and comparison pages, read
+    // from the index the ingest built. Listed last because it is the largest
+    // and the most derived.
+    "/sitemap-matrix.xml",
   ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,

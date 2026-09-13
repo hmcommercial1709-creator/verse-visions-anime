@@ -40,6 +40,8 @@
 import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 import { annotate } from "./derive-facts.mjs";
+import { writeMatrixIndex } from "./write-matrix-index.mjs";
+import { buildFacetIndex, buildComparisonIndex } from "./facet-index.mjs";
 
 if (!globalThis.fetch) {
   console.error(`\nNeeds Node 18+ for global fetch (running ${process.version}).\n`);
@@ -439,6 +441,16 @@ async function main() {
   }
 
   if (DRY_RUN) {
+    // The matrix is reported in a dry run too: how many intersection pages a
+    // catalog this size supports is the number worth knowing BEFORE writing.
+    const facets = buildFacetIndex(records, "anime");
+    const comparisons = buildComparisonIndex(records, "anime");
+    log(
+      `\nMatrix preview: ${Object.keys(facets.facets).length} facet pages ` +
+        `(${facets.dropped} intersections dropped below the inventory threshold), ` +
+        `${comparisons.pairs.length} comparison pages.`,
+    );
+
     const sample = rows.find((r) => r.status === "active");
     if (sample) {
       log(`\nSample active row (${sample.slug}):`);
@@ -463,6 +475,11 @@ async function main() {
     written += batch.length;
     log(`  chunk ${i + 1}/${batches.length} — ${written}/${rows.length} rows`);
   }
+
+  // Built from the rows just written. Facet counts are only meaningful over
+  // the whole catalog, so a partial run (--limit) produces a partial index;
+  // that is why the nightly job runs without one.
+  await writeMatrixIndex(supabase, records, "anime", log);
 
   log(`\nDone. ${written} rows upserted, ${active} of them active.\n`);
 }

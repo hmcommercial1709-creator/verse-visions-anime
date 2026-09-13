@@ -61,6 +61,7 @@ import { Route as SitemapCodes1DotxmlRouteImport } from './routes/sitemap-codes-
 import { Route as SitemapCodes2DotxmlRouteImport } from './routes/sitemap-codes-2[.]xml'
 import { Route as SitemapEpisodesDotxmlRouteImport } from './routes/sitemap-episodes[.]xml'
 import { Route as SitemapIndexDotxmlRouteImport } from './routes/sitemap-index[.]xml'
+import { Route as SitemapMatrixDotxmlRouteImport } from './routes/sitemap-matrix[.]xml'
 import { Route as SitemapPageRouteImport } from './routes/sitemap-page'
 import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
 import { Route as SitemapProductsDotxmlRouteImport } from './routes/sitemap-products[.]xml'
@@ -128,6 +129,7 @@ import { Route as LocaleProductSlugRouteImport } from './routes/$locale.product.
 import { Route as LocalePromoSlugRouteImport } from './routes/$locale.promo.$slug'
 import { Route as LocaleWallpapersSlugRouteImport } from './routes/$locale.wallpapers.$slug'
 import { Route as AnimeSlugSectionRouteImport } from './routes/anime.$slug_.$section'
+import { Route as AnimeBrowseSplatRouteImport } from './routes/anime.browse.$'
 import { Route as AnimeDandadanCharactersRouteImport } from './routes/anime.dandadan_.characters'
 import { Route as AnimeDandadanEpisodeGuideRouteImport } from './routes/anime.dandadan_.episode-guide'
 import { Route as AnimeDandadanOccultWorldRouteImport } from './routes/anime.dandadan_.occult-world'
@@ -146,6 +148,9 @@ import { Route as CatalogAnimeIndexRouteImport } from './routes/catalog.anime.in
 import { Route as CatalogAnimeSlugRouteImport } from './routes/catalog.anime.$slug'
 import { Route as CatalogGamesIndexRouteImport } from './routes/catalog.games.index'
 import { Route as CatalogGamesSlugRouteImport } from './routes/catalog.games.$slug'
+import { Route as CompareAnimePairRouteImport } from './routes/compare.anime.$pair'
+import { Route as CompareGamesPairRouteImport } from './routes/compare.games.$pair'
+import { Route as GamesBrowseSplatRouteImport } from './routes/games.browse.$'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
 
@@ -407,6 +412,11 @@ const SitemapEpisodesDotxmlRoute = SitemapEpisodesDotxmlRouteImport.update({
 const SitemapIndexDotxmlRoute = SitemapIndexDotxmlRouteImport.update({
   id: '/sitemap-index.xml',
   path: '/sitemap-index.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapMatrixDotxmlRoute = SitemapMatrixDotxmlRouteImport.update({
+  id: '/sitemap-matrix.xml',
+  path: '/sitemap-matrix.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapPageRoute = SitemapPageRouteImport.update({
@@ -755,6 +765,11 @@ const AnimeSlugSectionRoute = AnimeSlugSectionRouteImport.update({
   path: '/$slug/$section',
   getParentRoute: () => AnimeRoute,
 } as any)
+const AnimeBrowseSplatRoute = AnimeBrowseSplatRouteImport.update({
+  id: '/browse/$',
+  path: '/browse/$',
+  getParentRoute: () => AnimeRoute,
+} as any)
 const AnimeDandadanCharactersRoute = AnimeDandadanCharactersRouteImport.update({
   id: '/dandadan_/characters',
   path: '/dandadan/characters',
@@ -852,6 +867,21 @@ const CatalogGamesSlugRoute = CatalogGamesSlugRouteImport.update({
   path: '/catalog/games/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompareAnimePairRoute = CompareAnimePairRouteImport.update({
+  id: '/compare/anime/$pair',
+  path: '/compare/anime/$pair',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareGamesPairRoute = CompareGamesPairRouteImport.update({
+  id: '/compare/games/$pair',
+  path: '/compare/games/$pair',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamesBrowseSplatRoute = GamesBrowseSplatRouteImport.update({
+  id: '/browse/$',
+  path: '/browse/$',
+  getParentRoute: () => GamesRoute,
+} as any)
 const SitemapLocaleFileRoute = SitemapLocaleFileRouteImport.update({
   id: '/sitemap/$locale/$file',
   path: '/sitemap/$locale/$file',
@@ -887,7 +917,7 @@ export interface FileRoutesByFullPath {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
-  '/games': typeof GamesRoute
+  '/games': typeof GamesRouteWithChildren
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
@@ -916,6 +946,7 @@ export interface FileRoutesByFullPath {
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/sitemap-matrix.xml': typeof SitemapMatrixDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap-products.xml': typeof SitemapProductsDotxmlRoute
@@ -981,6 +1012,7 @@ export interface FileRoutesByFullPath {
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/$slug/$section': typeof AnimeSlugSectionRoute
+  '/anime/browse/$': typeof AnimeBrowseSplatRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -995,6 +1027,9 @@ export interface FileRoutesByFullPath {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
   '/catalog/games/$slug': typeof CatalogGamesSlugRoute
+  '/compare/anime/$pair': typeof CompareAnimePairRoute
+  '/compare/games/$pair': typeof CompareGamesPairRoute
+  '/games/browse/$': typeof GamesBrowseSplatRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
@@ -1026,7 +1061,7 @@ export interface FileRoutesByTo {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
-  '/games': typeof GamesRoute
+  '/games': typeof GamesRouteWithChildren
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
@@ -1055,6 +1090,7 @@ export interface FileRoutesByTo {
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/sitemap-matrix.xml': typeof SitemapMatrixDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap-products.xml': typeof SitemapProductsDotxmlRoute
@@ -1119,6 +1155,7 @@ export interface FileRoutesByTo {
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/$slug/$section': typeof AnimeSlugSectionRoute
+  '/anime/browse/$': typeof AnimeBrowseSplatRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -1133,6 +1170,9 @@ export interface FileRoutesByTo {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
   '/catalog/games/$slug': typeof CatalogGamesSlugRoute
+  '/compare/anime/$pair': typeof CompareAnimePairRoute
+  '/compare/games/$pair': typeof CompareGamesPairRoute
+  '/games/browse/$': typeof GamesBrowseSplatRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles': typeof LocaleArticlesIndexRoute
   '/$locale/codes': typeof LocaleCodesIndexRoute
@@ -1167,7 +1207,7 @@ export interface FileRoutesById {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
-  '/games': typeof GamesRoute
+  '/games': typeof GamesRouteWithChildren
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
   '/guides': typeof GuidesRoute
@@ -1196,6 +1236,7 @@ export interface FileRoutesById {
   '/sitemap-codes-2.xml': typeof SitemapCodes2DotxmlRoute
   '/sitemap-episodes.xml': typeof SitemapEpisodesDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/sitemap-matrix.xml': typeof SitemapMatrixDotxmlRoute
   '/sitemap-page': typeof SitemapPageRoute
   '/sitemap-pages.xml': typeof SitemapPagesDotxmlRoute
   '/sitemap-products.xml': typeof SitemapProductsDotxmlRoute
@@ -1261,6 +1302,7 @@ export interface FileRoutesById {
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
   '/anime/$slug_/$section': typeof AnimeSlugSectionRoute
+  '/anime/browse/$': typeof AnimeBrowseSplatRoute
   '/anime/dandadan_/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan_/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan_/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -1275,6 +1317,9 @@ export interface FileRoutesById {
   '/ar/rewards/anime-wallpapers': typeof ArRewardsAnimeWallpapersRoute
   '/catalog/anime/$slug': typeof CatalogAnimeSlugRoute
   '/catalog/games/$slug': typeof CatalogGamesSlugRoute
+  '/compare/anime/$pair': typeof CompareAnimePairRoute
+  '/compare/games/$pair': typeof CompareGamesPairRoute
+  '/games/browse/$': typeof GamesBrowseSplatRoute
   '/sitemap/$locale/$file': typeof SitemapLocaleFileRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/codes/': typeof LocaleCodesIndexRoute
@@ -1339,6 +1384,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-index.xml'
+    | '/sitemap-matrix.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap-products.xml'
@@ -1404,6 +1450,7 @@ export interface FileRouteTypes {
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
     | '/anime/$slug/$section'
+    | '/anime/browse/$'
     | '/anime/dandadan/characters'
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
@@ -1418,6 +1465,9 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/catalog/anime/$slug'
     | '/catalog/games/$slug'
+    | '/compare/anime/$pair'
+    | '/compare/games/$pair'
+    | '/games/browse/$'
     | '/sitemap/$locale/$file'
     | '/$locale/articles/'
     | '/$locale/codes/'
@@ -1478,6 +1528,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-index.xml'
+    | '/sitemap-matrix.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap-products.xml'
@@ -1542,6 +1593,7 @@ export interface FileRouteTypes {
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
     | '/anime/$slug/$section'
+    | '/anime/browse/$'
     | '/anime/dandadan/characters'
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
@@ -1556,6 +1608,9 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/catalog/anime/$slug'
     | '/catalog/games/$slug'
+    | '/compare/anime/$pair'
+    | '/compare/games/$pair'
+    | '/games/browse/$'
     | '/sitemap/$locale/$file'
     | '/$locale/articles'
     | '/$locale/codes'
@@ -1618,6 +1673,7 @@ export interface FileRouteTypes {
     | '/sitemap-codes-2.xml'
     | '/sitemap-episodes.xml'
     | '/sitemap-index.xml'
+    | '/sitemap-matrix.xml'
     | '/sitemap-page'
     | '/sitemap-pages.xml'
     | '/sitemap-products.xml'
@@ -1683,6 +1739,7 @@ export interface FileRouteTypes {
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
     | '/anime/$slug_/$section'
+    | '/anime/browse/$'
     | '/anime/dandadan_/characters'
     | '/anime/dandadan_/episode-guide'
     | '/anime/dandadan_/occult-world'
@@ -1697,6 +1754,9 @@ export interface FileRouteTypes {
     | '/ar/rewards/anime-wallpapers'
     | '/catalog/anime/$slug'
     | '/catalog/games/$slug'
+    | '/compare/anime/$pair'
+    | '/compare/games/$pair'
+    | '/games/browse/$'
     | '/sitemap/$locale/$file'
     | '/$locale/articles/'
     | '/$locale/codes/'
@@ -1731,7 +1791,7 @@ export interface RootRouteChildren {
   FactsRoute: typeof FactsRoute
   FaqRoute: typeof FaqRoute
   GameTopUpRoute: typeof GameTopUpRoute
-  GamesRoute: typeof GamesRoute
+  GamesRoute: typeof GamesRouteWithChildren
   GamingGiftCardsRoute: typeof GamingGiftCardsRoute
   GenresRoute: typeof GenresRoute
   GuidesRoute: typeof GuidesRoute
@@ -1760,6 +1820,7 @@ export interface RootRouteChildren {
   SitemapCodes2DotxmlRoute: typeof SitemapCodes2DotxmlRoute
   SitemapEpisodesDotxmlRoute: typeof SitemapEpisodesDotxmlRoute
   SitemapIndexDotxmlRoute: typeof SitemapIndexDotxmlRoute
+  SitemapMatrixDotxmlRoute: typeof SitemapMatrixDotxmlRoute
   SitemapPageRoute: typeof SitemapPageRoute
   SitemapPagesDotxmlRoute: typeof SitemapPagesDotxmlRoute
   SitemapProductsDotxmlRoute: typeof SitemapProductsDotxmlRoute
@@ -1823,6 +1884,8 @@ export interface RootRouteChildren {
   ArRewardsAnimeWallpapersRoute: typeof ArRewardsAnimeWallpapersRoute
   CatalogAnimeSlugRoute: typeof CatalogAnimeSlugRoute
   CatalogGamesSlugRoute: typeof CatalogGamesSlugRoute
+  CompareAnimePairRoute: typeof CompareAnimePairRoute
+  CompareGamesPairRoute: typeof CompareGamesPairRoute
   SitemapLocaleFileRoute: typeof SitemapLocaleFileRoute
   LocaleArticlesIndexRoute: typeof LocaleArticlesIndexRoute
   LocaleCodesIndexRoute: typeof LocaleCodesIndexRoute
@@ -2196,6 +2259,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap-index.xml'
       fullPath: '/sitemap-index.xml'
       preLoaderRoute: typeof SitemapIndexDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-matrix.xml': {
+      id: '/sitemap-matrix.xml'
+      path: '/sitemap-matrix.xml'
+      fullPath: '/sitemap-matrix.xml'
+      preLoaderRoute: typeof SitemapMatrixDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap-page': {
@@ -2667,6 +2737,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnimeSlugSectionRouteImport
       parentRoute: typeof AnimeRoute
     }
+    '/anime/browse/$': {
+      id: '/anime/browse/$'
+      path: '/browse/$'
+      fullPath: '/anime/browse/$'
+      preLoaderRoute: typeof AnimeBrowseSplatRouteImport
+      parentRoute: typeof AnimeRoute
+    }
     '/anime/dandadan_/characters': {
       id: '/anime/dandadan_/characters'
       path: '/dandadan/characters'
@@ -2793,6 +2870,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogGamesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compare/anime/$pair': {
+      id: '/compare/anime/$pair'
+      path: '/compare/anime/$pair'
+      fullPath: '/compare/anime/$pair'
+      preLoaderRoute: typeof CompareAnimePairRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/games/$pair': {
+      id: '/compare/games/$pair'
+      path: '/compare/games/$pair'
+      fullPath: '/compare/games/$pair'
+      preLoaderRoute: typeof CompareGamesPairRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/games/browse/$': {
+      id: '/games/browse/$'
+      path: '/browse/$'
+      fullPath: '/games/browse/$'
+      preLoaderRoute: typeof GamesBrowseSplatRouteImport
+      parentRoute: typeof GamesRoute
+    }
     '/sitemap/$locale/$file': {
       id: '/sitemap/$locale/$file'
       path: '/sitemap/$locale/$file'
@@ -2816,6 +2914,7 @@ interface AnimeRouteChildren {
   AnimeSakamotoDaysRoute: typeof AnimeSakamotoDaysRoute
   AnimeIndexRoute: typeof AnimeIndexRoute
   AnimeSlugSectionRoute: typeof AnimeSlugSectionRoute
+  AnimeBrowseSplatRoute: typeof AnimeBrowseSplatRoute
   AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
   AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
   AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
@@ -2832,6 +2931,7 @@ const AnimeRouteChildren: AnimeRouteChildren = {
   AnimeSakamotoDaysRoute: AnimeSakamotoDaysRoute,
   AnimeIndexRoute: AnimeIndexRoute,
   AnimeSlugSectionRoute: AnimeSlugSectionRoute,
+  AnimeBrowseSplatRoute: AnimeBrowseSplatRoute,
   AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
   AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
   AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,
@@ -2856,6 +2956,16 @@ const ExploreRouteChildren: ExploreRouteChildren = {
 
 const ExploreRouteWithChildren =
   ExploreRoute._addFileChildren(ExploreRouteChildren)
+
+interface GamesRouteChildren {
+  GamesBrowseSplatRoute: typeof GamesBrowseSplatRoute
+}
+
+const GamesRouteChildren: GamesRouteChildren = {
+  GamesBrowseSplatRoute: GamesBrowseSplatRoute,
+}
+
+const GamesRouteWithChildren = GamesRoute._addFileChildren(GamesRouteChildren)
 
 interface ArExploreRouteChildren {
   ArExploreSlugRoute: typeof ArExploreSlugRoute
@@ -2895,7 +3005,7 @@ const rootRouteChildren: RootRouteChildren = {
   FactsRoute: FactsRoute,
   FaqRoute: FaqRoute,
   GameTopUpRoute: GameTopUpRoute,
-  GamesRoute: GamesRoute,
+  GamesRoute: GamesRouteWithChildren,
   GamingGiftCardsRoute: GamingGiftCardsRoute,
   GenresRoute: GenresRoute,
   GuidesRoute: GuidesRoute,
@@ -2924,6 +3034,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapCodes2DotxmlRoute: SitemapCodes2DotxmlRoute,
   SitemapEpisodesDotxmlRoute: SitemapEpisodesDotxmlRoute,
   SitemapIndexDotxmlRoute: SitemapIndexDotxmlRoute,
+  SitemapMatrixDotxmlRoute: SitemapMatrixDotxmlRoute,
   SitemapPageRoute: SitemapPageRoute,
   SitemapPagesDotxmlRoute: SitemapPagesDotxmlRoute,
   SitemapProductsDotxmlRoute: SitemapProductsDotxmlRoute,
@@ -2993,6 +3104,8 @@ const rootRouteChildren: RootRouteChildren = {
   ArRewardsAnimeWallpapersRoute: ArRewardsAnimeWallpapersRoute,
   CatalogAnimeSlugRoute: CatalogAnimeSlugRoute,
   CatalogGamesSlugRoute: CatalogGamesSlugRoute,
+  CompareAnimePairRoute: CompareAnimePairRoute,
+  CompareGamesPairRoute: CompareGamesPairRoute,
   SitemapLocaleFileRoute: SitemapLocaleFileRoute,
   LocaleArticlesIndexRoute: LocaleArticlesIndexRoute,
   LocaleCodesIndexRoute: LocaleCodesIndexRoute,

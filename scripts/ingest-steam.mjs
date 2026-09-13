@@ -37,6 +37,8 @@
 import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 import { annotate } from "./derive-facts.mjs";
+import { writeMatrixIndex } from "./write-matrix-index.mjs";
+import { buildFacetIndex, buildComparisonIndex } from "./facet-index.mjs";
 
 if (!globalThis.fetch) {
   console.error(`\nNeeds Node 18+ for global fetch (running ${process.version}).\n`);
@@ -468,6 +470,14 @@ async function main() {
   }
 
   if (DRY_RUN) {
+    const facets = buildFacetIndex(all, "game");
+    const comparisons = buildComparisonIndex(all, "game");
+    log(
+      `\nMatrix preview: ${Object.keys(facets.facets).length} facet pages ` +
+        `(${facets.dropped} intersections dropped below the inventory threshold), ` +
+        `${comparisons.pairs.length} comparison pages.`,
+    );
+
     const sample = rows.find((r) => r.status === "active");
     if (sample) {
       log(`\nSample active row (${sample.slug}):`);
@@ -492,6 +502,10 @@ async function main() {
     written += batch.length;
     log(`  chunk ${i + 1}/${batches.length} — ${written}/${rows.length} rows`);
   }
+  // Over `all`, not just this run's slice: Steam is ingested a few hundred
+  // games a night, and a facet index built from one night's rows would drop
+  // every intersection the rest of the catalog already satisfies.
+  await writeMatrixIndex(supabase, all, "game", log);
   await writeCursor(supabase, lastAppId);
 
   log(`\nDone. ${written} rows upserted, ${active} active. Cursor at appid ${lastAppId}.`);

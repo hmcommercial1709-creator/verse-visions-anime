@@ -71,3 +71,86 @@ jobs:
           GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
           GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}
         run: node scripts/ping-gsc.js
+  # ---------------------------------------------------------------- catalog
+  #
+  # The catalog ingest runs here rather than on a developer's machine, because
+  # this is where the network actually is: the sandbox these scripts were
+  # written in denies graphql.anilist.co and store.steampowered.com outright,
+  # so CI is the first place they can reach a live API at all.
+  #
+  # Separate concurrency group with cancel-in-progress off. The group above
+  # cancels its predecessor, which is right for a check and wrong for an
+  # ingest: cancelling a Steam run mid-flight loses up to an hour of
+  # rate-limited lookups and, worse, loses the resume cursor for that stretch.
+  ingest:
+    name: Ingest the catalog (AniList, then Steam)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: catalog-ingest
+      cancel-in-progress: false
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      # DDL needs a Postgres connection; the service role key only reaches
+      # PostgREST. So this step is opt-in: add a SUPABASE_DB_URL secret (the
+      # connection string from Supabase → Settings → Database) and the schema
+      # keeps itself current. Without it the step says exactly what to paste
+      # where, and the ingest below refuses to write rather than silently
+      # producing rows with no extras.
+      - name: Apply pending migrations
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "::notice::SUPABASE_DB_URL is not set — skipping automatic migration."
+            echo "Apply supabase/migrations/20260913120000_entities_metadata_jsonb.sql"
+            echo "in the Supabase SQL editor, or add the SUPABASE_DB_URL secret to"
+            echo "have this step do it on every run."
+            exit 0
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+          # Deliberately NOT a loop over supabase/migrations/*.sql.
+          #
+          # Most of the files in that directory are not safe to re-apply:
+          # 20260901204040 does a bare CREATE POLICY (Postgres has no IF NOT
+          # EXISTS for policies, so a second run errors), and 20260902000737
+          # creates archive tables with CREATE TABLE ... AS and then DELETEs
+          # the rows it copied — running that twice against a live database
+          # would archive an empty set and delete nothing, or fail outright.
+          # A nightly job must never be the thing that discovers that.
+          #
+          # This applies only the migration the ingest below depends on, which
+          # is idempotent by construction: ADD COLUMN IF NOT EXISTS, a GRANT
+          # (idempotent), and CREATE INDEX IF NOT EXISTS. ON_ERROR_STOP turns
+          # any surprise into a failed job rather than a half-migrated schema.
+          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260913120000_entities_metadata_jsonb.sql
+
+      # Fast: GraphQL returns 50 titles with their studios, tags, relations and
+      # characters per request, so a full pass is minutes.
+      - name: Ingest anime from AniList
+        run: npm run ingest:anilist -- --limit=5000 --require-metadata
+
+      # Slow by nature: Steam's appdetails is one app per request, throttled to
+      # roughly 200 per five minutes. --resume continues from the appid the
+      # last run reached, so the 100,000-app list accumulates a few hundred
+      # games a night instead of being attempted in one impossible pass.
+      # The limit is sized to finish inside this job's timeout.
+      - name: Ingest games from Steam (resumable)
+        run: npm run ingest:steam -- --resume --limit=300 --require-metadata
+
+      - name: Verify the catalog after ingest
+        run: npm run verify:catalog -- --read-only

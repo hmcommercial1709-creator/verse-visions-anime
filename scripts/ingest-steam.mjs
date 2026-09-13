@@ -80,6 +80,10 @@ const args = new Map(
   }),
 );
 const DRY_RUN = args.has("dry-run");
+/** Refuse to write thin rows. Used in CI, where a silent degrade to rows
+ *  without extras would quietly produce exactly the thin pages this
+ *  pipeline exists to stop. */
+const REQUIRE_METADATA = args.has("require-metadata");
 const RESUME = args.has("resume");
 const LIMIT = Number(args.get("limit") ?? 0) || 500;
 
@@ -377,6 +381,13 @@ async function main() {
         : "metadata column MISSING. Apply\n" +
             "  supabase/migrations/20260913120000_entities_metadata_jsonb.sql first.",
     );
+    if (!withMetadata && REQUIRE_METADATA) {
+      throw new Error(
+        "--require-metadata was set and public.entities has no metadata column.\n" +
+          "Refusing to write rows that would render without their extras.\n" +
+          "Apply supabase/migrations/20260913120000_entities_metadata_jsonb.sql, then re-run.",
+      );
+    }
     if (RESUME) {
       cursor = await readCursor(supabase);
       log(`Resuming after appid ${cursor}.`);

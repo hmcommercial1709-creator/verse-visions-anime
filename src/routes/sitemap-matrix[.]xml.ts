@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { loadMatrixIndex } from "@/lib/catalog/matrix";
+import { hasArabicEdition } from "@/lib/catalog/facet-i18n";
 import { urlsetXml, xmlResponse, sitemapUnavailable, type SitemapEntry } from "@/lib/sitemap";
 
 /**
@@ -46,6 +47,22 @@ export const Route = createFileRoute("/sitemap-matrix.xml")({
                 priority:
                   facet.parts.length === 1 ? "0.7" : facet.parts.length === 2 ? "0.6" : "0.5",
               });
+            }
+
+            // The Arabic edition, for the intersections whose every dimension
+            // is in the translated vocabulary. Listed as its own URLs rather
+            // than as hreflang annotations on the English ones, because they
+            // are separate pages with their own canonical; the hreflang pair
+            // is declared in each page's head, from both sides.
+            if (type === "anime") {
+              for (const facet of facets) {
+                if (!hasArabicEdition(facet)) continue;
+                entries.push({
+                  path: `/ar${facet.path}`,
+                  changefreq: "weekly",
+                  priority: facet.parts.length === 1 ? "0.6" : "0.5",
+                });
+              }
             }
 
             for (const pair of index.comparisons) {

@@ -2,6 +2,7 @@ import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 import type { CatalogType, FacetEntry } from "./matrix";
 import type { FacetPageData } from "./facet-loader";
 import { parseMeta } from "./catalog-facts";
+import { hasArabicEdition } from "./facet-i18n";
 
 /**
  * Titles, descriptions and on-page text for an intersection.
@@ -124,9 +125,22 @@ export function facetHead(type: CatalogType, data: FacetPageData | undefined) {
       { property: "og:description", content: description },
       { property: "og:url", content: url },
     ],
-    // One canonical, built from the index's own ordering, so every spelling
-    // of this intersection points at the same URL.
-    links: [{ rel: "canonical", href: url }],
+    links: [
+      // One canonical, built from the index's own ordering, so every spelling
+      // of this intersection points at the same URL.
+      { rel: "canonical", href: url },
+      // The Arabic alternate is declared only where an Arabic page actually
+      // exists — an hreflang pointing at a 404 drops the whole cluster, and
+      // one declared from only one side is ignored anyway. Anime only: there
+      // is no /ar games edition.
+      ...(type === "anime" && hasArabicEdition(data.entry)
+        ? [
+            { rel: "alternate", hrefLang: "ar", href: absoluteUrl(`/ar${data.canonical}`) },
+            { rel: "alternate", hrefLang: "en", href: url },
+            { rel: "alternate", hrefLang: "x-default", href: url },
+          ]
+        : []),
+    ],
     scripts: [
       {
         type: "application/ld+json",

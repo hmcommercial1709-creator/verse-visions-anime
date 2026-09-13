@@ -153,6 +153,7 @@ import { Route as CompareGamesPairRouteImport } from './routes/compare.games.$pa
 import { Route as GamesBrowseSplatRouteImport } from './routes/games.browse.$'
 import { Route as SitemapLocaleFileRouteImport } from './routes/sitemap.$locale.$file'
 import { Route as AnimeSlugEpisodeNumRouteImport } from './routes/anime_.$slug.episode.$num'
+import { Route as ArAnimeBrowseSplatRouteImport } from './routes/ar.anime.browse.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -892,6 +893,11 @@ const AnimeSlugEpisodeNumRoute = AnimeSlugEpisodeNumRouteImport.update({
   path: '/anime/$slug/episode/$num',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArAnimeBrowseSplatRoute = ArAnimeBrowseSplatRouteImport.update({
+  id: '/ar/anime/browse/$',
+  path: '/ar/anime/browse/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -1038,6 +1044,7 @@ export interface FileRoutesByFullPath {
   '/catalog/anime/': typeof CatalogAnimeIndexRoute
   '/catalog/games/': typeof CatalogGamesIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
+  '/ar/anime/browse/$': typeof ArAnimeBrowseSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -1181,6 +1188,7 @@ export interface FileRoutesByTo {
   '/catalog/anime': typeof CatalogAnimeIndexRoute
   '/catalog/games': typeof CatalogGamesIndexRoute
   '/anime/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
+  '/ar/anime/browse/$': typeof ArAnimeBrowseSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1328,6 +1336,7 @@ export interface FileRoutesById {
   '/catalog/anime/': typeof CatalogAnimeIndexRoute
   '/catalog/games/': typeof CatalogGamesIndexRoute
   '/anime_/$slug/episode/$num': typeof AnimeSlugEpisodeNumRoute
+  '/ar/anime/browse/$': typeof ArAnimeBrowseSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1476,6 +1485,7 @@ export interface FileRouteTypes {
     | '/catalog/anime/'
     | '/catalog/games/'
     | '/anime/$slug/episode/$num'
+    | '/ar/anime/browse/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1619,6 +1629,7 @@ export interface FileRouteTypes {
     | '/catalog/anime'
     | '/catalog/games'
     | '/anime/$slug/episode/$num'
+    | '/ar/anime/browse/$'
   id:
     | '__root__'
     | '/'
@@ -1765,6 +1776,7 @@ export interface FileRouteTypes {
     | '/catalog/anime/'
     | '/catalog/games/'
     | '/anime_/$slug/episode/$num'
+    | '/ar/anime/browse/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1893,6 +1905,7 @@ export interface RootRouteChildren {
   CatalogAnimeIndexRoute: typeof CatalogAnimeIndexRoute
   CatalogGamesIndexRoute: typeof CatalogGamesIndexRoute
   AnimeSlugEpisodeNumRoute: typeof AnimeSlugEpisodeNumRoute
+  ArAnimeBrowseSplatRoute: typeof ArAnimeBrowseSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -2905,6 +2918,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnimeSlugEpisodeNumRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ar/anime/browse/$': {
+      id: '/ar/anime/browse/$'
+      path: '/ar/anime/browse/$'
+      fullPath: '/ar/anime/browse/$'
+      preLoaderRoute: typeof ArAnimeBrowseSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -3113,6 +3133,7 @@ const rootRouteChildren: RootRouteChildren = {
   CatalogAnimeIndexRoute: CatalogAnimeIndexRoute,
   CatalogGamesIndexRoute: CatalogGamesIndexRoute,
   AnimeSlugEpisodeNumRoute: AnimeSlugEpisodeNumRoute,
+  ArAnimeBrowseSplatRoute: ArAnimeBrowseSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

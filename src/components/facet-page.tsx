@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { facetTitle, facetStatements } from "@/lib/catalog/facet-seo";
+import { facetTitleAr, facetStatementsAr } from "@/lib/catalog/facet-i18n";
 import { CatalogRewards } from "@/components/catalog-rewards";
 import type { CatalogType } from "@/lib/catalog/matrix";
 import type { FacetPageData } from "@/lib/catalog/facet-loader";
@@ -14,18 +15,27 @@ import type { FacetPageData } from "@/lib/catalog/facet-loader";
  * Linking each intersection to its neighbours along the same dimensions is
  * what makes the matrix a graph instead of a pile.
  */
-export function FacetPage({ type, data }: { type: CatalogType; data: FacetPageData }) {
-  const title = facetTitle(type, data.entry);
-  const statements = facetStatements(type, data);
+export function FacetPage({
+  type,
+  data,
+  locale = "en",
+}: {
+  type: CatalogType;
+  data: FacetPageData;
+  locale?: "en" | "ar";
+}) {
+  const ar = locale === "ar";
+  const title = ar ? facetTitleAr(type, data.entry) : facetTitle(type, data.entry);
+  const statements = ar ? facetStatementsAr(type, data) : facetStatements(type, data);
   const detailRoute = type === "game" ? "/catalog/games/$slug" : "/catalog/anime/$slug";
-  const parentPath = type === "game" ? "/catalog/games" : "/anime";
-  const parentName = type === "game" ? "Games" : "Anime";
+  const parentPath = ar ? "/ar/anime" : type === "game" ? "/catalog/games" : "/anime";
+  const parentName = ar ? "أنمي" : type === "game" ? "Games" : "Anime";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6" dir={ar ? "rtl" : "ltr"}>
       <nav aria-label="Breadcrumb" className="mb-4 text-xs text-muted-foreground">
-        <Link to="/" className="hover:text-foreground">
-          Home
+        <Link to={ar ? "/ar/anime" : "/"} className="hover:text-foreground">
+          {ar ? "الرئيسية" : "Home"}
         </Link>{" "}
         <span className="mx-1">/</span>
         <Link to={parentPath as "/anime"} className="hover:text-foreground">
@@ -78,23 +88,27 @@ export function FacetPage({ type, data }: { type: CatalogType; data: FacetPageDa
 
       {data.total > data.rows.length && (
         <p className="mt-6 text-sm text-muted-foreground">
-          Showing {data.rows.length} of {data.total.toLocaleString()}.
+          {ar
+            ? `عرض ${data.rows.length} من ${data.total.toLocaleString("ar-EG")}.`
+            : `Showing ${data.rows.length} of ${data.total.toLocaleString()}.`}
         </p>
       )}
 
       {data.siblings.length > 0 && (
         <section className="mt-12 border-t border-border/60 pt-8">
-          <h2 className="font-display text-xl font-bold">Related breakdowns</h2>
+          <h2 className="font-display text-xl font-bold">
+            {ar ? "تصنيفات ذات صلة" : "Related breakdowns"}
+          </h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {data.siblings.map((sibling) => (
               <Link
                 key={sibling.path}
                 // Built at ingest time, so the path is a runtime string the
                 // router's generated union cannot express.
-                to={sibling.path as "/anime/browse/$"}
+                to={(ar ? `/ar${sibling.path}` : sibling.path) as "/anime/browse/$"}
                 className="rounded-full border border-border/60 px-3 py-1.5 text-sm hover:border-primary/60"
               >
-                {facetTitle(type, sibling)}
+                {ar ? facetTitleAr(type, sibling) : facetTitle(type, sibling)}
                 <span className="ml-1.5 text-xs text-muted-foreground">{sibling.count}</span>
               </Link>
             ))}

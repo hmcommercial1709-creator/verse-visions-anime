@@ -27,6 +27,9 @@ export interface DbCatalogItem {
   name: string;
   description: string | null;
   image_url: string | null;
+  categories: string[] | null;
+  source_url: string | null;
+  source_name: string | null;
 }
 
 export interface DbCatalogPage {
@@ -86,7 +89,7 @@ export async function loadCatalogItemFromDb(
 ): Promise<DbCatalogItem | null> {
   const { data, error } = await supabase
     .from("entities")
-    .select("slug, name, description, image_url")
+    .select("slug, name, description, image_url, categories, source_url, source_name")
     .eq("entity_type", entityType)
     .eq("status", "active")
     .eq("slug", slug)
@@ -99,4 +102,21 @@ export async function loadCatalogItemFromDb(
   // Google files as a soft 404.
   if (!row.slug || !row.name) return null;
   return row as DbCatalogItem;
+}
+
+/**
+ * The upstream id for a stored row, taken from source_url.
+ *
+ * Not from the slug: ingest-catalog.mjs writes `{id}-{title}`, but a title
+ * that begins with a number produces the same shape by accident —
+ * "100-meters" parses to id 100, which is a real and completely unrelated MAL
+ * entry. Reading the id from the URL the row was ingested from is exact, and
+ * it is the difference between enriching a page and replacing it with the
+ * wrong anime.
+ */
+export function upstreamIdFromSourceUrl(sourceUrl: string | null): number | null {
+  if (!sourceUrl) return null;
+  const match = sourceUrl.match(/\/(?:anime|game)\/(\d+)/i) ?? sourceUrl.match(/id=(\d+)/i);
+  const id = match ? Number.parseInt(match[1], 10) : NaN;
+  return Number.isFinite(id) && id > 0 ? id : null;
 }

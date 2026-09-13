@@ -6,7 +6,11 @@ import {
   gameSlug,
   type FreeToGameDetail,
 } from "@/lib/catalog/freetogame";
-import { loadCatalogItemFromDb, type DbCatalogItem } from "@/lib/catalog/db-catalog";
+import {
+  loadCatalogItemFromDb,
+  upstreamIdFromSourceUrl,
+  type DbCatalogItem,
+} from "@/lib/catalog/db-catalog";
 import { CATALOG_HEADERS } from "@/lib/catalog/http";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
@@ -18,8 +22,9 @@ function fromDbRow(row: DbCatalogItem): FreeToGameDetail {
     thumbnail: row.image_url ?? "",
     short_description: row.description ?? "",
     game_url: "",
-    genre: "",
-    platform: "",
+    // Stored categories are FreeToGame's genre and platform.
+    genre: row.categories?.[0] ?? "",
+    platform: row.categories?.[1] ?? "",
     publisher: "",
     developer: "",
     release_date: "",
@@ -28,9 +33,12 @@ function fromDbRow(row: DbCatalogItem): FreeToGameDetail {
 
 export const Route = createFileRoute("/catalog/games/$slug")({
   loader: async ({ params }) => {
-    const id = idFromSlug(params.slug);
+    // The database is consulted first for a stored row, for the same reason as
+    // the anime route: a slug beginning with a number would otherwise parse to
+    // a false upstream id and could render a different game.
+    const row = await loadCatalogItemFromDb("game", params.slug);
+    const id = row ? upstreamIdFromSourceUrl(row.source_url) : idFromSlug(params.slug);
 
-    // FreeToGame first when the slug carries an id, since it is much richer.
     if (id !== null) {
       const game = await getGame(id);
       if (game.ok) {
@@ -45,10 +53,8 @@ export const Route = createFileRoute("/catalog/games/$slug")({
       // Fall through to the database rather than failing.
     }
 
-    // Rows stored in public.entities carry slugs that may have no numeric id,
-    // and this route used to 404 on sight of one. A row we hold beats a 404
-    // Google caches or a 500 on a transient upstream error.
-    const row = await loadCatalogItemFromDb("game", params.slug);
+    // A row we hold beats a 404 Google caches or a 500 on a transient upstream
+    // error.
     if (!row) throw notFound();
     return { game: fromDbRow(row), related: [] };
   },

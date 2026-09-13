@@ -1,6 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getAnime, malIdFromSlug, displayTitle, type JikanAnime } from "@/lib/catalog/jikan";
-import { loadCatalogItemFromDb, type DbCatalogItem } from "@/lib/catalog/db-catalog";
+import {
+  loadCatalogItemFromDb,
+  upstreamIdFromSourceUrl,
+  type DbCatalogItem,
+} from "@/lib/catalog/db-catalog";
 import { CATALOG_HEADERS } from "@/lib/catalog/http";
 import { publishedAnime } from "@/lib/content-registry";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
@@ -39,7 +43,10 @@ function fromDbRow(row: DbCatalogItem): JikanAnime {
     images: {
       jpg: { image_url: row.image_url ?? null, large_image_url: row.image_url ?? null },
     },
-    genres: [],
+    // The stored categories are Jikan's genres and themes, so they render in
+    // the same place. Discarding them was what left these pages with a title,
+    // an image and nothing else.
+    genres: (row.categories ?? []).map((name, i) => ({ mal_id: i + 1, name })),
     themes: [],
     studios: [],
   };
@@ -47,27 +54,44 @@ function fromDbRow(row: DbCatalogItem): JikanAnime {
 
 export const Route = createFileRoute("/catalog/anime/$slug")({
   loader: async ({ params }) => {
-    const malId = malIdFromSlug(params.slug);
+    const result = (anime: JikanAnime, fromApi: boolean) => {
+      const guide = ownGuideFor([anime.title, anime.title_english ?? ""]);
+      return {
+        anime,
+        fromApi,
+        guideSlug: guide?.slug ?? null,
+        guideTitle: guide?.title ?? null,
+      };
+    };
 
-    // Jikan first when the slug carries an id, since it is much richer.
-    if (malId !== null) {
-      const result = await getAnime(malId);
-      if (result.ok) {
-        const anime = result.data;
-        const guide = ownGuideFor([anime.title, anime.title_english ?? ""]);
-        return { anime, guideSlug: guide?.slug ?? null, guideTitle: guide?.title ?? null };
+    // The database is consulted first for a stored row, because it is
+    // authoritative about what this URL is. Deriving the id from the slug
+    // first was wrong: "100-meters" parses to 100, a real and unrelated MAL
+    // entry, so a title beginning with a number could have rendered the wrong
+    // anime entirely.
+    const row = await loadCatalogItemFromDb("anime", params.slug);
+
+    if (row) {
+      // Enrich from Jikan using the id the row was ingested from, which is
+      // exact. The API carries score, episode count, studios and the
+      // Japanese title that the table does not.
+      const upstreamId = upstreamIdFromSourceUrl(row.source_url);
+      if (upstreamId !== null) {
+        const live = await getAnime(upstreamId);
+        if (live.ok) return result(live.data, true);
       }
-      // Fall through to the database rather than failing: a row we hold is a
-      // better answer than a 404 Google caches or a 500 on a transient
-      // upstream error.
+      return result(fromDbRow(row), false);
     }
 
-    const row = await loadCatalogItemFromDb("anime", params.slug);
-    if (!row) throw notFound();
-
-    const anime = fromDbRow(row);
-    const guide = ownGuideFor([anime.title]);
-    return { anime, guideSlug: guide?.slug ?? null, guideTitle: guide?.title ?? null };
+    // Not stored: a slug we only know how to resolve through the API.
+    const malId = malIdFromSlug(params.slug);
+    if (malId === null) throw notFound();
+    const live = await getAnime(malId);
+    if (!live.ok) {
+      if (live.reason === "not_found" || live.reason === "invalid_shape") throw notFound();
+      throw new Error(`Anime unavailable (${live.reason})`);
+    }
+    return result(live.data, true);
   },
   headers: () => CATALOG_HEADERS,
   head: ({ loaderData, params }) => {
@@ -150,7 +174,7 @@ export const Route = createFileRoute("/catalog/anime/$slug")({
 });
 
 function AnimeDetail() {
-  const { anime, guideSlug, guideTitle } = Route.useLoaderData();
+  const { anime, fromApi, guideSlug, guideTitle } = Route.useLoaderData();
   const title = displayTitle(anime);
   const image =
     anime.images.webp?.large_image_url ||
@@ -266,16 +290,24 @@ function AnimeDetail() {
       )}
 
       <p className="mt-10 text-xs text-muted-foreground">
-        Catalog data from the{" "}
-        <a
-          href={anime.url}
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-          className="underline"
-        >
-          MyAnimeList
-        </a>{" "}
-        database via the Jikan public API.
+        {fromApi ? (
+          <>
+            Catalog data from the{" "}
+            <a
+              href={anime.url}
+              rel="noopener noreferrer nofollow"
+              target="_blank"
+              className="underline"
+            >
+              MyAnimeList
+            </a>{" "}
+            database via the Jikan public API.
+          </>
+        ) : (
+          // Saying "via the Jikan public API" on a page rendered from our own
+          // stored copy would simply be untrue.
+          <>Catalog entry from the GameCastle catalog, sourced from MyAnimeList.</>
+        )}
       </p>
     </div>
   );

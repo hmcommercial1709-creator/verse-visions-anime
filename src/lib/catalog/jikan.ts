@@ -18,11 +18,19 @@ import { fetchValidated, type FetchOutcome } from "./http";
 
 const BASE = "https://api.jikan.moe/v4";
 
-const namedEntry = z.object({ mal_id: z.number(), name: z.string(), url: z.string().url().optional() });
+// url is decorative here — we render the name. Jikan has been seen to send an
+// empty string, and a strict .url() on it made the whole page fail validation,
+// which the routes turn into a 404. Only fields the page actually needs are
+// allowed to invalidate a response.
+const namedEntry = z.object({
+  mal_id: z.number(),
+  name: z.string(),
+  url: z.string().optional().nullable(),
+});
 
 export const jikanAnimeSchema = z.object({
   mal_id: z.number(),
-  url: z.string().url(),
+  url: z.string(),
   title: z.string(),
   title_english: z.string().nullable().optional(),
   title_japanese: z.string().nullable().optional(),
@@ -41,13 +49,13 @@ export const jikanAnimeSchema = z.object({
   season: z.string().nullable().optional(),
   images: z.object({
     jpg: z.object({
-      image_url: z.string().url().nullable().optional(),
-      large_image_url: z.string().url().nullable().optional(),
+      image_url: z.string().nullable().optional(),
+      large_image_url: z.string().nullable().optional(),
     }),
     webp: z
       .object({
-        image_url: z.string().url().nullable().optional(),
-        large_image_url: z.string().url().nullable().optional(),
+        image_url: z.string().nullable().optional(),
+        large_image_url: z.string().nullable().optional(),
       })
       .optional(),
   }),

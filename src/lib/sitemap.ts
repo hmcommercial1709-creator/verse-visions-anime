@@ -72,7 +72,6 @@ const PAGE_ENTRIES: SitemapEntry[] = [
   ...[
     "/browse",
     "/anime",
-    "/games",
     "/seasonal",
     "/trending",
     "/top-rated",

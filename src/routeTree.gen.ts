@@ -123,6 +123,7 @@ import { Route as LocaleCodesSlugRouteImport } from './routes/$locale.codes.$slu
 import { Route as LocaleProductSlugRouteImport } from './routes/$locale.product.$slug'
 import { Route as LocalePromoSlugRouteImport } from './routes/$locale.promo.$slug'
 import { Route as LocaleWallpapersSlugRouteImport } from './routes/$locale.wallpapers.$slug'
+import { Route as AnimeSlugSectionRouteImport } from './routes/anime.$slug_.$section'
 import { Route as AnimeDandadanCharactersRouteImport } from './routes/anime.dandadan_.characters'
 import { Route as AnimeDandadanEpisodeGuideRouteImport } from './routes/anime.dandadan_.episode-guide'
 import { Route as AnimeDandadanOccultWorldRouteImport } from './routes/anime.dandadan_.occult-world'
@@ -725,6 +726,11 @@ const LocaleWallpapersSlugRoute = LocaleWallpapersSlugRouteImport.update({
   path: '/$locale/wallpapers/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnimeSlugSectionRoute = AnimeSlugSectionRouteImport.update({
+  id: '/$slug_/$section',
+  path: '/$slug/$section',
+  getParentRoute: () => AnimeRoute,
+} as any)
 const AnimeDandadanCharactersRoute = AnimeDandadanCharactersRouteImport.update({
   id: '/dandadan_/characters',
   path: '/dandadan/characters',
@@ -946,6 +952,7 @@ export interface FileRoutesByFullPath {
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
+  '/anime/$slug/$section': typeof AnimeSlugSectionRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -1080,6 +1087,7 @@ export interface FileRoutesByTo {
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
+  '/anime/$slug/$section': typeof AnimeSlugSectionRoute
   '/anime/dandadan/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -1217,6 +1225,7 @@ export interface FileRoutesById {
   '/$locale/product/$slug': typeof LocaleProductSlugRoute
   '/$locale/promo/$slug': typeof LocalePromoSlugRoute
   '/$locale/wallpapers/$slug': typeof LocaleWallpapersSlugRoute
+  '/anime/$slug_/$section': typeof AnimeSlugSectionRoute
   '/anime/dandadan_/characters': typeof AnimeDandadanCharactersRoute
   '/anime/dandadan_/episode-guide': typeof AnimeDandadanEpisodeGuideRoute
   '/anime/dandadan_/occult-world': typeof AnimeDandadanOccultWorldRoute
@@ -1355,6 +1364,7 @@ export interface FileRouteTypes {
     | '/$locale/product/$slug'
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
+    | '/anime/$slug/$section'
     | '/anime/dandadan/characters'
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
@@ -1489,6 +1499,7 @@ export interface FileRouteTypes {
     | '/$locale/product/$slug'
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
+    | '/anime/$slug/$section'
     | '/anime/dandadan/characters'
     | '/anime/dandadan/episode-guide'
     | '/anime/dandadan/occult-world'
@@ -1625,6 +1636,7 @@ export interface FileRouteTypes {
     | '/$locale/product/$slug'
     | '/$locale/promo/$slug'
     | '/$locale/wallpapers/$slug'
+    | '/anime/$slug_/$section'
     | '/anime/dandadan_/characters'
     | '/anime/dandadan_/episode-guide'
     | '/anime/dandadan_/occult-world'
@@ -2571,6 +2583,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleWallpapersSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anime/$slug_/$section': {
+      id: '/anime/$slug_/$section'
+      path: '/$slug/$section'
+      fullPath: '/anime/$slug/$section'
+      preLoaderRoute: typeof AnimeSlugSectionRouteImport
+      parentRoute: typeof AnimeRoute
+    }
     '/anime/dandadan_/characters': {
       id: '/anime/dandadan_/characters'
       path: '/dandadan/characters'
@@ -2718,6 +2737,7 @@ interface AnimeRouteChildren {
   AnimeSlugRoute: typeof AnimeSlugRoute
   AnimeDandadanRoute: typeof AnimeDandadanRoute
   AnimeSakamotoDaysRoute: typeof AnimeSakamotoDaysRoute
+  AnimeSlugSectionRoute: typeof AnimeSlugSectionRoute
   AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
   AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
   AnimeDandadanOccultWorldRoute: typeof AnimeDandadanOccultWorldRoute
@@ -2732,6 +2752,7 @@ const AnimeRouteChildren: AnimeRouteChildren = {
   AnimeSlugRoute: AnimeSlugRoute,
   AnimeDandadanRoute: AnimeDandadanRoute,
   AnimeSakamotoDaysRoute: AnimeSakamotoDaysRoute,
+  AnimeSlugSectionRoute: AnimeSlugSectionRoute,
   AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
   AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,
   AnimeDandadanOccultWorldRoute: AnimeDandadanOccultWorldRoute,

@@ -12,6 +12,7 @@ import {
   populatedStudios,
   populatedCategorySlugs,
 } from "@/lib/content-registry";
+import { allSectionPaths } from "@/lib/anime-sections";
 import { AR_GUIDES } from "@/data/ar-guides";
 import { storeProducts } from "@/data/store-products";
 import { EXPLORE_PAGES } from "@/data/explore-pages";
@@ -140,11 +141,20 @@ export function partitionEntries(partition: Partition): SitemapEntry[] {
           priority: "0.8",
         }));
     case "anime":
-      return publishedAnime().map((a) => ({
-        path: `/anime/${a.slug}`,
-        changefreq: "weekly" as const,
-        priority: "0.9",
-      }));
+      return [
+        ...publishedAnime().map((a) => ({
+          path: `/anime/${a.slug}`,
+          changefreq: "weekly" as const,
+          priority: "0.9",
+        })),
+        // Section pages only exist where the series actually carries that
+        // content, so allSectionPaths() never advertises an empty shell.
+        ...allSectionPaths().map(({ slug, section }) => ({
+          path: `/anime/${slug}/${section}`,
+          changefreq: "monthly" as const,
+          priority: "0.7",
+        })),
+      ];
     case "episodes":
       return publishedEpisodes().map((e) => ({
         path: `/anime/${e.animeSlug}/episode/${e.number}`,

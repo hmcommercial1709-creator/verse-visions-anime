@@ -83,5 +83,65 @@ const tally = summarise([
 assert.deepEqual(tally.get("anime"), { total: 3, active: 1, incomplete: 1, other: 1 });
 assert.deepEqual(tally.get("game"), { total: 1, active: 1, incomplete: 0, other: 0 });
 
+/* ------------------------------------------------ catalog-quality-gate.mjs */
+
+// The gate decides what the public sees, so it is pinned here rather than
+// trusted to stay correct while two scripts import it.
+const { incompletenessReasons, MIN_SUMMARY_CHARS } = await import("./catalog-quality-gate.mjs");
+
+const summary = "x".repeat(MIN_SUMMARY_CHARS);
+const complete = {
+  slug: "1-a",
+  name: "A Series",
+  description: summary,
+  image_url: "https://cdn.example.com/a.jpg",
+  categories: ["Action"],
+};
+assert.deepEqual(incompletenessReasons(complete), []);
+
+// Each rule fires on its own, and only its own.
+assert.deepEqual(incompletenessReasons({ ...complete, slug: "" }), ["missing slug"]);
+assert.deepEqual(incompletenessReasons({ ...complete, name: "   " }), ["missing name"]);
+assert.deepEqual(incompletenessReasons({ ...complete, categories: [] }), ["no categories"]);
+assert.deepEqual(incompletenessReasons({ ...complete, image_url: null }), ["missing image"]);
+
+// A non-http image is not an image: protocol-relative and javascript: URLs
+// must not count as present.
+assert.deepEqual(incompletenessReasons({ ...complete, image_url: "//cdn/a.jpg" }), [
+  "missing image",
+]);
+assert.deepEqual(incompletenessReasons({ ...complete, image_url: "javascript:alert(1)" }), [
+  "missing image",
+]);
+
+// The summary boundary is inclusive at MIN_SUMMARY_CHARS, and whitespace does
+// not pad a short summary past it.
+assert.deepEqual(incompletenessReasons({ ...complete, description: summary.slice(1) }), [
+  `summary under ${MIN_SUMMARY_CHARS} chars`,
+]);
+assert.deepEqual(incompletenessReasons({ ...complete, description: `  ${summary.slice(2)}   ` }), [
+  `summary under ${MIN_SUMMARY_CHARS} chars`,
+]);
+
+// checkCategories:false is what the verifier passes, because the column is
+// optional and a rule it cannot evaluate must not be reported as a failure.
+assert.deepEqual(incompletenessReasons({ ...complete, categories: undefined }), ["no categories"]);
+assert.deepEqual(
+  incompletenessReasons({ ...complete, categories: undefined }, { checkCategories: false }),
+  [],
+);
+// Opting out of categories must not silence any other rule.
+assert.deepEqual(
+  incompletenessReasons({ ...complete, image_url: null }, { checkCategories: false }),
+  ["missing image"],
+);
+
+// Several gaps are all reported, so one run shows the whole picture.
+assert.deepEqual(
+  incompletenessReasons({ slug: "1-a", name: "", description: "", image_url: "", categories: [] }),
+  ["missing name", `summary under ${MIN_SUMMARY_CHARS} chars`, "missing image", "no categories"],
+);
+
 console.log("Ingestion batch dedupe (entity_type + slug) checks passed.");
 console.log("Catalog verification helpers (duplicate scan, inventory) checks passed.");
+console.log("Shared quality gate checks passed.");

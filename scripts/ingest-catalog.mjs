@@ -46,6 +46,7 @@
  */
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
+import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 
 if (!globalThis.fetch) {
   console.error(
@@ -105,7 +106,6 @@ const CONFLICT_TARGET = process.env.INGEST_CONFLICT_TARGET || "entity_type,slug"
 const OPTIONAL_COLUMNS = { categories: "categories", updatedAt: "updated_at" };
 
 const CHUNK_SIZE = 500;
-const MIN_SUMMARY_CHARS = 120;
 const JIKAN_DELAY_MS = 400; // ~2.5 req/sec, inside Jikan's ~3/sec limit
 const STATE_TABLE = "automation_state";
 const STATE_KEY_PREFIX = "catalog_ingest:";
@@ -176,23 +176,6 @@ async function getJson(url, attempt = 1) {
 }
 
 /* -------------------------------------------------------------- validation */
-
-/**
- * The gate. Returns the reasons a record is not publishable; an empty array
- * means it qualifies for status 'active'.
- */
-function incompletenessReasons(record) {
-  const reasons = [];
-  if (!record.slug) reasons.push("missing slug");
-  if (!record.name?.trim()) reasons.push("missing name");
-  if (!record.description || record.description.trim().length < MIN_SUMMARY_CHARS) {
-    reasons.push(`summary under ${MIN_SUMMARY_CHARS} chars`);
-  }
-  if (!record.image_url || !/^https?:\/\//i.test(record.image_url)) reasons.push("missing image");
-  if (!Array.isArray(record.categories) || record.categories.length === 0)
-    reasons.push("no categories");
-  return reasons;
-}
 
 const slugify = (value, id) =>
   `${id}-${String(value)

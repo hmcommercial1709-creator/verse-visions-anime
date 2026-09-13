@@ -2,9 +2,17 @@
 /**
  * Operational verification for the catalog in public.entities.
  *
- *   npm run verify:catalog              # full check, includes a write probe
- *   npm run verify:catalog -- --read-only   # never writes
- *   npm run verify:catalog -- --sample=5000 # cap the duplicate scan
+ *   npm run verify:catalog                   # full check, includes a write probe
+ *   npm run verify:catalog -- --read-only    # never writes
+ *   npm run verify:catalog -- --explain      # list every gate failure to a file
+ *   npm run verify:catalog -- --regrade      # hide thin rows (see below)
+ *   npm run verify:catalog -- --sample=5000  # cap the row scans
+ *
+ * On a quality-gate failure, --explain writes every offending row to
+ * catalog-gate-failures.tsv (--report=PATH to choose), and --regrade flips
+ * those rows from 'active' to 'incomplete' so RLS stops serving them. The
+ * gate itself is never relaxed to make the check pass: that would publish
+ * the thin pages rather than hide them.
  *
  * Runs in order, stopping early only when the connection itself is unusable:
  *
@@ -34,8 +42,9 @@
  *
  * Exit code is 0 only when every check that ran passed.
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
+import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 
 let createClient;
 try {
@@ -55,7 +64,6 @@ try {
 
 const TABLE = "entities";
 const KEY_COLUMNS = ["entity_type", "slug"];
-const MIN_SUMMARY_CHARS = 120; // must match scripts/ingest-catalog.mjs
 const PAGE_SIZE = 1000; // PostgREST caps a single response; page through it
 const SENTINEL_TYPE = "__verify_probe__";
 
@@ -66,7 +74,10 @@ const args = new Map(
   }),
 );
 const READ_ONLY = args.has("read-only");
+const EXPLAIN = args.has("explain");
+const REGRADE = args.has("regrade") && !READ_ONLY;
 const SAMPLE_LIMIT = Number(args.get("sample") ?? 0) || Infinity;
+const REPORT_PATH = String(args.get("report") || "catalog-gate-failures.tsv");
 
 const DEFAULT_SUPABASE_URL = "https://saddhtpsomxtazrgeyed.supabase.co";
 
@@ -147,19 +158,40 @@ async function fetchKeyPairs(client) {
 }
 
 /**
- * The same gate scripts/ingest-catalog.mjs applies. Kept in sync by hand;
- * the point is to catch rows that were marked 'active' but no longer (or
- * never) satisfied it.
+ * Reads every row marked 'active', paging through them.
+ *
+ * Filtered server-side rather than fetched-then-filtered: the earlier version
+ * pulled the first page of rows of *any* status and kept the active ones,
+ * which spent the budget on rows it discarded and capped coverage at one
+ * page. On a catalog with 300 thin active rows it reported 8 — enough to look
+ * actionable while leaving the rest publicly indexable.
+ */
+async function fetchActiveRows(client, cap) {
+  const rows = [];
+  for (let from = 0; rows.length < cap; from += PAGE_SIZE) {
+    const { data, error } = await client
+      .from(TABLE)
+      .select("slug,name,description,image_url,entity_type,status")
+      .eq("status", "active")
+      .order("slug", { ascending: true })
+      .range(from, from + PAGE_SIZE - 1);
+    if (error) throw new Error(error.message);
+    rows.push(...data);
+    if (data.length < PAGE_SIZE) break;
+  }
+  return rows.slice(0, cap === Infinity ? undefined : cap);
+}
+
+/**
+ * Applies the shared gate to a stored row.
+ *
+ * Categories are skipped: the column is optional in this schema, so the
+ * verifier cannot tell "no categories" apart from "column not selected" and
+ * must not report a rule it cannot evaluate. Every other rule is the
+ * ingester's, imported rather than copied.
  */
 function gateFailures(row) {
-  const reasons = [];
-  if (!row.slug) reasons.push("missing slug");
-  if (!row.name?.trim()) reasons.push("missing name");
-  if (!row.description || row.description.trim().length < MIN_SUMMARY_CHARS) {
-    reasons.push(`summary under ${MIN_SUMMARY_CHARS} chars`);
-  }
-  if (!row.image_url || !/^https?:\/\//i.test(row.image_url)) reasons.push("missing image");
-  return reasons;
+  return incompletenessReasons(row, { checkCategories: false });
 }
 
 /** Groups key pairs and returns only those appearing more than once. */
@@ -321,47 +353,62 @@ async function main() {
   }
 
   /* 5. quality gate ------------------------------------------------------ */
-  // Bounded sample: this one needs description and image_url for every row,
-  // which is far heavier than the key scan, so it is explicitly a spot check.
+  const GATE_CHECK = "Rows marked 'active' satisfy the quality gate";
+  let misgraded = [];
   try {
-    const sampleSize = Math.min(SAMPLE_LIMIT, PAGE_SIZE);
-    const { data: rows, error } = await client
-      .from(TABLE)
-      .select("slug,name,description,image_url,entity_type,status")
-      .limit(sampleSize);
-    if (error) throw new Error(error.message);
-
-    const activeInSample = rows.filter((r) => r.status === "active").length;
+    const activeRows = await fetchActiveRows(client, SAMPLE_LIMIT);
+    const totalActive = [...summarise(keyRows).values()].reduce((n, b) => n + b.active, 0);
     const scope =
-      rows.length < (keyRows.length || rows.length)
-        ? `sample of ${rows.length} of ${keyRows.length} row(s)`
-        : `all ${rows.length} row(s)`;
+      activeRows.length < totalActive
+        ? `${activeRows.length} of ${totalActive} active row(s), capped by --sample`
+        : `all ${activeRows.length} active row(s)`;
 
-    const misgraded = rows
-      .filter((r) => r.status === "active")
-      .map((r) => ({ slug: r.slug, reasons: gateFailures(r) }))
+    misgraded = activeRows
+      .map((row) => ({ slug: row.slug, entityType: row.entity_type, reasons: gateFailures(row) }))
       .filter((r) => r.reasons.length > 0);
 
     if (misgraded.length === 0) {
-      pass(
-        "Rows marked 'active' satisfy the quality gate",
-        `${activeInSample} active row(s) re-tested (${scope}).`,
-      );
+      pass(GATE_CHECK, `${scope} re-tested, all pass.`);
     } else {
-      const shown = misgraded
+      // Group by reason: the counts say whether this is one systemic gap
+      // (a source that never supplies images, say) or scattered bad rows,
+      // which is what decides between fixing data and fixing the pipeline.
+      const byReason = new Map();
+      for (const row of misgraded) {
+        for (const reason of row.reasons) byReason.set(reason, (byReason.get(reason) ?? 0) + 1);
+      }
+      const breakdown = [...byReason.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .map(([reason, n]) => `  ${reason}: ${n}`)
+        .join("\n");
+      const examples = misgraded
         .slice(0, 5)
         .map((m) => `  ${m.slug}: ${m.reasons.join(", ")}`)
         .join("\n");
+
       fail(
-        "Rows marked 'active' satisfy the quality gate",
-        `${misgraded.length} of ${activeInSample} active row(s) would not pass the gate today ` +
-          `(${scope}):\n${shown}` +
+        GATE_CHECK,
+        `${misgraded.length} of ${scope} would not pass the gate today.\n` +
+          `By reason:\n${breakdown}\n` +
+          `Examples:\n${examples}` +
           (misgraded.length > 5 ? `\n  … and ${misgraded.length - 5} more` : "") +
-          "\nThese are publicly visible but thin. Re-run the ingester to re-grade them.",
+          "\nThese are publicly visible but thin. Re-grade them with --regrade,\n" +
+          "or list every one with --explain.",
       );
     }
+
+    if (EXPLAIN && misgraded.length > 0) writeReport(misgraded);
   } catch (error) {
-    fail("Rows marked 'active' satisfy the quality gate", error.message);
+    fail(GATE_CHECK, error.message);
+  }
+
+  /* 5b. optional remediation --------------------------------------------- */
+  if (REGRADE && misgraded.length > 0) {
+    if (!admin) {
+      skip("Re-grade thin rows to 'incomplete'", "Needs SUPABASE_SERVICE_ROLE_KEY.");
+    } else {
+      await regrade(admin, misgraded);
+    }
   }
 
   /* 6. write probe ------------------------------------------------------- */
@@ -408,6 +455,61 @@ async function main() {
   }
 
   return finish();
+}
+
+/** Writes every offending row to a file, since a terminal list of 5 is not fixable. */
+function writeReport(misgraded) {
+  const lines = [
+    `# Active rows failing the quality gate — ${new Date().toISOString()}`,
+    `# ${misgraded.length} row(s). Columns: entity_type\tslug\treasons`,
+    ...misgraded.map((m) => `${m.entityType}\t${m.slug}\t${m.reasons.join("; ")}`),
+  ];
+  try {
+    writeFileSync(REPORT_PATH, lines.join("\n") + "\n");
+    log(`          full list written to ${REPORT_PATH}`);
+  } catch (error) {
+    log(`          could not write ${REPORT_PATH}: ${error.message}`);
+  }
+}
+
+/**
+ * Flips thin rows from 'active' to 'incomplete'.
+ *
+ * This is the honest remediation: the gate is not the thing at fault, so it
+ * stays as it is and the misgraded rows lose their public visibility instead.
+ * The active_catalog_read policy hides 'incomplete', so the thin pages stop
+ * being served and stop being indexable, and the rows keep their data for a
+ * later ingest to fill in and re-promote. Loosening the gate to make this
+ * check pass would do the opposite — publish the thin pages.
+ */
+async function regrade(admin, misgraded) {
+  const name = "Re-grade thin rows to 'incomplete'";
+  const BATCH = 100;
+  let updated = 0;
+  for (let i = 0; i < misgraded.length; i += BATCH) {
+    const slice = misgraded.slice(i, i + BATCH);
+    // Scoped by entity_type as well as slug: slug alone is not unique.
+    const results = await Promise.all(
+      slice.map((row) =>
+        admin
+          .from(TABLE)
+          .update({ status: "incomplete" })
+          .eq("slug", row.slug)
+          .eq("entity_type", row.entityType),
+      ),
+    );
+    const failed = results.find((r) => r.error);
+    if (failed) {
+      fail(name, `stopped after ${updated} row(s): ${failed.error.message}`);
+      return;
+    }
+    updated += slice.length;
+  }
+  pass(
+    name,
+    `${updated} row(s) moved from 'active' to 'incomplete'. They are no longer\n` +
+      "publicly readable. Re-run the ingester to refill and re-promote them.",
+  );
 }
 
 /**

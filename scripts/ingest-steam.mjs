@@ -194,13 +194,95 @@ async function getAppList() {
     return apps.filter((a) => a?.appid && a?.name && !NON_GAME_NAME.test(a.name));
   }
 
+  log("  the ISteamApps app list is unavailable:");
+  for (const f of failures) log(`    ${f}`);
+  log("  falling back to the store search, which needs no key either.");
+
+  const fromStore = await getAppListFromStore();
+  if (fromStore.length > 0) return fromStore;
+
   throw new Error(
-    `Steam's app list could not be fetched. Tried ${APP_LIST_PATHS.length} endpoints:\n` +
-      failures.map((f) => `  ${f}`).join("\n") +
-      `\nSteam refuses requests from some data-centre IP ranges, which is what a\n` +
-      `CI runner is, so this is often an upstream availability problem rather\n` +
-      `than a fault in this script.`,
+    `Steam's app list could not be fetched from any source. Tried ${APP_LIST_PATHS.length} ` +
+      `app-list endpoints and the store search:\n` +
+      failures.map((f) => `  ${f}`).join("\n"),
   );
+}
+
+/**
+ * The store's own search, used when the app-list method is not available.
+ *
+ * Steam answered every app-list spelling with "Method 'GetAppList' not found
+ * in interface 'ISteamApps'", which is not a rate limit or an IP block — it is
+ * the method being gone. The documented replacement, IStoreService/GetAppList,
+ * requires a publisher API key, which this pipeline deliberately does not have.
+ *
+ * The store search behind store.steampowered.com/search needs no key, pages
+ * cleanly, and has one real advantage over the raw app list: filtering by
+ * category 998 returns GAMES, so the soundtracks, demos and server tools that
+ * made up most of the app list never arrive. Fewer entries, but almost all of
+ * them worth a lookup — and appdetails, at one request each, is the expensive
+ * part of this pipeline.
+ *
+ * It is a store endpoint rather than a documented Web API one, so its shape is
+ * read defensively: an appid may arrive as a field or only inside an image URL.
+ */
+async function getAppListFromStore() {
+  const PAGE = 100;
+  // Enough candidates to satisfy --limit even after appdetails rejects some.
+  const wanted = Math.min(Math.max(LIMIT * 3, 300), 5000);
+  const apps = [];
+  const seen = new Set();
+
+  for (let start = 0; apps.length < wanted; start += PAGE) {
+    const url =
+      `${STEAM_STORE}/search/results/?json=1&start=${start}&count=${PAGE}` +
+      `&category1=998&cc=us&l=en&sort_by=Released_DESC`;
+
+    let json;
+    try {
+      const res = await fetch(url, {
+        headers: {
+          accept: "application/json",
+          "user-agent": "GameCastle/1.0 (+https://gamecastle.store)",
+        },
+        signal: AbortSignal.timeout(30000),
+      });
+      if (!res.ok) {
+        log(`    store search HTTP ${res.status} at start=${start}`);
+        break;
+      }
+      json = await res.json();
+    } catch (error) {
+      log(`    store search failed at start=${start}: ${error.message}`);
+      break;
+    }
+
+    const items = Array.isArray(json?.items) ? json.items : [];
+    if (items.length === 0) break;
+
+    for (const item of items) {
+      // The id is sometimes a field and sometimes only in the capsule image
+      // path (…/steam/apps/<appid>/capsule…). Both are accepted; neither is
+      // assumed.
+      const fromField = Number(item?.id);
+      const fromLogo = Number(String(item?.logo ?? "").match(/\/apps\/(\d+)\//)?.[1]);
+      const appid = Number.isInteger(fromField) && fromField > 0 ? fromField : fromLogo;
+      const name = String(item?.name ?? "").trim();
+      if (!Number.isInteger(appid) || appid <= 0 || !name) continue;
+      if (seen.has(appid)) continue;
+      if (NON_GAME_NAME.test(name)) continue;
+      seen.add(appid);
+      apps.push({ appid, name });
+    }
+
+    if (items.length < PAGE) break;
+    await sleep(500);
+  }
+
+  if (apps.length > 0) {
+    log(`  store search — ${apps.length.toLocaleString()} game entries`);
+  }
+  return apps;
 }
 
 /**

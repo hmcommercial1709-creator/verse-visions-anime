@@ -19,14 +19,26 @@ export type CatalogFaq = {
   answer: string;
 };
 
+/**
+ * Canonical path for an entity — the URL the sitemap lists, the page's
+ * canonical tag points at, and internal links should use.
+ *
+ * Every branch used to carry an "/en" prefix, which was wrong three different
+ * ways. The default locale carries no prefix (see localizePath), so /en/codes
+ * fought the /codes canonical the sitemap advertises. /en/articles/<slug>
+ * matched no route at all — only a /$locale/articles/ index exists — so those
+ * links were plain 404s, and the same broken URL went into the JSON-LD @id.
+ * And products live at /store/<slug>, which is what the sitemap has always
+ * listed.
+ */
 export function entityPath(entityType: CatalogEntity["entity_type"], slug: string): string {
   switch (entityType) {
     case "code":
-      return `/en/codes/${slug}`;
+      return `/codes/${slug}`;
     case "product":
-      return `/en/product/${slug}`;
+      return `/store/${slug}`;
     case "article":
-      return `/en/articles/${slug}`;
+      return `/article/${slug}`;
   }
 }
 
@@ -92,7 +104,12 @@ export function entityHead(entity: CatalogEntity | null | undefined) {
       { property: "og:description", content: entity.description.slice(0, 160) },
       { property: "og:image", content: entity.image_url },
     ],
-    links: [{ rel: "canonical", href: `https://gamecastle.store${entityPath(entity.entity_type, entity.slug)}` }],
+    links: [
+      {
+        rel: "canonical",
+        href: `https://gamecastle.store${entityPath(entity.entity_type, entity.slug)}`,
+      },
+    ],
     scripts: [{ type: "application/ld+json", children: JSON.stringify(entitySchema(entity)) }],
   };
 }

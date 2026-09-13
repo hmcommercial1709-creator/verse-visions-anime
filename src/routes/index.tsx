@@ -56,21 +56,27 @@ const CATEGORY_TABS = [
     to: "/anime" as const,
     label: "Anime",
     icon: Sparkles,
-    accent: "from-purple-500/20 to-purple-500/5 text-purple-400 border-purple-500/30 hover:border-purple-500/60",
+    accent:
+      "from-purple-500/20 to-purple-500/5 text-purple-400 border-purple-500/30 hover:border-purple-500/60",
     description: "Guides, watch orders, characters and reviews for every series we cover.",
   },
   {
-    to: "/games" as const,
+    // Was /games, which listed the redemption-codes table under the heading
+    // "Games" and now redirects here anyway. This points at the real games
+    // catalog, and the description finally matches what the tile opens.
+    to: "/catalog/games" as const,
     label: "Games",
     icon: Gamepad2,
-    accent: "from-cyan-500/20 to-cyan-500/5 text-cyan-400 border-cyan-500/30 hover:border-cyan-500/60",
-    description: "Digital gift cards, top-up codes and activation guides, updated regularly.",
+    accent:
+      "from-cyan-500/20 to-cyan-500/5 text-cyan-400 border-cyan-500/30 hover:border-cyan-500/60",
+    description: "Hundreds of free-to-play PC and browser games, with details for each one.",
   },
   {
     to: "/blog" as const,
     label: "Stories",
     icon: BookOpen,
-    accent: "from-amber-500/20 to-amber-500/5 text-amber-400 border-amber-500/30 hover:border-amber-500/60",
+    accent:
+      "from-amber-500/20 to-amber-500/5 text-amber-400 border-amber-500/30 hover:border-amber-500/60",
     description: "Long-form analysis, lore breakdowns and news from the editorial desk.",
   },
 ];
@@ -185,8 +191,8 @@ function HomePage() {
           <section className="mt-16">
             <div className="flex items-center justify-between">
               <h2 className="font-display text-2xl font-bold">Latest Game Codes</h2>
-              <Link to="/games" className="text-sm font-semibold text-primary hover:underline">
-                View all games →
+              <Link to="/codes" className="text-sm font-semibold text-primary hover:underline">
+                View all codes →
               </Link>
             </div>
             <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">

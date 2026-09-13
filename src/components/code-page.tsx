@@ -1,6 +1,12 @@
 import type { CodeItem } from "@/lib/code-page";
 
-export function CodePage({ item }: { item: CodeItem }) {
+export function CodePage({
+  item,
+  related = [],
+}: {
+  item: CodeItem;
+  related?: { slug: string; title: string }[];
+}) {
   const rating = Number(item.aggregate_rating);
 
   return (
@@ -38,6 +44,32 @@ export function CodePage({ item }: { item: CodeItem }) {
         Follow your platform's redemption instructions and confirm your account is eligible for{" "}
         {item.target_market} before activating.
       </p>
+
+      {related.length > 0 && (
+        <section className="mt-12 border-t border-border/60 pt-6">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            More codes
+          </h2>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {related.map((r) => (
+              <li key={r.slug}>
+                <a
+                  href={`/codes/${r.slug}`}
+                  className="inline-flex rounded-full border border-border/60 px-4 py-1.5 text-xs font-semibold text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                >
+                  {r.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="/codes"
+            className="mt-4 inline-flex text-xs font-semibold text-primary hover:underline"
+          >
+            Browse the full codes catalog →
+          </a>
+        </section>
+      )}
     </div>
   );
 }

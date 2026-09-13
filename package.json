@@ -14,7 +14,8 @@
     "validate:content": "node --experimental-strip-types scripts/validate-content.ts",
     "ingest:catalog": "node scripts/ingest-catalog.mjs",
     "verify:apis": "node scripts/verify-catalog-apis.mjs",
-    "verify:catalog": "node scripts/verify-catalog-data.mjs"
+    "verify:catalog": "node scripts/verify-catalog-data.mjs",
+    "crawl": "node scripts/crawl-site.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -26,6 +26,56 @@ export type CodeItem = {
 const CODE_PAGE_SELECT =
   "slug, title, target_language, target_market, aggregate_rating, reviews_count, sample_review, updated_at";
 
+export interface CodePageData {
+  item: CodeItem;
+  related: { slug: string; title: string }[];
+}
+
+/**
+ * A handful of sibling codes, used to cross-link the catalog.
+ *
+ * Without them the 30,000 code pages hang off one paginated listing, so
+ * reaching the last of them means walking well over a thousand pagination
+ * steps — a crawler will not do that, and the pages sat orphaned in the
+ * sitemap. Linking each page to its neighbours turns a chain into a mesh, so
+ * a crawler entering anywhere can reach the rest in a few hops. Scoped to the
+ * same market so the links are useful to a reader too, not just to a crawler.
+ */
+async function loadRelatedCodes(item: CodeItem): Promise<{ slug: string; title: string }[]> {
+  const pick = (rows: unknown) =>
+    ((rows ?? []) as { slug: string | null; title: string | null }[]).filter(
+      (r): r is { slug: string; title: string } => Boolean(r.slug && r.title),
+    );
+
+  // A window around this code in slug order — some after it, some before —
+  // rather than "the first N in this market", which would point every one of
+  // the 30,000 pages at the same twelve and leave the rest unreachable. A
+  // moving window makes each page's links unique, so the pages form a chain a
+  // crawler can walk in either direction instead of a hub with twelve spokes.
+  const [after, before] = await Promise.all([
+    supabase
+      .from("game_nexus_matrix")
+      .select("slug, title")
+      .gt("slug", item.slug)
+      .order("slug", { ascending: true })
+      .limit(8),
+    supabase
+      .from("game_nexus_matrix")
+      .select("slug, title")
+      .lt("slug", item.slug)
+      .order("slug", { ascending: false })
+      .limit(8),
+  ]);
+
+  if (after.error && before.error) return [];
+  return [...pick(before.data).reverse(), ...pick(after.data)];
+}
+
+export async function loadCodePage(slug: string): Promise<CodePageData> {
+  const item = await loadCodeItem(slug);
+  return { item, related: await loadRelatedCodes(item) };
+}
+
 export async function loadCodeItem(slug: string): Promise<CodeItem> {
   const { data, error } = await supabase
     .from("game_nexus_matrix")

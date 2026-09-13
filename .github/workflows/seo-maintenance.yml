@@ -115,10 +115,11 @@ jobs:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
           if [ -z "$SUPABASE_DB_URL" ]; then
-            echo "::notice::SUPABASE_DB_URL is not set — skipping automatic migration."
-            echo "Apply supabase/migrations/20260913120000_entities_metadata_jsonb.sql"
-            echo "in the Supabase SQL editor, or add the SUPABASE_DB_URL secret to"
-            echo "have this step do it on every run."
+            echo "::warning::SUPABASE_DB_URL is not set — skipping automatic migration. The ingest below will refuse to write until the schema is current."
+            echo "Apply these in the Supabase SQL editor, in order:"
+            echo "  supabase/migrations/20260913120000_entities_metadata_jsonb.sql"
+            echo "  supabase/migrations/20260913160000_catalog_matrix_public_read.sql"
+            echo "Or add the SUPABASE_DB_URL secret to have this step do it every run."
             exit 0
           fi
           sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
@@ -132,12 +133,18 @@ jobs:
           # would archive an empty set and delete nothing, or fail outright.
           # A nightly job must never be the thing that discovers that.
           #
-          # This applies only the migration the ingest below depends on, which
-          # is idempotent by construction: ADD COLUMN IF NOT EXISTS, a GRANT
-          # (idempotent), and CREATE INDEX IF NOT EXISTS. ON_ERROR_STOP turns
+          # This applies only the migrations the ingest below depends on, each
+          # written to be idempotent: ADD COLUMN IF NOT EXISTS, GRANTs, CREATE
+          # INDEX IF NOT EXISTS, and a DROP POLICY before the CREATE POLICY
+          # (Postgres has no IF NOT EXISTS for policies). ON_ERROR_STOP turns
           # any surprise into a failed job rather than a half-migrated schema.
-          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
-            -f supabase/migrations/20260913120000_entities_metadata_jsonb.sql
+          for file in \
+            supabase/migrations/20260913120000_entities_metadata_jsonb.sql \
+            supabase/migrations/20260913160000_catalog_matrix_public_read.sql
+          do
+            echo "--- applying $file"
+            psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f "$file"
+          done
 
       # Fast: GraphQL returns 50 titles with their studios, tags, relations and
       # characters per request, so a full pass is minutes.

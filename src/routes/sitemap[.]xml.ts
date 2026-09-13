@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { sitemapIndexXml, xmlResponse, CODE_SITEMAP_PARTITIONS } from "@/lib/sitemap";
 import { countCodePartitions } from "@/lib/entity-catalog.server";
+import { loadMatrixIndex } from "@/lib/catalog/matrix";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
@@ -19,7 +20,24 @@ export const Route = createFileRoute("/sitemap.xml")({
         } catch {
           /* fall through to listing every partition */
         }
-        return xmlResponse(sitemapIndexXml(codePartitions));
+        // Same rule for the matrix child: advertise it only when the ingest
+        // has built an index for it. Unreadable counts as absent — a missing
+        // child is invisible, whereas an advertised child that errors is
+        // reported against the whole index.
+        let hasMatrix = false;
+        try {
+          const [anime, game] = await Promise.all([
+            loadMatrixIndex("anime"),
+            loadMatrixIndex("game"),
+          ]);
+          hasMatrix =
+            Object.keys(anime?.facets ?? {}).length > 0 ||
+            Object.keys(game?.facets ?? {}).length > 0;
+        } catch {
+          /* leave it unadvertised */
+        }
+
+        return xmlResponse(sitemapIndexXml(codePartitions, hasMatrix));
       },
     },
   },

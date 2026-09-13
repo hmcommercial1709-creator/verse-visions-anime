@@ -277,7 +277,10 @@ export function partitionSitemapPath(
  * self-inflicted indexing failure that looks exactly like a broken sitemap.
  * Pass 0 to list none.
  */
-export function sitemapIndexXml(codePartitions = CODE_SITEMAP_PARTITIONS): string {
+export function sitemapIndexXml(
+  codePartitions = CODE_SITEMAP_PARTITIONS,
+  hasMatrix = false,
+): string {
   const children = [
     ...INDEXABLE_LOCALES.flatMap((locale) =>
       PARTITIONS.filter(
@@ -300,10 +303,13 @@ export function sitemapIndexXml(codePartitions = CODE_SITEMAP_PARTITIONS): strin
     ),
     // API-backed catalog: game detail URLs plus the paginated anime index.
     "/sitemap-catalog.xml",
-    // The programmatic matrix: facet intersections and comparison pages, read
-    // from the index the ingest built. Listed last because it is the largest
-    // and the most derived.
-    "/sitemap-matrix.xml",
+    // The programmatic matrix, but only once the ingest has actually built an
+    // index for it to serve. Advertising it before then is the same mistake
+    // the codes partitions above already document: Google fetches the child,
+    // gets an error, and reports the whole index as having a failing member —
+    // which is precisely the sitemap-codes-1.xml error this site spent weeks
+    // clearing. It appears on its own the first time the pipeline runs.
+    ...(hasMatrix ? ["/sitemap-matrix.xml"] : []),
   ];
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,

@@ -39,6 +39,7 @@
 
 import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
+import { resolveMetadataColumn } from "./metadata-column.mjs";
 import { annotate } from "./derive-facts.mjs";
 import { writeMatrixIndex } from "./write-matrix-index.mjs";
 import { buildFacetIndex, buildComparisonIndex } from "./facet-index.mjs";
@@ -320,12 +321,6 @@ function makeClient() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-/** Is the metadata column actually there? Probed, not assumed. */
-async function hasMetadataColumn(supabase) {
-  const { error } = await supabase.from(TABLE).select("metadata").limit(1);
-  return !error;
-}
-
 /**
  * The same guard the Jikan ingester needs: two rows with one key inside a
  * single upsert is Postgres error 21000, "ON CONFLICT DO UPDATE command
@@ -357,21 +352,10 @@ async function main() {
   let withMetadata = false;
   if (!DRY_RUN) {
     supabase = makeClient();
-    withMetadata = await hasMetadataColumn(supabase);
-    log(
-      withMetadata
-        ? "metadata column present — extras and derived facts will be stored."
-        : "metadata column MISSING. Rows will be written without extras, so the\n" +
-            "  detail pages stay thin. Apply\n" +
-            "  supabase/migrations/20260913120000_entities_metadata_jsonb.sql first.",
-    );
-    if (!withMetadata && REQUIRE_METADATA) {
-      throw new Error(
-        "--require-metadata was set and public.entities has no metadata column.\n" +
-          "Refusing to write rows that would render without their extras.\n" +
-          "Apply supabase/migrations/20260913120000_entities_metadata_jsonb.sql, then re-run.",
-      );
-    }
+    withMetadata = await resolveMetadataColumn(supabase, TABLE, {
+      requireMetadata: REQUIRE_METADATA,
+      log,
+    });
     log("");
   }
 
@@ -479,7 +463,16 @@ async function main() {
   // Built from the rows just written. Facet counts are only meaningful over
   // the whole catalog, so a partial run (--limit) produces a partial index;
   // that is why the nightly job runs without one.
-  await writeMatrixIndex(supabase, records, "anime", log);
+  //
+  // Skipped entirely without the metadata column: every facet dimension but
+  // genre is queried out of metadata, so an index written now would publish
+  // URLs whose row lookup cannot succeed. They would 404 rather than break,
+  // but advertising pages that cannot render is worse than not having them.
+  if (withMetadata) {
+    await writeMatrixIndex(supabase, records, "anime", log);
+  } else {
+    log("Matrix index skipped — it needs the metadata column to query its facets.");
+  }
 
   log(`\nDone. ${written} rows upserted, ${active} of them active.\n`);
 }

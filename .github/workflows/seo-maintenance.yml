@@ -148,8 +148,15 @@ jobs:
 
       # Fast: GraphQL returns 50 titles with their studios, tags, relations and
       # characters per request, so a full pass is minutes.
+      # No --require-metadata here. Without the column the run still imports
+      # every row with its name, description, image, categories and source —
+      # the quality level the catalog had before the extras existed — and
+      # emits a ::warning:: naming what was skipped. Refusing outright left
+      # the catalog empty, which is strictly worse than a catalog without the
+      # derived facts, and it stopped the pipeline dead on a prerequisite that
+      # only affects the extras.
       - name: Ingest anime from AniList
-        run: npm run ingest:anilist -- --limit=5000 --require-metadata
+        run: npm run ingest:anilist -- --limit=5000
 
       # Slow by nature: Steam's appdetails is one app per request, throttled to
       # roughly 200 per five minutes. --resume continues from the appid the
@@ -157,7 +164,7 @@ jobs:
       # games a night instead of being attempted in one impossible pass.
       # The limit is sized to finish inside this job's timeout.
       - name: Ingest games from Steam (resumable)
-        run: npm run ingest:steam -- --resume --limit=300 --require-metadata
+        run: npm run ingest:steam -- --resume --limit=300
 
       - name: Verify the catalog after ingest
         run: npm run verify:catalog -- --read-only

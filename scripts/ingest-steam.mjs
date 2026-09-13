@@ -36,6 +36,7 @@
 
 import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
+import { resolveMetadataColumn } from "./metadata-column.mjs";
 import { annotate } from "./derive-facts.mjs";
 import { writeMatrixIndex } from "./write-matrix-index.mjs";
 import { buildFacetIndex, buildComparisonIndex } from "./facet-index.mjs";
@@ -293,11 +294,6 @@ function makeClient() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-async function hasMetadataColumn(supabase) {
-  const { error } = await supabase.from(TABLE).select("metadata").limit(1);
-  return !error;
-}
-
 async function readCursor(supabase) {
   const { data, error } = await supabase
     .from(STATE_TABLE)
@@ -376,20 +372,10 @@ async function main() {
 
   if (!DRY_RUN) {
     supabase = makeClient();
-    withMetadata = await hasMetadataColumn(supabase);
-    log(
-      withMetadata
-        ? "metadata column present — extras and derived facts will be stored."
-        : "metadata column MISSING. Apply\n" +
-            "  supabase/migrations/20260913120000_entities_metadata_jsonb.sql first.",
-    );
-    if (!withMetadata && REQUIRE_METADATA) {
-      throw new Error(
-        "--require-metadata was set and public.entities has no metadata column.\n" +
-          "Refusing to write rows that would render without their extras.\n" +
-          "Apply supabase/migrations/20260913120000_entities_metadata_jsonb.sql, then re-run.",
-      );
-    }
+    withMetadata = await resolveMetadataColumn(supabase, TABLE, {
+      requireMetadata: REQUIRE_METADATA,
+      log,
+    });
     if (RESUME) {
       cursor = await readCursor(supabase);
       log(`Resuming after appid ${cursor}.`);
@@ -505,7 +491,14 @@ async function main() {
   // Over `all`, not just this run's slice: Steam is ingested a few hundred
   // games a night, and a facet index built from one night's rows would drop
   // every intersection the rest of the catalog already satisfies.
-  await writeMatrixIndex(supabase, all, "game", log);
+  //
+  // Skipped without the metadata column, for the same reason as the anime
+  // side: the facet queries read platform, year and developer out of it.
+  if (withMetadata) {
+    await writeMatrixIndex(supabase, all, "game", log);
+  } else {
+    log("Matrix index skipped — it needs the metadata column to query its facets.");
+  }
   await writeCursor(supabase, lastAppId);
 
   log(`\nDone. ${written} rows upserted, ${active} active. Cursor at appid ${lastAppId}.`);

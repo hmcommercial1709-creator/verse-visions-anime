@@ -29,13 +29,14 @@ export const Route = createFileRoute("/ai-index.json")({
             sitemap: absoluteUrl("/sitemap.xml"),
             rss: absoluteUrl("/rss.xml"),
             browse: absoluteUrl("/browse"),
-            code_catalog: absoluteUrl("/en/codes"),
+            code_catalog: absoluteUrl("/codes"),
           },
           pagination: {
             code_catalog_total: catalogPage.total,
             page_size: catalogPage.pageSize,
-            next_page: catalogPage.total > catalogPage.pageSize ? absoluteUrl("/en/codes?page=2") : null,
-            page_url_template: absoluteUrl("/en/codes?page={page}"),
+            next_page:
+              catalogPage.total > catalogPage.pageSize ? absoluteUrl("/codes?page=2") : null,
+            page_url_template: absoluteUrl("/codes?page={page}"),
           },
           entities: {
             anime: animes.map((item) => ({
@@ -52,7 +53,7 @@ export const Route = createFileRoute("/ai-index.json")({
             })),
             code_catalog: catalog.map((entity) => ({
               name: entity.name,
-              url: absoluteUrl(`/en/codes/${entity.slug}`),
+              url: absoluteUrl(`/codes/${entity.slug}`),
               type: "Product",
               description: entity.description,
               market: entity.target_market,

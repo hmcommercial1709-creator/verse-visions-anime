@@ -9,6 +9,13 @@ const DESCRIPTION =
   "Browse every anime series covered by GameCastle, filter by genre, and jump straight into the full guide for each title.";
 
 export const Route = createFileRoute("/browse")({
+  // /browse is built from local content and is listed in the sitemap, so it
+  // should be served from the edge rather than re-rendered per crawl. It was
+  // the one indexed page sending no Cache-Control at all.
+  headers: () => ({
+    "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+    "CDN-Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
+  }),
   head: () => ({
     meta: [
       { title: TITLE },
@@ -21,7 +28,9 @@ export const Route = createFileRoute("/browse")({
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify(breadcrumbSchema([{ path: "/", name: "Home" }, { name: "Browse" }])),
+        children: JSON.stringify(
+          breadcrumbSchema([{ path: "/", name: "Home" }, { name: "Browse" }]),
+        ),
       },
     ],
   }),
@@ -41,13 +50,16 @@ function BrowseCatalog() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
       <nav aria-label="Breadcrumb" className="mb-4 text-xs text-muted-foreground">
-        <Link to="/" className="hover:text-foreground">Home</Link> <span className="mx-1">/</span> Browse
+        <Link to="/" className="hover:text-foreground">
+          Home
+        </Link>{" "}
+        <span className="mx-1">/</span> Browse
       </nav>
 
       <h1 className="font-display text-4xl font-bold">Browse all anime</h1>
       <p className="mt-3 max-w-3xl text-muted-foreground">
-        Every series with a full GameCastle guide — {anime.length} titles covering watch orders, arcs,
-        characters and power systems.
+        Every series with a full GameCastle guide — {anime.length} titles covering watch orders,
+        arcs, characters and power systems.
       </p>
 
       <div className="mt-6 flex flex-wrap gap-2">
@@ -95,8 +107,12 @@ function BrowseCatalog() {
             className="group rounded-2xl border border-border/60 bg-card/40 p-5 card-hover hover:border-primary/50"
           >
             <div className="flex items-start justify-between gap-3">
-              <h2 className="font-display text-lg font-bold leading-snug group-hover:text-gradient">{a.title}</h2>
-              <span className="shrink-0 text-xs font-bold text-amber-400">⭐ {a.rating.toFixed(1)}</span>
+              <h2 className="font-display text-lg font-bold leading-snug group-hover:text-gradient">
+                {a.title}
+              </h2>
+              <span className="shrink-0 text-xs font-bold text-amber-400">
+                ⭐ {a.rating.toFixed(1)}
+              </span>
             </div>
             <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{a.tagline}</p>
             <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">

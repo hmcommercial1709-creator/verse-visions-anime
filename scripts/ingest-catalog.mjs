@@ -7,11 +7,19 @@
  *   node scripts/ingest-catalog.mjs --source=anime --limit=500
  *   node scripts/ingest-catalog.mjs --source=games --resume
  *
- * Requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY. The service role is
- * mandatory, not a convenience: public.entities has RLS enabled with only a
- * SELECT policy (active_catalog_read), so writes with the publishable key
- * are rejected outright. The script refuses to start without it rather than
- * failing halfway through a batch.
+ * Configuration is read from the environment, falling back to a .env file
+ * in the repo root (gitignored; see .env.example).
+ *
+ *   SUPABASE_URL              optional — defaults to the project URL already
+ *                             committed in src/integrations/supabase/client.ts
+ *   SUPABASE_SERVICE_ROLE_KEY required for LIVE runs only. public.entities has
+ *                             RLS with only a SELECT policy, so the publishable
+ *                             key cannot insert; there is no safe default.
+ *
+ * A dry run needs no credentials at all — its job is to answer "does the
+ * upstream data clear the quality gate?", which is a question about the APIs,
+ * not the database. Supply a service role key to a dry run and it will also
+ * probe the column mapping with one sentinel row that it deletes immediately.
  *
  * Quality gate — a record is only written with status 'active' when it has
  * all of: slug, name, a summary of at least MIN_SUMMARY_CHARS, an image URL,
@@ -23,10 +31,9 @@
  * incomplete.
  *
  * Written against documented API shapes and the columns granted in
- * supabase/migrations/20260901204040_allow_active_catalog_read.sql. It could
- * not be executed here (no outbound network in the build environment), so
- * run --dry-run first: that exercises fetching, validation and batching, and
- * performs a preflight write probe, without committing rows.
+ * supabase/migrations/20260901204040_allow_active_catalog_read.sql. The live
+ * path could not be executed in the environment it was authored in (no
+ * outbound network), so always start with --dry-run.
  */
 
 /*
@@ -37,6 +44,8 @@
  * what does not work is a relative path from outside the repo, since then
  * Node cannot find the script file itself.
  */
+import { readFileSync } from "node:fs";
+
 if (!globalThis.fetch) {
   console.error(
     `\nThis script needs Node 18 or newer for global fetch (running ${process.version}).\n`,
@@ -107,6 +116,31 @@ const LIMIT = Number(args.get("limit") ?? 0) || Infinity;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const log = (...m) => console.log(...m);
+
+/**
+ * Minimal .env loader. Resolved relative to this file rather than the
+ * working directory, so it finds the repo's .env no matter where the
+ * script is invoked from. Existing environment variables always win, so
+ * CI and shell exports are never clobbered by a stale local file.
+ */
+function loadDotEnv() {
+  const envPath = new URL("../.env", import.meta.url);
+  let text;
+  try {
+    text = readFileSync(envPath, "utf8");
+  } catch {
+    return false;
+  }
+  for (const line of text.split("\n")) {
+    const match = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/i);
+    if (!match) continue;
+    const key = match[1];
+    let value = match[2].trim().replace(/\s+#.*$/, "");
+    if (/^(".*"|'.*')$/s.test(value)) value = value.slice(1, -1);
+    if (process.env[key] === undefined) process.env[key] = value;
+  }
+  return true;
+}
 
 function chunk(items, size) {
   const out = [];
@@ -203,18 +237,31 @@ async function* fetchGames() {
 
 /* -------------------------------------------------------------- supabase io */
 
+/**
+ * The project URL is not a secret — it is already committed in
+ * src/integrations/supabase/client.ts and ships in the browser bundle — so
+ * defaulting to it is safe and saves configuring the obvious. The service
+ * role key has no safe default and never gets one.
+ */
+const DEFAULT_SUPABASE_URL = "https://saddhtpsomxtazrgeyed.supabase.co";
+
+function resolveUrl() {
+  return process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+}
+
 function makeClient() {
-  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url) throw new Error("SUPABASE_URL is not set");
   if (!key) {
     throw new Error(
-      "SUPABASE_SERVICE_ROLE_KEY is not set. public.entities has RLS enabled with only a SELECT " +
-        "policy, so the publishable key cannot write. Use the service role key (sb_secret_… or the " +
-        "legacy service_role JWT) from your Supabase project's API settings.",
+      "SUPABASE_SERVICE_ROLE_KEY is not set.\n\n" +
+        "  public.entities has RLS enabled with only a SELECT policy, so the publishable key\n" +
+        "  cannot insert — there is no safe default for this one. Copy .env.example to .env and\n" +
+        "  set it from Supabase dashboard > Project Settings > API (.env is gitignored).\n\n" +
+        "  To exercise fetching, validation and batching without any credentials, run:\n" +
+        "      npm run ingest:catalog -- --dry-run",
     );
   }
-  return createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+  return createClient(resolveUrl(), key, { auth: { persistSession: false, autoRefreshToken: false } });
 }
 
 /**
@@ -257,6 +304,7 @@ async function preflight(supabase) {
 }
 
 async function loadCursor(supabase, source) {
+  if (!supabase) return 1;
   const { data } = await supabase
     .from(STATE_TABLE)
     .select("value")
@@ -351,17 +399,42 @@ async function ingest(source, supabase, optional) {
 }
 
 async function main() {
-  const supabase = makeClient();
-  log(
-    DRY_RUN
-      ? "Dry run — no catalog rows will be written. (Preflight still writes and deletes one\nsentinel row, since probing the column mapping is the point of it.)\n"
-      : "Live run — rows will be upserted.\n",
-  );
+  const loadedEnv = loadDotEnv();
+  const hasKey = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
 
-  const optional = await preflight(supabase);
-  log(`Preflight OK. Optional columns present: ${
-    Object.entries(optional).filter(([, v]) => v).map(([k]) => k).join(", ") || "none"
-  }`);
+  log(`Config: ${loadedEnv ? ".env loaded" : "no .env file"} · url ${resolveUrl()}`);
+
+  // A dry run exists to answer "does the upstream data clear the quality
+  // gate?", which needs no database at all. Without a service role key it
+  // runs fully offline from Supabase's perspective; with one, it also
+  // probes the column mapping.
+  let supabase = null;
+  let optional = { categories: false, updatedAt: false };
+
+  if (!DRY_RUN) {
+    supabase = makeClient();
+    log("Live run — rows will be upserted.\n");
+    optional = await preflight(supabase);
+    log(`Preflight OK. Optional columns present: ${
+      Object.entries(optional).filter(([, v]) => v).map(([k]) => k).join(", ") || "none"
+    }`);
+  } else if (hasKey) {
+    supabase = makeClient();
+    log(
+      "Dry run — no catalog rows will be written. Service role key present, so the column\n" +
+        "mapping is probed too (one sentinel row is written and immediately deleted).\n",
+    );
+    optional = await preflight(supabase);
+    log(`Preflight OK. Optional columns present: ${
+      Object.entries(optional).filter(([, v]) => v).map(([k]) => k).join(", ") || "none"
+    }`);
+  } else {
+    log(
+      "Dry run — no credentials found, so the database is not contacted at all.\n" +
+        "Fetching, validation and batching are still exercised in full. Set\n" +
+        "SUPABASE_SERVICE_ROLE_KEY to additionally verify the column mapping.\n",
+    );
+  }
 
   const sources = SOURCE === "all" ? ["anime", "games"] : [SOURCE];
   const totals = { fetched: 0, active: 0, incomplete: 0, written: 0 };

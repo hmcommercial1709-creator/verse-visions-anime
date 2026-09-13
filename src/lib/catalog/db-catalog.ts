@@ -30,7 +30,12 @@ export interface DbCatalogItem {
   categories: string[] | null;
   source_url: string | null;
   source_name: string | null;
+  /** Source extras plus the derived cross-catalog block; see catalog-facts.ts. */
+  metadata?: unknown;
 }
+
+const DETAIL_COLUMNS = "slug, name, description, image_url, categories, source_url, source_name";
+const DETAIL_COLUMNS_WITH_METADATA = `${DETAIL_COLUMNS}, metadata`;
 
 export interface DbCatalogPage {
   items: DbCatalogItem[];
@@ -87,13 +92,20 @@ export async function loadCatalogItemFromDb(
   entityType: "anime" | "game",
   slug: string,
 ): Promise<DbCatalogItem | null> {
-  const { data, error } = await supabase
-    .from("entities")
-    .select("slug, name, description, image_url, categories, source_url, source_name")
-    .eq("entity_type", entityType)
-    .eq("status", "active")
-    .eq("slug", slug)
-    .maybeSingle();
+  const read = (columns: string) =>
+    supabase
+      .from("entities")
+      .select(columns)
+      .eq("entity_type", entityType)
+      .eq("status", "active")
+      .eq("slug", slug)
+      .maybeSingle();
+
+  // metadata is selected by name, and PostgREST fails the whole query for a
+  // column that does not exist. So ask for it, and retry without it — the
+  // page still renders on a schema that has not had the migration applied.
+  let { data, error } = await read(DETAIL_COLUMNS_WITH_METADATA);
+  if (error) ({ data, error } = await read(DETAIL_COLUMNS));
 
   if (error || !data) return null;
   const row = data as Partial<DbCatalogItem>;

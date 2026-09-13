@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
+import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 import { siteKnowledgeGraph } from "@/lib/seo";
 
@@ -341,6 +342,12 @@ function RootComponent() {
       </main>
 
       <SiteFooter />
+
+      {/* The browsing-time gift. VisitorRewardTracker existed but was never
+          mounted on any route, so the reward it unlocks was unreachable no
+          matter how long anyone read. Mounted once here, it applies to every
+          page including the generated catalog. */}
+      <VisitorRewardTracker />
     </div>
   );
 }

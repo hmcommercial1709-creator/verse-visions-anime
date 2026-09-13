@@ -24,10 +24,13 @@ const DEFAULT_TIMEOUT_MS = 8000;
 // infers T across both the input and output sides, so any field carrying a
 // .default() made the two disagree and every call site reported a mismatch.
 // Keying off the schema's output type is what the callers actually receive.
+const MAX_RATE_LIMIT_RETRIES = 1;
+
 export async function fetchValidated<S extends ZodType>(
   url: string,
   schema: S,
   init?: { timeoutMs?: number; revalidateSeconds?: number },
+  attempt = 0,
 ): Promise<FetchOutcome<ZodOutput<S>>> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), init?.timeoutMs ?? DEFAULT_TIMEOUT_MS);
@@ -45,7 +48,23 @@ export async function fetchValidated<S extends ZodType>(
     } as RequestInit);
 
     if (response.status === 404) return { ok: false, reason: "not_found" };
-    if (response.status === 429) return { ok: false, reason: "rate_limited" };
+
+    // Jikan allows roughly 3 requests a second. A burst — a crawler on the
+    // paginated catalog, or the catalog sitemap building while someone loads
+    // page 1 — trips that, and the routes turn any non-404 failure into a 500,
+    // which tells Google the page is broken rather than busy. The limit
+    // clears in about a second, so waiting it out once turns the most common
+    // catalog failure into a rendered page. The wait is idle I/O, not CPU, so
+    // it does not count against the Worker's CPU budget.
+    if (response.status === 429) {
+      if (attempt >= MAX_RATE_LIMIT_RETRIES) return { ok: false, reason: "rate_limited" };
+      const retryAfter = Number(response.headers.get("retry-after"));
+      const waitMs =
+        Number.isFinite(retryAfter) && retryAfter > 0 ? Math.min(retryAfter * 1000, 3000) : 1200;
+      await new Promise((resolve) => setTimeout(resolve, waitMs));
+      return fetchValidated(url, schema, init, attempt + 1);
+    }
+
     if (!response.ok) return { ok: false, reason: "upstream_error" };
 
     const parsed = schema.safeParse(await response.json());

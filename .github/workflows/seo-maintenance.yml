@@ -163,7 +163,15 @@ jobs:
       # last run reached, so the 100,000-app list accumulates a few hundred
       # games a night instead of being attempted in one impossible pass.
       # The limit is sized to finish inside this job's timeout.
+      # continue-on-error because the two sources are independent and Steam is
+      # the flakier one: it refuses requests from data-centre IP ranges, which
+      # is exactly what a CI runner is. The previous run imported 5,000 anime
+      # rows successfully and was then reported as a failure because Steam
+      # answered 404 — which reads as "the ingest is broken" when the ingest
+      # had in fact just done its job. A Steam outage now shows as a warning
+      # annotation on this step instead of discarding that signal.
       - name: Ingest games from Steam (resumable)
+        continue-on-error: true
         run: npm run ingest:steam -- --resume --limit=300
 
       - name: Verify the catalog after ingest

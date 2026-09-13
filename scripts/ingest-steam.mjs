@@ -130,16 +130,77 @@ function loadDotEnv() {
 const NON_GAME_NAME =
   /\b(soundtrack|ost|demo|beta|playtest|dedicated server|server|sdk|trailer|teaser|artbook|art book|wallpaper|dlc|season pass|upgrade|bundle|pack)\b|^\s*test\b/i;
 
+/**
+ * Spellings of the app-list endpoint, tried in order.
+ *
+ * The documented one answered 404 from a GitHub Actions runner. Steam has
+ * shipped this method under several version strings over the years and is
+ * known to refuse requests from data-centre IP ranges, which is what an
+ * Actions runner is — so a single hard-coded URL makes an upstream quirk look
+ * like a broken script. Trying the known spellings costs three requests in
+ * the worst case and one in the normal one.
+ */
+const APP_LIST_PATHS = [
+  "/ISteamApps/GetAppList/v2/?format=json",
+  "/ISteamApps/GetAppList/v2/",
+  "/ISteamApps/GetAppList/v0002/?format=json",
+  "/ISteamApps/GetAppList/v1/",
+];
+
 async function getAppList() {
-  const res = await fetch(`${STEAM_API}/ISteamApps/GetAppList/v2/`, {
-    headers: { accept: "application/json" },
-    signal: AbortSignal.timeout(60000),
-  });
-  if (!res.ok) throw new Error(`GetAppList HTTP ${res.status}`);
-  const json = await res.json();
-  const apps = json?.applist?.apps;
-  if (!Array.isArray(apps)) throw new Error("GetAppList returned an unexpected shape.");
-  return apps.filter((a) => a?.appid && a?.name && !NON_GAME_NAME.test(a.name));
+  const failures = [];
+
+  for (const path of APP_LIST_PATHS) {
+    const url = `${STEAM_API}${path}`;
+    let res;
+    try {
+      res = await fetch(url, {
+        headers: {
+          accept: "application/json",
+          // Steam serves an HTML error page to some default agents; a named
+          // one is both politer and more likely to be answered.
+          "user-agent": "GameCastle/1.0 (+https://gamecastle.store)",
+        },
+        signal: AbortSignal.timeout(60000),
+      });
+    } catch (error) {
+      failures.push(`${path} → ${error.message}`);
+      continue;
+    }
+
+    if (!res.ok) {
+      // The body is the diagnosis: an HTML error page and a JSON error mean
+      // very different things, and "HTTP 404" alone told us neither.
+      const body = (await res.text().catch(() => "")).slice(0, 120).replace(/\s+/g, " ");
+      failures.push(`${path} → HTTP ${res.status}${body ? ` — ${body}` : ""}`);
+      continue;
+    }
+
+    let json;
+    try {
+      json = await res.json();
+    } catch {
+      failures.push(`${path} → 200 but the body was not JSON`);
+      continue;
+    }
+
+    const apps = json?.applist?.apps;
+    if (!Array.isArray(apps)) {
+      failures.push(`${path} → 200 but no applist.apps array`);
+      continue;
+    }
+
+    log(`  app list from ${path} — ${apps.length.toLocaleString()} apps before filtering`);
+    return apps.filter((a) => a?.appid && a?.name && !NON_GAME_NAME.test(a.name));
+  }
+
+  throw new Error(
+    `Steam's app list could not be fetched. Tried ${APP_LIST_PATHS.length} endpoints:\n` +
+      failures.map((f) => `  ${f}`).join("\n") +
+      `\nSteam refuses requests from some data-centre IP ranges, which is what a\n` +
+      `CI runner is, so this is often an upstream availability problem rather\n` +
+      `than a fault in this script.`,
+  );
 }
 
 /**

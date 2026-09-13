@@ -41,6 +41,7 @@ import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 import { resolveMetadataColumn } from "./metadata-column.mjs";
 import { assertCredentials } from "./supabase-preflight.mjs";
+import { upsertAll } from "./resilient-upsert.mjs";
 import { annotate } from "./derive-facts.mjs";
 import { writeMatrixIndex } from "./write-matrix-index.mjs";
 import { buildFacetIndex, buildComparisonIndex } from "./facet-index.mjs";
@@ -69,7 +70,7 @@ const TABLE = "entities";
 const ANILIST_URL = process.env.ANILIST_URL || "https://graphql.anilist.co";
 const PER_PAGE = 50; // AniList's documented maximum
 const CONFLICT_TARGET = process.env.INGEST_CONFLICT_TARGET || "entity_type,slug";
-const CHUNK_SIZE = 250; // smaller than the Jikan ingester: rows carry metadata
+const CHUNK_SIZE = Number(process.env.INGEST_CHUNK_SIZE ?? 50);
 
 /**
  * AniList publishes a 90 requests/minute limit. 1.4s between calls stays
@@ -116,12 +117,6 @@ function loadDotEnv() {
   }
   return true;
 }
-
-const chunk = (items, size) => {
-  const out = [];
-  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
-  return out;
-};
 
 /* --------------------------------------------------------------- the query */
 
@@ -322,26 +317,6 @@ function makeClient() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-/**
- * The same guard the Jikan ingester needs: two rows with one key inside a
- * single upsert is Postgres error 21000, "ON CONFLICT DO UPDATE command
- * cannot affect row a second time". AniList paging can repeat a title across
- * pages when the underlying list shifts between requests, so this is not
- * hypothetical. Last occurrence wins, matching upsert semantics.
- */
-function dedupeByKey(rows) {
-  const seen = new Map();
-  for (const row of rows) seen.set(`${row.entity_type}::${row.slug}`, row);
-  return [...seen.values()];
-}
-
-async function upsertRows(supabase, rows) {
-  const { error } = await supabase
-    .from(TABLE)
-    .upsert(dedupeByKey(rows), { onConflict: CONFLICT_TARGET });
-  if (error) throw new Error(`${error.message}${error.code ? ` (${error.code})` : ""}`);
-}
-
 /* -------------------------------------------------------------------- main */
 
 async function main() {
@@ -458,12 +433,26 @@ async function main() {
 
   /* -------------------------------------------------------------- 4. write */
 
-  const batches = chunk(rows, CHUNK_SIZE);
-  let written = 0;
-  for (const [i, batch] of batches.entries()) {
-    await upsertRows(supabase, batch);
-    written += batch.length;
-    log(`  chunk ${i + 1}/${batches.length} — ${written}/${rows.length} rows`);
+  const { written, failed, total, aborted } = await upsertAll(supabase, TABLE, rows, {
+    conflictTarget: CONFLICT_TARGET,
+    chunkSize: CHUNK_SIZE,
+    log,
+  });
+
+  // A handful of bad rows should not discard thousands of good ones, but a
+  // write that mostly failed is a real failure and must not report success.
+  if (failed.length) {
+    log(`\n${failed.length} row(s) could not be written:`);
+    for (const f of failed.slice(0, 10)) log(`  ${f.slug}: ${f.reason}`);
+    if (failed.length > 10) log(`  … and ${failed.length - 10} more`);
+  }
+  const failureRate = total === 0 ? 0 : failed.length / total;
+  if (aborted || failureRate > 0.1) {
+    throw new Error(
+      `${failed.length} of ${total} rows failed to write` +
+        (aborted ? " (stopped early)" : ` (${Math.round(failureRate * 100)}%)`) +
+        `. Too many to treat as transient — see the reasons above.`,
+    );
   }
 
   // Built from the rows just written. Facet counts are only meaningful over

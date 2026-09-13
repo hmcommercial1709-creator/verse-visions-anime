@@ -38,6 +38,7 @@ import { readFileSync } from "node:fs";
 import { incompletenessReasons } from "./catalog-quality-gate.mjs";
 import { resolveMetadataColumn } from "./metadata-column.mjs";
 import { assertCredentials } from "./supabase-preflight.mjs";
+import { upsertAll } from "./resilient-upsert.mjs";
 import { annotate } from "./derive-facts.mjs";
 import { writeMatrixIndex } from "./write-matrix-index.mjs";
 import { buildFacetIndex, buildComparisonIndex } from "./facet-index.mjs";
@@ -64,7 +65,7 @@ const TABLE = "entities";
 const STATE_TABLE = "automation_state";
 const STATE_KEY = "catalog_ingest:steam";
 const CONFLICT_TARGET = process.env.INGEST_CONFLICT_TARGET || "entity_type,slug";
-const CHUNK_SIZE = 250;
+const CHUNK_SIZE = Number(process.env.INGEST_CHUNK_SIZE ?? 50);
 
 const STEAM_API = process.env.STEAM_API_URL || "https://api.steampowered.com";
 const STEAM_STORE = process.env.STEAM_STORE_URL || "https://store.steampowered.com";
@@ -110,12 +111,6 @@ function loadDotEnv() {
   }
   return true;
 }
-
-const chunk = (items, size) => {
-  const out = [];
-  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
-  return out;
-};
 
 /* ------------------------------------------------------------------- steam */
 
@@ -318,19 +313,6 @@ async function writeCursor(supabase, lastAppId) {
   if (error) log(`  (could not save resume cursor: ${error.message})`);
 }
 
-function dedupeByKey(rows) {
-  const seen = new Map();
-  for (const row of rows) seen.set(`${row.entity_type}::${row.slug}`, row);
-  return [...seen.values()];
-}
-
-async function upsertRows(supabase, rows) {
-  const { error } = await supabase
-    .from(TABLE)
-    .upsert(dedupeByKey(rows), { onConflict: CONFLICT_TARGET });
-  if (error) throw new Error(`${error.message}${error.code ? ` (${error.code})` : ""}`);
-}
-
 /**
  * Every game row already stored, so the derived facts are computed against
  * the whole games catalog rather than only this run's slice. A title's rank
@@ -487,12 +469,26 @@ async function main() {
 
   /* -------------------------------------------------------------- 5. write */
 
-  const batches = chunk(rows, CHUNK_SIZE);
-  let written = 0;
-  for (const [i, batch] of batches.entries()) {
-    await upsertRows(supabase, batch);
-    written += batch.length;
-    log(`  chunk ${i + 1}/${batches.length} — ${written}/${rows.length} rows`);
+  const { written, failed, total, aborted } = await upsertAll(supabase, TABLE, rows, {
+    conflictTarget: CONFLICT_TARGET,
+    chunkSize: CHUNK_SIZE,
+    log,
+  });
+
+  // A handful of bad rows should not discard thousands of good ones, but a
+  // write that mostly failed is a real failure and must not report success.
+  if (failed.length) {
+    log(`\n${failed.length} row(s) could not be written:`);
+    for (const f of failed.slice(0, 10)) log(`  ${f.slug}: ${f.reason}`);
+    if (failed.length > 10) log(`  … and ${failed.length - 10} more`);
+  }
+  const failureRate = total === 0 ? 0 : failed.length / total;
+  if (aborted || failureRate > 0.1) {
+    throw new Error(
+      `${failed.length} of ${total} rows failed to write` +
+        (aborted ? " (stopped early)" : ` (${Math.round(failureRate * 100)}%)`) +
+        `. Too many to treat as transient — see the reasons above.`,
+    );
   }
   // Over `all`, not just this run's slice: Steam is ingested a few hundred
   // games a night, and a facet index built from one night's rows would drop

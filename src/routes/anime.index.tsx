@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { publishedAnime } from "@/lib/content-registry";
 import { getTopAnime, animeSlug, displayTitle } from "@/lib/catalog/jikan";
+import { loadCatalogFromDb, type DbCatalogItem } from "@/lib/catalog/db-catalog";
 import { CATALOG_HEADERS } from "@/lib/catalog/http";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
@@ -19,8 +20,30 @@ import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
  * URL.
  */
 
-const MAX_PAGE = 40; // Jikan paginates 25/page; bounded so crawlers can't walk forever.
+// Jikan's top list is bounded at 40 pages of 25. The database has no such
+// ceiling, so the search param allows far more and the loader 404s anything
+// past what actually exists — a crawler stays bounded by real content either
+// way, but the cap no longer limits the catalog once entities is filled.
+const API_MAX_PAGE = 40;
+const MAX_PAGE = 4000;
+const PAGE_SIZE = 25;
 const guides = publishedAnime();
+
+interface CatalogRow {
+  key: string;
+  slug: string;
+  title: string;
+  image: string | null;
+  meta: string;
+}
+
+const fromDb = (r: DbCatalogItem): CatalogRow => ({
+  key: r.slug,
+  slug: r.slug,
+  title: r.name,
+  image: r.image_url,
+  meta: "",
+});
 
 export const Route = createFileRoute("/anime/")({
   validateSearch: (search: Record<string, unknown>): { page?: number } => {
@@ -29,14 +52,42 @@ export const Route = createFileRoute("/anime/")({
   },
   loaderDeps: ({ search }) => ({ page: search.page ?? 1 }),
   loader: async ({ deps }) => {
+    // The database first: it has everything the ingest has pulled in, with no
+    // page ceiling. It returns null while empty, so the site works the same as
+    // before the ingest has ever run.
+    const db = await loadCatalogFromDb("anime", deps.page, PAGE_SIZE);
+    if (db) {
+      if (db.items.length === 0) throw notFound();
+      return {
+        catalog: db.items.map(fromDb),
+        catalogFailed: false,
+        page: deps.page,
+        totalPages: db.totalPages,
+        total: db.total,
+      };
+    }
+
+    if (deps.page > API_MAX_PAGE) throw notFound();
     const result = await getTopAnime(deps.page);
     // Deliberately not thrown. This is a top-level navigation page, and the
     // 23 guides are local data that is always available — degrading to them
     // beats a 500 when a third-party API is briefly unreachable.
     return {
-      catalog: result.ok ? result.data : [],
+      catalog: result.ok
+        ? result.data.map((a) => ({
+            key: String(a.mal_id),
+            slug: animeSlug(a),
+            title: displayTitle(a),
+            image: a.images.webp?.image_url || a.images.jpg.image_url || null,
+            meta: [a.score ? `⭐ ${a.score}` : a.type, a.episodes ? `${a.episodes} ep` : ""]
+              .filter(Boolean)
+              .join(" · "),
+          }))
+        : [],
       catalogFailed: !result.ok,
       page: deps.page,
+      totalPages: API_MAX_PAGE,
+      total: 0,
     };
   },
   headers: () => CATALOG_HEADERS,
@@ -71,7 +122,7 @@ export const Route = createFileRoute("/anime/")({
 });
 
 function AnimeArchive() {
-  const { catalog, catalogFailed, page } = Route.useLoaderData();
+  const { catalog, catalogFailed, page, totalPages, total } = Route.useLoaderData();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
@@ -131,37 +182,31 @@ function AnimeArchive() {
           </p>
         ) : (
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {catalog.map((a) => {
-              const image = a.images.webp?.image_url || a.images.jpg.image_url;
-              return (
-                <Link
-                  key={a.mal_id}
-                  to="/catalog/anime/$slug"
-                  params={{ slug: animeSlug(a) }}
-                  className="group overflow-hidden rounded-2xl border border-border/60 bg-card/40 card-hover"
-                >
-                  {image && (
-                    <img
-                      src={image}
-                      alt={displayTitle(a)}
-                      loading="lazy"
-                      width={225}
-                      height={320}
-                      className="aspect-[225/320] w-full object-cover"
-                    />
-                  )}
-                  <div className="p-3">
-                    <h3 className="line-clamp-2 text-sm font-semibold leading-snug group-hover:text-primary">
-                      {displayTitle(a)}
-                    </h3>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {a.score ? `⭐ ${a.score}` : a.type}
-                      {a.episodes ? ` · ${a.episodes} ep` : ""}
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+            {catalog.map((a) => (
+              <Link
+                key={a.key}
+                to="/catalog/anime/$slug"
+                params={{ slug: a.slug }}
+                className="group overflow-hidden rounded-2xl border border-border/60 bg-card/40 card-hover"
+              >
+                {a.image && (
+                  <img
+                    src={a.image}
+                    alt={a.title}
+                    loading="lazy"
+                    width={225}
+                    height={320}
+                    className="aspect-[225/320] w-full object-cover"
+                  />
+                )}
+                <div className="p-3">
+                  <h3 className="line-clamp-2 text-sm font-semibold leading-snug group-hover:text-primary">
+                    {a.title}
+                  </h3>
+                  {a.meta && <div className="mt-1 text-xs text-muted-foreground">{a.meta}</div>}
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </section>
@@ -182,9 +227,10 @@ function AnimeArchive() {
           <span />
         )}
         <span className="text-sm text-muted-foreground">
-          Page {page} of {MAX_PAGE}
+          Page {page} of {totalPages}
+          {total > 0 ? ` · ${total.toLocaleString()} titles` : ""}
         </span>
-        {page < MAX_PAGE ? (
+        {page < totalPages ? (
           <Link
             to="/anime"
             search={{ page: page + 1 }}

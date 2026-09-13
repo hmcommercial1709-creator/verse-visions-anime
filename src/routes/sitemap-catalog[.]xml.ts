@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { listGames, gameSlug } from "@/lib/catalog/freetogame";
+import { countDbCatalogPages } from "@/lib/catalog/db-catalog";
 import { urlsetXml, xmlResponse, type SitemapEntry } from "@/lib/sitemap";
 
 /**
@@ -22,7 +23,11 @@ import { urlsetXml, xmlResponse, type SitemapEntry } from "@/lib/sitemap";
  * breaking it.
  */
 
-const ANIME_INDEX_PAGES = 40; // matches MAX_PAGE in anime.index.tsx
+// Jikan's bound when the catalog is served live. Once public.entities is
+// filled the real page count comes from there instead, so the sitemap grows
+// with the catalog rather than stopping at 40.
+const API_ANIME_INDEX_PAGES = 40;
+const ANIME_PAGE_SIZE = 25;
 
 export const Route = createFileRoute("/sitemap-catalog.xml")({
   server: {
@@ -35,7 +40,9 @@ export const Route = createFileRoute("/sitemap-catalog.xml")({
           { path: "/catalog/games", changefreq: "daily", priority: "0.8" },
         ];
 
-        for (let page = 2; page <= ANIME_INDEX_PAGES; page++) {
+        const dbPages = await countDbCatalogPages("anime", ANIME_PAGE_SIZE);
+        const animePages = dbPages > 0 ? dbPages : API_ANIME_INDEX_PAGES;
+        for (let page = 2; page <= animePages; page++) {
           entries.push({ path: `/anime?page=${page}`, changefreq: "weekly", priority: "0.5" });
         }
 

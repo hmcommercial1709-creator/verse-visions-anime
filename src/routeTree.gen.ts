@@ -85,6 +85,7 @@ import { Route as LocaleSplatRouteImport } from './routes/$locale.$'
 import { Route as LocaleStoreRouteImport } from './routes/$locale.store'
 import { Route as LocaleSuperHubRouteImport } from './routes/$locale.super-hub'
 import { Route as LocaleTrendingRouteImport } from './routes/$locale.trending'
+import { Route as AnimeIndexRouteImport } from './routes/anime.index'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as AnimeDandadanRouteImport } from './routes/anime.dandadan'
 import { Route as AnimeSakamotoDaysRouteImport } from './routes/anime.sakamoto-days'
@@ -526,6 +527,11 @@ const LocaleTrendingRoute = LocaleTrendingRouteImport.update({
   path: '/$locale/trending',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnimeIndexRoute = AnimeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AnimeRoute,
+} as any)
 const AnimeSlugRoute = AnimeSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -951,6 +957,7 @@ export interface FileRoutesByFullPath {
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
+  '/anime/': typeof AnimeIndexRoute
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
@@ -987,7 +994,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai-index.json': typeof AiIndexDotjsonRoute
-  '/anime': typeof AnimeRouteWithChildren
   '/archive': typeof ArchiveRoute
   '/authors': typeof AuthorsRoute
   '/awards': typeof AwardsRoute
@@ -1087,6 +1093,7 @@ export interface FileRoutesByTo {
   '/store/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
+  '/anime': typeof AnimeIndexRoute
   '/explore': typeof ExploreIndexRoute
   '/gaming-hub': typeof GamingHubIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
@@ -1226,6 +1233,7 @@ export interface FileRoutesById {
   '/store_/thanks': typeof StoreThanksRoute
   '/studio/$slug': typeof StudioSlugRoute
   '/watch/$slug': typeof WatchSlugRoute
+  '/anime/': typeof AnimeIndexRoute
   '/explore/': typeof ExploreIndexRoute
   '/gaming-hub/': typeof GamingHubIndexRoute
   '/$locale/anime/$slug': typeof LocaleAnimeSlugRoute
@@ -1366,6 +1374,7 @@ export interface FileRouteTypes {
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
+    | '/anime/'
     | '/explore/'
     | '/gaming-hub/'
     | '/$locale/anime/$slug'
@@ -1402,7 +1411,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/ai-index.json'
-    | '/anime'
     | '/archive'
     | '/authors'
     | '/awards'
@@ -1502,6 +1510,7 @@ export interface FileRouteTypes {
     | '/store/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
+    | '/anime'
     | '/explore'
     | '/gaming-hub'
     | '/$locale/anime/$slug'
@@ -1640,6 +1649,7 @@ export interface FileRouteTypes {
     | '/store_/thanks'
     | '/studio/$slug'
     | '/watch/$slug'
+    | '/anime/'
     | '/explore/'
     | '/gaming-hub/'
     | '/$locale/anime/$slug'
@@ -2330,6 +2340,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleTrendingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anime/': {
+      id: '/anime/'
+      path: '/'
+      fullPath: '/anime/'
+      preLoaderRoute: typeof AnimeIndexRouteImport
+      parentRoute: typeof AnimeRoute
+    }
     '/anime/$slug': {
       id: '/anime/$slug'
       path: '/$slug'
@@ -2757,6 +2774,7 @@ interface AnimeRouteChildren {
   AnimeSlugRoute: typeof AnimeSlugRoute
   AnimeDandadanRoute: typeof AnimeDandadanRoute
   AnimeSakamotoDaysRoute: typeof AnimeSakamotoDaysRoute
+  AnimeIndexRoute: typeof AnimeIndexRoute
   AnimeSlugSectionRoute: typeof AnimeSlugSectionRoute
   AnimeDandadanCharactersRoute: typeof AnimeDandadanCharactersRoute
   AnimeDandadanEpisodeGuideRoute: typeof AnimeDandadanEpisodeGuideRoute
@@ -2772,6 +2790,7 @@ const AnimeRouteChildren: AnimeRouteChildren = {
   AnimeSlugRoute: AnimeSlugRoute,
   AnimeDandadanRoute: AnimeDandadanRoute,
   AnimeSakamotoDaysRoute: AnimeSakamotoDaysRoute,
+  AnimeIndexRoute: AnimeIndexRoute,
   AnimeSlugSectionRoute: AnimeSlugSectionRoute,
   AnimeDandadanCharactersRoute: AnimeDandadanCharactersRoute,
   AnimeDandadanEpisodeGuideRoute: AnimeDandadanEpisodeGuideRoute,

@@ -1,6 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getAnimeBySlug, charactersForAnime, animeByGenre } from "@/lib/content-registry";
-import { isSectionKey, hasSection, sectionsFor, SECTION_META, type SectionKey } from "@/lib/anime-sections";
+import {
+  isSectionKey,
+  hasSection,
+  sectionsFor,
+  SECTION_META,
+  type SectionKey,
+} from "@/lib/anime-sections";
 import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 
 /**
@@ -25,7 +31,10 @@ export const Route = createFileRoute("/anime/$slug_/$section")({
       section: section as SectionKey,
       characters: section === "characters" ? charactersForAnime(slug) : [],
       siblings: sectionsFor(slug).filter((s) => s !== section),
-      related: anime.genres.flatMap((g) => animeByGenre(g)).filter((a) => a.slug !== slug).slice(0, 6),
+      related: anime.genres
+        .flatMap((g) => animeByGenre(g))
+        .filter((a) => a.slug !== slug)
+        .slice(0, 6),
     };
   },
   head: ({ loaderData, params }) => {
@@ -73,9 +82,17 @@ function AnimeSection() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 lg:px-6">
       <nav aria-label="Breadcrumb" className="mb-4 text-xs text-muted-foreground">
-        <Link to="/" className="hover:text-foreground">Home</Link> <span className="mx-1">/</span>
-        <Link to="/browse" className="hover:text-foreground">Anime</Link> <span className="mx-1">/</span>
-        <Link to="/anime/$slug" params={{ slug: anime.slug }} className="hover:text-foreground">{anime.title}</Link>{" "}
+        <Link to="/" className="hover:text-foreground">
+          Home
+        </Link>{" "}
+        <span className="mx-1">/</span>
+        <Link to="/browse" className="hover:text-foreground">
+          Anime
+        </Link>{" "}
+        <span className="mx-1">/</span>
+        <Link to="/anime/$slug" params={{ slug: anime.slug }} className="hover:text-foreground">
+          {anime.title}
+        </Link>{" "}
         <span className="mx-1">/</span> {meta.label}
       </nav>
 
@@ -85,7 +102,10 @@ function AnimeSection() {
       {section === "watch-order" && (
         <ol className="mt-8 space-y-3">
           {anime.watchOrder.map((entry, i) => (
-            <li key={entry} className="flex gap-4 rounded-2xl border border-border/60 bg-card/40 p-4">
+            <li
+              key={entry}
+              className="flex gap-4 rounded-2xl border border-border/60 bg-card/40 p-4"
+            >
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary/15 text-sm font-bold text-primary">
                 {i + 1}
               </span>
@@ -105,7 +125,9 @@ function AnimeSection() {
               className="rounded-2xl border border-border/60 bg-card/40 p-4 card-hover hover:border-primary/50"
             >
               <div className="font-display text-lg font-bold">{c.name}</div>
-              {c.role && <div className="mt-0.5 text-xs uppercase tracking-wide text-primary">{c.role}</div>}
+              {c.role && (
+                <div className="mt-0.5 text-xs uppercase tracking-wide text-primary">{c.role}</div>
+              )}
               {c.bio && <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{c.bio}</p>}
             </Link>
           ))}
@@ -176,7 +198,13 @@ function AnimeSection() {
             {siblings.map((s) => (
               <Link
                 key={s}
-                to="/anime/$slug_/$section"
+                // The route's fullPath, not its id: "$slug_" is the file-naming
+                // convention for opting out of the parent layout and is not
+                // part of the URL. Linking by id silently produced
+                // /anime/undefined/<section> — four dead links on every section
+                // page, which is both a crawl-budget leak and the reason these
+                // pages had almost no internal links pointing at them.
+                to="/anime/$slug/$section"
                 params={{ slug: anime.slug, section: s }}
                 className="rounded-full border border-border/60 px-4 py-1.5 text-xs font-semibold text-muted-foreground hover:border-primary/50 hover:text-foreground"
               >
@@ -201,7 +229,9 @@ function AnimeSection() {
                 className="rounded-xl border border-border/60 bg-card/40 p-3 text-sm font-medium card-hover"
               >
                 {a.title}
-                <span className="mt-0.5 block text-xs text-muted-foreground">{a.year} · ⭐ {a.rating.toFixed(1)}</span>
+                <span className="mt-0.5 block text-xs text-muted-foreground">
+                  {a.year} · ⭐ {a.rating.toFixed(1)}
+                </span>
               </Link>
             ))}
           </div>

@@ -44,10 +44,13 @@ export interface CatalogRelation {
 
 export interface DerivedFacts {
   genreRank?: { genre: string; rank: number; total: number };
-  studio?: { name: string; total: number; rank?: number; scoredTotal?: number };
-  season?: { season: string; year: number; cohort: number };
-  length?: {
-    episodes: number;
+  /** Animation studio for anime, developer for games. */
+  maker?: { name: string; total: number; rank?: number; scoredTotal?: number };
+  /** Broadcast season for anime, release year for games. */
+  cohort?: { key: string; label: string; size: number };
+  size?: {
+    value: number;
+    unit: string;
     genre: string;
     median: number;
     verdict: "longer" | "shorter" | "typical";
@@ -61,6 +64,19 @@ export interface CatalogMeta {
   anilistId?: number;
   malId?: number | null;
   format?: string | null;
+  steamAppId?: number;
+  developers?: string[];
+  publishers?: string[];
+  platforms?: string[];
+  releaseDate?: string | null;
+  releaseYear?: number | null;
+  metacritic?: number | null;
+  isFree?: boolean;
+  price?: { final: string | null; discount: number } | null;
+  achievements?: number | null;
+  website?: string | null;
+  screenshots?: string[];
+  features?: string[];
   status?: string | null;
   season?: string | null;
   seasonYear?: number | null;
@@ -87,6 +103,8 @@ export function parseMeta(value: unknown): CatalogMeta | null {
 }
 
 const titleCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+
+export type CatalogKind = "anime" | "game";
 
 const SEASON_LABEL: Record<string, string> = {
   WINTER: "Winter",
@@ -120,43 +138,56 @@ export function orderedFranchise(facts: DerivedFacts | undefined) {
  * is returned only when its inputs exist — the caller renders whatever comes
  * back and nothing more.
  */
-export function positioningStatements(meta: CatalogMeta | null, name: string): string[] {
+export function positioningStatements(
+  meta: CatalogMeta | null,
+  name: string,
+  kind: CatalogKind = "anime",
+): string[] {
   const d = meta?.derived;
   if (!d) return [];
   const out: string[] = [];
+  const noun = kind === "game" ? "games" : "titles";
 
   if (d.genreRank) {
     const { genre, rank, total } = d.genreRank;
+    const basis = kind === "game" ? "Metacritic score" : "average score";
     out.push(
-      `Within this catalog, ${name} ranks #${rank.toLocaleString()} of ${total.toLocaleString()} ${genre} titles by average score.`,
+      `Within this catalog, ${name} ranks #${rank.toLocaleString()} of ${total.toLocaleString()} ${genre} ${noun} by ${basis}.`,
     );
   }
 
-  if (d.studio) {
-    const { name: studio, total, rank } = d.studio;
+  if (d.maker) {
+    const { name: maker, total, rank } = d.maker;
     out.push(
       rank
-        ? `${studio} accounts for ${total.toLocaleString()} titles here, and this is their #${rank.toLocaleString()} by score.`
-        : `${studio} accounts for ${total.toLocaleString()} titles in this catalog.`,
+        ? `${maker} accounts for ${total.toLocaleString()} ${noun} here, and this is their #${rank.toLocaleString()} by score.`
+        : `${maker} accounts for ${total.toLocaleString()} ${noun} in this catalog.`,
     );
   }
 
-  if (d.season) {
-    const label = SEASON_LABEL[d.season.season] ?? titleCase(d.season.season);
+  if (d.cohort) {
+    // The cohort key is "SPRING 2020" for anime and "2015" for a game, so the
+    // sentence has to differ; the count either side of it does not.
+    const label = d.cohort.label.replace(
+      /^(WINTER|SPRING|SUMMER|FALL)/,
+      (m) => SEASON_LABEL[m] ?? titleCase(m),
+    );
     out.push(
-      `It premiered in ${label} ${d.season.year}, one of ${d.season.cohort.toLocaleString()} titles from that season in this catalog.`,
+      kind === "game"
+        ? `It released in ${label}, one of ${d.cohort.size.toLocaleString()} games from that year in this catalog.`
+        : `It premiered in ${label}, one of ${d.cohort.size.toLocaleString()} titles from that season in this catalog.`,
     );
   }
 
-  if (d.length) {
-    const { episodes, genre, median, verdict } = d.length;
+  if (d.size) {
+    const { value, unit, genre, median, verdict } = d.size;
     const phrase =
       verdict === "longer"
-        ? `well above the ${median}-episode median`
+        ? `well above the ${median}-${unit.replace(/s$/, "")} median`
         : verdict === "shorter"
-          ? `well below the ${median}-episode median`
-          : `close to the ${median}-episode median`;
-    out.push(`At ${episodes} episodes it sits ${phrase} for ${genre} titles here.`);
+          ? `well below the ${median}-${unit.replace(/s$/, "")} median`
+          : `close to the ${median}-${unit.replace(/s$/, "")} median`;
+    out.push(`At ${value} ${unit} it sits ${phrase} for ${genre} ${noun} here.`);
   }
 
   return out;
@@ -170,9 +201,12 @@ export function positioningStatements(meta: CatalogMeta | null, name: string): s
 export function generatedFaq(
   meta: CatalogMeta | null,
   name: string,
+  kind: CatalogKind = "anime",
 ): { question: string; answer: string }[] {
   if (!meta) return [];
   const faq: { question: string; answer: string }[] = [];
+
+  if (kind === "game") return gameFaq(meta, name, faq);
 
   if (typeof meta.episodes === "number" && meta.episodes > 0) {
     const runtime =
@@ -189,7 +223,7 @@ export function generatedFaq(
 
   const studio = meta.studios?.find((s) => s.isMain) ?? meta.studios?.[0];
   if (studio) {
-    const others = meta.derived?.studio?.total;
+    const others = meta.derived?.maker?.total;
     faq.push({
       question: `Which studio animated ${name}?`,
       answer:
@@ -266,4 +300,65 @@ export function sortedCharacters(meta: CatalogMeta | null): CatalogCharacter[] {
     const rank = (role: string | null) => (role === "MAIN" ? 0 : role === "SUPPORTING" ? 1 : 2);
     return rank(a.role) - rank(b.role);
   });
+}
+
+/**
+ * The games FAQ. Same rule as the anime one: every answer is read out of a
+ * stored value, so a question whose answer is unknown is never asked and the
+ * FAQPage schema never carries a guess.
+ */
+function gameFaq(
+  meta: CatalogMeta,
+  name: string,
+  faq: { question: string; answer: string }[],
+): { question: string; answer: string }[] {
+  if (meta.platforms?.length) {
+    const labels: Record<string, string> = { windows: "Windows", mac: "macOS", linux: "Linux" };
+    const list = meta.platforms.map((p) => labels[p] ?? p);
+    const joined =
+      list.length > 1 ? `${list.slice(0, -1).join(", ")} and ${list[list.length - 1]}` : list[0];
+    faq.push({
+      question: `What platforms does ${name} run on?`,
+      answer: `According to its Steam listing, ${name} runs on ${joined}.`,
+    });
+  }
+
+  if (meta.isFree || meta.price?.final) {
+    faq.push({
+      question: `How much does ${name} cost?`,
+      answer: meta.isFree
+        ? `${name} is free to play on Steam.`
+        : `${name} is listed at ${meta.price?.final} on Steam` +
+          (meta.price?.discount ? `, currently ${meta.price.discount}% off.` : "."),
+    });
+  }
+
+  if (meta.releaseDate) {
+    const dev = meta.developers?.[0];
+    faq.push({
+      question: `When did ${name} come out?`,
+      answer: `${name} released on ${meta.releaseDate}` + (dev ? `, developed by ${dev}.` : "."),
+    });
+  }
+
+  if (typeof meta.achievements === "number" && meta.achievements > 0) {
+    faq.push({
+      question: `How many achievements does ${name} have?`,
+      answer: `${name} has ${meta.achievements} Steam achievements.`,
+    });
+  }
+
+  if (typeof meta.metacritic === "number" && meta.metacritic > 0) {
+    const rank = meta.derived?.genreRank;
+    faq.push({
+      question: `Is ${name} worth playing?`,
+      answer:
+        `It holds a Metacritic score of ${meta.metacritic}` +
+        (rank
+          ? `, placing it #${rank.rank} of ${rank.total} ${rank.genre} games in this catalog.`
+          : ". Compare it against the similar games listed on this page."),
+    });
+  }
+
+  return faq;
 }

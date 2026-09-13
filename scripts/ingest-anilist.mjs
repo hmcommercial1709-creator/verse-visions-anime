@@ -166,7 +166,8 @@ async function anilist(page, attempt = 1) {
   if (res.status === 429 && attempt <= 5) {
     // AniList sends Retry-After in seconds; trust it over a guess.
     const retryAfter = Number(res.headers.get("retry-after"));
-    const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 2 ** attempt * 1000;
+    const wait =
+      Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 2 ** attempt * 1000;
     log(`  rate limited on page ${page}, waiting ${wait}ms`);
     await sleep(wait);
     return anilist(page, attempt + 1);
@@ -201,8 +202,9 @@ const plainText = (html) =>
   String(html ?? "")
     .replace(/<br\s*\/?>/gi, " ")
     .replace(/<[^>]+>/g, "")
-    .replace(/&(nbsp|amp|lt|gt|quot|#39);/g, (_, e) =>
-      ({ nbsp: " ", amp: "&", lt: "<", gt: ">", quot: '"', "#39": "'" })[e] ?? " ",
+    .replace(
+      /&(nbsp|amp|lt|gt|quot|#39);/g,
+      (_, e) => ({ nbsp: " ", amp: "&", lt: "<", gt: ">", quot: '"', "#39": "'" })[e] ?? " ",
     )
     .replace(/\s+/g, " ")
     .trim();
@@ -250,6 +252,24 @@ function toRecord(media) {
         native: media.title?.native ?? null,
       },
       studios,
+      // The generic fields scripts/derive-facts.mjs reads, so anime and games
+      // share one aggregate engine. The anime-shaped fields above stay for
+      // display; these are what the arithmetic runs on.
+      sourceId: media.id,
+      score: media.averageScore ?? null,
+      makers: studios.map((s) => ({
+        id: s.id,
+        name: s.name,
+        primary: s.isMain || s.isAnimationStudio,
+      })),
+      cohort:
+        media.season && media.seasonYear
+          ? {
+              key: `${media.season} ${media.seasonYear}`,
+              label: `${media.season} ${media.seasonYear}`,
+            }
+          : null,
+      size: media.episodes ? { value: media.episodes, unit: "episodes" } : null,
       // Spoiler tags are dropped outright. A page that spoils the work it is
       // describing is worse than a page missing a tag.
       tags: (media.tags ?? [])

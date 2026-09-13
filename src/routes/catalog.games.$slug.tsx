@@ -11,23 +11,40 @@ import {
   upstreamIdFromSourceUrl,
   type DbCatalogItem,
 } from "@/lib/catalog/db-catalog";
+import { parseMeta, generatedFaq, type CatalogMeta } from "@/lib/catalog/catalog-facts";
+import { CatalogSections } from "@/components/catalog-sections";
+import { CatalogRewards } from "@/components/catalog-rewards";
 import { CATALOG_HEADERS } from "@/lib/catalog/http";
-import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
+import { absoluteUrl, breadcrumbSchema, faqSchema } from "@/lib/seo";
 
-/** Renders a stored row in the shape the page already expects. */
-function fromDbRow(row: DbCatalogItem): FreeToGameDetail {
+/**
+ * Renders a stored row in the shape the page already expects.
+ *
+ * Rows now arrive from two sources with different shapes: FreeToGame stored a
+ * genre and a platform as its two categories, while Steam stores its genres
+ * as categories and everything else — developer, publisher, platforms, price,
+ * Metacritic — under metadata. Reading both here keeps the component below
+ * unchanged.
+ */
+function fromDbRow(row: DbCatalogItem, meta: CatalogMeta | null): FreeToGameDetail {
+  const platforms: Record<string, string> = {
+    windows: "Windows",
+    mac: "macOS",
+    linux: "Linux",
+  };
   return {
-    id: 0,
+    id: meta?.steamAppId ?? 0,
     title: row.name,
     thumbnail: row.image_url ?? "",
     short_description: row.description ?? "",
-    game_url: "",
-    // Stored categories are FreeToGame's genre and platform.
+    game_url: row.source_url ?? "",
     genre: row.categories?.[0] ?? "",
-    platform: row.categories?.[1] ?? "",
-    publisher: "",
-    developer: "",
-    release_date: "",
+    platform:
+      meta?.platforms?.map((os) => platforms[os] ?? os).join(", ") || row.categories?.[1] || "",
+    publisher: meta?.publishers?.[0] ?? "",
+    developer: meta?.developers?.[0] ?? "",
+    release_date: meta?.releaseDate ?? "",
+    freetogame_profile_url: row.source_url ?? "",
   } as FreeToGameDetail;
 }
 
@@ -48,7 +65,7 @@ export const Route = createFileRoute("/catalog/games/$slug")({
         const related = all.ok
           ? all.data.filter((g) => g.id !== id && g.genre === game.data.genre).slice(0, 6)
           : [];
-        return { game: game.data, related };
+        return { game: game.data, related, meta: null as CatalogMeta | null };
       }
       // Fall through to the database rather than failing.
     }
@@ -56,12 +73,14 @@ export const Route = createFileRoute("/catalog/games/$slug")({
     // A row we hold beats a 404 Google caches or a 500 on a transient upstream
     // error.
     if (!row) throw notFound();
-    return { game: fromDbRow(row), related: [] };
+    const meta = parseMeta(row.metadata);
+    return { game: fromDbRow(row, meta), related: [], meta };
   },
   headers: () => CATALOG_HEADERS,
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [] };
     const g = loaderData.game;
+    const faq = generatedFaq(loaderData.meta, g.title, "game");
     const url = absoluteUrl(`/catalog/games/${params.slug}`);
     const description =
       g.short_description?.slice(0, 300) ??
@@ -114,6 +133,18 @@ export const Route = createFileRoute("/catalog/games/$slug")({
             ]),
           ),
         },
+        // Only published when the stored data actually answered something, so
+        // the markup never carries a question the page does not display.
+        ...(faq.length > 0
+          ? [
+              {
+                type: "application/ld+json",
+                children: JSON.stringify(
+                  faqSchema(faq.map((item) => ({ q: item.question, a: item.answer }))),
+                ),
+              },
+            ]
+          : []),
       ],
     };
   },
@@ -121,7 +152,7 @@ export const Route = createFileRoute("/catalog/games/$slug")({
 });
 
 function GameDetail() {
-  const { game, related } = Route.useLoaderData();
+  const { game, related, meta } = Route.useLoaderData();
   const req = game.minimum_system_requirements;
 
   return (
@@ -229,17 +260,22 @@ function GameDetail() {
         </section>
       )}
 
+      <CatalogSections meta={meta} name={game.title} kind="game" />
+
+      <CatalogRewards />
+
       <p className="mt-10 text-xs text-muted-foreground">
-        Game data from the{" "}
+        Game data from{" "}
         <a
           href={game.freetogame_profile_url}
           rel="noopener noreferrer nofollow"
           target="_blank"
           className="underline"
         >
-          FreeToGame
-        </a>{" "}
-        public API.
+          {meta?.steamAppId ? "Steam" : "the FreeToGame public API"}
+        </a>
+        {meta?.steamAppId ? "." : "."} Placement, cohort and similarity figures on this page are
+        computed across the GameCastle catalog.
       </p>
     </div>
   );

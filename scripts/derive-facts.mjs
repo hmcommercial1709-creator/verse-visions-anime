@@ -24,6 +24,25 @@
  * thousands of rows per request.
  */
 
+/**
+ * The generic shape the aggregates read, so anime and games share one engine.
+ *
+ * An anime's "maker" is its animation studio and a game's is its developer; an
+ * anime's cohort is its broadcast season and a game's is its release year.
+ * The arithmetic — rank within a genre, size of a cohort, distance from a
+ * median — is identical, and only the wording differs, which is the
+ * presenter's job rather than this file's.
+ */
+const norm = (meta = {}) => ({
+  sourceId: meta.sourceId ?? meta.anilistId ?? meta.steamAppId ?? null,
+  score: meta.score ?? meta.averageScore ?? null,
+  makers: meta.makers ?? meta.studios ?? [],
+  cohort: meta.cohort ?? null,
+  size: meta.size ?? null,
+  tags: meta.tags ?? [],
+  relations: meta.relations ?? [],
+});
+
 /** Tags this common say nothing about a title, and their postings lists are
  *  huge. Skipping them makes similarity both faster and more discriminating. */
 const MAX_TAG_POSTINGS = 400;
@@ -74,25 +93,24 @@ export function buildAggregates(records) {
   };
 
   for (const r of records) {
-    const m = r.meta ?? {};
-    const score = typeof m.averageScore === "number" ? m.averageScore : null;
-    if (m.anilistId) idToSlug.set(String(m.anilistId), r.slug);
+    const m = norm(r.meta);
+    const score = typeof m.score === "number" ? m.score : null;
+    if (m.sourceId) idToSlug.set(String(m.sourceId), r.slug);
     slugToName.set(r.slug, r.name);
 
     for (const genre of r.categories ?? []) {
       push(byGenre, genre, { slug: r.slug, score });
-      if (typeof m.episodes === "number" && m.episodes > 0) {
-        push(episodesByGenre, genre, m.episodes);
+      if (m.size && typeof m.size.value === "number" && m.size.value > 0) {
+        push(episodesByGenre, genre, m.size.value);
       }
     }
-    for (const studio of m.studios ?? []) {
-      push(byStudio, studio.name, { slug: r.slug, score });
+    for (const maker of m.makers) {
+      if (maker?.name) push(byStudio, maker.name, { slug: r.slug, score });
     }
-    if (m.season && m.seasonYear) {
-      const key = `${m.season} ${m.seasonYear}`;
-      bySeason.set(key, (bySeason.get(key) ?? 0) + 1);
+    if (m.cohort?.key) {
+      bySeason.set(m.cohort.key, (bySeason.get(m.cohort.key) ?? 0) + 1);
     }
-    for (const tag of m.tags ?? []) push(byTag, tag.name, r.slug);
+    for (const tag of m.tags) if (tag?.name) push(byTag, tag.name, r.slug);
   }
 
   // Sorted once, so every per-record lookup is an index-of rather than a sort.
@@ -136,7 +154,9 @@ function similarTo(record, agg) {
   const own = record.slug;
   const counts = new Map();
   const keys = [
-    ...(record.meta?.tags ?? []).map((t) => t.name),
+    ...norm(record.meta)
+      .tags.map((t) => t?.name)
+      .filter(Boolean),
     ...(record.categories ?? []),
   ];
 
@@ -161,7 +181,7 @@ function similarTo(record, agg) {
  * claims something the data does not support.
  */
 export function deriveFacts(record, agg) {
-  const m = record.meta ?? {};
+  const m = norm(record.meta);
   const facts = {};
 
   // The genre placement worth showing is the one where the title stands out
@@ -180,33 +200,35 @@ export function deriveFacts(record, agg) {
     facts.genreRank = { genre: best.genre, rank: best.rank, total: best.total };
   }
 
-  const studio = (m.studios ?? []).find((s) => s.isAnimationStudio) ?? (m.studios ?? [])[0];
-  if (studio) {
-    const entry = agg.studioRanks.get(studio.name);
+  // The studio that animated it, or the studio that developed it — whichever
+  // the source marks as primary, falling back to the first named.
+  const maker = m.makers.find((x) => x?.primary) ?? m.makers[0];
+  if (maker?.name) {
+    const entry = agg.studioRanks.get(maker.name);
     const rank = entry?.positions.get(record.slug);
     if (entry && entry.total > 1) {
-      facts.studio = {
-        name: studio.name,
+      facts.maker = {
+        name: maker.name,
         total: entry.total,
         ...(rank ? { rank, scoredTotal: entry.scoredTotal } : {}),
       };
     }
   }
 
-  if (m.season && m.seasonYear) {
-    const key = `${m.season} ${m.seasonYear}`;
-    const cohort = agg.bySeason.get(key) ?? 0;
-    if (cohort > 1) {
-      facts.season = { season: m.season, year: m.seasonYear, cohort };
+  if (m.cohort?.key) {
+    const size = agg.bySeason.get(m.cohort.key) ?? 0;
+    if (size > 1) {
+      facts.cohort = { key: m.cohort.key, label: m.cohort.label ?? m.cohort.key, size };
     }
   }
 
-  if (typeof m.episodes === "number" && m.episodes > 0 && best) {
+  if (m.size && typeof m.size.value === "number" && m.size.value > 0 && best) {
     const med = agg.medianEpisodes.get(best.genre);
     if (med) {
-      const ratio = m.episodes / med;
-      facts.length = {
-        episodes: m.episodes,
+      const ratio = m.size.value / med;
+      facts.size = {
+        value: m.size.value,
+        unit: m.size.unit ?? "episodes",
         genre: best.genre,
         median: med,
         verdict: ratio >= 1.5 ? "longer" : ratio <= 0.67 ? "shorter" : "typical",
@@ -214,7 +236,7 @@ export function deriveFacts(record, agg) {
     }
   }
 
-  const tags = (m.tags ?? [])
+  const tags = m.tags
     .filter((t) => typeof t.rank === "number" && t.rank > 0)
     .sort((a, b) => b.rank - a.rank)
     .slice(0, TOP_TAGS)
@@ -225,7 +247,7 @@ export function deriveFacts(record, agg) {
   // the site does not serve is a 404 waiting to be crawled, so unresolved
   // ids are dropped rather than rendered.
   const franchise = [];
-  for (const rel of m.relations ?? []) {
+  for (const rel of m.relations) {
     if (!FRANCHISE_RELATIONS.has(rel.relationType)) continue;
     const slug = agg.idToSlug.get(String(rel.id));
     if (!slug || slug === record.slug) continue;

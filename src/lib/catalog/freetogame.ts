@@ -57,6 +57,25 @@ export function getGame(id: number): Promise<FetchOutcome<FreeToGameDetail>> {
   return fetchValidated(`${BASE}/game?id=${id}`, freeToGameDetailSchema);
 }
 
+/**
+ * Title search. FreeToGame has no search endpoint, so this filters the full
+ * list — which is one cached request for roughly 400 games, cheap enough to do
+ * per query at the edge.
+ */
+export async function searchGames(
+  query: string,
+  limit = 6,
+): Promise<FetchOutcome<FreeToGameListItem[]>> {
+  const q = query.trim().toLowerCase();
+  if (!q) return { ok: true, data: [] };
+  const all = await listGames();
+  if (!all.ok) return all;
+  return {
+    ok: true,
+    data: all.data.filter((g) => g.title.toLowerCase().includes(q)).slice(0, limit),
+  };
+}
+
 /** Stable URL slug that keeps the id authoritative but stays readable. */
 export function gameSlug(game: { id: number; title: string }): string {
   const name = game.title

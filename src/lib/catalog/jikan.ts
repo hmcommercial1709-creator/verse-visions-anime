@@ -91,6 +91,24 @@ export async function getTopAnime(page = 1): Promise<FetchOutcome<JikanAnime[]>>
   return result.ok ? { ok: true, data: result.data.data } : result;
 }
 
+/**
+ * Title search across MAL. Used by the site search box, which previously only
+ * looked at the 23 hand-written series in src/data and so found nothing for
+ * almost any real query.
+ *
+ * `sfw` keeps adult titles out of a general-audience search box, and ordering
+ * by popularity puts recognisable results first rather than exact-prefix ones.
+ */
+export async function searchAnime(query: string, limit = 8): Promise<FetchOutcome<JikanAnime[]>> {
+  const q = query.trim();
+  if (!q) return { ok: true, data: [] };
+  const result = await fetchValidated(
+    `${BASE}/anime?q=${encodeURIComponent(q)}&limit=${limit}&sfw=true&order_by=popularity`,
+    listEnvelope,
+  );
+  return result.ok ? { ok: true, data: result.data.data } : result;
+}
+
 /** Best display title, preferring English when MAL has one. */
 export function displayTitle(anime: JikanAnime): string {
   return anime.title_english?.trim() || anime.title;

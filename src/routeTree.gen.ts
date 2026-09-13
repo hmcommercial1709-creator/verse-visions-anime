@@ -89,6 +89,7 @@ import { Route as AnimeIndexRouteImport } from './routes/anime.index'
 import { Route as AnimeSlugRouteImport } from './routes/anime.$slug'
 import { Route as AnimeDandadanRouteImport } from './routes/anime.dandadan'
 import { Route as AnimeSakamotoDaysRouteImport } from './routes/anime.sakamoto-days'
+import { Route as ApiSearchRouteImport } from './routes/api.search'
 import { Route as ArExploreRouteImport } from './routes/ar.explore'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -548,6 +549,11 @@ const AnimeSakamotoDaysRoute = AnimeSakamotoDaysRouteImport.update({
   path: '/sakamoto-days',
   getParentRoute: () => AnimeRoute,
 } as any)
+const ApiSearchRoute = ApiSearchRouteImport.update({
+  id: '/api/search',
+  path: '/api/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArExploreRoute = ArExploreRouteImport.update({
   id: '/ar/explore',
   path: '/ar/explore',
@@ -937,6 +943,7 @@ export interface FileRoutesByFullPath {
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
   '/anime/sakamoto-days': typeof AnimeSakamotoDaysRoute
+  '/api/search': typeof ApiSearchRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -1075,6 +1082,7 @@ export interface FileRoutesByTo {
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
   '/anime/sakamoto-days': typeof AnimeSakamotoDaysRoute
+  '/api/search': typeof ApiSearchRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/character/$slug': typeof CharacterSlugRoute
@@ -1215,6 +1223,7 @@ export interface FileRoutesById {
   '/anime/$slug': typeof AnimeSlugRoute
   '/anime/dandadan': typeof AnimeDandadanRoute
   '/anime/sakamoto-days': typeof AnimeSakamotoDaysRoute
+  '/api/search': typeof ApiSearchRoute
   '/ar/explore': typeof ArExploreRouteWithChildren
   '/article/$slug': typeof ArticleSlugRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -1357,6 +1366,7 @@ export interface FileRouteTypes {
     | '/anime/$slug'
     | '/anime/dandadan'
     | '/anime/sakamoto-days'
+    | '/api/search'
     | '/ar/explore'
     | '/article/$slug'
     | '/category/$slug'
@@ -1495,6 +1505,7 @@ export interface FileRouteTypes {
     | '/anime/$slug'
     | '/anime/dandadan'
     | '/anime/sakamoto-days'
+    | '/api/search'
     | '/article/$slug'
     | '/category/$slug'
     | '/character/$slug'
@@ -1634,6 +1645,7 @@ export interface FileRouteTypes {
     | '/anime/$slug'
     | '/anime/dandadan'
     | '/anime/sakamoto-days'
+    | '/api/search'
     | '/ar/explore'
     | '/article/$slug'
     | '/category/$slug'
@@ -1772,6 +1784,7 @@ export interface RootRouteChildren {
   LocaleStoreRoute: typeof LocaleStoreRoute
   LocaleSuperHubRoute: typeof LocaleSuperHubRoute
   LocaleTrendingRoute: typeof LocaleTrendingRoute
+  ApiSearchRoute: typeof ApiSearchRoute
   ArExploreRoute: typeof ArExploreRouteWithChildren
   ArticleSlugRoute: typeof ArticleSlugRoute
   CategorySlugRoute: typeof CategorySlugRoute
@@ -2381,6 +2394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnimeSakamotoDaysRouteImport
       parentRoute: typeof AnimeRoute
     }
+    '/api/search': {
+      id: '/api/search'
+      path: '/api/search'
+      fullPath: '/api/search'
+      preLoaderRoute: typeof ApiSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ar/explore': {
       id: '/ar/explore'
       path: '/ar/explore'
@@ -2928,6 +2948,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocaleStoreRoute: LocaleStoreRoute,
   LocaleSuperHubRoute: LocaleSuperHubRoute,
   LocaleTrendingRoute: LocaleTrendingRoute,
+  ApiSearchRoute: ApiSearchRoute,
   ArExploreRoute: ArExploreRouteWithChildren,
   ArticleSlugRoute: ArticleSlugRoute,
   CategorySlugRoute: CategorySlugRoute,

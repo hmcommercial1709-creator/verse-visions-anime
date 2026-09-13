@@ -1,4 +1,4 @@
-import type { ZodType } from "zod";
+import type { ZodType, output as ZodOutput } from "zod";
 
 /**
  * Boundary for the public catalog APIs (Jikan, FreeToGame).
@@ -13,22 +13,32 @@ import type { ZodType } from "zod";
 
 export type FetchOutcome<T> =
   | { ok: true; data: T }
-  | { ok: false; reason: "not_found" | "rate_limited" | "upstream_error" | "invalid_shape" | "network" };
+  | {
+      ok: false;
+      reason: "not_found" | "rate_limited" | "upstream_error" | "invalid_shape" | "network";
+    };
 
 const DEFAULT_TIMEOUT_MS = 8000;
 
-export async function fetchValidated<T>(
+// Bound to the schema rather than to a bare T: with ZodType<T>, TypeScript
+// infers T across both the input and output sides, so any field carrying a
+// .default() made the two disagree and every call site reported a mismatch.
+// Keying off the schema's output type is what the callers actually receive.
+export async function fetchValidated<S extends ZodType>(
   url: string,
-  schema: ZodType<T>,
+  schema: S,
   init?: { timeoutMs?: number; revalidateSeconds?: number },
-): Promise<FetchOutcome<T>> {
+): Promise<FetchOutcome<ZodOutput<S>>> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), init?.timeoutMs ?? DEFAULT_TIMEOUT_MS);
 
   try {
     const response = await fetch(url, {
       signal: controller.signal,
-      headers: { Accept: "application/json", "User-Agent": "GameCastle/1.0 (+https://gamecastle.store)" },
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "GameCastle/1.0 (+https://gamecastle.store)",
+      },
       // Cloudflare honours this for subrequest caching, which is what keeps
       // us under Jikan's 3 req/sec limit when a crawler walks the catalog.
       cf: { cacheTtl: init?.revalidateSeconds ?? 86400, cacheEverything: true },

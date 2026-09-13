@@ -29,7 +29,39 @@
  * performs a preflight write probe, without committing rows.
  */
 
-import { createClient } from "@supabase/supabase-js";
+/*
+ * Dependencies are loaded dynamically so a missing install produces an
+ * actionable message rather than a raw ERR_MODULE_NOT_FOUND stack. Note
+ * that bare specifiers resolve relative to THIS FILE, not the working
+ * directory, so running the script by absolute path from anywhere works —
+ * what does not work is a relative path from outside the repo, since then
+ * Node cannot find the script file itself.
+ */
+if (!globalThis.fetch) {
+  console.error(
+    `\nThis script needs Node 18 or newer for global fetch (running ${process.version}).\n`,
+  );
+  process.exit(1);
+}
+
+let createClient;
+try {
+  ({ createClient } = await import("@supabase/supabase-js"));
+} catch (error) {
+  if (error?.code === "ERR_MODULE_NOT_FOUND") {
+    console.error(
+      "\nCannot load @supabase/supabase-js.\n\n" +
+        "  Install dependencies from the repository root:\n" +
+        "      npm install\n\n" +
+        "  Then run it via the npm script, which always executes from the repo root:\n" +
+        "      npm run ingest:catalog -- --dry-run\n\n" +
+        "  (Invoking `node ./scripts/ingest-catalog.mjs` from any other directory fails\n" +
+        "   the same way, because the relative path no longer points at the script.)\n",
+    );
+    process.exit(1);
+  }
+  throw error;
+}
 
 /* ----------------------------------------------------------- configuration */
 
@@ -318,29 +350,42 @@ async function ingest(source, supabase, optional) {
   return stats;
 }
 
-const supabase = makeClient();
-log(
-  DRY_RUN
-    ? "Dry run — no catalog rows will be written. (Preflight still writes and deletes one\nsentinel row, since probing the column mapping is the point of it.)\n"
-    : "Live run — rows will be upserted.\n",
-);
+async function main() {
+  const supabase = makeClient();
+  log(
+    DRY_RUN
+      ? "Dry run — no catalog rows will be written. (Preflight still writes and deletes one\nsentinel row, since probing the column mapping is the point of it.)\n"
+      : "Live run — rows will be upserted.\n",
+  );
 
-const optional = await preflight(supabase);
-log(`Preflight OK. Optional columns present: ${
-  Object.entries(optional).filter(([, v]) => v).map(([k]) => k).join(", ") || "none"
-}`);
+  const optional = await preflight(supabase);
+  log(`Preflight OK. Optional columns present: ${
+    Object.entries(optional).filter(([, v]) => v).map(([k]) => k).join(", ") || "none"
+  }`);
 
-const sources = SOURCE === "all" ? ["anime", "games"] : [SOURCE];
-const totals = { fetched: 0, active: 0, incomplete: 0, written: 0 };
+  const sources = SOURCE === "all" ? ["anime", "games"] : [SOURCE];
+  const totals = { fetched: 0, active: 0, incomplete: 0, written: 0 };
 
-for (const source of sources) {
-  if (!["anime", "games"].includes(source)) throw new Error(`Unknown source: ${source}`);
-  const stats = await ingest(source, supabase, optional);
-  for (const k of Object.keys(totals)) totals[k] += stats[k];
+  for (const source of sources) {
+    if (!["anime", "games"].includes(source)) throw new Error(`Unknown source: ${source}`);
+    const stats = await ingest(source, supabase, optional);
+    for (const k of Object.keys(totals)) totals[k] += stats[k];
+  }
+
+  log(
+    `\nDone. fetched ${totals.fetched} · publishable ${totals.active} · held back ${totals.incomplete}` +
+      `${DRY_RUN ? " · nothing written (dry run)" : ` · upserted ${totals.written}`}`,
+  );
+  log("Records marked 'incomplete' stay hidden from the public client by the active_catalog_read policy.");
 }
 
-log(
-  `\nDone. fetched ${totals.fetched} · publishable ${totals.active} · held back ${totals.incomplete}` +
-    `${DRY_RUN ? " · nothing written (dry run)" : ` · upserted ${totals.written}`}`,
-);
-log("Records marked 'incomplete' stay hidden from the public client by the active_catalog_read policy.");
+try {
+  await main();
+} catch (error) {
+  // Operational failures (unreachable host, wrong key, schema mismatch) are
+  // expected states, not bugs — report them legibly instead of dumping a
+  // stack. Set INGEST_DEBUG=1 when the stack is actually wanted.
+  console.error(`\n${error?.message ?? error}\n`);
+  if (process.env.INGEST_DEBUG) console.error(error);
+  process.exit(1);
+}

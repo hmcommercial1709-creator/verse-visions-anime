@@ -1,5 +1,5 @@
 import type { CatalogEntity, CatalogFaq } from "./entity-catalog";
-import type { SitemapEntry } from "./sitemap";
+import { CODE_SITEMAP_PARTITIONS, type SitemapEntry } from "./sitemap";
 
 type CatalogEntityRow = {
   slug: string | null;
@@ -211,6 +211,23 @@ export const CODE_PARTITION_SIZE = 25000;
  * So: select one column, fetch only this partition's range, and build no
  * entities. The same 50,000 rows come to ~1.3MB of slugs.
  */
+/**
+ * How many codes sitemap partitions actually contain rows.
+ *
+ * A HEAD request with an exact count, so it costs one round trip and no rows.
+ * The index uses this to avoid advertising an empty partition, which Google
+ * reports as an erroring sitemap with 0 discovered URLs.
+ */
+export async function countCodePartitions(): Promise<number> {
+  const { supabaseServer } = await import("@/integrations/supabase/client.server");
+  const { count, error } = await supabaseServer
+    .from("game_nexus_matrix")
+    .select("slug", { count: "exact", head: true });
+  if (error) throw new Error(`codes row count: ${error.message}`);
+  const rows = count ?? 0;
+  return Math.min(Math.ceil(rows / CODE_PARTITION_SIZE), CODE_SITEMAP_PARTITIONS);
+}
+
 export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapEntry[]> {
   const { supabaseServer } = await import("@/integrations/supabase/client.server");
 

@@ -45,6 +45,9 @@ export function xmlEscape(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
+/** How many codes sitemap routes exist (sitemap-codes-1.xml, -2.xml). */
+export const CODE_SITEMAP_PARTITIONS = 2;
+
 export type ChangeFreq = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 
 export interface SitemapEntry {
@@ -266,7 +269,17 @@ export function partitionSitemapPath(
     : `/sitemap/${locale}/${partition}.xml`;
 }
 
-export function sitemapIndexXml(): string {
+/**
+ * Builds the index.
+ *
+ * `codePartitions` is how many codes sitemaps actually hold rows. Both were
+ * listed unconditionally before, so whenever the table held fewer rows than a
+ * partition covers, the index advertised an empty <urlset> — and Google
+ * reports an empty sitemap as an error with 0 discovered URLs, which is a
+ * self-inflicted indexing failure that looks exactly like a broken sitemap.
+ * Pass 0 to list none.
+ */
+export function sitemapIndexXml(codePartitions = CODE_SITEMAP_PARTITIONS): string {
   const children = [
     ...INDEXABLE_LOCALES.flatMap((locale) =>
       PARTITIONS.filter(
@@ -282,8 +295,11 @@ export function sitemapIndexXml(): string {
     ),
     // Arabic cornerstone edition: real localized content, its own child sitemap.
     "/sitemap-ar.xml",
-    "/sitemap-codes-1.xml",
-    "/sitemap-codes-2.xml",
+    // Only the partitions that actually hold rows.
+    ...Array.from(
+      { length: Math.min(Math.max(codePartitions, 0), CODE_SITEMAP_PARTITIONS) },
+      (_, i) => `/sitemap-codes-${i + 1}.xml`,
+    ),
     // API-backed catalog: game detail URLs plus the paginated anime index.
     "/sitemap-catalog.xml",
   ];

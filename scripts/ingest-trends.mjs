@@ -69,7 +69,10 @@ const flag = (name) => process.argv.includes(`--${name}`);
 
 const DRY_RUN = flag("dry-run");
 const REPORT_ONLY = flag("report-only");
-const GEOS = (arg("geos", process.env.TREND_GEOS || "US,GB,SA,AE,EG,DE,BR,ID")).split(",").map((g) => g.trim()).filter(Boolean);
+const GEOS = arg("geos", process.env.TREND_GEOS || "US,GB,SA,AE,EG,DE,BR,ID")
+  .split(",")
+  .map((g) => g.trim())
+  .filter(Boolean);
 const OBSERVATIONS_TABLE = "trend_observations";
 const TERMS_TABLE = "trend_terms";
 const ENTITIES_TABLE = "entities";
@@ -127,12 +130,24 @@ async function collect() {
   const health = [];
   for (const geo of GEOS) {
     const trends = await fetchGoogleTrends(geo, { log });
-    health.push({ source: "google-trends", geo, ok: trends.ok, count: trends.rows.length, reason: trends.reason });
+    health.push({
+      source: "google-trends",
+      geo,
+      ok: trends.ok,
+      count: trends.rows.length,
+      reason: trends.reason,
+    });
     rows.push(...trends.rows.map((row) => ({ ...row, listSize: trends.rows.length })));
 
     for (const category of YOUTUBE_CATEGORIES) {
       const youtube = await fetchYouTubePopular(geo, category, { log });
-      health.push({ source: `youtube-${category}`, geo, ok: youtube.ok, count: youtube.rows.length, reason: youtube.reason });
+      health.push({
+        source: `youtube-${category}`,
+        geo,
+        ok: youtube.ok,
+        count: youtube.rows.length,
+        reason: youtube.reason,
+      });
       rows.push(...youtube.rows.map((row) => ({ ...row, listSize: youtube.rows.length })));
     }
   }
@@ -161,7 +176,8 @@ async function loadCatalog(supabase) {
 
 /* ----------------------------------------------------------------- report */
 
-const pct = (value) => (value === null ? "—" : `${value >= 0 ? "+" : ""}${(value * 100).toFixed(0)}%`);
+const pct = (value) =>
+  value === null ? "—" : `${value >= 0 ? "+" : ""}${(value * 100).toFixed(0)}%`;
 
 function printQueue(title, rows, limit = 25) {
   log(`\n${title}  (${rows.length})`);
@@ -170,7 +186,9 @@ function printQueue(title, rows, limit = 25) {
     return;
   }
   for (const row of rows.slice(0, limit)) {
-    const where = row.matched_entity_slug ? `/${row.matched_entity_type}/${row.matched_entity_slug}` : "no page yet";
+    const where = row.matched_entity_slug
+      ? `/${row.matched_entity_type}/${row.matched_entity_slug}`
+      : "no page yet";
     log(
       `  ${pct(row.velocity).padStart(7)}  ${String(row.domain).padEnd(11)} ` +
         `${row.display_term.slice(0, 58).padEnd(58)} ${where}`,
@@ -183,7 +201,9 @@ function printQueue(title, rows, limit = 25) {
 
 async function main() {
   const loadedEnv = loadDotEnv();
-  log(`Trend signals → ${OBSERVATIONS_TABLE} → ${TERMS_TABLE}${DRY_RUN ? "  (dry run — nothing is written)" : ""}`);
+  log(
+    `Trend signals → ${OBSERVATIONS_TABLE} → ${TERMS_TABLE}${DRY_RUN ? "  (dry run — nothing is written)" : ""}`,
+  );
   log(`Config: ${loadedEnv ? ".env loaded" : "no .env file"}   regions: ${GEOS.join(", ")}\n`);
 
   const supabase = client();
@@ -194,7 +214,9 @@ async function main() {
   const live = health.filter((h) => h.ok).length;
   log(`\n  ${live}/${health.length} feed(s) responded, ${raw.length} raw term(s).`);
   if (!live) {
-    console.error("\nEvery feed failed. Not writing an empty day — that would read as a genuine drop to zero.\n");
+    console.error(
+      "\nEvery feed failed. Not writing an empty day — that would read as a genuine drop to zero.\n",
+    );
     process.exit(1);
   }
 
@@ -205,7 +227,9 @@ async function main() {
     if (!domain) continue;
     classified.push({ ...row, domain: domain.domain, matchedWord: domain.matchedWord });
   }
-  log(`  ${classified.length} term(s) are on-topic (${raw.length - classified.length} dropped as off-topic).`);
+  log(
+    `  ${classified.length} term(s) are on-topic (${raw.length - classified.length} dropped as off-topic).`,
+  );
 
   const observations = dedupeByKey(
     classified.map((row) => ({
@@ -266,7 +290,9 @@ async function main() {
       domain,
       matched_entity_type: match?.entityType ?? null,
       matched_entity_slug: match?.slug ?? null,
-      first_seen_at: summary.firstSeen ? `${summary.firstSeen}T00:00:00Z` : new Date().toISOString(),
+      first_seen_at: summary.firstSeen
+        ? `${summary.firstSeen}T00:00:00Z`
+        : new Date().toISOString(),
       last_seen_at: summary.lastSeen ? `${summary.lastSeen}T00:00:00Z` : new Date().toISOString(),
       observation_count: summary.observationCount,
       source_count: summary.sourceCount,
@@ -279,7 +305,9 @@ async function main() {
 
   const measured = terms.filter((t) => t.velocity !== null);
   const establishing = terms.length - measured.length;
-  log(`  ${terms.length} term(s) summarized: ${measured.length} measurable, ${establishing} still establishing a baseline.`);
+  log(
+    `  ${terms.length} term(s) summarized: ${measured.length} measurable, ${establishing} still establishing a baseline.`,
+  );
   if (!measured.length) {
     log(
       `\n  No velocity yet. That is expected until ${HISTORY_DAYS} days of history exist —\n` +

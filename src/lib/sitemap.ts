@@ -15,6 +15,7 @@ import {
 import { allSectionPaths } from "@/lib/anime-sections";
 import { AR_GUIDES } from "@/data/ar-guides";
 import { storeProducts } from "@/data/store-products";
+import { PARTITION_LASTMOD, NEWEST_LASTMOD } from "@/generated/lastmod";
 import { EXPLORE_PAGES } from "@/data/explore-pages";
 import {
   INDEXABLE_LOCALES,
@@ -54,7 +55,24 @@ export interface SitemapEntry {
   path: string;
   changefreq?: ChangeFreq;
   priority?: string;
+  /**
+   * Omitted rather than guessed. An absent lastmod tells a crawler nothing; a
+   * wrong one tells it something false, and a build timestamp on every URL is
+   * the fabricated freshness crawlers learn to ignore. See
+   * scripts/build-lastmod.mjs - these come from git.
+   */
+  lastmod?: string;
 }
+
+/** The git date for a partition, or undefined when the map has no entry. */
+export const partitionLastmod = (partition: string): string | undefined =>
+  PARTITION_LASTMOD[partition];
+
+/** Stamps a partition's date onto its entries, leaving any explicit one alone. */
+export const withLastmod = (entries: SitemapEntry[], partition: string): SitemapEntry[] => {
+  const lastmod = partitionLastmod(partition);
+  return lastmod ? entries.map((e) => (e.lastmod ? e : { ...e, lastmod })) : entries;
+};
 
 export const PARTITIONS = [
   "pages",
@@ -148,6 +166,10 @@ const PAGE_ENTRIES: SitemapEntry[] = [
 ];
 
 export function partitionEntries(partition: Partition): SitemapEntry[] {
+  return withLastmod(partitionEntriesRaw(partition), partition);
+}
+
+function partitionEntriesRaw(partition: Partition): SitemapEntry[] {
   switch (partition) {
     case "pages":
       return PAGE_ENTRIES;
@@ -241,6 +263,7 @@ export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_
                 `    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(BASE_URL + e.path)}" />`,
               ])
           : []),
+        e.lastmod ? `    <lastmod>${xmlEscape(e.lastmod)}</lastmod>` : null,
         e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
         e.priority ? `    <priority>${e.priority}</priority>` : null,
         `  </url>`,
@@ -277,6 +300,26 @@ export function partitionSitemapPath(
  * self-inflicted indexing failure that looks exactly like a broken sitemap.
  * Pass 0 to list none.
  */
+/**
+ * Maps a child sitemap path back to the partition whose git date describes it.
+ * Falls back to the newest date in the map for children with no partition of
+ * their own, and to undefined when the map is empty - never to today.
+ */
+function lastmodForChild(path: string): string | undefined {
+  // Two shapes are served: /sitemap/<locale>/<partition>.xml for the localized
+  // partitions, and /sitemap-<name>.xml for everything else. Getting the first
+  // wrong is silent - it simply falls through to the newest date and every
+  // localized child claims the same day.
+  const localized = path.match(/^\/sitemap\/[a-z-]+\/([a-z0-9-]+)\.xml$/i);
+  if (localized) return PARTITION_LASTMOD[localized[1]] ?? NEWEST_LASTMOD;
+
+  const flat = path.match(/^\/sitemap-([a-z0-9-]+)\.xml$/i);
+  if (!flat) return NEWEST_LASTMOD;
+  // sitemap-codes-1.xml and sitemap-codes-2.xml are both the codes partition.
+  const partition = flat[1].replace(/-\d+$/, "");
+  return PARTITION_LASTMOD[partition] ?? NEWEST_LASTMOD;
+}
+
 export function sitemapIndexXml(
   codePartitions = CODE_SITEMAP_PARTITIONS,
   hasMatrix = false,
@@ -318,9 +361,17 @@ export function sitemapIndexXml(
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-    ...children.map(
-      (path) => `  <sitemap>\n    <loc>${xmlEscape(BASE_URL + path)}</loc>\n  </sitemap>`,
-    ),
+    ...children.map((path) => {
+      const lastmod = lastmodForChild(path);
+      return [
+        `  <sitemap>`,
+        `    <loc>${xmlEscape(BASE_URL + path)}</loc>`,
+        lastmod ? `    <lastmod>${xmlEscape(lastmod)}</lastmod>` : null,
+        `  </sitemap>`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+    }),
     `</sitemapindex>`,
   ].join("\n");
 }
@@ -347,6 +398,9 @@ export function arUrlsetXml(): string {
     return [
       `  <url>`,
       `    <loc>${xmlEscape(BASE_URL + e.path)}</loc>`,
+      ...(partitionLastmod("ar")
+        ? [`    <lastmod>${xmlEscape(partitionLastmod("ar")!)}</lastmod>`]
+        : []),
       `    <xhtml:link rel="alternate" hreflang="ar" href="${xmlEscape(BASE_URL + e.path)}" />`,
       ...(enPath
         ? [

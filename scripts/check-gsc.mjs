@@ -22,7 +22,13 @@
  *      makes every page on the site look like it is collapsing.
  */
 
-import { classifyPage, upliftEstimate, rankActions, expectedCtr, DEFAULT_THRESHOLDS } from "./gsc/actions.mjs";
+import {
+  classifyPage,
+  upliftEstimate,
+  rankActions,
+  expectedCtr,
+  DEFAULT_THRESHOLDS,
+} from "./gsc/actions.mjs";
 import { comparisonWindows, LAG_DAYS, dayOffset } from "./gsc/client.mjs";
 
 let failures = 0;
@@ -32,7 +38,14 @@ const check = (label, got, want) => {
   console.log(`  ${ok ? "ok  " : "FAIL"}  ${label}${ok ? "" : `   got ${got}, want ${want}`}`);
 };
 
-const page = (over = {}) => ({ page: "/p", clicks: 10, impressions: 2000, ctr: 0.005, position: 8, ...over });
+const page = (over = {}) => ({
+  page: "/p",
+  clicks: 10,
+  impressions: 2000,
+  ctr: 0.005,
+  position: 8,
+  ...over,
+});
 
 console.log("\nDeltas are measured, never assumed");
 check("first run has no position delta", classifyPage(page(), null).positionDelta, null);
@@ -78,12 +91,19 @@ check("current window is 14 days", span(w.currentStart, w.currentEnd), 14);
 check("previous window is 14 days", span(w.baselineStart, w.baselineEnd), 14);
 check("windows do not overlap", w.baselineEnd < w.currentStart, true);
 check("windows are adjacent", span(w.baselineEnd, w.currentStart), 2);
-check("current window ends behind the lag", w.currentEnd, dayOffset(LAG_DAYS, new Date("2026-09-14T00:00:00Z")));
+check(
+  "current window ends behind the lag",
+  w.currentEnd,
+  dayOffset(LAG_DAYS, new Date("2026-09-14T00:00:00Z")),
+);
 
 console.log("\nThe CTR reference curve is monotonic");
 let monotonic = true;
-for (let i = 2; i <= 10; i += 1) if ((expectedCtr(i) ?? 0) > (expectedCtr(i - 1) ?? 0)) monotonic = false;
+for (let i = 2; i <= 10; i += 1)
+  if ((expectedCtr(i) ?? 0) > (expectedCtr(i - 1) ?? 0)) monotonic = false;
 check("clicks fall as position worsens", monotonic, true);
 
-console.log(failures ? `\n${failures} check(s) failed.\n` : "\nAll Search Console checks passed.\n");
+console.log(
+  failures ? `\n${failures} check(s) failed.\n` : "\nAll Search Console checks passed.\n",
+);
 process.exit(failures ? 1 : 0);

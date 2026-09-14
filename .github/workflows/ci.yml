@@ -1,6 +1,11 @@
 name: Quality checks
 
 on:
+  # Also on push to main. Eight TypeScript errors sat broken on main for weeks
+  # because this workflow only ran on pull_request, and pushes to main trigger
+  # Deploy alone - so nothing typechecked main until someone opened a PR.
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -57,6 +62,17 @@ jobs:
       # comparison windows stay equal-length and behind the Search Analytics lag.
       - name: Check the Search Console feedback logic
         run: node scripts/check-gsc.mjs
+
+      # Guards the rule the whole opportunity model rests on: a factor with no
+      # evidence is dropped, never defaulted. One silent default turns every
+      # score into part fiction with no way to tell which part.
+      - name: Check the growth engine's invariants
+        run: node scripts/check-growth.mjs
+
+      # Renders every sitemap from source and validates it before deploy,
+      # rather than after Search Console reports it.
+      - name: Validate sitemap XML, lastmod and the index
+        run: npx tsx scripts/check-sitemap-xml.mjs
 
       - name: Validate content registry
         run: bun run scripts/validate-content.ts

@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { partitionEntries, PARTITIONS, urlsetXml, xmlResponse, type Partition } from "@/lib/sitemap";
+import {
+  partitionEntries,
+  PARTITIONS,
+  urlsetXml,
+  xmlResponse,
+  type Partition,
+} from "@/lib/sitemap";
 import { INDEXABLE_LOCALES, isLocaleCode, type LocaleCode } from "@/lib/i18n";
 
 /**
@@ -21,7 +27,14 @@ export const Route = createFileRoute("/sitemap/$locale/$file")({
         ) {
           return new Response("Not found", { status: 404 });
         }
-        return xmlResponse(urlsetXml(partitionEntries(partition), locale as LocaleCode));
+        // A partition with no entries in this locale must 404, not serve an
+        // empty <urlset>. The index already declines to advertise those, but
+        // the route answered anyway - and an empty sitemap reached by any
+        // other route (a stray link, an old submission) is a Search Console
+        // error against the whole property.
+        const entries = partitionEntries(partition);
+        if (!entries.length) return new Response("Not found", { status: 404 });
+        return xmlResponse(urlsetXml(entries, locale as LocaleCode));
       },
     },
   },

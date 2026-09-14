@@ -39,17 +39,30 @@ const observation = (day, rank, listSize = 20) => ({
 });
 
 console.log("\nVelocity is measured, never assumed");
-check("one snapshot yields no velocity", computeVelocity([observation("2026-09-14", 1)], { asOf: "2026-09-14" }).velocity, null);
-check("  and says why", computeVelocity([observation("2026-09-14", 1)], { asOf: "2026-09-14" }).state, "baseline_establishing");
+check(
+  "one snapshot yields no velocity",
+  computeVelocity([observation("2026-09-14", 1)], { asOf: "2026-09-14" }).velocity,
+  null,
+);
+check(
+  "  and says why",
+  computeVelocity([observation("2026-09-14", 1)], { asOf: "2026-09-14" }).state,
+  "baseline_establishing",
+);
 check(
   "a zero baseline yields no velocity, not Infinity",
-  computeVelocity([observation("2026-09-14", 1), { ...observation("2026-09-10", 1), list_size: 0 }], { asOf: "2026-09-14" }).velocity,
+  computeVelocity(
+    [observation("2026-09-14", 1), { ...observation("2026-09-10", 1), list_size: 0 }],
+    { asOf: "2026-09-14" },
+  ).velocity,
   null,
 );
 check(
   "flat history is 0% growth, not null",
   computeVelocity(
-    ["2026-09-14", "2026-09-13", "2026-09-12", "2026-09-11", "2026-09-10", "2026-09-09"].map((d) => observation(d, 10)),
+    ["2026-09-14", "2026-09-13", "2026-09-12", "2026-09-11", "2026-09-10", "2026-09-09"].map((d) =>
+      observation(d, 10),
+    ),
     { asOf: "2026-09-14" },
   ).velocity,
   0,
@@ -58,14 +71,26 @@ check(
   "a real climb is measured",
   Math.round(
     computeVelocity(
-      [observation("2026-09-14", 1), observation("2026-09-13", 1), observation("2026-09-12", 1),
-       observation("2026-09-11", 20), observation("2026-09-10", 20), observation("2026-09-09", 20)],
+      [
+        observation("2026-09-14", 1),
+        observation("2026-09-13", 1),
+        observation("2026-09-12", 1),
+        observation("2026-09-11", 20),
+        observation("2026-09-10", 20),
+        observation("2026-09-09", 20),
+      ],
       { asOf: "2026-09-14" },
     ).velocity,
   ),
   19,
 );
-check("observations dated in the future are ignored", computeVelocity([observation("2026-09-20", 1), observation("2026-09-14", 1)], { asOf: "2026-09-14" }).observationCount, 1);
+check(
+  "observations dated in the future are ignored",
+  computeVelocity([observation("2026-09-20", 1), observation("2026-09-14", 1)], {
+    asOf: "2026-09-14",
+  }).observationCount,
+  1,
+);
 check("heat is comparable across list sizes", heatOf(1, 20), heatOf(1, 50));
 check("an absent weight does not penalise a term", weightMultiplier(null), 1);
 
@@ -97,8 +122,6 @@ check("a two-letter title never matches", match("a valid id number"), null);
 check("an unrelated term matches nothing", match("nothing relevant here"), null);
 
 console.log(
-  failures
-    ? `\n${failures} check(s) failed.\n`
-    : "\nAll trend-pipeline checks passed.\n",
+  failures ? `\n${failures} check(s) failed.\n` : "\nAll trend-pipeline checks passed.\n",
 );
 process.exit(failures ? 1 : 0);

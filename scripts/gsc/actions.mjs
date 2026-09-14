@@ -102,7 +102,12 @@ export function classifyPage(current, baseline, queries = [], thresholds = DEFAU
 
   // Too small to reason about. Saying so beats inventing a play for it.
   if (impressions < t.minImpressions) {
-    return { ...base, action: null, reason: `only ${impressions} impressions — below the ${t.minImpressions} needed to tell signal from noise`, priority: 0 };
+    return {
+      ...base,
+      action: null,
+      reason: `only ${impressions} impressions — below the ${t.minImpressions} needed to tell signal from noise`,
+      priority: 0,
+    };
   }
 
   // Decline first: a falling page must never be answered by expanding it.
@@ -172,7 +177,10 @@ export function unexpectedQueries(page, queries, thresholds = DEFAULT_THRESHOLDS
   return queries
     .filter((row) => row.impressions >= t.minImpressions)
     .filter((row) => {
-      const words = String(row.query).toLowerCase().split(/\s+/).filter((w) => w.length > 3);
+      const words = String(row.query)
+        .toLowerCase()
+        .split(/\s+/)
+        .filter((w) => w.length > 3);
       if (!words.length) return false;
       // Not one meaningful word of the query appears in the URL.
       return !words.some((word) => slugWords.has(word));

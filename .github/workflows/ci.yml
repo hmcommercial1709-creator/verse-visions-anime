@@ -1,6 +1,11 @@
 name: Quality checks
 
 on:
+  # Also on push to main. Eight TypeScript errors sat broken on main for weeks
+  # because this workflow only ran on pull_request, and pushes to main trigger
+  # Deploy alone - so nothing typechecked main until someone opened a PR.
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:

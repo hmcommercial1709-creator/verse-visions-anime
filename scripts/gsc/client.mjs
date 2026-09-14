@@ -56,24 +56,20 @@ export function comparisonWindows(days, from = new Date()) {
   return { currentStart, currentEnd, baselineStart, baselineEnd, days };
 }
 
-export function credentialsFromEnv() {
-  const email = process.env.GSC_CLIENT_EMAIL;
-  const privateKey = process.env.GSC_PRIVATE_KEY;
-  if (!email || !privateKey) return null;
-  // GitHub secrets store the PEM with literal \n; ping-gsc.js does the same
-  // unescaping, and getting it wrong produces an opaque "invalid_grant".
-  return { email, privateKey: privateKey.replace(/\\n/g, "\n") };
-}
+export { credentialsFromEnv } from "./private-key.mjs";
 
 export async function searchConsoleClient({ log = console.log } = {}) {
   const credentials = credentialsFromEnv();
-  if (!credentials) {
+  if (credentials.error) {
     log(
-      "Search Console is not configured (GSC_CLIENT_EMAIL / GSC_PRIVATE_KEY).\n" +
+      `Search Console is not usable: ${credentials.error}\n` +
         "  Without it there is no performance feedback, so no page can be ranked\n" +
         "  by how it is actually doing. Nothing is guessed in its place.",
     );
     return null;
+  }
+  if (credentials.repaired) {
+    log("  GSC_PRIVATE_KEY had damaged line breaks; repaired for this run.");
   }
   const { google } = await import("googleapis");
   const auth = new google.auth.JWT({

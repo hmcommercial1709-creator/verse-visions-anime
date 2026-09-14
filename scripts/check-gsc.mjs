@@ -30,6 +30,8 @@ import {
   DEFAULT_THRESHOLDS,
 } from "./gsc/actions.mjs";
 import { comparisonWindows, LAG_DAYS, dayOffset } from "./gsc/client.mjs";
+import { normalizePrivateKey } from "./gsc/private-key.mjs";
+import { generateKeyPairSync } from "node:crypto";
 
 let failures = 0;
 const check = (label, got, want) => {
@@ -102,6 +104,43 @@ let monotonic = true;
 for (let i = 2; i <= 10; i += 1)
   if ((expectedCtr(i) ?? 0) > (expectedCtr(i - 1) ?? 0)) monotonic = false;
 check("clicks fall as position worsens", monotonic, true);
+
+console.log("\nThe private key survives every way a secret mangles it");
+{
+  // A real key, generated here — never a fixture checked into the repo.
+  const { privateKey } = generateKeyPairSync("rsa", {
+    modulusLength: 2048,
+    privateKeyEncoding: { type: "pkcs8", format: "pem" },
+    publicKeyEncoding: { type: "spki", format: "pem" },
+  });
+  const mangled = {
+    "as stored correctly": privateKey,
+    "with literal \\n escapes": privateKey.replace(/\n/g, "\\n"),
+    "copied with its JSON quotes": `"${privateKey.replace(/\n/g, "\\n")}"`,
+    "newlines flattened to spaces": privateKey.replace(/\n/g, " "),
+    "body unwrapped": privateKey.split("\n").filter(Boolean).join(""),
+    "with CRLF endings": privateKey.replace(/\n/g, "\r\n"),
+  };
+  for (const [label, value] of Object.entries(mangled)) {
+    check(label, Boolean(normalizePrivateKey(value).key), true);
+  }
+  check("an empty value is rejected", Boolean(normalizePrivateKey("").error), true);
+  check(
+    "the client_email by mistake is rejected",
+    /PEM header/.test(normalizePrivateKey("a@b.iam.gserviceaccount.com").error ?? ""),
+    true,
+  );
+  check(
+    "a truncated key names truncation",
+    /truncated/.test(normalizePrivateKey(privateKey.slice(0, 200)).error ?? ""),
+    true,
+  );
+  check(
+    "no error surfaces a raw ERR_OSSL code",
+    /ERR_OSSL/.test(normalizePrivateKey("nonsense").error ?? ""),
+    false,
+  );
+}
 
 console.log(
   failures ? `\n${failures} check(s) failed.\n` : "\nAll Search Console checks passed.\n",

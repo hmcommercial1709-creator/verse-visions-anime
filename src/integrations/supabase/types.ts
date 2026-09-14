@@ -6,12 +6,152 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+/**
+ * Hand-maintained Supabase types.
+ *
+ * Two things were wrong here and they compounded. No table carried a
+ * `Relationships` key, which @supabase/supabase-js v2.116 requires for query
+ * inference - without it every `.select()` resolved to `never`, which is why
+ * `$locale.$.tsx` could not read `.title` off its own loader data. And the file
+ * declared three tables while the app queries seven, so the rest fell through
+ * to the same `never`.
+ *
+ * Columns below are taken from what the code demonstrably reads and writes -
+ * the select lists, the insert payloads, and the fields rendered in JSX - not
+ * from a guess at the schema.
+ */
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.15"
   }
   public: {
     Tables: {
+      entities: {
+        Row: {
+          id: string
+          slug: string
+          name: string
+          description: string | null
+          image_url: string | null
+          entity_type: string
+          status: string
+          categories: string[] | null
+          metadata: Json | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          slug: string
+          name: string
+          description?: string | null
+          image_url?: string | null
+          entity_type: string
+          status?: string
+          categories?: string[] | null
+          metadata?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          slug?: string
+          name?: string
+          description?: string | null
+          image_url?: string | null
+          entity_type?: string
+          status?: string
+          categories?: string[] | null
+          metadata?: Json | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          id: string
+          title: string
+          content: string
+          category: string | null
+          author: string | null
+          image_url: string | null
+          upvotes: number | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          content: string
+          category?: string | null
+          author?: string | null
+          image_url?: string | null
+          upvotes?: number | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          content?: string
+          category?: string | null
+          author?: string | null
+          image_url?: string | null
+          upvotes?: number | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      reels: {
+        Row: {
+          id: string
+          title: string
+          author: string | null
+          video_url: string
+          likes: number | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          author?: string | null
+          video_url: string
+          likes?: number | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          author?: string | null
+          video_url?: string
+          likes?: number | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      comments: {
+        Row: {
+          id: string
+          post_id: string
+          author: string | null
+          content: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          post_id: string
+          author?: string | null
+          content: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          post_id?: string
+          author?: string | null
+          content?: string
+          created_at?: string | null
+        }
+        Relationships: []
+      }
       anime_nexus_matrix: {
         Row: {
           slug: string
@@ -43,6 +183,7 @@ export type Database = {
           matrix_metrics?: Json
           status?: string
         }
+        Relationships: []
       }
       game_nexus_matrix: {
         Row: {
@@ -111,6 +252,7 @@ export type Database = {
           adsense_slot?: string
           updated_at?: string
         }
+        Relationships: []
       }
       automation_state: {
         Row: {
@@ -128,6 +270,7 @@ export type Database = {
           value?: Json
           updated_at?: string
         }
+        Relationships: []
       }
     }
     Views: {

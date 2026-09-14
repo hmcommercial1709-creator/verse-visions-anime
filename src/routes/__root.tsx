@@ -6,6 +6,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import type { ErrorComponentProps } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 
@@ -53,13 +54,10 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+// Typed from the router rather than by hand: TanStack passes an `info` prop
+// alongside error and reset, so a locally invented prop type never satisfied
+// ErrorRouteComponent and the root route's errorComponent failed to typecheck.
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
 
   const router = useRouter();

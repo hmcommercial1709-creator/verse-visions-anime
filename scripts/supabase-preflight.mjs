@@ -51,10 +51,17 @@ const CREDENTIAL_HINTS = [
  * valid and still not reach this table, and that distinction matters here.
  * `head: true` with an exact count reads no rows, so this stays cheap.
  */
-export async function assertCredentials(supabase, table, { log = console.log } = {}) {
+/**
+ * `column` exists because this is a head-only count, but PostgREST still
+ * validates the selected name against the table. "slug" is right for the
+ * catalog tables and wrong for anything else - trend_observations has no slug,
+ * so the credential check would fail with an unknown-column error and every
+ * caller would read that as a bad key.
+ */
+export async function assertCredentials(supabase, table, { log = console.log, column = "slug" } = {}) {
   const { error, count } = await supabase
     .from(table)
-    .select("slug", { count: "exact", head: true });
+    .select(column, { count: "exact", head: true });
 
   if (!error) {
     log(`Credentials OK — public.${table} is readable (${(count ?? 0).toLocaleString()} rows).`);

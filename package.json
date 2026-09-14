@@ -18,7 +18,9 @@
     "ingest:manga": "node scripts/ingest-manga.mjs",
     "verify:apis": "node scripts/verify-catalog-apis.mjs",
     "verify:catalog": "node scripts/verify-catalog-data.mjs",
-    "crawl": "node scripts/crawl-site.mjs"
+    "crawl": "node scripts/crawl-site.mjs",
+    "ingest:trends": "node scripts/ingest-trends.mjs",
+    "check:trends": "node scripts/check-trends.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

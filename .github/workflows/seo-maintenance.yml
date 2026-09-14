@@ -119,6 +119,7 @@ jobs:
             echo "Apply these in the Supabase SQL editor, in order:"
             echo "  supabase/migrations/20260913120000_entities_metadata_jsonb.sql"
             echo "  supabase/migrations/20260913160000_catalog_matrix_public_read.sql"
+            echo "  supabase/migrations/20260914120000_trend_signals.sql"
             echo "Or add the SUPABASE_DB_URL secret to have this step do it every run."
             exit 0
           fi
@@ -140,7 +141,8 @@ jobs:
           # any surprise into a failed job rather than a half-migrated schema.
           for file in \
             supabase/migrations/20260913120000_entities_metadata_jsonb.sql \
-            supabase/migrations/20260913160000_catalog_matrix_public_read.sql
+            supabase/migrations/20260913160000_catalog_matrix_public_read.sql \
+            supabase/migrations/20260914120000_trend_signals.sql
           do
             echo "--- applying $file"
             psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f "$file"
@@ -188,3 +190,39 @@ jobs:
 
       - name: Verify the catalog after ingest
         run: npm run verify:catalog -- --read-only
+
+  trends:
+    name: Collect trend signals and score their growth
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Its own group, and never cancelled mid-run. A cancelled pass loses that
+    # day's snapshot, and a missing day is a hole in the very series velocity
+    # is measured against - the next run would read the gap as a drop.
+    concurrency:
+      group: trend-signals
+      cancel-in-progress: false
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      # Optional. Without it the YouTube feeds are skipped with a reason and
+      # the run continues on Google Trends alone, rather than failing.
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      # Pure logic, no secrets, no network. Runs before the collection step so
+      # a broken scorer is caught before it writes a day of wrong numbers.
+      - name: Check the trend pipeline's invariants
+        run: node scripts/check-trends.mjs
+
+      - name: Collect trend signals and score growth
+        run: npm run ingest:trends

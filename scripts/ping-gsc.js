@@ -1,13 +1,29 @@
 import { google } from "googleapis";
+import { credentialsFromEnv } from "./gsc/private-key.mjs";
 
 const SITEMAP_URL = "https://gamecastle.store/sitemap.xml";
 const SITE_URL = process.env.GSC_SITE_URL || "https://gamecastle.store/";
 const MAX_ATTEMPTS = 4;
 
+/**
+ * A bare `.replace(/\\n/g, "\n")` only handles one of the four ways a private
+ * key gets mangled on its way into a secret. The others reached OpenSSL as
+ * garbage and failed with ERR_OSSL_UNSUPPORTED, which names neither the field
+ * nor the fix. normalizePrivateKey repairs what is repairable and explains
+ * what is not.
+ */
 function getConfig() {
-  const email = process.env.GSC_CLIENT_EMAIL;
-  const privateKey = process.env.GSC_PRIVATE_KEY;
-  return email && privateKey ? { email, privateKey: privateKey.replace(/\\n/g, "\n") } : null;
+  const result = credentialsFromEnv();
+  if (result.error) {
+    console.warn(`GSC sitemap submission skipped: ${result.error}`);
+    return null;
+  }
+  if (result.repaired) {
+    console.warn(
+      "GSC_PRIVATE_KEY had damaged line breaks; repaired for this run. Re-paste it to silence this.",
+    );
+  }
+  return result;
 }
 
 const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -33,7 +49,9 @@ async function submitSitemap(searchconsole) {
 
 const config = getConfig();
 if (!config) {
-  console.warn("GSC sitemap submission skipped: GSC_CLIENT_EMAIL and GSC_PRIVATE_KEY are not configured.");
+  console.warn(
+    "GSC sitemap submission skipped: GSC_CLIENT_EMAIL and GSC_PRIVATE_KEY are not configured.",
+  );
   process.exit(0);
 }
 
@@ -48,7 +66,8 @@ try {
   console.log(`GSC sitemap submitted successfully: ${SITEMAP_URL}`);
 } catch (error) {
   const status = error?.code || error?.response?.status || "unknown";
-  const reason = error?.response?.data?.error?.message || error?.message || "Unknown Google API error";
+  const reason =
+    error?.response?.data?.error?.message || error?.message || "Unknown Google API error";
   console.error(`GSC sitemap submission failed (status ${status}): ${reason}`);
   process.exitCode = 1;
 }

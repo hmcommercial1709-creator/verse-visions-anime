@@ -57,7 +57,8 @@ function loadDotEnv() {
   try {
     for (const line of readFileSync(".env", "utf8").split("\n")) {
       const match = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
-      if (match && !process.env[match[1]]) process.env[match[1]] = match[2].replace(/^["']|["']$/g, "");
+      if (match && !process.env[match[1]])
+        process.env[match[1]] = match[2].replace(/^["']|["']$/g, "");
     }
     return true;
   } catch {
@@ -146,7 +147,13 @@ async function main() {
   );
 
   const fetchWindow = async (startDate, endDate, dimensions) => {
-    const rows = await queryAnalytics(searchconsole, { siteUrl: SITE_URL, startDate, endDate, dimensions, log });
+    const rows = await queryAnalytics(searchconsole, {
+      siteUrl: SITE_URL,
+      startDate,
+      endDate,
+      dimensions,
+      log,
+    });
     return rows.map((row) => toRecord(row, dimensions));
   };
 
@@ -155,7 +162,10 @@ async function main() {
   log(`  current window:  ${currentPages.length} page(s)`);
   const baselinePages = await fetchWindow(windows.baselineStart, windows.baselineEnd, ["page"]);
   log(`  previous window: ${baselinePages.length} page(s)`);
-  const currentQueries = await fetchWindow(windows.currentStart, windows.currentEnd, ["page", "query"]);
+  const currentQueries = await fetchWindow(windows.currentStart, windows.currentEnd, [
+    "page",
+    "query",
+  ]);
   log(`  current window:  ${currentQueries.length} page+query row(s)`);
 
   if (!currentPages.length) {
@@ -192,7 +202,9 @@ async function main() {
   }));
 
   if (DRY_RUN) {
-    log(`\n  (dry run) would store ${pageRows.length} page row(s) and ${queryRows.length} query row(s).`);
+    log(
+      `\n  (dry run) would store ${pageRows.length} page row(s) and ${queryRows.length} query row(s).`,
+    );
   } else {
     log(`\nStoring ${pageRows.length} page row(s):`);
     await upsertAll(supabase, PAGE_TABLE, pageRows, {

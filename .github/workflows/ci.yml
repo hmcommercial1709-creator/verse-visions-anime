@@ -58,6 +58,17 @@ jobs:
       - name: Check the Search Console feedback logic
         run: node scripts/check-gsc.mjs
 
+      # Guards the rule the whole opportunity model rests on: a factor with no
+      # evidence is dropped, never defaulted. One silent default turns every
+      # score into part fiction with no way to tell which part.
+      - name: Check the growth engine's invariants
+        run: node scripts/check-growth.mjs
+
+      # Renders every sitemap from source and validates it before deploy,
+      # rather than after Search Console reports it.
+      - name: Validate sitemap XML, lastmod and the index
+        run: npx tsx scripts/check-sitemap-xml.mjs
+
       - name: Validate content registry
         run: bun run scripts/validate-content.ts
 

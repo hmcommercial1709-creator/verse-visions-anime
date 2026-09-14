@@ -262,3 +262,38 @@ jobs:
 
       - name: Read performance and rank the work
         run: npm run ingest:gsc
+
+  plan:
+    name: Rank opportunities and decide update-vs-create
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Runs after the collectors so it reads the day's signals, not yesterday's.
+    needs: [trends, performance]
+    concurrency:
+      group: growth-plan
+      cancel-in-progress: false
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      # Optional. Unset means competition and difficulty stay unmeasured and
+      # their weights leave the model - never defaulted to a made-up value.
+      SERP_PROVIDER: ${{ vars.SERP_PROVIDER }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Check the growth engine's invariants
+        run: node scripts/check-growth.mjs
+
+      # Prints a plan. It creates no URLs and writes no content - acting on a
+      # recommendation stays a deliberate, human step.
+      - name: Rank opportunities and print the plan
+        run: npm run plan:growth

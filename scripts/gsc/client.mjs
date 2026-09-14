@@ -93,7 +93,15 @@ export async function searchConsoleClient({ log = console.log } = {}) {
  */
 export async function queryAnalytics(
   searchconsole,
-  { siteUrl, startDate, endDate, dimensions, rowLimit = ROW_LIMIT, maxRows = 100000, log = console.log },
+  {
+    siteUrl,
+    startDate,
+    endDate,
+    dimensions,
+    rowLimit = ROW_LIMIT,
+    maxRows = 100000,
+    log = console.log,
+  },
 ) {
   const rows = [];
   for (let startRow = 0; rows.length < maxRows; startRow += rowLimit) {

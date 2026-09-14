@@ -72,7 +72,10 @@ const daysBetween = (from, to) =>
  * always yields the same answer - the function is testable, and a re-run does
  * not drift because it happened a few hours later.
  */
-export function computeVelocity(observations, { asOf, currentDays = CURRENT_WINDOW_DAYS, baselineDays = BASELINE_WINDOW_DAYS } = {}) {
+export function computeVelocity(
+  observations,
+  { asOf, currentDays = CURRENT_WINDOW_DAYS, baselineDays = BASELINE_WINDOW_DAYS } = {},
+) {
   const today = dayKey(asOf ?? new Date());
   const current = [];
   const baseline = [];
@@ -81,7 +84,9 @@ export function computeVelocity(observations, { asOf, currentDays = CURRENT_WIND
   let lastSeen = null;
 
   for (const observation of observations) {
-    const day = dayKey(observation.observed_on ?? observation.observedOn ?? observation.observed_at);
+    const day = dayKey(
+      observation.observed_on ?? observation.observedOn ?? observation.observed_at,
+    );
     if (!day) continue;
     const age = daysBetween(day, today);
     if (age < 0) continue;

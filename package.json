@@ -22,7 +22,13 @@
     "ingest:trends": "node scripts/ingest-trends.mjs",
     "check:trends": "node scripts/check-trends.mjs",
     "ingest:gsc": "node scripts/ingest-gsc.mjs",
-    "check:gsc": "node scripts/check-gsc.mjs"
+    "check:gsc": "node scripts/check-gsc.mjs",
+    "build:lastmod": "node scripts/build-lastmod.mjs",
+    "check:lastmod": "node scripts/build-lastmod.mjs --check",
+    "check:sitemap-xml": "tsx scripts/check-sitemap-xml.mjs",
+    "check:growth": "node scripts/check-growth.mjs",
+    "plan:growth": "node scripts/plan-growth.mjs",
+    "prebuild": "node scripts/build-lastmod.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

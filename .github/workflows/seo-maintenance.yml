@@ -120,6 +120,7 @@ jobs:
             echo "  supabase/migrations/20260913120000_entities_metadata_jsonb.sql"
             echo "  supabase/migrations/20260913160000_catalog_matrix_public_read.sql"
             echo "  supabase/migrations/20260914120000_trend_signals.sql"
+            echo "  supabase/migrations/20260914170000_search_performance.sql"
             echo "Or add the SUPABASE_DB_URL secret to have this step do it every run."
             exit 0
           fi
@@ -142,7 +143,8 @@ jobs:
           for file in \
             supabase/migrations/20260913120000_entities_metadata_jsonb.sql \
             supabase/migrations/20260913160000_catalog_matrix_public_read.sql \
-            supabase/migrations/20260914120000_trend_signals.sql
+            supabase/migrations/20260914120000_trend_signals.sql \
+            supabase/migrations/20260914170000_search_performance.sql
           do
             echo "--- applying $file"
             psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f "$file"
@@ -226,3 +228,37 @@ jobs:
 
       - name: Collect trend signals and score growth
         run: npm run ingest:trends
+
+  performance:
+    name: Read Search Console and queue the highest-value page work
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: search-performance
+      cancel-in-progress: false
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      # The same service account scripts/ping-gsc.js already uses. Without
+      # these the run exits cleanly and says so; it never estimates in place
+      # of measuring.
+      GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
+      GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}
+      GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Check the Search Console feedback logic
+        run: node scripts/check-gsc.mjs
+
+      - name: Read performance and rank the work
+        run: npm run ingest:gsc

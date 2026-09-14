@@ -52,6 +52,12 @@ jobs:
       - name: Check the trend pipeline's invariants
         run: node scripts/check-trends.mjs
 
+      # Guards the winner-amplification logic: first-run deltas stay null, the
+      # queue stays ordered by clicks available rather than by position, and
+      # comparison windows stay equal-length and behind the Search Analytics lag.
+      - name: Check the Search Console feedback logic
+        run: node scripts/check-gsc.mjs
+
       - name: Validate content registry
         run: bun run scripts/validate-content.ts
 

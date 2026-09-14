@@ -20,7 +20,9 @@
     "verify:catalog": "node scripts/verify-catalog-data.mjs",
     "crawl": "node scripts/crawl-site.mjs",
     "ingest:trends": "node scripts/ingest-trends.mjs",
-    "check:trends": "node scripts/check-trends.mjs"
+    "check:trends": "node scripts/check-trends.mjs",
+    "ingest:gsc": "node scripts/ingest-gsc.mjs",
+    "check:gsc": "node scripts/check-gsc.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

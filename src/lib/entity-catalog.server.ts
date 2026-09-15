@@ -1,3 +1,8 @@
+import {
+  codeSitemapExclusions,
+  MIN_REVIEWS,
+  type CodeSitemapCandidate,
+} from "@/lib/code-quality-gate";
 import type { CatalogEntity, CatalogFaq } from "./entity-catalog";
 import { CODE_SITEMAP_PARTITIONS, type SitemapEntry } from "./sitemap";
 
@@ -218,12 +223,27 @@ export const CODE_PARTITION_SIZE = 25000;
  * The index uses this to avoid advertising an empty partition, which Google
  * reports as an erroring sitemap with 0 discovered URLs.
  */
+/**
+ * The PostgREST filter that narrows 50,000 code rows to the ones that could
+ * plausibly pass the sitemap quality gate.
+ *
+ * It is deliberately looser than the gate itself: PostgREST cannot measure
+ * string length, so rows with ANY sample review come back and
+ * codeSitemapExclusions makes the real decision in JS. Filtering here anyway
+ * matters because the alternative is pulling fifty thousand rows on every
+ * sitemap fetch to discard most of them.
+ */
+const ADVERTISABLE_CODES = "sample_review.not.is.null,reviews_count.gte." + MIN_REVIEWS;
+
 export async function countCodePartitions(): Promise<number> {
   const { supabaseServer } = await import("@/integrations/supabase/client.server");
   const { count, error } = await supabaseServer
     .from("game_nexus_matrix")
-    .select("slug", { count: "exact", head: true });
+    .select("slug", { count: "exact", head: true })
+    .or(ADVERTISABLE_CODES);
   if (error) throw new Error(`codes row count: ${error.message}`);
+  // Counting the SAME filtered set the listing pages through, so the index
+  // never advertises a partition the listing will render empty.
   const rows = count ?? 0;
   return Math.min(Math.ceil(rows / CODE_PARTITION_SIZE), CODE_SITEMAP_PARTITIONS);
 }
@@ -236,13 +256,15 @@ export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapE
   const PAGE = 1000; // PostgREST caps a single response at 1000 rows
 
   const entries: SitemapEntry[] = [];
+  let dropped = 0;
   for (let from = first; from <= last; from += PAGE) {
     const to = Math.min(from + PAGE - 1, last);
     // Ordered explicitly: range() over an unordered query has no stable row
     // order, so the two partitions could otherwise overlap or skip rows.
     const { data, error } = await supabaseServer
       .from("game_nexus_matrix")
-      .select("slug")
+      .select("slug, title, sample_review, reviews_count, aggregate_rating")
+      .or(ADVERTISABLE_CODES)
       .order("slug", { ascending: true })
       .range(from, to);
 
@@ -256,14 +278,25 @@ export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapE
     }
     if (!data || data.length === 0) break;
 
-    for (const row of data as { slug: string | null }[]) {
+    for (const row of data as CodeSitemapCandidate[]) {
       const slug = row.slug?.trim();
-      if (slug) {
-        entries.push({ path: `/en/codes/${slug}`, changefreq: "weekly", priority: "0.7" });
+      if (!slug) continue;
+      // The gate decides, not the query: PostgREST cannot measure the review
+      // length, so this is where a stub review is actually rejected.
+      if (codeSitemapExclusions(row).length > 0) {
+        dropped += 1;
+        continue;
       }
+      entries.push({ path: `/en/codes/${slug}`, changefreq: "weekly", priority: "0.7" });
     }
     if (data.length < PAGE) break;
   }
 
+  if (dropped) {
+    console.log(
+      `codes sitemap partition ${partition}: ${entries.length} advertised, ${dropped} held back ` +
+        `as carrying nothing beyond the listing.`,
+    );
+  }
   return entries;
 }

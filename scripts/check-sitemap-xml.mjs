@@ -30,6 +30,12 @@ import {
   AR_ENTRIES,
 } from "../src/lib/sitemap.ts";
 import { INDEXABLE_LOCALES } from "../src/lib/i18n.ts";
+import {
+  qualifiesForCodeSitemap,
+  codeSitemapExclusions,
+  MIN_REVIEW_CHARS,
+  MIN_REVIEWS,
+} from "../src/lib/code-quality-gate.ts";
 
 let failures = 0;
 const fail = (message) => {
@@ -204,6 +210,45 @@ for (const [path, xml] of files) {
 }
 if (!danglingAlternates) ok("every alternate resolves to a URL the sitemaps contain");
 else fail(`${danglingAlternates} dangling alternate(s) in total`);
+
+console.log("\nThe code-page gate keeps thin pages out of the sitemap");
+{
+  const row = (over) => ({
+    slug: "s",
+    title: "T",
+    sample_review: null,
+    reviews_count: null,
+    aggregate_rating: null,
+    ...over,
+  });
+  const expect = (label, candidate, want) => {
+    const got = qualifiesForCodeSitemap(candidate);
+    if (got === want) ok(label);
+    else
+      fail(`${label} — got ${got}, want ${want}: ${codeSitemapExclusions(candidate).join("; ")}`);
+  };
+  // The case that caused this: a title and a market and nothing else, fifty
+  // thousand times over, against 137 pages indexed.
+  expect("a title-and-market row is held back", row({}), false);
+  expect("a real review qualifies", row({ sample_review: "x".repeat(MIN_REVIEW_CHARS) }), true);
+  expect("a stub review does not", row({ sample_review: "x".repeat(MIN_REVIEW_CHARS - 1) }), false);
+  expect(
+    "enough real ratings qualify",
+    row({ reviews_count: MIN_REVIEWS, aggregate_rating: "4.2" }),
+    true,
+  );
+  expect("a zero score does not", row({ reviews_count: 99, aggregate_rating: "0" }), false);
+  expect("one rating is not an audience", row({ reviews_count: 1, aggregate_rating: "5" }), false);
+  expect(
+    "a row with no slug is never advertised",
+    row({ slug: null, sample_review: "x".repeat(200) }),
+    false,
+  );
+  const reasons = codeSitemapExclusions(row({}));
+  if (reasons.some((r) => r.includes("nothing beyond the listing")))
+    ok("a held-back row explains why");
+  else fail("a held-back row gives no reason");
+}
 
 console.log(failures ? `\n${failures} sitemap problem(s).\n` : "\nAll sitemap checks passed.\n");
 process.exit(failures ? 1 : 0);

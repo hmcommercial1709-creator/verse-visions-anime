@@ -46,6 +46,23 @@ export const Route = createFileRoute("/sitemap-catalog.xml")({
           entries.push({ path: `/anime?page=${page}`, changefreq: "weekly", priority: "0.5" });
         }
 
+        // Anime DETAIL pages, not just the paginated index.
+        //
+        // The comment above explains why these were once left out: enumerating
+        // them meant ~40 Jikan calls per sitemap fetch against a 3/sec limit.
+        // That reasoning expired when the nightly ingest started filling
+        // public.entities — 6,016 active anime rows at last count, every one of
+        // them already served by /catalog/anime/$slug from the database, and
+        // reachable now in a handful of paged queries against our own table
+        // rather than forty calls to someone else's API.
+        //
+        // Leaving them out cost more than it saved: Search Console showed 137
+        // pages indexed against 25,757 submitted, while the substantive pages
+        // were the ones not being advertised.
+        for (const slug of await listAllCatalogSlugs("anime")) {
+          entries.push({ path: `/catalog/anime/${slug}`, changefreq: "weekly", priority: "0.7" });
+        }
+
         // Games come from BOTH sources, deduplicated.
         //
         // This used to list only what the FreeToGame API returned, which meant

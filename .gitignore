@@ -38,3 +38,7 @@ dist-ssr
 
 # Output of scripts/verify-catalog-data.mjs --explain
 catalog-gate-failures.tsv
+
+# Built by scripts/build-pinterest-queue.mjs on each run.
+pinterest-queue.json
+latest_links.json

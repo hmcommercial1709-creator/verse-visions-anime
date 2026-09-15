@@ -89,8 +89,18 @@ jobs:
       - name: Check the matchmaker's pairings and the poll's honesty
         run: npx tsx scripts/check-matchmaker.mjs
 
-      - name: Run Pinterest Auto Poster
-        run: python scripts/pinterest-auto-poster.py
+      # Guards the Pinterest integration. The script it replaced reported
+      # success on every deploy while posting nothing: no API call, a sitemap
+      # parse that matched zero elements, and a bare except that swallowed
+      # every failure. These check that a failure is now VISIBLE.
+      - name: Check the Pinterest integration cannot fail silently
+        run: npx tsx scripts/check-pinterest.mjs
+
+      # The Pinterest step used to run here. It has moved to its own workflow
+      # (.github/workflows/pinterest.yml) for two reasons: posting to a social
+      # account has nothing to do with shipping the site, and entangling them
+      # means a Pinterest outage can only ever be ignored or block a deploy.
+      # Separated, it can fail loudly without touching the release.
 
       - name: Check video feed and live channels
         run: node scripts/check-video-feed.mjs

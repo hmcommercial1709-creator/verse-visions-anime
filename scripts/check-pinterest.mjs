@@ -67,7 +67,7 @@ assert.match(
 // real logic left the words behind, so the guard proved nothing.
 assert.match(
   poster,
-  /^\s*"inactiveconsumer",\s*$/m,
+  /^\s*needle="inactiveconsumer",\s*$/m,
   'the known 401 causes must be diagnosed by name, in the lookup table',
 );
 assert.match(poster, /^def diagnose\(/m, 'error bodies must be mapped to a remedy');
@@ -76,6 +76,59 @@ assert.match(
   /os\.environ\.get\("PINTEREST_API_BASE"/,
   'the sandbox host must be reachable without a code change',
 );
+
+// A second real run failed differently — HTTP 401 with
+// {"code":2,"message":"Authentication failed."} — which matched none of the
+// three needles and fell through to the generic advice all over again.
+assert.match(
+  poster,
+  /^\s*needle="authentication failed",\s*$/m,
+  'a rejected token reports "Authentication failed" and must be diagnosed too',
+);
+
+// That same 401 body is returned whether the credential was refused or the
+// board cannot be read, so the body alone cannot decide. /user_account takes
+// no board: it is the only thing that separates the two, and without it the
+// advice contradicts itself on one of the two cases.
+assert.match(poster, /^def probe_token\(/m, 'a rejected token must be told apart from a bad board');
+assert.match(poster, /"\/user_account"/, 'the probe must use an endpoint that takes no board id');
+assert.match(
+  poster,
+  /diagnose\(error, token_accepted\)/,
+  'the diagnosis must depend on the probe, not contradict it',
+);
+assert.match(
+  poster,
+  /only_if_token_rejected and token_accepted/,
+  'credential advice must be withheld once the token has authenticated',
+);
+
+// PINTEREST_API_BASE is stored as a secret, so GitHub replaced it with "***"
+// and the failing run's own log could not say which host it had reached —
+// the single fact needed to read an auth failure. A derived label is not the
+// secret and survives the masking.
+assert.match(poster, /^def normalize_api_base\(/m, 'the API base must be classified, not just read');
+assert.match(
+  poster,
+  /Host contacted: \{API_KIND\}/,
+  'the log must name the host by label; the raw URL is masked to "***"',
+);
+assert.doesNotMatch(
+  poster,
+  /API base in use: \{API\}/,
+  'printing the secret URL logs "***" and tells the reader nothing',
+);
+assert.match(
+  poster,
+  /^def host_mismatch_hint\(/m,
+  'a token/host mismatch must name the one secret to change',
+);
+
+// A secret is typed by a human, so it arrives with a human's typos. Each of
+// these turns a valid credential into an indistinguishable 401 or 404.
+assert.match(poster, /^def clean_token\(/m, 'a pasted "Bearer " prefix or quotes must not reach the header');
+assert.match(poster, /rstrip\("\/"\)/, 'a trailing slash in the API base must be tolerated');
+assert.match(poster, /endswith\("\/v5"\)/, 'an API base pasted without /v5 must still work');
 assert.match(
   workflow,
   /^\s*PINTEREST_API_BASE:\s*\$\{\{/m,

@@ -41,18 +41,71 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from typing import NamedTuple
 
 # Pinterest runs a separate sandbox whose tokens are NOT valid against
 # production, and a sandbox token used here comes back as "InactiveConsumer"
 # — indistinguishable from an unapproved app unless you know to look. Making
 # the host a variable means testing that theory is one secret, not a patch.
-API = os.environ.get("PINTEREST_API_BASE", "").strip() or "https://api.pinterest.com/v5"
+PRODUCTION_API = "https://api.pinterest.com/v5"
+SANDBOX_API = "https://api-sandbox.pinterest.com/v5"
 QUEUE_FILE = "pinterest-queue.json"
 TIMEOUT = 30
 
 # Pinterest rate-limits pin creation. A second between posts keeps a normal
 # run well under any published ceiling without needing to read headers.
 DELAY_BETWEEN_PINS = 1.0
+
+
+def normalize_api_base(raw: str) -> tuple[str, str]:
+    """Turns whatever is in PINTEREST_API_BASE into a usable base URL + label.
+
+    A secret is typed by a human into a web form, so it arrives with the
+    mistakes a human makes: a trailing slash, surrounding quotes copied along
+    with the value, a missing scheme, or the bare host without the /v5 that
+    every path in this file assumes. Each of those turns every request into a
+    404 or a 401 that reads like a credential problem and is not one, so they
+    are repaired here rather than diagnosed later.
+
+    The second return value is a LABEL, not the URL. The URL comes from a
+    secret, so GitHub masks it in the log and printing it tells the reader
+    nothing — a previous run ended with "API base in use: ***", which is the
+    single fact needed to interpret an auth failure, redacted. "sandbox" and
+    "production" are derived, not secret, and survive the masking.
+    """
+    base = raw.strip().strip('"').strip("'").strip().rstrip("/")
+    if not base:
+        return PRODUCTION_API, "production"
+    if "://" not in base:
+        base = f"https://{base}"
+    if not base.endswith("/v5"):
+        base = f"{base}/v5"
+    host = base.split("://", 1)[1].split("/", 1)[0].lower()
+    if host == "api.pinterest.com":
+        return base, "production"
+    if host == "api-sandbox.pinterest.com":
+        return base, "sandbox"
+    return base, "custom"
+
+
+def clean_token(raw: str) -> str:
+    """The token as Pinterest issued it, not as it was pasted.
+
+    Two paste artefacts produce HTTP 401 "Authentication failed." from a token
+    that is perfectly valid: quotes captured along with the value, and the word
+    "Bearer" copied from the documentation's example header — which this script
+    then prefixes again, sending "Bearer Bearer pina_...".
+    """
+    token = raw.strip().strip('"').strip("'").strip()
+    if token.lower().startswith("bearer "):
+        token = token[len("bearer ") :].strip()
+    return token
+
+
+API, API_KIND = normalize_api_base(os.environ.get("PINTEREST_API_BASE", ""))
+# The hostname on its own is not the secret, so it survives GitHub's masking
+# even when PINTEREST_API_BASE is stored as one.
+API_HOST = API.split("://", 1)[1].split("/", 1)[0]
 
 
 class PinterestError(RuntimeError):
@@ -62,51 +115,139 @@ class PinterestError(RuntimeError):
 # Pinterest's own error codes, mapped to the thing that actually fixes them.
 # The generic "check your token, board id and account" list is useless once
 # the body has already told you which of the three it is.
+#
+# only_if_token_rejected marks advice that is only TRUE when the credential
+# itself was refused. /boards/<id> answers 401 with the same body whether the
+# token was rejected or the board is unreadable, so printing "this is not the
+# board id" on the second case sends the reader to regenerate a credential
+# that was never the problem. probe_token() settles which case it is, and
+# these entries are withheld when it says the token authenticated.
+class Diagnosis(NamedTuple):
+    needle: str
+    only_if_token_rejected: bool
+    advice: str
+
+
 PINTEREST_DIAGNOSES = (
-    (
-        "inactiveconsumer",
-        "The TOKEN is fine; the APP that issued it is not active for production.\n"
-        "  Fix one of these, in order of likelihood:\n"
-        "   1. The app is still on Trial access. Open developers.pinterest.com ->\n"
-        "      your app -> and request/enable Standard access, or confirm trial\n"
-        "      access is actually switched on for the account that owns the board.\n"
-        "   2. The token came from the SANDBOX. Sandbox tokens are rejected by\n"
-        "      api.pinterest.com. Either generate a production token, or set the\n"
-        "      secret PINTEREST_API_BASE to https://api-sandbox.pinterest.com/v5\n"
-        "      to talk to the sandbox instead.\n"
-        "   3. The app was disabled or its review was rejected. The app page will\n"
-        "      say so.",
+    Diagnosis(
+        needle="inactiveconsumer",
+        only_if_token_rejected=True,
+        advice=(
+            "The TOKEN is fine; the APP that issued it is not active for production.\n"
+            "  Fix one of these, in order of likelihood:\n"
+            "   1. The app is still on Trial access. Open developers.pinterest.com ->\n"
+            "      your app -> and request/enable Standard access, or confirm trial\n"
+            "      access is actually switched on for the account that owns the board.\n"
+            "   2. The token came from the SANDBOX. Sandbox tokens are rejected by\n"
+            "      api.pinterest.com. Either generate a production token, or set the\n"
+            "      secret PINTEREST_API_BASE to https://api-sandbox.pinterest.com/v5\n"
+            "      to talk to the sandbox instead.\n"
+            "   3. The app was disabled or its review was rejected. The app page will\n"
+            "      say so."
+        ),
     ),
-    (
-        "scope",
-        "The token is missing a scope. This script needs boards:read and\n"
-        "  pins:write. Scopes are fixed at the moment a token is generated, so\n"
-        "  adding them to the app is not enough — generate a NEW token after\n"
-        "  the scopes are set.",
+    Diagnosis(
+        needle="authentication failed",
+        only_if_token_rejected=True,
+        advice=(
+            "The token was REJECTED OUTRIGHT. Pinterest never looked at the board\n"
+            "  or the scopes, because it did not accept the credential first.\n"
+            "  In order of likelihood:\n"
+            "   1. The token and the host disagree. A sandbox token sent to\n"
+            "      production, or a production token sent to the sandbox, fails\n"
+            "      exactly like this. The `Host contacted` line above says which\n"
+            "      one this run used; make the token match it.\n"
+            "   2. The token expired or was revoked. Pinterest access tokens are\n"
+            "      not permanent — generate a new one and update the\n"
+            "      PINTEREST_ACCESS_TOKEN secret.\n"
+            "   3. Only part of the token was pasted. They are long; a truncated\n"
+            "      one is rejected the same way a wrong one is."
+        ),
     ),
-    (
-        "not found",
-        "The board id does not exist for this account. List the boards this\n"
-        "  token can see with:\n"
-        "    curl -s -H \"Authorization: Bearer $PINTEREST_ACCESS_TOKEN\" \\\n"
-        "      https://api.pinterest.com/v5/boards\n"
-        "  and copy the `id` of the board you want.",
+    Diagnosis(
+        needle="scope",
+        only_if_token_rejected=False,
+        advice=(
+            "The token is missing a scope. This script needs boards:read and\n"
+            "  pins:write. Scopes are fixed at the moment a token is generated, so\n"
+            "  adding them to the app is not enough — generate a NEW token after\n"
+            "  the scopes are set."
+        ),
+    ),
+    Diagnosis(
+        needle="not found",
+        only_if_token_rejected=False,
+        advice=(
+            "The board id does not exist for this account. List the boards this\n"
+            "  token can see with:\n"
+            "    curl -s -H \"Authorization: Bearer $PINTEREST_ACCESS_TOKEN\" \\\n"
+            "      https://api.pinterest.com/v5/boards\n"
+            "  and copy the `id` of the board you want."
+        ),
     ),
 )
 
+# Printed when the token authenticated but the board still could not be read —
+# the one case where nothing about the credential is worth changing.
+BOARD_IS_THE_PROBLEM = (
+    "The token authenticates, so the BOARD is what this run cannot reach.\n"
+    "   1. PINTEREST_BOARD_ID belongs to a different account, or was copied\n"
+    "      from a board URL rather than from the API. List the boards this\n"
+    "      token can actually see with:\n"
+    "        curl -s -H \"Authorization: Bearer $PINTEREST_ACCESS_TOKEN\" \\\n"
+    "          $PINTEREST_API_BASE/boards\n"
+    "      and copy the `id` field of the board you want.\n"
+    "   2. The board is secret, or owned by a business account the token was\n"
+    "      not issued for.\n"
+    "   3. The token is missing boards:read. Scopes are fixed when a token is\n"
+    "      generated, so a new token is required — editing the app is not\n"
+    "      enough."
+)
 
-def diagnose(error: Exception) -> str | None:
+
+def diagnose(error: Exception, token_accepted: bool | None = None) -> str | None:
     """Turns a Pinterest error body into the one step that fixes it.
 
     Matched against the message Pinterest sends, not the HTTP status: 401 is
     returned for an inactive app, a missing scope and a revoked token alike,
-    so the status on its own cannot tell them apart. The body can.
+    so the status on its own cannot tell them apart. The body can — and where
+    the body is still ambiguous, token_accepted (from probe_token) decides.
     """
     text = str(error).lower()
-    for needle, advice in PINTEREST_DIAGNOSES:
-        if needle in text:
-            return advice
-    return None
+    for entry in PINTEREST_DIAGNOSES:
+        if entry.needle not in text:
+            continue
+        if entry.only_if_token_rejected and token_accepted:
+            continue
+        return entry.advice
+    return BOARD_IS_THE_PROBLEM if token_accepted else None
+
+
+def host_mismatch_hint() -> str:
+    """The single change to make, given the host this run actually reached.
+
+    Generic advice ("check the token, check the board") is what sent the reader
+    to inspect a board id that was correct. Once the host is known, the fix for
+    a rejected token is one specific edit, so this names it.
+    """
+    if API_KIND == "sandbox":
+        return (
+            "This run reached the SANDBOX, where a production token is rejected.\n"
+            "            If the token came from developers.pinterest.com, DELETE the\n"
+            "            PINTEREST_API_BASE secret so runs go back to production."
+        )
+    if API_KIND == "production":
+        return (
+            "This run reached PRODUCTION, where a sandbox token is rejected.\n"
+            "            If the token came from the sandbox, set the PINTEREST_API_BASE\n"
+            f"            secret to {SANDBOX_API}; otherwise generate a\n"
+            "            production token."
+        )
+    return (
+        "This run reached a host that is neither Pinterest endpoint. Unset the\n"
+        "            PINTEREST_API_BASE secret for production, or set it to exactly\n"
+        f"            {SANDBOX_API} for the sandbox."
+    )
 
 
 def log(message: str) -> None:
@@ -143,6 +284,30 @@ def request(method: str, path: str, token: str, payload: dict | None = None) -> 
         ) from error
     except urllib.error.URLError as error:
         raise PinterestError(f"{method} {path} -> network error: {error.reason}") from error
+
+
+def probe_token(token: str) -> tuple[bool, str]:
+    """Is the TOKEN accepted by this host, independent of any board?
+
+    A 401 on /boards/<id> is ambiguous: it is returned for a rejected token and
+    it is what a reader mistakes for a wrong board id. /user_account takes no
+    board, so its answer separates the two — and a 403 there still means the
+    token authenticated (it was recognised, then refused for scope), which is
+    why the status is read rather than just the success of the call.
+    """
+    try:
+        body = request("GET", "/user_account", token)
+    except PinterestError as error:
+        if "HTTP 401" in str(error):
+            return False, "rejected — /user_account also returns 401, so it is the token"
+        return (
+            True,
+            "accepted — /user_account did not return 401, so the token itself is\n"
+            f"            valid and the board is the problem.\n  {error}",
+        )
+    username = body.get("username")
+    who = f"@{username}" if username else "an account with no username in the response"
+    return True, f"accepted — the token belongs to {who}, so the board is the problem"
 
 
 def load_queue() -> list[dict]:
@@ -215,7 +380,7 @@ def main() -> int:
     log(f"[pinterest] {len(queue)} pinnable page(s) in {QUEUE_FILE}")
 
     if args.dry_run:
-        log("[pinterest] DRY RUN — nothing will be posted.")
+        log(f"[pinterest] DRY RUN — nothing will be posted. Host: {API_KIND} ({API_HOST})")
         for row in queue[: args.limit]:
             log(
                 "\n  POST /v5/pins\n"
@@ -229,8 +394,8 @@ def main() -> int:
 
     # Credentials are checked together and reported by name. "Unauthorized"
     # from the API is a much worse first clue than "you did not set this".
-    token = os.environ.get("PINTEREST_ACCESS_TOKEN", "").strip()
-    board_id = os.environ.get("PINTEREST_BOARD_ID", "").strip()
+    token = clean_token(os.environ.get("PINTEREST_ACCESS_TOKEN", ""))
+    board_id = os.environ.get("PINTEREST_BOARD_ID", "").strip().strip('"').strip("'").strip()
     missing = [
         name
         for name, value in (
@@ -247,20 +412,27 @@ def main() -> int:
         )
         return 1
 
+    # Printed before anything can fail, and printed as a label rather than the
+    # URL: PINTEREST_API_BASE is a secret, so the URL comes out of GitHub's log
+    # as "***" and the one fact needed to read an auth failure is lost.
+    log(f"[pinterest] Host contacted: {API_KIND} ({API_HOST})")
+
     try:
         board = request("GET", f"/boards/{board_id}", token)
         log(f"[pinterest] Board OK: {board.get('name', board_id)}")
     except PinterestError as error:
         log(f"[pinterest] FAILED — cannot read the board.\n  {error}")
-        advice = diagnose(error)
+        # The probe runs BEFORE the advice, because the advice depends on it.
+        # /user_account takes no board, so its answer is the only thing that
+        # separates "the credential was refused" from "the board cannot be
+        # read" — two states Pinterest reports with the identical 401 body.
+        token_accepted, detail = probe_token(token)
+        log(f"[pinterest] Token check: {detail}")
+        advice = diagnose(error, token_accepted)
         if advice:
             log(f"[pinterest] What this means:\n  {advice}")
-        else:
-            log(
-                "[pinterest] Check that the token carries boards:read, that the board id\n"
-                "            belongs to this account, and that the token has not been revoked."
-            )
-        log(f"[pinterest] API base in use: {API}")
+        if not token_accepted:
+            log(f"[pinterest] Next step: {host_mismatch_hint()}")
         return 1
 
     try:

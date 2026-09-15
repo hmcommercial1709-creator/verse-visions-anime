@@ -76,6 +76,13 @@ jobs:
       - name: Check the matchmaker's pairings and the poll's honesty
         run: npx tsx scripts/check-matchmaker.mjs
 
+      # Guards the Pinterest integration. The script it replaced reported
+      # success on every deploy while posting nothing: no API call, a sitemap
+      # parse that matched zero elements, and a bare except that swallowed
+      # every failure. These check that a failure is now VISIBLE.
+      - name: Check the Pinterest integration cannot fail silently
+        run: npx tsx scripts/check-pinterest.mjs
+
       # Guards the rule that a trend score is measured, not assumed. Someone
       # "fixing" the nulls by defaulting a missing baseline to zero turns every
       # brand-new term into infinite growth; this fails the build instead.

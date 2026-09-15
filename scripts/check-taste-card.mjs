@@ -1,10 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import {
   MAX_PICKS,
   MIN_PICKS,
-  adsInBand,
-  CTA_SAFE_BAND_PX,
   focusScore,
   genreSpread,
   insights,
@@ -92,42 +90,40 @@ assert.ok(MIN_PICKS >= 3 && MAX_PICKS > MIN_PICKS);
 console.log('Taste card states only what the picks support: passed.');
 
 /* ------------------------------------------------------------------ *
- * 2. The floating button never overlaps an ad.
+ * 2. The invitation is in the header, and is not a floating overlay.
  *
- * AdSense holds the publisher responsible for accidental clicks caused
- * by the publisher's own floating elements, and the penalty lands on
- * the account. So this is tested, not assumed.
+ * It began as a fixed bottom-right button gated on a 700px scroll
+ * threshold — longer than the viewport on a 1366x768 laptop, so it
+ * never appeared in normal use — and it needed live rect maths to stay
+ * clear of ad boxes. In the header it is on every page from the first
+ * paint, and normal flow makes the accidental-click problem impossible
+ * rather than merely handled.
  * ------------------------------------------------------------------ */
 
-const VH = 800;
-const bandTop = VH - CTA_SAFE_BAND_PX;
+const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
-// An ad ending above the strip is clear of the button.
-assert.equal(adsInBand([{ top: 100, bottom: bandTop - 1 }], VH), false);
-// An ad whose bottom edge reaches into the strip is not.
-assert.equal(adsInBand([{ top: 100, bottom: bandTop + 1 }], VH), true);
-// An ad starting inside the strip is not.
-assert.equal(adsInBand([{ top: bandTop + 10, bottom: VH + 400 }], VH), true);
-// An ad entirely below the fold cannot be clicked and does not hide it.
-assert.equal(adsInBand([{ top: VH + 10, bottom: VH + 300 }], VH), false);
-// An ad scrolled off the top has a negative rect and is correctly ignored.
-assert.equal(adsInBand([{ top: -600, bottom: -100 }], VH), false);
-// One ad in the strip is enough, even with others clear of it.
-assert.equal(
-  adsInBand(
-    [
-      { top: -600, bottom: -100 },
-      { top: 0, bottom: 200 },
-      { top: bandTop + 5, bottom: VH },
-    ],
-    VH,
-  ),
-  true,
+const header = read('../src/components/site-header.tsx');
+assert.match(header, /to="\/gamer-card"/, 'the header must link to the Taste Card');
+assert.match(header, /taste-cta-pulse/, 'the header link must carry the attention pulse');
+assert.match(
+  header,
+  /aria-label="Build your Taste Card"/,
+  'the icon-only form on small screens needs an accessible name',
 );
-// No ads at all: nothing to collide with.
-assert.equal(adsInBand([], VH), false);
 
-console.log('Floating button yields to every ad box in its strip: passed.');
+// Never a floating overlay again: a fixed element over the page is the
+// accidental-click risk AdSense holds the publisher responsible for.
+const headerLink = header.slice(header.indexOf('to="/gamer-card"') - 400, header.indexOf('to="/gamer-card"') + 400);
+assert.doesNotMatch(headerLink, /\bfixed\b/, 'the Taste Card link must not be fixed-positioned');
+assert.equal(
+  existsSync(new URL('../src/components/taste-card-cta.tsx', import.meta.url)),
+  false,
+  'the floating CTA component must stay deleted',
+);
+const root = read('../src/routes/__root.tsx');
+assert.doesNotMatch(root, /TasteCardCta/, 'the root route must not mount a floating CTA');
+
+console.log('Taste Card invitation sits in the header, never floating: passed.');
 
 /* ------------------------------------------------------------------ *
  * 3. The wiring the tool depends on stays wired.
@@ -137,17 +133,6 @@ console.log('Floating button yields to every ad box in its strip: passed.');
  * just as invisible, so each connection is asserted rather than
  * assumed.
  * ------------------------------------------------------------------ */
-
-const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
-
-const root = read('../src/routes/__root.tsx');
-assert.match(root, /import \{ TasteCardCta \} from "@\/components\/taste-card-cta"/);
-assert.match(root, /<TasteCardCta \/>/, 'the CTA must be RENDERED, not merely imported');
-
-const cta = read('../src/components/taste-card-cta.tsx');
-assert.match(cta, /adsInBand/, 'the CTA must consult the ad-overlap rule');
-assert.match(cta, /\.ad-container/, 'the CTA must measure the real ad containers');
-assert.match(cta, /fixed /, 'fixed positioning is what keeps the CTA out of flow (no CLS)');
 
 const styles = read('../src/styles.css');
 assert.match(

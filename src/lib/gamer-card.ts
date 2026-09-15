@@ -133,29 +133,12 @@ export function shareCaption(picks: CardPick[]): string {
     : `My taste card: ${names}`;
 }
 
-/**
- * The bottom strip of the viewport the floating Taste Card button occupies,
- * plus a safety gap above it.
+/*
+ * CTA_SAFE_BAND_PX, adsInBand(), ctaRevealThreshold() and shouldRevealCta()
+ * stood here. They existed to keep a fixed bottom-right button clear of ad
+ * boxes and to decide when a scroll had gone far enough to reveal it.
  *
- * The button is roughly 48px tall and sits 20px from the bottom; the rest is
- * deliberate clearance. AdSense holds the publisher responsible for accidental
- * clicks caused by the publisher's own overlays, and the penalty lands on the
- * account rather than the placement, so the margin is generous on purpose.
+ * The button moved into the site header, next to search. In normal flow it
+ * cannot overlap an ad and there is no scroll threshold to tune, so the
+ * safest version of this code is the version that no longer exists.
  */
-export const CTA_SAFE_BAND_PX = 148;
-
-/**
- * True when any ad box is inside that strip, meaning the button must not show.
- *
- * Pure and exported so the guard can test the rule that protects the ad
- * account rather than trusting that the component got it right. Rects are in
- * viewport coordinates, exactly as getBoundingClientRect returns them, so a
- * box scrolled above the fold has a negative top and is correctly excluded.
- */
-export function adsInBand(
-  rects: Array<{ top: number; bottom: number }>,
-  viewportHeight: number,
-): boolean {
-  const bandTop = viewportHeight - CTA_SAFE_BAND_PX;
-  return rects.some((rect) => rect.bottom > bandTop && rect.top < viewportHeight);
-}

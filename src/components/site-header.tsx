@@ -326,6 +326,33 @@ export function SiteHeader() {
             >
               <Search className="h-5 w-5" />
             </button>
+            {/*
+              The Taste Card, next to search rather than floating.
+
+              It started as a fixed button in the bottom-right corner, revealed
+              after a scroll threshold and hidden whenever an ad box entered
+              the strip it occupied. That was invisible in practice: the
+              threshold was 700px against a laptop viewport of about 640px, so
+              a reader who scrolled a whole screen still never saw it.
+
+              Here it is on every page from the first paint, one tap from the
+              search the reader is already reaching for, and — because it sits
+              in normal flow instead of floating over the page — it cannot
+              overlap an ad unit at all, which is the accidental-click rule
+              the floating version needed code to respect.
+
+              The pulse still draws the eye, and styles.css gates it on
+              prefers-reduced-motion.
+            */}
+            <Link
+              to="/gamer-card"
+              aria-label="Build your Taste Card"
+              className="taste-cta-pulse flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span className="hidden md:inline">Taste Card</span>
+            </Link>
+
             <LanguageSelector variant="header" />
             <button
               onClick={() => setGlobalOpen(true)}

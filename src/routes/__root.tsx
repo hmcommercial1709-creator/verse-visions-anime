@@ -15,7 +15,6 @@ import { DeferredScripts } from "@/components/deferred-scripts";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
-import { TasteCardCta } from "@/components/taste-card-cta";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 import { siteKnowledgeGraph } from "@/lib/seo";
@@ -334,15 +333,12 @@ function RootComponent() {
 
       <SiteFooter />
 
-      {/* The floating invitation to the Taste Card, on every route.
+      {/* The Taste Card's invitation lives in SiteHeader now, next to search.
 
-          It hides itself whenever an ad container is inside the strip it
-          occupies — an accidental click on an ad caused by our own floating
-          element is an AdSense policy violation against the account, not just
-          the placement — and its pulse is gated on prefers-reduced-motion.
-          Fixed positioning keeps it out of flow, so appearing and disappearing
-          costs no layout shift. */}
-      <TasteCardCta />
+          It was a fixed bottom-right button here, revealed past a 700px scroll
+          threshold — longer than the viewport on a 1366x768 laptop, so it was
+          invisible in normal use. In the header it is on every page from the
+          first paint, and being in normal flow it cannot overlap an ad. */}
 
       {/* The browsing-time gift. VisitorRewardTracker existed but was never
           mounted on any route, so the reward it unlocks was unreachable no

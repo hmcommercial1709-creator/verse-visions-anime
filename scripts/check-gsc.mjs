@@ -29,7 +29,7 @@ import {
   expectedCtr,
   DEFAULT_THRESHOLDS,
 } from "./gsc/actions.mjs";
-import { comparisonWindows, LAG_DAYS, dayOffset } from "./gsc/client.mjs";
+import { comparisonWindows, LAG_DAYS, dayOffset, searchConsoleClient } from "./gsc/client.mjs";
 import { normalizePrivateKey } from "./gsc/private-key.mjs";
 import { generateKeyPairSync } from "node:crypto";
 
@@ -140,6 +140,30 @@ console.log("\nThe private key survives every way a secret mangles it");
     /ERR_OSSL/.test(normalizePrivateKey("nonsense").error ?? ""),
     false,
   );
+}
+
+console.log("\nThe client's own code paths actually execute");
+{
+  // Every check above imports pure helpers, which is why a real bug shipped:
+  // client.mjs used `export { x } from "..."`, which re-exports x for
+  // IMPORTERS but never binds it inside the module — so searchConsoleClient
+  // called an undefined identifier and failed only at runtime, only in CI, and
+  // only on the one path that needs credentials. Calling it here is the check.
+  const saved = { email: process.env.GSC_CLIENT_EMAIL, key: process.env.GSC_PRIVATE_KEY };
+  delete process.env.GSC_CLIENT_EMAIL;
+  delete process.env.GSC_PRIVATE_KEY;
+  let threw = null;
+  let returned = "unset";
+  try {
+    returned = await searchConsoleClient({ log: () => {} });
+  } catch (error) {
+    threw = error;
+  }
+  check("searchConsoleClient runs without throwing", threw === null, true);
+  if (threw) console.log(`        ${threw.message}`);
+  check("  and returns null when unconfigured", returned, null);
+  if (saved.email !== undefined) process.env.GSC_CLIENT_EMAIL = saved.email;
+  if (saved.key !== undefined) process.env.GSC_PRIVATE_KEY = saved.key;
 }
 
 console.log(

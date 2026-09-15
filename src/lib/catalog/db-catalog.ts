@@ -87,6 +87,43 @@ export async function loadCatalogFromDb(
   };
 }
 
+/**
+ * Every active slug of one type, for the sitemap.
+ *
+ * The catalog sitemap listed games from the FreeToGame API only, so the Steam
+ * rows the nightly ingest writes to public.entities — 1,197 of them and
+ * growing — had working pages at /catalog/games/{slug} that no sitemap
+ * advertised. A page nothing links to and nothing lists is a page Google has
+ * no route to.
+ *
+ * Paged rather than fetched in one request: PostgREST caps a response, and a
+ * silent truncation here would quietly drop the tail of the catalog out of the
+ * sitemap without any error to notice.
+ */
+export async function listAllCatalogSlugs(
+  entityType: "anime" | "game" | "manga",
+  { pageSize = 1000, maxRows = 50000 } = {},
+): Promise<string[]> {
+  const slugs: string[] = [];
+  for (let from = 0; from < maxRows; from += pageSize) {
+    const { data, error } = await supabase
+      .from("entities")
+      .select("slug")
+      .eq("entity_type", entityType)
+      .eq("status", "active")
+      .order("slug", { ascending: true })
+      .range(from, from + pageSize - 1);
+    // Degrade rather than throw: a partial sitemap beats a 500, which the
+    // index would report as a failing child against the whole property.
+    if (error || !data?.length) break;
+    for (const row of data as Array<{ slug: string | null }>) {
+      if (row.slug) slugs.push(row.slug);
+    }
+    if (data.length < pageSize) break;
+  }
+  return slugs;
+}
+
 /** How many pages the database can serve, or 0 when it holds nothing. */
 export async function countDbCatalogPages(
   entityType: "anime" | "game" | "manga",

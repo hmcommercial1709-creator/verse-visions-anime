@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { listGames, gameSlug } from "@/lib/catalog/freetogame";
-import { countDbCatalogPages } from "@/lib/catalog/db-catalog";
+import { countDbCatalogPages, listAllCatalogSlugs } from "@/lib/catalog/db-catalog";
 import { urlsetXml, xmlResponse, type SitemapEntry } from "@/lib/sitemap";
 
 /**
@@ -46,18 +46,37 @@ export const Route = createFileRoute("/sitemap-catalog.xml")({
           entries.push({ path: `/anime?page=${page}`, changefreq: "weekly", priority: "0.5" });
         }
 
+        // Games come from BOTH sources, deduplicated.
+        //
+        // This used to list only what the FreeToGame API returned, which meant
+        // the Steam rows the nightly ingest writes to public.entities had
+        // working pages at /catalog/games/{slug} that no sitemap advertised —
+        // roughly 780 of them at the time this was found, growing every night.
+        // /catalog/games/$slug already serves from the database, so those
+        // pages were live and simply unreachable to a crawler.
+        const seen = new Set<string>();
+        const addGame = (slug: string) => {
+          if (!slug || seen.has(slug)) return;
+          seen.add(slug);
+          entries.push({ path: `/catalog/games/${slug}`, changefreq: "weekly", priority: "0.6" });
+        };
+
+        const dbGameSlugs = await listAllCatalogSlugs("game");
+        for (const slug of dbGameSlugs) addGame(slug);
+
         const games = await listGames();
         if (games.ok) {
-          for (const game of games.data) {
-            entries.push({
-              path: `/catalog/games/${gameSlug(game)}`,
-              changefreq: "weekly",
-              priority: "0.6",
-            });
-          }
-        } else {
+          for (const game of games.data) addGame(gameSlug(game));
+        } else if (!dbGameSlugs.length) {
+          // Only worth reporting when it leaves the sitemap with no games at
+          // all; otherwise the database already covered it.
           console.error(`Catalog sitemap: game list unavailable (${games.reason})`);
         }
+
+        // Manga is NOT listed here: sitemap-manga.xml already enumerates
+        // /catalog/manga/{slug}. Listing it in both would put one URL in two
+        // sitemaps, which splits its signals — the exact thing
+        // scripts/check-sitemap-xml.mjs fails the build over.
 
         return xmlResponse(urlsetXml(entries));
       },

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Check, Download, Link2, Loader2, Search, Sparkles, X } from "lucide-react";
+import { Check, Download, Loader2, Search, Sparkles, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { loadPicksBySlugs, searchCatalog, type CatalogPickRow } from "@/lib/catalog/db-catalog";
@@ -10,7 +10,8 @@ import {
   shareCaption,
   type CardPick,
 } from "@/lib/gamer-card";
-import { drawTasteCard, downloadCanvas } from "@/components/taste-card-canvas";
+import { drawTasteCard, downloadCanvas, canvasToFile } from "@/components/taste-card-canvas";
+import { ShareBar } from "@/components/share-bar";
 
 /**
  * The Taste Card builder.
@@ -27,6 +28,9 @@ import { drawTasteCard, downloadCanvas } from "@/components/taste-card-canvas";
  */
 
 const DEBOUNCE_MS = 280;
+
+/** Used only during the server render, where window.location does not exist. */
+const SHARE_FALLBACK_URL = "https://gamecastle.store/gamer-card";
 
 /**
  * A typed link to the catalog page for one pick.
@@ -79,8 +83,8 @@ export function TasteCardTool({
   const [searching, setSearching] = useState(false);
   const [searched, setSearched] = useState(false);
   const [restoring, setRestoring] = useState(initialSlugs.length > 0);
-  const [copied, setCopied] = useState(false);
   const [saveError, setSaveError] = useState(false);
+  const [cardFile, setCardFile] = useState<File | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Rehydrate a shared link once, on mount. initialSlugs is read from the URL
@@ -147,6 +151,15 @@ export function TasteCardTool({
       title: "My Anime & Gaming Taste Card",
     });
     setSaveError(false);
+    // Re-made on every redraw, so the sheet never shares a card for an
+    // earlier set of picks.
+    let stale = false;
+    canvasToFile(canvas, "gamecastle-taste-card.png").then((file) => {
+      if (!stale) setCardFile(file);
+    });
+    return () => {
+      stale = true;
+    };
   }, [cardPicks, lines, ready]);
 
   const addPick = useCallback((row: CatalogPickRow) => {
@@ -169,18 +182,6 @@ export function TasteCardTool({
     if (!canvas) return;
     const ok = downloadCanvas(canvas, "gamecastle-taste-card.png");
     setSaveError(!ok);
-  };
-
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Clipboard access is refused in some browsers and in every insecure
-      // context; the address bar already holds the link either way.
-      setCopied(false);
-    }
   };
 
   const chosen = new Set(picks.map((p) => p.slug));
@@ -281,10 +282,50 @@ export function TasteCardTool({
         </ul>
       ) : null}
 
+      {/*
+        Progress toward the card.
+
+        This was one sentence of text saying "2 more to go", easy to miss under
+        a search box someone is still typing into. A bar that fills answers "am
+        I nearly there?" at a glance, and it keeps counting past the minimum so
+        the reader can see that more picks are allowed rather than assuming
+        three is the cap.
+      */}
+      <div className="mt-5">
+        <div className="flex items-center justify-between text-xs font-medium">
+          <span className={ready ? "text-emerald-400" : "text-muted-foreground"}>
+            {ready
+              ? `Card unlocked — ${picks.length} of ${MAX_PICKS} picks`
+              : `${MIN_PICKS - picks.length} more ${
+                  MIN_PICKS - picks.length === 1 ? "pick" : "picks"
+                } to unlock your card`}
+          </span>
+          <span className="text-muted-foreground">
+            {picks.length}/{ready ? MAX_PICKS : MIN_PICKS}
+          </span>
+        </div>
+        <div
+          className="mt-2 h-2 w-full overflow-hidden rounded-full bg-secondary"
+          role="progressbar"
+          aria-valuenow={picks.length}
+          aria-valuemin={0}
+          aria-valuemax={ready ? MAX_PICKS : MIN_PICKS}
+          aria-label="Picks chosen"
+        >
+          <div
+            className={`h-full rounded-full transition-[width] duration-300 ${
+              ready ? "bg-emerald-500" : "bg-primary"
+            }`}
+            style={{
+              width: `${Math.min(100, (picks.length / (ready ? MAX_PICKS : MIN_PICKS)) * 100)}%`,
+            }}
+          />
+        </div>
+      </div>
+
       {!ready ? (
-        <p className="mt-5 text-sm text-muted-foreground">
-          {MIN_PICKS - picks.length} more to go. Below three picks there is nothing honest to say
-          about a pattern, so the card waits.
+        <p className="mt-3 text-sm text-muted-foreground">
+          Below three picks there is nothing honest to say about a pattern, so the card waits.
         </p>
       ) : (
         <div className="mt-6">
@@ -330,14 +371,6 @@ export function TasteCardTool({
               <Download className="h-4 w-4" aria-hidden="true" />
               Download the card (PNG)
             </button>
-            <button
-              type="button"
-              onClick={copyLink}
-              className="inline-flex items-center gap-2 rounded-xl border border-input px-5 py-3 text-sm font-semibold transition-colors hover:bg-accent"
-            >
-              <Link2 className="h-4 w-4" aria-hidden="true" />
-              {copied ? "Link copied" : "Copy share link"}
-            </button>
           </div>
 
           {saveError ? (
@@ -347,7 +380,16 @@ export function TasteCardTool({
             </p>
           ) : null}
 
-          <p className="mt-4 text-sm text-muted-foreground">{shareCaption(cardPicks)}</p>
+          {/* The full share row: six platforms, a copy button with a copied
+              tooltip, and — where the browser allows it — the card IMAGE
+              through the native sheet rather than just a link to it. */}
+          <div className="mt-5">
+            <ShareBar
+              url={typeof window === "undefined" ? SHARE_FALLBACK_URL : window.location.href}
+              text={shareCaption(cardPicks)}
+              file={cardFile}
+            />
+          </div>
         </div>
       )}
     </div>

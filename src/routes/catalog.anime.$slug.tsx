@@ -7,6 +7,8 @@ import {
 } from "@/lib/catalog/db-catalog";
 import { parseMeta, generatedFaq, type CatalogMeta } from "@/lib/catalog/catalog-facts";
 import { CatalogRewards } from "@/components/catalog-rewards";
+import { WatchlistButtons } from "@/components/watchlist-buttons";
+import { RelatedMerch } from "@/components/related-merch";
 import { CatalogSections } from "@/components/catalog-sections";
 import { CATALOG_HEADERS } from "@/lib/catalog/http";
 import { publishedAnime } from "@/lib/content-registry";
@@ -207,6 +209,7 @@ export const Route = createFileRoute("/catalog/anime/$slug")({
 
 function AnimeDetail() {
   const { anime, fromApi, meta, guideSlug, guideTitle } = Route.useLoaderData();
+  const params = Route.useParams();
   const title = displayTitle(anime);
   const image =
     anime.images.webp?.large_image_url ||
@@ -260,6 +263,11 @@ function AnimeDetail() {
               </span>
             )}
           </div>
+
+          {/* Straight under the rating, where someone deciding whether to watch
+              is already looking. Both buttons are local-storage only, so they
+              work on the first tap with no account in the way. */}
+          <WatchlistButtons slug={params.slug} title={title} />
 
           {anime.synopsis && (
             <p className="mt-5 leading-relaxed text-muted-foreground">{anime.synopsis}</p>
@@ -365,6 +373,11 @@ function AnimeDetail() {
           </>
         )}
       </p>
+
+      {/* Renders only when a product's own title carries this franchise's name.
+          On most pages that is nothing, which is the point — see
+          franchise-merch.ts. */}
+      <RelatedMerch titles={[title, anime.title, anime.title_english ?? ""]} />
     </div>
   );
 }

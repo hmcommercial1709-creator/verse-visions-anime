@@ -187,6 +187,16 @@ function GamerCardPage() {
               Recommendations
             </Link>
           </li>
+          <li>
+            <Link to="/character-quiz" className="text-neon hover:underline">
+              Which anime character are you?
+            </Link>
+          </li>
+          <li>
+            <Link to="/my-list" className="text-neon hover:underline">
+              Your watchlist
+            </Link>
+          </li>
         </ul>
       </section>
 

@@ -19,6 +19,7 @@ import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as BlackTigerHoneyRouteImport } from './routes/black-tiger-honey'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as CharacterQuizRouteImport } from './routes/character-quiz'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as ClassicRouteImport } from './routes/classic'
 import { Route as CompletedRouteImport } from './routes/completed'
@@ -40,6 +41,7 @@ import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MangaSpoilersRouteImport } from './routes/manga-spoilers'
 import { Route as MerchRouteImport } from './routes/merch'
+import { Route as MyListRouteImport } from './routes/my-list'
 import { Route as NewReleasesRouteImport } from './routes/new-releases'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as OpeningsRouteImport } from './routes/openings'
@@ -211,6 +213,11 @@ const BrowseRoute = BrowseRouteImport.update({
   path: '/browse',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CharacterQuizRoute = CharacterQuizRouteImport.update({
+  id: '/character-quiz',
+  path: '/character-quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CharactersRoute = CharactersRouteImport.update({
   id: '/characters',
   path: '/characters',
@@ -314,6 +321,11 @@ const MangaSpoilersRoute = MangaSpoilersRouteImport.update({
 const MerchRoute = MerchRouteImport.update({
   id: '/merch',
   path: '/merch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyListRoute = MyListRouteImport.update({
+  id: '/my-list',
+  path: '/my-list',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NewReleasesRoute = NewReleasesRouteImport.update({
@@ -946,6 +958,7 @@ export interface FileRoutesByFullPath {
   '/black-tiger-honey': typeof BlackTigerHoneyRoute
   '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
+  '/character-quiz': typeof CharacterQuizRoute
   '/characters': typeof CharactersRoute
   '/classic': typeof ClassicRoute
   '/completed': typeof CompletedRoute
@@ -967,6 +980,7 @@ export interface FileRoutesByFullPath {
   '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
+  '/my-list': typeof MyListRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
@@ -1098,6 +1112,7 @@ export interface FileRoutesByTo {
   '/black-tiger-honey': typeof BlackTigerHoneyRoute
   '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
+  '/character-quiz': typeof CharacterQuizRoute
   '/characters': typeof CharactersRoute
   '/classic': typeof ClassicRoute
   '/completed': typeof CompletedRoute
@@ -1118,6 +1133,7 @@ export interface FileRoutesByTo {
   '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
+  '/my-list': typeof MyListRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
@@ -1250,6 +1266,7 @@ export interface FileRoutesById {
   '/black-tiger-honey': typeof BlackTigerHoneyRoute
   '/blog': typeof BlogRoute
   '/browse': typeof BrowseRoute
+  '/character-quiz': typeof CharacterQuizRoute
   '/characters': typeof CharactersRoute
   '/classic': typeof ClassicRoute
   '/completed': typeof CompletedRoute
@@ -1271,6 +1288,7 @@ export interface FileRoutesById {
   '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
   '/merch': typeof MerchRoute
+  '/my-list': typeof MyListRoute
   '/new-releases': typeof NewReleasesRoute
   '/news': typeof NewsRoute
   '/openings': typeof OpeningsRoute
@@ -1405,6 +1423,7 @@ export interface FileRouteTypes {
     | '/black-tiger-honey'
     | '/blog'
     | '/browse'
+    | '/character-quiz'
     | '/characters'
     | '/classic'
     | '/completed'
@@ -1426,6 +1445,7 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/manga-spoilers'
     | '/merch'
+    | '/my-list'
     | '/new-releases'
     | '/news'
     | '/openings'
@@ -1557,6 +1577,7 @@ export interface FileRouteTypes {
     | '/black-tiger-honey'
     | '/blog'
     | '/browse'
+    | '/character-quiz'
     | '/characters'
     | '/classic'
     | '/completed'
@@ -1577,6 +1598,7 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/manga-spoilers'
     | '/merch'
+    | '/my-list'
     | '/new-releases'
     | '/news'
     | '/openings'
@@ -1708,6 +1730,7 @@ export interface FileRouteTypes {
     | '/black-tiger-honey'
     | '/blog'
     | '/browse'
+    | '/character-quiz'
     | '/characters'
     | '/classic'
     | '/completed'
@@ -1729,6 +1752,7 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/manga-spoilers'
     | '/merch'
+    | '/my-list'
     | '/new-releases'
     | '/news'
     | '/openings'
@@ -1862,6 +1886,7 @@ export interface RootRouteChildren {
   BlackTigerHoneyRoute: typeof BlackTigerHoneyRoute
   BlogRoute: typeof BlogRoute
   BrowseRoute: typeof BrowseRoute
+  CharacterQuizRoute: typeof CharacterQuizRoute
   CharactersRoute: typeof CharactersRoute
   ClassicRoute: typeof ClassicRoute
   CompletedRoute: typeof CompletedRoute
@@ -1883,6 +1908,7 @@ export interface RootRouteChildren {
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MangaSpoilersRoute: typeof MangaSpoilersRoute
   MerchRoute: typeof MerchRoute
+  MyListRoute: typeof MyListRoute
   NewReleasesRoute: typeof NewReleasesRoute
   NewsRoute: typeof NewsRoute
   OpeningsRoute: typeof OpeningsRoute
@@ -2058,6 +2084,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/character-quiz': {
+      id: '/character-quiz'
+      path: '/character-quiz'
+      fullPath: '/character-quiz'
+      preLoaderRoute: typeof CharacterQuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/characters': {
       id: '/characters'
       path: '/characters'
@@ -2203,6 +2236,13 @@ declare module '@tanstack/react-router' {
       path: '/merch'
       fullPath: '/merch'
       preLoaderRoute: typeof MerchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-list': {
+      id: '/my-list'
+      path: '/my-list'
+      fullPath: '/my-list'
+      preLoaderRoute: typeof MyListRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/new-releases': {
@@ -3132,6 +3172,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlackTigerHoneyRoute: BlackTigerHoneyRoute,
   BlogRoute: BlogRoute,
   BrowseRoute: BrowseRoute,
+  CharacterQuizRoute: CharacterQuizRoute,
   CharactersRoute: CharactersRoute,
   ClassicRoute: ClassicRoute,
   CompletedRoute: CompletedRoute,
@@ -3153,6 +3194,7 @@ const rootRouteChildren: RootRouteChildren = {
   LlmsDottxtRoute: LlmsDottxtRoute,
   MangaSpoilersRoute: MangaSpoilersRoute,
   MerchRoute: MerchRoute,
+  MyListRoute: MyListRoute,
   NewReleasesRoute: NewReleasesRoute,
   NewsRoute: NewsRoute,
   OpeningsRoute: OpeningsRoute,

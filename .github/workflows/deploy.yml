@@ -71,6 +71,16 @@ jobs:
       - name: Check the Taste Card and its ad-safety rule
         run: node scripts/check-taste-card.mjs
 
+      # Guards the engagement features. The load-bearing one is the quiz:
+      # it scores against the personality traits our editors wrote in
+      # characters.ts, so a trait invented for a nice-sounding answer would
+      # score against nothing and skew every result. Also checks related
+      # merchandise never borrows another franchise's products, the watchlist
+      # survives any value in localStorage, and shared list URLs stay out of
+      # the index.
+      - name: Check the engagement features and the quiz's data honesty
+        run: npx tsx scripts/check-engagement.mjs
+
       - name: Run Pinterest Auto Poster
         run: python scripts/pinterest-auto-poster.py
 

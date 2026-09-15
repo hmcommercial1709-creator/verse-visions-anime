@@ -56,7 +56,14 @@ export function comparisonWindows(days, from = new Date()) {
   return { currentStart, currentEnd, baselineStart, baselineEnd, days };
 }
 
-export { credentialsFromEnv } from "./private-key.mjs";
+// Imported AND re-exported, not `export ... from`. A bare re-export makes the
+// name available to importers of this module but does NOT bind it in this
+// module's own scope, so searchConsoleClient below called an undefined
+// identifier — which only shows up at runtime, and only on the one code path
+// that needs credentials.
+import { credentialsFromEnv } from "./private-key.mjs";
+
+export { credentialsFromEnv };
 
 export async function searchConsoleClient({ log = console.log } = {}) {
   const credentials = credentialsFromEnv();

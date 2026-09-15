@@ -80,20 +80,43 @@ function supabaseClient() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-/** Every page the site actually serves, from the sitemap — one source of truth. */
-async function loadSitePages() {
-  const { PARTITIONS, partitionEntries } = await import("../src/lib/sitemap.ts");
-  const pages = [];
-  for (const partition of PARTITIONS) {
-    for (const entry of partitionEntries(partition)) {
-      pages.push({
-        url: entry.path,
-        title: entry.path.split("/").filter(Boolean).slice(-1)[0]?.replace(/-/g, " ") ?? "",
-        partition,
-      });
+/**
+ * Every page the site actually serves, from the sitemap — one source of truth.
+ *
+ * src/lib/sitemap.ts is TypeScript and uses the "@/..." path alias, which only
+ * a bundler or tsx resolves. Run under plain node this threw
+ * ERR_MODULE_NOT_FOUND and took the whole plan down — after it had already
+ * read the signals, which is the expensive part. It passed locally only
+ * because I ran it with tsx, and CI runs `node`.
+ *
+ * So: tsx is now a declared dependency and the npm script uses it, AND this
+ * degrades rather than throwing. Losing the static page inventory makes the
+ * update-vs-create decision more conservative (fewer known pages to match
+ * against), never wrong — and a conservative plan beats no plan.
+ */
+async function loadSitePages({ log: logger = log } = {}) {
+  try {
+    const { PARTITIONS, partitionEntries } = await import("../src/lib/sitemap.ts");
+    const pages = [];
+    for (const partition of PARTITIONS) {
+      for (const entry of partitionEntries(partition)) {
+        pages.push({
+          url: entry.path,
+          title: entry.path.split("/").filter(Boolean).slice(-1)[0]?.replace(/-/g, " ") ?? "",
+          partition,
+        });
+      }
     }
+    return pages;
+  } catch (error) {
+    logger(
+      `  the static page inventory is unavailable (${error.code ?? error.message}).\n` +
+        `  Run this with tsx so the TypeScript path aliases resolve:\n` +
+        `    npm run plan:growth\n` +
+        `  Continuing on Search Console pages alone — decisions stay conservative.`,
+    );
+    return [];
   }
-  return pages;
 }
 
 async function loadTrendTerms(supabase, { log: logger = log } = {}) {

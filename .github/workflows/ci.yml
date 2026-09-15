@@ -68,6 +68,14 @@ jobs:
       - name: Check the engagement features and the quiz's data honesty
         run: npx tsx scripts/check-engagement.mjs
 
+      # Guards the Mission Loadout. The load-bearing rules: every mood's
+      # genres must exist in the anime data, every bundle slot must be
+      # genuinely related to what it sits beside or be honestly empty, poll
+      # shares must sum to 100 and never claim a scope they do not have, and
+      # sound must stay opt-in.
+      - name: Check the matchmaker's pairings and the poll's honesty
+        run: npx tsx scripts/check-matchmaker.mjs
+
       # Guards the rule that a trend score is measured, not assumed. Someone
       # "fixing" the nulls by defaulting a missing baseline to zero turns every
       # brand-new term into infinite growth; this fails the build instead.

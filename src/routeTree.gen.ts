@@ -40,6 +40,7 @@ import { Route as GenresRouteImport } from './routes/genres'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MangaSpoilersRouteImport } from './routes/manga-spoilers'
+import { Route as MatchmakerRouteImport } from './routes/matchmaker'
 import { Route as MerchRouteImport } from './routes/merch'
 import { Route as MyListRouteImport } from './routes/my-list'
 import { Route as NewReleasesRouteImport } from './routes/new-releases'
@@ -316,6 +317,11 @@ const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
 const MangaSpoilersRoute = MangaSpoilersRouteImport.update({
   id: '/manga-spoilers',
   path: '/manga-spoilers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatchmakerRoute = MatchmakerRouteImport.update({
+  id: '/matchmaker',
+  path: '/matchmaker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MerchRoute = MerchRouteImport.update({
@@ -979,6 +985,7 @@ export interface FileRoutesByFullPath {
   '/guides': typeof GuidesRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
+  '/matchmaker': typeof MatchmakerRoute
   '/merch': typeof MerchRoute
   '/my-list': typeof MyListRoute
   '/new-releases': typeof NewReleasesRoute
@@ -1132,6 +1139,7 @@ export interface FileRoutesByTo {
   '/guides': typeof GuidesRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
+  '/matchmaker': typeof MatchmakerRoute
   '/merch': typeof MerchRoute
   '/my-list': typeof MyListRoute
   '/new-releases': typeof NewReleasesRoute
@@ -1287,6 +1295,7 @@ export interface FileRoutesById {
   '/guides': typeof GuidesRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/manga-spoilers': typeof MangaSpoilersRoute
+  '/matchmaker': typeof MatchmakerRoute
   '/merch': typeof MerchRoute
   '/my-list': typeof MyListRoute
   '/new-releases': typeof NewReleasesRoute
@@ -1444,6 +1453,7 @@ export interface FileRouteTypes {
     | '/guides'
     | '/llms.txt'
     | '/manga-spoilers'
+    | '/matchmaker'
     | '/merch'
     | '/my-list'
     | '/new-releases'
@@ -1597,6 +1607,7 @@ export interface FileRouteTypes {
     | '/guides'
     | '/llms.txt'
     | '/manga-spoilers'
+    | '/matchmaker'
     | '/merch'
     | '/my-list'
     | '/new-releases'
@@ -1751,6 +1762,7 @@ export interface FileRouteTypes {
     | '/guides'
     | '/llms.txt'
     | '/manga-spoilers'
+    | '/matchmaker'
     | '/merch'
     | '/my-list'
     | '/new-releases'
@@ -1907,6 +1919,7 @@ export interface RootRouteChildren {
   GuidesRoute: typeof GuidesRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MangaSpoilersRoute: typeof MangaSpoilersRoute
+  MatchmakerRoute: typeof MatchmakerRoute
   MerchRoute: typeof MerchRoute
   MyListRoute: typeof MyListRoute
   NewReleasesRoute: typeof NewReleasesRoute
@@ -2229,6 +2242,13 @@ declare module '@tanstack/react-router' {
       path: '/manga-spoilers'
       fullPath: '/manga-spoilers'
       preLoaderRoute: typeof MangaSpoilersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/matchmaker': {
+      id: '/matchmaker'
+      path: '/matchmaker'
+      fullPath: '/matchmaker'
+      preLoaderRoute: typeof MatchmakerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/merch': {
@@ -3193,6 +3213,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesRoute: GuidesRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   MangaSpoilersRoute: MangaSpoilersRoute,
+  MatchmakerRoute: MatchmakerRoute,
   MerchRoute: MerchRoute,
   MyListRoute: MyListRoute,
   NewReleasesRoute: NewReleasesRoute,

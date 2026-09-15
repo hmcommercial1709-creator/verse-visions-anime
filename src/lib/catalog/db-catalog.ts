@@ -267,3 +267,34 @@ export async function loadPicksBySlugs(slugs: string[]): Promise<CatalogPickRow[
     .map((slug) => bySlug.get(slug))
     .filter((row): row is CatalogPickRow => Boolean(row));
 }
+
+/**
+ * Catalog rows whose `categories` overlap any of the given tags.
+ *
+ * Used by the Mission Loadout to find a game that genuinely shares a vibe's
+ * genre rather than any game at all. `overlaps` is a real array operation in
+ * PostgREST, so the filtering happens in the database instead of pulling the
+ * catalog down and discarding most of it in the browser.
+ *
+ * Returns [] on any failure, so a slot that cannot be filled stays visibly
+ * empty rather than throwing into a render.
+ */
+export async function searchCatalogByTags(
+  tags: string[],
+  { entityType, limit = 12 }: { entityType?: "anime" | "game" | "manga"; limit?: number } = {},
+): Promise<CatalogPickRow[]> {
+  const wanted = tags.filter((tag) => /^[A-Za-z0-9 &'-]{2,40}$/.test(tag));
+  if (!wanted.length) return [];
+
+  let query = supabase
+    .from("entities")
+    .select(PICK_COLUMNS)
+    .eq("status", "active")
+    .overlaps("categories", wanted)
+    .limit(limit);
+  if (entityType) query = query.eq("entity_type", entityType);
+
+  const { data, error } = await query;
+  if (error || !data) return [];
+  return data as unknown as CatalogPickRow[];
+}

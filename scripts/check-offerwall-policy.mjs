@@ -37,3 +37,19 @@ assert.match(tags, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js
 assert.doesNotMatch(tags, /monetag|propellerads/i);
 assert.match(readFileSync(new URL('../public/ads.txt', import.meta.url), 'utf8'), /google\.com, pub-6422431093727588, DIRECT/);
 console.log('Removed ad network stays disconnected; AdSense remains configured: passed.');
+// The tag list being correct is not the same as the tags loading. DeferredScripts
+// carried AdSense, GA4 and the Cloudflare beacon and was never mounted by any
+// route, so none of them ever ran: the <ins class="adsbygoogle"> slots that
+// ad-slot.tsx renders had no library to fill them, on every page, silently.
+assert.match(
+  root,
+  /import \{ DeferredScripts \} from "@\/components\/deferred-scripts"/,
+  'DeferredScripts must be imported by the root route',
+);
+assert.match(
+  root,
+  /<DeferredScripts \/>/,
+  'DeferredScripts must be RENDERED, not merely imported — otherwise AdSense never loads',
+);
+console.log('Third-party tags are actually mounted, not just declared: passed.');
+

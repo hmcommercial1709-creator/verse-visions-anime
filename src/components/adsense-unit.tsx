@@ -56,10 +56,32 @@ export function AdsenseUnit({
     let pushed = false;
     let frame = 0;
 
+    /**
+     * Only request an ad for a slot the reader is actually approaching.
+     *
+     * Every unit used to push on mount as soon as it had width, so a long
+     * article asked Google for every slot on it at once — five auctions, five
+     * iframes and five sets of creatives competing with the article itself for
+     * the main thread and the network, for slots three screens down that most
+     * readers never reach.
+     *
+     * This is not a trade of revenue for speed. Viewability rises when a slot
+     * is requested near the point it is seen, and AdSense pays more for
+     * viewable impressions — so the slower page was also the cheaper one.
+     *
+     * The 600px margin means the request goes out well before the slot
+     * arrives, so the ad is already there by the time it is scrolled to.
+     * Without IntersectionObserver the slot behaves exactly as before.
+     */
+    const AD_PREFETCH_MARGIN = "600px";
+    let nearViewport = typeof IntersectionObserver === "undefined";
+    let viewportObserver: IntersectionObserver | null = null;
+
     const pushWhenSized = () => {
       if (
         cancelled ||
         pushed ||
+        !nearViewport ||
         node.getAttribute("data-adsbygoogle-status") === "done"
       )
         return;
@@ -88,10 +110,22 @@ export function AdsenseUnit({
       frame = window.requestAnimationFrame(pushWhenSized);
     };
 
+    if (!nearViewport) {
+      viewportObserver = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          nearViewport = true;
+          viewportObserver?.disconnect();
+          viewportObserver = null;
+          schedulePush();
+        },
+        { rootMargin: AD_PREFETCH_MARGIN },
+      );
+      viewportObserver.observe(wrapper);
+    }
+
     const resizeObserver =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(schedulePush)
-        : null;
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(schedulePush) : null;
     resizeObserver?.observe(wrapper);
     window.addEventListener("resize", schedulePush, { passive: true });
     schedulePush();
@@ -117,6 +151,7 @@ export function AdsenseUnit({
       resizeObserver?.disconnect();
       window.removeEventListener("resize", schedulePush);
       observer?.disconnect();
+      viewportObserver?.disconnect();
     };
   }, [id, slot, pathname]);
 

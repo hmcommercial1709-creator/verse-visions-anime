@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { DeferredScripts } from "@/components/deferred-scripts";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
@@ -21,8 +22,7 @@ import { siteKnowledgeGraph } from "@/lib/seo";
 const SITE_URL = "https://gamecastle.store";
 const SITE_NAME = "GameCastle Anime";
 
-const SITE_TITLE =
-  "GameCastle Anime | Anime Guides, Characters & Watch Orders";
+const SITE_TITLE = "GameCastle Anime | Anime Guides, Characters & Watch Orders";
 
 const SITE_DESCRIPTION =
   "GameCastle Anime is a global English-language anime and entertainment guide covering anime stories, characters, episodes, watch orders, reviews, guides and more.";
@@ -33,9 +33,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
 
-        <h2 className="mt-4 text-xl font-semibold text-foreground">
-          Page not found
-        </h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
 
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
@@ -70,8 +68,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
         </h1>
 
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back
-          home.
+          Something went wrong on our end. You can try refreshing or head back home.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -111,8 +108,7 @@ export const Route = createRootRoute({
 
       {
         name: "robots",
-        content:
-          "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+        content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
       },
 
       {
@@ -291,11 +287,7 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 
   return (
-    <html
-      lang={locale.hrefLang}
-      dir={locale.dir}
-      className="dark"
-    >
+    <html lang={locale.hrefLang} dir={locale.dir} className="dark">
       <head>
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-RLW5JD3SM1" />
@@ -314,9 +306,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
 
       <body>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 
         <Scripts />
       </body>
@@ -329,6 +319,20 @@ function RootComponent() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/*
+        AdSense, GA4 and the Cloudflare beacon all load from here.
+
+        DeferredScripts was written, reviewed and then never mounted — the
+        component existed, its tag list was correct, and no route rendered it.
+        So the AdSense library never loaded on any page, and every
+        <ins class="adsbygoogle"> that ad-slot.tsx renders had nothing to fill
+        it. adsense-unit.tsx even documents the assumption it was relying on:
+        "script is loaded globally from the root <head>".
+
+        Mounting it in RootComponent puts it on every route, once.
+      */}
+      <DeferredScripts />
+
       <LocaleRedirectGuard />
 
       <div className="sticky top-0 z-50">

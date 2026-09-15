@@ -36,13 +36,17 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
+import os  # noqa: E402  (API below reads the environment at import time)
 import sys
 import time
 import urllib.error
 import urllib.request
 
-API = "https://api.pinterest.com/v5"
+# Pinterest runs a separate sandbox whose tokens are NOT valid against
+# production, and a sandbox token used here comes back as "InactiveConsumer"
+# — indistinguishable from an unapproved app unless you know to look. Making
+# the host a variable means testing that theory is one secret, not a patch.
+API = os.environ.get("PINTEREST_API_BASE", "").strip() or "https://api.pinterest.com/v5"
 QUEUE_FILE = "pinterest-queue.json"
 TIMEOUT = 30
 
@@ -53,6 +57,56 @@ DELAY_BETWEEN_PINS = 1.0
 
 class PinterestError(RuntimeError):
     """An API call that came back non-2xx, carrying the body Pinterest sent."""
+
+
+# Pinterest's own error codes, mapped to the thing that actually fixes them.
+# The generic "check your token, board id and account" list is useless once
+# the body has already told you which of the three it is.
+PINTEREST_DIAGNOSES = (
+    (
+        "inactiveconsumer",
+        "The TOKEN is fine; the APP that issued it is not active for production.\n"
+        "  Fix one of these, in order of likelihood:\n"
+        "   1. The app is still on Trial access. Open developers.pinterest.com ->\n"
+        "      your app -> and request/enable Standard access, or confirm trial\n"
+        "      access is actually switched on for the account that owns the board.\n"
+        "   2. The token came from the SANDBOX. Sandbox tokens are rejected by\n"
+        "      api.pinterest.com. Either generate a production token, or set the\n"
+        "      secret PINTEREST_API_BASE to https://api-sandbox.pinterest.com/v5\n"
+        "      to talk to the sandbox instead.\n"
+        "   3. The app was disabled or its review was rejected. The app page will\n"
+        "      say so.",
+    ),
+    (
+        "scope",
+        "The token is missing a scope. This script needs boards:read and\n"
+        "  pins:write. Scopes are fixed at the moment a token is generated, so\n"
+        "  adding them to the app is not enough — generate a NEW token after\n"
+        "  the scopes are set.",
+    ),
+    (
+        "not found",
+        "The board id does not exist for this account. List the boards this\n"
+        "  token can see with:\n"
+        "    curl -s -H \"Authorization: Bearer $PINTEREST_ACCESS_TOKEN\" \\\n"
+        "      https://api.pinterest.com/v5/boards\n"
+        "  and copy the `id` of the board you want.",
+    ),
+)
+
+
+def diagnose(error: Exception) -> str | None:
+    """Turns a Pinterest error body into the one step that fixes it.
+
+    Matched against the message Pinterest sends, not the HTTP status: 401 is
+    returned for an inactive app, a missing scope and a revoked token alike,
+    so the status on its own cannot tell them apart. The body can.
+    """
+    text = str(error).lower()
+    for needle, advice in PINTEREST_DIAGNOSES:
+        if needle in text:
+            return advice
+    return None
 
 
 def log(message: str) -> None:
@@ -198,10 +252,15 @@ def main() -> int:
         log(f"[pinterest] Board OK: {board.get('name', board_id)}")
     except PinterestError as error:
         log(f"[pinterest] FAILED — cannot read the board.\n  {error}")
-        log(
-            "[pinterest] Usual causes: the token lacks boards:read, the board id is wrong,\n"
-            "            or the token belongs to a different Pinterest account."
-        )
+        advice = diagnose(error)
+        if advice:
+            log(f"[pinterest] What this means:\n  {advice}")
+        else:
+            log(
+                "[pinterest] Check that the token carries boards:read, that the board id\n"
+                "            belongs to this account, and that the token has not been revoked."
+            )
+        log(f"[pinterest] API base in use: {API}")
         return 1
 
     try:
@@ -228,6 +287,9 @@ def main() -> int:
         except PinterestError as error:
             failed += 1
             log(f"[pinterest] FAILED to pin {row['url']}\n  {error}")
+            advice = diagnose(error)
+            if advice:
+                log(f"[pinterest] What this means:\n  {advice}")
         time.sleep(DELAY_BETWEEN_PINS)
 
     log(f"[pinterest] done — {created} created, {failed} failed")

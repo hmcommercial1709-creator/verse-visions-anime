@@ -63,6 +63,11 @@ jobs:
         env:
           PINTEREST_ACCESS_TOKEN: ${{ secrets.PINTEREST_ACCESS_TOKEN }}
           PINTEREST_BOARD_ID: ${{ secrets.PINTEREST_BOARD_ID }}
+          # Optional. Unset means production. Set it to
+          # https://api-sandbox.pinterest.com/v5 to use a sandbox token — those
+          # are rejected by production with "InactiveConsumer", which reads
+          # exactly like an unapproved app unless you know to check.
+          PINTEREST_API_BASE: ${{ secrets.PINTEREST_API_BASE }}
         run: |
           python scripts/pinterest-auto-poster.py \
             ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run) && '--dry-run' || '' }} \

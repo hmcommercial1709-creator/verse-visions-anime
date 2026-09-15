@@ -9,6 +9,27 @@ type Tag = {
   attrs?: Record<string, string>;
 };
 
+/**
+ * AdSense, loaded as soon as the app mounts rather than on the idle/interaction
+ * path below.
+ *
+ * The script is `async`, so it never blocks HTML parsing or the first paint
+ * wherever it sits — the thing that actually costs Core Web Vitals is the ad
+ * IFRAMES, and those are controlled separately by only requesting a unit when
+ * it is near the viewport (see adsense-unit.tsx).
+ *
+ * Waiting was the expensive choice, not the safe one. On the old path the
+ * library arrived on first interaction, on idle, or after fifteen seconds —
+ * so a reader who landed, read, and left inside that window was served no ad
+ * at all, which is most of a search-traffic audience.
+ */
+const ADSENSE_TAG: Tag = {
+  id: "adsense-lib",
+  src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
+  crossOrigin: "anonymous",
+};
+
+/** Measurement, which nothing on the page is waiting for. Still deferred. */
 const THIRD_PARTY_TAGS: Tag[] = [
   { id: "ga4-lib", src: "https://www.googletagmanager.com/gtag/js?id=G-LETSF76JTN" },
   {
@@ -24,11 +45,6 @@ const THIRD_PARTY_TAGS: Tag[] = [
     type: "module",
     src: "https://static.cloudflareinsights.com/beacon.min.js",
     attrs: { "data-cf-beacon": '{"token": "c56a7a14c83d442c9d5e830751558e64"}' },
-  },
-  {
-    id: "adsense-lib",
-    src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6422431093727588",
-    crossOrigin: "anonymous",
   },
 ];
 
@@ -57,12 +73,18 @@ function inject(tags: Tag[]) {
  */
 export function DeferredScripts() {
   useEffect(() => {
+    // Ads first and immediately: an impression missed in the first seconds is
+    // simply lost, whereas analytics arriving a moment later costs nothing.
+    inject([ADSENSE_TAG]);
+
     let disposed = false;
     let loaded = false;
 
-    const idle = (window as unknown as {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-    }).requestIdleCallback;
+    const idle = (
+      window as unknown as {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      }
+    ).requestIdleCallback;
 
     const load = () => {
       if (disposed || loaded) return;
@@ -83,7 +105,9 @@ export function DeferredScripts() {
     // keeps the interaction itself responsive while preserving ad impressions.
     const engage = () => onIdle(800);
     const events: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "wheel", "touchstart"];
-    events.forEach((event) => window.addEventListener(event, engage, { once: true, passive: true }));
+    events.forEach((event) =>
+      window.addEventListener(event, engage, { once: true, passive: true }),
+    );
 
     return () => {
       disposed = true;

@@ -1,21 +1,13 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import type {} from "@tanstack/react-start";
+import { goneResponse } from "@/lib/gone";
 
 /**
- * Permanent redirect to /codes, the canonical listing.
+ * Gone: this redirected to /codes, which is itself gone.
  *
- * This route only ever served the "en" locale — it threw notFound for anything
- * else — so the /$locale prefix bought nothing while splitting the listing
- * away from the /codes/<slug> pages it links to. Redirecting rather than
- * deleting keeps any existing link or bookmark working and tells Google which
- * URL supersedes this one.
+ * See src/lib/gone.ts for why this is a 410 rather than a 404, a noindex or
+ * a redirect.
  */
 export const Route = createFileRoute("/$locale/codes/")({
-  beforeLoad: ({ search }) => {
-    const page = (search as { page?: number }).page;
-    throw redirect({
-      to: "/codes",
-      search: page && page > 1 ? { page } : {},
-      statusCode: 301,
-    });
-  },
+  server: { handlers: { GET: async () => goneResponse() } },
 });

@@ -3,35 +3,18 @@ import type {} from "@tanstack/react-start";
 import { Sparkles, Gamepad2, BookOpen, ArrowRight } from "lucide-react";
 import { publishedAnime } from "@/lib/content-registry";
 import { publishedArticleList } from "@/data/articles";
-import { supabase } from "@/integrations/supabase/client";
 import { canonicalMeta, websiteSchema, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 import { MysteryVault } from "@/components/mystery-vault/MysteryVault";
 
 const ANIME_PREVIEW_LIMIT = 6;
-const GAMES_PREVIEW_LIMIT = 6;
 const STORIES_PREVIEW_LIMIT = 6;
 
-type GamePreview = { slug: string; title: string };
-
 export const Route = createFileRoute("/")({
-  loader: async (): Promise<{ games: GamePreview[] }> => {
-    try {
-      const { data } = await supabase
-        .from("game_nexus_matrix")
-        .select("slug, title")
-        .order("updated_at", { ascending: false })
-        .range(0, GAMES_PREVIEW_LIMIT - 1);
-      return { games: data ?? [] };
-    } catch (error) {
-      console.error("Homepage games preview error:", error);
-      return { games: [] };
-    }
-  },
   head: () => {
     const { link, meta: canonicalOg } = canonicalMeta("/");
     return {
       meta: [
-        { title: `${SITE_NAME} — Anime Guides, Game Codes & Stories` },
+        { title: `${SITE_NAME} — Anime Guides, Characters & Watch Orders` },
         { name: "description", content: SITE_DESCRIPTION },
         { property: "og:title", content: SITE_NAME },
         { property: "og:description", content: SITE_DESCRIPTION },
@@ -96,7 +79,6 @@ const CATALOG_LINKS = [
 ];
 
 function HomePage() {
-  const { games } = Route.useLoaderData();
   const anime = publishedAnime().slice(0, ANIME_PREVIEW_LIMIT);
   const stories = publishedArticleList().slice(0, STORIES_PREVIEW_LIMIT);
 
@@ -186,31 +168,9 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Games preview */}
-        {games.length > 0 && (
-          <section className="mt-16">
-            <div className="flex items-center justify-between">
-              <h2 className="font-display text-2xl font-bold">Latest Game Codes</h2>
-              <Link to="/codes" className="text-sm font-semibold text-primary hover:underline">
-                View all codes →
-              </Link>
-            </div>
-            <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-              {games.map((g) => (
-                <Link
-                  key={g.slug}
-                  to="/$locale/codes/$slug"
-                  params={{ locale: "en", slug: g.slug }}
-                  className="group rounded-xl border border-border/60 bg-card/40 p-4 card-hover"
-                >
-                  <div className="font-semibold leading-snug line-clamp-2 group-hover:text-primary">
-                    {g.title}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
+        {/* A "Latest Game Codes" rail stood here, listing six rows straight
+            from game_nexus_matrix — the fabricated table. It is gone with the
+            pages it linked to. */}
 
         {/* Stories preview */}
         <section className="mt-16">

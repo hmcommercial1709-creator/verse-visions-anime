@@ -28,16 +28,9 @@ import {
   sitemapIndexXml,
   BASE_URL,
   AR_ENTRIES,
-  CODE_SITEMAP_PARTITIONS,
 } from "../src/lib/sitemap.ts";
 import { INDEXABLE_LOCALES } from "../src/lib/i18n.ts";
-import { CODE_SITEMAP_MAX_URLS, CODE_PARTITION_SIZE } from "../src/lib/entity-catalog.server.ts";
-import {
-  qualifiesForCodeSitemap,
-  codeSitemapExclusions,
-  MIN_REVIEW_CHARS,
-  MIN_REVIEWS,
-} from "../src/lib/code-quality-gate.ts";
+import { readFileSync } from "node:fs";
 
 let failures = 0;
 const fail = (message) => {
@@ -151,7 +144,7 @@ if (unservable.length) {
 console.log("");
 
 console.log("Sitemap index");
-const indexXml = sitemapIndexXml(2, true, true);
+const indexXml = sitemapIndexXml(true, true);
 checkWellFormed("/sitemap.xml", indexXml);
 if (!indexXml.includes("<sitemapindex")) fail("/sitemap.xml: not a sitemapindex");
 
@@ -213,79 +206,58 @@ for (const [path, xml] of files) {
 if (!danglingAlternates) ok("every alternate resolves to a URL the sitemaps contain");
 else fail(`${danglingAlternates} dangling alternate(s) in total`);
 
-console.log("\nThe code-page gate keeps thin pages out of the sitemap");
+console.log("\nThe fabricated tiers stay gone");
 {
-  const row = (over) => ({
-    slug: "s",
-    title: "T",
-    sample_review: null,
-    reviews_count: null,
-    aggregate_rating: null,
-    ...over,
-  });
-  const expect = (label, candidate, want) => {
-    const got = qualifiesForCodeSitemap(candidate);
-    if (got === want) ok(label);
-    else
-      fail(`${label} — got ${got}, want ${want}: ${codeSitemapExclusions(candidate).join("; ")}`);
-  };
-  // The case that caused this: a title and a market and nothing else, fifty
-  // thousand times over, against 137 pages indexed.
-  expect("a title-and-market row is held back", row({}), false);
-  expect("a real review qualifies", row({ sample_review: "x".repeat(MIN_REVIEW_CHARS) }), true);
-  expect("a stub review does not", row({ sample_review: "x".repeat(MIN_REVIEW_CHARS - 1) }), false);
-  expect(
-    "enough real ratings qualify",
-    row({ reviews_count: MIN_REVIEWS, aggregate_rating: "4.2" }),
-    true,
-  );
-  expect("a zero score does not", row({ reviews_count: 99, aggregate_rating: "0" }), false);
-  expect("one rating is not an audience", row({ reviews_count: 1, aggregate_rating: "5" }), false);
-  expect(
-    "a row with no slug is never advertised",
-    row({ slug: null, sample_review: "x".repeat(200) }),
-    false,
-  );
-  const reasons = codeSitemapExclusions(row({}));
-  if (reasons.some((r) => r.includes("nothing beyond the listing")))
-    ok("a held-back row explains why");
-  else fail("a held-back row gives no reason");
-}
+  // What stood here: a quality gate that scored rows from game_nexus_matrix,
+  // and a 5,000-URL ceiling on how many of them the sitemap could advertise.
+  // Both were treating a symptom. The rows were manufactured by
+  // scripts/master-neural-core.mjs on every deploy — invented ratings,
+  // invented review counts, and four hardcoded review sentences spread over
+  // 50,000 pages — so no threshold could separate a good one from a bad one.
+  // The pages answer 410 now, and these checks guard the removal instead.
+  const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 
-console.log("\nThe codes tier can never dominate the sitemap again");
-{
-  // The quality gate removes empty rows; this is the structural guarantee that
-  // does not depend on what the database happens to contain. 25,000 code URLs
-  // against 658 catalog URLs is what got 137 pages indexed out of 25,757.
-  const advertised = (rowsInDb) => {
-    const partitions = Math.min(
-      Math.ceil(Math.min(rowsInDb, CODE_SITEMAP_MAX_URLS) / CODE_PARTITION_SIZE),
-      CODE_SITEMAP_PARTITIONS,
-    );
-    let total = 0;
-    for (let p = 1; p <= partitions; p += 1) {
-      const first = (p - 1) * CODE_PARTITION_SIZE;
-      if (first >= CODE_SITEMAP_MAX_URLS) continue;
-      total += Math.min(first + CODE_PARTITION_SIZE - 1, CODE_SITEMAP_MAX_URLS - 1) - first + 1;
-    }
-    return total;
-  };
-  for (const rows of [5000, 25000, 50000, 500000]) {
-    const got = advertised(rows);
-    if (got <= CODE_SITEMAP_MAX_URLS)
-      ok(`${rows.toLocaleString()} rows in the table → ${got.toLocaleString()} advertised`);
-    else
-      fail(
-        `${rows.toLocaleString()} rows → ${got.toLocaleString()} advertised, over the ${CODE_SITEMAP_MAX_URLS} ceiling`,
-      );
+  const indexLocs = [...indexXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  const codeChildren = indexLocs.filter((loc) => /sitemap-codes/.test(loc));
+  if (!codeChildren.length) ok("the index advertises no codes sitemap");
+  else fail(`the index still lists ${codeChildren.join(", ")}`);
+
+  const codeUrls = indexLocs.filter((loc) => /\/codes(\/|$)/.test(loc));
+  if (!codeUrls.length) ok("no /codes URL appears anywhere in the index");
+  else fail(`${codeUrls.length} /codes URL(s) are still advertised`);
+
+  for (const partition of PARTITIONS) {
+    const bad = partitionEntries(partition).filter((e) => /^\/codes(\/|$)/.test(e.path));
+    if (bad.length) fail(`${partition} still carries ${bad.length} /codes entr(ies)`);
   }
-  if (advertised(0) === 0) ok("an empty table advertises nothing");
-  else fail("an empty table still advertises URLs");
-  // The ceiling only means something if it stays below the catalog it competes
-  // with: public.entities held 7,263 active rows when this was written.
-  if (CODE_SITEMAP_MAX_URLS < 7263) ok("the ceiling keeps codes a minority of what is submitted");
-  else
-    fail(`the ceiling (${CODE_SITEMAP_MAX_URLS}) is no longer below the catalog it competes with`);
+  ok("no static partition carries a /codes entry");
+
+  // The generators are what refilled the tables on every deploy. A commented
+  // -out workflow step is one edit from running again, so their absence is
+  // asserted rather than assumed.
+  const deploy = read("../.github/workflows/deploy.yml");
+  // Matching the `run:` line, not the file name: the comment that replaced
+  // these steps names them on purpose, so that whoever reads it knows what
+  // was removed and why.
+  const revived = ["master-neural-core", "master-anime-core", "generate-games"].filter((script) =>
+    new RegExp(`run:\\s*node\\s+scripts/${script}`).test(deploy),
+  );
+  if (revived.length) fail(`deploy.yml runs ${revived.join(", ")} again`);
+  else ok("no deploy step regenerates the fabricated tables");
+
+  // And the routes that served those pages must answer 410, not render.
+  for (const route of [
+    "../src/routes/codes.$slug.tsx",
+    "../src/routes/codes.index.tsx",
+    "../src/routes/$locale.anime.$slug.tsx",
+    "../src/routes/sitemap-codes-1[.]xml.ts",
+    "../src/routes/sitemap-codes-2[.]xml.ts",
+  ]) {
+    const src = read(route);
+    if (!src.includes("goneResponse")) fail(`${route} no longer answers 410`);
+  }
+  if (!read("../src/lib/gone.ts").includes("status: 410")) fail("gone.ts does not return 410");
+  else ok("every removed URL answers 410, not 404");
 }
 
 console.log(failures ? `\n${failures} sitemap problem(s).\n` : "\nAll sitemap checks passed.\n");

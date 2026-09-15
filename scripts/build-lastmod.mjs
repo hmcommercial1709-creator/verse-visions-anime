@@ -62,7 +62,6 @@ const GROUPS = {
     "src/routes/studio.$slug.tsx",
   ],
   ar: ["src/data/ar-guides.ts"],
-  codes: ["src/routes/$locale.codes.$slug.tsx", "src/routes/codes.$slug.tsx"],
   catalog: [
     "scripts/ingest-anilist.mjs",
     "scripts/ingest-steam.mjs",

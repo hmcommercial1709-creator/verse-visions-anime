@@ -1,12 +1,6 @@
 import assert from "node:assert/strict";
 
 const origin = process.env.SITE_ORIGIN || "https://gamecastle.store";
-// A floor, not a target: this exists to catch the catalog silently emptying —
-// a broken RLS grant, a failed read, a truncated table — not to assert a size.
-// It was set to 80,000 when game_nexus_matrix holds 50,000 (25,000 in each of
-// the two codes sitemaps), so it could never pass and would have failed the
-// moment the checks ahead of it stopped failing first.
-const minimumProgrammaticRecords = Number(process.env.MIN_PROGRAMMATIC_RECORDS || 10000);
 
 async function read(path, contentType) {
   const response = await fetch(`${origin}${path}`, { signal: AbortSignal.timeout(30000) });
@@ -61,14 +55,17 @@ assert.equal(aiIndex.schema_version, "1.0");
 assert.equal(aiIndex.publisher.url, origin);
 assert.ok(Array.isArray(aiIndex.entities.anime));
 assert.ok(Array.isArray(aiIndex.entities.articles));
-assert.ok(Array.isArray(aiIndex.entities.code_catalog));
-assert.ok(
-  aiIndex.pagination.code_catalog_total >= minimumProgrammaticRecords,
-  `Expected at least ${minimumProgrammaticRecords} programmatic records, found ${aiIndex.pagination.code_catalog_total}`,
-);
-assert.ok(aiIndex.pagination.code_catalog_total >= aiIndex.entities.code_catalog.length);
-assert.match(aiIndex.pagination.page_url_template, /\/codes\?page=\{page\}/);
+// These three assertions were the exact inverse: they REQUIRED /ai-index.json
+// to publish a code catalog and to advertise a paginated walk through at
+// least 10,000 of its entries. Every one of those entries was manufactured by
+// scripts/master-neural-core.mjs — invented ratings, invented review counts,
+// four review sentences shared across 50,000 pages — so the check was
+// enforcing the site's biggest indexing problem as a requirement.
+assert.equal(aiIndex.entities.code_catalog, undefined, "must not list fabricated entities");
+assert.equal(aiIndex.indexes.code_catalog, undefined, "must not link a code catalog");
+assert.equal(aiIndex.pagination, undefined, "must not advertise a paginated code catalog");
 
 console.log(
-  `Verified AI manifests at ${origin}: ${aiIndex.entities.code_catalog.length} quality-gated catalog entities.`,
+  `Verified AI manifests at ${origin}: ${aiIndex.entities.anime.length} anime, ` +
+    `${aiIndex.entities.articles.length} articles, no fabricated entities.`,
 );

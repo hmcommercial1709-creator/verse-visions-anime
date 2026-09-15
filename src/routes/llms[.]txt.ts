@@ -5,7 +5,6 @@ import { articles } from "@/data/articles";
 import { characters } from "@/data/characters";
 import { studios } from "@/data/studios";
 import { genres } from "@/data/genres";
-import { loadEntityPageFromDb } from "@/lib/entity-catalog.server";
 import { SITE_URL } from "@/lib/seo";
 
 /** Machine-readable site guide for AI assistants and LLM crawlers. */
@@ -13,8 +12,6 @@ export const Route = createFileRoute("/llms.txt")({
   server: {
     handlers: {
       GET: async () => {
-        const catalogPage = await loadEntityPageFromDb("code", 1, 100);
-        const catalog = catalogPage.entities;
         const list = (items: { path: string; title: string; note?: string }[]) =>
           items
             .map((i) => `- [${i.title}](${SITE_URL}${i.path})${i.note ? `: ${i.note}` : ""}`)
@@ -31,7 +28,11 @@ export const Route = createFileRoute("/llms.txt")({
           "",
           list([
             { path: "/", title: "Home", note: "trending anime, latest episodes and editorial" },
-            { path: "/browse", title: "Browse anime", note: "full library with genre, year and studio filters" },
+            {
+              path: "/browse",
+              title: "Browse anime",
+              note: "full library with genre, year and studio filters",
+            },
             { path: "/explore", title: "Explore", note: "advanced multi-filter discovery engine" },
             { path: "/editorial", title: "Editorial", note: "essays and analysis" },
             { path: "/guides", title: "Guides", note: "watch orders and beginner routes" },
@@ -67,7 +68,9 @@ export const Route = createFileRoute("/llms.txt")({
           "",
           "## Characters",
           "",
-          list(characters.map((c) => ({ path: `/character/${c.slug}`, title: c.name, note: c.role }))),
+          list(
+            characters.map((c) => ({ path: `/character/${c.slug}`, title: c.name, note: c.role })),
+          ),
           "",
           "## Studios",
           "",
@@ -80,23 +83,20 @@ export const Route = createFileRoute("/llms.txt")({
           "## Optional",
           "",
           list([
-            { path: "/ai-index.json", title: "AI index", note: "machine-readable entity and catalog metadata" },
+            {
+              path: "/ai-index.json",
+              title: "AI index",
+              note: "machine-readable entity and catalog metadata",
+            },
             { path: "/sitemap.xml", title: "Sitemap index" },
             { path: "/rss.xml", title: "RSS feed" },
             { path: "/privacy-policy", title: "Privacy policy" },
             { path: "/terms-of-service", title: "Terms of service" },
           ]),
           "",
-          "## Verified code catalog",
-          "",
-          `The verified code catalog contains ${catalogPage.total.toLocaleString()} published entries. The first ${catalogPage.pageSize} are listed below; continue through ${SITE_URL}/en/codes?page={page} for the complete paginated index.`,
-          "",
-          list(catalog.map((entity) => ({
-            path: `/en/codes/${entity.slug}`,
-            title: entity.name,
-            note: `${entity.target_market} · ${entity.target_language}${entity.sample_review ? " · reviewed" : ""}`,
-          }))),
-          "",
+          // A "Verified code catalog" section listed 100 fabricated entries
+          // here and told LLM crawlers to page through 50,000 more. Nothing
+          // about them was verified; the pages now answer 410.
         ].join("\n");
 
         return new Response(body, {

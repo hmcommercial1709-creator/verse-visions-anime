@@ -29,20 +29,25 @@ jobs:
           npm install --no-audit --no-fund
           pip install requests
 
-      - name: Install Supabase client dependency
-        run: npm install @supabase/supabase-js
-
-      - name: Run Master Neural Core Automation
-        run: node scripts/master-neural-core.mjs
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-
-      - name: Run Master Anime Core Automation
-        run: node scripts/master-anime-core.mjs
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      # Two steps stood here and they were the site's biggest indexing problem.
+      #
+      # master-neural-core.mjs wrote 50,000 rows to game_nexus_matrix and
+      # master-anime-core.mjs wrote 31,250 to anime_nexus_matrix, on EVERY
+      # deploy. Nothing about those rows was real: the slug was
+      # `omni-us-supreme-node-<n>`, the title was "GameCastle Absolute
+      # Universal Nexus Node #<n>", aggregate_rating was `4.8 + (id % 3) *
+      # 0.05`, reviews_count was `5000 + (id * 37) % 150000`, and the review
+      # text cycled through four hardcoded sentences — so one sentence
+      # appeared, word for word, on 12,500 pages.
+      #
+      # Each row became a URL of about forty words, half of them fabricated.
+      # That is scaled content abuse under Google's spam policies, and the
+      # symptom is precisely what Search Console reported for a month:
+      # 81,250 URLs sitting in "Discovered - currently not indexed" while the
+      # 1,039 real pages waited behind them for crawl budget.
+      #
+      # Removed rather than disabled. A commented-out step is one edit away
+      # from running again, and this one cost weeks.
 
       - name: Build project
         run: npm run build

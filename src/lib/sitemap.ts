@@ -46,9 +46,6 @@ export function xmlEscape(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
-/** How many codes sitemap routes exist (sitemap-codes-1.xml, -2.xml). */
-export const CODE_SITEMAP_PARTITIONS = 2;
-
 export type ChangeFreq = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 
 export interface SitemapEntry {
@@ -294,12 +291,10 @@ export function partitionSitemapPath(
 /**
  * Builds the index.
  *
- * `codePartitions` is how many codes sitemaps actually hold rows. Both were
- * listed unconditionally before, so whenever the table held fewer rows than a
- * partition covers, the index advertised an empty <urlset> — and Google
- * reports an empty sitemap as an error with 0 discovered URLs, which is a
- * self-inflicted indexing failure that looks exactly like a broken sitemap.
- * Pass 0 to list none.
+ * Every child listed here must answer with a non-empty <urlset>. Google
+ * reports an empty sitemap as an error with 0 discovered URLs against the
+ * whole index, so `hasMatrix` and `hasManga` gate their children on the table
+ * actually holding rows rather than on the pipeline being expected to run.
  */
 /**
  * Maps a child sitemap path back to the partition whose git date describes it.
@@ -316,16 +311,10 @@ function lastmodForChild(path: string): string | undefined {
 
   const flat = path.match(/^\/sitemap-([a-z0-9-]+)\.xml$/i);
   if (!flat) return NEWEST_LASTMOD;
-  // sitemap-codes-1.xml and sitemap-codes-2.xml are both the codes partition.
-  const partition = flat[1].replace(/-\d+$/, "");
-  return PARTITION_LASTMOD[partition] ?? NEWEST_LASTMOD;
+  return PARTITION_LASTMOD[flat[1]] ?? NEWEST_LASTMOD;
 }
 
-export function sitemapIndexXml(
-  codePartitions = CODE_SITEMAP_PARTITIONS,
-  hasMatrix = false,
-  hasManga = false,
-): string {
+export function sitemapIndexXml(hasMatrix = false, hasManga = false): string {
   const children = [
     ...INDEXABLE_LOCALES.flatMap((locale) =>
       PARTITIONS.filter(
@@ -341,11 +330,11 @@ export function sitemapIndexXml(
     ),
     // Arabic cornerstone edition: real localized content, its own child sitemap.
     "/sitemap-ar.xml",
-    // Only the partitions that actually hold rows.
-    ...Array.from(
-      { length: Math.min(Math.max(codePartitions, 0), CODE_SITEMAP_PARTITIONS) },
-      (_, i) => `/sitemap-codes-${i + 1}.xml`,
-    ),
+    // The two codes partitions stood here. They advertised up to 5,000 URLs
+    // built from fabricated rows — an invented rating, an invented review
+    // count, and one of four hardcoded review sentences repeated across
+    // thousands of pages. Capping them was treating the symptom; the pages
+    // themselves now answer 410, so there is nothing left to advertise.
     // API-backed catalog: game detail URLs plus the paginated anime index.
     "/sitemap-catalog.xml",
     // The programmatic matrix, but only once the ingest has actually built an

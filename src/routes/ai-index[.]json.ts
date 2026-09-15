@@ -2,15 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { animes } from "@/data/animes";
 import { articles } from "@/data/articles";
-import { loadEntityPageFromDb } from "@/lib/entity-catalog.server";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/ai-index.json")({
   server: {
     handlers: {
       GET: async () => {
-        const catalogPage = await loadEntityPageFromDb("code", 1, 100);
-        const catalog = catalogPage.entities;
         const body = {
           schema_version: "1.0",
           generated_at: new Date().toISOString(),
@@ -29,14 +26,6 @@ export const Route = createFileRoute("/ai-index.json")({
             sitemap: absoluteUrl("/sitemap.xml"),
             rss: absoluteUrl("/rss.xml"),
             browse: absoluteUrl("/browse"),
-            code_catalog: absoluteUrl("/codes"),
-          },
-          pagination: {
-            code_catalog_total: catalogPage.total,
-            page_size: catalogPage.pageSize,
-            next_page:
-              catalogPage.total > catalogPage.pageSize ? absoluteUrl("/codes?page=2") : null,
-            page_url_template: absoluteUrl("/codes?page={page}"),
           },
           entities: {
             anime: animes.map((item) => ({
@@ -51,16 +40,8 @@ export const Route = createFileRoute("/ai-index.json")({
               type: "Article",
               description: item.excerpt,
             })),
-            code_catalog: catalog.map((entity) => ({
-              name: entity.name,
-              url: absoluteUrl(`/codes/${entity.slug}`),
-              type: "Product",
-              description: entity.description,
-              market: entity.target_market,
-              activation_language: entity.target_language,
-              review: entity.sample_review,
-              faqs: entity.localized_faqs,
-            })),
+            // code_catalog listed 100 fabricated "Product" entries with
+            // invented reviews and pointed at 50,000 more. Removed with them.
           },
         };
 

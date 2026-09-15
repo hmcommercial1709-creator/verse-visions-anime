@@ -1,21 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CodePage } from "@/components/code-page";
-import { codePageHead, loadCodePage } from "@/lib/code-page";
+import type {} from "@tanstack/react-start";
+import { goneResponse } from "@/lib/gone";
 
 /**
- * Canonical code page. The default locale carries no prefix (see
- * localizePath), so this is the URL the sitemap advertises and the one
- * Google should index. It mirrors anime.$slug.tsx, which already pairs a
- * canonical route with its /$locale/ variant.
+ * Gone: every /codes/<slug> page was built from a fabricated row in game_nexus_matrix - an invented rating, an invented review count, and one of four hardcoded review sentences.
+ *
+ * See src/lib/gone.ts for why this is a 410 rather than a 404, a noindex or
+ * a redirect.
  */
 export const Route = createFileRoute("/codes/$slug")({
-  loader: ({ params }) => loadCodePage(params.slug),
-  headers: () => ({
-    "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
-  }),
-  head: ({ loaderData, params }) => codePageHead(loaderData?.item, params.slug),
-  component: function CanonicalCodePage() {
-    const { item, related } = Route.useLoaderData();
-    return <CodePage item={item} related={related} />;
-  },
+  server: { handlers: { GET: async () => goneResponse() } },
 });

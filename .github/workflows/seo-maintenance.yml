@@ -164,7 +164,13 @@ jobs:
       # the catalog empty, which is strictly worse than a catalog without the
       # derived facts, and it stopped the pipeline dead on a prerequisite that
       # only affects the extras.
+      # continue-on-error for the same reason manga and Steam already have it:
+      # the three sources are independent. A transient AniList blip took down
+      # run #18 after 500 titles were collected, and because this step had no
+      # continue-on-error it also skipped Steam and manga — so one network
+      # error on one API cost the entire night's ingest across all three.
       - name: Ingest anime from AniList
+        continue-on-error: true
         run: npm run ingest:anilist -- --limit=5000
 
       # Slow by nature: Steam's appdetails is one app per request, throttled to

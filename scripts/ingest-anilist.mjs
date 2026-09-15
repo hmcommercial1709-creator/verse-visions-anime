@@ -161,17 +161,43 @@ query ($page: Int!, $perPage: Int!) {
   }
 }`;
 
+/**
+ * Network-level failures, as distinct from an HTTP status. `fetch failed` is
+ * what Node reports for a DNS miss, a reset connection or a socket timeout —
+ * it carries no status code, so the 429 handling below never saw it.
+ */
+const TRANSIENT_NETWORK =
+  /fetch failed|ECONNRESET|ETIMEDOUT|EAI_AGAIN|ENOTFOUND|socket hang up|network|timeout|aborted/i;
+const MAX_NETWORK_ATTEMPTS = 5;
+
 async function anilist(page, attempt = 1) {
-  const res = await fetch(ANILIST_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-      "user-agent": "GameCastle/1.0 (+https://gamecastle.store)",
-    },
-    body: JSON.stringify({ query: QUERY, variables: { page, perPage: PER_PAGE } }),
-    signal: AbortSignal.timeout(30000),
-  });
+  let res;
+  try {
+    res = await fetch(ANILIST_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        "user-agent": "GameCastle/1.0 (+https://gamecastle.store)",
+      },
+      body: JSON.stringify({ query: QUERY, variables: { page, perPage: PER_PAGE } }),
+      signal: AbortSignal.timeout(30000),
+    });
+  } catch (error) {
+    // Only the 429 path was retried, so a single transient blip threw straight
+    // out of the run — one did, on page 11, after 500 titles were already
+    // collected, and it cost the whole night's ingest including Steam.
+    const message = `${error?.message ?? error}`;
+    if (TRANSIENT_NETWORK.test(message) && attempt <= MAX_NETWORK_ATTEMPTS) {
+      const wait = 2 ** attempt * 1000;
+      log(
+        `  network error on page ${page} (${message}); retrying in ${wait}ms — attempt ${attempt}/${MAX_NETWORK_ATTEMPTS}`,
+      );
+      await sleep(wait);
+      return anilist(page, attempt + 1);
+    }
+    throw error;
+  }
 
   if (res.status === 429 && attempt <= 5) {
     // AniList sends Retry-After in seconds; trust it over a guess.
@@ -179,6 +205,15 @@ async function anilist(page, attempt = 1) {
     const wait =
       Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 2 ** attempt * 1000;
     log(`  rate limited on page ${page}, waiting ${wait}ms`);
+    await sleep(wait);
+    return anilist(page, attempt + 1);
+  }
+  // A 5xx is the server having a moment, not a reason to abandon the catalog.
+  if (res.status >= 500 && attempt <= MAX_NETWORK_ATTEMPTS) {
+    const wait = 2 ** attempt * 1000;
+    log(
+      `  AniList ${res.status} on page ${page}; retrying in ${wait}ms — attempt ${attempt}/${MAX_NETWORK_ATTEMPTS}`,
+    );
     await sleep(wait);
     return anilist(page, attempt + 1);
   }

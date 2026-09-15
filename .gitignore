@@ -42,3 +42,7 @@ catalog-gate-failures.tsv
 # Built by scripts/build-pinterest-queue.mjs on each run.
 pinterest-queue.json
 latest_links.json
+
+# Python bytecode, produced whenever a script is imported.
+__pycache__/
+*.pyc

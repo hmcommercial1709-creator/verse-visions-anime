@@ -55,6 +55,33 @@ assert.match(
   'absent credentials must be reported by name, not as an API "unauthorized"',
 );
 
+// Pinterest returns 401 for an inactive app, a missing scope and a revoked
+// token alike, so the status cannot tell them apart and the body must be read.
+// A real run hit "InactiveConsumer" and the generic advice sent the reader
+// looking at the board id, which was fine.
+//
+// Anchored to the CODE, not to prose. A first attempt matched
+// /inactiveconsumer/i and /PINTEREST_API_BASE/ anywhere in the file, and both
+// passed happily against the comments that merely *describe* them — the same
+// way the SQL guard earlier flagged its own explanatory comment. Deleting the
+// real logic left the words behind, so the guard proved nothing.
+assert.match(
+  poster,
+  /^\s*"inactiveconsumer",\s*$/m,
+  'the known 401 causes must be diagnosed by name, in the lookup table',
+);
+assert.match(poster, /^def diagnose\(/m, 'error bodies must be mapped to a remedy');
+assert.match(
+  poster,
+  /os\.environ\.get\("PINTEREST_API_BASE"/,
+  'the sandbox host must be reachable without a code change',
+);
+assert.match(
+  workflow,
+  /^\s*PINTEREST_API_BASE:\s*\$\{\{/m,
+  'the workflow must pass the API base through as a real env entry',
+);
+
 /* --- 4. The queue only offers pages that can actually be pinned. ------ */
 
 assert.match(queue, /ogImage/, 'the queue must take images from ogImage');

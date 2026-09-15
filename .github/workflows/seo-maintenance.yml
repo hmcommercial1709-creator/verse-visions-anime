@@ -42,6 +42,11 @@ jobs:
     timeout-minutes: 20
     env:
       SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://gamecastle.store' }}
+      # ping-gsc.js falls back to https://gamecastle.store/ without this, and
+      # the property is a DOMAIN property (sc-domain:gamecastle.store). The
+      # URL-prefix form is a different property identifier, so Search Console
+      # answered "User does not have sufficient permission for site".
+      GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

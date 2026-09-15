@@ -15,7 +15,6 @@ import { DeferredScripts } from "@/components/deferred-scripts";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleRedirectGuard } from "@/components/locale-redirect-guard";
 import { SiteFooter } from "@/components/site-footer";
-import { TasteCardCta } from "@/components/taste-card-cta";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 import { siteKnowledgeGraph } from "@/lib/seo";
@@ -204,31 +203,19 @@ export const Route = createRootRoute({
         type: "image/svg+xml",
       },
 
-      {
-        rel: "icon",
-        href: "/favicon-32x32.png?v=2",
-        type: "image/png",
-        sizes: "32x32",
-      },
-
-      {
-        rel: "icon",
-        href: "/favicon-16x16.png?v=2",
-        type: "image/png",
-        sizes: "16x16",
-      },
-
-      {
-        rel: "shortcut icon",
-        href: "/favicon.ico?v=2",
-        type: "image/x-icon",
-      },
-
-      {
-        rel: "apple-touch-icon",
-        href: "/apple-touch-icon.png?v=2",
-        sizes: "180x180",
-      },
+      /*
+       * Four more icon links stood here — favicon-32x32.png, favicon-16x16.png,
+       * favicon.ico and apple-touch-icon.png. None of those files exist in
+       * public/; only favicon.svg does. So every page load fired four requests
+       * that could only 404, and the browser fell back to the SVG anyway.
+       *
+       * Removed rather than faked. An SVG icon is served to every current
+       * browser and Google reads it for search results, and site.webmanifest
+       * already declares favicon.svg as its only icon. Generating real PNG and
+       * ICO versions needs the source artwork rendered at each size, which is
+       * worth doing — but shipping placeholder icons that do not match the
+       * brand would be worse than the SVG alone.
+       */
 
       {
         rel: "manifest",
@@ -346,15 +333,12 @@ function RootComponent() {
 
       <SiteFooter />
 
-      {/* The floating invitation to the Taste Card, on every route.
+      {/* The Taste Card's invitation lives in SiteHeader now, next to search.
 
-          It hides itself whenever an ad container is inside the strip it
-          occupies — an accidental click on an ad caused by our own floating
-          element is an AdSense policy violation against the account, not just
-          the placement — and its pulse is gated on prefers-reduced-motion.
-          Fixed positioning keeps it out of flow, so appearing and disappearing
-          costs no layout shift. */}
-      <TasteCardCta />
+          It was a fixed bottom-right button here, revealed past a 700px scroll
+          threshold — longer than the viewport on a 1366x768 laptop, so it was
+          invisible in normal use. In the header it is on every page from the
+          first paint, and being in normal flow it cannot overlap an ad. */}
 
       {/* The browsing-time gift. VisitorRewardTracker existed but was never
           mounted on any route, so the reward it unlocks was unreachable no

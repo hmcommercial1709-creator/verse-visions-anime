@@ -198,7 +198,29 @@ export async function loadEntityPageFromDb(
  * per-file limit in the sitemaps.org spec, so a partition can never outgrow
  * what a crawler will accept.
  */
-export const CODE_PARTITION_SIZE = 25000;
+/**
+ * A hard ceiling on how many code URLs may be advertised at all.
+ *
+ * The quality gate removes rows that carry nothing. This is the separate,
+ * structural guarantee: however many rows pass that gate — and that number
+ * lives in the database, not in this repository — the codes tier can never
+ * again dominate the sitemap.
+ *
+ * It has to be structural because the failure was structural. 25,000 code URLs
+ * against 658 catalog URLs is not a content problem that a filter fixes by
+ * degrees; it is the site telling Google that its templated tier IS the site.
+ * Google answered by indexing 137 pages out of 25,757 and crawling less of
+ * everything.
+ *
+ * 5,000 is chosen against the catalog, not in the abstract: public.entities
+ * holds 7,263 active rows today and grows nightly, so this keeps the
+ * substantive pages the clear majority of what is submitted while still
+ * advertising the best code pages. Rows are ordered by review count, so the
+ * cap keeps the strongest ones rather than an arbitrary alphabetical slice.
+ */
+export const CODE_SITEMAP_MAX_URLS = 5000;
+
+export const CODE_PARTITION_SIZE = 2500;
 
 /**
  * Slugs for one codes partition.
@@ -244,7 +266,7 @@ export async function countCodePartitions(): Promise<number> {
   if (error) throw new Error(`codes row count: ${error.message}`);
   // Counting the SAME filtered set the listing pages through, so the index
   // never advertises a partition the listing will render empty.
-  const rows = count ?? 0;
+  const rows = Math.min(count ?? 0, CODE_SITEMAP_MAX_URLS);
   return Math.min(Math.ceil(rows / CODE_PARTITION_SIZE), CODE_SITEMAP_PARTITIONS);
 }
 
@@ -252,11 +274,13 @@ export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapE
   const { supabaseServer } = await import("@/integrations/supabase/client.server");
 
   const first = (partition - 1) * CODE_PARTITION_SIZE;
-  const last = first + CODE_PARTITION_SIZE - 1;
+  // Never past the ceiling, whatever the table holds.
+  const last = Math.min(first + CODE_PARTITION_SIZE - 1, CODE_SITEMAP_MAX_URLS - 1);
   const PAGE = 1000; // PostgREST caps a single response at 1000 rows
 
   const entries: SitemapEntry[] = [];
   let dropped = 0;
+  if (first >= CODE_SITEMAP_MAX_URLS) return entries;
   for (let from = first; from <= last; from += PAGE) {
     const to = Math.min(from + PAGE - 1, last);
     // Ordered explicitly: range() over an unordered query has no stable row
@@ -265,6 +289,11 @@ export async function loadCodeSitemapEntries(partition: 1 | 2): Promise<SitemapE
       .from("game_nexus_matrix")
       .select("slug, title, sample_review, reviews_count, aggregate_rating")
       .or(ADVERTISABLE_CODES)
+      // Strongest first, so the ceiling above keeps the best code pages rather
+      // than an alphabetical slice. slug breaks ties, which keeps the ordering
+      // stable — range() over an unordered query can repeat or skip rows
+      // between partitions.
+      .order("reviews_count", { ascending: false, nullsFirst: false })
       .order("slug", { ascending: true })
       .range(from, to);
 

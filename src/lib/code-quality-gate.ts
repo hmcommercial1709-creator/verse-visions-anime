@@ -60,7 +60,8 @@ export function codeSitemapExclusions(row: CodeSitemapCandidate): string[] {
   // The page needs at least ONE of: real prose, or enough ratings to be a
   // signal. Requiring both would drop rows that genuinely say something.
   const hasProse = review.length >= MIN_REVIEW_CHARS;
-  const hasAudience = Number.isFinite(reviews) && reviews >= MIN_REVIEWS && Number.isFinite(rating) && rating > 0;
+  const hasAudience =
+    Number.isFinite(reviews) && reviews >= MIN_REVIEWS && Number.isFinite(rating) && rating > 0;
   if (!hasProse && !hasAudience) {
     reasons.push(
       `nothing beyond the listing: review ${review.length} chars (needs ${MIN_REVIEW_CHARS}), ` +

@@ -28,8 +28,10 @@ import {
   sitemapIndexXml,
   BASE_URL,
   AR_ENTRIES,
+  CODE_SITEMAP_PARTITIONS,
 } from "../src/lib/sitemap.ts";
 import { INDEXABLE_LOCALES } from "../src/lib/i18n.ts";
+import { CODE_SITEMAP_MAX_URLS, CODE_PARTITION_SIZE } from "../src/lib/entity-catalog.server.ts";
 import {
   qualifiesForCodeSitemap,
   codeSitemapExclusions,
@@ -248,6 +250,42 @@ console.log("\nThe code-page gate keeps thin pages out of the sitemap");
   if (reasons.some((r) => r.includes("nothing beyond the listing")))
     ok("a held-back row explains why");
   else fail("a held-back row gives no reason");
+}
+
+console.log("\nThe codes tier can never dominate the sitemap again");
+{
+  // The quality gate removes empty rows; this is the structural guarantee that
+  // does not depend on what the database happens to contain. 25,000 code URLs
+  // against 658 catalog URLs is what got 137 pages indexed out of 25,757.
+  const advertised = (rowsInDb) => {
+    const partitions = Math.min(
+      Math.ceil(Math.min(rowsInDb, CODE_SITEMAP_MAX_URLS) / CODE_PARTITION_SIZE),
+      CODE_SITEMAP_PARTITIONS,
+    );
+    let total = 0;
+    for (let p = 1; p <= partitions; p += 1) {
+      const first = (p - 1) * CODE_PARTITION_SIZE;
+      if (first >= CODE_SITEMAP_MAX_URLS) continue;
+      total += Math.min(first + CODE_PARTITION_SIZE - 1, CODE_SITEMAP_MAX_URLS - 1) - first + 1;
+    }
+    return total;
+  };
+  for (const rows of [5000, 25000, 50000, 500000]) {
+    const got = advertised(rows);
+    if (got <= CODE_SITEMAP_MAX_URLS)
+      ok(`${rows.toLocaleString()} rows in the table → ${got.toLocaleString()} advertised`);
+    else
+      fail(
+        `${rows.toLocaleString()} rows → ${got.toLocaleString()} advertised, over the ${CODE_SITEMAP_MAX_URLS} ceiling`,
+      );
+  }
+  if (advertised(0) === 0) ok("an empty table advertises nothing");
+  else fail("an empty table still advertises URLs");
+  // The ceiling only means something if it stays below the catalog it competes
+  // with: public.entities held 7,263 active rows when this was written.
+  if (CODE_SITEMAP_MAX_URLS < 7263) ok("the ceiling keeps codes a minority of what is submitted");
+  else
+    fail(`the ceiling (${CODE_SITEMAP_MAX_URLS}) is no longer below the catalog it competes with`);
 }
 
 console.log(failures ? `\n${failures} sitemap problem(s).\n` : "\nAll sitemap checks passed.\n");

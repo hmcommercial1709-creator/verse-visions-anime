@@ -128,3 +128,24 @@ export function downloadCanvas(canvas: HTMLCanvasElement, filename: string): boo
     return false;
   }
 }
+
+/**
+ * The card as a File, for the native share sheet.
+ *
+ * toBlob rather than toDataURL: a 1200x630 PNG base64-encodes to roughly a
+ * megabyte of string, and navigator.share wants a File anyway. Resolves null
+ * when the browser refuses — a tainted canvas, or no toBlob at all — so the
+ * caller hides the image-share button instead of offering one that fails.
+ */
+export function canvasToFile(canvas: HTMLCanvasElement, filename: string): Promise<File | null> {
+  return new Promise((resolve) => {
+    try {
+      canvas.toBlob((blob) => {
+        if (!blob) return resolve(null);
+        resolve(new File([blob], filename, { type: "image/png" }));
+      }, "image/png");
+    } catch {
+      resolve(null);
+    }
+  });
+}

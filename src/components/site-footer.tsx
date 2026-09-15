@@ -16,6 +16,8 @@ const exploreLinks = [
   // scroll and only with JavaScript, so without this link the page would rank
   // on nothing but its own sitemap entry.
   { to: "/gamer-card", label: "Taste Card" },
+  { to: "/character-quiz", label: "Character Quiz" },
+  { to: "/my-list", label: "My Watchlist" },
   { to: "/guides", label: "Anime Guides" },
   { to: "/store", label: "Digital Store" },
   { to: "/blog", label: "Blog & News" },

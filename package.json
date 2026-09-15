@@ -28,7 +28,8 @@
     "check:sitemap-xml": "tsx scripts/check-sitemap-xml.mjs",
     "check:growth": "node scripts/check-growth.mjs",
     "plan:growth": "tsx scripts/plan-growth.mjs",
-    "prebuild": "node scripts/build-lastmod.mjs"
+    "prebuild": "node scripts/build-lastmod.mjs",
+    "check:engagement": "tsx scripts/check-engagement.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -142,6 +142,8 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/authors",
     "/faq",
     "/gamer-card",
+    "/character-quiz",
+    "/my-list",
   ].map((path) => ({ path, changefreq: "weekly" as const, priority: "0.8" })),
   ...["/about", "/contact", "/sitemap-page"].map((path) => ({
     path,

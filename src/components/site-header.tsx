@@ -354,10 +354,10 @@ export function SiteHeader() {
             </Link>
 
             <Link
-              to="/character-quiz"
+              to="/matchmaker"
               className="hidden min-h-11 items-center gap-1.5 rounded-lg border border-border/60 bg-card/60 px-2.5 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground min-[1280px]:flex"
             >
-              Quiz
+              Loadout
             </Link>
 
             <LanguageSelector variant="header" />

@@ -29,7 +29,8 @@
     "check:growth": "node scripts/check-growth.mjs",
     "plan:growth": "tsx scripts/plan-growth.mjs",
     "prebuild": "node scripts/build-lastmod.mjs",
-    "check:engagement": "tsx scripts/check-engagement.mjs"
+    "check:engagement": "tsx scripts/check-engagement.mjs",
+    "check:matchmaker": "tsx scripts/check-matchmaker.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

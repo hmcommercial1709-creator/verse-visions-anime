@@ -3,7 +3,7 @@ import { useRouterState } from "@tanstack/react-router";
 import { getAnime } from "../data/animes.ts";
 
 export type LocaleCode =
-  | "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id" | "hi" | "zh";
+  "en" | "ar" | "es" | "fr" | "de" | "pt" | "it" | "tr" | "ja" | "id" | "hi" | "zh";
 
 export interface Locale {
   code: LocaleCode;
@@ -19,18 +19,32 @@ export interface Locale {
 }
 
 export const LOCALES: Locale[] = [
-  { code: "en", label: "English",    short: "EN", english: "English",    dir: "ltr", hrefLang: "en" },
-  { code: "ar", label: "العربية",     short: "AR", english: "Arabic",     dir: "rtl", hrefLang: "ar" },
-  { code: "es", label: "Español",    short: "ES", english: "Spanish",    dir: "ltr", hrefLang: "es" },
-  { code: "fr", label: "Français",   short: "FR", english: "French",     dir: "ltr", hrefLang: "fr" },
-  { code: "de", label: "Deutsch",    short: "DE", english: "German",     dir: "ltr", hrefLang: "de" },
-  { code: "pt", label: "Português",  short: "PT", english: "Portuguese", dir: "ltr", hrefLang: "pt" },
-  { code: "it", label: "Italiano",   short: "IT", english: "Italian",    dir: "ltr", hrefLang: "it" },
-  { code: "tr", label: "Türkçe",     short: "TR", english: "Turkish",    dir: "ltr", hrefLang: "tr" },
-  { code: "ja", label: "日本語",       short: "JA", english: "Japanese",   dir: "ltr", hrefLang: "ja" },
-  { code: "id", label: "Indonesia",  short: "ID", english: "Indonesian", dir: "ltr", hrefLang: "id" },
-  { code: "hi", label: "हिन्दी",       short: "HI", english: "Hindi",      dir: "ltr", hrefLang: "hi" },
-  { code: "zh", label: "中文",         short: "ZH", english: "Chinese",    dir: "ltr", hrefLang: "zh" },
+  { code: "en", label: "English", short: "EN", english: "English", dir: "ltr", hrefLang: "en" },
+  { code: "ar", label: "العربية", short: "AR", english: "Arabic", dir: "rtl", hrefLang: "ar" },
+  { code: "es", label: "Español", short: "ES", english: "Spanish", dir: "ltr", hrefLang: "es" },
+  { code: "fr", label: "Français", short: "FR", english: "French", dir: "ltr", hrefLang: "fr" },
+  { code: "de", label: "Deutsch", short: "DE", english: "German", dir: "ltr", hrefLang: "de" },
+  {
+    code: "pt",
+    label: "Português",
+    short: "PT",
+    english: "Portuguese",
+    dir: "ltr",
+    hrefLang: "pt",
+  },
+  { code: "it", label: "Italiano", short: "IT", english: "Italian", dir: "ltr", hrefLang: "it" },
+  { code: "tr", label: "Türkçe", short: "TR", english: "Turkish", dir: "ltr", hrefLang: "tr" },
+  { code: "ja", label: "日本語", short: "JA", english: "Japanese", dir: "ltr", hrefLang: "ja" },
+  {
+    code: "id",
+    label: "Indonesia",
+    short: "ID",
+    english: "Indonesian",
+    dir: "ltr",
+    hrefLang: "id",
+  },
+  { code: "hi", label: "हिन्दी", short: "HI", english: "Hindi", dir: "ltr", hrefLang: "hi" },
+  { code: "zh", label: "中文", short: "ZH", english: "Chinese", dir: "ltr", hrefLang: "zh" },
 ];
 
 export const DEFAULT_LOCALE: LocaleCode = "en";
@@ -122,7 +136,6 @@ export function isIndexableLocale(code: string | undefined): boolean {
   return isLocaleCode(code) && INDEXABLE_LOCALES.includes(code);
 }
 
-
 /**
  * hreflang alternates (plus x-default) for a canonical path, restricted to
  * locales with indexable content. With a single active locale there is no
@@ -131,8 +144,11 @@ export function isIndexableLocale(code: string | undefined): boolean {
 export function hasArabicEdition(pathname: string): boolean {
   const path = stripLocale(pathname);
   if (path === "/anime/dandadan" || path === "/anime/sakamoto-days") return false;
-  return path === "/explore" || path.startsWith("/explore/") ||
-    (/^\/anime\/[^/]+$/.test(path) && !!getAnime(path.slice("/anime/".length)));
+  return (
+    path === "/explore" ||
+    path.startsWith("/explore/") ||
+    (/^\/anime\/[^/]+$/.test(path) && !!getAnime(path.slice("/anime/".length)))
+  );
 }
 
 export function hreflangLinks(pathname: string) {
@@ -148,7 +164,6 @@ export function hreflangLinks(pathname: string) {
     { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}${base}` },
   ];
 }
-
 
 /** Current locale for the active route. */
 export function useLocale(): Locale {
@@ -172,4 +187,39 @@ export function useLocaleDocumentSync() {
       /* storage may be unavailable */
     }
   }, [locale]);
+}
+
+/**
+ * What the /$locale/* catch-all should answer, as a pure decision.
+ *
+ * This lives here, tested, because the inline version of it was lost in a
+ * refactor and the loss was silent. The catch-all was replaced with a bare
+ * 410 handler when the fabricated matrix pages were removed — correct for
+ * the pages it was actually serving, but it dropped the `isLocaleCode` guard
+ * that stood on its first line. `/favicon.ico` matches this route with
+ * locale="favicon.ico" and an empty splat, so every browser on every page
+ * load started getting "410 Gone" for the site icon, and so did Googlebot.
+ *
+ * A path whose first segment is not a locale is not ours to declare gone. It
+ * is simply not found.
+ */
+export type LocaleCatchAll =
+  { kind: "not-found" } | { kind: "redirect"; to: string } | { kind: "gone" };
+
+export function localeCatchAll(locale: string | undefined, splat: string): LocaleCatchAll {
+  // /favicon.ico, /some-typo, anything whose first segment is not a locale.
+  if (!isLocaleCode(locale)) return { kind: "not-found" };
+
+  const path = `/${splat.replace(/^\/+/, "")}`;
+
+  // A locale with no translated content yet: send the reader to the English
+  // original rather than to a dead end.
+  if (!READY_LOCALES.includes(locale)) return { kind: "redirect", to: path };
+
+  // The Arabic edition's entry point.
+  if (locale === "ar" && path === "/") return { kind: "redirect", to: "/ar/anime" };
+
+  // Everything left under a ready locale is what the catch-all used to render
+  // from anime_nexus_matrix — fabricated rows, now permanently gone.
+  return { kind: "gone" };
 }

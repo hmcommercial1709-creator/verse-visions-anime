@@ -204,31 +204,19 @@ export const Route = createRootRoute({
         type: "image/svg+xml",
       },
 
-      {
-        rel: "icon",
-        href: "/favicon-32x32.png?v=2",
-        type: "image/png",
-        sizes: "32x32",
-      },
-
-      {
-        rel: "icon",
-        href: "/favicon-16x16.png?v=2",
-        type: "image/png",
-        sizes: "16x16",
-      },
-
-      {
-        rel: "shortcut icon",
-        href: "/favicon.ico?v=2",
-        type: "image/x-icon",
-      },
-
-      {
-        rel: "apple-touch-icon",
-        href: "/apple-touch-icon.png?v=2",
-        sizes: "180x180",
-      },
+      /*
+       * Four more icon links stood here — favicon-32x32.png, favicon-16x16.png,
+       * favicon.ico and apple-touch-icon.png. None of those files exist in
+       * public/; only favicon.svg does. So every page load fired four requests
+       * that could only 404, and the browser fell back to the SVG anyway.
+       *
+       * Removed rather than faked. An SVG icon is served to every current
+       * browser and Google reads it for search results, and site.webmanifest
+       * already declares favicon.svg as its only icon. Generating real PNG and
+       * ICO versions needs the source artwork rendered at each size, which is
+       * worth doing — but shipping placeholder icons that do not match the
+       * brand would be worse than the SVG alone.
+       */
 
       {
         rel: "manifest",

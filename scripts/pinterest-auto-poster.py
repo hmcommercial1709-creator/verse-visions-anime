@@ -169,9 +169,10 @@ PINTEREST_DIAGNOSES = (
         only_if_token_rejected=False,
         advice=(
             "The token is missing a scope. This script needs boards:read and\n"
-            "  pins:write. Scopes are fixed at the moment a token is generated, so\n"
-            "  adding them to the app is not enough — generate a NEW token after\n"
-            "  the scopes are set."
+            "  pins:write to publish, and user_accounts:read for the token probe.\n"
+            "  Scopes are fixed at the moment a token is generated, so adding them\n"
+            "  to the app is not enough — generate a NEW token after the scopes\n"
+            "  are set."
         ),
     ),
     Diagnosis(

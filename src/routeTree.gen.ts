@@ -32,6 +32,7 @@ import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as FactsRouteImport } from './routes/facts'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as GameTopUpRouteImport } from './routes/game-top-up'
+import { Route as GamerCardRouteImport } from './routes/gamer-card'
 import { Route as GamesRouteImport } from './routes/games'
 import { Route as GamingGiftCardsRouteImport } from './routes/gaming-gift-cards'
 import { Route as GenresRouteImport } from './routes/genres'
@@ -273,6 +274,11 @@ const FaqRoute = FaqRouteImport.update({
 const GameTopUpRoute = GameTopUpRouteImport.update({
   id: '/game-top-up',
   path: '/game-top-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamerCardRoute = GamerCardRouteImport.update({
+  id: '/gamer-card',
+  path: '/gamer-card',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GamesRoute = GamesRouteImport.update({
@@ -953,6 +959,7 @@ export interface FileRoutesByFullPath {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
+  '/gamer-card': typeof GamerCardRoute
   '/games': typeof GamesRouteWithChildren
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
@@ -1103,6 +1110,7 @@ export interface FileRoutesByTo {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
+  '/gamer-card': typeof GamerCardRoute
   '/games': typeof GamesRouteWithChildren
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
@@ -1255,6 +1263,7 @@ export interface FileRoutesById {
   '/facts': typeof FactsRoute
   '/faq': typeof FaqRoute
   '/game-top-up': typeof GameTopUpRoute
+  '/gamer-card': typeof GamerCardRoute
   '/games': typeof GamesRouteWithChildren
   '/gaming-gift-cards': typeof GamingGiftCardsRoute
   '/genres': typeof GenresRoute
@@ -1409,6 +1418,7 @@ export interface FileRouteTypes {
     | '/facts'
     | '/faq'
     | '/game-top-up'
+    | '/gamer-card'
     | '/games'
     | '/gaming-gift-cards'
     | '/genres'
@@ -1559,6 +1569,7 @@ export interface FileRouteTypes {
     | '/facts'
     | '/faq'
     | '/game-top-up'
+    | '/gamer-card'
     | '/games'
     | '/gaming-gift-cards'
     | '/genres'
@@ -1710,6 +1721,7 @@ export interface FileRouteTypes {
     | '/facts'
     | '/faq'
     | '/game-top-up'
+    | '/gamer-card'
     | '/games'
     | '/gaming-gift-cards'
     | '/genres'
@@ -1863,6 +1875,7 @@ export interface RootRouteChildren {
   FactsRoute: typeof FactsRoute
   FaqRoute: typeof FaqRoute
   GameTopUpRoute: typeof GameTopUpRoute
+  GamerCardRoute: typeof GamerCardRoute
   GamesRoute: typeof GamesRouteWithChildren
   GamingGiftCardsRoute: typeof GamingGiftCardsRoute
   GenresRoute: typeof GenresRoute
@@ -2134,6 +2147,13 @@ declare module '@tanstack/react-router' {
       path: '/game-top-up'
       fullPath: '/game-top-up'
       preLoaderRoute: typeof GameTopUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gamer-card': {
+      id: '/gamer-card'
+      path: '/gamer-card'
+      fullPath: '/gamer-card'
+      preLoaderRoute: typeof GamerCardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/games': {
@@ -3125,6 +3145,7 @@ const rootRouteChildren: RootRouteChildren = {
   FactsRoute: FactsRoute,
   FaqRoute: FaqRoute,
   GameTopUpRoute: GameTopUpRoute,
+  GamerCardRoute: GamerCardRoute,
   GamesRoute: GamesRouteWithChildren,
   GamingGiftCardsRoute: GamingGiftCardsRoute,
   GenresRoute: GenresRoute,

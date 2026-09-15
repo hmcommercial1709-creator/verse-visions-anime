@@ -12,6 +12,10 @@ const quickLinks = [
 
 const exploreLinks = [
   { to: "/browse", label: "Browse Anime" },
+  // A crawlable route to the tool. The floating button only appears after a
+  // scroll and only with JavaScript, so without this link the page would rank
+  // on nothing but its own sitemap entry.
+  { to: "/gamer-card", label: "Taste Card" },
   { to: "/guides", label: "Anime Guides" },
   { to: "/store", label: "Digital Store" },
   { to: "/blog", label: "Blog & News" },
@@ -134,9 +138,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-6 border-t border-slate-800 pt-8 md:flex-row md:items-center">
-          <p className="text-xs text-slate-500">
-            © 2026 GameCastle. All rights reserved.
-          </p>
+          <p className="text-xs text-slate-500">© 2026 GameCastle. All rights reserved.</p>
           <PaymentBadges />
         </div>
       </div>

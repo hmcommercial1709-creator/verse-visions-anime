@@ -59,6 +59,13 @@ jobs:
       - name: Reject weak or duplicate generated content
         run: node scripts/check-content-quality.mjs
 
+      # Guards the Taste Card: the card may state only what the picks support,
+      # and the floating button must take itself out of the way of every ad box
+      # in the strip it occupies. An accidental click caused by our own overlay
+      # is an AdSense violation against the account, not just the placement.
+      - name: Check the Taste Card and its ad-safety rule
+        run: node scripts/check-taste-card.mjs
+
       - name: Run Pinterest Auto Poster
         run: python scripts/pinterest-auto-poster.py
 

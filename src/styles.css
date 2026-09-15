@@ -156,3 +156,42 @@ ins.adsbygoogle[data-ad-status="unfilled"] {
 }
 
 
+
+/* The Taste Card invitation.
+
+   The pulse is what makes a floating button get noticed rather than
+   wallpapered over — but motion like this is a genuine accessibility problem
+   for some readers, so it is gated on prefers-reduced-motion. The button still
+   appears at full contrast when motion is off; it simply holds still.
+
+   transform and box-shadow only: both are composited, so the pulse never
+   triggers layout or paint on the rest of the page. */
+@keyframes taste-cta-pulse {
+  0%,
+  70%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -10px rgb(0 0 0 / 0.5);
+  }
+  80% {
+    transform: scale(1.06);
+    box-shadow:
+      0 10px 30px -8px rgb(0 0 0 / 0.55),
+      0 0 0 6px color-mix(in oklab, var(--primary) 28%, transparent);
+  }
+  90% {
+    transform: scale(0.99);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .taste-cta-pulse {
+    animation: taste-cta-pulse 3.2s ease-in-out infinite;
+  }
+}
+
+/* Hovering replaces the pulse rather than fighting it. */
+.taste-cta-pulse:hover,
+.taste-cta-pulse:focus-visible {
+  animation: none;
+}

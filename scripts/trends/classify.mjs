@@ -50,6 +50,42 @@ const COMMERCE = [
 
 /** Platform and franchise vocabulary that reliably means games. */
 const GAMES = [
+  // Measured gap: a real collection run produced "EA SPORTS FC 27" and an
+  // Overwatch title and dropped both, because the list carried neither. These
+  // are the titles that actually trend on the gaming chart.
+  "ea sports fc",
+  "ea fc",
+  "fifa",
+  "rocket league",
+  "among us",
+  "fall guys",
+  "baldur's gate",
+  "baldurs gate",
+  "black myth",
+  "wukong",
+  "wuthering waves",
+  "zenless zone zero",
+  "honkai star rail",
+  "honor of kings",
+  "delta force",
+  "mobile legends",
+  "clash royale",
+  "clash of clans",
+  "brawl stars",
+  "rainbow six",
+  "counter-strike",
+  "counter strike",
+  "dota 2",
+  "path of exile",
+  "no rest for the wicked",
+  "silent hill",
+  "resident evil",
+  "monster hunter",
+  "final fantasy",
+  "persona",
+  "tekken",
+  "street fighter",
+  "mortal kombat",
   "steam",
   "playstation",
   "ps5",
@@ -126,10 +162,7 @@ const ANIME = [
   "opening theme",
   "op theme",
   "light novel",
-  "season 2",
-  "season 3",
   "final season",
-  "episode",
   "one piece",
   "naruto",
   "boruto",
@@ -142,6 +175,26 @@ const ANIME = [
   "shingeki",
   "chainsaw man",
   "solo leveling",
+  // Korean webtoon and manhwa adaptations. The vocabulary had "manhwa" and
+  // "solo leveling" and nothing else, so the entire category that currently
+  // drives the most adaptation news was invisible to the trend filter.
+  "tower of god",
+  "the god of high school",
+  "god of high school",
+  "omniscient reader",
+  "the beginning after the end",
+  "nano machine",
+  "eleceed",
+  "lookism",
+  "noblesse",
+  "sweet home",
+  "weak hero",
+  "the breaker",
+  "leveling up with the gods",
+  "return of the mount hua sect",
+  "study group",
+  "teenage mercenary",
+  "webtoon",
   "spy x family",
   "my hero academia",
   "hunter x hunter",
@@ -225,6 +278,57 @@ export function buildCatalogMatcher(entities, { minNameLength = 4 } = {}) {
     }
     return null;
   };
+}
+
+/**
+ * Vocabulary entries that mark a topic without naming a thing to write about.
+ *
+ * "anime" in a title says the video is ours; it does not say which anime. An
+ * article whose subject is the word "anime" is the thin, unfocused page this
+ * site already deleted eighty thousand of. These stay in the vocabulary so the
+ * on-topic filter keeps working, and are excluded from entity extraction so
+ * they can never become a page.
+ */
+const NON_ENTITY = new Set([
+  "anime",
+  "manga",
+  "manhwa",
+  "manhua",
+  "shonen",
+  "shounen",
+  "seinen",
+  "shojo",
+  "isekai",
+  "dub",
+  "sub indo",
+  "opening theme",
+  "webtoon",
+]);
+
+/**
+ * The longest vocabulary entry named inside a term, or null.
+ *
+ * classifyTerm returns the FIRST match because it only needs to answer "is
+ * this ours". Entity extraction needs the most specific one: a video titled
+ * "JUJUTSU KAISEN S3 REACTION" contains both "jujutsu kaisen" and, in some
+ * vocabularies, shorter fragments — and storing the fragment would merge two
+ * unrelated franchises under one term. Longest wins, so the specific entry
+ * beats the general one every time.
+ *
+ * Returns the vocabulary's own spelling rather than the slice of the title, so
+ * "JUJUTSU KAISEN" and "Jujutsu Kaisen!!" collapse to one term instead of two.
+ */
+export function extractEntity(term) {
+  const haystack = ` ${String(term ?? "").toLowerCase()} `;
+  let best = null;
+  for (const [domain, entries] of COMPILED) {
+    for (const { word, re } of entries) {
+      if (NON_ENTITY.has(word)) continue;
+      if (!re.test(haystack)) continue;
+      if (!best || word.length > best.entity.length) best = { domain, entity: word };
+    }
+  }
+  return best;
 }
 
 export const VOCABULARY_SIZE = COMMERCE.length + GAMES.length + ANIME.length;

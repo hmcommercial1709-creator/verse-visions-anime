@@ -122,8 +122,9 @@ export async function fetchYouTubePopular(
       return {
         source: `youtube-${categoryId}`,
         geo,
-        rawTerm: (item?.snippet?.title ?? "").trim(),
-        term: normalizeTerm(item?.snippet?.title),
+        originalTitle: (item?.snippet?.title ?? "").trim(),
+        rawTerm: cleanVideoTitle(item?.snippet?.title),
+        term: normalizeTerm(cleanVideoTitle(item?.snippet?.title)),
         rank: index + 1,
         weight: Number.isFinite(views) && views > 0 ? views : null,
       };
@@ -135,5 +136,174 @@ export async function fetchYouTubePopular(
   }
 }
 
-/** Gaming, Film & Animation, Entertainment. */
+/** Gaming, Film & Animation, Entertainment. Nothing else is ever requested. */
 export const YOUTUBE_CATEGORIES = ["20", "1", "24"];
+
+/* ------------------------------------------------- title cleanup ------- */
+
+/**
+ * Noise that appears in a video title and never in a subject.
+ *
+ * Kept as whole-token patterns rather than substrings: stripping the letters
+ * "hd" wherever they appear turns "Shield Hero" into "Sield Hero".
+ */
+const TITLE_NOISE = [
+  /\B#\w+/gu, // #shorts, #anime, #fyp
+  /\p{Extended_Pictographic}/gu, // every emoji
+  /[\u{1F3FB}-\u{1F3FF}\u{FE0F}\u{200D}]/gu, // skin tones, variation selectors, ZWJ
+  /【[^】]*】/gu, // Japanese lenticular brackets
+  /\[[^\]]*\]/gu, // [ENG SUB], [4K], [Official]
+  /\([^)]*\)/gu, // (Official Video), (2026)
+  // A trailing "| X" was stripped here as the uploader's name, which threw
+  // away the subject on every title of the form "gameplay | Overwatch". The
+  // separator goes, the text stays: a channel name that survives costs
+  // nothing, because extraction only keeps words the vocabulary knows.
+  /\b(?:official|full|complete|new|latest|best|top\s*\d*)\b/giu,
+  /\b(?:trailer|teaser|pv|mv|amv|edit|edits|reaction|review|recap|explained)\b/giu,
+  /\b(?:gameplay|walkthrough|playthrough|speedrun|montage|highlights|stream|live)\b/giu,
+  /\b(?:shorts?|tiktok|reels?|viral|trending|clickbait)\b/giu,
+  /\b(?:eng|english|arabic|indo|sub|subbed|dubbed|subtitle[sd]?)\b/giu,
+  /\b(?:season|episode|ep|part|chapter|ch|vol|volume)\s*\.?\s*\d+/giu,
+  /\b(?:s\d{1,2}e\d{1,3}|\d{1,2}x\d{1,3})\b/giu,
+  /\b(?:hd|4k|8k|60fps|1080p|720p)\b/giu,
+  /\b(?:20\d{2})\b/gu, // a bare year
+  /[|•·]/gu, // separators, not their contents
+  /["'“”‘’«»]/gu,
+  /[!?]{2,}/gu,
+  /\s*[-–—|:•·]+\s*$/gu, // dangling separators after stripping
+  /^\s*[-–—|:•·]+\s*/gu,
+];
+
+/**
+ * A video title reduced to the part that could be a subject.
+ *
+ * Titles arrive decorated for the click, not for the index: emoji, hashtags,
+ * bracketed language tags, episode numbers, the uploader's name after a pipe.
+ * None of that identifies what the video is about, and leaving it in produced
+ * "terms" like "ELE ESTA TE OBSERVANDO NO MINECRAFT... O TEMPO TODO!" — a
+ * string nobody will ever search for.
+ *
+ * This is deliberately lossy and deliberately not clever. It removes what is
+ * reliably noise and leaves the rest alone; deciding what the remainder names
+ * is extractEntity's job, against a real vocabulary, not a guess made here.
+ */
+export function cleanVideoTitle(raw) {
+  let text = String(raw ?? "");
+  for (const pattern of TITLE_NOISE) text = text.replace(pattern, " ");
+  return text
+    .replace(/\s{2,}/gu, " ")
+    .replace(/\s*([,.;:!?])\s*/gu, "$1 ")
+    .trim();
+}
+
+/* ------------------------------------------------- seed keywords ------- */
+
+/**
+ * The queries the search pass actually asks YouTube.
+ *
+ * chart=mostPopular answers "what is being watched in this country", which is
+ * a different question from "what is being watched in our field". On a general
+ * chart an anime trailer competes with a football match and loses, which is
+ * why 1,119 of 1,271 collected terms were off-topic. A seeded search asks the
+ * narrower question directly.
+ *
+ * Both languages are present because the site publishes in both and the two
+ * markets do not trend together.
+ */
+export const YOUTUBE_SEED_KEYWORDS = [
+  { q: "anime trailer", lang: "en", category: "1" },
+  { q: "new anime announcement", lang: "en", category: "1" },
+  { q: "anime episode reaction", lang: "en", category: "24" },
+  { q: "manhwa webtoon adaptation", lang: "en", category: "1" },
+  { q: "anime opening", lang: "en", category: "24" },
+  { q: "game trailer", lang: "en", category: "20" },
+  { q: "new game release", lang: "en", category: "20" },
+  { q: "game update patch notes", lang: "en", category: "20" },
+  { q: "anime أنمي", lang: "ar", category: "1" },
+  { q: "مراجعة أنمي", lang: "ar", category: "24" },
+  { q: "أقوى شخصيات أنمي", lang: "ar", category: "24" },
+  { q: "لعبة جديدة", lang: "ar", category: "20" },
+  { q: "تحديث لعبة", lang: "ar", category: "20" },
+  { q: "شحن جواهر", lang: "ar", category: "20" },
+];
+
+/**
+ * Used only when every seed above came back empty.
+ *
+ * An empty pass is not a harmless no-op: the day's history has a hole in it,
+ * and velocity needs an unbroken series to mean anything. These are broader on
+ * purpose — they will return something even on a quiet day — and the run says
+ * plainly when it fell back, so a week of fallback-only results is visible
+ * rather than looking like ordinary data.
+ */
+export const YOUTUBE_FALLBACK_SEEDS = [
+  { q: "anime news", lang: "en", category: "1" },
+  { q: "anime trending leaks", lang: "en", category: "24" },
+  { q: "new gaming updates", lang: "en", category: "20" },
+  { q: "أخبار الأنمي", lang: "ar", category: "1" },
+];
+
+/**
+ * search.list costs 100 quota units against a 10,000/day budget, where
+ * videos.list costs 1. Eighteen calls is 1,800 units — comfortable beside the
+ * catalog ingest and the daily chart pass, and low enough that a retry storm
+ * cannot exhaust the day. The cap is enforced by the caller, not suggested.
+ */
+export const YOUTUBE_SEARCH_BUDGET = 18;
+
+/**
+ * Most-viewed videos for one seed, published inside the window.
+ *
+ * order=viewCount with publishedAfter is the combination that means "what got
+ * watched today", rather than "what has the most views ever", which would
+ * return the same handful of videos for years.
+ */
+export async function fetchYouTubeSearch(
+  seed,
+  {
+    apiKey = process.env.YOUTUBE_API_KEY,
+    hours = 24,
+    geo = null,
+    maxResults = 25,
+    log = console.log,
+  } = {},
+) {
+  if (!apiKey) return { rows: [], ok: false, reason: "no YOUTUBE_API_KEY" };
+  const publishedAfter = new Date(Date.now() - hours * 3600 * 1000).toISOString();
+  const url =
+    `${YOUTUBE_BASE}/youtube/v3/search?part=snippet&type=video` +
+    `&q=${encodeURIComponent(seed.q)}` +
+    `&videoCategoryId=${encodeURIComponent(seed.category)}` +
+    `&order=viewCount&publishedAfter=${encodeURIComponent(publishedAfter)}` +
+    `&relevanceLanguage=${encodeURIComponent(seed.lang)}` +
+    (geo ? `&regionCode=${encodeURIComponent(geo)}` : "") +
+    `&maxResults=${maxResults}&key=${encodeURIComponent(apiKey)}`;
+  try {
+    const payload = JSON.parse(await getText(url, { accept: "application/json" }));
+    const rows = (payload.items ?? [])
+      .map((item, index) => {
+        const original = (item?.snippet?.title ?? "").trim();
+        const title = cleanVideoTitle(original);
+        return {
+          source: `youtube-search-${seed.category}`,
+          geo: geo ?? seed.lang.toUpperCase(),
+          // Cleaning is for the human reading the log. Extraction runs on the
+          // original, because every cleaning rule is a chance to delete the
+          // one word that identified the subject.
+          originalTitle: original,
+          rawTerm: title,
+          term: normalizeTerm(title),
+          rank: index + 1,
+          // search.list carries no statistics part, so rank is the only
+          // strength signal available. Inventing a view count to fill the
+          // column would be a made-up number.
+          weight: null,
+        };
+      })
+      .filter((row) => row.term);
+    return { rows, ok: true };
+  } catch (error) {
+    log(`  youtube search "${seed.q}" (${seed.lang}/${seed.category}): ${error.message}`);
+    return { rows: [], ok: false, reason: error.message };
+  }
+}

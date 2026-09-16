@@ -46,8 +46,17 @@
 import { readFileSync } from "node:fs";
 import { assertCredentials } from "./supabase-preflight.mjs";
 import { upsertAll, dedupeByKey } from "./resilient-upsert.mjs";
-import { fetchGoogleTrends, fetchYouTubePopular, YOUTUBE_CATEGORIES } from "./trends/sources.mjs";
-import { classifyTerm, buildCatalogMatcher } from "./trends/classify.mjs";
+import {
+  fetchGoogleTrends,
+  fetchYouTubePopular,
+  fetchYouTubeSearch,
+  YOUTUBE_CATEGORIES,
+  YOUTUBE_SEED_KEYWORDS,
+  YOUTUBE_FALLBACK_SEEDS,
+  YOUTUBE_SEARCH_BUDGET,
+  normalizeTerm,
+} from "./trends/sources.mjs";
+import { classifyTerm, buildCatalogMatcher, extractEntity } from "./trends/classify.mjs";
 import {
   summarizeByTerm,
   BREAKOUT_VELOCITY,
@@ -151,6 +160,46 @@ async function collect() {
       rows.push(...youtube.rows.map((row) => ({ ...row, listSize: youtube.rows.length })));
     }
   }
+
+  // The seeded pass. The chart above answers "what is this country watching";
+  // this asks "what is our field publishing today", which is the question the
+  // site actually needs. search.list costs 100 units against videos.list's 1,
+  // so the budget is a hard stop rather than a target.
+  let spent = 0;
+  const runSeeds = async (seeds, label) => {
+    let produced = 0;
+    for (const seed of seeds) {
+      if (spent >= YOUTUBE_SEARCH_BUDGET) {
+        log(`  search budget spent (${YOUTUBE_SEARCH_BUDGET} calls); remaining seeds skipped.`);
+        break;
+      }
+      spent += 1;
+      const found = await fetchYouTubeSearch(seed, { log });
+      health.push({
+        source: `${label}-${seed.lang}-${seed.category}`,
+        geo: seed.lang.toUpperCase(),
+        ok: found.ok,
+        count: found.rows.length,
+        reason: found.reason,
+      });
+      produced += found.rows.length;
+      rows.push(...found.rows.map((row) => ({ ...row, listSize: found.rows.length })));
+    }
+    return produced;
+  };
+
+  const seeded = await runSeeds(YOUTUBE_SEED_KEYWORDS, "youtube-seed");
+
+  // An empty seeded pass leaves a hole in the day's history, and velocity is
+  // meaningless across a gap. The fallback seeds are broader on purpose, and
+  // the run says it used them so a week of fallback-only data is visible
+  // rather than passing for ordinary collection.
+  if (seeded === 0) {
+    log("\n  No seed returned a video. Falling back to the broad seeds.");
+    const rescued = await runSeeds(YOUTUBE_FALLBACK_SEEDS, "youtube-fallback");
+    if (rescued === 0) log("  The fallback seeds returned nothing either.");
+  }
+
   return { rows, health };
 }
 
@@ -220,15 +269,42 @@ async function main() {
     process.exit(1);
   }
 
-  // Classify first: most of a trends feed is not about this site.
+  // Classify, then reduce to the thing the term is ABOUT.
+  //
+  // A feed row is a video title, and a title is not a subject. Storing the
+  // title made every row unique, so twelve videos about one game became twelve
+  // "terms" and none of them was searchable. Extracting the entity collapses
+  // them onto the name a person would actually type, which is also the name a
+  // page can be written about.
+  //
+  // On-topic without an extractable entity is a real state, not a failure:
+  // "best anime of the season" is ours and names nothing to write about. It is
+  // counted separately so the log distinguishes "not our field" from "our
+  // field, nothing to build".
   const classified = [];
+  let topicalWithoutEntity = 0;
   for (const row of raw) {
-    const domain = classifyTerm(row.rawTerm);
+    const subject = row.originalTitle ?? row.rawTerm;
+    const domain = classifyTerm(subject);
     if (!domain) continue;
-    classified.push({ ...row, domain: domain.domain, matchedWord: domain.matchedWord });
+    const entity = extractEntity(subject);
+    if (!entity) {
+      topicalWithoutEntity += 1;
+      continue;
+    }
+    classified.push({
+      ...row,
+      term: normalizeTerm(entity.entity),
+      rawTerm: entity.entity,
+      sourceTitle: row.rawTerm,
+      domain: entity.domain,
+      matchedWord: entity.entity,
+    });
   }
   log(
-    `  ${classified.length} term(s) are on-topic (${raw.length - classified.length} dropped as off-topic).`,
+    `  ${classified.length} term(s) carry an entity ` +
+      `(${topicalWithoutEntity} on-topic but name nothing, ` +
+      `${raw.length - classified.length - topicalWithoutEntity} off-topic).`,
   );
 
   const observations = dedupeByKey(

@@ -21,7 +21,14 @@
  */
 
 import { computeVelocity, heatOf, weightMultiplier } from "./trends/velocity.mjs";
-import { classifyTerm, buildCatalogMatcher } from "./trends/classify.mjs";
+import { classifyTerm, buildCatalogMatcher, extractEntity } from "./trends/classify.mjs";
+import {
+  cleanVideoTitle,
+  YOUTUBE_SEED_KEYWORDS,
+  YOUTUBE_FALLBACK_SEEDS,
+  YOUTUBE_SEARCH_BUDGET,
+  YOUTUBE_CATEGORIES,
+} from "./trends/sources.mjs";
 
 let failures = 0;
 const check = (label, got, want) => {
@@ -120,6 +127,75 @@ check("longest title wins", match("dragon ball daima episode 20")?.slug, "dragon
 check("shorter title still matches on its own", match("dragon ball super")?.slug, "dragon-ball");
 check("a two-letter title never matches", match("a valid id number"), null);
 check("an unrelated term matches nothing", match("nothing relevant here"), null);
+
+/* --- A video title is not a subject ---------------------------------- *
+ *
+ * A real collection run stored 152 "terms" that were YouTube video titles in
+ * six languages — "ELE ESTA TE OBSERVANDO NO MINECRAFT... O TEMPO TODO!" —
+ * none of which anyone searches for. These checks run the real cleaner and
+ * the real extractor over the titles that run actually produced.
+ */
+
+console.log("\nTitle cleanup removes decoration, not subject");
+check("hashtags go", cleanVideoTitle("Frieren AMV #shorts #anime").includes("#"), false);
+check(
+  "bracketed language tags go",
+  cleanVideoTitle("Bleach [ENG SUB] [4K]").trim(),
+  "Bleach",
+);
+check(
+  "episode and season numbering goes",
+  cleanVideoTitle("Naruto Season 2 Episode 14").trim(),
+  "Naruto",
+);
+// The separator is noise; what follows it is as often the game as the channel.
+// The entity must be in the LAST segment for this to test anything: the old
+// rule stripped from the final pipe to the end, so a title with the subject in
+// the middle survived it and the check passed against the broken cleaner.
+check(
+  "a trailing pipe segment is kept",
+  cleanVideoTitle("gameplay walkthrough | Overwatch").includes("Overwatch"),
+  true,
+);
+
+console.log("\nEntity extraction names a thing, or nothing");
+check("the longest match wins", extractEntity("JUJUTSU KAISEN reaction")?.entity, "jujutsu kaisen");
+check("an entity at the end of a title is found", extractEntity("gameplay | Overwatch")?.entity, "overwatch");
+// The vocabulary carries topic markers so the on-topic filter works. A page
+// about the word "anime" is the thin page this site already deleted 81,250 of.
+check("a topic marker is on-topic", Boolean(classifyTerm("best anime this season")), true);
+check("a topic marker is never an entity", extractEntity("best anime this season"), null);
+// "episode" and "season 3" as anime vocabulary matched every television drama
+// in every language; a Pakistani serial was being stored as an anime trend.
+check("a foreign TV serial is not anime", classifyTerm("Aap Ki Izzat Episode 18 ENG SUB"), null);
+check("and yields no entity", extractEntity("Aap Ki Izzat Episode 18 ENG SUB"), null);
+// Measured gaps from a real run: both were collected and both were dropped.
+check("EA Sports FC is known", extractEntity("EA SPORTS FC 27 gameplay")?.entity, "ea sports fc");
+check("Korean webtoon adaptations are known", extractEntity("Tower of God S3 PV")?.entity, "tower of god");
+
+console.log("\nThe seeded search is bounded and cannot come back empty-handed");
+check("seeds exist", YOUTUBE_SEED_KEYWORDS.length > 0, true);
+check("fallback seeds exist", YOUTUBE_FALLBACK_SEEDS.length > 0, true);
+// search.list costs 100 units against a 10,000/day budget where videos.list
+// costs 1. An unbounded seed list would spend the day's quota in one pass.
+check("the budget is bounded", YOUTUBE_SEARCH_BUDGET > 0 && YOUTUBE_SEARCH_BUDGET <= 40, true);
+check(
+  "the budget covers the seeds",
+  YOUTUBE_SEED_KEYWORDS.length <= YOUTUBE_SEARCH_BUDGET,
+  true,
+);
+check(
+  "both languages are seeded",
+  new Set(YOUTUBE_SEED_KEYWORDS.map((s) => s.lang)).size >= 2,
+  true,
+);
+check(
+  "every seed targets an allowed category",
+  YOUTUBE_SEED_KEYWORDS.concat(YOUTUBE_FALLBACK_SEEDS).every((s) =>
+    YOUTUBE_CATEGORIES.includes(s.category),
+  ),
+  true,
+);
 
 console.log(
   failures ? `\n${failures} check(s) failed.\n` : "\nAll trend-pipeline checks passed.\n",

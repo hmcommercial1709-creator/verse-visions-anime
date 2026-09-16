@@ -337,6 +337,23 @@ async function main() {
     breakouts.filter((t) => !t.matched_entity_slug),
   );
 
+  // Velocity compares two windows, so both lists above are empty for the first
+  // six days of history — and stay empty for any term that is merely steady
+  // rather than accelerating. Coverage needs no velocity: whether the site has
+  // a page for a term is known the moment the term is collected. Withholding
+  // it until velocity exists is why the queue printed "none" on a day when 152
+  // on-topic terms had just been written, which reads as "nothing to do" when
+  // the truth was "the answer is not being shown".
+  const uncovered = terms
+    .filter((t) => !t.matched_entity_slug)
+    .sort((a, b) => (b.current_score ?? 0) - (a.current_score ?? 0));
+
+  printQueue(
+    `Trending today, nothing on the site covers it — velocity not yet known`,
+    uncovered,
+    40,
+  );
+
   log(
     `\nThe build queue is a list of decisions, not a publish list. Fill a gap by\n` +
       `ingesting real catalog data for it; the quality gate then judges the page on\n` +

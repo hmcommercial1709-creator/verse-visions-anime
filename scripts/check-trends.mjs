@@ -171,7 +171,28 @@ check("a foreign TV serial is not anime", classifyTerm("Aap Ki Izzat Episode 18 
 check("and yields no entity", extractEntity("Aap Ki Izzat Episode 18 ENG SUB"), null);
 // Measured gaps from a real run: both were collected and both were dropped.
 check("EA Sports FC is known", extractEntity("EA SPORTS FC 27 gameplay")?.entity, "ea sports fc");
-check("Korean webtoon adaptations are known", extractEntity("Tower of God S3 PV")?.entity, "tower of god");
+
+/* --- Anime means Japanese animation ---------------------------------- *
+ *
+ * A pass that widened the vocabulary added a dozen Korean manhwa with no anime
+ * adaptation, and two Korean live-action dramas. Those would have pulled
+ * K-drama traffic into the anime queue in exactly the way the word "episode"
+ * pulled in Pakistani serials — the same fault, one commit later.
+ *
+ * The test is the adaptation, not the origin of the source comic: Korean
+ * material that became a Japanese anime production belongs; Korean material
+ * that stayed a webtoon, or became live action, does not.
+ */
+console.log("\nAnime means Japanese animation");
+check("a currently-airing Japanese series", extractEntity("Kaiju No. 8 Season 2 Trailer")?.entity, "kaiju no. 8");
+check("a long-running Japanese series", extractEntity("Death Note rewatch")?.entity, "death note");
+// A brand-new title the vocabulary has never seen still reads as anime when
+// the studio is named, which is how week-one trends get picked up at all.
+check("a Japanese studio", extractEntity("MAPPA announces a new project")?.entity, "mappa");
+check("Korean source WITH a Japanese anime", extractEntity("Tower of God S3 PV")?.entity, "tower of god");
+check("Korean live-action drama is not anime", extractEntity("Sweet Home season 3 Netflix"), null);
+check("and is not even on-topic", classifyTerm("Weak Hero Class 2 trailer"), null);
+check("a manhwa with no anime is not anime", extractEntity("Eleceed chapter 300 review"), null);
 
 console.log("\nThe seeded search is bounded and cannot come back empty-handed");
 check("seeds exist", YOUTUBE_SEED_KEYWORDS.length > 0, true);

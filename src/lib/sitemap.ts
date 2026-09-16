@@ -111,7 +111,10 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/timeline",
     "/wallpapers",
     "/rewards/anime-wallpapers",
-    "/anime/dandadan",
+    // Not the hub: registering Dandadan in animes.ts generates
+    // /anime/dandadan into the anime partition, and one URL served by two
+    // partitions is the duplicate-sitemap fault that stalled indexing on
+    // this site once already. The sub-pages are generated nowhere else.
     "/anime/dandadan/episode-guide",
     "/anime/dandadan/characters",
     "/anime/dandadan/occult-world",

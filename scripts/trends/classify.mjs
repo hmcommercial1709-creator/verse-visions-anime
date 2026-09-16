@@ -528,6 +528,38 @@ const NON_ENTITY = new Set([
   "sub indo",
   "opening theme",
   "webtoon",
+  // Platforms, storefronts and mechanics. The live run surfaced "top up",
+  // "speedrun", "patch notes", "gameplay", "steam" and "playstation" as
+  // trending entities. Every one is correctly on-topic and none is a thing to
+  // write a page about: "patch notes" is what a video is, not what it is
+  // about. A page whose subject is the word "gameplay" is the thin page this
+  // repository already deleted 81,250 of.
+  "gameplay",
+  "speedrun",
+  "patch notes",
+  "dlc",
+  "battle pass",
+  "esports",
+  "twitch drops",
+  "early access",
+  "open beta",
+  "top up",
+  "steam",
+  "steam deck",
+  "epic games",
+  "game pass",
+  "xbox game pass",
+  "xbox live",
+  "playstation",
+  "playstation 5",
+  "ps5",
+  "xbox series x",
+  "nintendo switch",
+  "switch 2",
+  "nintendo eshop",
+  "robux",
+  "v-bucks",
+  "vbucks",
 ]);
 
 /**

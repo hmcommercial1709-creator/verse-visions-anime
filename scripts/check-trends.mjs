@@ -173,6 +173,15 @@ check("an entity at the end of a title is found", extractEntity("gameplay | Over
 // about the word "anime" is the thin page this site already deleted 81,250 of.
 check("a topic marker is on-topic", Boolean(classifyTerm("best anime this season")), true);
 check("a topic marker is never an entity", extractEntity("best anime this season"), null);
+// Surfaced by the first clean live run: every one of these was returned as a
+// trending "entity", correctly on-topic and useless as a page subject.
+check("a mechanic is not a subject", extractEntity("insane speedrun world record"), null);
+check("patch notes are not a subject", extractEntity("new patch notes breakdown"), null);
+check("a storefront is not a subject", extractEntity("steam autumn sale"), null);
+check("a console is not a subject", extractEntity("nintendo switch 2 hands on"), null);
+check("a top-up is not a subject", extractEntity("cheap top up guide"), null);
+// …while the game named alongside them still is.
+check("but the game beside it still is", extractEntity("Elden Ring speedrun world record")?.entity, "elden ring");
 // "episode" and "season 3" as anime vocabulary matched every television drama
 // in every language; a Pakistani serial was being stored as an anime trend.
 check("a foreign TV serial is not anime", classifyTerm("Aap Ki Izzat Episode 18 ENG SUB"), null);

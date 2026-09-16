@@ -89,15 +89,6 @@ jobs:
       - name: Check the matchmaker's pairings and the poll's honesty
         run: npx tsx scripts/check-matchmaker.mjs
 
-      # Guards the Share Studio's captions. It builds every caption for every
-      # published page on every platform and checks the results, rather than
-      # matching the source text — which is how the guard it replaces passed
-      # against comments after the code they described had been deleted. It
-      # also asserts every word comes from that page's own title, excerpt or
-      # tags, so no template can quietly assert something the article does not.
-      - name: Check the share captions fit and invent nothing
-        run: npx tsx scripts/check-post-kit.mjs
-
       - name: Check video feed and live channels
         run: node scripts/check-video-feed.mjs
 

@@ -137,6 +137,9 @@ const GAMES = [
   "helldivers",
   "palworld",
   "marvel rivals",
+  // Game adaptations, not anime — see the note in the anime list.
+  "arcane",
+  "castlevania",
 ];
 
 /** Anime and manga vocabulary. */
@@ -213,7 +216,8 @@ const ANIME = [
   "one punch man",
   "mob psycho",
   "jojo",
-  "bizarre adventure",
+  "jojos",
+  "jojos bizarre adventure",
   "haikyuu",
   "kuroko",
   "vinland saga",
@@ -270,6 +274,161 @@ const ANIME = [
   "science saru",
   "shueisha",
   "shonen jump",
+  // The catalogue, from a 287-line reference list the site owner supplied.
+  //
+  // Reduced to 207 franchises first: the list carried "Attack on Titan Season
+  // 1/2/3", eleven My Hero Academia entries and four One Piece films, and
+  // extractEntity returns the LONGEST match — so storing the season would make
+  // "my hero academia season 6" the trend and split one franchise across
+  // eleven terms that never accumulate a signal.
+  //
+  // Six were excluded for matching text that has nothing to do with anime:
+  // "monster" (monster hunter, monster energy), "another", "free" (free fire),
+  // "erased", "pluto" and "claymore". Precision is the whole value of this
+  // list — a vocabulary that matches everything classifies nothing.
+  //
+  // Arcane and Castlevania moved to the games vocabulary: both are excellent
+  // and neither is Japanese animation. They are on-topic for this site as game
+  // adaptations, which is where they now sit.
+  "a place further than the universe",
+  "afro samurai",
+  "akame ga kill",
+  "akira",
+  "anohana",
+  "assassination classroom",
+  "baccano",
+  "bakugan battle brawlers",
+  "barakamon",
+  "beastars",
+  "beyblade",
+  "black butler",
+  "blue exorcist",
+  "bungo stray dogs",
+  "cardcaptor sakura",
+  "castle in the sky",
+  "clannad",
+  "cyberpunk",
+  "darling in the franxx",
+  "devilman crybaby",
+  "digimon adventure",
+  "digimon adventure 02",
+  "digimon data squad",
+  "digimon frontier",
+  "digimon tamers",
+  "dorohedoro",
+  "dororo",
+  "dr. stone",
+  "durarara",
+  "elfen lied",
+  "ergo proxy",
+  "fate/apocrypha",
+  "fate/grand order",
+  "fate/grand order absolute demonic front",
+  "fate/stay night",
+  "fate/zero",
+  "food wars! shokugeki no soma",
+  "fruits basket",
+  "future diary",
+  "ghost in the shell",
+  "grave of the fireflies",
+  "great pretender",
+  "gurren lagann",
+  "hell's paradise",
+  "howl's moving castle",
+  "initial d",
+  "inuyasha",
+  "kara no kyoukai",
+  "kiki's delivery service",
+  "kill la kill",
+  "land of the lustrous",
+  "log horizon",
+  "magi",
+  "march comes in like a lion",
+  "mashle",
+  "megalo box",
+  "mirai nikki",
+  "mobile suit gundam",
+  "mobile suit gundam 00",
+  "mobile suit gundam seed",
+  "mobile suit gundam wing",
+  "mononoke",
+  "mushishi",
+  "my dress-up darling",
+  "my neighbor totoro",
+  "natsume's book of friends",
+  "nausicaa of the valley of the wind",
+  "nausicaä of the valley of the wind",
+  "noragami",
+  "odd taxi",
+  "paprika",
+  "perfect blue",
+  "ping pong the animation",
+  "platinum end",
+  "pokemon",
+  "pokémon",
+  "pokémon horizons",
+  "pokémon journeys",
+  "ponyo",
+  "princess mononoke",
+  "psycho-pass",
+  "ranking of kings",
+  "ranma",
+  "ranma ½",
+  "rascal does not dream of bunny girl senpai",
+  "run with the wind",
+  "sailor moon",
+  "samurai champloo",
+  "serial experiments lain",
+  "shaman king",
+  "slam dunk",
+  "soul eater",
+  "spirited away",
+  "summer wars",
+  "texhnolyze",
+  "the ancient magus' bride",
+  "the elusive samurai",
+  "the garden of sinners",
+  "the misfit of demon king academy",
+  "the prince of tennis",
+  "the tatami galaxy",
+  "the wind rises",
+  "to your eternity",
+  "toradora",
+  "trigun",
+  "trigun stampede",
+  "undead unluck",
+  "violet evergarden",
+  "wangan midnight",
+  "your lie in april",
+  "yu gi oh",
+  "yu-gi-oh",
+  "yu-gi-oh! 5d's",
+  "yu-gi-oh! arc-v",
+  "yu-gi-oh! duel monsters",
+  "yu-gi-oh! gx",
+  "yu-gi-oh! vrains",
+  "yu-gi-oh! zexal",
+  "yugioh",
+  "yuri!!! on ice",
+  "zom 100",
+  // Two entries from the reference list were dropped rather than added:
+  // "Re:Zero" reduced to "re" when split at the colon, which matched every
+  // re-upload and rewatch; "The Last: Naruto the Movie" reduced to "the
+  // last", which matched The Last of Us. A franchise whose short form is a
+  // common English fragment is carried by its full title or not at all.
+  // Titles as a video actually writes them: the apostrophe is dropped far
+  // more often than it is typed, and a franchise is named by its short
+  // form ("Gundam") rather than its catalogue form ("Mobile Suit Gundam").
+  "edgerunners",
+  "gundam",
+  "hells paradise",
+  "howls moving castle",
+  "kikis delivery service",
+  "komi cant communicate",
+  "natsumes book of friends",
+  "the ancient magus bride",
+  "witch from mercury",
+  "yu-gi-oh! 5ds",
 ];
 
 const DOMAINS = [
@@ -289,7 +448,11 @@ const COMPILED = DOMAINS.map(([domain, words]) => [
   domain,
   words.map((word) => ({
     word,
-    re: new RegExp(`(?:^|[^a-z0-9])${escape(word)}(?:[^a-z0-9]|$)`, "i"),
+    // The optional trailing "'s" / "s" is what makes "Kurokos Basketball" and
+    // "JoJos Bizarre Adventure" match. A video title drops the apostrophe far
+    // more often than it types it, and enumerating both spellings for every
+    // possessive title is a list that silently falls behind the next one added.
+    re: new RegExp(`(?:^|[^a-z0-9])${escape(word)}(?:'?s)?(?:[^a-z0-9]|$)`, "i"),
   })),
 ]);
 

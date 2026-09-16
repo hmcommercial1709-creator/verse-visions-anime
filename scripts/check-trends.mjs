@@ -21,7 +21,12 @@
  */
 
 import { computeVelocity, heatOf, weightMultiplier } from "./trends/velocity.mjs";
-import { classifyTerm, buildCatalogMatcher, extractEntity } from "./trends/classify.mjs";
+import {
+  classifyTerm,
+  buildCatalogMatcher,
+  extractEntity,
+  VOCABULARY_SIZE,
+} from "./trends/classify.mjs";
 import {
   cleanVideoTitle,
   YOUTUBE_SEED_KEYWORDS,
@@ -193,6 +198,24 @@ check("Korean source WITH a Japanese anime", extractEntity("Tower of God S3 PV")
 check("Korean live-action drama is not anime", extractEntity("Sweet Home season 3 Netflix"), null);
 check("and is not even on-topic", classifyTerm("Weak Hero Class 2 trailer"), null);
 check("a manhwa with no anime is not anime", extractEntity("Eleceed chapter 300 review"), null);
+
+/* --- A big list is only worth what its precision survives ------------- *
+ *
+ * A 287-line reference list reduced to 207 franchises, and two of those
+ * reduced to fragments that match ordinary English: "Re:Zero" split at the
+ * colon becomes "re", and "The Last: Naruto the Movie" becomes "the last".
+ * Either one turns the vocabulary into a filter that matches everything,
+ * which classifies nothing.
+ */
+console.log("\nA franchise whose short form is a common fragment is not carried by it");
+check("re-upload is not Re:Zero", extractEntity("I re-uploaded this video"), null);
+check("The Last of Us is not a Naruto film", extractEntity("the last of us part 2"), null);
+check("but the full title still matches", extractEntity("Re:Zero season 3 ep 4")?.entity, "re:zero");
+// Video titles drop the apostrophe far more often than they type it.
+check("a possessive without its apostrophe", extractEntity("Kurokos Basketball season 3")?.entity, "kuroko");
+check("and a multi-word one", extractEntity("Howls Moving Castle 4K")?.entity, "howls moving castle");
+// The list is only useful if it is actually broad.
+check("the vocabulary is broad", VOCABULARY_SIZE > 300, true);
 
 console.log("\nThe seeded search is bounded and cannot come back empty-handed");
 check("seeds exist", YOUTUBE_SEED_KEYWORDS.length > 0, true);

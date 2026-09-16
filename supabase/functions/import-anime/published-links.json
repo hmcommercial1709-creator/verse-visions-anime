@@ -225,5 +225,17 @@
       "supernatural",
       "shonen"
     ]
+  },
+  {
+    "path": "/anime/dandadan",
+    "title": "Dandadan",
+    "topics": [
+      "action",
+      "comedy",
+      "supernatural",
+      "sci-fi",
+      "romance",
+      "shonen"
+    ]
   }
 ]

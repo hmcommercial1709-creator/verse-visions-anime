@@ -1257,6 +1257,86 @@ export const animes: Anime[] = [
     ],
     similar: ["hunter-x-hunter", "bleach", "jojos-bizarre-adventure"],
   },
+  {
+    slug: "dandadan",
+    title: "Dandadan",
+    japaneseTitle: "ダンダダン",
+    year: 2024,
+    status: "Ongoing",
+    episodes: "?",
+    seasons: 2,
+    // Editorial score, as every rating on this site is — the card that renders
+    // it says so on hover. It is our judgement, not a figure scraped from
+    // somewhere and presented as a measurement.
+    rating: 8.7,
+    popularity: 13,
+    studio: "science-saru",
+    genres: ["action", "comedy", "supernatural", "sci-fi", "romance", "shonen"],
+    // Momo, Okarun and the rest are not rows in characters.ts yet; the
+    // character work lives on /anime/dandadan/characters. Listing slugs that
+    // do not exist would break every link that trusts this array.
+    characters: [],
+    synopsis:
+      "Momo Ayase believes in ghosts and thinks aliens are nonsense. Ken Takakura believes in aliens and thinks ghosts are superstition. Each sets out to prove the other wrong, and the bet settles itself in the worst possible way: both are right. What follows moves between school comedy, folklore tragedy and cosmic action without ever losing the friendship at its centre.",
+    tagline: "Two beliefs, one impossible bet, and both of them were right.",
+    cover: "linear-gradient(135deg, #db2777, #0f172a)",
+    accent: "#db2777",
+    arcs: [
+      {
+        title: "Turbo Granny",
+        episodes: "1–4",
+        summary:
+          "The bet, the tunnel and the curse. Belief becomes a problem with consequences, and the series sets its pattern: the monster is not defeated, she is understood.",
+      },
+      {
+        title: "Acrobatic Silky",
+        episodes: "5–7",
+        summary:
+          "Aira enters and the horror gains a human history. The scarier the entity looks, the more likely the resolution is a tragedy rather than a fight.",
+      },
+      {
+        title: "Serpo and the Cursed House",
+        episodes: "8–12",
+        summary:
+          "The team expands, the alien conspiracy widens, and Jiji opens a haunting that runs longer than anything before it.",
+      },
+    ],
+    watchOrder: ["Season 1 (episodes 1–12)", "Season 2", "Manga from the point the anime reaches"],
+    powerSystem:
+      "Two systems that do not share rules. Spirits are bound by territory, grudges and conditions, and are usually resolved by working out what they want. Okarun's speed is borrowed from Turbo Granny's curse and ends on a hard time limit; Momo's psychic ability is continuous but fails on concentration rather than on a resource. Neither is given a number.",
+    worldBuilding:
+      "Modern Japanese urban legend on one side — tunnels, roadsides, station platforms — and UFO subculture on the other, with its abductions, greys and agencies that know more than they say. The series' structural joke is that two traditions with completely different textures both turn out to be true, and the cast has to work in both at once.",
+    themes: [
+      "Belief and the cost of being right",
+      "Protection as something reciprocal",
+      "Embarrassment as a real obstacle",
+      "Folklore as human history",
+    ],
+    quotes: [],
+    facts: [
+      "Adapted by Science SARU, the studio behind Devilman Crybaby and Ping Pong the Animation.",
+      "Turbo Granny is drawn from Tābo Bābā, a real modern Japanese legend about an old woman who runs at car speed through tunnels.",
+      "Written and drawn by Yukinobu Tatsu, who previously worked as an assistant on Jujutsu Kaisen.",
+    ],
+    awards: [],
+    soundtrack: [],
+    voiceActors: [],
+    faq: [
+      {
+        q: "Do I need to know Japanese folklore to follow Dandadan?",
+        a: "No. Every entity is explained well enough in-story to follow. Knowing the source legends adds a layer — you can see which beats are inherited — but nothing depends on it.",
+      },
+      {
+        q: "Is Dandadan a horror series or a comedy?",
+        a: "Both, deliberately and often in the same scene. The tonal switches are the formula rather than an inconsistency, and the anime's timing is the main reason to start there rather than with the manga.",
+      },
+      {
+        q: "Where does the anime leave off in the manga?",
+        a: "The adaptation follows the manga's order closely, so picking up the volumes from where the season ends is the clean route. The watch guide on this site covers the handover.",
+      },
+    ],
+    similar: ["jujutsu-kaisen", "chainsaw-man", "mob-psycho-100", "hunter-x-hunter"],
+  },
 ];
 
 

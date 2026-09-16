@@ -251,20 +251,29 @@ assert.equal(
   "a finished platform must report nothing left rather than repeat",
 );
 
-/* --- 7. The API poster stays removed. -------------------------------- *
+/* --- 7. The token-based auto-posters stay removed. ------------------- *
  *
- * It failed on an app approval that is Pinterest's to grant, not ours, and
- * reported a red CI run every time. Reinstating it would bring both back.
+ * Both failed on an approval outside this repository — Pinterest's app review
+ * and Telegram's bot activation — and neither could report it. The Pinterest
+ * job went red on every schedule; the Telegram one printed "Published
+ * successfully" without reading the API's response at all, so 87 green ticks
+ * proved nothing. The Telegram script also picked a promotional headline at
+ * random from a hardcoded list and attached it to whatever page it scraped,
+ * captioning a chemistry explainer as a wallpaper post, and fell back to a
+ * stock photo from someone else's library. That is the fabrication this site
+ * does not ship.
  */
 
 for (const path of [
   "../scripts/pinterest-auto-poster.py",
   "../scripts/build-pinterest-queue.mjs",
   "../.github/workflows/pinterest.yml",
+  "../auto_publisher.py",
+  "../.github/workflows/telegram_auto.yml",
 ]) {
   assert.ok(
     !existsSync(new URL(path, import.meta.url)),
-    `${path} is back: the token-based poster cannot work without an approved app`,
+    `${path} is back: it cannot publish, and it cannot report that it did not`,
   );
 }
 

@@ -70,6 +70,7 @@ import { drStoneInventionsArticle } from "./article-dr-stone-inventions";
 import { drStoneSupportingArticles } from "./article-dr-stone-cluster";
 import { hxhNenArticle } from "./article-hxh-nen";
 import { jujutsuKaisenClusterArticles } from "./article-jjk-cluster";
+import { dandadanClusterArticles } from "./article-dandadan-cluster";
 import { frierenMagicSystemArticle, odmGearArticle } from "./article-search-opportunities";
 import { extraArticles } from "./articles-extra";
 import { longformArticles } from "./articles-longform";
@@ -105,6 +106,7 @@ const coreArticles: Article[] = [
   drStoneInventionsArticle,
   ...drStoneSupportingArticles,
   ...jujutsuKaisenClusterArticles,
+  ...dandadanClusterArticles,
   hxhNenArticle,
   frierenMagicSystemArticle,
   odmGearArticle,

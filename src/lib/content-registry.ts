@@ -60,26 +60,38 @@ export function isPublished(
 }
 
 /**
+ * What the quality gate is willing to be handed.
+ *
+ * It was typed `any`, which meant the gate that decides whether content is
+ * good enough to index accepted anything at all — including a shape with none
+ * of the fields it reads, which would fall through both branches and return
+ * true. A union of the two things it actually judges restores the check the
+ * compiler should have been making all along.
+ */
+type QualityCandidate = Partial<Article> | Partial<Anime> | Record<string, unknown>;
+
+/**
  * Strict Quality Gate to prevent thin or incomplete content from being published
  * or indexed in public sitemaps and search indexes.
  */
-export function passesQualityGate(item: any): boolean {
+export function passesQualityGate(item: QualityCandidate): boolean {
   // Article quality check: requires substantial body text (>= 350 words) and valid content blocks
   if ("body" in item || "sections" in item) {
-    const paragraphs = articleParagraphs(item);
+    const paragraphs = articleParagraphs(item as unknown as Article);
     const totalWords = paragraphs.join(" ").split(/\s+/).filter(Boolean).length;
-    return totalWords >= 350 && articleHasContent(item);
+    return totalWords >= 350 && articleHasContent(item as unknown as Article);
   }
   
   // Anime quality check: requires title, a descriptive synopsis (>= 100 chars), genres, and a studio
   if ("synopsis" in item || "genres" in item) {
+    const anime = item as Partial<Anime>;
     return Boolean(
-      item.title &&
-      item.synopsis &&
-      item.synopsis.length >= 100 &&
-      item.genres &&
-      item.genres.length > 0 &&
-      item.studio
+      anime.title &&
+      anime.synopsis &&
+      anime.synopsis.length >= 100 &&
+      anime.genres &&
+      anime.genres.length > 0 &&
+      anime.studio
     );
   }
 
@@ -356,7 +368,11 @@ const STATIC_CONTENT_PATHS = new Set([
   "/quotes",
   "/recommendations",
   "/rewards/anime-wallpapers",
-  "/anime/dandadan",
+  // The hub itself is no longer listed here: registering Dandadan in
+  // animes.ts means /anime/dandadan is generated into sitemap-anime.xml,
+  // and a URL served by two partitions is the duplicate-sitemap fault that
+  // stalled indexing on this site once already. The sub-pages below are
+  // not generated anywhere else, so they stay.
   "/anime/dandadan/episode-guide",
   "/anime/dandadan/characters",
   "/anime/dandadan/occult-world",

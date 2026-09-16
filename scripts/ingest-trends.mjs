@@ -434,11 +434,40 @@ async function main() {
   if (historyError) throw new Error(`Reading ${OBSERVATIONS_TABLE}: ${historyError.message}`);
 
   log(`\nScoring ${history.length} observation(s) since ${since}:`);
-  const summaries = summarizeByTerm(history, { asOf: new Date() });
+
+  // Re-extract on read, not only on write.
+  //
+  // Rows written before extraction existed hold the raw video title as their
+  // term, and the history window is six days — so a queue built straight from
+  // storage keeps showing "ELE ESTA TE OBSERVANDO NO MINECRAFT" next to the
+  // clean entities for most of a week, and the two never merge into one
+  // signal. Normalising here repairs the stored past instead of waiting it
+  // out, and it is idempotent: a row already reduced to its entity extracts to
+  // the same entity again.
+  let repaired = 0;
+  const normalizedHistory = [];
+  for (const row of history) {
+    const subject = row.raw_term ?? row.term;
+    const hit = matchCatalog(subject);
+    const entity = hit ? hit.name : (extractEntity(subject)?.entity ?? null);
+    if (!entity) continue;
+    const term = normalizeTerm(entity);
+    if (term !== row.term) repaired += 1;
+    normalizedHistory.push({ ...row, term, raw_term: entity });
+  }
+  if (repaired) {
+    log(`  ${repaired} stored row(s) predate extraction and were reduced on read.`);
+  }
+  const dropped = history.length - normalizedHistory.length;
+  if (dropped) {
+    log(`  ${dropped} stored row(s) name nothing extractable and are not scored.`);
+  }
+
+  const summaries = summarizeByTerm(normalizedHistory, { asOf: new Date() });
 
   const display = new Map();
   const domains = new Map();
-  for (const row of history) {
+  for (const row of normalizedHistory) {
     if (!display.has(row.term)) display.set(row.term, row.raw_term);
     if (!domains.has(row.term)) domains.set(row.term, classifyTerm(row.raw_term)?.domain ?? null);
   }

@@ -30,11 +30,7 @@
     "plan:growth": "tsx scripts/plan-growth.mjs",
     "prebuild": "node scripts/build-lastmod.mjs",
     "check:engagement": "tsx scripts/check-engagement.mjs",
-    "check:matchmaker": "tsx scripts/check-matchmaker.mjs",
-    "pinterest:queue": "tsx scripts/build-pinterest-queue.mjs",
-    "pinterest:dry": "tsx scripts/build-pinterest-queue.mjs && python3 scripts/pinterest-auto-poster.py --dry-run",
-    "pinterest:post": "tsx scripts/build-pinterest-queue.mjs && python3 scripts/pinterest-auto-poster.py",
-    "check:pinterest": "tsx scripts/check-pinterest.mjs"
+    "check:matchmaker": "tsx scripts/check-matchmaker.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -54,6 +54,8 @@ import {
   YOUTUBE_SEED_KEYWORDS,
   YOUTUBE_FALLBACK_SEEDS,
   YOUTUBE_SEARCH_BUDGET,
+  FRANCHISE_SEEDS_PER_RUN,
+  franchiseSeedsForDay,
   normalizeTerm,
 } from "./trends/sources.mjs";
 import { classifyTerm, buildCatalogMatcher, extractEntity } from "./trends/classify.mjs";
@@ -134,7 +136,7 @@ function client() {
  * endpoint was down would leave a hole in exactly the series velocity depends
  * on.
  */
-async function collect() {
+async function collect(catalogSeeds = []) {
   const rows = [];
   const health = [];
   for (const geo of GEOS) {
@@ -188,7 +190,29 @@ async function collect() {
     return produced;
   };
 
-  const seeded = await runSeeds(YOUTUBE_SEED_KEYWORDS, "youtube-seed");
+  // Generic seeds find what is rising that nobody named. Franchise seeds ask
+  // about the titles the site exists to cover, which is where the useful
+  // answer usually is: "anime trailer" returns whatever the algorithm favours
+  // today, while "Kaiju No. 8" returns what happened to Kaiju No. 8 today.
+  //
+  // The franchise list is walked a slice at a time — all 207 in one pass would
+  // cost 20,700 quota units against a 10,000 budget — so the cycle completes
+  // over several days and repeats.
+  const generic = await runSeeds(YOUTUBE_SEED_KEYWORDS, "youtube-seed");
+  const franchises = franchiseSeedsForDay(FRANCHISE_SEEDS_PER_RUN);
+  log(
+    `\n  Asking about ${franchises.length} franchise(s) this run: ` +
+      `${franchises.slice(0, 4).map((f) => f.q).join(", ")}…`,
+  );
+  const named = await runSeeds(franchises, "youtube-franchise");
+
+  // And a slice of the catalog itself. The curated list is a few hundred names
+  // somebody typed; the catalog is everything the site ingests from AniList
+  // and Steam and grows every night, which is the only seed source that keeps
+  // up with a field where new titles appear weekly. Curated seeds have the
+  // higher hit rate, so they go first and the catalog spends what is left.
+  const fromCatalog = await runSeeds(catalogSeeds, "youtube-catalog");
+  const seeded = generic + named + fromCatalog;
 
   // An empty seeded pass leaves a hole in the day's history, and velocity is
   // meaningless across a gap. The fallback seeds are broader on purpose, and
@@ -204,6 +228,37 @@ async function collect() {
 }
 
 /* ---------------------------------------------------------------- catalog */
+
+/**
+ * A rotating slice of the catalog, asked about by name.
+ *
+ * The curated franchise lists are a few hundred titles. The catalog is every
+ * anime and game the site ingests, and it grows every night — which is the
+ * only seed source that keeps pace with a field where new titles appear
+ * weekly. Walked the same way as the curated lists so the whole catalog is
+ * covered over time rather than the first page being asked about forever.
+ *
+ * Sorted by name so the window is stable between runs: rows come back from the
+ * database in no guaranteed order, and an unstable sort would re-ask about the
+ * same arbitrary handful every day while never reaching the rest.
+ */
+const CATALOG_SEEDS_PER_RUN = 6;
+
+function catalogSeedsForDay(catalog, count, date = new Date()) {
+  const names = catalog
+    .filter((row) => (row?.name ?? "").trim().length >= 4)
+    .map((row) => ({ name: String(row.name).trim(), type: row.entity_type ?? row.entityType }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  if (!names.length || count <= 0) return [];
+  const day = Math.floor(date.getTime() / 86400000);
+  const start = (((day * count) % names.length) + names.length) % names.length;
+  const picked = [];
+  for (let i = 0; i < Math.min(count, names.length); i += 1) {
+    const row = names[(start + i) % names.length];
+    picked.push({ q: row.name, lang: "en", category: row.type === "game" ? "20" : "1" });
+  }
+  return picked;
+}
 
 /** Every slug and name the site can already land a visitor on. */
 async function loadCatalog(supabase) {
@@ -259,7 +314,15 @@ async function main() {
   await assertCredentials(supabase, OBSERVATIONS_TABLE, { log, column: "term" });
 
   log("Collecting:");
-  const { rows: raw, health } = await collect();
+  // Loaded before collection, because the catalog is both what the seeded pass
+  // asks about and what the classifier recognises. It used to load after both,
+  // which made the hand-written vocabulary a whitelist over a catalog that
+  // already knew more than it did.
+  const catalog = await loadCatalog(supabase);
+  const matchCatalog = buildCatalogMatcher(catalog);
+  log(`  ${catalog.length} catalog row(s) loaded.`);
+
+  const { rows: raw, health } = await collect(catalogSeedsForDay(catalog, CATALOG_SEEDS_PER_RUN));
   const live = health.filter((h) => h.ok).length;
   log(`\n  ${live}/${health.length} feed(s) responded, ${raw.length} raw term(s).`);
   if (!live) {
@@ -281,10 +344,38 @@ async function main() {
   // "best anime of the season" is ours and names nothing to write about. It is
   // counted separately so the log distinguishes "not our field" from "our
   // field, nothing to build".
+  //
+  // The CATALOG is tried before the hand-written vocabulary, and that order is
+  // the whole point. The vocabulary is a few hundred names somebody typed; the
+  // catalog is every anime, manga and game the site ingests from AniList,
+  // Jikan and Steam, refreshed nightly. Running the vocabulary first made it a
+  // whitelist — a series that premiered this week was dropped before the
+  // catalog, which already knew it, was ever consulted.
+  //
+  // So: catalog first for reach, vocabulary second for the things a catalog
+  // has no row for (a studio, a platform, a storefront currency).
+  const DOMAIN_OF_ENTITY = { anime: "anime", manga: "anime", game: "games", games: "games" };
+
   const classified = [];
   let topicalWithoutEntity = 0;
+  let fromCatalog = 0;
   for (const row of raw) {
     const subject = row.originalTitle ?? row.rawTerm;
+
+    const known = matchCatalog(subject);
+    if (known) {
+      fromCatalog += 1;
+      classified.push({
+        ...row,
+        term: normalizeTerm(known.name),
+        rawTerm: known.name,
+        sourceTitle: row.rawTerm,
+        domain: DOMAIN_OF_ENTITY[known.entityType] ?? "anime",
+        matchedWord: known.name,
+      });
+      continue;
+    }
+
     const domain = classifyTerm(subject);
     if (!domain) continue;
     const entity = extractEntity(subject);
@@ -303,7 +394,8 @@ async function main() {
   }
   log(
     `  ${classified.length} term(s) carry an entity ` +
-      `(${topicalWithoutEntity} on-topic but name nothing, ` +
+      `(${fromCatalog} from the catalog, ${classified.length - fromCatalog} from the vocabulary; ` +
+      `${topicalWithoutEntity} on-topic but name nothing, ` +
       `${raw.length - classified.length - topicalWithoutEntity} off-topic).`,
   );
 
@@ -343,10 +435,6 @@ async function main() {
 
   log(`\nScoring ${history.length} observation(s) since ${since}:`);
   const summaries = summarizeByTerm(history, { asOf: new Date() });
-
-  const catalog = await loadCatalog(supabase);
-  const matchCatalog = buildCatalogMatcher(catalog);
-  log(`  matched against ${catalog.length} active catalog row(s).`);
 
   const display = new Map();
   const domains = new Map();

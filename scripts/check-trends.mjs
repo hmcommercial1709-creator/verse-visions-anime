@@ -29,6 +29,9 @@ import {
 } from "./trends/classify.mjs";
 import {
   cleanVideoTitle,
+  SEED_FRANCHISES,
+  FRANCHISE_SEEDS_PER_RUN,
+  franchiseSeedsForDay,
   YOUTUBE_SEED_KEYWORDS,
   YOUTUBE_FALLBACK_SEEDS,
   YOUTUBE_SEARCH_BUDGET,
@@ -217,12 +220,72 @@ check("and a multi-word one", extractEntity("Howls Moving Castle 4K")?.entity, "
 // The list is only useful if it is actually broad.
 check("the vocabulary is broad", VOCABULARY_SIZE > 300, true);
 
+/* --- The list points YouTube, it does not only filter it -------------- *
+ *
+ * Used as vocabulary the reference list decides what to keep out of whatever
+ * YouTube happened to return. Used as seeds it decides what YouTube is asked
+ * for — the difference between filtering noise and never collecting it.
+ */
+console.log("\nFranchise seeds rotate and stay inside the quota");
+check("every franchise is a usable query", SEED_FRANCHISES.every((t) => t.length >= 4), true);
+check("the list is large", SEED_FRANCHISES.length > 150, true);
+const dayA = franchiseSeedsForDay(FRANCHISE_SEEDS_PER_RUN, new Date("2026-09-16T00:00:00Z"));
+const dayB = franchiseSeedsForDay(FRANCHISE_SEEDS_PER_RUN, new Date("2026-09-17T00:00:00Z"));
+check("a run asks the configured number", dayA.length, FRANCHISE_SEEDS_PER_RUN);
+// Consecutive days must not repeat, or the cycle never reaches the tail of
+// the list and half the catalogue is never asked about.
+check(
+  "consecutive days do not overlap",
+  dayA.filter((a) => dayB.some((b) => b.q === a.q)).length,
+  0,
+);
+check("the same day is reproducible", franchiseSeedsForDay(FRANCHISE_SEEDS_PER_RUN, new Date("2026-09-16T00:00:00Z"))[0].q, dayA[0].q);
+check("seeds target an allowed category", dayA.every((seed) => YOUTUBE_CATEGORIES.includes(seed.category)), true);
+// 100 units per search call against a 10,000/day budget.
+check(
+  "the whole pass fits the daily quota",
+  (YOUTUBE_SEED_KEYWORDS.length + FRANCHISE_SEEDS_PER_RUN) * 100 < 10000,
+  true,
+);
+check(
+  "and fits the enforced budget",
+  YOUTUBE_SEED_KEYWORDS.length + FRANCHISE_SEEDS_PER_RUN <= YOUTUBE_SEARCH_BUDGET,
+  true,
+);
+
+/* --- The catalog is the net; the vocabulary is the backstop ----------- *
+ *
+ * The vocabulary is a few hundred names somebody typed. The catalog is every
+ * anime, manga and game the site ingests from AniList, Jikan and Steam,
+ * refreshed nightly — thousands of rows, including the series that premiered
+ * this week. Running the vocabulary first made it a whitelist and dropped
+ * those before the catalog, which already knew them, was ever consulted.
+ */
+console.log("\nThe catalog reaches further than any hand-written list");
+const fresh = buildCatalogMatcher([
+  { entity_type: "anime", slug: "gachiakuta", name: "Gachiakuta" },
+  { entity_type: "game", slug: "silksong", name: "Hollow Knight Silksong" },
+]);
+check("a series no list was updated for", fresh("Gachiakuta ep 12 reaction")?.slug, "gachiakuta");
+check("a game no list was updated for", fresh("Hollow Knight Silksong release date")?.slug, "silksong");
+// If these ever start matching, the ordering has stopped mattering and this
+// section can go. Until then they are the reason the catalog is tried first.
+check("the vocabulary alone misses the series", extractEntity("Gachiakuta ep 12 reaction"), null);
+check("and misses the game", extractEntity("Hollow Knight Silksong release date"), null);
+
 console.log("\nThe seeded search is bounded and cannot come back empty-handed");
 check("seeds exist", YOUTUBE_SEED_KEYWORDS.length > 0, true);
 check("fallback seeds exist", YOUTUBE_FALLBACK_SEEDS.length > 0, true);
 // search.list costs 100 units against a 10,000/day budget where videos.list
-// costs 1. An unbounded seed list would spend the day's quota in one pass.
-check("the budget is bounded", YOUTUBE_SEARCH_BUDGET > 0 && YOUTUBE_SEARCH_BUDGET <= 40, true);
+// costs 1. The ceiling is the quota, not a number somebody liked: an earlier
+// version asserted "<= 40", which failed the moment the budget was raised for
+// a good reason and told us nothing about whether the raise was safe.
+check("the budget is bounded", YOUTUBE_SEARCH_BUDGET > 0, true);
+check(
+  "a full pass cannot exhaust the daily quota",
+  YOUTUBE_SEARCH_BUDGET * 100 <= 7000,
+  true,
+);
 check(
   "the budget covers the seeds",
   YOUTUBE_SEED_KEYWORDS.length <= YOUTUBE_SEARCH_BUDGET,

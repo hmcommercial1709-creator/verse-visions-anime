@@ -249,7 +249,349 @@ export const YOUTUBE_FALLBACK_SEEDS = [
  * catalog ingest and the daily chart pass, and low enough that a retry storm
  * cannot exhaust the day. The cap is enforced by the caller, not suggested.
  */
-export const YOUTUBE_SEARCH_BUDGET = 18;
+/**
+ * The franchises the seeded pass points YouTube AT.
+ *
+ * This is the other half of the site owner's reference list, and the half that
+ * matters more. Used as vocabulary the list only decides what to keep out of
+ * what YouTube happened to return; used as seeds it decides what YouTube is
+ * asked for in the first place, which is the difference between filtering
+ * noise and never collecting it.
+ *
+ * "anime trailer" returns whatever the algorithm favours today. "Kaiju No. 8"
+ * returns what is happening to Kaiju No. 8 today, and a site that publishes
+ * about Kaiju No. 8 can use the second and not the first.
+ */
+// Note: entries the VOCABULARY refuses ("Monster", "Another") are fine as
+// seeds. A seed is a question put to YouTube inside Film & Animation, and
+// whatever comes back is still filtered by the catalog and the vocabulary
+// before it is stored. Asking about Monster is safe; believing every string
+// containing "monster" is Monster is not.
+export const SEED_FRANCHISES = [
+  "One Piece",
+  "Naruto",
+  "Bleach",
+  "Dragon Ball",
+  "Dragon Ball Z",
+  "Dragon Ball GT",
+  "Dragon Ball Super",
+  "Attack on Titan",
+  "Demon Slayer",
+  "Jujutsu Kaisen",
+  "My Hero Academia",
+  "Hunter x Hunter",
+  "Death Note",
+  "Fullmetal Alchemist",
+  "One Punch Man",
+  "Tokyo Ghoul",
+  "Sword Art Online",
+  "Black Clover",
+  "Fairy Tail",
+  "JoJo's Bizarre Adventure",
+  "Chainsaw Man",
+  "Spy x Family",
+  "Haikyuu!!",
+  "Blue Lock",
+  "Solo Leveling",
+  "Vinland Saga",
+  "Dr. Stone",
+  "Mob Psycho 100",
+  "Code Geass",
+  "Steins;Gate",
+  "Neon Genesis Evangelion",
+  "Cowboy Bebop",
+  "Samurai Champloo",
+  "Trigun",
+  "Yu Yu Hakusho",
+  "Rurouni Kenshin",
+  "Inuyasha",
+  "Ranma ½",
+  "Sailor Moon",
+  "Cardcaptor Sakura",
+  "Pokémon",
+  "Digimon Adventure",
+  "Yu-Gi-Oh!",
+  "Shaman King",
+  "Beyblade",
+  "Bakugan Battle Brawlers",
+  "The Seven Deadly Sins",
+  "Magi",
+  "Assassination Classroom",
+  "Fire Force",
+  "Soul Eater",
+  "Noragami",
+  "Blue Exorcist",
+  "Akame ga Kill!",
+  "Kill la Kill",
+  "Mirai Nikki",
+  "Parasyte",
+  "Erased",
+  "Another",
+  "Elfen Lied",
+  "Hellsing",
+  "Hellsing Ultimate",
+  "Berserk",
+  "Claymore",
+  "Dororo",
+  "Monster",
+  "Pluto",
+  "Psycho-Pass",
+  "Made in Abyss",
+  "Re:Zero",
+  "That Time I Got Reincarnated as a Slime",
+  "Overlord",
+  "KonoSuba",
+  "No Game No Life",
+  "The Rising of the Shield Hero",
+  "Mushoku Tensei",
+  "Log Horizon",
+  "The Eminence in Shadow",
+  "The Misfit of Demon King Academy",
+  "Classroom of the Elite",
+  "Frieren",
+  "Delicious in Dungeon",
+  "The Apothecary Diaries",
+  "Oshi no Ko",
+  "Kaguya-sama",
+  "Your Lie in April",
+  "Toradora!",
+  "Clannad",
+  "Anohana",
+  "Violet Evergarden",
+  "Fruits Basket",
+  "Komi Can't Communicate",
+  "My Dress-Up Darling",
+  "Horimiya",
+  "Rascal Does Not Dream of Bunny Girl Senpai",
+  "A Silent Voice",
+  "Your Name",
+  "Weathering with You",
+  "Spirited Away",
+  "Princess Mononoke",
+  "Howl's Moving Castle",
+  "My Neighbor Totoro",
+  "Kiki's Delivery Service",
+  "Castle in the Sky",
+  "Nausicaä of the Valley of the Wind",
+  "The Wind Rises",
+  "Ponyo",
+  "Grave of the Fireflies",
+  "Akira",
+  "Ghost in the Shell",
+  "Perfect Blue",
+  "Paprika",
+  "Summer Wars",
+  "The Boy and the Heron",
+  "The Last",
+  "Boruto",
+  "Jujutsu Kaisen 0",
+  "Black Butler",
+  "Tokyo Revengers",
+  "Classroom of the Elite 2nd Season",
+  "Haikyuu!! Second Season",
+  "Haikyuu!! Third Season",
+  "Haikyuu!! To the Top",
+  "Naruto SD",
+  "Pokémon Journeys",
+  "Pokémon Horizons",
+  "Digimon Adventure 02",
+  "Digimon Tamers",
+  "Digimon Frontier",
+  "Digimon Data Squad",
+  "Yu-Gi-Oh! Duel Monsters",
+  "Yu-Gi-Oh! GX",
+  "Yu-Gi-Oh! 5D's",
+  "Yu-Gi-Oh! ZEXAL",
+  "Yu-Gi-Oh! ARC-V",
+  "Yu-Gi-Oh! VRAINS",
+  "Death Note Rewrite",
+  "Steins;Gate 0",
+  "Evangelion",
+  "Trigun Stampede",
+  "Slam Dunk",
+  "Kuroko's Basketball",
+  "Kuroko's Basketball 2",
+  "Kuroko's Basketball 3",
+  "The Prince of Tennis",
+  "Free!",
+  "Yuri!!! on Ice",
+  "Run with the Wind",
+  "Initial D",
+  "Wangan Midnight",
+  "Food Wars! Shokugeki no Soma",
+  "The Promised Neverland",
+  "Darling in the Franxx",
+  "Gurren Lagann",
+  "Cyberpunk",
+  "Arcane",
+  "Castlevania",
+  "Devilman Crybaby",
+  "Beastars",
+  "Dorohedoro",
+  "Bungo Stray Dogs",
+  "Durarara!!",
+  "Baccano!",
+  "Great Pretender",
+  "Afro Samurai",
+  "Megalo Box",
+  "Odd Taxi",
+  "Ranking of Kings",
+  "To Your Eternity",
+  "The Ancient Magus' Bride",
+  "Land of the Lustrous",
+  "A Place Further than the Universe",
+  "March Comes in Like a Lion",
+  "Barakamon",
+  "Natsume's Book of Friends",
+  "Mushishi",
+  "Mononoke",
+  "The Tatami Galaxy",
+  "Ping Pong the Animation",
+  "Serial Experiments Lain",
+  "Ergo Proxy",
+  "Texhnolyze",
+  "Mobile Suit Gundam",
+  "Mobile Suit Gundam Wing",
+  "Mobile Suit Gundam SEED",
+  "Mobile Suit Gundam 00",
+  "Fate stay night",
+  "Fate/Zero",
+  "Fate/Apocrypha",
+  "Fate/Grand Order",
+  "Fate/Grand Order Absolute Demonic Front",
+  "The Garden of Sinners",
+  "Kara no Kyoukai",
+  "Konosuba 2",
+  "Konosuba 3",
+  "Platinum End",
+  "Future Diary",
+  "Hell's Paradise",
+  "Kaiju No. 8",
+  "Wind Breaker",
+  "Mashle",
+  "Undead Unluck",
+  "Dandadan",
+  "Sakamoto Days",
+  "Zom 100",
+  "The Elusive Samurai",
+  "Spy x Family Code"
+];
+
+/**
+ * The game franchises the seeded pass points YouTube at, taken from the same
+ * vocabulary the classifier uses so the two never drift apart.
+ *
+ * Platform and storefront words are excluded: "Steam" and "battle pass" are
+ * things a video mentions, not things a video is about, and a 100-unit call
+ * spent asking about "DLC" returns the whole platform.
+ */
+export const SEED_GAMES = [
+  "EA SPORTS FC 27",
+  "Ea Sports Fc",
+  "Fifa",
+  "Rocket League",
+  "Among Us",
+  "Fall Guys",
+  "Baldur'S Gate",
+  "Black Myth",
+  "Wukong",
+  "Wuthering Waves",
+  "Zenless Zone Zero",
+  "Honkai Star Rail",
+  "Honor Of Kings",
+  "Delta Force",
+  "Mobile Legends",
+  "Clash Royale",
+  "Clash Of Clans",
+  "Brawl Stars",
+  "Rainbow Six",
+  "Counter-Strike",
+  "Dota 2",
+  "Path Of Exile",
+  "No Rest For The Wicked",
+  "Silent Hill",
+  "Resident Evil",
+  "Monster Hunter",
+  "Final Fantasy",
+  "Persona",
+  "Tekken",
+  "Street Fighter",
+  "Mortal Kombat",
+  "Playstation",
+  "Xbox",
+  "Minecraft",
+  "Fortnite",
+  "Valorant",
+  "Genshin Impact",
+  "Honkai",
+  "Zenless",
+  "Call Of Duty",
+  "Warzone",
+  "Elden Ring",
+  "League Of Legends",
+  "Overwatch",
+  "Apex Legends",
+  "Pubg",
+  "Free Fire",
+  "Pokemon",
+  "Zelda",
+  "Mario",
+  "Cyberpunk 2077",
+  "Helldivers",
+  "Palworld",
+  "Marvel Rivals",
+  "Arcane",
+  "Castlevania"
+];
+
+/**
+ * Which slice of SEED_FRANCHISES this run asks about.
+ *
+ * All of them in one pass would cost 20,700 quota units against a 10,000/day
+ * budget, so the list is walked instead: a deterministic window that advances
+ * with the day, covering everything over a few days and repeating the cycle.
+ * Deterministic rather than random so that a gap in the data can be traced to
+ * a day rather than to luck.
+ */
+function windowOf(list, count, day, category) {
+  const total = list.length;
+  if (!total || count <= 0) return [];
+  const start = (((day * count) % total) + total) % total;
+  const picked = [];
+  for (let i = 0; i < Math.min(count, total); i += 1) {
+    // The franchise name is the whole query: adding "anime" to "Cowboy Bebop"
+    // narrows it to videos that say both, which is fewer, not better.
+    picked.push({ q: list[(start + i) % total], lang: "en", category });
+  }
+  return picked;
+}
+
+export function franchiseSeedsForDay(count, date = new Date()) {
+  const day = Math.floor(date.getTime() / 86400000);
+  // Split between the two fields the site covers. Anime takes the larger share
+  // because its list is the longer one, so both complete a cycle in a similar
+  // number of days rather than the shorter list repeating while the other is
+  // still on its first pass.
+  const animeShare = Math.max(1, Math.round(count * 0.6));
+  const gameShare = Math.max(0, count - animeShare);
+  return [
+    // Film & Animation, where trailers and episode discussion live.
+    ...windowOf(SEED_FRANCHISES, animeShare, day, "1"),
+    // Gaming.
+    ...windowOf(SEED_GAMES, gameShare, day, "20"),
+  ];
+}
+
+/**
+ * search.list costs 100 quota units against a 10,000/day budget, where
+ * videos.list costs 1. Sixty calls is 6,000 units, which leaves room for the
+ * daily chart pass and a retry without risking the day. The cap is enforced by
+ * the caller, not suggested.
+ */
+export const YOUTUBE_SEARCH_BUDGET = 60;
+
+/** How many of those calls go to rotating franchise seeds. */
+export const FRANCHISE_SEEDS_PER_RUN = 40;
 
 /**
  * Most-viewed videos for one seed, published inside the window.

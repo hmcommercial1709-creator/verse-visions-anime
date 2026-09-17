@@ -8,24 +8,12 @@ import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 /**
  * The anime archive.
  *
- * This listed the 23 hand-written series and nothing else, so the site's main
- * anime page showed 23 entries while a catalog of a thousand sat at
- * /catalog/anime that the main flow barely pointed at. It now serves the
- * catalog, paginated, with the in-depth guides featured above it on page 1 —
- * those are the richest pages on the site (watch orders, characters, arcs,
- * soundtracks, FAQs, and 114 section pages beneath them) and burying them
- * under a thousand catalog rows would waste them.
- *
- * /catalog/anime redirects here rather than serving the same list at a second
- * URL.
+ * The archive is paginated, but pagination is bounded by the actual database
+ * catalog rather than an arbitrary crawler-friendly ceiling. This keeps the
+ * catalog fully usable without exposing thousands of empty/theoretical URLs.
+ * Detail pages are unchanged.
  */
-
-// Jikan's top list is bounded at 40 pages of 25. The database has no such
-// ceiling, so the search param allows far more and the loader 404s anything
-// past what actually exists — a crawler stays bounded by real content either
-// way, but the cap no longer limits the catalog once entities is filled.
 const API_MAX_PAGE = 40;
-const MAX_PAGE = 4000;
 const PAGE_SIZE = 25;
 const guides = publishedAnime();
 
@@ -47,17 +35,15 @@ const fromDb = (r: DbCatalogItem): CatalogRow => ({
 
 export const Route = createFileRoute("/anime/")({
   validateSearch: (search: Record<string, unknown>): { page?: number } => {
-    const page = Math.min(MAX_PAGE, Math.max(1, Number(search?.page) || 1));
+    const raw = Number(search?.page);
+    const page = Number.isFinite(raw) && raw > 1 ? Math.floor(raw) : 1;
     return page > 1 ? { page } : {};
   },
   loaderDeps: ({ search }) => ({ page: search.page ?? 1 }),
   loader: async ({ deps }) => {
-    // The database first: it has everything the ingest has pulled in, with no
-    // page ceiling. It returns null while empty, so the site works the same as
-    // before the ingest has ever run.
     const db = await loadCatalogFromDb("anime", deps.page, PAGE_SIZE);
     if (db) {
-      if (db.items.length === 0) throw notFound();
+      if (db.items.length === 0 || deps.page > db.totalPages) throw notFound();
       return {
         catalog: db.items.map(fromDb),
         catalogFailed: false,
@@ -69,9 +55,6 @@ export const Route = createFileRoute("/anime/")({
 
     if (deps.page > API_MAX_PAGE) throw notFound();
     const result = await getTopAnime(deps.page);
-    // Deliberately not thrown. This is a top-level navigation page, and the
-    // 23 guides are local data that is always available — degrading to them
-    // beats a 500 when a third-party API is briefly unreachable.
     return {
       catalog: result.ok
         ? result.data.map((a) => ({
@@ -228,7 +211,7 @@ function AnimeArchive() {
         )}
         <span className="text-sm text-muted-foreground">
           Page {page} of {totalPages}
-          {total > 0 ? ` · ${total.toLocaleString()} titles` : ""}
+          {total > 0 ? ` · ${total.toLocaleString()} series` : ""}
         </span>
         {page < totalPages ? (
           <Link

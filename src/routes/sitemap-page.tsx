@@ -17,7 +17,7 @@ const STATIC_PAGES = [
   "/", "/browse", "/seasonal", "/trending", "/top-rated", "/top-lists", "/new-releases",
   "/upcoming", "/completed", "/classic", "/genres", "/studios", "/characters", "/streaming",
   "/blog", "/reviews", "/guides", "/editorial", "/watch-order", "/power-scaling", "/manga-spoilers",
-  "/timeline", "/wallpapers", "/resources", "/store", "/authors", "/faq", "/about", "/contact",
+  "/timeline", "/wallpapers", "/resources", "/store", "/gamer-card", "/authors", "/faq", "/about", "/contact",
   "/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy", "/sitemap-page",
 ];
 

@@ -3,8 +3,8 @@
  *
  * Only the homepage and the newest active entity pages created today are
  * eligible. The historical catalog is intentionally excluded. YouTube-linked
- * rows are preferred when present; remaining slots are filled by the newest
- * active records from today, up to 200 URLs.
+ * rows are included when present; all selected rows remain strictly ordered
+ * by created_at descending and the total is capped at 200 daily URLs.
  */
 import { supabase } from "@/integrations/supabase/client";
 
@@ -66,7 +66,15 @@ export async function loadDailySitemapEntries(now = new Date()): Promise<Sitemap
     return [];
   }
 
-  const rows = [...(youtubeResult.data ?? []), ...(newestResult.data ?? [])];
+  const rows = [...(youtubeResult.data ?? []), ...(newestResult.data ?? [])]
+    .sort((a, b) => {
+      const byCreated = new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      if (byCreated !== 0) return byCreated;
+      const aYouTube = /youtube|yt/i.test(a.source_name ?? "") ? 1 : 0;
+      const bYouTube = /youtube|yt/i.test(b.source_name ?? "") ? 1 : 0;
+      return bYouTube - aYouTube;
+    });
+
   const seen = new Set<string>();
   const entries: SitemapEntry[] = [];
 

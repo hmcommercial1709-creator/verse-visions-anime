@@ -79,7 +79,10 @@ assert.match(footer, /"\/gamer-card"/, 'the footer must carry a crawlable link t
 // Supabase records. The HTML sitemap owns the broader crawlable page index.
 const htmlSitemap = read('../src/routes/sitemap-page.tsx');
 assert.match(htmlSitemap, /"\/gamer-card"/, 'the Taste Card must be listed in the HTML sitemap');
-const xmlSitemap = read('../src/routes/sitemap.xml.ts');
+// TanStack Router treats [.] as the escaped literal dot in route filenames.
+// Keep the quality check aligned with the actual route filename rather than
+// inventing a conventional sitemap.xml.ts path that does not exist.
+const xmlSitemap = read('../src/routes/sitemap[.]xml.ts');
 assert.match(xmlSitemap, /buildDailySitemapXml/, 'the XML sitemap must use the bounded daily generator');
 assert.doesNotMatch(xmlSitemap, /PARTITIONS|partitionEntries|sitemapIndexXml/, 'the XML route must not depend on retired partition exports');
 

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Breadcrumbs } from "@/components/ui-bits";
 import { EXPLORE_PAGES } from "@/data/explore-pages";
+import { AR_GUIDES } from "@/data/ar-guides";
 import { storeProducts } from "@/data/store-products";
 import {
   populatedCategorySlugs,
@@ -12,14 +13,19 @@ import {
   publishedEpisodes,
 } from "@/lib/content-registry";
 
-import { partitionEntries, AR_ENTRIES, urlsetXml } from "@/lib/sitemap";
-const STATIC_PAGES = partitionEntries("pages").map((entry) => entry.path);
-const ARABIC_PAGES = [...new Set([
-  ...AR_ENTRIES.map((entry) => entry.path),
-  ...["pages", "anime"].flatMap((partition) =>
-    [...urlsetXml(partitionEntries(partition as "pages" | "anime"), "ar").matchAll(/<loc>https:\/\/gamecastle.store([^<]+)<\/loc>/g)].map((match) => match[1])
-  ),
-])];
+const STATIC_PAGES = [
+  "/", "/browse", "/seasonal", "/trending", "/top-rated", "/top-lists", "/new-releases",
+  "/upcoming", "/completed", "/classic", "/genres", "/studios", "/characters", "/streaming",
+  "/blog", "/reviews", "/guides", "/editorial", "/watch-order", "/power-scaling", "/manga-spoilers",
+  "/timeline", "/wallpapers", "/resources", "/store", "/authors", "/faq", "/about", "/contact",
+  "/privacy-policy", "/terms-of-service", "/cookies", "/dmca", "/editorial-policy", "/sitemap-page",
+];
+
+const ARABIC_PAGES = [
+  "/ar/anime",
+  "/ar/blog/roblox-syria-guide",
+  ...AR_GUIDES.map((guide) => `/ar/anime/${guide.slug}`),
+];
 
 export const Route = createFileRoute("/sitemap-page")({
   head: () => ({
@@ -52,7 +58,7 @@ function SitemapPage() {
       <Breadcrumbs items={[{ to: "/", label: "Home" }, { label: "Sitemap" }]} />
       <h1 className="font-display text-4xl font-bold">HTML Sitemap</h1>
       <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-        A complete directory of published content. This crawlable HTML sitemap complements our XML sitemap and helps visitors and search engines reach deep pages.
+        A complete directory of published content. This crawlable HTML sitemap complements the single daily XML sitemap and helps visitors and search engines reach deep pages.
       </p>
 
       <div className="mt-8 grid items-start gap-8 md:grid-cols-2 xl:grid-cols-3">

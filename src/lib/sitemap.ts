@@ -28,15 +28,6 @@ import {
 
 export const BASE_URL = "https://gamecastle.store";
 
-/**
- * Entity-escapes a URL for use inside <loc> or an href attribute.
- *
- * The sitemaps.org spec requires this, and it is not cosmetic: a single
- * unescaped "&" in one slug makes the whole file fail to parse, so Google
- * rejects every URL in it, not just the offending one. Paths here are built
- * from database slugs, which we do not control, so the escape belongs at the
- * point of rendering rather than in a hope that upstream stays clean.
- */
 export function xmlEscape(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -52,20 +43,12 @@ export interface SitemapEntry {
   path: string;
   changefreq?: ChangeFreq;
   priority?: string;
-  /**
-   * Omitted rather than guessed. An absent lastmod tells a crawler nothing; a
-   * wrong one tells it something false, and a build timestamp on every URL is
-   * the fabricated freshness crawlers learn to ignore. See
-   * scripts/build-lastmod.mjs - these come from git.
-   */
   lastmod?: string;
 }
 
-/** The git date for a partition, or undefined when the map has no entry. */
 export const partitionLastmod = (partition: string): string | undefined =>
   PARTITION_LASTMOD[partition];
 
-/** Stamps a partition's date onto its entries, leaving any explicit one alone. */
 export const withLastmod = (entries: SitemapEntry[], partition: string): SitemapEntry[] => {
   const lastmod = partitionLastmod(partition);
   return lastmod ? entries.map((e) => (e.lastmod ? e : { ...e, lastmod })) : entries;
@@ -111,15 +94,10 @@ const PAGE_ENTRIES: SitemapEntry[] = [
     "/timeline",
     "/wallpapers",
     "/rewards/anime-wallpapers",
-    // Not the hub: registering Dandadan in animes.ts generates
-    // /anime/dandadan into the anime partition, and one URL served by two
-    // partitions is the duplicate-sitemap fault that stalled indexing on
-    // this site once already. The sub-pages are generated nowhere else.
     "/anime/dandadan/episode-guide",
     "/anime/dandadan/characters",
     "/anime/dandadan/occult-world",
     "/anime/dandadan/watch-guide",
-    "/anime/sakamoto-days",
     "/anime/sakamoto-days/episode-guide",
     "/anime/sakamoto-days/characters",
     "/anime/sakamoto-days/assassin-world",
@@ -192,8 +170,6 @@ function partitionEntriesRaw(partition: Partition): SitemapEntry[] {
           changefreq: "weekly" as const,
           priority: "0.9",
         })),
-        // Section pages only exist where the series actually carries that
-        // content, so allSectionPaths() never advertises an empty shell.
         ...allSectionPaths().map(({ slug, section }) => ({
           path: `/anime/${slug}/${section}`,
           changefreq: "monthly" as const,
@@ -239,11 +215,6 @@ function partitionEntriesRaw(partition: Partition): SitemapEntry[] {
   }
 }
 
-/**
- * Renders a urlset for one locale. Every <url> carries xhtml:link alternates
- * for each locale with indexable content (self-referencing alternate
- * included, as required by the hreflang spec).
- */
 export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_LOCALE): string {
   const withAlternates = INDEXABLE_LOCALES.length > 1;
   const englishOnly = (path: string) =>
@@ -284,7 +255,6 @@ export function urlsetXml(entries: SitemapEntry[], locale: LocaleCode = DEFAULT_
   ].join("\n");
 }
 
-/** Child sitemap path for a partition in a given locale. */
 export function partitionSitemapPath(
   partition: Partition,
   locale: LocaleCode = DEFAULT_LOCALE,
@@ -294,24 +264,7 @@ export function partitionSitemapPath(
     : `/sitemap/${locale}/${partition}.xml`;
 }
 
-/**
- * Builds the index.
- *
- * Every child listed here must answer with a non-empty <urlset>. Google
- * reports an empty sitemap as an error with 0 discovered URLs against the
- * whole index, so `hasMatrix` and `hasManga` gate their children on the table
- * actually holding rows rather than on the pipeline being expected to run.
- */
-/**
- * Maps a child sitemap path back to the partition whose git date describes it.
- * Falls back to the newest date in the map for children with no partition of
- * their own, and to undefined when the map is empty - never to today.
- */
 function lastmodForChild(path: string): string | undefined {
-  // Two shapes are served: /sitemap/<locale>/<partition>.xml for the localized
-  // partitions, and /sitemap-<name>.xml for everything else. Getting the first
-  // wrong is silent - it simply falls through to the newest date and every
-  // localized child claims the same day.
   const localized = path.match(/^\/sitemap\/[a-z-]+\/([a-z0-9-]+)\.xml$/i);
   if (localized) return PARTITION_LASTMOD[localized[1]] ?? NEWEST_LASTMOD;
 
@@ -334,24 +287,9 @@ export function sitemapIndexXml(hasMatrix = false, hasManga = false): string {
           ),
       ).map((p) => partitionSitemapPath(p, locale)),
     ),
-    // Arabic cornerstone edition: real localized content, its own child sitemap.
     "/sitemap-ar.xml",
-    // The two codes partitions stood here. They advertised up to 5,000 URLs
-    // built from fabricated rows — an invented rating, an invented review
-    // count, and one of four hardcoded review sentences repeated across
-    // thousands of pages. Capping them was treating the symptom; the pages
-    // themselves now answer 410, so there is nothing left to advertise.
-    // API-backed catalog: game detail URLs plus the paginated anime index.
     "/sitemap-catalog.xml",
-    // The programmatic matrix, but only once the ingest has actually built an
-    // index for it to serve. Advertising it before then is the same mistake
-    // the codes partitions above already document: Google fetches the child,
-    // gets an error, and reports the whole index as having a failing member —
-    // which is precisely the sitemap-codes-1.xml error this site spent weeks
-    // clearing. It appears on its own the first time the pipeline runs.
     ...(hasMatrix ? ["/sitemap-matrix.xml"] : []),
-    // Same rule again: advertised only once the manga ingest has put rows in
-    // the table, so the index never names a child that answers with an error.
     ...(hasManga ? ["/sitemap-manga.xml"] : []),
   ];
   return [
@@ -372,10 +310,6 @@ export function sitemapIndexXml(hasMatrix = false, hasManga = false): string {
   ].join("\n");
 }
 
-/**
- * Arabic edition URLs: the anime hub and localized guides. Only paths with
- * real Arabic content are advertised.
- */
 export const AR_ENTRIES: SitemapEntry[] = [
   { path: "/ar/anime", changefreq: "weekly", priority: "0.9" },
   { path: "/ar/blog/roblox-syria-guide", changefreq: "monthly", priority: "0.7" },
@@ -386,7 +320,6 @@ export const AR_ENTRIES: SitemapEntry[] = [
   })),
 ];
 
-/** urlset for the Arabic edition, with hreflang pairs to the English original. */
 export function arUrlsetXml(): string {
   const urls = AR_ENTRIES.map((e) => {
     const guide = AR_GUIDES.find((g) => `/ar/anime/${g.slug}` === e.path);
@@ -419,15 +352,6 @@ export function arUrlsetXml(): string {
   ].join("\n");
 }
 
-/**
- * 503 for a sitemap whose data source failed.
- *
- * The alternative — catching the error and serving an empty <urlset> with a
- * 200 — is worse than it looks: Google treats that as an authoritative "these
- * URLs are gone", records 0 discovered pages, and can drop what it had already
- * indexed. A 503 with Retry-After is a transient signal it comes back to, so
- * the previously discovered URLs survive the outage.
- */
 export function sitemapUnavailable(error: unknown): Response {
   const message = error instanceof Error ? error.message : String(error);
   console.error(`sitemap unavailable: ${message}`);

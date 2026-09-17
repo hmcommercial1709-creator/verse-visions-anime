@@ -1,18 +1,20 @@
 /**
  * Single, crawl-budget-friendly sitemap for GameCastle.
  *
- * The sitemap contains the homepage, a small set of essential evergreen
- * engagement pages, and the newest active entity pages created today.
- * Historical catalog partitions remain intentionally excluded. YouTube-linked
- * rows are included when present; selected entity rows remain strictly ordered
- * by created_at descending and the total stays within 201 URLs.
+ * The sitemap contains the homepage, essential evergreen engagement pages,
+ * and the newest active entity pages created today. Historical catalog
+ * partitions remain intentionally excluded. The total is capped at 201 URLs.
  */
 import { supabase } from "@/integrations/supabase/client";
 
 export const BASE_URL = "https://gamecastle.store";
-export const DAILY_SITEMAP_LIMIT = 198;
+export const DAILY_SITEMAP_LIMIT = 197;
 
-const ESSENTIAL_SITEMAP_PATHS = ["/character-quiz", "/my-list"] as const;
+const ESSENTIAL_SITEMAP_PATHS = [
+  "/character-quiz",
+  "/my-list",
+  "/matchmaker",
+] as const;
 
 export interface SitemapEntry {
   path: string;
@@ -26,7 +28,7 @@ export function xmlEscape(value: string): string {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
+    .replace(/\"/g, "&quot;")
     .replace(/'/g, "&apos;");
 }
 

@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -14,6 +17,7 @@ concurrency:
 
 jobs:
   validate:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -23,10 +27,13 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm install --no-audit --no-fund
-      - name: Validate today's candidates
+      - name: Validate today's candidates against production
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: node scripts/validate-index-candidates.mjs
-      - name: Validate sitemap source
+      - name: Validate sitemap source after gate update
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         run: npm run check:sitemap-xml

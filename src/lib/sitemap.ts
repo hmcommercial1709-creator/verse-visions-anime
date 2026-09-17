@@ -1,15 +1,18 @@
 /**
  * Single, crawl-budget-friendly sitemap for GameCastle.
  *
- * Only the homepage and the newest active entity pages created today are
- * eligible. The historical catalog is intentionally excluded. YouTube-linked
- * rows are included when present; all selected rows remain strictly ordered
- * by created_at descending and the total is capped at 200 daily URLs.
+ * The sitemap contains the homepage, a small set of essential evergreen
+ * engagement pages, and the newest active entity pages created today.
+ * Historical catalog partitions remain intentionally excluded. YouTube-linked
+ * rows are included when present; selected entity rows remain strictly ordered
+ * by created_at descending and the total stays within 201 URLs.
  */
 import { supabase } from "@/integrations/supabase/client";
 
 export const BASE_URL = "https://gamecastle.store";
-export const DAILY_SITEMAP_LIMIT = 200;
+export const DAILY_SITEMAP_LIMIT = 198;
+
+const ESSENTIAL_SITEMAP_PATHS = ["/character-quiz", "/my-list"] as const;
 
 export interface SitemapEntry {
   path: string;
@@ -97,7 +100,16 @@ export async function loadDailySitemapEntries(now = new Date()): Promise<Sitemap
 
 export async function buildDailySitemapXml(now = new Date()): Promise<string> {
   const entries = await loadDailySitemapEntries(now);
-  return urlsetXml([{ path: "/", changefreq: "daily", priority: "1.0" }, ...entries]);
+  const essential = ESSENTIAL_SITEMAP_PATHS.map((path) => ({
+    path,
+    changefreq: "weekly" as const,
+    priority: "0.6",
+  }));
+  return urlsetXml([
+    { path: "/", changefreq: "daily", priority: "1.0" },
+    ...essential,
+    ...entries,
+  ]);
 }
 
 export function urlsetXml(entries: SitemapEntry[]): string {

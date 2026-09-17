@@ -2,11 +2,13 @@
  * Single, crawl-budget-friendly sitemap for GameCastle.
  * Historical catalog partitions remain intentionally excluded.
  * New entity URLs are admitted only after the daily indexing gate approves them.
+ * The sitemap is driven by the gate itself so an approved page can never be
+ * crowded out by an unapproved row earlier in the entity query.
  */
 import { supabase } from "@/integrations/supabase/client";
 
 export const BASE_URL = "https://gamecastle.store";
-export const DAILY_SITEMAP_LIMIT = 197;
+export const DAILY_SITEMAP_LIMIT = 1000;
 
 const ESSENTIAL_SITEMAP_PATHS = ["/character-quiz", "/my-list", "/matchmaker"] as const;
 
@@ -26,38 +28,38 @@ function utcDayBounds(now = new Date()): { start: string; end: string } {
   return { start: start.toISOString(), end: new Date(start.getTime() + 86400000).toISOString() };
 }
 
-function entityPath(entityType: string, slug: string): string | null {
-  if (!slug) return null;
-  if (entityType === "anime") return `/catalog/anime/${slug}`;
-  if (entityType === "game") return `/catalog/games/${slug}`;
-  if (entityType === "manga") return `/catalog/manga/${slug}`;
-  return null;
-}
-
 export async function loadDailySitemapEntries(now = new Date()): Promise<SitemapEntry[]> {
   const { start, end } = utcDayBounds(now);
-  const [{ data: rows, error: rowsError }, { data: approved, error: gateError }] = await Promise.all([
-    supabase.from("entities").select("entity_type,slug,created_at").eq("status", "active").gte("created_at", start).lt("created_at", end).order("created_at", { ascending: false }).limit(DAILY_SITEMAP_LIMIT),
-    supabase.from("daily_indexing_gate").select("path,status,source_created_at").eq("status", "approved").gte("source_created_at", start).lt("source_created_at", end),
-  ]);
+  const { data: approved, error } = await supabase
+    .from("daily_indexing_gate")
+    .select("path,status,source_created_at")
+    .eq("status", "approved")
+    .gte("source_created_at", start)
+    .lt("source_created_at", end)
+    .order("source_created_at", { ascending: false })
+    .limit(DAILY_SITEMAP_LIMIT);
 
-  if (rowsError || gateError) {
-    console.error("Daily sitemap gate query failed.", rowsError?.message ?? gateError?.message);
+  if (error) {
+    console.error("Daily sitemap gate query failed.", error.message);
     return [];
   }
 
-  const approvedPaths = new Set((approved ?? []).map((entry) => entry.path));
   const seen = new Set<string>();
-  const entries: SitemapEntry[] = [];
-  for (const row of rows ?? []) {
-    if (entries.length >= DAILY_SITEMAP_LIMIT) break;
-    const path = entityPath(row.entity_type, row.slug);
-    if (!path || seen.has(path) || !approvedPaths.has(path)) continue;
-    seen.add(path);
-    const createdAt = row.created_at ? new Date(row.created_at) : null;
-    entries.push({ path, lastmod: createdAt && !Number.isNaN(createdAt.getTime()) ? createdAt.toISOString().slice(0, 10) : undefined, changefreq: "daily", priority: "0.8" });
-  }
-  return entries;
+  return (approved ?? [])
+    .filter((entry) => {
+      if (!entry.path || seen.has(entry.path)) return false;
+      seen.add(entry.path);
+      return true;
+    })
+    .map((entry) => {
+      const createdAt = entry.source_created_at ? new Date(entry.source_created_at) : null;
+      return {
+        path: entry.path,
+        lastmod: createdAt && !Number.isNaN(createdAt.getTime()) ? createdAt.toISOString().slice(0, 10) : undefined,
+        changefreq: "daily" as const,
+        priority: "0.8",
+      };
+    });
 }
 
 export async function buildDailySitemapXml(now = new Date()): Promise<string> {

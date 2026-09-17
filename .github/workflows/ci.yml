@@ -95,8 +95,13 @@ jobs:
         run: node scripts/check-growth.mjs
 
       # Renders every sitemap from source and validates it before deploy,
-      # rather than after Search Console reports it.
+      # rather than after Search Console reports it. The sitemap generator
+      # uses the public Supabase client, so CI supplies the same public values
+      # the browser build uses instead of evaluating import.meta.env in Node.
       - name: Validate sitemap XML, lastmod and the index
+        env:
+          VITE_SUPABASE_URL: https://saddhtpsomxtazrgeyed.supabase.co
+          VITE_SUPABASE_ANON_KEY: sb_publishable_rwkvYRSJPJ4-0EvrEBhhlg_CJR8E3M8
         run: npx tsx scripts/check-sitemap-xml.mjs
 
       - name: Validate content registry

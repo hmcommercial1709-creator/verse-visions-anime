@@ -4,25 +4,22 @@ import { CATALOG_HEADERS } from "@/lib/catalog/http";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
 /**
- * The manga archive.
- *
- * Database only and 404 when empty — there is no live fallback because there
- * is nothing to fall back to: manga exists in this catalog exactly to the
- * extent the ingest has filled it. An empty listing page indexed once is
- * harder to undo than a page that never appeared.
+ * The manga archive. Pagination is bounded by the actual database catalog so
+ * crawlers cannot manufacture thousands of theoretical page URLs. Manga
+ * detail pages remain untouched.
  */
 const PAGE_SIZE = 36;
-const MAX_PAGE = 4000;
 
 export const Route = createFileRoute("/manga/")({
   validateSearch: (search: Record<string, unknown>): { page?: number } => {
-    const page = Math.min(MAX_PAGE, Math.max(1, Number(search?.page) || 1));
+    const raw = Number(search?.page);
+    const page = Number.isFinite(raw) && raw > 1 ? Math.floor(raw) : 1;
     return page > 1 ? { page } : {};
   },
   loaderDeps: ({ search }) => ({ page: search.page ?? 1 }),
   loader: async ({ deps }) => {
     const db = await loadCatalogFromDb("manga", deps.page, PAGE_SIZE);
-    if (!db || db.items.length === 0) throw notFound();
+    if (!db || db.items.length === 0 || deps.page > db.totalPages) throw notFound();
     return { items: db.items, page: deps.page, totalPages: db.totalPages, total: db.total };
   },
   headers: () => CATALOG_HEADERS,

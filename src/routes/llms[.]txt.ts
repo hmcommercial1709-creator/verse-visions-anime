@@ -13,9 +13,7 @@ export const Route = createFileRoute("/llms.txt")({
     handlers: {
       GET: async () => {
         const list = (items: { path: string; title: string; note?: string }[]) =>
-          items
-            .map((i) => `- [${i.title}](${SITE_URL}${i.path})${i.note ? `: ${i.note}` : ""}`)
-            .join("\n");
+          items.map((i) => `- [${i.title}](${SITE_URL}${i.path})${i.note ? `: ${i.note}` : ""}`).join("\n");
 
         const body = [
           "# GameCastle Anime",
@@ -28,11 +26,7 @@ export const Route = createFileRoute("/llms.txt")({
           "",
           list([
             { path: "/", title: "Home", note: "trending anime, latest episodes and editorial" },
-            {
-              path: "/browse",
-              title: "Browse anime",
-              note: "full library with genre, year and studio filters",
-            },
+            { path: "/browse", title: "Browse anime", note: "full library with genre, year and studio filters" },
             { path: "/explore", title: "Explore", note: "advanced multi-filter discovery engine" },
             { path: "/editorial", title: "Editorial", note: "essays and analysis" },
             { path: "/guides", title: "Guides", note: "watch orders and beginner routes" },
@@ -48,29 +42,15 @@ export const Route = createFileRoute("/llms.txt")({
           "",
           "## Anime series",
           "",
-          list(
-            animes.map((a) => ({
-              path: `/anime/${a.slug}`,
-              title: a.title,
-              note: `${a.year} · ${a.status}`,
-            })),
-          ),
+          list(animes.map((a) => ({ path: `/anime/${a.slug}`, title: a.title, note: `${a.year} · ${a.status}` }))),
           "",
           "## Editorial articles",
           "",
-          list(
-            articles.map((a) => ({
-              path: `/article/${a.slug}`,
-              title: a.title,
-              note: a.excerpt,
-            })),
-          ),
+          list(articles.map((a) => ({ path: `/article/${a.slug}`, title: a.title, note: a.excerpt }))),
           "",
           "## Characters",
           "",
-          list(
-            characters.map((c) => ({ path: `/character/${c.slug}`, title: c.name, note: c.role })),
-          ),
+          list(characters.map((c) => ({ path: `/character/${c.slug}`, title: c.name, note: c.role }))),
           "",
           "## Studios",
           "",
@@ -83,20 +63,12 @@ export const Route = createFileRoute("/llms.txt")({
           "## Optional",
           "",
           list([
-            {
-              path: "/ai-index.json",
-              title: "AI index",
-              note: "machine-readable entity and catalog metadata",
-            },
-            { path: "/sitemap.xml", title: "Sitemap index" },
+            { path: "/ai-index.json", title: "AI index", note: "machine-readable entity and catalog metadata" },
+            { path: "/sitemap.xml", title: "Sitemap", note: "single daily sitemap; historical archive is intentionally excluded" },
             { path: "/rss.xml", title: "RSS feed" },
             { path: "/privacy-policy", title: "Privacy policy" },
             { path: "/terms-of-service", title: "Terms of service" },
           ]),
-          "",
-          // A "Verified code catalog" section listed 100 fabricated entries
-          // here and told LLM crawlers to page through 50,000 more. Nothing
-          // about them was verified; the pages now answer 410.
         ].join("\n");
 
         return new Response(body, {

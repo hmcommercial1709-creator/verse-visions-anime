@@ -25,11 +25,11 @@ export const Route = createFileRoute("/watch/$slug")({
     if (!anime) throw notFound();
     return { anime };
   },
-  head: ({ loaderData, search }) => {
+  head: ({ loaderData, match }) => {
     if (!loaderData)
       return { meta: [{ title: "Unavailable" }, { name: "robots", content: "noindex" }] };
     const a = loaderData.anime;
-    const hasEpisodeParam = Boolean((search as { ep?: number } | undefined)?.ep);
+    const hasEpisodeParam = Boolean((match.search as { ep?: number } | undefined)?.ep);
     const title = `Where to Watch ${a.title} Legally — Official Trailer & Episode Guide · GameCastle Anime`;
     const desc = `Watch the official ${a.title} trailer, browse the episode guide and see which licensed streaming services to check. GameCastle Anime does not host episodes.`;
     return {

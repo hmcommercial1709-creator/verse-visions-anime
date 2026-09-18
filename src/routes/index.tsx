@@ -100,6 +100,28 @@ function HomePage() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-14 lg:px-6">
+
+      <section aria-label="CryptoPulse Pro promotion" className="border-b border-border bg-[#08090d] px-4 py-10 sm:py-14">
+        <div className="mx-auto max-w-7xl">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-7 text-white sm:p-10">
+            <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl" />
+            <div className="relative grid gap-7 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+              <div>
+                <span className="inline-flex rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">Sponsored partner</span>
+                <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">CryptoPulse Pro × GameCastle</h2>
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">From player to network builder: explore crypto intelligence, Telegram Stars rewards and a referral center with a personal link, network statistics, leaderboard, milestones and VIP levels.</p>
+                <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-white/80">
+                  {["💰 Stars earned","👥 Referred users","📈 Network activity","🏆 Global leaderboard","🎯 Milestones","👑 VIP levels"].map((item) => <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-2">{item}</span>)}
+                </div>
+              </div>
+              <div className="lg:text-right">
+                <p className="text-sm font-semibold text-cyan-300">PLAY. SHARE. GROW.</p>
+                <a href="https://t.me/CryptoPulseHubBot" target="_blank" rel="noopener noreferrer sponsored" className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-black transition-transform hover:scale-[1.03]">ENTER CRYPTOPULSE PRO <ArrowRight className="h-4 w-4" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
         <div className="mb-12">
           <MysteryVault />
         </div>

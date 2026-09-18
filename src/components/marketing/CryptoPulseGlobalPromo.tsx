@@ -24,13 +24,13 @@ export function CryptoPulseGlobalPromo() {
       <div className="relative mx-auto max-w-[1500px] px-4 py-8 sm:px-7 sm:py-12 lg:px-12 lg:py-16">
         <div className="mx-auto max-w-6xl text-center">
           <h2 className="text-4xl font-black leading-[.98] tracking-[-0.045em] sm:text-6xl lg:text-7xl xl:text-8xl">
-            💥 حوّل وقتك إلى ثروة! ابدأ الآن واكسب آلاف الـ STARS يومياً.
+            💥 TURN YOUR NETWORK INTO A FORTUNE! Start Now &amp; Earn Thousands of STARS Daily.
           </h2>
           <p className="mx-auto mt-7 max-w-5xl text-base font-medium leading-relaxed text-white/75 sm:text-xl lg:text-2xl">
-            أداة CryptoPulse Pro الخارقة بين يديك. انضم مجاناً، ابنِ شبكتك، واجعل Stars تتدفق عليك بلا توقف. لا تفوت عصر الذهب الرقمي!
+            The ultimate crypto intelligence tool is in your hands. Join for free, build your referral network, and watch Telegram Stars flow endlessly. Don&apos;t miss the digital gold rush!
           </p>
           <a href="https://t.me/CryptoPulseHubBot" target="_blank" rel="noopener noreferrer sponsored" className="mt-9 flex w-full items-center justify-center rounded-none bg-gradient-to-r from-amber-100 via-white to-cyan-100 px-6 py-6 text-base font-black tracking-[0.08em] text-[#020407] shadow-[0_0_65px_rgba(34,211,238,.35),0_0_90px_rgba(245,158,11,.2)] animate-pulse transition-transform hover:scale-[1.01] sm:text-xl">
-            🚀 انطلق نحو الملايين مجاناً
+            🚀 ENTER THE NETWORK FOR FREE
           </a>
         </div>
 

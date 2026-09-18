@@ -35,9 +35,9 @@ Many image references pointed to the old hosting asset handler, while other orig
 
 These are scoped verification results, not a claim that every possible user interaction or every external retailer URL has been tested.
 
-## Cloudflare and Supabase follow-up
+## Hosting and Supabase follow-up
 
-Removed Lovable build package and browser error reporting; native Vite/TanStack/Nitro builds for the existing Cloudflare Worker. Removed the stale Bun lockfile; CI installs from the npm lockfile. Added apex/www custom domain deployment configuration and a permanent www redirect preserving path/query. Account-level Lovable disconnection is not available through the connected tools and is not claimed.
+The application uses native Vite/TanStack/Nitro builds for the existing Cloudflare Worker. The stale Bun lockfile was removed and CI installs from the npm lockfile. Apex/www custom domain deployment configuration and a permanent www redirect preserving path/query are configured.
 
 Verified 1,763 active anime entities in the connected Supabase project. Enabled public read access to selected catalog columns only, with RLS restricted to active records; verified an anonymous SELECT. Restored the valid public publishable key with environment overrides. No secret or service-role key is included.
 

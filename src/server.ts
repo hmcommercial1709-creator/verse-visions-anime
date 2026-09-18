@@ -30,8 +30,6 @@ async function getServerEntry(): Promise<ServerEntry> {
   return serverEntryPromise;
 }
 
-// h3 swallows in-handler throws into a normal 500 Response with body
-// {"unhandled":true,"message":"HTTPError"} — try/catch alone never fires for those.
 async function normalizeCatastrophicSsrResponse(
   response: Response,
 ): Promise<Response> {
@@ -77,7 +75,7 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     const url = new URL(request.url);
-    if (url.hostname === "www.gamecastle.store" || url.hostname === "gamecastle.lovable.app" || url.hostname === "verse-visions-anime.lovable.app") {
+    if (url.hostname === "www.gamecastle.store") {
       url.protocol = "https:";
       url.hostname = "gamecastle.store";
       url.port = "";
@@ -86,8 +84,6 @@ export default {
     const legacyResponse = legacyUrlResponse(request);
     if (legacyResponse) return legacyResponse;
 
-    // Protected internal importer endpoint.
-    // Nothing happens unless the request is explicitly made to this path.
     if (url.pathname === "/api/internal/import-anime") {
       const importEnv = env as ImportEnv;
 

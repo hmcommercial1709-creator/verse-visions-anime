@@ -1,4 +1,4 @@
-# Anime Nexus
+# GameCastle Anime
 
 ## IndexNow search ingestion
 
@@ -27,7 +27,7 @@ The website must be extremely modern, extremely fast, and built for SEO and long
 
 Project Name:
 
-AnimeVerse
+GameCastle Anime
 
 Language:
 
@@ -601,7 +601,6 @@ Cloudflare Workers Builds deploys the `main` branch of this repository.
 Run `npm ci` and `npm run build`. Nitro generates the Wrangler deployment
 configuration for the existing `verse-visions-anime` Worker, including the
 apex and www custom domains. The application redirects www to the apex.
-No Lovable build tooling or runtime service is required.
 
 ## Development
 

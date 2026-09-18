@@ -18,6 +18,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { VisitorRewardTracker } from "@/components/visitor-reward-tracker";
 import { useLocale, useLocaleDocumentSync } from "@/lib/i18n";
 import { siteKnowledgeGraph } from "@/lib/seo";
+import { CryptoPulseGlobalPromo } from "@/components/marketing/CryptoPulseGlobalPromo";
 
 const SITE_URL = "https://gamecastle.store";
 const SITE_NAME = "GameCastle Anime";
@@ -326,6 +327,8 @@ function RootComponent() {
       <div className="sticky top-0 z-50">
         <SiteHeader />
       </div>
+
+      <CryptoPulseGlobalPromo />
 
       <main className="flex-1">
         <Outlet />
